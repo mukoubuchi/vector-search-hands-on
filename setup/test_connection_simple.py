@@ -94,11 +94,19 @@ def test_watsonx_simple():
             "Accept": "application/json"
         }
         
+        # プロジェクトIDとモデルIDを取得
+        project_id = os.getenv("WATSONX_PROJECT_ID")
+        model_id = os.getenv("EMBEDDING_MODEL", "ibm/slate-125m-english-rtrvr")
+        
         payload = {
-            "model_id": "ibm/slate-125m-english-rtrvr",
+            "model_id": model_id,
             "inputs": ["これはテストです"],
             "parameters": {}
         }
+        
+        # プロジェクトIDがある場合は追加
+        if project_id and project_id != "YOUR_PROJECT_ID_HERE":
+            payload["project_id"] = project_id
         
         embed_response = requests.post(embed_url, json=payload, headers=headers)
         

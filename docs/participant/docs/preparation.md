@@ -2,209 +2,227 @@
 
 ハンズオンをスムーズに進めるために、以下の準備を完了してください。
 
-## 📋 参加者への事前準備依頼
+## 📋 必要なもの
 
-### 1. IBM Bob のセットアップ
+このハンズオンを始める前に、以下を準備してください：
 
-#### IBM Bob アカウントの作成
+### 1. IBM Bob（必須）
 
-- [30日間無料トライアル](https://bob.ibm.com/trial)から登録
-- 登録ガイドは[こちら](https://qiita.com/Asuka_Saito/items/c0c4b83a485351bd3412)を参照
+IBM Bobは、AIがコーディングをサポートしてくれる開発ツールです。
 
-#### IBM Bob IDE のインストール
+#### ステップ1: IBM Bobアカウントを作成する
 
-- [ダウンロードページ](https://bob.ibm.com/download)からインストーラーを取得
-- お使いの OS に合わせてインストール
-
-### 2. Vector Search Bob Mode のインストール
-
-1. ハンズオン用プロジェクトフォルダを作成（例: `vector-search-handson/`）
-2. 配布された `vector-search-builder.zip` をプロジェクトフォルダに配置
-3. zip ファイルを解凍（右クリック → 解凍 または `unzip vector-search-builder.zip`）
-4. `.bob/` フォルダがプロジェクトルートに作成されることを確認
-5. IBM Bob でプロジェクトフォルダを開く（File → Open Folder）
-6. **Cmd + Shift + P** → 「Reload Window」を実行
-7. 右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認
-
-### 3. IBM TechZone 環境へのアクセス
-
-#### 環境情報
-
-- **環境名**: 「wxO with Milvus, watsonx.ai, Code Engine (SaaS) - IBM ID」
-- **含まれるサービス**:
-  - watsonx.data（**Milvus**）- ベクトルデータベース
-  - watsonx.ai Studio & Runtime - 埋め込み生成
-  - Cloud Object Storage (COS) - ドキュメント保存
-  - Code Engine - アプリケーションデプロイ
-
-#### アクセス方法
-
-- Workshop 機能を使用し、講師が一括で環境を予約
-- 各受講者に個別のアクセス情報を配布（個別の環境予約は不要）
-
-## 🛠️ 講師側の事前準備（ハンズオン前日まで）
-
-### 1️⃣ ベクトルデータベースのセットアップ（30 分）
-
-- watsonx.data（**Milvus**）の環境構築
-- 接続情報の準備
-
-### 2️⃣ サンプルデータの投入とインデックス作成（2-3 時間）
-
-- 商品データ（画像、説明、カテゴリ、価格）の準備
-- watsonx.ai でベクトル埋め込みの生成
-- **Milvus** へのインデックス作成と最適化
-
-### 3️⃣ ベースアプリケーションの準備（1-2 時間）
-
-- 基本的な検索 UI のテンプレート
-- FastAPI による REST API の実装
-- Swagger UI の設定（API ドキュメント自動生成）
-- 環境変数の設定ファイル
-
-#### Swagger UI について
-
-- **概要**: REST API のドキュメントを自動生成し、インタラクティブに操作できる Web インターフェース
-- **機能**:
-  - API エンドポイント、パラメータ、レスポンス形式を自動表示
-  - ブラウザから直接 API を実行可能（「Try it out」ボタン）
-  - レスポンスをリアルタイムで確認
-- **アクセス**: `http://localhost:8000/docs`
-- **メリット**:
-  - コードを書かずに API の動作を確認
-  - ドキュメントが常に最新（コードから自動生成）
-  - 学習コスト削減と開発効率化
-
-**合計準備時間**: 約 4-6 時間
-
-!!! note
-    これらの準備により、ハンズオン当日は参加者が 1 時間で完結できます
-
-## 🔄 代替案: TechZone 環境が利用できない場合
-
-TechZone 環境の予約に問題が発生した場合、以下の代替案を検討できます。
-
-!!! warning "TechZone 環境の制約"
-    現在、TechZone 環境「wxO with Milvus, watsonx.ai, Code Engine (SaaS) - IBM ID」は以下のリージョンでのみ利用可能です：
-    
-    - `us-south`（米国南部）- **推奨**
-    - `eu-de`（ドイツ）
-    
-    日本リージョン（`jp-tok`）は現在利用できません。`us-south` を選択してください。
-
-### 代替案 1: ローカル環境（Docker Desktop）
-
-**構成**:
-
-- **Milvus**: Docker Compose でローカルに構築
-- **watsonx.ai**: IBM Cloud で各自 API キーを取得
-
-**受講者の事前準備**:
-
-1. **Docker Desktop のインストール**
-   - [Docker Desktop for Mac](https://www.docker.com/products/docker-desktop)
-   - [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop)
-   - メモリ 8GB 以上推奨
-
-2. **watsonx.ai API キーの取得**
-   - [IBM Cloud](https://cloud.ibm.com/) にログイン
-   - watsonx.ai サービスを作成
-   - API Key を取得
-
-3. **配布パッケージの展開**
-   ```bash
-   # vector-search-handson.zip を解凍
-   cd vector-search-handson
-   
-   # Milvus を起動
-   docker-compose up -d
-   
-   # 接続確認
-   curl http://localhost:9091/healthz
+1. **ブラウザで以下のURLを開く**
+   ```
+   https://bob.ibm.com/trial
    ```
 
-**メリット**:
+2. **「30日間無料トライアル」ボタンをクリック**
 
-- ✅ TechZone 環境の予約不要
-- ✅ 各自のペースで進められる
-- ✅ ハンズオン後も環境を保持できる
+3. **必要な情報を入力**
+   - メールアドレス
+   - パスワード
+   - 名前
 
-**デメリット**:
+4. **登録完了メールを確認**
+   - 受信トレイをチェック
+   - メール内のリンクをクリックして認証
 
-- ⚠️ Docker Desktop のインストールが必要
-- ⚠️ watsonx.ai API キーの取得が必要
-- ⚠️ 初回起動時に Docker image のダウンロード（数分）
+#### ステップ2: IBM Bob IDEをインストールする
 
-### 代替案 2: 共有 Milvus 環境
+1. **ダウンロードページを開く**
+   ```
+   https://bob.ibm.com/download
+   ```
 
-**構成**:
+2. **お使いのOSを選択**
+   - Windows: 「Download for Windows」をクリック
+   - Mac: 「Download for Mac」をクリック
+   - Linux: 「Download for Linux」をクリック
 
-- **Milvus**: 講師の PC で Docker Compose を起動
-- **watsonx.ai**: 講師の API キーを共有
+3. **ダウンロードしたファイルを実行**
+   - Windowsの場合: `.exe`ファイルをダブルクリック
+   - Macの場合: `.dmg`ファイルを開いてアプリケーションフォルダにドラッグ
+   - Linuxの場合: インストール手順に従う
 
-**受講者の事前準備**:
+4. **IBM Bob IDEを起動**
+   - アプリケーションを開く
+   - 初回起動時にアカウントでログイン
 
-1. **IBM Bob IDE のみインストール**
-2. **配布パッケージの展開**
-3. **接続先を講師の Milvus に設定**
+### 2. Vector Search Builder モード（必須）
 
-**メリット**:
+Vector Search Builderは、ベクトル検索機能を簡単に構築できるIBM Bobの専用モードです。
 
-- ✅ 受講者は Docker 不要
-- ✅ セットアップが最も簡単
-- ✅ 全員が同じ環境を使用
+#### ステップ1: プロジェクトフォルダを作成
 
-**デメリット**:
+1. **デスクトップに新しいフォルダを作成**
+   - フォルダ名: `vector-search-handson`
+   - 場所: どこでも構いませんが、デスクトップが分かりやすいです
 
-- ⚠️ 講師の PC に負荷が集中
-- ⚠️ ネットワーク接続が必要
-- ⚠️ 同時アクセスによる競合の可能性
+2. **フォルダの場所を覚えておく**
+   - 後でIBM Bobで開くため
 
-### 代替案 3: 事前ベクトル化データ
+#### ステップ2: Vector Search Builderをインストール
 
-**構成**:
+1. **配布されたzipファイルを確認**
+   - ファイル名: `vector-search-builder.zip`
+   - 講師から配布されたファイルです
 
-- サンプルデータを事前にベクトル化して配布
-- 検索のみ実行（新規データの追加なし）
+2. **zipファイルをプロジェクトフォルダにコピー**
+   - `vector-search-builder.zip`を`vector-search-handson`フォルダに移動
 
-**メリット**:
+3. **zipファイルを解凍**
+   - Windowsの場合: 右クリック → 「すべて展開」
+   - Macの場合: ダブルクリック
+   - Linuxの場合: `unzip vector-search-builder.zip`
 
-- ✅ watsonx.ai API キー不要
-- ✅ 最も簡単な方法
+4. **解凍結果を確認**
+   - `.bob`フォルダが作成されていることを確認
+   - このフォルダにVector Search Builderモードが含まれています
 
-**デメリット**:
+#### ステップ3: IBM BobでプロジェクトをOpen
 
-- ⚠️ ベクトル化のプロセスを体験できない
-- ⚠️ 学習内容が限定的
+1. **IBM Bob IDEを起動**
 
-### 推奨する代替案
+2. **プロジェクトフォルダを開く**
+   - メニューバーから「File」→「Open Folder」をクリック
+   - `vector-search-handson`フォルダを選択
+   - 「開く」ボタンをクリック
 
-**受講者数に応じて選択**:
+3. **IBM Bobをリロード**
+   - キーボードショートカット:
+     - Mac: `Cmd + Shift + P`
+     - Windows/Linux: `Ctrl + Shift + P`
+   - 表示されたコマンドパレットに「Reload Window」と入力
+   - 「Developer: Reload Window」を選択してEnter
 
-- **5 人以下**: 代替案 2（共有 Milvus 環境）- [詳細ガイド](alternative-setup-pattern-b.md)
-- **6〜10 人**: 代替案 1（ローカル環境）
-- **10 人以上**: TechZone 環境（推奨）
+4. **Vector Search Builderモードを確認**
+   - IBM Bob画面の右下を確認
+   - 「Mode」セレクターに「Vector Search Builder」が表示されていればOK
 
-!!! tip "代替案 2 の詳細"
-    講師が共有環境を提供する方法の詳細な手順は、[代替案 B: 講師が共有環境を提供](alternative-setup-pattern-b.md)を参照してください。
-    
-    - Docker Compose ファイル
-    - 受講者向け設定ファイル
-    - トラブルシューティング
-    
-    すべて準備済みです。
+### 3. 接続情報（必須）
 
-!!! warning "重要"
-    代替案はあくまで緊急時の対応です。TechZone 環境が最もスマートで、受講者の準備が最小限で済みます。
+ハンズオンでは、以下のサービスに接続します：
+
+#### Milvus（ベクトルデータベース）
+
+- **役割**: ベクトルデータを保存・検索するデータベース
+- **接続情報**: 講師から配布されます
+
+#### watsonx.ai（AI埋め込みモデル）
+
+- **役割**: テキストをベクトル（数値の配列）に変換
+- **接続情報**: 講師から配布されます
+
+#### 接続情報の設定方法
+
+1. **プロジェクトフォルダ内の`setup`フォルダを開く**
+
+2. **`.env.example`ファイルを`.env`にコピー**
+   - Windowsの場合: ファイルをコピーして名前を変更
+   - Mac/Linuxの場合: ターミナルで`cp .env.example .env`
+
+3. **`.env`ファイルを開く**
+   - IBM Bob IDEで開く
+   - または、テキストエディタで開く
+
+4. **講師から配布された情報を入力**
+   ```
+   # Milvus接続情報
+   MILVUS_HOST=（講師から配布されたホスト名）
+   MILVUS_PORT=19530
+   
+   # watsonx.ai接続情報
+   WATSONX_API_KEY=（講師から配布されたAPIキー）
+   WATSONX_PROJECT_ID=（講師から配布されたプロジェクトID）
+   WATSONX_URL=（講師から配布されたURL）
+   
+   # Embeddingモデル
+   EMBEDDING_MODEL=ibm/granite-embedding-278m-multilingual
+   ```
+
+5. **ファイルを保存**
+   - `Cmd + S`（Mac）または`Ctrl + S`（Windows/Linux）
+
+6. **IBM Bobをリロード**
+   - `Cmd + Shift + P`（Mac）または`Ctrl + Shift + P`（Windows/Linux）
+   - 「Reload Window」を実行
+
+### 4. Webブラウザ（必須）
+
+ハンズオンでは、Webブラウザを使ってAPIをテストします。
+
+#### 推奨ブラウザ
+
+以下のいずれかのブラウザを使用してください：
+
+- Google Chrome（推奨）
+- Mozilla Firefox
+- Microsoft Edge
+- Safari
+
+#### ブラウザの確認
+
+1. **ブラウザを起動**
+
+2. **以下のURLにアクセスできることを確認**
+   ```
+   https://www.google.com
+   ```
+
+3. **正常に表示されればOK**
 
 ## ✅ 準備完了チェックリスト
 
-準備が完了したら、以下を確認してください：
+すべての準備が完了したら、以下をチェックしてください：
 
-- [ ] IBM Bob アカウントが作成済み
-- [ ] IBM Bob IDE がインストール済み
-- [ ] Vector Search Builder モードが表示される
-- [ ] TechZone 環境のアクセス情報を受領済み
-- [ ] Web ブラウザが利用可能
+- [ ] IBM Bobアカウントを作成した
+- [ ] IBM Bob IDEをインストールした
+- [ ] IBM Bob IDEを起動できる
+- [ ] プロジェクトフォルダを作成した
+- [ ] `vector-search-builder.zip`を解凍した
+- [ ] `.bob`フォルダが存在する
+- [ ] IBM BobでプロジェクトフォルダをOpenした
+- [ ] 「Vector Search Builder」モードが表示される
+- [ ] `.env`ファイルに接続情報を入力した
+- [ ] Webブラウザが使用できる
+
+## 🆘 困ったときは
+
+### よくある質問
+
+#### Q1: IBM Bobアカウントの登録メールが届かない
+
+**対処法**:
+1. 迷惑メールフォルダを確認
+2. 数分待ってから再度確認
+3. それでも届かない場合は、講師に相談
+
+#### Q2: IBM Bob IDEがインストールできない
+
+**対処法**:
+1. OSのバージョンを確認（古すぎる場合は更新が必要）
+2. 管理者権限でインストールを試す
+3. セキュリティソフトが邪魔をしていないか確認
+4. 講師に相談
+
+#### Q3: Vector Search Builderモードが表示されない
+
+**対処法**:
+1. `.bob`フォルダが存在するか確認
+2. IBM Bobをリロード（`Cmd/Ctrl + Shift + P` → 「Reload Window」）
+3. プロジェクトフォルダを開き直す
+4. 講師に相談
+
+#### Q4: 接続情報をどこに入力すればいいか分からない
+
+**対処法**:
+1. プロジェクトフォルダ内の`setup`フォルダを開く
+2. `.env`ファイルを探す（見つからない場合は`.env.example`をコピー）
+3. 講師に画面を見せて確認してもらう
+
+## 🎯 次のステップ
 
 準備が完了したら、[Part 1: 環境確認とデモ](part1.md)に進みましょう！
+
+Part 1では、実際にVector Searchがどのように動作するかを体験します。
