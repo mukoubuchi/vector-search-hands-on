@@ -34,7 +34,7 @@ vector-search-handson/
 | 対象者 | 使用するドキュメント | 特徴 |
 |--------|---------------------|------|
 | **受講者（初心者）** | [MkDocsドキュメント](docs/participant/README.md) | 詳しい説明・Web形式 |
-| **講師・経験者** | [講師用実践手順書](INSTRUCTOR_WALKTHROUGH.md) | 簡潔な手順・進行ガイド |
+| **講師・経験者** | [講師用実践手順書](docs/instructor-walkthrough.md) | 簡潔な手順・進行ガイド |
 
 ---
 
@@ -49,7 +49,7 @@ vector-search-handson/
 6. 受講者に接続情報を共有
 
 #### ハンズオン当日
-1. **[講師用実践手順書](INSTRUCTOR_WALKTHROUGH.md)** を進行ガイドとして使用
+1. **[講師用実践手順書](docs/instructor-walkthrough.md)** を進行ガイドとして使用
 2. 各ステップの所要時間を確認しながら進行
 3. チェックリストで受講者の進捗を管理
 
