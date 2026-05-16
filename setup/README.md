@@ -37,6 +37,39 @@ alias docker=podman
 docker compose up -d
 ```
 
+### Docker Desktop を使用する場合の注意事項
+
+Docker Desktopを使用する場合は、以下を確認してください：
+
+1. **Docker Desktopの起動**
+   ```bash
+   # macOS: アプリケーションフォルダから Docker.app を起動
+   open -a Docker
+   
+   # 起動確認
+   docker info
+   ```
+
+2. **Docker Composeのインストール確認**
+   ```bash
+   # Docker Compose V2 (推奨)
+   docker compose version
+   
+   # 古いバージョン（V1）の場合
+   docker-compose --version
+   ```
+
+3. **Docker Compose V2がない場合のインストール**
+   ```bash
+   # macOS (Homebrew)
+   brew install docker-compose
+   
+   # または手動インストール
+   mkdir -p ~/.docker/cli-plugins/
+   curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-darwin-aarch64 -o ~/.docker/cli-plugins/docker-compose
+   chmod +x ~/.docker/cli-plugins/docker-compose
+   ```
+
 ## ファイル一覧
 
 ### `docker-compose.yml`
