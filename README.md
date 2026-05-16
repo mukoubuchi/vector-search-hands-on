@@ -90,6 +90,7 @@ cd setup
 - ❌ ローカルへのPythonインストール
 - ❌ パッケージの手動インストール
 - ❌ 複雑な環境構築
+- ❌ **Watsonx.ai APIキー不要**（Hugging Face Transformersを使用）
 
 #### 📖 2つの学習方法
 
@@ -110,8 +111,9 @@ cd setup
 1. IBM Bob IDEを起動
 2. 講師から提供された接続情報を受け取る:
    - Milvus接続情報（IPアドレス、ポート、認証情報）
-   - watsonx.ai接続情報（API キー、プロジェクトID）
 3. Bob IDEで環境セットアップ（Bobが自動実行）
+   - 必要なパッケージ: `pymilvus`, `sentence-transformers`, `python-dotenv`
+   - 埋め込みモデル: Hugging Face Transformers（APIキー不要、無料）
 
 #### ハンズオン当日
 1. **実践手順書**または**Webドキュメント**を見ながら進める

@@ -3,14 +3,16 @@
 # Milvus クライアント
 pymilvus==2.3.4
 
-# IBM Watsonx.ai
-ibm-watsonx-ai>=0.2.0
+# Embedding Models (Hugging Face Transformers)
+sentence-transformers==2.2.2
+torch>=2.0.0
 
 # 環境変数管理
 python-dotenv==1.0.0
 
 # データ処理
 pandas==2.1.4
+scikit-learn>=1.3.0
 
 # テキスト処理
 langchain==0.1.0
