@@ -1,0 +1,3619 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="IBM Bob × Milvus × watsonx.ai を使ったベクトル検索ハンズオン">
+      
+      
+        <meta name="author" content="IBM Build Team">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/part3/">
+      
+      
+        <link rel="prev" href="../part2/">
+      
+      
+        <link rel="next" href="../summary/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>3️⃣ Part 3 - 実践的な応用 - Vector Search ハンズオン</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-part-3" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href=".." title="Vector Search ハンズオン" class="md-header__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vector Search ハンズオン
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3️⃣ Part 3 - 実践的な応用
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="ダークモードに切り替え"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="ダークモードに切り替え" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="ライトモードに切り替え"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="ライトモードに切り替え" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../preparation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  事前準備
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part1/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  1️⃣ Part 1 - 基本的なベクトル検索
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  2️⃣ Part 2 - 高度な検索機能
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  3️⃣ Part 3 - 実践的な応用
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../summary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  まとめ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vector Search ハンズオン" class="md-nav__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vector Search ハンズオン
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1️⃣ Part 1 - 基本的なベクトル検索
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2️⃣ Part 2 - 高度な検索機能
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3️⃣ Part 3 - 実践的な応用
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3️⃣ Part 3 - 実践的な応用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 このパートで学ぶこと
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. アプリケーションの動作確認（10 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. アプリケーションの動作確認（10 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 事前確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Swagger UI の使い方
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Swagger UI の使い方">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 テストケース 1: 基本的な商品検索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 テストケース 1: 基本的な商品検索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トラブルシューティング
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 テストケース 2: フィルター機能の確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 テストケース 2: フィルター機能の確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順 1: 価格帯フィルター
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント（価格帯フィルター）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順 2: カテゴリフィルター
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント（カテゴリフィルター）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順 3: 複合フィルター
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント（複合フィルター）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トラブルシューティング
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 テストケース 3: レコメンデーション理由の確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 テストケース 3: レコメンデーション理由の確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セマンティック検索の確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トラブルシューティング
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 動作確認のまとめ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ibm-bob-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. IBM Bob によるコードレビュー（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. IBM Bob によるコードレビュー（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 コードレビューの目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 /review コマンドの実行手順
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 /review コマンドの実行手順">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: IBM Bob を開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: レビュー対象ファイルを開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: /review コマンドを実行
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 レビュー結果の確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 レビュー結果の確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        レビュー結果の例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 レビュー結果の読み方
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 レビュー結果の読み方">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 良い点（✓）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 改善提案（⚠️）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 改善提案（⚠️）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セキュリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保守性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 改善提案への対応
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 改善提案への対応">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        優先順位の付け方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IBM Bob に改善を依頼する方法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 コードレビューから学ぶこと
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 コードレビューから学ぶこと">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ベストプラクティスの理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        継続的な改善
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ コードレビュー完了チェック
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. よくある質問とトラブルシューティング
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. よくある質問とトラブルシューティング">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤔 よくある質問（FAQ）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤔 よくある質問（FAQ）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q1-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q1: Swagger UI にアクセスできない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q2-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q2: 検索結果が 0 件になる
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q3: 類似度スコアが表示されない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q4: フィルターが機能しない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q5-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q5: /review コマンドが動作しない
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 トラブルシューティングの基本手順
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 トラブルシューティングの基本手順">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: エラーメッセージを確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: 基本的な確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: IBM Bob に相談
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 期待される成果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 期待される成果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-sales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Build Sales チームのメリット
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Build Sales チームのメリット">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 実践的なデモ体験
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 直感的なユースケース理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SQL 不要の価値
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 開発効率の実感
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 技術的な質問への対応力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ibm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. IBM 製品の統合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Build Engineering チームのメリット
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Build Engineering チームのメリット">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-sales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Sales との連携強化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Building Blocks の普及
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. フィードバック収集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. ナレッジ共有
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 学んだことの振り返り
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 学んだことの振り返り">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#part-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 で習得したスキル
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 で習得したスキル">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. API テストの実践
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 動作確認の手法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. コードレビューの活用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 品質向上の考え方
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        次のステップ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Part 3 完了チェックリスト
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Part 3 完了チェックリスト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        動作確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コードレビュー
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理解度確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    まとめ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 このパートで学ぶこと
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. アプリケーションの動作確認（10 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. アプリケーションの動作確認（10 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 事前確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Swagger UI の使い方
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Swagger UI の使い方">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 テストケース 1: 基本的な商品検索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 テストケース 1: 基本的な商品検索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トラブルシューティング
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 テストケース 2: フィルター機能の確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 テストケース 2: フィルター機能の確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順 1: 価格帯フィルター
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント（価格帯フィルター）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順 2: カテゴリフィルター
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント（カテゴリフィルター）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順 3: 複合フィルター
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント（複合フィルター）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トラブルシューティング
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 テストケース 3: レコメンデーション理由の確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 テストケース 3: レコメンデーション理由の確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        確認ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セマンティック検索の確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トラブルシューティング
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 動作確認のまとめ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ibm-bob-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. IBM Bob によるコードレビュー（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. IBM Bob によるコードレビュー（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 コードレビューの目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 /review コマンドの実行手順
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 /review コマンドの実行手順">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: IBM Bob を開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: レビュー対象ファイルを開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: /review コマンドを実行
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 レビュー結果の確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 レビュー結果の確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        レビュー結果の例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 レビュー結果の読み方
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 レビュー結果の読み方">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 良い点（✓）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 改善提案（⚠️）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 改善提案（⚠️）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セキュリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保守性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 改善提案への対応
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 改善提案への対応">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        優先順位の付け方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IBM Bob に改善を依頼する方法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 コードレビューから学ぶこと
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 コードレビューから学ぶこと">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ベストプラクティスの理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        継続的な改善
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ コードレビュー完了チェック
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. よくある質問とトラブルシューティング
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. よくある質問とトラブルシューティング">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤔 よくある質問（FAQ）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤔 よくある質問（FAQ）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q1-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q1: Swagger UI にアクセスできない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q2-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q2: 検索結果が 0 件になる
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q3: 類似度スコアが表示されない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q4: フィルターが機能しない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q5-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q5: /review コマンドが動作しない
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 トラブルシューティングの基本手順
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 トラブルシューティングの基本手順">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: エラーメッセージを確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: 基本的な確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: IBM Bob に相談
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 期待される成果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 期待される成果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-sales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Build Sales チームのメリット
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Build Sales チームのメリット">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 実践的なデモ体験
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 直感的なユースケース理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SQL 不要の価値
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 開発効率の実感
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 技術的な質問への対応力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ibm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. IBM 製品の統合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Build Engineering チームのメリット
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Build Engineering チームのメリット">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-sales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Sales との連携強化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Building Blocks の普及
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. フィードバック収集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. ナレッジ共有
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 学んだことの振り返り
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 学んだことの振り返り">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#part-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 で習得したスキル
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 で習得したスキル">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. API テストの実践
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 動作確認の手法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. コードレビューの活用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 品質向上の考え方
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        次のステップ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Part 3 完了チェックリスト
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Part 3 完了チェックリスト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        動作確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コードレビュー
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理解度確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="3-part-3">3️⃣ Part 3: 動作確認とレビュー</h1>
+<p><strong>所要時間</strong>: 15 分</p>
+<p>このパートでは、Part 2 で実装した機能の動作確認と、IBM Bob のコードレビュー機能を使った品質向上を行います。</p>
+<h2 id="_1">🎯 このパートで学ぶこと</h2>
+<ul>
+<li>Swagger UI を使った API テスト方法</li>
+<li>セマンティック検索の動作確認</li>
+<li>フィルター機能の検証</li>
+<li>IBM Bob の <code>/review</code> コマンドによるコードレビュー</li>
+</ul>
+<h2 id="1-10">1. アプリケーションの動作確認（10 分）</h2>
+<h3 id="_2">📝 事前確認</h3>
+<p>動作確認を始める前に、以下を確認してください：</p>
+<ol>
+<li>
+<p><strong>アプリケーションが起動していること</strong></p>
+</li>
+<li>
+<p>ターミナルで <code>python app.py</code> が実行中であること</p>
+</li>
+<li>
+<p>エラーメッセージが表示されていないこと</p>
+</li>
+<li>
+<p><strong>Swagger UI にアクセスできること</strong></p>
+</li>
+<li>
+<p>ブラウザで <code>http://localhost:8000/docs</code> を開く</p>
+</li>
+<li>API ドキュメントが表示されること</li>
+</ol>
+<h3 id="swagger-ui">🔍 Swagger UI の使い方</h3>
+<p>Swagger UI は、API を視覚的にテストできるツールです。以下の手順で操作します：</p>
+<h4 id="_3">基本操作</h4>
+<ol>
+<li>
+<p><strong>エンドポイントを選択</strong></p>
+</li>
+<li>
+<p><code>/search</code> エンドポイントをクリック</p>
+</li>
+<li>
+<p>エンドポイントの詳細が展開される</p>
+</li>
+<li>
+<p><strong>「Try it out」ボタンをクリック</strong></p>
+</li>
+<li>
+<p>入力フィールドが編集可能になる</p>
+</li>
+<li>
+<p><strong>パラメータを入力</strong></p>
+</li>
+<li>
+<p><code>query</code> フィールドに検索クエリを入力</p>
+</li>
+<li>
+<p>必要に応じて <code>filters</code> を設定</p>
+</li>
+<li>
+<p><strong>「Execute」ボタンをクリック</strong></p>
+</li>
+<li>
+<p>API が実行される</p>
+</li>
+<li>
+<p>レスポンスが下部に表示される</p>
+</li>
+<li>
+<p><strong>結果を確認</strong></p>
+</li>
+<li>
+<p><code>Response body</code> セクションで JSON レスポンスを確認</p>
+</li>
+<li><code>Response headers</code> でヘッダー情報を確認</li>
+</ol>
+<h3 id="1">🧪 テストケース 1: 基本的な商品検索</h3>
+<h4 id="_4">目的</h4>
+<p>Part 2 で実装した「商品画像と類似度スコアの表示」機能を確認します。</p>
+<h4 id="_5">手順</h4>
+<ol>
+<li>
+<p><strong>Swagger UI で <code>/search</code> エンドポイントを開く</strong></p>
+</li>
+<li>
+<p><strong>「Try it out」をクリック</strong></p>
+</li>
+<li>
+<p><strong>以下のパラメータを入力</strong></p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;赤いスニーカー&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>「Execute」をクリック</strong></li>
+</ol>
+<h4 id="_6">確認ポイント</h4>
+<p>レスポンスの JSON を確認し、以下が含まれていることを確認します：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;商品名&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">&quot;image_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://...&quot;</span><span class="p">,</span><span class="w">           </span><span class="c1">// ✅ 画像 URL が表示される</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">&quot;similarity_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.92</span><span class="p">,</span><span class="w">             </span><span class="c1">// ✅ 類似度スコアが表示される</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8900</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>期待される結果</strong>:</p>
+<ul>
+<li>✅ <code>image_url</code> フィールドに画像 URL が含まれている</li>
+<li>✅ <code>similarity_score</code> が 0.0〜1.0 の範囲で表示される</li>
+<li>✅ スコアが高い順（類似度が高い順）に並んでいる</li>
+</ul>
+<h4 id="_7">トラブルシューティング</h4>
+<p><strong>画像が表示されない場合</strong>:</p>
+<ul>
+<li><code>image_url</code> フィールドが存在するか確認</li>
+<li>URL が正しい形式か確認（<code>https://</code> で始まる）</li>
+<li>サンプルデータに画像 URL が含まれているか確認</li>
+</ul>
+<p><strong>類似度スコアが表示されない場合</strong>:</p>
+<ul>
+<li><code>similarity_score</code> フィールドが存在するか確認</li>
+<li>Part 2 の実装が正しく反映されているか確認</li>
+<li>アプリケーションを再起動してみる</li>
+</ul>
+<h3 id="2">🧪 テストケース 2: フィルター機能の確認</h3>
+<h4 id="_8">目的</h4>
+<p>Part 2 で実装した「価格帯とカテゴリのフィルター」機能を確認します。</p>
+<h4 id="1_1">手順 1: 価格帯フィルター</h4>
+<ol>
+<li>
+<p><strong>Swagger UI で <code>/search</code> エンドポイントを開く</strong></p>
+</li>
+<li>
+<p><strong>「Try it out」をクリック</strong></p>
+</li>
+<li>
+<p><strong>以下のパラメータを入力</strong></p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">&quot;price_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>「Execute」をクリック</strong></li>
+</ol>
+<h4 id="_9">確認ポイント（価格帯フィルター）</h4>
+<p>レスポンスを確認し、以下を検証します：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;商品 A&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7500</span><span class="p">,</span><span class="w">    </span><span class="c1">// ✅ 5000〜10000 の範囲内</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;商品 B&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8900</span><span class="p">,</span><span class="w">    </span><span class="c1">// ✅ 5000〜10000 の範囲内</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>期待される結果</strong>:</p>
+<ul>
+<li>✅ すべての商品の価格が 5000〜10000 円の範囲内</li>
+<li>✅ 範囲外の商品は表示されない</li>
+<li>✅ セマンティック検索も機能している（「スニーカー」に関連する商品）</li>
+</ul>
+<h4 id="2_1">手順 2: カテゴリフィルター</h4>
+<ol>
+<li><strong>以下のパラメータを入力</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;赤い&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>「Execute」をクリック</strong></li>
+</ol>
+<h4 id="_10">確認ポイント（カテゴリフィルター）</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;赤いランニングシューズ&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span><span class="p">,</span><span class="w">    </span><span class="c1">// ✅ カテゴリが一致</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">      </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;赤&quot;</span><span class="w">                </span><span class="c1">// ✅ セマンティック検索も機能</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>期待される結果</strong>:</p>
+<ul>
+<li>✅ すべての商品のカテゴリが「スニーカー」</li>
+<li>✅ 「赤い」という検索クエリも考慮されている</li>
+<li>✅ 他のカテゴリの商品は表示されない</li>
+</ul>
+<h4 id="3">手順 3: 複合フィルター</h4>
+<ol>
+<li><strong>価格帯とカテゴリを同時に指定</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ビジネス向け&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ノートパソコン&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">&quot;price_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100000</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200000</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>「Execute」をクリック</strong></li>
+</ol>
+<h4 id="_11">確認ポイント（複合フィルター）</h4>
+<p><strong>期待される結果</strong>:</p>
+<ul>
+<li>✅ カテゴリが「ノートパソコン」</li>
+<li>✅ 価格が 100000〜200000 円の範囲内</li>
+<li>✅ 「ビジネス向け」という意味も考慮されている</li>
+</ul>
+<h4 id="_12">トラブルシューティング</h4>
+<p><strong>フィルターが機能しない場合</strong>:</p>
+<ul>
+<li>JSON の構文が正しいか確認（カンマ、括弧の位置）</li>
+<li>フィルター条件がサンプルデータに存在するか確認</li>
+<li>Part 2 の実装が正しく反映されているか確認</li>
+</ul>
+<p><strong>結果が 0 件の場合</strong>:</p>
+<ul>
+<li>フィルター条件が厳しすぎる可能性</li>
+<li>サンプルデータに該当する商品があるか確認</li>
+<li>価格帯やカテゴリ名を調整してみる</li>
+</ul>
+<h3 id="3_1">🧪 テストケース 3: レコメンデーション理由の確認</h3>
+<h4 id="_13">目的</h4>
+<p>Part 2 で実装した「レコメンデーション理由の表示」機能を確認します。</p>
+<h4 id="_14">手順</h4>
+<ol>
+<li>
+<p><strong>Swagger UI で <code>/search</code> エンドポイントを開く</strong></p>
+</li>
+<li>
+<p><strong>以下のパラメータを入力</strong></p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;初心者向けのカメラ&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>「Execute」をクリック</strong></li>
+</ol>
+<h4 id="_15">確認ポイント</h4>
+<p>レスポンスに以下の情報が含まれていることを確認します：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;エントリーモデル デジタルカメラ&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="nt">&quot;similarity_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.88</span><span class="p">,</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">      </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;検索クエリ「初心者向けのカメラ」と以下の点で類似しています：&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">      </span><span class="nt">&quot;similar_features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">        </span><span class="s2">&quot;対象: 初心者・入門者向け&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">        </span><span class="s2">&quot;カテゴリ: デジタルカメラ&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">        </span><span class="s2">&quot;特徴: 簡単操作、オートモード充実&quot;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">      </span><span class="p">]</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>期待される結果</strong>:</p>
+<ul>
+<li>✅ <code>reason</code> フィールドに説明文が表示される</li>
+<li>✅ <code>similar_features</code> に具体的な類似点がリスト表示される</li>
+<li>✅ ユーザーが納得できる説明になっている</li>
+</ul>
+<h4 id="_16">セマンティック検索の確認</h4>
+<p>以下のような「意味」を理解した検索ができているか確認します：</p>
+<table>
+<thead>
+<tr>
+<th>検索クエリ</th>
+<th>期待される理解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「初心者向け」</td>
+<td>→ 「入門」「簡単」「ビギナー」</td>
+</tr>
+<tr>
+<td>「ビジネス向け」</td>
+<td>→ 「仕事」「オフィス」「プロフェッショナル」</td>
+</tr>
+<tr>
+<td>「高性能」</td>
+<td>→ 「ハイスペック」「高速」「パワフル」</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_17">トラブルシューティング</h4>
+<p><strong>理由が表示されない場合</strong>:</p>
+<ul>
+<li><code>reason</code> フィールドが実装されているか確認</li>
+<li>Part 2 の実装を見直す</li>
+<li>IBM Bob に「理由が表示されない」と相談</li>
+</ul>
+<p><strong>理由が不自然な場合</strong>:</p>
+<ul>
+<li>埋め込みモデルの精度の問題の可能性</li>
+<li>サンプルデータの説明文を確認</li>
+<li>より具体的な検索クエリを試す</li>
+</ul>
+<h3 id="_18">📊 動作確認のまとめ</h3>
+<p>すべてのテストケースを実行したら、以下のチェックリストで確認します：</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>基本検索</strong>: 商品画像と類似度スコアが表示される</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>価格帯フィルター</strong>: 指定した価格範囲の商品のみ表示される</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>カテゴリフィルター</strong>: 指定したカテゴリの商品のみ表示される</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>複合フィルター</strong>: 複数の条件を組み合わせて検索できる</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>レコメンデーション理由</strong>: 類似点が具体的に表示される</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>セマンティック検索</strong>: 意味を理解した検索ができる</li>
+</ul>
+<h2 id="2-ibm-bob-5">2. IBM Bob によるコードレビュー（5 分）</h2>
+<h3 id="_19">🎯 コードレビューの目的</h3>
+<p>IBM Bob の <code>/review</code> コマンドを使用して、以下を確認します：</p>
+<ul>
+<li>コードの品質（可読性、保守性）</li>
+<li>パフォーマンスの問題</li>
+<li>セキュリティリスク</li>
+<li>ベストプラクティスへの準拠</li>
+</ul>
+<h3 id="review">📝 <code>/review</code> コマンドの実行手順</h3>
+<h4 id="1-ibm-bob">ステップ 1: IBM Bob を開く</h4>
+<ol>
+<li>
+<p><strong>IBM Bob IDE のチャット画面を開く</strong></p>
+</li>
+<li>
+<p>画面下部のチャット入力欄をクリック</p>
+</li>
+<li>
+<p><strong>現在のモードを確認</strong></p>
+</li>
+<li>
+<p>右下の「Mode」セレクターを確認</p>
+</li>
+<li>「Code」モードになっていることを確認</li>
+</ol>
+<h4 id="2_2">ステップ 2: レビュー対象ファイルを開く</h4>
+<ol>
+<li>
+<p><strong>レビューしたいファイルを開く</strong></p>
+</li>
+<li>
+<p>例: <code>app.py</code>、<code>search.py</code> など</p>
+</li>
+<li>
+<p>Part 2 で編集したファイルを開く</p>
+</li>
+<li>
+<p><strong>ファイルが IBM Bob に認識されていることを確認</strong></p>
+</li>
+<li>
+<p>ファイルタブが表示されている</p>
+</li>
+<li>コードが表示されている</li>
+</ol>
+<h4 id="3-review">ステップ 3: <code>/review</code> コマンドを実行</h4>
+<ol>
+<li><strong>チャット入力欄に以下を入力</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>/review
+</code></pre></div>
+<ol>
+<li>
+<p><strong>Enter キーを押す</strong></p>
+</li>
+<li>
+<p><strong>IBM Bob がコードを分析するまで待つ</strong></p>
+</li>
+<li>
+<p>通常 10〜30 秒程度</p>
+</li>
+<li>「Analyzing code...」のようなメッセージが表示される</li>
+</ol>
+<h3 id="_20">📋 レビュー結果の確認</h3>
+<p>IBM Bob は以下のような形式でレビュー結果を表示します：</p>
+<h4 id="_21">レビュー結果の例</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>✅ コードレビュー完了
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>【良い点】
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>✓ API エンドポイントが RESTful な設計になっている
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>✓ エラーハンドリングが適切に実装されている
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>✓ 型ヒント（Type Hints）が使用されている
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>✓ ドキュメント文字列（Docstrings）が充実している
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>【改善提案】
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>⚠️ パフォーマンス
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>  - ベクトル検索結果のキャッシュ機構の追加を検討
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>  - 大量のリクエストに対する負荷対策が必要
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>⚠️ セキュリティ
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>  - API キーの環境変数化を推奨
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>  - 入力値のバリデーション強化
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>⚠️ 保守性
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>  - ログ出力の強化（デバッグ情報の追加）
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>  - テストケースの追加を推奨
+</code></pre></div>
+<h3 id="_22">🔍 レビュー結果の読み方</h3>
+<h4 id="1_2">1. 良い点（✓）</h4>
+<p>IBM Bob が評価したコードの良い点です。以下のような観点で評価されます：</p>
+<ul>
+<li><strong>設計</strong>: API 設計、アーキテクチャ</li>
+<li><strong>実装</strong>: コードの書き方、パターンの使用</li>
+<li><strong>ドキュメント</strong>: コメント、説明の充実度</li>
+</ul>
+<p><strong>例</strong>:</p>
+<ul>
+<li>✓ RESTful な API 設計 → 業界標準に準拠している</li>
+<li>✓ 型ヒントの使用 → コードの可読性が高い</li>
+<li>✓ エラーハンドリング → 堅牢な実装</li>
+</ul>
+<h4 id="2_3">2. 改善提案（⚠️）</h4>
+<p>IBM Bob が提案する改善点です。以下のカテゴリに分類されます：</p>
+<h5 id="_23">パフォーマンス</h5>
+<p><strong>意味</strong>: 処理速度やリソース使用量の最適化</p>
+<p><strong>例</strong>:</p>
+<ul>
+<li>キャッシュ機構の追加</li>
+<li>データベースクエリの最適化</li>
+<li>不要な処理の削減</li>
+</ul>
+<p><strong>対応方法</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 改善前</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">results</span> <span class="o">=</span> <span class="n">search_vector_db</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>  <span class="c1"># 毎回検索</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># 改善後（キャッシュ使用）</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">if</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">cache</span><span class="p">:</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">results</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="n">query</span><span class="p">]</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">results</span> <span class="o">=</span> <span class="n">search_vector_db</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">cache</span><span class="p">[</span><span class="n">query</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
+</code></pre></div>
+<h5 id="_24">セキュリティ</h5>
+<p><strong>意味</strong>: セキュリティリスクの軽減</p>
+<p><strong>例</strong>:</p>
+<ul>
+<li>API キーのハードコード回避</li>
+<li>入力値のバリデーション</li>
+<li>SQL インジェクション対策</li>
+</ul>
+<p><strong>対応方法</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># 改善前</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">API_KEY</span> <span class="o">=</span> <span class="s2">&quot;sk-1234567890&quot;</span>  <span class="c1"># ハードコード</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># 改善後（環境変数使用）</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">API_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;WATSONX_API_KEY&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="_25">保守性</h5>
+<p><strong>意味</strong>: コードの読みやすさ、メンテナンスのしやすさ</p>
+<p><strong>例</strong>:</p>
+<ul>
+<li>ログ出力の追加</li>
+<li>テストケースの作成</li>
+<li>コメントの充実</li>
+</ul>
+<p><strong>対応方法</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># 改善前</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="k">return</span> <span class="n">results</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># 改善後（ログ追加）</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;検索クエリ: </span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="n">results</span> <span class="o">=</span> <span class="n">perform_search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;検索結果: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2">件&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    <span class="k">return</span> <span class="n">results</span>
+</code></pre></div>
+<h3 id="_26">💡 改善提案への対応</h3>
+<h4 id="_27">優先順位の付け方</h4>
+<p>すべての改善提案に対応する必要はありません。以下の優先順位で対応を検討します：</p>
+<ol>
+<li><strong>🔴 高優先度</strong>: セキュリティリスク、重大なバグ</li>
+<li><strong>🟡 中優先度</strong>: パフォーマンス問題、保守性の向上</li>
+<li><strong>🟢 低優先度</strong>: コードスタイル、軽微な改善</li>
+</ol>
+<h4 id="ibm-bob">IBM Bob に改善を依頼する方法</h4>
+<p>改善提案を実装したい場合、IBM Bob に依頼できます：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>「API キーを環境変数化してください」
+</code></pre></div>
+<p>IBM Bob が自動的にコードを修正してくれます。</p>
+<h3 id="_28">🎓 コードレビューから学ぶこと</h3>
+<h4 id="_29">ベストプラクティスの理解</h4>
+<p>IBM Bob のレビューを通じて、以下のベストプラクティスを学べます：</p>
+<ul>
+<li><strong>RESTful API 設計</strong>: エンドポイントの命名規則</li>
+<li><strong>エラーハンドリング</strong>: 適切な例外処理</li>
+<li><strong>セキュリティ</strong>: API キーの管理方法</li>
+<li><strong>パフォーマンス</strong>: キャッシュの活用</li>
+</ul>
+<h4 id="_30">継続的な改善</h4>
+<p>コードレビューは一度だけでなく、定期的に実行することで：</p>
+<ul>
+<li>コード品質の維持</li>
+<li>新しい問題の早期発見</li>
+<li>チーム全体のスキル向上</li>
+</ul>
+<h3 id="_31">✅ コードレビュー完了チェック</h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>/review</code> コマンドを実行した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> レビュー結果の「良い点」を確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> レビュー結果の「改善提案」を確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 改善提案の優先順位を理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 必要に応じて IBM Bob に改善を依頼した</li>
+</ul>
+<h2 id="3_2">3. よくある質問とトラブルシューティング</h2>
+<h3 id="faq">🤔 よくある質問（FAQ）</h3>
+<h4 id="q1-swagger-ui">Q1: Swagger UI にアクセスできない</h4>
+<p><strong>症状</strong>: <code>http://localhost:8000/docs</code> にアクセスしても表示されない</p>
+<p><strong>原因と対処法</strong>:</p>
+<ol>
+<li><strong>アプリケーションが起動していない</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># ターミナルで確認</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>python<span class="w"> </span>app.py
+</code></pre></div>
+<ul>
+<li>
+<p>「Running on <a href="http://localhost:8000">http://localhost:8000</a>」と表示されるか確認</p>
+</li>
+<li>
+<p><strong>ポートが使用中</strong></p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># 別のポート（例: 8001）で起動</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>python<span class="w"> </span>app.py<span class="w"> </span>--port<span class="w"> </span><span class="m">8001</span>
+</code></pre></div>
+<ul>
+<li>
+<p><code>http://localhost:8001/docs</code> でアクセス</p>
+</li>
+<li>
+<p><strong>ファイアウォールの問題</strong></p>
+</li>
+<li>
+<p>セキュリティソフトがポート 8000 をブロックしている可能性</p>
+</li>
+<li>一時的に無効化するか、ポートを許可</li>
+</ul>
+<h4 id="q2-0">Q2: 検索結果が 0 件になる</h4>
+<p><strong>症状</strong>: どんなクエリでも結果が返ってこない</p>
+<p><strong>原因と対処法</strong>:</p>
+<ol>
+<li><strong>サンプルデータが投入されていない</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># データ投入スクリプトを実行</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>python<span class="w"> </span>scripts/load_sample_data.py
+</code></pre></div>
+<ol>
+<li>
+<p><strong>Milvus への接続エラー</strong></p>
+</li>
+<li>
+<p>ターミナルのエラーメッセージを確認</p>
+</li>
+<li>
+<p>TechZone 環境の接続情報を再確認</p>
+</li>
+<li>
+<p><strong>埋め込みモデルの問題</strong></p>
+</li>
+<li>
+<p>watsonx.ai の API キーが正しいか確認</p>
+</li>
+<li>API の利用制限に達していないか確認</li>
+</ol>
+<h4 id="q3">Q3: 類似度スコアが表示されない</h4>
+<p><strong>症状</strong>: 検索結果は返るが、<code>similarity_score</code> が含まれていない</p>
+<p><strong>原因と対処法</strong>:</p>
+<ol>
+<li>
+<p><strong>Part 2 の実装が反映されていない</strong></p>
+</li>
+<li>
+<p>アプリケーションを再起動</p>
+</li>
+<li>
+<p>コードの変更が保存されているか確認</p>
+</li>
+<li>
+<p><strong>レスポンスの構造を確認</strong></p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># app.py で以下を確認</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">return</span> <span class="p">{</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>        <span class="p">{</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>            <span class="s2">&quot;similarity_score&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span>  <span class="c1"># この行があるか</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>            <span class="o">...</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>        <span class="p">}</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="p">]</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="q4">Q4: フィルターが機能しない</h4>
+<p><strong>症状</strong>: フィルター条件を指定しても、すべての商品が表示される</p>
+<p><strong>原因と対処法</strong>:</p>
+<ol>
+<li><strong>JSON の構文エラー</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1">// ❌ 間違い（カンマが多い）</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="p">{</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="nt">&quot;price_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="p">}</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="c1">// ✅ 正しい</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="p">{</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="w">    </span><span class="nt">&quot;price_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span>
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>
+<p><strong>フィルター実装の確認</strong></p>
+</li>
+<li>
+<p>Part 2 でフィルター機能を実装したか確認</p>
+</li>
+<li>IBM Bob に「フィルターが機能しない」と相談</li>
+</ol>
+<h4 id="q5-review">Q5: <code>/review</code> コマンドが動作しない</h4>
+<p><strong>症状</strong>: <code>/review</code> を実行してもレビュー結果が表示されない</p>
+<p><strong>原因と対処法</strong>:</p>
+<ol>
+<li>
+<p><strong>ファイルが開かれていない</strong></p>
+</li>
+<li>
+<p>レビュー対象のファイルを IBM Bob で開く</p>
+</li>
+<li>
+<p>ファイルタブが表示されているか確認</p>
+</li>
+<li>
+<p><strong>モードが間違っている</strong></p>
+</li>
+<li>
+<p>右下の「Mode」セレクターを確認</p>
+</li>
+<li>
+<p>「Code」モードに切り替える</p>
+</li>
+<li>
+<p><strong>IBM Bob の再起動</strong></p>
+</li>
+<li>
+<p>IBM Bob IDE を再起動</p>
+</li>
+<li>プロジェクトフォルダを再度開く</li>
+</ol>
+<h3 id="_32">🔧 トラブルシューティングの基本手順</h3>
+<p>問題が発生した場合、以下の順序で確認します：</p>
+<h4 id="1_3">ステップ 1: エラーメッセージを確認</h4>
+<ol>
+<li>
+<p><strong>ターミナルのエラーメッセージを読む</strong></p>
+</li>
+<li>
+<p>エラーの種類を特定</p>
+</li>
+<li>
+<p>エラーが発生した行番号を確認</p>
+</li>
+<li>
+<p><strong>ブラウザの開発者ツールを確認</strong></p>
+</li>
+<li>
+<p>F12 キーで開発者ツールを開く</p>
+</li>
+<li>Console タブでエラーを確認</li>
+</ol>
+<h4 id="2_4">ステップ 2: 基本的な確認</h4>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> アプリケーションが起動しているか</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 正しい URL にアクセスしているか</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> インターネット接続は正常か</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> TechZone 環境にアクセスできるか</li>
+</ul>
+<h4 id="3-ibm-bob">ステップ 3: IBM Bob に相談</h4>
+<p>問題が解決しない場合、IBM Bob に相談します：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>「検索結果が 0 件になります。エラーメッセージは以下の通りです：
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>[エラーメッセージをコピー]」
+</code></pre></div>
+<p>IBM Bob が原因を分析し、解決策を提案してくれます。</p>
+<h2 id="_33">📊 期待される成果</h2>
+<h3 id="build-sales">🎯 Build Sales チームのメリット</h3>
+<p>このハンズオンを通じて、Build Sales チームは以下のスキルを習得できます：</p>
+<h4 id="1_4">1. 実践的なデモ体験</h4>
+<p><strong>習得内容</strong>:</p>
+<ul>
+<li>Vector Search を使った動作するレコメンデーションシステムの構築</li>
+<li>顧客へのデモ時に自信を持って製品価値を説明できる能力</li>
+</ul>
+<p><strong>活用シーン</strong>:</p>
+<ul>
+<li>顧客訪問時のライブデモ</li>
+<li>提案書への実装例の記載</li>
+<li>PoC（概念実証）の提案</li>
+</ul>
+<h4 id="2_5">2. 直感的なユースケース理解</h4>
+<p><strong>習得内容</strong>:</p>
+<ul>
+<li>「似た商品を探す」など、顧客に説明しやすい機能の体験</li>
+<li>実務での活用シーンの提案力</li>
+</ul>
+<p><strong>活用シーン</strong>:</p>
+<ul>
+<li>EC サイトへのレコメンデーション機能の提案</li>
+<li>社内ドキュメント検索システムの提案</li>
+<li>カスタマーサポートの効率化提案</li>
+</ul>
+<h4 id="3-sql">3. SQL 不要の価値</h4>
+<p><strong>習得内容</strong>:</p>
+<ul>
+<li>データベース知識がなくても使える自然言語検索の価値</li>
+<li>顧客の非技術者にもアピールできる説明力</li>
+</ul>
+<p><strong>活用シーン</strong>:</p>
+<ul>
+<li>非エンジニア向けのツール提案</li>
+<li>ビジネスユーザー向けの分析ツール提案</li>
+<li>技術的なハードルの低さをアピール</li>
+</ul>
+<h4 id="4">4. 開発効率の実感</h4>
+<p><strong>習得内容</strong>:</p>
+<ul>
+<li>IBM Bob とのやり取りログから、AI アシスタントによる開発効率化を体感</li>
+<li>顧客の開発チームへの訴求ポイントとして活用</li>
+</ul>
+<p><strong>活用シーン</strong>:</p>
+<ul>
+<li>開発コスト削減の提案</li>
+<li>開発期間短縮の実証</li>
+<li>AI 活用による生産性向上の説明</li>
+</ul>
+<h4 id="5">5. 技術的な質問への対応力</h4>
+<p><strong>習得内容</strong>:</p>
+<ul>
+<li>Building Blocks の実装を理解</li>
+<li>顧客からの技術的な質問に対して適切にエンジニアへエスカレーション</li>
+</ul>
+<p><strong>活用シーン</strong>:</p>
+<ul>
+<li>技術的な質問への初期対応</li>
+<li>エンジニアとの連携強化</li>
+<li>顧客との技術的な議論</li>
+</ul>
+<h4 id="6-ibm">6. IBM 製品の統合</h4>
+<p><strong>習得内容</strong>:</p>
+<ul>
+<li>watsonx.data と watsonx.ai のシームレスな連携を実証</li>
+<li>IBM エコシステムの価値を訴求</li>
+</ul>
+<p><strong>活用シーン</strong>:</p>
+<ul>
+<li>IBM 製品群の統合提案</li>
+<li>エコシステムの価値説明</li>
+<li>競合製品との差別化</li>
+</ul>
+<h3 id="build-engineering">🔧 Build Engineering チームのメリット</h3>
+<p>ハンズオンを実施する Engineering チームにとっても、以下のメリットがあります：</p>
+<h4 id="1-sales">1. Sales との連携強化</h4>
+<ul>
+<li>Sales チームの理解度を把握</li>
+<li>今後の技術サポートやデモ準備を効率化</li>
+<li>共通言語の確立</li>
+</ul>
+<h4 id="2-building-blocks">2. Building Blocks の普及</h4>
+<ul>
+<li>実践的なハンズオンを通じた社内での認知度向上</li>
+<li>Building Blocks の活用度向上</li>
+<li>社内エバンジェリストの育成</li>
+</ul>
+<h4 id="3_3">3. フィードバック収集</h4>
+<ul>
+<li>Sales チームの視点からの改善点の収集</li>
+<li>新機能の要望の把握</li>
+<li>実務での課題の発見</li>
+</ul>
+<h4 id="4_1">4. ナレッジ共有</h4>
+<ul>
+<li>ハンズオン資料やサンプルコードの社内資産化</li>
+<li>今後の顧客対応への活用</li>
+<li>再利用可能な教材の蓄積</li>
+</ul>
+<h2 id="_34">🎓 学んだことの振り返り</h2>
+<h3 id="part-3">Part 3 で習得したスキル</h3>
+<p>このパートを通じて、以下のスキルを習得しました：</p>
+<h4 id="1-api">1. API テストの実践</h4>
+<ul>
+<li>✅ Swagger UI の使い方</li>
+<li>✅ REST API のテスト方法</li>
+<li>✅ JSON レスポンスの読み方</li>
+</ul>
+<h4 id="2_6">2. 動作確認の手法</h4>
+<ul>
+<li>✅ テストケースの設計</li>
+<li>✅ 期待される結果の定義</li>
+<li>✅ トラブルシューティングの基本</li>
+</ul>
+<h4 id="3_4">3. コードレビューの活用</h4>
+<ul>
+<li>✅ <code>/review</code> コマンドの使い方</li>
+<li>✅ レビュー結果の読み方</li>
+<li>✅ 改善提案への対応方法</li>
+</ul>
+<h4 id="4_2">4. 品質向上の考え方</h4>
+<ul>
+<li>✅ ベストプラクティスの理解</li>
+<li>✅ セキュリティの重要性</li>
+<li>✅ パフォーマンスの最適化</li>
+</ul>
+<h3 id="_35">次のステップ</h3>
+<p>Part 3 を完了したら、以下のステップに進みましょう：</p>
+<ol>
+<li><strong><a href="../summary/">まとめ</a></strong> - ハンズオン全体の振り返り</li>
+<li><strong>実務での活用</strong> - 学んだことを実際のプロジェクトに適用</li>
+<li><strong>さらなる学習</strong> - Building Blocks の他の機能を探索</li>
+</ol>
+<h2 id="part-3_1">✅ Part 3 完了チェックリスト</h2>
+<h3 id="_36">動作確認</h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Swagger UI で基本的な商品検索をテストした</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 商品画像と類似度スコアが表示されることを確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 価格帯フィルターが正しく動作することを確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> カテゴリフィルターが正しく動作することを確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 複合フィルター（価格帯 + カテゴリ）をテストした</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> レコメンデーション理由が適切に表示されることを確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> セマンティック検索が意味を理解していることを確認した</li>
+</ul>
+<h3 id="_37">コードレビュー</h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>/review</code> コマンドを実行した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> レビュー結果の「良い点」を確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> レビュー結果の「改善提案」を確認した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 改善提案の優先順位を理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 必要に応じて IBM Bob に改善を依頼した</li>
+</ul>
+<h3 id="_38">理解度確認</h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Swagger UI の使い方を理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> API テストの基本を理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> トラブルシューティングの手順を理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> コードレビューの重要性を理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> ベストプラクティスを学んだ</li>
+</ul>
+<hr />
+<p>🎉 <strong>おめでとうございます！Part 3 が完了しました！</strong></p>
+<p>ハンズオンの全パートを完了しました。<a href="../summary/">まとめ</a>に進んで、学んだことを振り返り、次のステップを確認しましょう。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

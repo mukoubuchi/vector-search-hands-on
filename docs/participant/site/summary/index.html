@@ -1,0 +1,1614 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="IBM Bob × Milvus × watsonx.ai を使ったベクトル検索ハンズオン">
+      
+      
+        <meta name="author" content="IBM Build Team">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/summary/">
+      
+      
+        <link rel="prev" href="../part3/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>まとめ - Vector Search ハンズオン</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href=".." title="Vector Search ハンズオン" class="md-header__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vector Search ハンズオン
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              まとめ
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="ダークモードに切り替え"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="ダークモードに切り替え" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="ライトモードに切り替え"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="ライトモードに切り替え" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../preparation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  事前準備
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part1/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  1️⃣ Part 1 - 基本的なベクトル検索
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  2️⃣ Part 2 - 高度な検索機能
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part3/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  3️⃣ Part 3 - 実践的な応用
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  まとめ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vector Search ハンズオン" class="md-nav__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vector Search ハンズオン
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1️⃣ Part 1 - 基本的なベクトル検索
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2️⃣ Part 2 - 高度な検索機能
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3️⃣ Part 3 - 実践的な応用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    まとめ
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    まとめ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 学んだこと
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 学んだこと">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Building Blocks の実践的な活用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. IBM Bob の活用方法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vector Search の実装
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 ハンズオンの成果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 ハンズオンの成果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実装した機能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        習得したスキル
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💼 業務での活用方法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💼 業務での活用方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sales チームの活用シーン
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sales チームの活用シーン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 顧客へのデモ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 提案活動
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 社内展開
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engineering チームの活用シーン
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engineering チームの活用シーン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 顧客プロジェクト
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 社内開発
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 次のステップ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 次のステップ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        さらに学びたい方へ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="さらに学びたい方へ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Blocks の他のモジュール
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IBM Bob の高度な機能
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実践的なプロジェクト
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="実践的なプロジェクト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロジェクトアイデア
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📬 フォローアップ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📬 フォローアップ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フィードバックのお願い
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        サポート
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 参考資料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 参考資料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ドキュメント
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コミュニティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🙏 ありがとうございました
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🙏 ありがとうございました">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#happy-coding-with-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Happy Coding with IBM Bob! 🚀
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 学んだこと
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 学んだこと">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Building Blocks の実践的な活用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. IBM Bob の活用方法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vector Search の実装
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 ハンズオンの成果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 ハンズオンの成果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実装した機能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        習得したスキル
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💼 業務での活用方法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💼 業務での活用方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sales チームの活用シーン
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sales チームの活用シーン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 顧客へのデモ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 提案活動
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 社内展開
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engineering チームの活用シーン
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engineering チームの活用シーン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 顧客プロジェクト
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 社内開発
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 次のステップ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 次のステップ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        さらに学びたい方へ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="さらに学びたい方へ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Blocks の他のモジュール
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IBM Bob の高度な機能
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実践的なプロジェクト
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="実践的なプロジェクト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロジェクトアイデア
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📬 フォローアップ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📬 フォローアップ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フィードバックのお願い
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        サポート
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 参考資料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 参考資料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ドキュメント
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コミュニティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🙏 ありがとうございました
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🙏 ありがとうございました">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#happy-coding-with-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Happy Coding with IBM Bob! 🚀
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">まとめと次のステップ</h1>
+<p>おめでとうございます！IBM Bob × Building Blocks ハンズオンを完了しました 🎉</p>
+<h2 id="_2">📚 学んだこと</h2>
+<p>このハンズオンを通じて、以下のスキルと知識を習得しました：</p>
+<h3 id="1-building-blocks">1. Building Blocks の実践的な活用</h3>
+<ul>
+<li>✅ Vector Search の基本概念と仕組み</li>
+<li>✅ watsonx.data（Milvus）と watsonx.ai の連携</li>
+<li>✅ セマンティック検索の実装方法</li>
+<li>✅ Building Blocks を使った効率的な開発</li>
+</ul>
+<h3 id="2-ibm-bob">2. IBM Bob の活用方法</h3>
+<ul>
+<li>✅ Code モードでの開発フロー</li>
+<li>✅ 自然言語による機能実装の依頼</li>
+<li>✅ コードレビュー機能の活用</li>
+<li>✅ AI アシスタントとの効果的なコミュニケーション</li>
+</ul>
+<h3 id="3-vector-search">3. Vector Search の実装</h3>
+<ul>
+<li>✅ 検索結果の表示カスタマイズ</li>
+<li>✅ フィルター機能の追加</li>
+<li>✅ レコメンデーション理由の表示</li>
+<li>✅ Swagger UI を使った API テスト</li>
+</ul>
+<h2 id="_3">🎯 ハンズオンの成果</h2>
+<h3 id="_4">実装した機能</h3>
+<ol>
+<li><strong>検索結果の表示カスタマイズ</strong></li>
+<li>商品画像の表示</li>
+<li>
+<p>類似度スコアの表示</p>
+</li>
+<li>
+<p><strong>フィルター機能</strong></p>
+</li>
+<li>価格帯フィルター</li>
+<li>
+<p>カテゴリフィルター</p>
+</li>
+<li>
+<p><strong>レコメンデーション理由</strong></p>
+</li>
+<li>類似特徴の表示</li>
+<li>ユーザーフレンドリーな説明</li>
+</ol>
+<h3 id="_5">習得したスキル</h3>
+<ul>
+<li>IBM Bob を使った効率的な開発フロー</li>
+<li>Building Blocks の実践的な活用方法</li>
+<li>Vector Search の実装と最適化</li>
+<li>API の設計とテスト</li>
+</ul>
+<h2 id="_6">💼 業務での活用方法</h2>
+<h3 id="sales">Sales チームの活用シーン</h3>
+<h4 id="1">1. 顧客へのデモ</h4>
+<ul>
+<li><strong>実践的なデモ</strong>: 実際に動作する Vector Search アプリケーションを使ってデモ</li>
+<li><strong>直感的な説明</strong>: 「似た商品を探す」など、顧客に分かりやすい例で説明</li>
+<li><strong>IBM 製品の統合</strong>: watsonx.data と watsonx.ai の連携を実証</li>
+</ul>
+<h4 id="2">2. 提案活動</h4>
+<ul>
+<li><strong>ユースケースの提案</strong>: EC サイト、ナレッジベース、カスタマーサポートなど</li>
+<li><strong>ROI の説明</strong>: 開発効率化と検索精度向上による効果</li>
+<li><strong>技術的な質問への対応</strong>: Building Blocks の実装を理解した上でエスカレーション</li>
+</ul>
+<h4 id="3">3. 社内展開</h4>
+<ul>
+<li><strong>ナレッジ共有</strong>: ハンズオン資料を社内で共有</li>
+<li><strong>フィードバック収集</strong>: 顧客の反応を Engineering チームにフィードバック</li>
+</ul>
+<h3 id="engineering">Engineering チームの活用シーン</h3>
+<h4 id="1_1">1. 顧客プロジェクト</h4>
+<ul>
+<li><strong>迅速なプロトタイプ作成</strong>: Building Blocks を使った素早い実装</li>
+<li><strong>カスタマイズ</strong>: 顧客要件に合わせた機能追加</li>
+<li><strong>品質保証</strong>: IBM Bob のコードレビュー機能を活用</li>
+</ul>
+<h4 id="2_1">2. 社内開発</h4>
+<ul>
+<li><strong>開発効率化</strong>: IBM Bob を使った開発時間の短縮</li>
+<li><strong>ベストプラクティス</strong>: Building Blocks の実装パターンを参考</li>
+<li><strong>技術検証</strong>: 新しい技術の迅速な検証</li>
+</ul>
+<h2 id="_7">🚀 次のステップ</h2>
+<h3 id="_8">さらに学びたい方へ</h3>
+<h4 id="building-blocks">Building Blocks の他のモジュール</h4>
+<ol>
+<li><strong>Text2SQL</strong></li>
+<li>自然言語から SQL クエリを生成</li>
+<li>
+<p>データベース操作の効率化</p>
+</li>
+<li>
+<p><strong>Agent Builder</strong></p>
+</li>
+<li>マルチエージェントシステムの構築</li>
+<li>複雑なワークフローの自動化</li>
+</ol>
+<h4 id="ibm-bob">IBM Bob の高度な機能</h4>
+<ul>
+<li><strong>Orchestrator モード</strong>: 複雑なプロジェクトの管理</li>
+<li><strong>カスタムモード</strong>: 独自のワークフローの作成</li>
+<li><strong>MCP サーバー</strong>: 外部ツールとの連携</li>
+</ul>
+<h3 id="_9">実践的なプロジェクト</h3>
+<h4 id="_10">プロジェクトアイデア</h4>
+<ol>
+<li><strong>社内ナレッジベース</strong></li>
+<li>社内ドキュメントのセマンティック検索</li>
+<li>
+<p>質問応答システムの構築</p>
+</li>
+<li>
+<p><strong>商品レコメンデーション</strong></p>
+</li>
+<li>EC サイトの商品レコメンデーション</li>
+<li>
+<p>パーソナライズされた提案</p>
+</li>
+<li>
+<p><strong>カスタマーサポート</strong></p>
+</li>
+<li>FAQ の自動検索</li>
+<li>類似問い合わせの検出</li>
+</ol>
+<h2 id="_11">📬 フォローアップ</h2>
+<h3 id="_12">フィードバックのお願い</h3>
+<p>ハンズオンの改善のため、以下の情報を Slack で共有してください：</p>
+<ol>
+<li><strong>実施した感想</strong>（フリーフォーマット）</li>
+<li>良かった点</li>
+<li>改善してほしい点</li>
+<li>
+<p>難しかった点</p>
+</li>
+<li>
+<p><strong>業務での活用アイデア</strong></p>
+</li>
+<li>どのような場面で使えそうか</li>
+<li>
+<p>顧客に提案したいユースケース</p>
+</li>
+<li>
+<p><strong>次回希望するテーマ</strong></p>
+</li>
+<li>学びたい技術やツール</li>
+<li>実施してほしいハンズオン</li>
+</ol>
+<h3 id="_13">サポート</h3>
+<p>質問や相談がある場合は、以下のチャネルでサポートします：</p>
+<ul>
+<li><strong>Slack</strong>: #build-team-enablement</li>
+<li><strong>メール</strong>: <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#117;&#105;&#108;&#100;&#45;&#116;&#101;&#97;&#109;&#64;&#101;&#120;&#97;&#109;&#112;&#108;&#101;&#46;&#99;&#111;&#109;">&#98;&#117;&#105;&#108;&#100;&#45;&#116;&#101;&#97;&#109;&#64;&#101;&#120;&#97;&#109;&#112;&#108;&#101;&#46;&#99;&#111;&#109;</a></li>
+</ul>
+<h2 id="_14">🎓 参考資料</h2>
+<h3 id="_15">ドキュメント</h3>
+<ul>
+<li><a href="https://ibm-self-serve-assets.github.io/building-blocks-docs/">Building Blocks ドキュメント</a></li>
+<li><a href="https://bob.ibm.com/docs">IBM Bob ドキュメント</a></li>
+<li><a href="https://www.ibm.com/docs/en/watsonx/watsonxdata">watsonx.data ドキュメント</a></li>
+<li><a href="https://www.ibm.com/docs/en/watsonx-as-a-service">watsonx.ai ドキュメント</a></li>
+</ul>
+<h3 id="_16">コミュニティ</h3>
+<ul>
+<li><a href="https://community.ibm.com/bob">IBM Bob Community</a></li>
+<li><a href="https://github.com/ibm-self-serve-assets/building-blocks">Building Blocks GitHub</a></li>
+</ul>
+<hr />
+<h2 id="_17">🙏 ありがとうございました</h2>
+<p>このハンズオンに参加いただき、ありがとうございました。</p>
+<p>学んだスキルを活用して、顧客への価値提供と社内の開発効率化に貢献してください！</p>
+<h3 id="happy-coding-with-ibm-bob">Happy Coding with IBM Bob! 🚀</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

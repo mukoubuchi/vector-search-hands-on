@@ -1,0 +1,20 @@
+# Vector Search ハンズオン 必要パッケージ
+
+# Milvus クライアント
+pymilvus==2.3.4
+
+# IBM Watsonx.ai
+ibm-watsonx-ai>=0.2.0
+
+# 環境変数管理
+python-dotenv==1.0.0
+
+# データ処理
+pandas==2.1.4
+
+# テキスト処理
+langchain==0.1.0
+langchain-community==0.0.10
+
+# その他ユーティリティ
+tqdm==4.66.1

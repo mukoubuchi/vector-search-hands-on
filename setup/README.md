@@ -1,6 +1,6 @@
 # Vector Search ハンズオン セットアップファイル
 
-このディレクトリには、講師が Milvus 環境を提供する際に使用するセットアップファイルが含まれています。
+このディレクトリには、講師が Milvus 環境を提供する際に使用するセットアップファイルと、受講者が接続テストを行うためのスクリプトが含まれています。
 
 ## 📋 ファイル一覧
 
@@ -37,7 +37,125 @@ docker compose down -v
 
 1. このファイルを `.env` にコピー
 2. 講師から配布された接続情報に置き換え
-3. IBM Bob プロジェクトのルートディレクトリに配置
+3. IBM Bob をリロード
+
+### `requirements.txt`
+
+接続テストに必要な Python パッケージのリストです。
+
+### `test_connection.py`
+
+Milvus と Watsonx.ai への接続をテストするスクリプトです。
+
+## 🚀 クイックスタート（受講者向け）
+
+### 1. 環境変数の設定
+
+```bash
+# setup ディレクトリに移動
+cd setup
+
+# .env ファイルを作成（既に作成済みの場合はスキップ）
+cp .env.example .env
+
+# .env ファイルを編集して、講師から配布された情報を入力
+# - MILVUS_HOST: Milvus サーバーのIPアドレス
+# - WATSONX_API_KEY: IBM Cloud API キー
+# - WATSONX_PROJECT_ID: Watsonx プロジェクトID
+```
+
+### 2. Python パッケージのインストール
+
+```bash
+# 仮想環境の作成（推奨）
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# パッケージのインストール
+pip install -r requirements.txt
+```
+
+### 3. 接続テストの実行
+
+```bash
+# 接続テストスクリプトを実行
+python test_connection.py
+```
+
+**期待される出力**:
+
+```
+==================================================
+Milvus & Watsonx.ai 接続テスト
+==================================================
+
+=== 環境変数確認 ===
+✓ MILVUS_HOST: 192.168.1.100
+✓ MILVUS_PORT: 19530
+✓ WATSONX_API_KEY: xxxxxxxx...
+✓ WATSONX_PROJECT_ID: xxxxxxxx...
+✓ WATSONX_URL: https://us-south.ml.cloud.ibm.com
+
+=== Milvus 接続テスト ===
+接続先: 192.168.1.100:19530
+✓ Milvusに接続成功
+✓ 既存コレクション数: 0
+
+=== Watsonx.ai 接続テスト ===
+接続先: https://us-south.ml.cloud.ibm.com
+Project ID: xxxxxxxx...
+✓ Watsonx.aiに接続成功
+
+テスト埋め込み生成: 'これはテストです'
+✓ 埋め込みベクトル生成成功
+  次元数: 768
+  最初の5要素: [0.123, -0.456, 0.789, ...]
+
+==================================================
+テスト結果サマリー
+==================================================
+Milvus接続:     ✓ 成功
+Watsonx.ai接続: ✓ 成功
+
+✓ すべての接続テストが成功しました！
+  次のステップ: ベクトルコレクションの作成
+```
+
+### トラブルシューティング
+
+#### Milvus 接続エラー
+
+```
+✗ Milvus接続エラー: [Errno 61] Connection refused
+```
+
+**原因と対処法**:
+- Milvus サーバーが起動していない → 講師に確認
+- MILVUS_HOST が間違っている → `.env` ファイルを確認
+- ファイアウォールでブロックされている → ネットワーク設定を確認
+
+#### Watsonx.ai 接続エラー
+
+```
+✗ Watsonx.ai接続エラー: Invalid API key
+```
+
+**原因と対処法**:
+- API キーが間違っている → IBM Cloud で API キーを再確認
+- プロジェクト ID が間違っている → Watsonx プロジェクト設定を確認
+- API キーの権限が不足 → IBM Cloud IAM で権限を確認
+
+#### パッケージインストールエラー
+
+```bash
+# pip を最新版にアップグレード
+pip install --upgrade pip
+
+# 個別にインストールを試す
+pip install pymilvus
+pip install ibm-watsonx-ai
+pip install python-dotenv
+```
 
 ## 🐳 Docker / Docker Compose のセットアップ
 
