@@ -1,32 +1,72 @@
 # Vector Search ハンズオン セットアップファイル
 
-このディレクトリには、講師が Milvus 環境を提供する際に使用するセットアップファイルと、受講者が接続テストを行うためのスクリプトが含まれています。
+このディレクトリには、講師が Milvus 環境とMkDocsドキュメントサーバーを提供する際に使用するセットアップファイルと、受講者が接続テストを行うためのスクリプトが含まれています。
 
 ## 📋 ファイル一覧
 
-### `docker-compose.yml`
+### 講師向けファイル
 
-講師が自身の PC で Milvus 環境を起動するための Docker Compose 設定ファイルです。
+#### `docker-compose.yml`
+Milvus 環境を起動するための Docker Compose 設定ファイルです。
 
 **含まれるサービス**:
 - **Milvus**: ベクトルデータベース（ポート 19530）
 - **etcd**: Milvus のメタデータストア
 - **MinIO**: Milvus のオブジェクトストレージ
 
+#### `docker-compose-docs.yml` ★NEW
+MkDocsドキュメントサーバーを起動するための Docker Compose 設定ファイルです。
+
+**含まれるサービス**:
+- **mkdocs**: ドキュメントサーバー（ポート 8001）
+
+#### `start-all.sh` / `start-all.bat` ★NEW
+Milvus環境とMkDocsドキュメントサーバーを一括起動するスクリプトです。
+
 **使用方法**:
 
 ```bash
+# すべてのサービスを起動
+cd setup
+./start-all.sh
+
+# 受講者に以下のURLを共有
+# http://<講師のIPアドレス>:8001
+```
+
+#### `stop-all.sh` / `stop-all.bat` ★NEW
+すべてのサービスを一括停止するスクリプトです。
+
+```bash
+# すべてのサービスを停止
+cd setup
+./stop-all.sh
+```
+
+### 個別起動（従来の方法）
+
+#### Milvusのみ起動
+```bash
 # 起動
-docker compose up -d
+docker compose -f docker-compose.yml up -d
 
 # 状態確認
-docker compose ps
+docker compose -f docker-compose.yml ps
 
 # 停止
-docker compose down
+docker compose -f docker-compose.yml down
+```
 
-# データも含めて削除
-docker compose down -v
+#### MkDocsドキュメントサーバーのみ起動
+```bash
+# 起動
+docker compose -f docker-compose-docs.yml up -d
+
+# 状態確認
+docker compose -f docker-compose-docs.yml ps
+
+# 停止
+docker compose -f docker-compose-docs.yml down
 ```
 
 ### `.env.example`

@@ -41,41 +41,56 @@ vector-search-handson/
 ### 講師の方
 
 #### 事前準備
-1. [講師向けガイド](docs/instructor/README.md)を参照
-2. [環境セットアップガイド](docs/instructor/setup-guide.md)に従って環境を準備
-3. Docker Desktop をインストール
-4. `setup/docker-compose.yml` で Milvus を起動
-5. watsonx.ai API キーを準備
-6. 受講者に接続情報を共有
+1. Docker Desktop をインストール
+2. watsonx.ai API キーを準備
+3. **すべてのサービスを一括起動**:
+   ```bash
+   cd setup
+   ./start-all.sh
+   ```
+   これで以下が起動します:
+   - Milvus（ポート 19530）
+   - MkDocsドキュメントサーバー（ポート 8001）
+
+4. **受講者に以下を共有**:
+   - Milvus接続情報（IPアドレス、ポート）
+   - watsonx.ai接続情報（API キー、プロジェクトID）
+   - **ドキュメントURL**: `http://<講師のIPアドレス>:8001`
 
 #### ハンズオン当日
 1. **[講師用実践手順書](docs/instructor-walkthrough.md)** を進行ガイドとして使用
 2. 各ステップの所要時間を確認しながら進行
 3. チェックリストで受講者の進捗を管理
 
+#### ハンズオン終了後
+```bash
+cd setup
+./stop-all.sh
+```
+
 ---
 
 ### 受講者の方
 
 #### 事前準備
-1. [受講者向けガイド](docs/participant/README.md)を参照
-2. **MkDocsドキュメントを開く（準備不要）:**
-   ```bash
-   cd docs/participant
-   ./serve-docs.sh  # macOS/Linux（推奨）
-   # または
-   serve-docs.bat   # Windows（推奨）
+1. IBM Bob IDE をインストール
+2. **講師から共有されたドキュメントURLにアクセス**:
    ```
-   ブラウザで http://localhost:8000 にアクセス
-
-3. [事前準備](docs/participant/docs/preparation.md)を完了
+   http://<講師のIPアドレス>:8001
+   ```
+3. ドキュメントの「事前準備」ページを参照
 4. 講師から提供された接続情報を受け取る
 5. IBM Bob IDE で `.env` ファイルを作成（`setup/.env.example` を参考）
 
 #### ハンズオン当日
-1. **MkDocsドキュメント** を見ながら進める
+1. **講師が共有したドキュメントURL** を見ながら進める
 2. 分からないことはドキュメントで確認
 3. 講師に質問しながら進める
+
+**メリット**:
+- ✅ インストール不要（ブラウザだけでOK）
+- ✅ ナビゲーション・検索機能が使える
+- ✅ 全員が同じバージョンのドキュメントを見られる
 
 ## 📖 詳細ドキュメント
 
