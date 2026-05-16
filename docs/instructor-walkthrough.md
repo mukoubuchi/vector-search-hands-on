@@ -119,7 +119,7 @@ inet 192.168.1.100 netmask 0xffffff00 broadcast 192.168.1.255
 【ベクトル検索ハンズオン 接続情報】
 
 ■ Milvus接続情報
-MILVUS_HOST=192.168.1.100
+MILVUS_HOST=`192.168.1.100`  ← 講師のIPアドレスに置き換え
 MILVUS_PORT=19530
 MILVUS_USER=root
 MILVUS_PASSWORD=Milvus
@@ -132,7 +132,7 @@ EMBEDDING_DIMENSION=384
 COLLECTION_NAME=knowledge_base
 
 ■ ドキュメントURL
-http://192.168.1.100:8001
+http://`192.168.1.100`:8001  ← 講師のIPアドレスに置き換え
 ```
 
 **実施結果**: ✅ 共有情報準備完了
@@ -242,7 +242,7 @@ Successfully installed pymilvus-2.3.4 sentence-transformers-2.2.2 python-dotenv-
    
    **講師から共有された接続情報をコピー＆ペースト**:
    ```env
-   MILVUS_HOST=192.168.1.100  # 講師のIPアドレス
+   MILVUS_HOST=`192.168.1.100`  # ← 講師のIPアドレスに置き換え
    MILVUS_PORT=19530
    MILVUS_USER=root
    MILVUS_PASSWORD=Milvus
@@ -272,13 +272,13 @@ Milvus & Hugging Face 接続テスト
 ==================================================
 
 === 環境変数確認 ===
-✓ MILVUS_HOST: 192.168.1.100
+✓ MILVUS_HOST: `192.168.1.100`  ← 講師のIPアドレス
 ✓ MILVUS_PORT: 19530
 ✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
 ✓ EMBEDDING_DIMENSION: 384
 
 === Milvus 接続テスト ===
-接続先: 192.168.1.100:19530
+接続先: `192.168.1.100`:19530
 ✓ Milvusに接続成功
 ✓ 既存コレクション数: 0
 
