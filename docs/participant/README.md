@@ -33,26 +33,22 @@ serve-docs.bat
 - ✅ 検索機能が使える
 - ✅ Pythonのみで動作（追加インストール不要）
 
-### 代替: ファイルとして直接開く
+### 代替: MkDocsをインストールして閲覧
 
-Pythonがない場合は、HTMLファイルを直接開くこともできます（一部機能が制限されます）。
+Pythonの簡易サーバーが使えない場合は、MkDocsをインストールして閲覧できます。
 
-**macOS / Linux:**
+**インストール:**
+```bash
+pip install mkdocs-material
+```
+
+**起動:**
 ```bash
 cd docs/participant
-./open-docs.sh
+mkdocs serve
 ```
 
-**Windows:**
-```cmd
-cd docs\participant
-open-docs.bat
-```
-
-**または手動で:**
-`docs/participant/site/index.html` をブラウザで開く
-
-**注意:** ファイルとして開いた場合、ナビゲーションリンクが正しく動作しない場合があります。
+ブラウザで http://localhost:8000 にアクセスしてドキュメントを閲覧できます。
 
 ## 📁 ファイル構成
 
@@ -62,12 +58,9 @@ docs/participant/
 ├── mkdocs.yml              # MkDocs設定ファイル
 ├── serve-docs.sh           # 簡易サーバー起動（macOS/Linux）★推奨
 ├── serve-docs.bat          # 簡易サーバー起動（Windows）★推奨
-├── open-docs.sh            # HTML直接開く（macOS/Linux）
-├── open-docs.bat           # HTML直接開く（Windows）
 ├── start-docs.sh           # MkDocsサーバー起動（開発者向け）
 ├── start-docs.bat          # MkDocsサーバー起動（開発者向け）
-├── site/                   # 生成済みHTMLファイル（受講者用）
-│   └── index.html          # ドキュメントのトップページ
+├── site/                   # MkDocsビルド結果（自動生成、Git管理外）
 └── docs/                   # Markdownソースファイル
     ├── index.md            # ハンズオン概要
     ├── preparation.md      # 事前準備

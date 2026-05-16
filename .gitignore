@@ -25,3 +25,18 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+
+# MkDocs build output
+docs/participant/site/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Made with Bob
