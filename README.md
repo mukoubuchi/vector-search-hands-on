@@ -7,7 +7,7 @@
 ```
 vector-search-handson/
 ├── docs/
-│   └── alternative-setup.md        # 講師向け詳細セットアップガイド
+│   └── setup-guide.md              # 講師向け詳細セットアップガイド
 ├── setup/
 │   ├── docker-compose.yml          # Milvus 環境設定（講師用）
 │   ├── .env.example                # 受講者向け接続設定テンプレート
@@ -19,7 +19,7 @@ vector-search-handson/
 
 ### 講師の方
 
-1. [`docs/alternative-setup.md`](docs/alternative-setup.md) の「講師側の準備」セクションを参照
+1. [`docs/setup-guide.md`](docs/setup-guide.md) の「講師側の準備」セクションを参照
 2. Docker Desktop をインストール
 3. `setup/docker-compose.yml` で Milvus を起動
 4. watsonx.ai API キーを準備
@@ -33,12 +33,12 @@ vector-search-handson/
 
 ## 📖 詳細ドキュメント
 
-- **講師向け**: [`docs/alternative-setup.md`](docs/alternative-setup.md)
-- **セットアップファイル**: [`setup/README.md`](setup/README.md)
+- **講師向けセットアップガイド**: [`docs/setup-guide.md`](docs/setup-guide.md)
+- **セットアップファイル説明**: [`setup/README.md`](setup/README.md)
 
 ## 🔄 TechZone への切り替え
 
-TechZone 環境が利用可能になった場合の切り替え手順は [`docs/alternative-setup.md`](docs/alternative-setup.md) の「TechZone 環境への切り替え」セクションを参照してください。
+TechZone 環境が利用可能になった場合の切り替え手順は [`docs/setup-guide.md`](docs/setup-guide.md) の「TechZone 環境への切り替え」セクションを参照してください。
 
 ## 📝 ライセンス
 

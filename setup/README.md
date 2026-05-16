@@ -1,6 +1,6 @@
 # Vector Search ハンズオン セットアップファイル
 
-このディレクトリには、TechZone 環境が利用できない場合の代替セットアップで使用するファイルが含まれています。
+このディレクトリには、講師が Milvus 環境を提供する際に使用するセットアップファイルが含まれています。
 
 ## 📋 ファイル一覧
 
@@ -208,7 +208,7 @@ open -a Docker
 
 ## 詳細なセットアップ手順
 
-詳細な手順は [`alternative-setup.md`](../docs/alternative-setup.md) を参照してください。
+詳細な手順は [`setup-guide.md`](../docs/setup-guide.md) を参照してください。
 
 ## トラブルシューティング
 
