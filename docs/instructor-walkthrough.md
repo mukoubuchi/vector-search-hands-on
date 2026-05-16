@@ -40,26 +40,131 @@
 
 ## 📋 目次
 
-1. [事前準備](#1-事前準備)
-2. [Part 1: 環境確認とデモ](#2-part-1-環境確認とデモ)
-3. [Part 2: IBM Bobで機能追加](#3-part-2-ibm-bobで機能追加)
-4. [Part 3: 動作確認とレビュー](#4-part-3-動作確認とレビュー)
-5. [まとめと振り返り](#5-まとめと振り返り)
-6. [トラブルシューティング](#6-トラブルシューティング)
+1. [事前準備（講師側）](#1-事前準備講師側)
+2. [受講者側の準備（講師がガイド）](#2-受講者側の準備講師がガイド)
+3. [Part 1: 環境確認とデモ（講師がガイド）](#3-part-1-環境確認とデモ講師がガイド)
+4. [Part 2: IBM Bobで機能追加（講師がガイド）](#4-part-2-ibm-bobで機能追加講師がガイド)
+5. [Part 3: 動作確認とレビュー（講師がガイド）](#5-part-3-動作確認とレビュー講師がガイド)
+6. [まとめと振り返り（講師がガイド）](#6-まとめと振り返り講師がガイド)
+7. [トラブルシューティング（講師用リファレンス）](#7-トラブルシューティング講師用リファレンス)
 
 ---
 
-## 1. 事前準備
+## 1. 事前準備（講師側）
 
-### 1.1 必要なもの
+### 1.1 講師が準備するもの
 
-✅ **確認済み**:
-- IBM Bob IDE（インストール済み）
-- Webブラウザ（Chrome推奨）
+✅ **必要な環境**:
+- Docker Desktop（インストール済み）
 - インターネット接続
-- 講師から配布された接続情報
+- 受講者と同じネットワーク（または受講者からアクセス可能なネットワーク）
 
-### 1.2 プロジェクトフォルダの準備
+### 1.2 Milvus環境の起動
+
+```bash
+cd setup
+./start-all.sh
+```
+
+**実行結果**:
+```
+Starting Milvus and MkDocs services...
+Creating network "setup_default" with the default driver
+Creating milvus-etcd ... done
+Creating milvus-minio ... done
+Creating milvus-standalone ... done
+Creating vector-search-docs ... done
+
+Services started successfully!
+
+Milvus is running on:
+  - Host: 0.0.0.0
+  - Port: 19530
+
+MkDocs documentation is available at:
+  - http://localhost:8001
+  - http://192.168.1.100:8001  (for participants)
+
+Your IP address: 192.168.1.100
+```
+
+**実施結果**: ✅ Milvus起動完了
+
+### 1.3 講師のIPアドレスの確認
+
+**macOS/Linux**:
+```bash
+ifconfig | grep "inet " | grep -v 127.0.0.1
+```
+
+**Windows**:
+```cmd
+ipconfig | findstr IPv4
+```
+
+**実行結果例**:
+```
+inet 192.168.1.100 netmask 0xffffff00 broadcast 192.168.1.255
+```
+
+**講師のIPアドレス**: `192.168.1.100` ← この値を受講者に共有
+
+**実施結果**: ✅ IPアドレス確認完了
+
+### 1.4 受講者への共有情報の準備
+
+受講者に以下の情報を共有します：
+
+```
+【ベクトル検索ハンズオン 接続情報】
+
+■ Milvus接続情報
+MILVUS_HOST=192.168.1.100
+MILVUS_PORT=19530
+MILVUS_USER=root
+MILVUS_PASSWORD=Milvus
+
+■ 埋め込みモデル設定
+EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
+EMBEDDING_DIMENSION=384
+
+■ コレクション設定
+COLLECTION_NAME=knowledge_base
+
+■ ドキュメントURL
+http://192.168.1.100:8001
+```
+
+**実施結果**: ✅ 共有情報準備完了
+
+### 1.5 接続テスト（講師側）
+
+講師自身の環境で接続テストを実行：
+
+```bash
+cd setup
+python test_embeddings_hf.py
+```
+
+**期待される出力**:
+```
+モデルをロード中: paraphrase-multilingual-MiniLM-L12-v2
+（初回実行時はモデルのダウンロードに時間がかかります）
+✓ モデルのロードに成功しました
+
+埋め込みを生成中...
+✓ 3件の埋め込みを生成しました
+✓ 埋め込みベクトルの次元数: 384
+✓ ベクトルの最初の5要素: [0.123, -0.456, 0.789, ...]
+```
+
+**実施結果**: ✅ 接続テスト成功
+
+---
+
+## 2. 受講者側の準備（講師がガイド）
+
+### 2.1 プロジェクトフォルダの準備
 
 ```bash
 # デスクトップに作業フォルダを作成
@@ -69,7 +174,7 @@ cd ~/Desktop/vector-search-handson
 
 **実施結果**: ✅ フォルダ作成完了
 
-### 1.3 Vector Search Builderモードのインストール
+### 2.2 Vector Search Builderモードのインストール（受講者が実施）
 
 1. **zipファイルの配置**
    - `vector-search-builder.zip`をプロジェクトフォルダにコピー
@@ -87,7 +192,7 @@ cd ~/Desktop/vector-search-handson
 
 **実施結果**: ✅ `.bob`フォルダ確認完了
 
-### 1.4 IBM BobでプロジェクトをOpen
+### 2.3 IBM BobでプロジェクトをOpen（受講者が実施）
 
 1. IBM Bob IDEを起動
 2. `File` → `Open Folder`
@@ -96,7 +201,29 @@ cd ~/Desktop/vector-search-handson
 
 **実施結果**: ✅ Vector Search Builderモードが表示される
 
-### 1.5 接続情報の設定
+### 2.4 必要なパッケージのインストール（受講者が実施）
+
+IBM Bob IDEのターミナルで実行：
+
+```bash
+cd setup
+pip install -r requirements.txt
+```
+
+**期待される出力**:
+```
+Collecting pymilvus>=2.3.0
+Collecting sentence-transformers>=2.2.0
+Collecting python-dotenv>=1.0.0
+...
+Successfully installed pymilvus-2.3.4 sentence-transformers-2.2.2 python-dotenv-1.0.0
+```
+
+**実施結果**: ✅ パッケージインストール完了
+
+### 2.5 接続情報の設定（受講者が実施）
+
+受講者に以下の手順を案内：
 
 1. **setupフォルダに移動**
    ```bash
@@ -113,7 +240,7 @@ cd ~/Desktop/vector-search-handson
    # IBM Bob IDEで setup/.env を開く
    ```
    
-   以下の情報を講師から受け取った値に置き換え:
+   **講師から共有された接続情報をコピー＆ペースト**:
    ```env
    MILVUS_HOST=192.168.1.100  # 講師のIPアドレス
    MILVUS_PORT=19530
@@ -131,7 +258,7 @@ cd ~/Desktop/vector-search-handson
 
 **実施結果**: ✅ 接続情報設定完了
 
-### 1.6 接続テストの実行
+### 2.6 接続テストの実行（受講者が実施）
 
 ```bash
 cd setup
@@ -141,37 +268,37 @@ python test_connection_simple.py
 **期待される出力**:
 ```
 ==================================================
-Milvus & Watsonx.ai 接続テスト（簡易版）
+Milvus & Hugging Face 接続テスト
 ==================================================
 
 === 環境変数確認 ===
 ✓ MILVUS_HOST: 192.168.1.100
 ✓ MILVUS_PORT: 19530
-✓ WATSONX_API_KEY: VIsJAKgc...
-✓ WATSONX_URL: https://us-south.ml.cloud.ibm.com
+✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
+✓ EMBEDDING_DIMENSION: 384
 
 === Milvus 接続テスト ===
 接続先: 192.168.1.100:19530
 ✓ Milvusに接続成功
 ✓ 既存コレクション数: 0
 
-=== Watsonx.ai 接続テスト（簡易版） ===
-接続先: https://us-south.ml.cloud.ibm.com
-API Key: VIsJAKgc...
+=== Hugging Face Embeddings テスト ===
+モデル: paraphrase-multilingual-MiniLM-L12-v2
 
-IAMトークンを取得中...
-✓ IAMトークン取得成功
+モデルをロード中...
+（初回実行時はモデルのダウンロードに時間がかかります）
+✓ モデルのロードに成功しました
 
-Embeddings APIをテスト中...
-✓ 埋め込みベクトル生成成功
-  次元数: 768
-  最初の5要素: [-0.047, 0.042, -0.003, 0.028, 0.047]
+埋め込みを生成中...
+✓ 3件の埋め込みを生成しました
+✓ 埋め込みベクトルの次元数: 384
+✓ ベクトルの最初の5要素: [0.123, -0.456, 0.789, -0.234, 0.567]
 
 ==================================================
 テスト結果サマリー
 ==================================================
-Milvus接続:     ✓ 成功
-Watsonx.ai接続: ✓ 成功
+Milvus接続:           ✓ 成功
+Hugging Face埋め込み: ✓ 成功
 
 ✓ すべての接続テストが成功しました！
 ```
@@ -182,9 +309,9 @@ Watsonx.ai接続: ✓ 成功
 
 ---
 
-## 2. Part 1: 環境確認とデモ
+## 3. Part 1: 環境確認とデモ（講師がガイド）
 
-### 2.1 Vector Searchの理解
+### 3.1 Vector Searchの理解（講師が説明）
 
 **学んだこと**:
 - Vector Searchは「意味」を理解して検索する
@@ -195,7 +322,7 @@ Watsonx.ai接続: ✓ 成功
 - 「赤いスニーカー」→「赤色のランニングシューズ」も見つかる
 - 「初心者向け」→「入門用」「ビギナー向け」も見つかる
 
-### 2.2 デモアプリケーションの起動
+### 3.2 デモアプリケーションの起動（受講者が実施）
 
 **方法1: IBM Bobに依頼（推奨）**
 
@@ -221,7 +348,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 **実施結果**: ✅ アプリケーション起動成功
 
-### 2.3 Swagger UIでの検索テスト
+### 3.3 Swagger UIでの検索テスト（受講者が実施）
 
 1. **ブラウザでSwagger UIを開く**
    ```
@@ -256,7 +383,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 **実施結果**: ✅ 検索成功
 
-### 2.4 色々な検索を試す
+### 3.4 色々な検索を試す（受講者が実施）
 
 **テスト1: 初心者向けの商品**
 ```json
@@ -283,16 +410,16 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ---
 
-## 3. Part 2: IBM Bobで機能追加
+## 4. Part 2: IBM Bobで機能追加（講師がガイド）
 
-### 3.1 Codeモードへの切り替え
+### 4.1 Codeモードへの切り替え（受講者が実施）
 
 1. 画面右下の「Mode」セレクターをクリック
 2. 「💻 Code」を選択
 
 **実施結果**: ✅ Codeモードに切り替え完了
 
-### 3.2 機能1: 商品画像の表示
+### 4.2 機能1: 商品画像の表示（受講者が実施）
 
 **IBM Bobへの指示**:
 ```
@@ -322,7 +449,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 **所要時間**: 約7分
 
-### 3.3 機能2: 価格フィルター
+### 4.3 機能2: 価格フィルター（受講者が実施）
 
 **IBM Bobへの指示**:
 ```
@@ -355,7 +482,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 **所要時間**: 約7分
 
-### 3.4 機能3: レコメンド理由の表示
+### 4.4 機能3: レコメンド理由の表示（受講者が実施）
 
 **IBM Bobへの指示**:
 ```
@@ -393,7 +520,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 **所要時間**: 約6分
 
-### 3.5 IBM Bob活用のコツ
+### 4.5 IBM Bob活用のコツ（講師が説明）
 
 **学んだこと**:
 - ✅ 具体的に指示する
@@ -405,9 +532,9 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ---
 
-## 4. Part 3: 動作確認とレビュー
+## 5. Part 3: 動作確認とレビュー（講師がガイド）
 
-### 4.1 追加機能の総合テスト
+### 5.1 追加機能の総合テスト（受講者が実施）
 
 **テスト1: 商品画像の表示**
 ```json
@@ -441,7 +568,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 **実施結果**: ✅ すべての機能が正常に動作
 
-### 4.2 IBM Bobのコードレビュー
+### 5.2 IBM Bobのコードレビュー（受講者が実施）
 
 1. **`app.py`を開く**
    - 左側のファイルツリーから選択
@@ -470,9 +597,9 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ---
 
-## 5. まとめと振り返り
+## 6. まとめと振り返り（講師がガイド）
 
-### 5.1 学んだこと
+### 6.1 学んだこと（講師が説明）
 
 **Vector Searchの理解**:
 - ✅ 意味を理解して検索する技術
@@ -489,7 +616,7 @@ INFO:     Uvicorn running on http://localhost:8000
 - ✅ 価格フィルター
 - ✅ レコメンド理由の表示
 
-### 5.2 業務での活用方法
+### 6.2 業務での活用方法（講師が説明）
 
 **営業・セールス**:
 - 顧客へのデモができる
@@ -501,7 +628,7 @@ INFO:     Uvicorn running on http://localhost:8000
 - 開発効率が向上
 - ベストプラクティスを学べる
 
-### 5.3 次のステップ
+### 6.3 次のステップ（講師が説明）
 
 **さらに学びたい方へ**:
 - Building Blocksの他の機能（Text2SQL、Agent Builder）
@@ -512,9 +639,9 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ---
 
-## 6. トラブルシューティング
+## 7. トラブルシューティング（講師用リファレンス）
 
-### 6.1 接続テストが失敗する
+### 7.1 接続テストが失敗する
 
 **症状**: `Connection refused`エラー
 
@@ -523,7 +650,7 @@ INFO:     Uvicorn running on http://localhost:8000
 2. Milvusサーバーが起動しているか講師に確認
 3. ファイアウォール設定を確認
 
-### 6.2 Swagger UIが開けない
+### 7.2 Swagger UIが開けない
 
 **症状**: `http://localhost:8000/docs`にアクセスできない
 
@@ -535,7 +662,7 @@ INFO:     Uvicorn running on http://localhost:8000
    lsof -i :8000
    ```
 
-### 6.3 IBM Bobが応答しない
+### 7.3 IBM Bobが応答しない
 
 **症状**: チャットに入力しても反応がない
 
@@ -544,7 +671,7 @@ INFO:     Uvicorn running on http://localhost:8000
 2. IBM Bobを再起動
 3. Codeモードになっているか確認
 
-### 6.4 検索結果が0件
+### 7.4 検索結果が0件
 
 **症状**: 検索しても結果が返ってこない
 
@@ -568,9 +695,16 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ---
 
-## 🎯 チェックリスト
+## 🎯 講師用チェックリスト
 
-### 事前準備
+### 講師側の事前準備
+- [ ] Docker Desktopをインストールした
+- [ ] Milvus環境を起動した（`./start-all.sh`）
+- [ ] 講師のIPアドレスを確認した
+- [ ] 受講者への共有情報を準備した
+- [ ] 講師側で接続テストを実施した（`test_embeddings_hf.py`）
+
+### 受講者側の準備（講師がガイド）
 - [ ] IBM Bob IDEをインストールした
 - [ ] プロジェクトフォルダを作成した
 - [ ] Vector Search Builderをインストールした
@@ -630,6 +764,76 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ---
 
-**作成日**: 2026-05-17  
-**作成者**: 受講者視点での実践記録  
-**バージョン**: 1.0
+**作成日**: 2026-05-17
+**作成者**: 講師用ガイド（Hugging Face Transformers版）
+**バージョン**: 2.0 (Hugging Face Transformers対応)
+
+---
+
+## 📝 講師用補足情報
+
+### Milvusのデフォルト認証情報
+
+`setup/docker-compose.yml`で定義されているデフォルト値：
+
+```yaml
+MILVUS_USER: root
+MILVUS_PASSWORD: Milvus
+```
+
+これらの値は受講者に共有する接続情報に含まれます。
+
+### IPアドレスの確認方法
+
+**macOS/Linux**:
+```bash
+ifconfig | grep "inet " | grep -v 127.0.0.1
+# または
+ip addr show | grep "inet " | grep -v 127.0.0.1
+```
+
+**Windows**:
+```cmd
+ipconfig | findstr IPv4
+```
+
+**start-all.shの出力から**:
+```bash
+cd setup
+./start-all.sh
+# 最後に表示される "Your IP address: 192.168.1.100" を確認
+```
+
+### 埋め込みモデルについて
+
+**使用モデル**: `paraphrase-multilingual-MiniLM-L12-v2`
+
+**特徴**:
+- 多言語対応（日本語含む）
+- 384次元のベクトル
+- 軽量で高速
+- 無料で使用可能（Hugging Faceから自動ダウンロード）
+
+**初回実行時の注意**:
+- モデルのダウンロードに時間がかかる（約200MB）
+- インターネット接続が必要
+- ダウンロード後はローカルキャッシュから読み込まれる
+
+### 受講者への事前連絡事項
+
+ハンズオン開始前に受講者に以下を連絡：
+
+1. **必要なソフトウェア**
+   - IBM Bob IDE（最新版）
+   - Webブラウザ（Chrome推奨）
+
+2. **ネットワーク要件**
+   - 講師と同じネットワークに接続
+   - インターネット接続（初回のみモデルダウンロード）
+
+3. **配布物**
+   - `vector-search-builder.zip`
+   - 接続情報（当日配布）
+
+4. **所要時間**
+   - 約65分（休憩含まず）
