@@ -29,8 +29,18 @@ vector-search-handson/
 
 ## 🚀 クイックスタート
 
+### 📚 ドキュメントの使い分け
+
+| 対象者 | 使用するドキュメント | 特徴 |
+|--------|---------------------|------|
+| **受講者（初心者）** | [MkDocsドキュメント](docs/participant/README.md) | 詳しい説明・Web形式 |
+| **講師・経験者** | [講師用実践手順書](INSTRUCTOR_WALKTHROUGH.md) | 簡潔な手順・進行ガイド |
+
+---
+
 ### 講師の方
 
+#### 事前準備
 1. [講師向けガイド](docs/instructor/README.md)を参照
 2. [環境セットアップガイド](docs/instructor/setup-guide.md)に従って環境を準備
 3. Docker Desktop をインストール
@@ -38,20 +48,34 @@ vector-search-handson/
 5. watsonx.ai API キーを準備
 6. 受講者に接続情報を共有
 
+#### ハンズオン当日
+1. **[講師用実践手順書](INSTRUCTOR_WALKTHROUGH.md)** を進行ガイドとして使用
+2. 各ステップの所要時間を確認しながら進行
+3. チェックリストで受講者の進捗を管理
+
+---
+
 ### 受講者の方
 
+#### 事前準備
 1. [受講者向けガイド](docs/participant/README.md)を参照
-2. **ドキュメントを開く（準備不要）:**
+2. **MkDocsドキュメントを開く（準備不要）:**
    ```bash
    cd docs/participant
-   ./open-docs.sh  # macOS/Linux
+   ./serve-docs.sh  # macOS/Linux（推奨）
    # または
-   open-docs.bat   # Windows
+   serve-docs.bat   # Windows（推奨）
    ```
+   ブラウザで http://localhost:8000 にアクセス
+
 3. [事前準備](docs/participant/docs/preparation.md)を完了
 4. 講師から提供された接続情報を受け取る
 5. IBM Bob IDE で `.env` ファイルを作成（`setup/.env.example` を参考）
-6. ハンズオンを開始
+
+#### ハンズオン当日
+1. **MkDocsドキュメント** を見ながら進める
+2. 分からないことはドキュメントで確認
+3. 講師に質問しながら進める
 
 ## 📖 詳細ドキュメント
 
