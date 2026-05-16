@@ -184,8 +184,8 @@
 
 - [Building Blocks ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
 - [IBM Bob ドキュメント](https://bob.ibm.com/docs)
-- [watsonx.data ドキュメント](https://www.ibm.com/docs/en/watsonx/watsonxdata)
-- [watsonx.ai ドキュメント](https://www.ibm.com/docs/en/watsonx-as-a-service)
+- [Hugging Face Transformers ドキュメント](https://huggingface.co/docs/transformers)
+- [Sentence Transformers ドキュメント](https://www.sbert.net/)
 
 ### コミュニティ
 

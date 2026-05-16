@@ -117,12 +117,13 @@ cd ~/Desktop/vector-search-handson
    ```env
    MILVUS_HOST=192.168.1.100  # 講師のIPアドレス
    MILVUS_PORT=19530
+   MILVUS_USER=root
+   MILVUS_PASSWORD=Milvus
    
-   WATSONX_API_KEY=YOUR_API_KEY_HERE
-   WATSONX_PROJECT_ID=YOUR_PROJECT_ID_HERE
-   WATSONX_URL=https://us-south.ml.cloud.ibm.com
+   EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
+   EMBEDDING_DIMENSION=384
    
-   EMBEDDING_MODEL=ibm/granite-embedding-278m-multilingual
+   COLLECTION_NAME=knowledge_base
    ```
 
 4. **IBM Bobをリロード**
@@ -624,7 +625,8 @@ INFO:     Uvicorn running on http://localhost:8000
 - [Building Blocks ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
 - [IBM Bob ドキュメント](https://bob.ibm.com/docs)
 - [Milvus ドキュメント](https://milvus.io/docs)
-- [watsonx.ai ドキュメント](https://www.ibm.com/docs/en/watsonx-as-a-service)
+- [Hugging Face Transformers ドキュメント](https://huggingface.co/docs/transformers)
+- [Sentence Transformers ドキュメント](https://www.sbert.net/)
 
 ---
 

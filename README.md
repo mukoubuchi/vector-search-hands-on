@@ -2,6 +2,20 @@
 
 講師が Milvus 環境を提供し、受講者は IBM Bob IDE のみで参加できるハンズオン環境です。
 
+## ✨ 主な特徴
+
+### 🎯 受講者にとって
+- ✅ **APIキー不要** - Hugging Face Transformersを使用（完全無料）
+- ✅ **環境構築不要** - IBM Bob IDEだけでOK
+- ✅ **オフライン対応** - モデルダウンロード後はネット不要
+- ✅ **段階的学習** - 実践手順書で迷わず進められる
+
+### 👨‍🏫 講師にとって
+- ✅ **一元管理** - Milvus + MkDocsをDocker Composeで提供
+- ✅ **コスト削減** - 受講者のAPI利用料金が不要
+- ✅ **簡単セットアップ** - `./start-all.sh`で全サービス起動
+- ✅ **柔軟な運用** - Watsonx.ai版への切り替えも可能（git checkout）
+
 ## 📁 ディレクトリ構造
 
 ```
@@ -49,8 +63,7 @@ vector-search-handson/
 
 #### 事前準備
 1. Docker Desktop をインストール
-2. watsonx.ai API キーを準備
-3. **すべてのサービスを一括起動**:
+2. **すべてのサービスを一括起動**:
    ```bash
    cd setup
    ./start-all.sh
@@ -59,10 +72,10 @@ vector-search-handson/
    - Milvus（ポート 19530）
    - MkDocsドキュメントサーバー（ポート 8001）
 
-4. **受講者に以下を共有**:
-   - Milvus接続情報（IPアドレス、ポート）
-   - watsonx.ai接続情報（API キー、プロジェクトID）
+3. **受講者に以下を共有**:
+   - Milvus接続情報（IPアドレス、ポート、認証情報）
    - **ドキュメントURL**: `http://<講師のIPアドレス>:8001`
+   - **重要**: Watsonx.ai APIキーは不要（Hugging Face Transformersを使用）
 
 #### ハンズオン当日
 1. **[講師用実践手順書](docs/instructor-walkthrough.md)** を進行ガイドとして使用

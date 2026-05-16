@@ -136,46 +136,44 @@ python test_connection_simple.py
 
 ```
 ==================================================
-Milvus & Watsonx.ai 接続テスト（簡易版）
+Milvus & 埋め込みモデル 接続テスト
 ==================================================
 
 === 環境変数確認 ===
 ✓ MILVUS_HOST: localhost
 ✓ MILVUS_PORT: 19530
-✓ WATSONX_API_KEY: VIsJAKgc...
-✓ WATSONX_URL: https://jp-tok.ml.cloud.ibm.com
+✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
+✓ EMBEDDING_DIMENSION: 384
 
 === Milvus 接続テスト ===
 接続先: localhost:19530
 ✓ Milvusに接続成功
 ✓ 既存コレクション数: 0
 
-=== Watsonx.ai 接続テスト（簡易版） ===
-接続先: https://jp-tok.ml.cloud.ibm.com
-API Key: VIsJAKgc...
+=== 埋め込みモデル テスト ===
+モデル: paraphrase-multilingual-MiniLM-L12-v2
+モデルをロード中...
+✓ モデルのロードに成功しました
 
-IAMトークンを取得中...
-✓ IAMトークン取得成功
-
-Embeddings APIをテスト中...
+埋め込みを生成中...
 ✓ 埋め込みベクトル生成成功
-  次元数: 768
+  次元数: 384
   最初の5要素: [-0.047, 0.042, -0.003, 0.028, 0.047]
 
 ==================================================
 テスト結果サマリー
 ==================================================
-Milvus接続:     ✓ 成功
-Watsonx.ai接続: ✓ 成功
+Milvus接続:        ✓ 成功
+埋め込みモデル:    ✓ 成功
 
 ✓ すべての接続テストが成功しました！
 ```
 
 **これは何？**:
 - **Milvus**: ベクトルデータベース（データを保存する場所）
-- **watsonx.ai**: AI埋め込みモデル（テキストをベクトルに変換）
+- **埋め込みモデル**: Hugging Face Transformers（テキストをベクトルに変換）
 - **埋め込みベクトル**: テキストを数値に変換したもの
-- **次元数 768**: 768個の数値で意味を表現
+- **次元数 384**: 384個の数値で意味を表現
 
 #### ❌ 失敗の場合
 

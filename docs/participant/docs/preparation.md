@@ -109,10 +109,11 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
 - **役割**: ベクトルデータを保存・検索するデータベース
 - **接続情報**: 講師から配布されます
 
-#### watsonx.ai（AI埋め込みモデル）
+#### 埋め込みモデル（Hugging Face Transformers）
 
 - **役割**: テキストをベクトル（数値の配列）に変換
-- **接続情報**: 講師から配布されます
+- **特徴**: APIキー不要、無料で使用可能
+- **モデル**: paraphrase-multilingual-MiniLM-L12-v2（多言語対応、384次元）
 
 #### 接続情報の設定方法
 
@@ -131,13 +132,15 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
    # Milvus接続情報
    MILVUS_HOST=（講師から配布されたホスト名）
    MILVUS_PORT=19530
+   MILVUS_USER=（講師から配布されたユーザー名）
+   MILVUS_PASSWORD=（講師から配布されたパスワード）
    
-   # watsonx.ai接続情報
-   WATSONX_API_KEY=（講師から配布されたAPIキー）
-   WATSONX_PROJECT_ID=（講師から配布されたプロジェクトID）
-   WATSONX_URL=（講師から配布されたURL）
+   # Embedding モデル設定（Hugging Face Transformers）
+   EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
+   EMBEDDING_DIMENSION=384
    
-   # Embeddingモデル
+   # コレクション設定
+   COLLECTION_NAME=knowledge_base
    EMBEDDING_MODEL=ibm/granite-embedding-278m-multilingual
    ```
 

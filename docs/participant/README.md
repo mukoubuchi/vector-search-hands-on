@@ -4,7 +4,7 @@
 
 ## 📚 概要
 
-IBM Bob × Milvus × watsonx.ai を使ったベクトル検索（セマンティック検索）の実践的なハンズオンです。
+IBM Bob × Milvus × Hugging Face Transformers を使ったベクトル検索（セマンティック検索）の実践的なハンズオンです。
 
 ## 🚀 ドキュメントの閲覧方法（準備不要！）
 
@@ -115,4 +115,5 @@ docs/participant/
 
 - [IBM Bob ドキュメント](https://ibm.github.io/ibm-bob/)
 - [Milvus ドキュメント](https://milvus.io/docs)
-- [watsonx.ai ドキュメント](https://www.ibm.com/docs/en/watsonx-as-a-service)
+- [Hugging Face Transformers ドキュメント](https://huggingface.co/docs/transformers)
+- [Sentence Transformers ドキュメント](https://www.sbert.net/)

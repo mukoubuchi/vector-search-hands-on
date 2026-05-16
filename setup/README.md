@@ -85,7 +85,7 @@ docker compose -f docker-compose-docs.yml down
 
 ### `test_connection.py`
 
-Milvus と Watsonx.ai への接続をテストするスクリプトです。
+Milvus と埋め込みモデルへの接続をテストするスクリプトです。
 
 ## 🚀 クイックスタート（受講者向け）
 
@@ -100,8 +100,8 @@ cp .env.example .env
 
 # .env ファイルを編集して、講師から配布された情報を入力
 # - MILVUS_HOST: Milvus サーバーのIPアドレス
-# - WATSONX_API_KEY: IBM Cloud API キー
-# - WATSONX_PROJECT_ID: Watsonx プロジェクトID
+# - MILVUS_USER: Milvusユーザー名
+# - MILVUS_PASSWORD: Milvusパスワード
 ```
 
 ### 2. Python パッケージのインストール
@@ -126,36 +126,35 @@ python test_connection.py
 
 ```
 ==================================================
-Milvus & Watsonx.ai 接続テスト
+Milvus & 埋め込みモデル 接続テスト
 ==================================================
 
 === 環境変数確認 ===
 ✓ MILVUS_HOST: 192.168.1.100
 ✓ MILVUS_PORT: 19530
-✓ WATSONX_API_KEY: xxxxxxxx...
-✓ WATSONX_PROJECT_ID: xxxxxxxx...
-✓ WATSONX_URL: https://us-south.ml.cloud.ibm.com
+✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
+✓ EMBEDDING_DIMENSION: 384
 
 === Milvus 接続テスト ===
 接続先: 192.168.1.100:19530
 ✓ Milvusに接続成功
 ✓ 既存コレクション数: 0
 
-=== Watsonx.ai 接続テスト ===
-接続先: https://us-south.ml.cloud.ibm.com
-Project ID: xxxxxxxx...
-✓ Watsonx.aiに接続成功
+=== 埋め込みモデル テスト ===
+モデル: paraphrase-multilingual-MiniLM-L12-v2
+モデルをロード中...
+✓ モデルのロードに成功しました
 
 テスト埋め込み生成: 'これはテストです'
 ✓ 埋め込みベクトル生成成功
-  次元数: 768
+  次元数: 384
   最初の5要素: [0.123, -0.456, 0.789, ...]
 
 ==================================================
 テスト結果サマリー
 ==================================================
-Milvus接続:     ✓ 成功
-Watsonx.ai接続: ✓ 成功
+Milvus接続:        ✓ 成功
+埋め込みモデル:    ✓ 成功
 
 ✓ すべての接続テストが成功しました！
   次のステップ: ベクトルコレクションの作成
@@ -174,10 +173,10 @@ Watsonx.ai接続: ✓ 成功
 - MILVUS_HOST が間違っている → `.env` ファイルを確認
 - ファイアウォールでブロックされている → ネットワーク設定を確認
 
-#### Watsonx.ai 接続エラー
+#### 埋め込みモデル エラー
 
 ```
-✗ Watsonx.ai接続エラー: Invalid API key
+✗ モデルのロードに失敗しました
 ```
 
 **原因と対処法**:

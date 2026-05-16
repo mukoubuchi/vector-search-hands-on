@@ -2,12 +2,12 @@
 
 ## 概要
 
-このハンズオンでは、IBM Watsonx.aiの埋め込みモデルとMilvusベクトルデータベースを使用して、セマンティック検索システムを構築します。
+このハンズオンでは、Hugging Face Transformersの埋め込みモデルとMilvusベクトルデータベースを使用して、セマンティック検索システムを構築します。
 
 ## 前提条件
 
 - **IBM Bob IDE** - コード実行環境
-- **インターネット接続** - Milvus/Watsonx.aiへの接続用
+- **インターネット接続** - Milvusへの接続とモデルダウンロード用
 - **ブラウザ** - ドキュメント閲覧用（オプション）
 - **講師から提供される接続情報**
 
@@ -652,7 +652,7 @@ interactive_search.pyを実行してください
    - ベクトルデータの投入
 
 2. **埋め込みモデルの活用**
-   - IBM Watsonx.aiの埋め込みモデル
+   - Hugging Face Transformersの埋め込みモデル
    - テキストのベクトル化
    - バッチ処理による効率化
 
@@ -698,7 +698,8 @@ interactive_search.pyを実行してください
 ### リソース
 
 - [Milvus公式ドキュメント](https://milvus.io/docs)
-- [IBM Watsonx.ai ドキュメント](https://www.ibm.com/docs/en/watsonx-as-a-service)
+- [Hugging Face Transformers ドキュメント](https://huggingface.co/docs/transformers)
+- [Sentence Transformers ドキュメント](https://www.sbert.net/)
 - [ベクトル検索のベストプラクティス](https://milvus.io/docs/performance_faq.md)
 
 ## 質問とフィードバック
