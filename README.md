@@ -13,14 +13,20 @@ vector-search-handson/
 │   │   └── setup-guide.md          # 環境セットアップガイド
 │   └── participant/                # 受講者向けドキュメント
 │       ├── README.md               # 受講者向けガイド
-│       ├── index.md                # ハンズオン概要
-│       ├── preparation.md          # 事前準備
-│       ├── part1.md                # Part 1: 基本的なベクトル検索
-│       ├── part2.md                # Part 2: 高度な検索機能
-│       ├── part3.md                # Part 3: 実践的な応用
-│       └── summary.md              # まとめ
+│       ├── hands-on-procedure.md   # 受講者用実践手順書（新規）
+│       ├── mkdocs.yml              # MkDocs設定
+│       └── docs/                   # MkDocsコンテンツ
+│           ├── index.md            # ハンズオン概要
+│           ├── preparation.md      # 事前準備
+│           ├── part1.md            # Part 1: 基本的なベクトル検索
+│           ├── part2.md            # Part 2: 高度な検索機能
+│           ├── part3.md            # Part 3: 実践的な応用
+│           └── summary.md          # まとめ
 ├── setup/
 │   ├── docker-compose.yml          # Milvus 環境設定（講師用）
+│   ├── docker-compose-docs.yml     # MkDocsサーバー設定（講師用）
+│   ├── start-all.sh                # 全サービス起動スクリプト
+│   ├── stop-all.sh                 # 全サービス停止スクリプト
 │   ├── .env.example                # 受講者向け接続設定テンプレート
 │   ├── test_connection.py          # 接続テストスクリプト
 │   └── README.md                   # セットアップファイル説明
@@ -33,7 +39,8 @@ vector-search-handson/
 
 | 対象者 | 使用するドキュメント | 特徴 |
 |--------|---------------------|------|
-| **受講者（初心者）** | [MkDocsドキュメント](docs/participant/README.md) | 詳しい説明・Web形式 |
+| **受講者（初心者）** | [受講者用実践手順書](docs/participant/hands-on-procedure.md) | 段階的な実践手順・コード例付き |
+| **受講者（Web版）** | MkDocsドキュメント（講師がホスト） | 詳しい説明・ナビゲーション・検索機能 |
 | **講師・経験者** | [講師用実践手順書](docs/instructor-walkthrough.md) | 簡潔な手順・進行ガイド |
 
 ---
@@ -72,25 +79,55 @@ cd setup
 
 ### 受講者の方
 
-#### 事前準備
-1. IBM Bob IDE をインストール
-2. **講師から共有されたドキュメントURLにアクセス**:
+#### ✅ 必要なもの
+
+**IBM Bob IDE + ネット環境だけでOK！**
+- ✅ IBM Bob IDE（コード実行環境）
+- ✅ インターネット接続
+- ✅ ブラウザ（ドキュメント閲覧用、オプション）
+
+**不要なもの:**
+- ❌ ローカルへのPythonインストール
+- ❌ パッケージの手動インストール
+- ❌ 複雑な環境構築
+
+#### 📖 2つの学習方法
+
+**方法1: 実践手順書で学ぶ（推奨）**
+1. [受講者用実践手順書](docs/participant/hands-on-procedure.md)を開く
+2. IBM Bob IDEに指示を出してコードを作成・実行
+3. 各ステップの期待される出力を確認
+
+**方法2: Webドキュメントで学ぶ**
+1. **講師から共有されたドキュメントURLにアクセス**:
    ```
    http://<講師のIPアドレス>:8001
    ```
-3. ドキュメントの「事前準備」ページを参照
-4. 講師から提供された接続情報を受け取る
-5. IBM Bob IDE で `.env` ファイルを作成（`setup/.env.example` を参考）
+2. ナビゲーションと検索機能を活用
+3. 詳しい説明を参照しながら進める
+
+#### 事前準備
+1. IBM Bob IDEを起動
+2. 講師から提供された接続情報を受け取る:
+   - Milvus接続情報（IPアドレス、ポート、認証情報）
+   - watsonx.ai接続情報（API キー、プロジェクトID）
+3. Bob IDEで環境セットアップ（Bobが自動実行）
 
 #### ハンズオン当日
-1. **講師が共有したドキュメントURL** を見ながら進める
-2. 分からないことはドキュメントで確認
-3. 講師に質問しながら進める
+1. **実践手順書**または**Webドキュメント**を見ながら進める
+2. 各Partのコードを実行し、動作を確認
+3. 分からないことは講師に質問
 
-**メリット**:
-- ✅ インストール不要（ブラウザだけでOK）
+**実践手順書のメリット**:
+- ✅ 完全なコード例が含まれている
+- ✅ 期待される出力が明示されている
+- ✅ トラブルシューティングガイド付き
+- ✅ オフラインでも参照可能
+
+**Webドキュメントのメリット**:
 - ✅ ナビゲーション・検索機能が使える
-- ✅ 全員が同じバージョンのドキュメントを見られる
+- ✅ 全員が同じバージョンを見られる
+- ✅ 詳しい説明と図解
 
 ## 📖 詳細ドキュメント
 
@@ -100,13 +137,15 @@ cd setup
 - [セットアップファイル説明](setup/README.md)
 
 ### 受講者向け
+- **[受講者用実践手順書](docs/participant/hands-on-procedure.md)** ⭐ 推奨
 - [受講者向けガイド](docs/participant/README.md)
-- [ハンズオン概要](docs/participant/index.md)
-- [事前準備](docs/participant/preparation.md)
-- [Part 1: 基本的なベクトル検索](docs/participant/part1.md)
-- [Part 2: 高度な検索機能](docs/participant/part2.md)
-- [Part 3: 実践的な応用](docs/participant/part3.md)
-- [まとめ](docs/participant/summary.md)
+- MkDocsドキュメント（講師がホスト）:
+  - [ハンズオン概要](docs/participant/docs/index.md)
+  - [事前準備](docs/participant/docs/preparation.md)
+  - [Part 1: 基本的なベクトル検索](docs/participant/docs/part1.md)
+  - [Part 2: 高度な検索機能](docs/participant/docs/part2.md)
+  - [Part 3: 実践的な応用](docs/participant/docs/part3.md)
+  - [まとめ](docs/participant/docs/summary.md)
 
 ## 📝 ライセンス
 
