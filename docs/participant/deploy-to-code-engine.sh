@@ -41,7 +41,30 @@ if ! ibmcloud target &> /dev/null; then
 fi
 echo -e "${GREEN}✓ IBM Cloudにログイン済み${NC}"
 
-# 3. Code Engineプラグインの確認
+# 3. リソースグループの設定
+echo -e "\n${YELLOW}3. リソースグループを設定中...${NC}"
+RESOURCE_GROUP="${RESOURCE_GROUP:-}"
+
+if [ -z "$RESOURCE_GROUP" ]; then
+    # リソースグループが指定されていない場合、利用可能なものを確認
+    echo -e "${YELLOW}利用可能なリソースグループを確認中...${NC}"
+    RESOURCE_GROUPS=$(ibmcloud resource groups --output json 2>/dev/null | grep -o '"name":"[^"]*' | cut -d'"' -f4)
+    
+    if [ -n "$RESOURCE_GROUPS" ]; then
+        # 最初のリソースグループを使用
+        RESOURCE_GROUP=$(echo "$RESOURCE_GROUPS" | head -n 1)
+        echo -e "${YELLOW}リソースグループ '$RESOURCE_GROUP' を使用します${NC}"
+    fi
+fi
+
+if [ -n "$RESOURCE_GROUP" ]; then
+    ibmcloud target -g "$RESOURCE_GROUP" > /dev/null 2>&1
+    echo -e "${GREEN}✓ リソースグループ: $RESOURCE_GROUP${NC}"
+else
+    echo -e "${YELLOW}⚠ リソースグループが設定されていません（デフォルトを使用）${NC}"
+fi
+
+# 4. Code Engineプラグインの確認
 echo -e "\n${YELLOW}3. Code Engineプラグインを確認中...${NC}"
 if ! ibmcloud plugin show code-engine &> /dev/null; then
     echo -e "${YELLOW}Code Engineプラグインをインストール中...${NC}"
@@ -49,8 +72,8 @@ if ! ibmcloud plugin show code-engine &> /dev/null; then
 fi
 echo -e "${GREEN}✓ Code Engineプラグイン${NC}"
 
-# 4. プロジェクト設定
-echo -e "\n${YELLOW}4. Code Engineプロジェクトを設定中...${NC}"
+# 5. プロジェクト設定
+echo -e "\n${YELLOW}5. Code Engineプロジェクトを設定中...${NC}"
 PROJECT_NAME="${CODE_ENGINE_PROJECT:-vector-search-docs}"
 
 # プロジェクトが存在するか確認
@@ -64,8 +87,8 @@ fi
 # プロジェクトを選択
 ibmcloud ce project select --name "$PROJECT_NAME"
 
-# 5. Container Registryの設定
-echo -e "\n${YELLOW}5. Container Registryを設定中...${NC}"
+# 6. Container Registryの設定
+echo -e "\n${YELLOW}6. Container Registryを設定中...${NC}"
 REGISTRY_NAMESPACE="${REGISTRY_NAMESPACE:-vector-search}"
 IMAGE_NAME="mkdocs-docs"
 IMAGE_TAG="latest"
@@ -82,16 +105,16 @@ fi
 FULL_IMAGE_NAME="jp.icr.io/$REGISTRY_NAMESPACE/$IMAGE_NAME:$IMAGE_TAG"
 echo -e "${GREEN}✓ イメージ名: $FULL_IMAGE_NAME${NC}"
 
-# 6. Dockerイメージのビルド
-echo -e "\n${YELLOW}6. Dockerイメージをビルド中...${NC}"
+# 7. Dockerイメージのビルド
+echo -e "\n${YELLOW}7. Dockerイメージをビルド中...${NC}"
 docker build -t "$FULL_IMAGE_NAME" .
 
-# 7. イメージをプッシュ
-echo -e "\n${YELLOW}7. イメージをContainer Registryにプッシュ中...${NC}"
+# 8. イメージをプッシュ
+echo -e "\n${YELLOW}8. イメージをContainer Registryにプッシュ中...${NC}"
 docker push "$FULL_IMAGE_NAME"
 
-# 8. Code Engineアプリケーションのデプロイ
-echo -e "\n${YELLOW}8. Code Engineアプリケーションをデプロイ中...${NC}"
+# 9. Code Engineアプリケーションのデプロイ
+echo -e "\n${YELLOW}9. Code Engineアプリケーションをデプロイ中...${NC}"
 APP_NAME="mkdocs-docs"
 
 # アプリケーションが存在するか確認
@@ -115,8 +138,8 @@ else
         --memory 0.5G
 fi
 
-# 9. アプリケーションURLの取得
-echo -e "\n${YELLOW}9. アプリケーションURLを取得中...${NC}"
+# 10. アプリケーションURLの取得
+echo -e "\n${YELLOW}10. アプリケーションURLを取得中...${NC}"
 APP_URL=$(ibmcloud ce app get --name "$APP_NAME" --output json | grep -o '"url":"[^"]*' | cut -d'"' -f4)
 
 echo ""
