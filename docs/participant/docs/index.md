@@ -3,12 +3,16 @@
 このハンズオンでは、IBM Bobを使って「意味で検索する」機能（Vector Search）を体験します。
 
 !!! info "📖 このドキュメントについて"
-    このドキュメントは以下のURLでアクセスできます：
+    このドキュメントは以下の方法でアクセスできます：
     
-    - **オンライン版（推奨）**: [https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud](https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud)
+    - **オンライン版（推奨）**: 講師から共有されたCode Engine URL
     - **ローカル版**: 講師から共有されたIPアドレス（同じWiFi接続時のみ）
     
-    オンライン版は世界中どこからでもアクセス可能です。ブックマーク推奨！
+    **現在のオンライン版URL（例）**:
+    https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+    
+    !!! warning "URLについて"
+        Code Engine URLは環境により異なります。必ず講師から共有された最新のURLを使用してください。
 
 ## 🎯 このハンズオンで学べること
 

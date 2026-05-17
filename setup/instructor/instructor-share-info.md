@@ -29,9 +29,22 @@ MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
 ### ドキュメントURL
 
+**ローカル参加者（同じWiFi/ネットワーク）**:
 ```
 http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 ```
+
+**リモート参加者（異なるWiFi/ネットワーク）**:
+```
+https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
+```
+
+!!! warning "リモート参加者向けURL"
+    Code Engine URLは環境により異なります。
+    [deploy-docs-to-cloud.md](./deploy-docs-to-cloud.md)を参照してデプロイ後、
+    実際のURLを受講者に共有してください。
+    
+    TechZone環境を再予約した場合は、URLが変わるため再デプロイが必要です。
 
 ### 補足：その他の設定値（共有不要）
 
@@ -58,8 +71,12 @@ COLLECTION_NAME=knowledge_base
 ■ Milvus接続情報（これだけ変更してください）
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
-■ ドキュメントURL
+■ ドキュメントURL（ローカル参加者）
 http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
+
+■ ドキュメントURL（リモート参加者）
+https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
+（講師から共有されたURLを使用してください）
 
 【セットアップ手順】
 1. プロジェクトフォルダに vector-search-builder.zip を配置

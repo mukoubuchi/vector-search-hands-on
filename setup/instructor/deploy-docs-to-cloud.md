@@ -45,7 +45,7 @@ cd docs/participant
 デプロイ完了後、以下のようなURLが表示されます：
 
 ```
-https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
 ```
 
 このURLを受講者に共有してください。
@@ -53,8 +53,16 @@ https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 **実際のデプロイ例**:
 - プロジェクト: `vector-search-docs`
 - リージョン: `us-south`
-- URL: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+- URL例: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 - ステータス: ✅ 稼働中
+
+!!! warning "TechZone環境でのURL変更について"
+    TechZone環境の期限切れ後、再予約すると新しいCode Engineプロジェクトが作成され、URLが変わります。
+    
+    **対応方法**:
+    1. 新しい環境でデプロイスクリプトを再実行
+    2. 新しいURLを受講者に共有
+    3. 必要に応じてドキュメント内のURL例を更新
 
 ## 受講者への案内文例
 

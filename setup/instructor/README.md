@@ -78,11 +78,15 @@ MkDocsドキュメント（ローカル参加者）:
 - URL: http://<講師のIPアドレス>:8001
 
 MkDocsドキュメント（リモート参加者）:
-- URL: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+- URL例: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 ```
 
 **リモート参加者がいる場合**:
 異なるWiFi/ネットワークの受講者がいる場合は、[リモート参加者対応ガイド](deploy-docs-to-cloud.md)を参照してCode Engineにデプロイしてください（5分で完了）。
+
+!!! warning "TechZone環境でのURL変更について"
+    TechZone環境を再予約すると、新しいCode EngineプロジェクトのURLが変わります。
+    新しい環境では、デプロイスクリプトを再実行して新しいURLを受講者に共有してください。
 
 ### 4. 接続テストの実施
 
