@@ -2,6 +2,14 @@
 
 このハンズオンでは、IBM Bobを使って「意味で検索する」機能（Vector Search）を体験します。
 
+!!! info "📖 このドキュメントについて"
+    このドキュメントは以下のURLでアクセスできます：
+    
+    - **オンライン版（推奨）**: [https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud](https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud)
+    - **ローカル版**: 講師から共有されたIPアドレス（同じWiFi接続時のみ）
+    
+    オンライン版は世界中どこからでもアクセス可能です。ブックマーク推奨！
+
 ## 🎯 このハンズオンで学べること
 
 ### 1. Vector Searchとは？
