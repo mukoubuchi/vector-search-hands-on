@@ -64,6 +64,7 @@ vector-search-builder.zip
 - ✅ **一元管理** - Milvus + MkDocsをDocker Composeで提供
 - ✅ **コスト削減** - 受講者のAPI利用料金が不要
 - ✅ **簡単セットアップ** - `./start-all.sh`で全サービス起動
+- ✅ **リモート対応** - Code Engineで世界中からアクセス可能
 - ✅ **柔軟な運用** - Watsonx.ai版への切り替えも可能（git checkout）
 
 ## 🏗️ システムアーキテクチャ
@@ -192,8 +193,20 @@ vector-search-handson/
 
 3. **受講者に以下を共有**:
    - Milvus接続情報（IPアドレス、ポート、認証情報）
-   - **ドキュメントURL**: `http://<講師のIPアドレス>:8001`
+   - **ドキュメントURL（ローカル）**: `http://<講師のIPアドレス>:8001`
+   - **ドキュメントURL（リモート）**: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
    - **重要**: Watsonx.ai APIキーは不要（Hugging Face Transformersを使用）
+
+#### リモート参加者対応
+
+異なるWiFi/ネットワークの受講者がいる場合、IBM Cloud Code Engineにドキュメントをデプロイ：
+
+```bash
+cd docs/participant
+./deploy-to-code-engine.sh
+```
+
+詳細は [リモート参加者対応ガイド](setup/instructor/deploy-docs-to-cloud.md) を参照。
 
 #### ハンズオン当日
 1. **[講師用実践手順書](docs/instructor-walkthrough.md)** を進行ガイドとして使用
@@ -232,9 +245,8 @@ cd setup/instructor
 
 **方法2: Webドキュメントで学ぶ**
 1. **講師から共有されたドキュメントURLにアクセス**:
-   ```
-   http://<講師のIPアドレス>:8001
-   ```
+   - **ローカル参加**: `http://<講師のIPアドレス>:8001`
+   - **リモート参加**: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 2. ナビゲーションと検索機能を活用
 3. 詳しい説明を参照しながら進める
 
@@ -267,6 +279,8 @@ cd setup/instructor
 ### 講師向け
 - [講師向けガイド](docs/instructor/README.md)
 - [環境セットアップガイド](docs/instructor/setup-guide.md)
+- [リモート参加者対応ガイド](setup/instructor/deploy-docs-to-cloud.md) ⭐ 新規
+- [TechZone環境ガイド](setup/instructor/techzone-code-engine-guide.md)
 - [IBM製品との比較](docs/instructor/ibm-products-comparison.md)
 - [セットアップファイル説明](setup/README.md)
 

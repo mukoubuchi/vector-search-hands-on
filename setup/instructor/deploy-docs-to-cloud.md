@@ -45,10 +45,16 @@ cd docs/participant
 デプロイ完了後、以下のようなURLが表示されます：
 
 ```
-https://mkdocs-docs.xxxxxxxxxx.jp-tok.codeengine.appdomain.cloud
+https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 ```
 
 このURLを受講者に共有してください。
+
+**実際のデプロイ例**:
+- プロジェクト: `vector-search-docs`
+- リージョン: `us-south`
+- URL: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+- ステータス: ✅ 稼働中
 
 ## 受講者への案内文例
 
@@ -56,10 +62,11 @@ https://mkdocs-docs.xxxxxxxxxx.jp-tok.codeengine.appdomain.cloud
 【ハンズオン資料のURL】
 
 以下のURLからハンズオン資料にアクセスできます：
-https://mkdocs-docs.xxxxxxxxxx.jp-tok.codeengine.appdomain.cloud
+https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 
 ※ インターネット接続があればどこからでもアクセス可能です
 ※ ブックマーク推奨
+※ 異なるWiFi/ネットワークからもアクセス可能
 ```
 
 ## ドキュメント更新時
@@ -84,6 +91,25 @@ ibmcloud ce app delete --name mkdocs-docs
 # プロジェクト全体の削除（オプション）
 ibmcloud ce project delete --name vector-search-docs
 ```
+
+## 重要な注意事項
+
+### プラットフォーム互換性
+
+Apple Silicon（M1/M2/M3）Macでビルドする場合、Dockerfileに以下の設定が必要です：
+
+```dockerfile
+FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
+```
+
+これにより、Code Engine（AMD64）で正しく動作するイメージが作成されます。
+
+### TechZone環境での利用
+
+TechZone環境を使用する場合：
+- Container Registryの既存ネームスペース（`cr-itz-*`）が自動検出されます
+- リソースグループ（`itz-*`）が優先的に選択されます
+- 詳細は `techzone-code-engine-guide.md` を参照
 
 ## トラブルシューティング
 

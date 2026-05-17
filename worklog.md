@@ -1,3 +1,120 @@
+## 2026年5月17日（土）- IBM Cloud Code Engineデプロイ
+
+### 作業概要
+リモート参加者対応のため、MkDocsドキュメントをIBM Cloud Code Engineにデプロイ
+
+### 作業時間
+- 開始: 21:47 JST
+- 終了: 22:02 JST
+- 所要時間: 約15分
+
+---
+
+## 実施した作業
+
+### 1. Code Engineデプロイの準備（21:47-21:50）
+
+#### 背景
+- 異なるWiFi/ネットワークの受講者がドキュメントにアクセスできない問題
+- GitHub Pagesは組織ポリシーで使用不可
+- ngrokはgithub.ibm.comに対応していない
+
+#### 解決策
+IBM Cloud Code Engineを使用した公開デプロイ
+
+### 2. Dockerfileとデプロイスクリプトの作成（21:50-21:52）
+
+#### 作成ファイル
+- `docs/participant/Dockerfile`: MkDocs Material用コンテナ定義
+- `docs/participant/deploy-to-code-engine.sh`: 自動デプロイスクリプト
+- `docs/participant/code-engine-deploy.md`: デプロイ手順書
+- `setup/instructor/deploy-docs-to-cloud.md`: 講師向けクイックガイド
+- `setup/instructor/techzone-code-engine-guide.md`: TechZone環境ガイド
+
+### 3. プラットフォーム互換性問題の解決（21:52-21:58）
+
+#### 問題
+Apple Silicon（ARM64）でビルドしたイメージがCode Engine（AMD64）で動作しない
+```
+no match for platform in manifest: not found
+```
+
+#### 解決
+Dockerfileに`--platform=linux/amd64`を追加：
+```dockerfile
+FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
+```
+
+### 4. Container Registry設定（21:58-22:00）
+
+#### 実施内容
+- TechZone環境の既存ネームスペース`cr-itz-btxelcjs`を検出
+- IBM Cloud API Keyを使用してレジストリシークレット`icr-secret`を作成
+- AMD64プラットフォーム用イメージをビルド＆プッシュ
+
+### 5. Code Engineへのデプロイ（22:00-22:02）
+
+#### デプロイ構成
+- **プロジェクト**: vector-search-docs
+- **リージョン**: us-south
+- **リソース**: CPU 0.25, Memory 0.5G
+- **スケーリング**: Min 1, Max 2インスタンス
+- **URL**: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+
+#### ステータス
+✅ デプロイ成功（Application deployed successfully）
+
+---
+
+## 技術的な学び
+
+### プラットフォーム互換性
+- Apple SiliconとAMD64の違いを考慮する必要がある
+- `--platform=linux/amd64`フラグでクロスプラットフォームビルドが可能
+- Container Registryにプッシュする前にプラットフォームを確認
+
+### TechZone環境の特性
+- 既存のContainer Registryネームスペース（`cr-itz-*`）を使用
+- リソースグループ（`itz-*`）が自動的に優先される
+- API Keyベースの認証が必要
+
+### Code Engineの利点
+- サーバーレスで管理が簡単
+- 自動スケーリング
+- 無料枠が充実（月間180,000 vCPU秒）
+- 公開URLが即座に利用可能
+
+---
+
+## 次回への引き継ぎ事項
+
+### デプロイ済みリソース
+- Code Engineアプリケーション: `mkdocs-docs`
+- Container Registryイメージ: `jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest`
+- レジストリシークレット: `icr-secret`
+
+### 管理コマンド
+```bash
+# ログ確認
+ibmcloud ce app logs -f -n mkdocs-docs
+
+# 状態確認
+ibmcloud ce app get -n mkdocs-docs
+
+# 更新
+ibmcloud ce app update -n mkdocs-docs --image jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
+
+# 削除
+ibmcloud ce app delete -n mkdocs-docs
+```
+
+### ドキュメント更新時の手順
+1. `docs/participant/`でドキュメントを編集
+2. `cd docs/participant && ./deploy-to-code-engine.sh`を実行
+3. 既存アプリケーションが自動更新される（URLは変わらない）
+
+---
+
 ## 2026年5月17日（土）
 
 ### 作業概要
