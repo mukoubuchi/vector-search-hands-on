@@ -30,7 +30,22 @@ ibmcloud login --sso
 ibmcloud target -r jp-tok
 ```
 
-### 3. デプロイ実行
+### 3. リソースグループの設定
+
+```bash
+# 利用可能なリソースグループを確認
+ibmcloud resource groups
+
+# リソースグループを設定（TechZone環境の場合）
+ibmcloud target -g itz-wxd-6a08d26e2b7a7a1e72c97a
+
+# または、自分の環境に合わせて設定
+# ibmcloud target -g <your-resource-group-name>
+```
+
+**注意**: リソースグループが設定されていないと、デプロイスクリプトがエラーになる場合があります。
+
+### 4. デプロイ実行
 
 ```bash
 # docs/participantディレクトリに移動
@@ -40,7 +55,7 @@ cd docs/participant
 ./deploy-to-code-engine.sh
 ```
 
-### 4. URLを確認
+### 5. URLを確認
 
 デプロイ完了後、URLを確認する方法は2つあります：
 
@@ -57,7 +72,7 @@ cd setup/instructor
 
 このスクリプトは、Code Engineプロジェクトから自動的にURLを取得します。
 
-### 5. URLを受講者に共有
+### 6. URLを受講者に共有
 
 確認したURLを受講者に共有してください。
 
