@@ -155,48 +155,6 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
    - `Cmd + Shift + P`（Mac）または`Ctrl + Shift + P`（Windows/Linux）
    - 「Reload Window」を実行
 
-#### 📖 このドキュメントのURLを確認する（リモート参加者向け）
-
-講師と異なるネットワーク環境（異なるWiFi、リモート参加など）の場合、Code EngineにデプロイされたドキュメントのURLを自分で確認できます。
-
-**前提条件**:
-- IBM Cloud CLIがインストールされていること
-- IBM Cloudアカウントにログインしていること
-
-**手順**:
-
-1. **IBM Cloud CLIにログイン（初回のみ）**
-   ```bash
-   ibmcloud login --sso
-   ```
-
-2. **Code Engineプラグインをインストール（初回のみ）**
-   ```bash
-   ibmcloud plugin install code-engine
-   ```
-
-3. **ドキュメントURLを確認**
-   ```bash
-   cd setup/participant
-   ./check_docs_url.sh
-   ```
-
-4. **表示されたURLをブラウザで開く**
-   ```
-   ==========================================
-   ✅ ドキュメントURL確認完了
-   ==========================================
-   
-   📖 ドキュメントURL:
-   https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
-   
-   このURLをブラウザで開いてください。
-   ==========================================
-   ```
-
-!!! note "ローカル参加者の場合"
-    講師と同じWiFi/ネットワークに接続している場合は、講師から共有されたローカルURL（`http://<IPアドレス>:8001`）を使用してください。
-
 ### 4. Webブラウザ（必須）
 
 ハンズオンでは、Webブラウザを使ってAPIをテストします。

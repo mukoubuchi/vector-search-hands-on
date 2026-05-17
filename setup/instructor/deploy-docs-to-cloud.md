@@ -40,15 +40,26 @@ cd docs/participant
 ./deploy-to-code-engine.sh
 ```
 
-### 4. URLを受講者に共有
+### 4. URLを確認
 
-デプロイ完了後、以下のようなURLが表示されます：
+デプロイ完了後、URLを確認する方法は2つあります：
 
+**方法1: デプロイスクリプトの出力から確認**
 ```
 https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-このURLを受講者に共有してください。
+**方法2: URL確認スクリプトを使用**
+```bash
+cd setup/instructor
+./check_docs_url.sh
+```
+
+このスクリプトは、Code Engineプロジェクトから自動的にURLを取得します。
+
+### 5. URLを受講者に共有
+
+確認したURLを受講者に共有してください。
 
 **実際のデプロイ例**:
 - プロジェクト: `vector-search-docs`
