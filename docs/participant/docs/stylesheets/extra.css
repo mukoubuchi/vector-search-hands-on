@@ -1,30 +1,5 @@
 /* Professional Documentation Styles */
 
-/* Heading customization with FontAwesome icons */
-.md-typeset h1::before {
-    content: "\f0a9";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    margin-right: 0.5em;
-    color: #555;
-}
-
-.md-typeset h2::before {
-    content: "\f0da";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    margin-right: 0.5em;
-    color: #666;
-}
-
-.md-typeset h3::before {
-    content: "\f105";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    margin-right: 0.3em;
-    color: #777;
-}
-
 /* Remove unnecessary spacing and add underlines */
 .md-typeset h1 {
     margin-top: 1.5em;
@@ -133,8 +108,13 @@
     display: none;
 }
 
-/* Hide home breadcrumb */
+/* Hide home breadcrumb and all navigation tabs */
 .md-header__title {
+    display: none;
+}
+
+/* Hide all navigation tabs */
+.md-tabs {
     display: none;
 }
 
