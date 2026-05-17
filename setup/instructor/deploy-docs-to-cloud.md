@@ -122,7 +122,7 @@ ibmcloud ce project delete --name vector-search-docs
 ## 詳細ドキュメント
 
 詳細な手順やトラブルシューティングは以下を参照：
-- `docs/participant/CODE_ENGINE_DEPLOY.md`
+- `docs/participant/code-engine-deploy.md`
 
 ## 代替案
 
