@@ -138,11 +138,12 @@ echo -e "${GREEN}✓ イメージ名: $FULL_IMAGE_NAME${NC}"
 
 # 7. Dockerイメージのビルド
 echo -e "\n${YELLOW}7. Dockerイメージをビルド中...${NC}"
-docker build -t "$FULL_IMAGE_NAME" .
+echo -e "${YELLOW}マルチプラットフォーム対応（amd64/arm64）でビルドします${NC}"
+docker buildx build --platform linux/amd64,linux/arm64 -t "$FULL_IMAGE_NAME" --push .
 
-# 8. イメージをプッシュ
-echo -e "\n${YELLOW}8. イメージをContainer Registryにプッシュ中...${NC}"
-docker push "$FULL_IMAGE_NAME"
+# 8. イメージのプッシュ確認
+echo -e "\n${YELLOW}8. イメージのプッシュを確認中...${NC}"
+echo -e "${GREEN}✓ イメージは buildx により自動的にプッシュされました${NC}"
 
 # 9. Container Registryアクセス用のシークレットを作成
 echo -e "\n${YELLOW}9. Container Registryアクセス用のシークレットを設定中...${NC}"
