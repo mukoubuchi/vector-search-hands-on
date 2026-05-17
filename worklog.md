@@ -955,7 +955,7 @@ vector-search-handson/
 
 1. **Milvus環境の起動**
    ```bash
-   cd setup
+   cd setup/instructor
    ./start-all.sh
    ```
    - 実行結果の例を記載
@@ -1195,7 +1195,7 @@ MILVUS_HOST=192.168.1.100  ← 講師のIPアドレスに置き換え
 #### 実施した手順
 1. **Docker環境の起動**
    ```bash
-   cd setup
+   cd setup/instructor
    ./start-all.sh
    ```
    - Milvus環境が起動

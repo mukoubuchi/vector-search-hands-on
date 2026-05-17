@@ -35,6 +35,8 @@ vector-search-builder.zip
 - `docker-compose-docs.yml` - MkDocsサーバー
 - `start-all.sh` / `stop-all.sh` - 起動/停止スクリプト
 - `instructor-share-info.md` - 講師用共有情報準備ガイド
+- `deploy-docs-to-cloud.md` - リモート参加者対応ガイド
+- `check_docs_url.sh` - Code Engine URL確認スクリプト
 - `README.md` - 講師用セットアップガイド
 
 ### バージョン1.0（旧版）- .bobのみ
@@ -137,8 +139,14 @@ vector-search-handson/
 │   │   └── setup-guide.md          # 環境セットアップガイド
 │   └── participant/                # 受講者向けドキュメント
 │       ├── README.md               # 受講者向けガイド
-│       ├── hands-on-procedure.md   # 受講者用実践手順書（新規）
+│       ├── hands-on-procedure.md   # 受講者用実践手順書
 │       ├── mkdocs.yml              # MkDocs設定
+│       ├── serve-docs.sh           # 簡易サーバー起動（macOS/Linux）
+│       ├── serve-docs.bat          # 簡易サーバー起動（Windows）
+│       ├── start-docs.sh           # MkDocsサーバー起動（開発者向け）
+│       ├── start-docs.bat          # MkDocsサーバー起動（開発者向け）
+│       ├── deploy-to-code-engine.sh # Code Engineデプロイスクリプト
+│       ├── Dockerfile              # Code Engine用Dockerイメージ
 │       └── docs/                   # MkDocsコンテンツ
 │           ├── index.md            # ハンズオン概要
 │           ├── preparation.md      # 事前準備
@@ -154,7 +162,10 @@ vector-search-handson/
 │   │   ├── docker-compose-docs.yml # MkDocsサーバー設定
 │   │   ├── start-all.sh            # 全サービス起動スクリプト
 │   │   ├── stop-all.sh             # 全サービス停止スクリプト
-│   │   └── instructor-share-info.md # 講師用共有情報準備ガイド
+│   │   ├── instructor-share-info.md # 講師用共有情報準備ガイド
+│   │   ├── deploy-docs-to-cloud.md # リモート参加者対応ガイド
+│   │   ├── check_docs_url.sh       # Code Engine URL確認スクリプト
+│   │   └── techzone-code-engine-guide.md # TechZone環境ガイド
 │   └── participant/                # 受講者配布用ファイル
 │       ├── README.md               # 受講者用セットアップガイド
 │       ├── .env.example            # 接続設定テンプレート

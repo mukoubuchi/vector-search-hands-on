@@ -5,7 +5,7 @@
 **毎回ハンズオン開始前に、講師のIPアドレスを確認してください！**
 
 ```bash
-cd setup
+cd setup/instructor
 ./start-all.sh
 # 出力される「受講者に共有: http://xxx.xxx.xxx.xxx:8001」のIPアドレスを確認
 ```

@@ -62,7 +62,7 @@
 ### 1.2 Milvus環境の起動
 
 ```bash
-cd setup
+cd setup/instructor
 ./start-all.sh
 ```
 
@@ -801,7 +801,7 @@ ipconfig | findstr IPv4
 
 **start-all.shの出力から**:
 ```bash
-cd setup
+cd setup/instructor
 ./start-all.sh
 # 最後に表示される "Your IP address: 192.168.1.100" を確認
 ```

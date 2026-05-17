@@ -33,26 +33,48 @@ docs/
 - [受講者向けガイド](participant/README.md)
 - [ハンズオン概要](participant/docs/index.md)
 
-## ドキュメントサイトの閲覧（準備不要！）
+## ドキュメントサイトの閲覧
 
-**受講者は何もインストールせずに、ブラウザでドキュメントを閲覧できます。**
+### 最も簡単: オンライン版を閲覧（推奨）⭐
 
-講師が事前にHTMLを生成済みなので、以下のスクリプトを実行するだけです：
+**インストール不要！ブラウザだけでOK！**
+
+講師から共有されたCode Engine URLにアクセスするだけで、すぐにドキュメントを閲覧できます。
+
+**URL例**:
+```
+https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
+```
+
+> **注意**: URLは環境により異なります。必ず講師から共有された最新のURLを使用してください。
+
+### 代替1: 簡易サーバーで閲覧（Pythonのみ必要）
+
+**Pythonがインストールされていれば、追加のインストールなしで閲覧できます。**
 
 **macOS / Linux:**
 ```bash
 cd docs/participant
-./open-docs.sh
+./serve-docs.sh
 ```
 
 **Windows:**
 ```cmd
 cd docs\participant
-open-docs.bat
+serve-docs.bat
 ```
 
-**または手動で:**
-`docs/participant/site/index.html` をブラウザで開く
+ブラウザで http://localhost:8000 にアクセスしてドキュメントを閲覧できます。
+
+### 代替2: 講師のローカルサーバーで閲覧
+
+講師と同じWiFi/ネットワークに接続している場合：
+
+```
+http://<講師のIPアドレス>:8001
+```
+
+**注意:** 異なるWiFi/ネットワークからはアクセスできません。その場合はオンライン版を使用してください。
 
 **特徴:**
 - ✅ インストール不要（準備なしで閲覧可能）
