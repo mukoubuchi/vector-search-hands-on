@@ -19,38 +19,25 @@
 ## 🏗️ システムアーキテクチャ
 
 ```mermaid
-graph TB
+graph LR
     subgraph instructor[講師環境]
-        direction TB
-        milvus[Milvus Vector DB<br/>Port: 19530]
-        mkdocs[MkDocs Server<br/>Port: 8001]
-        script[./start-all.sh]
-        script -.-> milvus
-        script -.-> mkdocs
+        milvus[Milvus<br/>Port: 19530]
+        mkdocs[MkDocs<br/>Port: 8001]
     end
     
     subgraph participant[受講者環境]
-        direction TB
         bob[IBM Bob IDE]
-        pymilvus[pymilvus Client]
-        transformers[sentence-transformers<br/>paraphrase-multilingual-MiniLM-L12-v2]
-        browser[Webブラウザ]
-        
-        bob --> pymilvus
-        bob --> transformers
-        bob --> browser
+        pymilvus[pymilvus]
+        transformers[sentence-transformers]
     end
     
-    pymilvus -->|ネットワーク経由| milvus
-    browser -.->|閲覧| mkdocs
+    bob --> pymilvus
+    bob --> transformers
+    pymilvus -->|ネットワーク| milvus
+    bob -.->|閲覧| mkdocs
     
     style instructor fill:#e1f5ff
     style participant fill:#fff4e1
-    style milvus fill:#b3e5fc
-    style mkdocs fill:#b3e5fc
-    style bob fill:#ffe0b2
-    style pymilvus fill:#ffcc80
-    style transformers fill:#ffcc80
 ```
 
 ### データフロー
