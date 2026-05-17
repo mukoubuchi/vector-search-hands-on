@@ -42,9 +42,9 @@ echo "✅ IBM Cloud CLIの準備完了"
 echo ""
 
 # 現在のリージョンを取得
-CURRENT_REGION=$(ibmcloud target --output json 2>/dev/null | grep -o '"region": "[^"]*"' | cut -d'"' -f4)
+CURRENT_REGION=$(ibmcloud target 2>/dev/null | grep "Region:" | awk '{print $2}')
 
-if [ -z "$CURRENT_REGION" ]; then
+if [ -z "$CURRENT_REGION" ] || [ "$CURRENT_REGION" = "Not" ]; then
     echo "⚠️  リージョンが設定されていません"
     echo ""
     echo "リージョン設定コマンド例:"
