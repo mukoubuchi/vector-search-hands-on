@@ -20,33 +20,37 @@
 
 ```mermaid
 graph TB
-    subgraph instructor["講師環境"]
-        subgraph docker["Docker Compose"]
-            milvus["Milvus<br/>(Vector DB)<br/>Port: 19530<br/><br/>- etcd<br/>- MinIO<br/>- Standalone"]
-            mkdocs["MkDocs Server<br/>(Documentation)<br/>Port: 8001<br/><br/>- docs/participant/docs/<br/>- Material for MkDocs"]
-        end
-        script["./start-all.sh<br/>一括起動"]
+    subgraph instructor[講師環境]
+        direction TB
+        milvus[Milvus Vector DB<br/>Port: 19530]
+        mkdocs[MkDocs Server<br/>Port: 8001]
+        script[./start-all.sh]
+        script -.-> milvus
+        script -.-> mkdocs
     end
     
-    subgraph participant["受講者環境"]
-        subgraph bob["IBM Bob IDE"]
-            subgraph python["Python環境 (Bob内蔵)"]
-                pymilvus["pymilvus<br/>(Client)<br/><br/>接続先:<br/>講師のIP:19530"]
-                transformers["sentence-transformers<br/>(Embeddings)<br/><br/>モデル:<br/>paraphrase-multilingual<br/>-MiniLM-L12-v2<br/>(384次元)"]
-            end
-        end
-        browser["Webブラウザ<br/>(オプション)<br/><br/>- MkDocs: http://講師IP:8001<br/>- Swagger UI: http://localhost:8000/docs"]
+    subgraph participant[受講者環境]
+        direction TB
+        bob[IBM Bob IDE]
+        pymilvus[pymilvus Client]
+        transformers[sentence-transformers<br/>paraphrase-multilingual-MiniLM-L12-v2]
+        browser[Webブラウザ]
+        
+        bob --> pymilvus
+        bob --> transformers
+        bob --> browser
     end
     
-    script -.->|起動| docker
     pymilvus -->|ネットワーク経由| milvus
     browser -.->|閲覧| mkdocs
     
     style instructor fill:#e1f5ff
     style participant fill:#fff4e1
-    style docker fill:#b3e5fc
+    style milvus fill:#b3e5fc
+    style mkdocs fill:#b3e5fc
     style bob fill:#ffe0b2
-    style python fill:#ffcc80
+    style pymilvus fill:#ffcc80
+    style transformers fill:#ffcc80
 ```
 
 ### データフロー
