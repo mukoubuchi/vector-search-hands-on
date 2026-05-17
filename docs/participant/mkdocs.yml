@@ -23,15 +23,22 @@ theme:
         name: ライトモードに切り替え
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
     - navigation.top
+    - navigation.indexes
     - search.suggest
     - search.highlight
     - content.tabs.link
     - content.code.annotation
     - content.code.copy
+    - content.action.edit
+    - content.action.view
   icon:
     repo: fontawesome/brands/github
+  font:
+    text: Roboto
+    code: Roboto Mono
 
 # repo_name: vector-search-handson
 # repo_url: https://github.com/your-org/vector-search-handson
@@ -77,3 +84,6 @@ plugins:
 
 extra:
   generator: false
+
+extra_css:
+  - stylesheets/extra.css

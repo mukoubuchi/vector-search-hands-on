@@ -1,0 +1,90 @@
+/* GitLab Documentation inspired styles */
+
+/* Remove unnecessary spacing */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+.md-typeset p {
+    margin-bottom: 0.8em;
+}
+
+.md-typeset ul,
+.md-typeset ol {
+    margin-bottom: 0.8em;
+}
+
+/* Make task lists clickable */
+.md-typeset .task-list-item {
+    list-style-type: none;
+}
+
+.md-typeset .task-list-control {
+    cursor: pointer;
+}
+
+.md-typeset .task-list-indicator {
+    cursor: pointer;
+}
+
+/* Improve navigation tabs */
+.md-tabs__item {
+    opacity: 0.7;
+}
+
+.md-tabs__item--active {
+    opacity: 1;
+    font-weight: 600;
+}
+
+/* Better admonition spacing */
+.md-typeset .admonition {
+    margin: 1em 0;
+}
+
+/* Improve code block spacing */
+.md-typeset pre {
+    margin: 1em 0;
+}
+
+/* Better definition list styling */
+.md-typeset dl dt {
+    font-weight: 700;
+    margin-top: 1em;
+}
+
+.md-typeset dl dd {
+    margin-left: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+/* Improve details/summary spacing */
+.md-typeset details {
+    margin: 1em 0;
+}
+
+/* Better keyboard key styling */
+.md-typeset kbd {
+    padding: 0.1em 0.4em;
+    font-size: 0.85em;
+}
+
+/* Improve tab content spacing */
+.md-typeset .tabbed-content {
+    padding-top: 0.5em;
+}
+
+/* Remove excessive spacing in lists */
+.md-typeset li > p {
+    margin-bottom: 0.5em;
+}
+
+.md-typeset li > ul,
+.md-typeset li > ol {
+    margin-top: 0.5em;
+}
+
+/* Made with Bob */
