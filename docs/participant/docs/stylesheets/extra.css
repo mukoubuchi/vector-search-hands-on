@@ -87,4 +87,9 @@
     margin-top: 0.5em;
 }
 
+/* Hide previous/next navigation links */
+.md-footer__link {
+    display: none;
+}
+
 /* Made with Bob */
