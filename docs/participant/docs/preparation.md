@@ -127,21 +127,25 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
    - IBM Bob IDEで開く
    - または、テキストエディタで開く
 
-4. **講師から配布された情報を入力**
-   ```
-   # Milvus接続情報
-   MILVUS_HOST=（講師から配布されたホスト名）
-   MILVUS_PORT=19530
-   MILVUS_USER=（講師から配布されたユーザー名）
-   MILVUS_PASSWORD=（講師から配布されたパスワード）
+4. **講師から配布されたホスト名を入力**
    
-   # Embedding モデル設定（Hugging Face Transformers）
+   **重要**: 変更が必要なのは`MILVUS_HOST`だけです！
+   
+   ```env
+   # Milvus接続情報（講師から配布された情報に置き換え）
+   MILVUS_HOST=192.168.1.100  ← ここだけ講師から配布されたIPアドレスに変更
+   
+   # 以下は変更不要（すでに正しい値が設定されています）
+   MILVUS_PORT=19530
+   MILVUS_USER=root
+   MILVUS_PASSWORD=Milvus
+   
+   # Embedding モデル設定（変更不要）
    EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
    EMBEDDING_DIMENSION=384
    
-   # コレクション設定
+   # コレクション設定（変更不要）
    COLLECTION_NAME=knowledge_base
-   EMBEDDING_MODEL=ibm/granite-embedding-278m-multilingual
    ```
 
 5. **ファイルを保存**

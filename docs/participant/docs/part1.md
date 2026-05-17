@@ -140,13 +140,13 @@ Milvus & 埋め込みモデル 接続テスト
 ==================================================
 
 === 環境変数確認 ===
-✓ MILVUS_HOST: localhost
+✓ MILVUS_HOST: 192.168.1.100  ← 講師から配布されたIPアドレス
 ✓ MILVUS_PORT: 19530
 ✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
 ✓ EMBEDDING_DIMENSION: 384
 
 === Milvus 接続テスト ===
-接続先: localhost:19530
+接続先: 192.168.1.100:19530
 ✓ Milvusに接続成功
 ✓ 既存コレクション数: 0
 

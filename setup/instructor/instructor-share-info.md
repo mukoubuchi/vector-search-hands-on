@@ -19,34 +19,31 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 
 ## 📋 接続情報
 
-以下の情報を受講者に共有してください。**IPアドレスは毎回確認が必要です。**
+**重要**: 受講者に共有するのは**IPアドレスだけ**です！
 
-### Milvus接続情報
+### 受講者に共有する情報
 
-```env
+```
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
-MILVUS_PORT=19530
-MILVUS_USER=root
-MILVUS_PASSWORD=Milvus
-```
-
-### 埋め込みモデル設定
-
-```env
-EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-EMBEDDING_DIMENSION=384
-```
-
-### コレクション設定
-
-```env
-COLLECTION_NAME=knowledge_base
 ```
 
 ### ドキュメントURL
 
 ```
 http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
+```
+
+### 補足：その他の設定値（共有不要）
+
+以下の設定は`.env.example`に既に設定されているため、受講者に共有する必要はありません：
+
+```env
+MILVUS_PORT=19530
+MILVUS_USER=root
+MILVUS_PASSWORD=Milvus
+EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
+EMBEDDING_DIMENSION=384
+COLLECTION_NAME=knowledge_base
 ```
 
 ---
@@ -58,31 +55,26 @@ http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 ```
 【ベクトル検索ハンズオン 接続情報】
 
-■ Milvus接続情報
+■ Milvus接続情報（これだけ変更してください）
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
-MILVUS_PORT=19530
-MILVUS_USER=root
-MILVUS_PASSWORD=Milvus
-
-■ 埋め込みモデル設定
-EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-EMBEDDING_DIMENSION=384
-
-■ コレクション設定
-COLLECTION_NAME=knowledge_base
 
 ■ ドキュメントURL
 http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 
 【セットアップ手順】
 1. プロジェクトフォルダに vector-search-builder.zip を配置
-2. 解凍して .bob フォルダを確認
+2. 解凍して .bob フォルダと setup フォルダを確認
 3. IBM Bob IDE でプロジェクトフォルダを開く
 4. setup/.env.example を setup/.env にコピー
-5. 上記の接続情報を setup/.env に貼り付け
+5. setup/.env を開き、MILVUS_HOST だけを上記のIPアドレスに変更
+   （その他の設定は変更不要です）
 6. IBM Bob をリロード（Cmd + Shift + P → Developer: Reload Window）
 7. setup/requirements.txt をインストール: pip install -r requirements.txt
 8. 接続テスト実行: python setup/test_embeddings_hf.py
+
+【重要】
+- 変更が必要なのは MILVUS_HOST だけです
+- その他の設定（PORT、USER、PASSWORD等）は既に正しい値が設定されています
 ```
 
 ---

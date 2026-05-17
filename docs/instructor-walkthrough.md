@@ -118,13 +118,13 @@ inet 192.168.1.100 netmask 0xffffff00 broadcast 192.168.1.255
 ```
 【ベクトル検索ハンズオン 接続情報】
 
-■ Milvus接続情報
+■ 受講者に共有する情報（これだけでOK！）
 MILVUS_HOST=192.168.1.100  ← 講師のIPアドレスに置き換え
+
+■ 補足：その他の設定値（.env.exampleに設定済み、共有不要）
 MILVUS_PORT=19530
 MILVUS_USER=root
 MILVUS_PASSWORD=Milvus
-
-■ 埋め込みモデル設定
 EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
 EMBEDDING_DIMENSION=384
 
@@ -240,9 +240,11 @@ Successfully installed pymilvus-2.3.4 sentence-transformers-2.2.2 python-dotenv-
    # IBM Bob IDEで setup/participant/.env を開く
    ```
    
-   **講師から共有された接続情報をコピー＆ペースト**:
+   **講師から共有されたIPアドレスを入力**:
    ```env
    MILVUS_HOST=192.168.1.100  ← 講師のIPアドレスに置き換え
+   
+   # その他の設定は変更不要（すでに正しい値が設定されています）
    MILVUS_PORT=19530
    MILVUS_USER=root
    MILVUS_PASSWORD=Milvus
