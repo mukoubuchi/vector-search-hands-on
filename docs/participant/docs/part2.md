@@ -4,7 +4,7 @@
 
 このパートでは、IBM Bobを使って、Vector Searchアプリケーションに新しい機能を追加します。
 
-## :fontawesome-solid-bullseye: このパートのゴール
+## このパートのゴール
 
 - IBM Bobの使い方を学ぶ
 - 日本語で指示を出してコードを生成する

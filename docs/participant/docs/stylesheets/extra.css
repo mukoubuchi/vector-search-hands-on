@@ -1,6 +1,14 @@
 /* Professional Documentation Styles */
 
-/* Remove unnecessary spacing and add underlines */
+/* Heading customization with FontAwesome icons */
+.md-typeset h1::before {
+    content: "\f02d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.5em;
+    color: var(--md-primary-fg-color);
+}
+
 .md-typeset h1 {
     margin-top: 1.5em;
     margin-bottom: 0.8em;
@@ -10,12 +18,28 @@
     padding-bottom: 5px;
 }
 
+.md-typeset h2::before {
+    content: "\f0da";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.5em;
+    color: var(--md-primary-fg-color);
+}
+
 .md-typeset h2 {
     margin-top: 1.5em;
     margin-bottom: 0.8em;
     color: #34495e;
     border-bottom: 1px dotted #7f8c8d;
     padding-bottom: 5px;
+}
+
+.md-typeset h3::before {
+    content: "\f105";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.3em;
+    color: var(--md-accent-fg-color);
 }
 
 .md-typeset h3 {
@@ -108,14 +132,25 @@
     display: none;
 }
 
-/* Hide home breadcrumb and all navigation tabs */
+/* Hide home breadcrumb */
 .md-header__title {
     display: none;
 }
 
-/* Hide all navigation tabs */
-.md-tabs {
+/* Hide the entire left sidebar navigation */
+.md-sidebar--primary {
     display: none;
+}
+
+/* Expand content area to use the space from hidden sidebar */
+.md-content {
+    margin-left: 0;
+}
+
+@media screen and (min-width: 76.25em) {
+    .md-content {
+        margin-left: 0;
+    }
 }
 
 /* Code block styling - dark background */
