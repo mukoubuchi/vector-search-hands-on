@@ -18,58 +18,56 @@
 
 ## 🏗️ システムアーキテクチャ
 
+```mermaid
+graph TB
+    subgraph instructor["講師環境"]
+        subgraph docker["Docker Compose"]
+            milvus["Milvus<br/>(Vector DB)<br/>Port: 19530<br/><br/>- etcd<br/>- MinIO<br/>- Standalone"]
+            mkdocs["MkDocs Server<br/>(Documentation)<br/>Port: 8001<br/><br/>- docs/participant/docs/<br/>- Material for MkDocs"]
+        end
+        script["./start-all.sh<br/>一括起動"]
+    end
+    
+    subgraph participant["受講者環境"]
+        subgraph bob["IBM Bob IDE"]
+            subgraph python["Python環境 (Bob内蔵)"]
+                pymilvus["pymilvus<br/>(Client)<br/><br/>接続先:<br/>講師のIP:19530"]
+                transformers["sentence-transformers<br/>(Embeddings)<br/><br/>モデル:<br/>paraphrase-multilingual<br/>-MiniLM-L12-v2<br/>(384次元)"]
+            end
+        end
+        browser["Webブラウザ<br/>(オプション)<br/><br/>- MkDocs: http://講師IP:8001<br/>- Swagger UI: http://localhost:8000/docs"]
+    end
+    
+    script -.->|起動| docker
+    pymilvus -->|ネットワーク経由| milvus
+    browser -.->|閲覧| mkdocs
+    
+    style instructor fill:#e1f5ff
+    style participant fill:#fff4e1
+    style docker fill:#b3e5fc
+    style bob fill:#ffe0b2
+    style python fill:#ffcc80
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         講師環境                                  │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  Docker Compose (setup/docker-compose.yml)               │  │
-│  │  ┌────────────────┐  ┌──────────────────────────────┐   │  │
-│  │  │  Milvus        │  │  MkDocs Server               │   │  │
-│  │  │  (Vector DB)   │  │  (Documentation)             │   │  │
-│  │  │  Port: 19530   │  │  Port: 8001                  │   │  │
-│  │  │                │  │                              │   │  │
-│  │  │  - etcd        │  │  - docs/participant/docs/    │   │  │
-│  │  │  - MinIO       │  │  - Material for MkDocs       │   │  │
-│  │  │  - Standalone  │  │                              │   │  │
-│  │  └────────────────┘  └──────────────────────────────┘   │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                              ↓                                   │
-│                    ./start-all.sh で一括起動                     │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-                    ネットワーク経由で接続
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│                         受講者環境                                │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  IBM Bob IDE (統合開発環境)                              │  │
-│  │  ┌────────────────────────────────────────────────────┐ │  │
-│  │  │  Python 環境 (Bob内蔵)                             │ │  │
-│  │  │  ┌──────────────┐  ┌──────────────────────────┐  │ │  │
-│  │  │  │  pymilvus    │  │  sentence-transformers   │  │ │  │
-│  │  │  │  (Client)    │  │  (Embeddings)            │  │ │  │
-│  │  │  │              │  │                          │  │ │  │
-│  │  │  │  接続先:     │  │  モデル:                 │  │ │  │
-│  │  │  │  講師のIP    │  │  paraphrase-multilingual │  │ │  │
-│  │  │  │  :19530      │  │  -MiniLM-L12-v2          │  │ │  │
-│  │  │  │              │  │  (384次元)               │  │ │  │
-│  │  │  └──────────────┘  └──────────────────────────┘  │ │  │
-│  │  └────────────────────────────────────────────────────┘ │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                              ↓                                   │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  Webブラウザ (オプション)                                 │  │
-│  │  - MkDocsドキュメント閲覧: http://講師IP:8001            │  │
-│  │  - Swagger UI: http://localhost:8000/docs                │  │
-│  └──────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
 
-【データフロー】
-1. 受講者がテキストを入力
-2. sentence-transformersでベクトル化（384次元）
-3. pymilvusでMilvusに検索リクエスト
-4. Milvusがベクトル類似度検索を実行
-5. 結果を受講者に返却
+### データフロー
+
+```mermaid
+sequenceDiagram
+    participant User as 受講者
+    participant Bob as IBM Bob IDE
+    participant Trans as sentence-transformers
+    participant Pymilvus as pymilvus
+    participant Milvus as Milvus (講師環境)
+    
+    User->>Bob: 1. テキスト入力
+    Bob->>Trans: 2. テキスト送信
+    Trans->>Trans: 3. ベクトル化 (384次元)
+    Trans->>Pymilvus: 4. ベクトル返却
+    Pymilvus->>Milvus: 5. 検索リクエスト
+    Milvus->>Milvus: 6. ベクトル類似度検索
+    Milvus->>Pymilvus: 7. 検索結果返却
+    Pymilvus->>Bob: 8. 結果表示
+    Bob->>User: 9. 結果確認
 ```
 
 ### 主な特徴
