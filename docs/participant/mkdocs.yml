@@ -77,6 +77,9 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.keys
+  - toc:
+      permalink: true
+      permalink_title: Anchor link to this section for reference
 
 plugins:
   - search:

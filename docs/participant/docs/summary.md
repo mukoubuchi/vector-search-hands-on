@@ -1,8 +1,8 @@
 # まとめ
 
-おめでとうございます！Vector Search ハンズオンを完了しました 🎉
+おめでとうございます！Vector Search ハンズオンを完了しました :fontawesome-solid-party-horn:
 
-## 📚 このハンズオンで学んだこと
+## :fontawesome-solid-book-open: このハンズオンで学んだこと
 
 ### 1. Vector Searchの理解
 
@@ -131,7 +131,7 @@
 - リファクタリングの支援
 - ドキュメント作成の支援
 
-## 🚀 次のステップ
+## :fontawesome-solid-rocket: 次のステップ
 
 ### さらに学びたい方へ
 
@@ -178,7 +178,7 @@
 - 類似問い合わせの検出
 - 対応時間の短縮
 
-## 📖 参考資料
+## :fontawesome-solid-book: 参考資料
 
 ### ドキュメント
 
@@ -192,7 +192,7 @@
 - [IBM Bob Community](https://community.ibm.com/bob)
 - [Building Blocks GitHub](https://github.com/ibm-self-serve-assets/building-blocks)
 
-## 🎓 習得したスキル
+## :fontawesome-solid-graduation-cap: 習得したスキル
 
 ### 技術的なスキル
 
@@ -215,7 +215,7 @@
 - ✅ 段階的な実装
 - ✅ テストの重要性
 
-## 💡 重要なポイント
+## :fontawesome-solid-lightbulb: 重要なポイント
 
 ### Vector Searchの価値
 
@@ -270,7 +270,7 @@
 - 顧客に提案したいユースケース
 - 社内で試してみたいこと
 
-## 🎯 最後に
+## :fontawesome-solid-bullseye: 最後に
 
 ### Vector Searchの可能性
 
@@ -301,7 +301,7 @@ IBM Bobは、開発の未来を変える技術です。
 
 ---
 
-## 🚀 Happy Coding with IBM Bob!
+## :fontawesome-solid-rocket: Happy Coding with IBM Bob!
 
 学んだスキルを活用して、顧客への価値提供と社内の開発効率化に貢献してください！
 
@@ -321,4 +321,4 @@ IBM Bobは、開発の未来を変える技術です。
 - 小さく始めて、徐々に拡大してください
 - 学び続けることが大切です
 
-### ありがとうございました！🎉
+### ありがとうございました！:fontawesome-solid-party-horn:

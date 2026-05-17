@@ -1,5 +1,30 @@
 /* GitLab Documentation inspired styles */
 
+/* Heading customization with FontAwesome icons */
+.md-typeset h1::before {
+    content: "\f02d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.5em;
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset h2::before {
+    content: "\f0da";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.5em;
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset h3::before {
+    content: "\f105";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.3em;
+    color: var(--md-accent-fg-color);
+}
+
 /* Remove unnecessary spacing */
 .md-typeset h1,
 .md-typeset h2,
