@@ -52,12 +52,11 @@ echo -e "${GREEN}✓ Code Engineプラグイン${NC}"
 # 4. プロジェクト設定
 echo -e "\n${YELLOW}4. Code Engineプロジェクトを設定中...${NC}"
 PROJECT_NAME="${CODE_ENGINE_PROJECT:-vector-search-docs}"
-REGION="${IBM_CLOUD_REGION:-jp-tok}"
 
 # プロジェクトが存在するか確認
 if ! ibmcloud ce project get --name "$PROJECT_NAME" &> /dev/null; then
     echo -e "${YELLOW}プロジェクト '$PROJECT_NAME' を作成中...${NC}"
-    ibmcloud ce project create --name "$PROJECT_NAME" --region "$REGION"
+    ibmcloud ce project create --name "$PROJECT_NAME"
 else
     echo -e "${GREEN}✓ プロジェクト '$PROJECT_NAME' が存在します${NC}"
 fi
