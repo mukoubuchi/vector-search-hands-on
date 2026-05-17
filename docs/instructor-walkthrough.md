@@ -237,7 +237,7 @@ Successfully installed pymilvus-2.3.4 sentence-transformers-2.2.2 python-dotenv-
 
 3. **.envファイルの編集**
    ```bash
-   # IBM Bob IDEで setup/.env を開く
+   # IBM Bob IDEで setup/participant/.env を開く
    ```
    
    **講師から共有された接続情報をコピー＆ペースト**:

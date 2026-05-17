@@ -100,21 +100,21 @@ Vector Searchは様々な場面で使われています：
    - コンピュータに命令を出す画面
    - 文字で命令を入力します
 
-### 2-2. setupフォルダに移動
+### 2-2. setup/participantフォルダに移動
 
 ターミナルに以下を入力してEnterキーを押します：
 
 ```bash
-cd setup
+cd setup/participant
 ```
 
 **説明**:
 - `cd` = "Change Directory"（フォルダを移動する命令）
-- `setup` = 移動先のフォルダ名
+- `setup/participant` = 移動先のフォルダパス
 
 **確認**:
 - ターミナルの表示が変わります
-- `~/vector-search-handson/setup` のような表示になればOK
+- `~/vector-search-handson/setup/participant` のような表示になればOK
 
 ### 2-3. 接続テストを実行
 

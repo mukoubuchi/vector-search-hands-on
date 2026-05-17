@@ -2,9 +2,11 @@
 
 講師が Milvus 環境を提供し、受講者は IBM Bob IDE のみで参加できるハンズオン環境です。
 
-## 📦 vector-search-builder.zip について
+## 📦 配布ファイルについて
 
-### バージョン2.0（現在）- setupフォルダ含む
+### setup/participant/vector-search-builder.zip（現在）
+
+**配布場所:** `setup/participant/vector-search-builder.zip`
 
 **含まれるファイル:**
 ```
@@ -24,17 +26,16 @@ vector-search-builder.zip
 ```
 
 **変更理由:**
-- MkDocsドキュメントで「プロジェクトフォルダ内の`setup`フォルダを開く」と記載
-- setupフォルダが存在することが前提になっている
-- 受講者がsetupフォルダを作成する手順がない
+- setupディレクトリをinstructor/participantに分割
+- 講師用と受講者用のファイルを明確に分離
+- MkDocsドキュメントとの整合性を確保
 
-**除外されているファイル（講師専用）:**
-- `setup/docker-compose.yml` - Milvus環境（講師側で起動）
-- `setup/docker-compose-docs.yml` - MkDocsサーバー（講師側で起動）
-- `setup/start-all.sh` / `stop-all.sh` - 起動/停止スクリプト
-- `setup/instructor-share-info.md` - 講師用共有情報
-- `setup/.env` - 講師の実際の設定値
-- `setup/README.md` - 受講者の先走りを防ぐため
+**講師専用ファイル（setup/instructor/）:**
+- `docker-compose.yml` - Milvus環境
+- `docker-compose-docs.yml` - MkDocsサーバー
+- `start-all.sh` / `stop-all.sh` - 起動/停止スクリプト
+- `instructor-share-info.md` - 講師用共有情報準備ガイド
+- `README.md` - 講師用セットアップガイド
 
 ### バージョン1.0（旧版）- .bobのみ
 

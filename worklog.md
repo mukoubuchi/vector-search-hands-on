@@ -1,3 +1,130 @@
+## 2026年5月17日（土）
+
+### 作業概要
+setupディレクトリをinstructor/participantに分割し、ファイル配布構造を整理
+
+### 作業時間
+- 開始: 20:15 JST
+- 終了: 20:21 JST
+- 所要時間: 約6分
+
+---
+
+## 実施した作業
+
+### 1. setupディレクトリの構造変更（20:15-20:18）
+
+#### 作業内容
+- `setup/`を`instructor/`と`participant/`に分割
+- 講師専用ファイルと受講者配布ファイルを明確に分離
+
+#### 変更前の構造
+```
+setup/
+├── .env
+├── .env.example
+├── docker-compose.yml
+├── docker-compose-docs.yml
+├── start-all.sh
+├── stop-all.sh
+├── instructor-share-info.md
+├── README.md
+├── requirements.txt
+├── test_*.py
+```
+
+#### 変更後の構造
+```
+setup/
+├── README.md                    # 全体説明
+├── instructor/                  # 講師専用
+│   ├── README.md
+│   ├── docker-compose.yml
+│   ├── docker-compose-docs.yml
+│   ├── start-all.sh
+│   ├── stop-all.sh
+│   └── instructor-share-info.md
+└── participant/                 # 受講者配布用
+    ├── README.md
+    ├── .env.example
+    ├── requirements.txt
+    ├── test_embeddings_hf.py
+    ├── test_connection_simple.py
+    ├── test_connection.py
+    └── vector-search-builder.zip
+```
+
+#### 変更理由
+- `docs/`ディレクトリと同様の構造に統一
+- 講師用と受講者用のファイルを明確に分離
+- 配布ファイルの管理を容易に
+
+### 2. vector-search-builder.zipの移動（20:18）
+
+#### 作業内容
+- プロジェクトルートの`vector-search-builder.zip`を`setup/participant/`に移動
+- 受講者配布ファイルとして一元管理
+
+#### 変更前
+```
+/vector-search-builder.zip  # プロジェクトルート
+```
+
+#### 変更後
+```
+setup/participant/vector-search-builder.zip
+```
+
+### 3. READMEファイルの作成（20:18-20:19）
+
+#### 作成したファイル
+
+1. **`setup/instructor/README.md`**
+   - 講師用セットアップガイド
+   - Docker環境の起動方法
+   - IPアドレス確認方法
+   - トラブルシューティング
+
+2. **`setup/participant/README.md`**
+   - 受講者用セットアップガイド
+   - 環境変数の設定方法
+   - 接続テストの実行手順
+   - IBM Bob IDEのセットアップ
+
+3. **`setup/README.md`**（更新）
+   - 全体構造の説明
+   - instructor/participantの役割
+   - ファイル配布方法
+
+### 4. ドキュメントの参照パス更新（20:19-20:21）
+
+#### 更新したファイル
+
+1. **`docs/instructor-walkthrough.md`**
+   - `setup/.env` → `setup/participant/.env`
+
+2. **`docs/participant/docs/preparation.md`**
+   - `setup`フォルダ → `setup/participant`フォルダ（2箇所）
+
+3. **`docs/participant/docs/part1.md`**
+   - `cd setup` → `cd setup/participant`
+   - パス説明を更新
+
+4. **`README.md`**
+   - vector-search-builder.zipの配布場所を更新
+   - 新しいディレクトリ構造を反映
+
+### 5. 変更内容の確認（20:21）
+
+#### 確認項目
+- [ ] setupディレクトリの分割完了
+- [ ] vector-search-builder.zipの移動完了
+- [ ] READMEファイルの作成完了
+- [ ] ドキュメントの参照パス更新完了
+- [ ] 次のステップ: コミット&プッシュ
+
+---
+
 # Work Log
 
 ## 2026年5月16日（金）
