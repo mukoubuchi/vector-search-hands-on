@@ -1,6 +1,6 @@
 # まとめ
 
-おめでとうございます！Vector Search ハンズオンを完了しました :fontawesome-solid-party-horn:
+おめでとうございます！Vector Search ハンズオンを完了しました！
 
 ## :fontawesome-solid-book-open: このハンズオンで学んだこと
 
@@ -321,4 +321,4 @@ IBM Bobは、開発の未来を変える技術です。
 - 小さく始めて、徐々に拡大してください
 - 学び続けることが大切です
 
-### ありがとうございました！:fontawesome-solid-party-horn:
+### ありがとうございました！

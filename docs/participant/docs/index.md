@@ -1,4 +1,4 @@
-# Vector Search ハンズオンへようこそ :fontawesome-solid-party-horn:
+# Vector Search ハンズオンへようこそ
 
 このハンズオンでは、IBM Bobを使って「意味で検索する」機能（Vector Search）を体験します。
 
