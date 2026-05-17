@@ -2,7 +2,39 @@
 
 ## 概要
 
-IBM TechZoneで予約したwatsonx-eventsアカウントには、Code EngineとContainer Registryが既に含まれています。このガイドでは、既存のTechZoneリソースを使用してMkDocsドキュメントをデプロイする方法を説明します。
+IBM TechZoneで予約した**watsonx-events**アカウントには、Code EngineとContainer Registryが既に含まれています。このガイドでは、既存のTechZoneリソースを使用してMkDocsドキュメントをデプロイする方法を説明します。
+
+## TechZone予約環境
+
+### 環境名
+**WX.data ONLY watsonx Data - Dallas**
+- Environment: `ibmcloud-2`
+- TechZone環境ID: `ibmcloud-2 environment`
+
+### 含まれる製品・サービス
+
+#### watsonx.data
+- watsonx.data プラットフォーム
+
+#### watsonX Assistant
+- Watson Discovery
+- Speech
+- NeuralSeek
+
+#### watsonX.ai
+- Cloud Object Storage
+- watsonx Orchestrate Trial
+
+#### インフラストラクチャ（本ハンズオンで使用）
+- **Code Engine** - コンテナアプリケーション実行環境
+- **Container Registry** - Dockerイメージレジストリ
+
+### 予約方法
+
+1. IBM TechZone (https://techzone.ibm.com/) にアクセス
+2. "WX.data ONLY watsonx Data - Dallas" を検索
+3. 予約を作成（通常7-14日間）
+4. 予約完了後、watsonx-eventsアカウントが作成される
 
 ## TechZone予約の確認
 
