@@ -40,7 +40,7 @@ cd setup/instructor
 
 **クイックスタート**:
 ```bash
-cd setup/participant
+cd setup
 cp .env.example .env
 # .envファイルを編集して講師から配布された情報を入力
 pip install -r requirements.txt

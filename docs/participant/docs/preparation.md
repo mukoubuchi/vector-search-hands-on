@@ -117,9 +117,11 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
 
 #### 接続情報の設定方法
 
-1. **プロジェクトフォルダ内の`setup/participant`フォルダを開く**
+!!! example "🖐️ 実践: 接続情報を設定しよう"
+    
+    1. **プロジェクトフォルダ内の`setup`フォルダを開く**
 
-2. **`.env.example`ファイルを`.env`にコピー**
+    2. **`.env.example`ファイルを`.env`にコピー**
    - Windowsの場合: ファイルをコピーして名前を変更
    - Mac/Linuxの場合: ターミナルで`cp .env.example .env`
 

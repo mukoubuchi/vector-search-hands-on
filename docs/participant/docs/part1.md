@@ -86,7 +86,8 @@ Vector Searchは様々な場面で使われています：
 
 ## ステップ2: 接続テストを実行（5分）
 
-実際にVector Searchを動かす前に、必要なサービスに接続できるか確認します。
+!!! example "🖐️ 実践: ここから手を動かします"
+    実際にVector Searchを動かす前に、必要なサービスに接続できるか確認します。
 
 ### 2-1. ターミナルを開く
 
@@ -100,21 +101,21 @@ Vector Searchは様々な場面で使われています：
    - コンピュータに命令を出す画面
    - 文字で命令を入力します
 
-### 2-2. setup/participantフォルダに移動
+### 2-2. setupフォルダに移動
 
 ターミナルに以下を入力してEnterキーを押します：
 
 ```bash
-cd setup/participant
+cd setup
 ```
 
 **説明**:
 - `cd` = "Change Directory"（フォルダを移動する命令）
-- `setup/participant` = 移動先のフォルダパス
+- `setup` = 移動先のフォルダパス
 
 **確認**:
 - ターミナルの表示が変わります
-- `~/vector-search-handson/setup/participant` のような表示になればOK
+- `~/vector-search-handson/setup` のような表示になればOK
 
 ### 2-3. 接続テストを実行
 
@@ -188,7 +189,8 @@ Milvus接続:        ✓ 成功
 
 ## ステップ3: Vector Searchを体験（5分）
 
-接続テストが成功したら、実際にVector Searchを体験しましょう。
+!!! example "🖐️ 実践: Vector Searchを動かしてみよう"
+    接続テストが成功したら、実際にVector Searchを体験しましょう。
 
 ### 3-1. デモアプリケーションを起動
 

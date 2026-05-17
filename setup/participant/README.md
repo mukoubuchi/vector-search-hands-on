@@ -33,8 +33,8 @@ IBM Bob IDE用のVector Search Builderモード定義ファイルです。
 ### 1. 環境変数の設定
 
 ```bash
-# setup/participant ディレクトリに移動
-cd setup/participant
+# setup ディレクトリに移動
+cd setup
 
 # .env ファイルを作成
 cp .env.example .env
