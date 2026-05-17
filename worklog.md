@@ -868,3 +868,232 @@ MILVUS_HOST=192.168.1.100  ← 講師のIPアドレスに置き換え
 すべてのタスクが完了しました。
 
 **完了日時**: 2026年5月17日 08:37 JST
+
+---
+
+## 2026年5月17日（土）- 続き
+
+### 作業概要
+講師側の準備とvector-search-builder.zipの更新
+
+### 作業時間
+- 開始: 19:21 JST (2026-05-17 10:21 UTC)
+- 終了: 20:07 JST (2026-05-17 11:07 UTC)
+- 所要時間: 約46分
+
+---
+
+## 実施した作業
+
+### 1. 講師側の環境準備（19:21-19:33）
+
+#### 作業内容
+- Docker環境の起動確認
+- IPアドレスの確認
+- 接続テストの実行
+
+#### 実施した手順
+1. **Docker環境の起動**
+   ```bash
+   cd setup
+   ./start-all.sh
+   ```
+   - Milvus環境が起動
+   - MkDocsドキュメントサーバーが起動
+   - IPアドレス取得でエラー（hostname -Iコマンドの問題）
+
+2. **IPアドレスの手動確認**
+   ```bash
+   ifconfig | grep "inet " | grep -v 127.0.0.1
+   ```
+   - 講師のIPアドレス: `10.0.1.5`
+
+3. **Pythonパッケージのインストール**
+   ```bash
+   cd setup
+   pip install -r requirements.txt
+   ```
+   - sentence-transformersを最新版にアップグレード（2.2.2 → 5.5.0）
+
+4. **.envファイルの作成**
+   ```bash
+   cp .env.example .env
+   sed -i '' 's/MILVUS_HOST=192.168.1.100/MILVUS_HOST=localhost/' .env
+   ```
+
+5. **接続テストの実行**
+   ```bash
+   python test_embeddings_hf.py
+   ```
+   - ✓ モデルのロード成功
+   - ✓ 埋め込み生成成功（384次元）
+   - ✓ 類似度計算成功
+
+---
+
+### 2. 講師用共有情報ファイルの作成（19:33-19:40）
+
+#### 作業内容
+- `setup/instructor-share-info.md`を作成
+- 受講者への配布情報をまとめる
+- IPアドレス変更に関する注意事項を追加
+
+#### 作成したファイル
+- [`setup/instructor-share-info.md`](setup/instructor-share-info.md)（123行）
+
+#### 主な内容
+1. **IPアドレスの確認方法**
+   - 毎回ハンズオン開始前に確認が必要
+   - `./start-all.sh`実行時に表示
+   - 手動確認方法（macOS/Linux/Windows）
+
+2. **接続情報テンプレート**
+   ```
+   MILVUS_HOST=【講師のIPアドレス】
+   MILVUS_PORT=19530
+   MILVUS_USER=root
+   MILVUS_PASSWORD=Milvus
+   EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
+   EMBEDDING_DIMENSION=384
+   ```
+
+3. **受講者への案内テキスト**
+   - コピー＆ペーストで使える形式
+   - セットアップ手順を含む
+
+4. **トラブルシューティング**
+   - 接続できない場合の対処法
+   - ファイアウォール確認
+   - ポート確認
+   - Docker確認
+
+---
+
+### 3. vector-search-builder.zipの内容検討（19:46-20:00）
+
+#### 問題の発見
+- 現在のZIPには`.bob`フォルダのみ含まれている
+- MkDocsドキュメントで「プロジェクトフォルダ内の`setup`フォルダを開く」と記載
+- setupフォルダが存在することが前提になっている
+
+#### 検討した内容
+1. **setupフォルダを含めるべきか？**
+   - MkDocsドキュメントとの整合性
+   - 受講者の手間を削減
+   - 講師専用ファイルの除外
+
+2. **README.mdを含めるべきか？**
+   - 受講者が勝手に先々進むことを抑止
+   - MkDocsドキュメントで十分
+   - 結論: 含めない
+
+3. **必要なファイルの特定**
+   - MkDocsドキュメントを厳密に確認
+   - `preparation.md`: `.env.example`を参照
+   - `part1.md`: `test_connection_simple.py`を実行
+
+---
+
+### 4. vector-search-builder.zip v2.0の作成（20:00-20:07）
+
+#### 作業内容
+- 新しいZIPファイルを作成
+- README.mdに変更履歴を追加
+
+#### 含まれるファイル（11ファイル、70KB）
+```
+.bob/                           # Vector Search Builderモード定義
+├── custom_modes.yaml
+└── rules-vector-search-builder/
+    ├── 1_vector_search_workflow.xml
+    ├── 2_best_practices.xml
+    └── 3_common_patterns.xml
+
+setup/                          # 受講者用セットアップファイル
+├── .env.example                # 接続情報テンプレート
+├── requirements.txt            # Pythonパッケージリスト
+├── test_embeddings_hf.py       # 埋め込みモデルテスト
+├── test_connection_simple.py   # シンプルな接続テスト
+└── test_connection.py          # 詳細な接続テスト
+```
+
+#### 除外したファイル（講師専用）
+- `setup/docker-compose.yml`
+- `setup/docker-compose-docs.yml`
+- `setup/start-all.sh`
+- `setup/stop-all.sh`
+- `setup/instructor-share-info.md`
+- `setup/.env`（実際の設定値）
+- `setup/README.md`（受講者の先走りを防ぐため）
+
+---
+
+### 5. README.mdの更新（20:06-20:07）
+
+#### 作業内容
+- ZIPファイルの変更履歴を追加
+- バージョン1.0と2.0の違いを明記
+
+#### 追加した内容
+1. **バージョン2.0（現在）- setupフォルダ含む**
+   - 含まれるファイルの一覧
+   - 変更理由
+   - 除外されているファイル
+
+2. **バージョン1.0（旧版）- .bobのみ**
+   - 問題点を明記
+   - MkDocsドキュメントとの整合性がない
+
+---
+
+## 変更ファイル一覧
+
+### 新規作成
+1. [`setup/instructor-share-info.md`](setup/instructor-share-info.md) - 講師用共有情報（123行）
+2. `vector-search-builder.zip` v2.0 - setupフォルダを含む新版
+
+### 更新
+1. [`README.md`](README.md) - ZIPファイルの変更履歴を追加
+2. [`setup/.env`](setup/.env) - 講師側の接続設定
+
+---
+
+## 重要な発見
+
+### IPアドレスは毎回確認が必要
+- `start-all.sh`実行時に動的に取得される
+- ネットワーク環境が変わると変更される可能性
+- 固定される情報: ポート番号、認証情報、モデル名
+- 変更される情報: 講師のIPアドレス
+
+### MkDocsドキュメントとの整合性
+- setupフォルダが存在することが前提
+- 受講者がsetupフォルダを作成する手順がない
+- ZIPファイルにsetupフォルダを含める必要がある
+
+---
+
+## 成果物
+
+### 講師用共有情報ファイル
+- 受講者への配布情報をまとめたファイル
+- IPアドレス変更に関する注意事項
+- トラブルシューティングガイド
+
+### vector-search-builder.zip v2.0
+- `.bob`フォルダ + `setup`フォルダ
+- MkDocsドキュメントとの整合性を確保
+- 講師専用ファイルは除外
+- 受講者の先走りを防ぐ設計
+
+### README.mdの更新
+- ZIPファイルの変更履歴を明記
+- バージョン間の違いを明確化
+
+---
+
+## 作業完了
+
+すべてのタスクが完了しました。
+
+**完了日時**: 2026年5月17日 20:07 JST

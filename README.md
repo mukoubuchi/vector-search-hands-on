@@ -2,6 +2,55 @@
 
 講師が Milvus 環境を提供し、受講者は IBM Bob IDE のみで参加できるハンズオン環境です。
 
+## 📦 vector-search-builder.zip について
+
+### バージョン2.0（現在）- setupフォルダ含む
+
+**含まれるファイル:**
+```
+vector-search-builder.zip
+├── .bob/                           # Vector Search Builderモード定義
+│   ├── custom_modes.yaml
+│   └── rules-vector-search-builder/
+│       ├── 1_vector_search_workflow.xml
+│       ├── 2_best_practices.xml
+│       └── 3_common_patterns.xml
+└── setup/                          # 受講者用セットアップファイル
+    ├── .env.example                # 接続情報テンプレート
+    ├── requirements.txt            # Pythonパッケージリスト
+    ├── test_embeddings_hf.py       # 埋め込みモデルテスト
+    ├── test_connection_simple.py   # シンプルな接続テスト
+    └── test_connection.py          # 詳細な接続テスト
+```
+
+**変更理由:**
+- MkDocsドキュメントで「プロジェクトフォルダ内の`setup`フォルダを開く」と記載
+- setupフォルダが存在することが前提になっている
+- 受講者がsetupフォルダを作成する手順がない
+
+**除外されているファイル（講師専用）:**
+- `setup/docker-compose.yml` - Milvus環境（講師側で起動）
+- `setup/docker-compose-docs.yml` - MkDocsサーバー（講師側で起動）
+- `setup/start-all.sh` / `stop-all.sh` - 起動/停止スクリプト
+- `setup/instructor-share-info.md` - 講師用共有情報
+- `setup/.env` - 講師の実際の設定値
+- `setup/README.md` - 受講者の先走りを防ぐため
+
+### バージョン1.0（旧版）- .bobのみ
+
+**含まれるファイル:**
+```
+vector-search-builder.zip
+└── .bob/                           # Vector Search Builderモード定義のみ
+    ├── custom_modes.yaml
+    └── rules-vector-search-builder/
+```
+
+**問題点:**
+- setupフォルダが含まれていない
+- 受講者がsetupフォルダを手動で作成する必要がある
+- MkDocsドキュメントと整合性がない
+
 ## ✨ 主な特徴
 
 ### 🎯 受講者にとって
