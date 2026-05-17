@@ -1,3 +1,59 @@
+## 2026年5月17日（土）22:15 JST - 受講者向けドキュメント簡素化
+
+### 作業概要
+受講者（営業など技術に疎い方）向けにドキュメントを簡素化し、URL確認を講師専用機能に変更
+
+### 背景
+- 受講者がIBM Cloud CLIを使ってURL確認する手順は敷居が高い
+- 営業など技術に疎い方には複雑すぎる
+- 講師がURLを共有する運用の方がシンプル
+
+### 実施した変更
+
+#### 1. 受講者向けドキュメントの簡素化
+**削除した内容**:
+- IBM Cloud CLIのインストール手順
+- CLIログイン手順（`ibmcloud login --sso`）
+- Code Engineプラグインのインストール手順
+- URL確認スクリプトの実行手順
+
+**対象ファイル**:
+- `setup/participant/README.md`
+- `docs/participant/docs/preparation.md`
+
+#### 2. URL確認スクリプトの移動
+**移動**: `setup/participant/check_docs_url.sh` → `setup/instructor/check_docs_url.sh`
+
+**講師向けの使い方**:
+```bash
+cd setup/instructor
+./check_docs_url.sh
+```
+
+#### 3. 講師向けドキュメントの更新
+**更新ファイル**:
+- `setup/instructor/README.md`: URL確認スクリプトの説明を追加
+- `setup/instructor/deploy-docs-to-cloud.md`: URL確認方法を2つ提示
+  - 方法1: デプロイスクリプトの出力から確認
+  - 方法2: URL確認スクリプトを使用
+
+### 新しい運用フロー
+1. **講師**: Code Engineにドキュメントをデプロイ
+2. **講師**: `check_docs_url.sh`でURLを確認
+3. **講師**: URLを受講者に共有（メール、チャット等）
+4. **受講者**: 共有されたURLをブラウザで開く
+
+### メリット
+- **受講者の負担軽減**: CLIインストール不要、URLを開くだけ
+- **講師の管理性向上**: URLを一元管理して配布
+- **シンプルな運用**: 技術的なハードルを下げる
+- **サポート負荷軽減**: CLI関連のトラブルシューティング不要
+
+### コミット
+- `1a0dca8` - "Simplify participant docs: move URL check script to instructor-only"
+
+---
+
 ## 2026年5月17日（土）- IBM Cloud Code Engineデプロイ
 
 ### 作業概要
