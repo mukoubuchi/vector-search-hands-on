@@ -51,9 +51,16 @@ if [ -z "$RESOURCE_GROUP" ]; then
     RESOURCE_GROUPS=$(ibmcloud resource groups --output json 2>/dev/null | grep -o '"name":"[^"]*' | cut -d'"' -f4)
     
     if [ -n "$RESOURCE_GROUPS" ]; then
-        # 最初のリソースグループを使用
-        RESOURCE_GROUP=$(echo "$RESOURCE_GROUPS" | head -n 1)
-        echo -e "${YELLOW}リソースグループ '$RESOURCE_GROUP' を使用します${NC}"
+        # TechZone環境（itz-*）を優先的に選択
+        RESOURCE_GROUP=$(echo "$RESOURCE_GROUPS" | grep "^itz-" | head -n 1)
+        
+        # itz-*が見つからない場合は最初のリソースグループを使用
+        if [ -z "$RESOURCE_GROUP" ]; then
+            RESOURCE_GROUP=$(echo "$RESOURCE_GROUPS" | head -n 1)
+            echo -e "${YELLOW}リソースグループ '$RESOURCE_GROUP' を使用します${NC}"
+        else
+            echo -e "${YELLOW}TechZoneリソースグループ '$RESOURCE_GROUP' を使用します${NC}"
+        fi
     fi
 fi
 
