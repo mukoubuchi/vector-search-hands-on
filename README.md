@@ -146,13 +146,22 @@ vector-search-handson/
 │           ├── part3.md            # Part 3: 実践的な応用
 │           └── summary.md          # まとめ
 ├── setup/
-│   ├── docker-compose.yml          # Milvus 環境設定（講師用）
-│   ├── docker-compose-docs.yml     # MkDocsサーバー設定（講師用）
-│   ├── start-all.sh                # 全サービス起動スクリプト
-│   ├── stop-all.sh                 # 全サービス停止スクリプト
-│   ├── .env.example                # 受講者向け接続設定テンプレート
-│   ├── test_connection.py          # 接続テストスクリプト
-│   └── README.md                   # セットアップファイル説明
+│   ├── README.md                   # セットアップ全体説明
+│   ├── instructor/                 # 講師専用ファイル
+│   │   ├── README.md               # 講師用セットアップガイド
+│   │   ├── docker-compose.yml      # Milvus 環境設定
+│   │   ├── docker-compose-docs.yml # MkDocsサーバー設定
+│   │   ├── start-all.sh            # 全サービス起動スクリプト
+│   │   ├── stop-all.sh             # 全サービス停止スクリプト
+│   │   └── instructor-share-info.md # 講師用共有情報準備ガイド
+│   └── participant/                # 受講者配布用ファイル
+│       ├── README.md               # 受講者用セットアップガイド
+│       ├── .env.example            # 接続設定テンプレート
+│       ├── requirements.txt        # Pythonパッケージリスト
+│       ├── test_embeddings_hf.py   # 埋め込みモデルテスト
+│       ├── test_connection_simple.py # シンプルな接続テスト
+│       ├── test_connection.py      # 詳細な接続テスト
+│       └── vector-search-builder.zip # IBM Bob IDEモード定義
 └── README.md                       # このファイル
 ```
 
@@ -174,7 +183,7 @@ vector-search-handson/
 1. Docker Desktop をインストール
 2. **すべてのサービスを一括起動**:
    ```bash
-   cd setup
+   cd setup/instructor
    ./start-all.sh
    ```
    これで以下が起動します:
@@ -193,7 +202,7 @@ vector-search-handson/
 
 #### ハンズオン終了後
 ```bash
-cd setup
+cd setup/instructor
 ./stop-all.sh
 ```
 
