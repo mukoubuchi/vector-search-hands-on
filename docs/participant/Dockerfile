@@ -1,5 +1,5 @@
 # MkDocs Material for IBM Cloud Code Engine
-FROM squidfunk/mkdocs-material:latest
+FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 
 # Set working directory
 WORKDIR /docs
