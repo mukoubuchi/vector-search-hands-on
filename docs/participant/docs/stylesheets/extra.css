@@ -252,13 +252,31 @@
 }
 
 
-/* Link colors - make them more visible */
+/* Link colors - make them more visible with slide-in effect */
 .md-typeset a {
     color: #1976d2 !important;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.md-typeset a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #1976d2;
+    transition: width 0.3s ease;
 }
 
 .md-typeset a:hover {
     color: #1565c0 !important;
+}
+
+.md-typeset a:hover::before {
+    width: 100%;
 }
 
 /* Back to top button hover color */
@@ -267,13 +285,31 @@
 }
 
 
-/* Table of contents (TOC) link colors */
+/* Table of contents (TOC) link colors with slide-in effect */
 .md-nav__link {
     color: #1976d2 !important;
+    position: relative;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.md-nav__link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #1976d2;
+    transition: width 0.3s ease;
 }
 
 .md-nav__link:hover {
     color: #1565c0 !important;
+}
+
+.md-nav__link:hover::before {
+    width: 100%;
 }
 
 .md-nav__link--active {
@@ -281,7 +317,7 @@
     font-weight: 600;
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - default for main content */
 ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
@@ -297,5 +333,14 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a;
+}
+
+/* Table of contents scrollbar - blue-grey to match header */
+.md-sidebar--secondary ::-webkit-scrollbar-thumb {
+    background: #607d8b;
+}
+
+.md-sidebar--secondary ::-webkit-scrollbar-thumb:hover {
     background: #546e7a;
 }
