@@ -241,7 +241,7 @@
         content: '' !important;
         position: absolute !important;
         left: 50% !important;
-        bottom: 0.4rem !important;
+        bottom: 0 !important;
         width: 0 !important;
         height: 2px !important;
         background-color: #fff !important;
