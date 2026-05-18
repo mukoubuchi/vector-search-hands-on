@@ -155,15 +155,15 @@
     }
 }
 
-/* Code block styling - dark background */
+/* Code block styling - harmonized dark background */
 .md-typeset pre {
-    background-color: #1e1e1e !important;
+    background-color: #2b2b2b !important;
     margin: 1em 0;
 }
 
 .md-typeset code {
-    background-color: #1e1e1e !important;
-    color: #d4d4d4 !important;
+    background-color: #2b2b2b !important;
+    color: #e0e0e0 !important;
 }
 
 .md-typeset pre code {
@@ -235,11 +235,13 @@
 
 /* Copy button styling - make it visible */
 .md-clipboard {
-    color: #666 !important;
+    color: #aaa !important;
+    opacity: 0.8;
 }
 
 .md-clipboard:hover {
-    color: var(--md-primary-fg-color) !important;
+    color: #fff !important;
+    opacity: 1;
 }
 
 
