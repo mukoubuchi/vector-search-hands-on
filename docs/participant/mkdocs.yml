@@ -37,6 +37,7 @@ theme:
     - content.action.view
   icon:
     repo: fontawesome/brands/github
+    logo: fontawesome/solid/house
   font:
     text: Roboto
     code: Roboto Mono
