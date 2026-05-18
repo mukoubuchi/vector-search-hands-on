@@ -1,3 +1,45 @@
+## 2026年5月18日（日）13:02 JST - スクロールバーのカスタマイズを削除
+
+### 作業概要
+スクロールバーの色をカスタマイズする試みを行ったが、デフォルトの設定を変更するほどではないと判断し、元に戻す
+
+### 実施した変更
+
+#### 削除したファイルと内容
+
+1. **`docs/participant/docs/overrides/main.html`**
+   - スクロールバー色を変更するためのインラインCSSを削除
+   - Font Awesomeのリンクのみを残す
+
+2. **`docs/participant/docs/stylesheets/extra.css`**
+   - ファイル先頭にあったスクロールバー関連のCSS（24行分）を削除
+   - WebKit擬似要素（`::-webkit-scrollbar-thumb`）のスタイルをすべて削除
+
+### 削除した内容の詳細
+
+- CSS変数の上書き（`:root`レベル）
+  - `--md-accent-fg-color`
+  - `--md-accent-fg-color--transparent`
+  - `--md-accent-bg-color`
+
+- WebKit擬似要素のスタイル
+  - `* ::-webkit-scrollbar-thumb`
+  - `html ::-webkit-scrollbar-thumb`
+  - `body ::-webkit-scrollbar-thumb`
+  - `.md-sidebar--secondary ::-webkit-scrollbar-thumb`
+  - その他多数のセレクタ
+
+### 結果
+- スクロールバーの色がMkDocs Materialテーマのデフォルト（青色）に戻る
+- シンプルで標準的な見た目を維持
+
+### コミット情報
+- コミットメッセージ: "スクロールバーのカスタマイズを削除してデフォルトに戻す"
+- コミットハッシュ: af899a1
+- 変更: 2ファイル、65行削除
+
+---
+
 ## 2026年5月18日（日）12:58 JST - CSS変数を使用してスクロールバー色を強制変更
 
 ### 作業概要
