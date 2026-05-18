@@ -1416,3 +1416,42 @@ setup/                          # 受講者用セットアップファイル
 - リモートリポジトリにpush
 
 ---
+
+---
+
+## 2026年5月18日 09:56 JST
+
+### 作業内容
+- MkDocsドキュメントのスタイル改善
+  - 見出しアイコンの変更（h1: fa-circle-right, h2: fa-magnifying-glass-arrow-right, h3: fa-circle-chevron-right）
+  - ホームアイコンをfa-houseに変更
+  - infoアドモニションの本アイコンを削除
+  - コードブロックの背景色を調和させた（#1e1e1e → #2b2b2b）
+  - クリップボードアイコンの視認性を改善
+  - セクション以外のアイコンを削除（手、本、ラップトップ、電球、卒業帽、ロケット、的、三角警告）
+  - すべての絵文字をFontAwesomeアイコンに置き換え
+
+### 変更ファイル
+- [`docs/participant/docs/stylesheets/extra.css`](docs/participant/docs/stylesheets/extra.css)
+- [`docs/participant/mkdocs.yml`](docs/participant/mkdocs.yml)
+- [`docs/participant/docs/index.md`](docs/participant/docs/index.md)
+- [`docs/participant/docs/preparation.md`](docs/participant/docs/preparation.md)
+- [`docs/participant/docs/part1.md`](docs/participant/docs/part1.md)
+- [`docs/participant/docs/part2.md`](docs/participant/docs/part2.md)
+- [`docs/participant/docs/part3.md`](docs/participant/docs/part3.md)
+- [`docs/participant/docs/summary.md`](docs/participant/docs/summary.md)
+
+### アイコン統一
+- ✅ → `:fontawesome-solid-check:`
+- ❌ → `:fontawesome-solid-xmark:`
+- 🆘 → `:fontawesome-solid-circle-question:`
+- 💼 → `:fontawesome-solid-briefcase:`
+- 💬 → `:fontawesome-solid-comment:`
+- ナビゲーションの1️⃣2️⃣3️⃣を削除
+
+### スタイル改善
+- コードブロック背景: より調和した暗いグレー（#2b2b2b）
+- クリップボードアイコン: より明るく見やすい色（#aaa）
+- 透明度を追加して洗練された見た目に
+
+---
