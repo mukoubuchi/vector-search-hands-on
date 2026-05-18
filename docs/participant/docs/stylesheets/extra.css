@@ -188,7 +188,7 @@
 }
 
 /* Make header single row - merge tabs into header */
-@media screen and (min-width: 60em) {
+@media screen and (min-width: 1px) {
     /* Move tabs into header */
     .md-tabs {
         position: absolute !important;
@@ -237,24 +237,33 @@
         color: rgba(255, 255, 255, 1) !important;
     }
     
+    /* Tab underline using ::after pseudo-element */
     .md-tabs__link::after {
         content: '' !important;
         position: absolute !important;
         left: 1rem !important;
         right: 1rem !important;
-        bottom: 0 !important;
+        bottom: 0.4rem !important;  /* Position slightly above bottom for better visibility */
         height: 2px !important;
         background-color: rgba(255, 255, 255, 1) !important;
-        transform: scaleX(0) !important;
+        transform: scaleX(0) !important;  /* Hidden by default */
         transform-origin: center !important;
         transition: transform 0.3s ease !important;
+        display: block !important;
     }
     
+    /* Show underline on hover */
     .md-tabs__link:hover::after {
         transform: scaleX(1) !important;
     }
     
+    /* Show underline on active tab */
     .md-tabs__item--active .md-tabs__link::after {
+        transform: scaleX(1) !important;
+    }
+    
+    /* Fallback for different MkDocs versions using aria-current attribute */
+    .md-tabs .md-tabs__link[aria-current="page"]::after {
         transform: scaleX(1) !important;
     }
     

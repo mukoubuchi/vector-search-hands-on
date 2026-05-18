@@ -2511,3 +2511,105 @@ MkDocsサーバーが`--no-livereload`フラグ付きで起動されていたこ
 - 変更内容: CSSスタイルの改善（クリップボードアイコンの視認性向上など）
 
 ---
+
+## 2026-05-18: タブの下線が表示されない問題
+
+### 問題
+MkDocsのナビゲーションタブ（ページ上部の「ホーム」「事前準備」「Part 1」など）の下線が表示されなくなった。
+
+### 症状
+- アクティブなタブに白い下線が表示されない
+- タブにホバーしても下線が表示されない
+- 開発者ツールで確認すると、`.md-tabs__link::after`のスタイルは適用されているが、視覚的に見えない
+
+### 原因
+コミット`b5255f3`（Improve MkDocs UI: fix search functionality and tab styling）で、`.md-tabs__link::after`の`bottom`プロパティが変更されたことが原因：
+
+**変更前**：
+```css
+bottom: 0.4rem !important;
+```
+
+**変更後**：
+```css
+bottom: 0 !important;
+```
+
+`bottom: 0`では、下線がタブの最下部に配置され、他の要素に隠れたり、視認できない位置になっていた。
+
+### 解決策
+`bottom`プロパティを`0.4rem`に戻すことで解決：
+
+```css
+.md-tabs__link::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    bottom: 0.4rem !important;  /* 0から0.4remに変更 */
+    height: 2px !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    transform: scaleX(0) !important;
+    transform-origin: center !important;
+    transition: transform 0.3s ease !important;
+    display: block !important;
+}
+```
+
+### リファクタリング
+問題解決後、コードを最適化：
+
+1. **不要なフォールバックを削除**：
+   - `border-bottom`と`box-shadow`のフォールバックを削除（`::after`が正しく機能しているため）
+
+2. **コメントの改善**：
+   - 各プロパティの目的を明確に記述
+   - `bottom: 0.4rem`の理由を明記
+
+3. **互換性の向上**：
+   - MkDocsの異なるバージョン対応として`aria-current="page"`属性を使用するフォールバックを追加
+
+### 教訓
+1. **変更履歴の確認を最優先**：ユーザーが「ここをいじってから表示されなくなった」と言った時点で、すぐに`git log`と`git diff`で変更履歴を確認すべき
+2. **シンプルな解決策から試す**：複雑な解決策（詳細度の変更、`z-index`の追加など）を試す前に、最近の変更内容を確認する
+3. **ユーザーの情報を重視**：ユーザーが提供する情報（「いつから」「何をした後」など）は、問題解決の重要な手がかり
+
+### 最終的なコード
+```css
+/* Tab underline using ::after pseudo-element */
+.md-tabs__link::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    bottom: 0.4rem !important;  /* Position slightly above bottom for better visibility */
+    height: 2px !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    transform: scaleX(0) !important;  /* Hidden by default */
+    transform-origin: center !important;
+    transition: transform 0.3s ease !important;
+    display: block !important;
+}
+
+/* Show underline on hover */
+.md-tabs__link:hover::after {
+    transform: scaleX(1) !important;
+}
+
+/* Show underline on active tab */
+.md-tabs__item--active .md-tabs__link::after {
+    transform: scaleX(1) !important;
+}
+
+/* Fallback for different MkDocs versions using aria-current attribute */
+.md-tabs .md-tabs__link[aria-current="page"]::after {
+    transform: scaleX(1) !important;
+}
+```
+
+### 結果
+- アクティブなタブに白い下線（2px）が表示される
+- タブにホバーすると下線がアニメーション表示される
+- 左右に1remの余白を持つ下線が正しく機能する
+
+---
