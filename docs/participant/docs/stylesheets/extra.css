@@ -243,7 +243,7 @@
 }
 
 
-/* Hide icon for info admonition */
-.md-typeset .admonition.info > .admonition-title::before {
+/* Hide icon for info admonition title */
+.md-typeset .admonition.info > .admonition-title > .admonition-icon {
     display: none;
 }
