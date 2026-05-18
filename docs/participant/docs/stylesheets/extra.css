@@ -250,3 +250,18 @@
     content: none !important;
     display: none !important;
 }
+
+
+/* Link colors - make them more visible */
+.md-typeset a {
+    color: #1976d2 !important;
+}
+
+.md-typeset a:hover {
+    color: #1565c0 !important;
+}
+
+/* Back to top button hover color */
+.md-top:hover {
+    background-color: #1976d2 !important;
+}
