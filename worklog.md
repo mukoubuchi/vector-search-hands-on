@@ -1,3 +1,66 @@
+## 2026年5月18日（日）12:47 JST - ユニバーサルセレクタで全スクロールバーを強制変更
+
+### 作業概要
+ユーザーの画面で青いスクロールバーが表示されていたため、ユニバーサルセレクタ（`*`）を使用してすべてのスクロールバーを強制的にblue-greyに変更
+
+### 問題の特定
+- ユーザーの実際の画面では、右側の目次に青いスクロールバー（#1976d2）が表示されていた
+- 既存の具体的なセレクタでは、MkDocs Materialテーマの独自スクロールバーに適用されていなかった
+
+### 実施した変更
+
+#### ユニバーサルセレクタによる最優先適用
+**CSSファイルの最上部に追加**:
+
+```css
+/* CRITICAL: Force ALL scrollbars to blue-grey - MUST be at the top for highest priority */
+* ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+* ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+html ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+html ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+body ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+body ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+```
+
+### アプローチの特徴
+1. **ユニバーサルセレクタ（`*`）**: すべての要素のスクロールバーに適用
+2. **html/bodyセレクタ**: ルート要素レベルでも強制適用
+3. **ファイル最上部配置**: CSS優先順位を最大化
+4. **`!important`フラグ**: すべてのルールに付与して確実に上書き
+
+### 期待される効果
+- ページ内のすべてのスクロールバー（メインコンテンツ、目次、その他）がblue-grey（#607d8b）で統一
+- MkDocs Materialテーマの独自スタイルも確実に上書き
+- ブラウザのハードリロードで即座に反映
+
+### コミット情報
+- コミットメッセージ: "最優先でユニバーサルセレクタを使用してすべてのスクロールバーをblue-greyに強制変更"
+- コミットハッシュ: 78306d5
+
+### 確認方法
+1. ブラウザでhttp://127.0.0.1:8000/を開く
+2. ハードリロード（Cmd+Shift+R / Ctrl+Shift+R）を実行
+3. 右側の目次のスクロールバーがblue-greyになっていることを確認
+
+---
+
 ## 2026年5月18日（日）12:41 JST - 目次スクロールバーの色変更を網羅的に強化
 
 ### 作業概要
