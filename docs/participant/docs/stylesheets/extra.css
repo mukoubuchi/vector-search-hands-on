@@ -139,17 +139,12 @@
     display: none;
 }
 
-/* Hide the entire left sidebar navigation */
-.md-sidebar--primary {
-    display: none;
-}
-
-/* Expand content area to use the space from hidden sidebar */
-.md-content {
-    margin-left: 0;
-}
-
+/* Hide the left sidebar on desktop, but keep it for mobile hamburger menu */
 @media screen and (min-width: 76.25em) {
+    .md-sidebar--primary {
+        display: none;
+    }
+    
     .md-content {
         margin-left: 0;
     }
