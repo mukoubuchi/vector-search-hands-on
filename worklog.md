@@ -1,3 +1,72 @@
+## 2026年5月18日（日）13:14 JST - モバイルビューでハンバーガーメニューが機能するように修正
+
+### 作業概要
+モバイル/タブレット画面でハンバーガーメニューをクリックしても何も表示されない問題を修正
+
+### 問題の原因
+`extra.css`の143-145行目で左サイドバー（`.md-sidebar--primary`）を`display: none`で完全に非表示にしていたため、モバイルビューでハンバーガーメニューをクリックしても、表示されるべきナビゲーションメニューが非表示のままだった。
+
+```css
+/* 問題のあったコード */
+.md-sidebar--primary {
+    display: none;  /* すべての画面サイズで非表示 */
+}
+```
+
+### 実施した修正
+
+#### `docs/participant/docs/stylesheets/extra.css`の変更
+
+**修正前**:
+```css
+/* Hide the entire left sidebar navigation */
+.md-sidebar--primary {
+    display: none;
+}
+
+/* Expand content area to use the space from hidden sidebar */
+.md-content {
+    margin-left: 0;
+}
+
+@media screen and (min-width: 76.25em) {
+    .md-content {
+        margin-left: 0;
+    }
+}
+```
+
+**修正後**:
+```css
+/* Hide the left sidebar on desktop, but keep it for mobile hamburger menu */
+@media screen and (min-width: 76.25em) {
+    .md-sidebar--primary {
+        display: none;
+    }
+    
+    .md-content {
+        margin-left: 0;
+    }
+}
+```
+
+### 修正の詳細
+1. **メディアクエリの追加**: `@media screen and (min-width: 76.25em)`で囲むことで、デスクトップ画面（76.25em以上）でのみ左サイドバーを非表示に
+2. **モバイル/タブレットでの表示**: 76.25em未満の画面サイズでは左サイドバーが表示されるため、ハンバーガーメニューが正常に機能
+3. **レスポンシブ対応**: デスクトップでは左サイドバーを非表示にしてコンテンツエリアを広く、モバイルではハンバーガーメニューでナビゲーションを表示
+
+### 期待される効果
+- モバイル/タブレット画面でハンバーガーメニューをクリックすると、ナビゲーションメニューが正しく表示される
+- デスクトップ画面では従来通り左サイドバーが非表示で、コンテンツエリアが広く使える
+- レスポンシブデザインとして適切に機能
+
+### コミット情報
+- コミットメッセージ: "モバイルビューでハンバーガーメニューが機能するように修正"
+- コミットハッシュ: 883ef6a
+- 変更: 1ファイル、5行追加、10行削除
+
+---
+
 ## 2026年5月18日（日）13:02 JST - スクロールバーのカスタマイズを削除
 
 ### 作業概要
