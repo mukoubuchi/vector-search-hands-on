@@ -242,20 +242,20 @@
         position: absolute !important;
         left: 1rem !important;
         right: 1rem !important;
-        bottom: 0.5rem !important;
-        width: auto !important;
+        bottom: 0 !important;
         height: 2px !important;
         background-color: #fff !important;
-        opacity: 0 !important;
-        transition: opacity 0.3s ease !important;
+        transform: scaleX(0) !important;
+        transform-origin: center !important;
+        transition: transform 0.3s ease !important;
     }
     
     .md-tabs__link:hover::after {
-        opacity: 1 !important;
+        transform: scaleX(1) !important;
     }
     
     .md-tabs__item--active .md-tabs__link::after {
-        opacity: 1 !important;
+        transform: scaleX(1) !important;
     }
     
     /* Adjust header to accommodate tabs */
