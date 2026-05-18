@@ -1,3 +1,70 @@
+## 2026年5月18日（日）12:58 JST - CSS変数を使用してスクロールバー色を強制変更
+
+### 作業概要
+MkDocs MaterialテーマのCSS変数（`--md-accent-fg-color`）を上書きすることで、スクロールバー色をblue-greyに変更
+
+### 問題の分析
+- 前回のインラインCSSでもスクロールバーが青色のまま変わらなかった
+- MkDocs Materialテーマは独自のCSS変数を使用してスクロールバー色を制御している
+- 特に`--md-accent-fg-color`変数がスクロールバーの色に使用されている
+- WebKitの擬似要素だけでなく、テーマのCSS変数も上書きする必要がある
+
+### 実施した変更
+
+#### CSS変数の上書きを追加
+**ファイル**: `docs/participant/docs/overrides/main.html`
+
+**追加内容**:
+```html
+<style>
+  /* CRITICAL: Override Material theme CSS variables for scrollbar colors */
+  :root {
+    --md-accent-fg-color: #607d8b !important;
+    --md-accent-fg-color--transparent: rgba(96, 125, 139, 0.1) !important;
+    --md-accent-bg-color: #607d8b !important;
+  }
+  
+  /* CRITICAL: Override ALL scrollbar styles with highest priority */
+  * ::-webkit-scrollbar-thumb,
+  html ::-webkit-scrollbar-thumb,
+  body ::-webkit-scrollbar-thumb,
+  .md-sidebar--secondary ::-webkit-scrollbar-thumb,
+  .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb,
+  .md-nav ::-webkit-scrollbar-thumb,
+  .md-nav__list ::-webkit-scrollbar-thumb,
+  [data-md-component="sidebar"] ::-webkit-scrollbar-thumb,
+  [data-md-component="toc"] ::-webkit-scrollbar-thumb,
+  [data-md-type="toc"] ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+    background-color: #607d8b !important;
+    border-radius: 6px !important;
+  }
+  ...
+</style>
+```
+
+### アプローチの特徴
+1. **CSS変数の上書き**: `:root`レベルで`--md-accent-fg-color`を#607d8bに設定
+2. **二重の保険**: CSS変数とWebKit擬似要素の両方を上書き
+3. **`background`と`background-color`の両方を指定**: より確実な適用
+4. **`[data-md-component="toc"]`セレクタを追加**: 目次専用のセレクタも追加
+
+### 技術的な詳細
+- MkDocs Materialテーマは内部的にCSS変数を使用してカラースキームを管理
+- `--md-accent-fg-color`: アクセントカラー（リンク、スクロールバーなど）
+- `--md-accent-fg-color--transparent`: 透明度付きアクセントカラー
+- `--md-accent-bg-color`: アクセント背景色
+
+### 期待される効果
+- CSS変数レベルでの変更により、テーマの内部ロジックに従ってスクロールバー色が変更される
+- より根本的な解決方法で、確実にblue-grey（#607d8b）が適用される
+
+### コミット情報
+- コミットメッセージ: "CSS変数を使用してスクロールバー色を強制的にblue-greyに変更"
+- コミットハッシュ: c2ac6bd
+
+---
+
 ## 2026年5月18日（日）12:54 JST - HTMLテンプレートにインラインCSSを追加
 
 ### 作業概要
