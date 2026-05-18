@@ -244,6 +244,7 @@
 
 
 /* Hide book icon for info admonition title, keep i icon */
-.md-typeset .admonition.info .admonition-title::before {
+.md-typeset .admonition.info > .admonition-title::after {
     content: none !important;
+    display: none !important;
 }
