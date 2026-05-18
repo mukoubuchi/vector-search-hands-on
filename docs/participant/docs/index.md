@@ -2,7 +2,7 @@
 
 このハンズオンでは、IBM Bobを使って「意味で検索する」機能（Vector Search）を体験します。
 
-!!! info ":fontawesome-solid-book: このドキュメントについて"
+!!! info "このドキュメントについて"
     このドキュメントは以下の方法でアクセスできます：
     
     - **オンライン版（推奨）**: 講師から共有されたCode Engine URL
