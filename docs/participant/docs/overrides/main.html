@@ -6,6 +6,13 @@
   
   <!-- Force scrollbar colors to blue-grey -->
   <style>
+    /* CRITICAL: Override Material theme CSS variables for scrollbar colors */
+    :root {
+      --md-accent-fg-color: #607d8b !important;
+      --md-accent-fg-color--transparent: rgba(96, 125, 139, 0.1) !important;
+      --md-accent-bg-color: #607d8b !important;
+    }
+    
     /* CRITICAL: Override ALL scrollbar styles with highest priority */
     * ::-webkit-scrollbar-thumb,
     html ::-webkit-scrollbar-thumb,
@@ -15,8 +22,10 @@
     .md-nav ::-webkit-scrollbar-thumb,
     .md-nav__list ::-webkit-scrollbar-thumb,
     [data-md-component="sidebar"] ::-webkit-scrollbar-thumb,
+    [data-md-component="toc"] ::-webkit-scrollbar-thumb,
     [data-md-type="toc"] ::-webkit-scrollbar-thumb {
       background: #607d8b !important;
+      background-color: #607d8b !important;
       border-radius: 6px !important;
     }
     
@@ -28,8 +37,10 @@
     .md-nav ::-webkit-scrollbar-thumb:hover,
     .md-nav__list ::-webkit-scrollbar-thumb:hover,
     [data-md-component="sidebar"] ::-webkit-scrollbar-thumb:hover,
+    [data-md-component="toc"] ::-webkit-scrollbar-thumb:hover,
     [data-md-type="toc"] ::-webkit-scrollbar-thumb:hover {
       background: #546e7a !important;
+      background-color: #546e7a !important;
     }
   </style>
 {% endblock %}
