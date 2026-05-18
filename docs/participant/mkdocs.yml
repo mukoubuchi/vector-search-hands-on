@@ -67,6 +67,7 @@ markdown_extensions:
   - tables
   - pymdownx.tasklist:
       custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.keys
@@ -83,3 +84,6 @@ extra:
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js

@@ -54,6 +54,22 @@ vector-search-builder.zip
 - 受講者がsetupフォルダを手動で作成する必要がある
 - MkDocsドキュメントと整合性がない
 
+## 🔄 最新の改善（2026-05-18）
+
+### ドキュメントサイトの最適化
+- **Material for MkDocsのデフォルト仕様を最大限活用**
+  - タブセレクタのカスタムスタイルを削除し、デフォルトデザインを採用
+  - タスクリストの色指定を削除し、デフォルト色（緑）を使用
+  - コードの可読性と保守性が向上
+
+- **プロジェクト構造の整理**
+  - 古い`docs/setup/`ディレクトリを削除（`setup/`に統合済み）
+  - 重複ファイルを削除し、一貫性のある構造に
+
+- **カスタマイズの最小化**
+  - CSSとJavaScriptを必要最小限に
+  - Material for MkDocsのアップデートに強い構造
+
 ## ✨ 主な特徴
 
 ### 🎯 受講者にとって
@@ -132,11 +148,14 @@ sequenceDiagram
 
 ```
 vector-search-handson/
+├── .bob/                           # IBM Bob IDEカスタムモード定義
+│   ├── custom_modes.yaml
+│   └── rules-vector-search-builder/
 ├── docs/
 │   ├── README.md                   # ドキュメント構成の説明
+│   ├── instructor-walkthrough.md   # 講師用実践手順書
 │   ├── instructor/                 # 講師向けドキュメント
-│   │   ├── README.md               # 講師向けガイド
-│   │   └── setup-guide.md          # 環境セットアップガイド
+│   │   └── ibm-products-comparison.md
 │   └── participant/                # 受講者向けドキュメント
 │       ├── README.md               # 受講者向けガイド
 │       ├── hands-on-procedure.md   # 受講者用実践手順書
@@ -153,7 +172,13 @@ vector-search-handson/
 │           ├── part1.md            # Part 1: 基本的なベクトル検索
 │           ├── part2.md            # Part 2: 高度な検索機能
 │           ├── part3.md            # Part 3: 実践的な応用
-│           └── summary.md          # まとめ
+│           ├── summary.md          # まとめ
+│           ├── stylesheets/        # カスタムCSS
+│           │   └── extra.css
+│           ├── javascripts/        # カスタムJavaScript
+│           │   └── extra.js
+│           └── overrides/          # テンプレートオーバーライド
+│               └── main.html
 ├── setup/
 │   ├── README.md                   # セットアップ全体説明
 │   ├── instructor/                 # 講師専用ファイル
@@ -174,6 +199,7 @@ vector-search-handson/
 │       ├── test_connection_simple.py # シンプルな接続テスト
 │       ├── test_connection.py      # 詳細な接続テスト
 │       └── vector-search-builder.zip # IBM Bob IDEモード定義
+├── worklog.md                      # 開発作業ログ
 └── README.md                       # このファイル
 ```
 
