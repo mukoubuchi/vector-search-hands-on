@@ -156,31 +156,45 @@
 
 /* Make header single row - merge tabs into header */
 @media screen and (min-width: 60em) {
-    .md-header__inner {
-        display: flex;
-        align-items: center;
-    }
-    
+    /* Move tabs into header */
     .md-tabs {
-        position: static;
-        width: auto;
-        background-color: transparent;
-        display: flex;
-        align-items: center;
-        flex: 1;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 2.4rem !important;
+        background-color: transparent !important;
+        z-index: 2 !important;
     }
     
     .md-tabs__list {
-        display: flex;
-        align-items: center;
-        margin: 0;
-        padding: 0;
+        display: flex !important;
+        align-items: center !important;
+        height: 2.4rem !important;
+        margin: 0 !important;
+        padding: 0 0 0 2.4rem !important;
     }
     
     .md-tabs__item {
-        display: inline-flex;
-        align-items: center;
-        height: 2.4rem;
+        display: inline-flex !important;
+        align-items: center !important;
+        height: 2.4rem !important;
+        padding: 0 !important;
+    }
+    
+    .md-tabs__link {
+        padding: 0 1rem !important;
+        height: 2.4rem !important;
+        line-height: 2.4rem !important;
+    }
+    
+    /* Adjust header to accommodate tabs */
+    .md-header {
+        height: 2.4rem !important;
+    }
+    
+    .md-header__inner {
+        height: 2.4rem !important;
     }
 }
 
