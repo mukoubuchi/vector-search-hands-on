@@ -1,3 +1,62 @@
+## 2026年5月18日（日）12:54 JST - HTMLテンプレートにインラインCSSを追加
+
+### 作業概要
+外部CSSファイルでは適用されなかったため、HTMLテンプレートの`<head>`内にインラインCSSを追加してスクロールバー色を強制変更
+
+### 問題の分析
+- 外部CSSファイル（`extra.css`）だけでは、MkDocs Materialテーマの独自スクロールバースタイルを上書きできなかった
+- テーマのJavaScriptやデフォルトスタイルが後から読み込まれ、CSSを上書きしている可能性
+
+### 実施した変更
+
+#### HTMLテンプレートにインラインCSS追加
+**ファイル**: `docs/participant/docs/overrides/main.html`
+
+**追加内容**:
+```html
+<style>
+  /* CRITICAL: Override ALL scrollbar styles with highest priority */
+  * ::-webkit-scrollbar-thumb,
+  html ::-webkit-scrollbar-thumb,
+  body ::-webkit-scrollbar-thumb,
+  .md-sidebar--secondary ::-webkit-scrollbar-thumb,
+  .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb,
+  .md-nav ::-webkit-scrollbar-thumb,
+  .md-nav__list ::-webkit-scrollbar-thumb,
+  [data-md-component="sidebar"] ::-webkit-scrollbar-thumb,
+  [data-md-type="toc"] ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+    border-radius: 6px !important;
+  }
+  
+  /* hover時の色も統一 */
+  ...
+</style>
+```
+
+### アプローチの特徴
+1. **HTMLの`<head>`内に直接記述**: 外部CSSより優先度が高い
+2. **複数セレクタをカンマ区切りで列挙**: すべてのスクロールバーに一括適用
+3. **`!important`フラグ**: 確実に上書き
+4. **`{% block extrahead %}`内に配置**: テーマの読み込み後に適用
+
+### 期待される効果
+- HTMLテンプレートレベルでの強制適用により、確実にスクロールバーがblue-grey（#607d8b）で表示
+- MkDocs Materialテーマのデフォルトスタイルを完全に上書き
+- ブラウザのハードリロードで即座に反映
+
+### コミット情報
+- コミットメッセージ: "HTMLテンプレートにインラインCSSを追加してスクロールバー色を強制変更"
+- コミットハッシュ: 3b6a425
+
+### 確認方法
+1. ブラウザでhttp://127.0.0.1:8000/を開く
+2. **必ずハードリロード**（Cmd+Shift+R / Ctrl+Shift+R）を実行
+3. ブラウザの開発者ツールで要素を検証し、インラインCSSが適用されていることを確認
+4. 右側の目次のスクロールバーがblue-greyになっていることを確認
+
+---
+
 ## 2026年5月18日（日）12:51 JST - CSSファイル修正: ユニバーサルセレクタを正しく配置
 
 ### 作業概要
