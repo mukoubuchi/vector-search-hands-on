@@ -279,9 +279,9 @@
     width: 100%;
 }
 
-/* Back to top button hover color */
+/* Back to top button hover color - blue-grey to match header */
 .md-top:hover {
-    background-color: #1976d2 !important;
+    background-color: #607d8b !important;
 }
 
 
@@ -291,6 +291,7 @@
     position: relative;
     display: block;
     transition: color 0.3s ease;
+    overflow: hidden;
 }
 
 .md-nav__link::before {
@@ -302,6 +303,7 @@
     height: 2px;
     background-color: #1976d2;
     transition: width 0.3s ease;
+    max-width: 100%;
 }
 
 .md-nav__link:hover {
@@ -317,7 +319,28 @@
     font-weight: 600;
 }
 
-/* Scrollbar styling - default for main content */
+/* Header tabs with slide-in effect */
+.md-tabs__link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.md-tabs__link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #fff;
+    transition: width 0.3s ease;
+}
+
+.md-tabs__link:hover::before {
+    width: 100%;
+}
+
+/* Scrollbar styling - blue-grey for all scrollbars */
 ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
@@ -336,9 +359,14 @@
     background: #546e7a;
 }
 
-/* Table of contents scrollbar - blue-grey to match header */
+/* Ensure table of contents scrollbar also uses blue-grey */
+.md-sidebar--secondary ::-webkit-scrollbar {
+    width: 8px;
+}
+
 .md-sidebar--secondary ::-webkit-scrollbar-thumb {
     background: #607d8b;
+    border-radius: 6px;
 }
 
 .md-sidebar--secondary ::-webkit-scrollbar-thumb:hover {
