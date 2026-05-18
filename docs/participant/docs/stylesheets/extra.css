@@ -241,3 +241,9 @@
 .md-clipboard:hover {
     color: var(--md-primary-fg-color) !important;
 }
+
+
+/* Hide icon for info admonition */
+.md-typeset .admonition.info > .admonition-title::before {
+    display: none;
+}
