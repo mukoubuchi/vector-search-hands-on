@@ -244,7 +244,7 @@
         right: 1rem !important;
         bottom: 0 !important;
         height: 2px !important;
-        background-color: #fff !important;
+        background-color: rgba(255, 255, 255, 1) !important;
         transform: scaleX(0) !important;
         transform-origin: center !important;
         transition: transform 0.3s ease !important;
