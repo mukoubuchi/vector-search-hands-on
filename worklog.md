@@ -1,3 +1,58 @@
+## 2026年5月18日（日）12:38 JST - 目次スクロールバーの色を完全にblue-greyに修正
+
+### 作業概要
+目次の右側に表示される青いスクロールバーを、複数のCSSセレクタを使用してblue-greyに強制変更
+
+### 問題
+- 目次（右サイドバー）のスクロールバーが青色（#1976d2）で表示されていた
+- 既存のCSSセレクタでは十分に適用されていなかった
+
+### 実施した変更
+
+#### 複数セレクタでスクロールバー色を強制適用
+**追加したセレクタ**:
+
+1. **既存セレクタの強化**:
+```css
+.md-sidebar--secondary ::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.md-sidebar--secondary ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+2. **スクロールラップ用セレクタ**:
+```css
+.md-sidebar--secondary .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+3. **ナビゲーションリスト用セレクタ**:
+```css
+.md-nav__list ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+### 適用範囲
+- `.md-sidebar--secondary`: 右サイドバー全体
+- `.md-sidebar__scrollwrap`: スクロール可能なラッパー要素
+- `.md-nav__list`: ナビゲーションリスト
+
+### 効果
+- 目次のスクロールバーが確実にblue-grey（#607d8b）で表示
+- ホバー時も#546e7aで統一
+- 複数のセレクタで様々なDOM構造に対応
+
+### コミット情報
+- コミットメッセージ: "目次スクロールバーの色を強制的にblue-greyに変更（複数セレクタで対応）"
+- コミットハッシュ: b0eee8e
+
+---
+
 ## 2026年5月18日（日）12:35 JST - 目次リンクとスクロールバーの微調整
 
 ### 作業概要
