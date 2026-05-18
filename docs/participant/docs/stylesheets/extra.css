@@ -435,3 +435,28 @@
 [data-md-component="sidebar"][data-md-type="toc"] ::-webkit-scrollbar-thumb:hover {
     background: #546e7a !important;
 }
+
+/* CRITICAL: Force ALL scrollbars to blue-grey - MUST be at the top for highest priority */
+* ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+* ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+html ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+html ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+body ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+body ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
