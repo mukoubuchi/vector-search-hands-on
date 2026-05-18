@@ -316,4 +316,4 @@ IBM Bobのインストールから始めましょう！
 
 すべて講師がサポートします。安心して進めてください！
 
-### Happy Learning! :fontawesome-solid-rocket:
+### Happy Learning!

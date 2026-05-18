@@ -86,7 +86,7 @@ Vector Searchは様々な場面で使われています：
 
 ## ステップ2: 接続テストを実行（5分）
 
-!!! example ":fontawesome-solid-hand: 実践: ここから手を動かします"
+!!! example "実践: ここから手を動かします"
     実際にVector Searchを動かす前に、必要なサービスに接続できるか確認します。
 
 ### 2-1. ターミナルを開く
@@ -189,7 +189,7 @@ Milvus接続:        ✓ 成功
 
 ## ステップ3: Vector Searchを体験（5分）
 
-!!! example ":fontawesome-solid-hand: 実践: Vector Searchを動かしてみよう"
+!!! example "実践: Vector Searchを動かしてみよう"
     接続テストが成功したら、実際にVector Searchを体験しましょう。
 
 ### 3-1. デモアプリケーションを起動
@@ -400,7 +400,7 @@ INFO:     Uvicorn running on http://localhost:8000
 - [ ] 検索結果を確認できた
 - [ ] 色々な検索を試した
 
-## :fontawesome-solid-graduation-cap: Part 1で学んだこと
+## Part 1で学んだこと
 
 ### 理解したこと
 
@@ -416,7 +416,7 @@ INFO:     Uvicorn running on http://localhost:8000
 - ✅ Swagger UIの使い方
 - ✅ Vector Searchの実行
 
-## :fontawesome-solid-rocket: 次のステップ
+## 次のステップ
 
 Part 1が完了したら、[Part 2: IBM Bobで機能を追加](part2.md)に進みましょう！
 

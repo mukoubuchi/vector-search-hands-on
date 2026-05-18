@@ -12,7 +12,7 @@
 
 ## ステップ1: 追加した機能をテストする（5分）
 
-!!! example ":fontawesome-solid-hand: 実践: 追加した機能をテストしよう"
+!!! example "実践: 追加した機能をテストしよう"
     Part 2で追加した3つの機能をテストします。
 
 ### テスト1: 商品画像の表示
@@ -193,7 +193,7 @@
 
 ## ステップ2: IBM Bobのコードレビュー（5分）
 
-!!! example ":fontawesome-solid-hand: 実践: コードレビューを実行しよう"
+!!! example "実践: コードレビューを実行しよう"
 
 IBM Bobのコードレビュー機能を使って、コードの品質を確認します。
 
@@ -245,15 +245,15 @@ IBM Bobが以下のような結果を表示します：
 ✓ 型ヒントが使用されている
 
 【改善提案】
-:fontawesome-solid-triangle-exclamation: パフォーマンス
+パフォーマンス
   - ベクトル検索結果のキャッシュを検討
   - 大量リクエストへの対策が必要
 
-:fontawesome-solid-triangle-exclamation: セキュリティ
+セキュリティ
   - APIキーを環境変数化（既に実装済み）
   - 入力値のバリデーション強化を推奨
 
-:fontawesome-solid-triangle-exclamation: 保守性
+保守性
   - ログ出力の追加を推奨
   - テストケースの追加を検討
 ```
@@ -269,7 +269,7 @@ IBM Bobが評価したコードの良い点です。
 - ✓ 型ヒントの使用 → コードが読みやすい
 - ✓ エラーハンドリング → 堅牢な実装
 
-#### 改善提案（:fontawesome-solid-triangle-exclamation:）
+#### 改善提案
 
 IBM Bobが提案する改善点です。
 
@@ -300,7 +300,7 @@ IBM Bobが自動的にコードを修正してくれます。
 - [ ] レビュー結果の「改善提案」を確認した
 - [ ] コードレビューの重要性を理解した
 
-## :fontawesome-solid-graduation-cap: Part 3で学んだこと
+## Part 3で学んだこと
 
 ### テストの重要性
 
@@ -341,7 +341,7 @@ IBM Bobが自動的にコードを修正してくれます。
 - [ ] コードレビューの価値を理解した
 - [ ] IBM Bobの活用方法を学んだ
 
-## :fontawesome-solid-rocket: 次のステップ
+## 次のステップ
 
 Part 3が完了したら、[まとめ](summary.md)に進みましょう！
 

@@ -113,7 +113,7 @@ Milvus（ベクトルデータベース）
 
 #### 接続情報の設定方法
 
-!!! example ":fontawesome-solid-hand: 実践: 接続情報を設定しよう"
+!!! example "実践: 接続情報を設定しよう"
     
     1. プロジェクトフォルダ内の`setup`フォルダを開く
     2. `.env.example`ファイルを`.env`にコピー
@@ -236,7 +236,7 @@ Milvus（ベクトルデータベース）
     2. `.env`ファイルを探す（見つからない場合は`.env.example`をコピー）
     3. 講師に画面を見せて確認してもらう
 
-## :fontawesome-solid-bullseye: 次のステップ
+## 次のステップ
 
 準備が完了したら、[Part 1: 環境確認とデモ](part1.md)に進みましょう！
 

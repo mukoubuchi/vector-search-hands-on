@@ -301,7 +301,7 @@ IBM Bobは、開発の未来を変える技術です。
 
 ---
 
-## :fontawesome-solid-rocket: Happy Coding with IBM Bob!
+## Happy Coding with IBM Bob!
 
 学んだスキルを活用して、顧客への価値提供と社内の開発効率化に貢献してください！
 

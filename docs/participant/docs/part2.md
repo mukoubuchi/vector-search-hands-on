@@ -39,14 +39,14 @@
 
 ## 機能1: 商品画像の表示（7分）
 
-!!! info ":fontawesome-solid-book: 説明: なぜこの機能が必要？"
+!!! info "説明: なぜこの機能が必要？"
     現在の検索結果は文字だけです。商品画像があると：
     
     - 視覚的に分かりやすい
     - ユーザー体験が向上
     - 商品の特徴が一目で分かる
 
-!!! example ":fontawesome-solid-hand: 実践: 商品画像機能を追加しよう"
+!!! example "実践: 商品画像機能を追加しよう"
 
 ### ステップ1: IBM Bobを開く
 
@@ -64,7 +64,7 @@
 2. **「Mode」をクリック**
    - モード選択メニューが表示されます
 
-3. **「:fontawesome-solid-laptop-code: Code」を選択**
+3. **「Code」を選択**
    - Codeモードに切り替わります
 
 **Codeモードとは？**:
@@ -411,7 +411,7 @@ IBM Bobが以下のような提案をします：
 - [ ] `similar_features`に類似点がリスト表示される
 - [ ] 理由が分かりやすい
 
-## :fontawesome-solid-lightbulb: IBM Bob活用のコツ
+## IBM Bob活用のコツ
 
 ### 1. 具体的に指示する
 
@@ -460,7 +460,7 @@ IBM Bobが以下のような提案をします：
 
 IBM Bobが原因を分析して、修正方法を提案してくれます。
 
-## :fontawesome-solid-graduation-cap: Part 2で学んだこと
+## Part 2で学んだこと
 
 ### IBM Bobの使い方
 
@@ -502,7 +502,7 @@ IBM Bobが原因を分析して、修正方法を提案してくれます。
 - [ ] 効率的な指示の出し方を学んだ
 - [ ] 段階的な開発の重要性を理解した
 
-## :fontawesome-solid-rocket: 次のステップ
+## 次のステップ
 
 Part 2が完了したら、[Part 3: 動作確認](part3.md)に進みましょう！
 
