@@ -88,7 +88,7 @@
     transform: translateX(4px);
 }
 
-/* Make task lists clickable */
+/* Make task lists clickable and interactive - use Material default colors */
 .md-typeset .task-list-item {
     list-style-type: none;
 }
@@ -147,9 +147,15 @@
     font-size: 0.85em;
 }
 
+/* Tabbed content (e.g., Mac/Windows/Linux tabs) - Use Material default with no hover underline */
+.md-typeset .tabbed-labels > label:hover::after,
+.md-typeset .tabbed-labels > label:hover::before {
+    display: none !important;
+}
+
 /* Improve tab content spacing */
 .md-typeset .tabbed-content {
-    padding-top: 0.5em;
+    padding-top: 1em;
 }
 
 /* Remove excessive spacing in lists */

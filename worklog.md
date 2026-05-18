@@ -2613,3 +2613,128 @@ bottom: 0 !important;
 - 左右に1remの余白を持つ下線が正しく機能する
 
 ---
+
+## 2026-05-18 - タブセレクタとタスクリストのリファクタリング
+
+### 背景
+Material for MkDocsのデフォルト仕様を最大限活用する方針に基づき、カスタムスタイルを最小限に抑える。
+
+### 実施内容
+
+#### 1. タブセレクタのスタイル削除
+**変更ファイル**: [`extra.css`](docs/participant/docs/stylesheets/extra.css:150)
+
+削除したカスタムスタイル：
+- `.tabbed-labels > label`のカスタム背景色、ボーダー、パディング
+- `.tabbed-labels > label[aria-selected="true"]`のアクティブ状態スタイル
+- `.tabbed-labels > label:hover`のホバー状態スタイル
+
+残したスタイル：
+```css
+/* Tabbed content (e.g., Mac/Windows/Linux tabs) - Use Material default with no hover underline */
+.md-typeset .tabbed-labels > label:hover::after,
+.md-typeset .tabbed-labels > label:hover::before {
+    display: none !important;
+}
+
+/* Improve tab content spacing */
+.md-typeset .tabbed-content {
+    padding-top: 1em;
+}
+```
+
+**理由**：
+- Material for MkDocsのデフォルトデザインを使用
+- ホバー時の下線のみ非表示（ユーザー要望）
+- タブコンテンツとの間隔調整は維持
+
+#### 2. タスクリストのスタイル簡略化
+**変更ファイル**: [`extra.css`](docs/participant/docs/stylesheets/extra.css:91)
+
+削除したカスタムスタイル：
+- `.task-list-indicator`の色指定（`color: #607d8b`）
+- `.task-checked .task-list-indicator`の色指定
+- チェック済みタスクの背景色とボーダー
+
+残したスタイル：
+```css
+/* Make task lists clickable and interactive - use Material default colors */
+.md-typeset .task-list-item {
+    list-style-type: none;
+}
+
+.md-typeset .task-list-control {
+    cursor: pointer;
+}
+
+.md-typeset .task-list-indicator {
+    cursor: pointer;
+}
+```
+
+**理由**：
+- Material for MkDocsのデフォルト色（緑）を使用
+- クリック可能であることを示すカーソルスタイルのみ維持
+
+#### 3. JavaScriptの簡略化
+**変更ファイル**: [`extra.js`](docs/participant/docs/javascripts/extra.js:46)
+
+削除した機能：
+- チェックボックスの色変更処理（`indicator.style.color`）
+- `.task-checked`クラスの追加/削除
+
+残した機能：
+```javascript
+// Task list functionality - save state to localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const taskListItems = document.querySelectorAll('.task-list-item');
+        
+        taskListItems.forEach(function(item) {
+            const checkbox = item.querySelector('.task-list-control');
+            
+            if (checkbox) {
+                // Save state to localStorage on change
+                checkbox.addEventListener('change', function() {
+                    const itemText = item.textContent.trim();
+                    const key = 'task-' + window.location.pathname + '-' + itemText;
+                    localStorage.setItem(key, checkbox.checked);
+                });
+                
+                // Restore state from localStorage
+                const itemText = item.textContent.trim();
+                const key = 'task-' + window.location.pathname + '-' + itemText;
+                const savedState = localStorage.getItem(key);
+                
+                if (savedState !== null) {
+                    checkbox.checked = (savedState === 'true');
+                }
+            }
+        });
+    }, 500);
+});
+```
+
+**理由**：
+- Material for MkDocsのデフォルトスタイルに任せる
+- 状態保存機能のみ維持（コア機能）
+
+### 設計方針
+1. **Material for MkDocsのデフォルトを尊重**：
+   - カスタマイズは必要最小限に
+   - デフォルトの色やスタイルを活用
+
+2. **機能の明確化**：
+   - 各カスタマイズの目的を明確に
+   - 不要なコードは削除
+
+3. **保守性の向上**：
+   - シンプルなコードで理解しやすく
+   - Material for MkDocsのアップデートに強い
+
+### 結果
+- タブセレクタ：Material for MkDocsのデフォルトデザインを使用、ホバー時の下線のみ非表示
+- タスクリスト：Material for MkDocsのデフォルト色（緑）を使用、状態保存機能は維持
+- コードの可読性と保守性が向上
+
+---
