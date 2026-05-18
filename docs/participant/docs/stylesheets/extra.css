@@ -2,7 +2,7 @@
 
 /* Heading customization with FontAwesome icons */
 .md-typeset h1::before {
-    content: "\f0a9";
+    content: "\f0da";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     margin-right: 0.5em;
@@ -19,7 +19,7 @@
 }
 
 .md-typeset h2::before {
-    content: "\f0da";
+    content: "\f105";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     margin-right: 0.5em;
@@ -46,6 +46,8 @@
     margin-top: 1.5em;
     margin-bottom: 0.8em;
     color: #455a64;
+    border-bottom: 1px dotted #bdc3c7;
+    padding-bottom: 3px;
 }
 
 .md-typeset p {
@@ -229,3 +231,13 @@
 .highlight .il { color: #b5cea8 } /* Literal.Number.Integer.Long */
 
 /* Made with Bob */
+
+
+/* Copy button styling - make it visible */
+.md-clipboard {
+    color: #666 !important;
+}
+
+.md-clipboard:hover {
+    color: var(--md-primary-fg-color) !important;
+}
