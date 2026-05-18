@@ -1,3 +1,66 @@
+## 2026年5月18日（日）12:35 JST - 目次リンクとスクロールバーの微調整
+
+### 作業概要
+目次リンクのスライドイン幅を文字列末尾までに修正し、目次スクロールバーの色を確実にblue-greyに適用
+
+### 実施した変更
+
+#### 1. 目次リンクのスライドイン幅修正
+**変更内容**:
+- `.md-nav__link`の`display`を`block`から`inline-block`に変更
+- `overflow: hidden`と`max-width: 100%`を削除
+
+**効果**:
+- スライドインバーが文字列の末尾までで止まるように修正
+- 以前はリンク要素の幅全体（スクロールバーの位置まで）伸びていた問題を解決
+
+**変更前**:
+```css
+.md-nav__link {
+    display: block;
+    overflow: hidden;
+}
+```
+
+**変更後**:
+```css
+.md-nav__link {
+    display: inline-block;
+}
+```
+
+#### 2. 目次スクロールバーの色を強制適用
+**変更内容**:
+- `.md-sidebar--secondary ::-webkit-scrollbar-track`を明示的に追加
+- `!important`フラグを追加してblue-grey色を強制適用
+
+**実装内容**:
+```css
+.md-sidebar--secondary ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.md-sidebar--secondary ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+    border-radius: 6px;
+}
+
+.md-sidebar--secondary ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+```
+
+### 改善効果
+- **視覚的正確性**: 目次リンクのスライドインバーが文字列の幅に正確に合わせて表示
+- **色の一貫性**: 目次スクロールバーが確実にblue-greyで表示されるように強制
+- **ユーザー体験向上**: より自然で直感的なアニメーション動作
+
+### コミット情報
+- コミットメッセージ: "目次リンクのスライドイン幅を文字列末尾まで修正、目次スクロールバーのblue-grey色を強制適用"
+- コミットハッシュ: 558dd40
+
+---
+
 ## 2026年5月18日（日）12:31 JST - スライドインアニメーション改善とスクロールバー統一
 
 ### 作業概要
