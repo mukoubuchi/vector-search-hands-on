@@ -683,26 +683,7 @@
     font-weight: 600;
 }
 
-/* Header tabs with slide-in effect */
-.md-tabs__link {
-    position: relative;
-    transition: color 0.3s ease;
-}
-
-.md-tabs__link::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background-color: #fff;
-    transition: width 0.3s ease;
-}
-
-.md-tabs__link:hover::before {
-    width: 100%;
-}
+/* Header tabs with slide-in effect - removed duplicate, using ::after instead */
 
 /* Scrollbar styling - blue-grey for all scrollbars */
 ::-webkit-scrollbar {
