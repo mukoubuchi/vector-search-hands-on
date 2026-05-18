@@ -289,9 +289,8 @@
 .md-nav__link {
     color: #1976d2 !important;
     position: relative;
-    display: block;
+    display: inline-block;
     transition: color 0.3s ease;
-    overflow: hidden;
 }
 
 .md-nav__link::before {
@@ -303,7 +302,6 @@
     height: 2px;
     background-color: #1976d2;
     transition: width 0.3s ease;
-    max-width: 100%;
 }
 
 .md-nav__link:hover {
@@ -359,16 +357,20 @@
     background: #546e7a;
 }
 
-/* Ensure table of contents scrollbar also uses blue-grey */
+/* Table of contents scrollbar - blue-grey with specific styling */
 .md-sidebar--secondary ::-webkit-scrollbar {
     width: 8px;
 }
 
+.md-sidebar--secondary ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
 .md-sidebar--secondary ::-webkit-scrollbar-thumb {
-    background: #607d8b;
+    background: #607d8b !important;
     border-radius: 6px;
 }
 
 .md-sidebar--secondary ::-webkit-scrollbar-thumb:hover {
-    background: #546e7a;
+    background: #546e7a !important;
 }
