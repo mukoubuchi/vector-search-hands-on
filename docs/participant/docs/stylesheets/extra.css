@@ -154,6 +154,36 @@
     display: none !important;
 }
 
+/* Make header single row - merge tabs into header */
+@media screen and (min-width: 60em) {
+    .md-header__inner {
+        display: flex;
+        align-items: center;
+    }
+    
+    .md-tabs {
+        position: static;
+        width: auto;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        flex: 1;
+    }
+    
+    .md-tabs__list {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .md-tabs__item {
+        display: inline-flex;
+        align-items: center;
+        height: 2.4rem;
+    }
+}
+
 /* Responsive search box */
 /* Desktop: In header, same row as tabs, right side */
 @media screen and (min-width: 60em) {
@@ -161,6 +191,7 @@
         order: 3;
         margin-left: auto;
         margin-right: 1rem;
+        flex-shrink: 0;
     }
     
     .md-search__form {
