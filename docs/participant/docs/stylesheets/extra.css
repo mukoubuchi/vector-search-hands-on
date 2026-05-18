@@ -359,18 +359,45 @@
 
 /* Table of contents scrollbar - blue-grey with specific styling */
 .md-sidebar--secondary ::-webkit-scrollbar {
-    width: 8px;
+    width: 8px !important;
 }
 
 .md-sidebar--secondary ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #f1f1f1 !important;
 }
 
 .md-sidebar--secondary ::-webkit-scrollbar-thumb {
     background: #607d8b !important;
-    border-radius: 6px;
+    border-radius: 6px !important;
 }
 
 .md-sidebar--secondary ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+/* Additional selector for TOC navigation scrollbar */
+.md-sidebar--secondary .md-sidebar__scrollwrap ::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.md-sidebar--secondary .md-sidebar__scrollwrap ::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+.md-sidebar--secondary .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+    border-radius: 6px !important;
+}
+
+.md-sidebar--secondary .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+/* Force blue-grey for all navigation scrollbars */
+.md-nav__list ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+.md-nav__list ::-webkit-scrollbar-thumb:hover {
     background: #546e7a !important;
 }
