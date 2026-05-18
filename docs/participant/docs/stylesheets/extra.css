@@ -16,6 +16,12 @@
     color: #2c3e50;
     border-bottom: solid 2px #5a6c7d;
     padding-bottom: 5px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h1:hover {
+    transform: translateX(8px);
 }
 
 .md-typeset h2::before {
@@ -32,6 +38,12 @@
     color: #34495e;
     border-bottom: 1px dotted #7f8c8d;
     padding-bottom: 5px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h2:hover {
+    transform: translateX(6px);
 }
 
 .md-typeset h3::before {
@@ -48,6 +60,12 @@
     color: #455a64;
     border-bottom: 1px dotted #bdc3c7;
     padding-bottom: 3px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h3:hover {
+    transform: translateX(4px);
 }
 
 .md-typeset p {
@@ -57,6 +75,17 @@
 .md-typeset ul,
 .md-typeset ol {
     margin-bottom: 0.8em;
+}
+
+.md-typeset ul > li,
+.md-typeset ol > li {
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.md-typeset ul > li:hover,
+.md-typeset ol > li:hover {
+    transform: translateX(4px);
 }
 
 /* Make task lists clickable */
@@ -211,21 +240,21 @@
     .md-tabs__link::after {
         content: '' !important;
         position: absolute !important;
-        left: 1rem !important;
-        right: 1rem !important;
+        left: 50% !important;
         bottom: 0.4rem !important;
+        width: 0 !important;
         height: 2px !important;
         background-color: #fff !important;
-        opacity: 0 !important;
-        transition: opacity 0.3s ease !important;
+        transform: translateX(-50%) !important;
+        transition: width 0.3s ease !important;
     }
     
     .md-tabs__link:hover::after {
-        opacity: 1 !important;
+        width: calc(100% - 2rem) !important;
     }
     
     .md-tabs__item--active .md-tabs__link::after {
-        opacity: 1 !important;
+        width: calc(100% - 2rem) !important;
     }
     
     /* Adjust header to accommodate tabs */

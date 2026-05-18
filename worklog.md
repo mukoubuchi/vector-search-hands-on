@@ -2425,3 +2425,47 @@ setup/                          # 受講者用セットアップファイル
 - 透明度を追加して洗練された見た目に
 
 ---
+
+## 2026-05-18: MkDocs UI改善 - 検索機能とインタラクティブアニメーション
+
+### 実装内容
+
+#### 検索機能の改善
+- 検索窓外をクリックすると検索が閉じる機能を追加
+  - `mousedown`イベントを使用してMkDocsの検索機能と干渉しないように実装
+  - 検索コンテナと検索結果エリア内のクリックは除外
+- 検索結果のテキスト折り返しを改善
+  - `word-break: break-all`で日本語テキストも適切に折り返し
+  - `overflow-wrap: anywhere`で積極的な折り返し
+  - 検索結果パネルの幅を拡大（最大700px、最小500px）
+
+#### タブスタイリングの改善
+- タブのホバー効果を追加
+  - ホバー時の色を選択中のタブと同じ明るい白に変更
+  - 不透明度を0.7→1.0に変更
+- 選択中のタブに常に下線を表示
+  - 中央から左右に伸びるアニメーション効果
+  - `width`ベースのトランジション（0.3秒）
+- タブテキストをヘッダーの中央に配置
+  - `padding: 0 1rem 0.5rem 1rem`で上下中央に調整
+
+#### インタラクティブアニメーションの追加
+- 見出しセクション（h1, h2, h3）にホバーアニメーション
+  - h1: 右へ8px移動
+  - h2: 右へ6px移動
+  - h3: 右へ4px移動
+  - 0.3秒のスムーズなトランジション
+- リスト項目（ul, ol）にホバーアニメーション
+  - 右へ4px移動
+  - 0.2秒のスムーズなトランジション
+
+### 変更ファイル
+- [`docs/participant/docs/javascripts/extra.js`](docs/participant/docs/javascripts/extra.js) - 新規作成
+- [`docs/participant/docs/stylesheets/extra.css`](docs/participant/docs/stylesheets/extra.css)
+
+### 技術的な詳細
+- JavaScriptで`mousedown`イベントを使用することで、MkDocsの`click`イベントと競合しないように実装
+- CSSの`transform: translateX()`を使用してスムーズなスライドアニメーション
+- タブの下線は`left: 50%`と`transform: translateX(-50%)`で中央基準のアニメーション
+
+---
