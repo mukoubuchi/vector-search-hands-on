@@ -28,7 +28,7 @@ theme:
     - content.action.view
   icon:
     repo: fontawesome/brands/github
-    logo: fontawesome/solid/house
+    # logo: fontawesome/solid/house  # ホームタブがあるため不要
   font:
     text: Roboto
     code: Roboto Mono
