@@ -2,7 +2,7 @@
 
 /* Heading customization with FontAwesome icons */
 .md-typeset h1::before {
-    content: "\f02d";
+    content: "\f0a9";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     margin-right: 0.5em;
