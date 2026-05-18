@@ -144,6 +144,16 @@
     display: none;
 }
 
+/* Hide social/support icons */
+.md-social {
+    display: none !important;
+}
+
+.md-footer__link--next,
+.md-footer__link--prev {
+    display: none !important;
+}
+
 /* Stylish search box */
 .md-search {
     order: 1;
