@@ -35,11 +35,11 @@
 }
 
 .md-typeset h3::before {
-    content: "\f152";
+    content: "\f138";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     margin-right: 0.3em;
-    color: var(--md-accent-fg-color);
+    color: var(--md-primary-fg-color);
 }
 
 .md-typeset h3 {
