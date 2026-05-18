@@ -1,3 +1,74 @@
+## 2026年5月18日（日）12:41 JST - 目次スクロールバーの色変更を網羅的に強化
+
+### 作業概要
+目次スクロールバーの色が変わらない問題に対し、すべての可能なCSSセレクタを網羅的に追加
+
+### 実施した変更
+
+#### 追加したセレクタ（網羅的アプローチ）
+
+1. **基本セレクタ**:
+```css
+.md-sidebar--secondary ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+2. **スクロールラップセレクタ**:
+```css
+.md-sidebar--secondary .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+3. **ナビゲーションリストセレクタ**:
+```css
+.md-nav__list ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+4. **内部ナビゲーションセレクタ**:
+```css
+.md-sidebar--secondary .md-nav ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+5. **直接子要素セレクタ**:
+```css
+.md-sidebar--secondary > .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+6. **data属性セレクタ（最強）**:
+```css
+[data-md-component="sidebar"][data-md-type="toc"] ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+```
+
+### アプローチ
+- MkDocs Materialテーマの様々なDOM構造に対応
+- data属性セレクタでMaterial特有の要素を直接ターゲット
+- すべてのセレクタに`!important`フラグを付与
+
+### 期待される効果
+- 目次の青いスクロールバーがblue-grey（#607d8b）に変更
+- ブラウザのハードリロード（Cmd+Shift+R / Ctrl+Shift+R）で確実に反映
+
+### コミット情報
+- コミットメッセージ: "目次スクロールバーの色変更を網羅的なセレクタで強化（data属性セレクタ含む）"
+- コミットハッシュ: 080243d
+
+### 確認方法
+1. ブラウザでhttp://127.0.0.1:8000/を開く
+2. ハードリロード（Cmd+Shift+R / Ctrl+Shift+R）を実行
+3. 目次のスクロールバーの色を確認
+
+---
+
 ## 2026年5月18日（日）12:38 JST - 目次スクロールバーの色を完全にblue-greyに修正
 
 ### 作業概要
