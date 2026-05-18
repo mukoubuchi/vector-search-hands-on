@@ -628,7 +628,24 @@
     width: 100%;
 }
 
-/* Back to top button hover color - blue-grey to match header */
+/* Back to top button - move to bottom center and always show when scrolled down */
+.md-top {
+    position: fixed !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    margin-left: -1.4rem !important;
+    z-index: 100 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+/* Show button when page is scrolled down */
+.md-top:not([hidden]) {
+    opacity: 1 !important;
+}
+
 .md-top:hover {
     background-color: #607d8b !important;
 }
