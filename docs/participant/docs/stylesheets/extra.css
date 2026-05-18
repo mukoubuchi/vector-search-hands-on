@@ -243,7 +243,8 @@
 }
 
 
-/* Hide icon for info admonition title */
+/* Hide icon for info admonition */
+.md-typeset .admonition.info > .admonition-title::before,
 .md-typeset .admonition.info > .admonition-title > .admonition-icon {
     display: none;
 }
