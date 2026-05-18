@@ -357,7 +357,9 @@
     background: #546e7a;
 }
 
-/* Table of contents scrollbar - blue-grey with specific styling */
+/* Table of contents scrollbar - FORCE blue-grey with all possible selectors */
+
+/* Base selectors */
 .md-sidebar--secondary ::-webkit-scrollbar {
     width: 8px !important;
 }
@@ -375,7 +377,7 @@
     background: #546e7a !important;
 }
 
-/* Additional selector for TOC navigation scrollbar */
+/* Scrollwrap selectors */
 .md-sidebar--secondary .md-sidebar__scrollwrap ::-webkit-scrollbar {
     width: 8px !important;
 }
@@ -393,11 +395,43 @@
     background: #546e7a !important;
 }
 
-/* Force blue-grey for all navigation scrollbars */
+/* Navigation list selectors */
+.md-nav__list ::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.md-nav__list ::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
 .md-nav__list ::-webkit-scrollbar-thumb {
     background: #607d8b !important;
+    border-radius: 6px !important;
 }
 
 .md-nav__list ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+/* Inner navigation selectors */
+.md-sidebar--secondary .md-nav ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+.md-sidebar--secondary .md-nav ::-webkit-scrollbar-thumb:hover {
+    background: #546e7a !important;
+}
+
+/* Direct child selectors */
+.md-sidebar--secondary > .md-sidebar__scrollwrap ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+/* Universal fallback for any scrollbar in secondary sidebar */
+[data-md-component="sidebar"][data-md-type="toc"] ::-webkit-scrollbar-thumb {
+    background: #607d8b !important;
+}
+
+[data-md-component="sidebar"][data-md-type="toc"] ::-webkit-scrollbar-thumb:hover {
     background: #546e7a !important;
 }
