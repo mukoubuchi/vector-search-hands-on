@@ -169,6 +169,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 1. Webブラウザを開く
 2. 以下のURLにアクセス：
+
    ```
    http://localhost:8000/docs
    ```

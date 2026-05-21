@@ -27,7 +27,7 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
 
     === ":fontawesome-brands-windows: Windows"
         右クリック → 「すべて展開」
-    
+
     === ":fontawesome-brands-apple: Mac"
         ダブルクリック
 
@@ -38,10 +38,10 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
 1. IBM Bobを起動
 2. ++file++ → ++open-folder++ でプロジェクトフォルダを選択
 3. IBM Bobをリロード
-    
+
     === ":fontawesome-brands-apple: Mac"
         ++cmd+shift+p++ → 「Reload Window」
-    
+
     === ":fontawesome-brands-windows: Windows"
         ++ctrl+shift+p++ → 「Reload Window」
 
@@ -54,7 +54,7 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
 講師から配布されたIPアドレスを設定します。
 
 !!! example "接続情報の設定"
-    
+
     1. `setup/participant`フォルダを開く
     2. `.env.example`を`.env`にコピー
         
@@ -116,7 +116,7 @@ APIテスト用にWebブラウザを使用します。
 ## 困ったときは
 
 ??? question "Q1: Vector Search Builderモードが表示されない"
-    
+
     **対処法**:
     
     1. `.bob`フォルダが存在するか確認
@@ -125,7 +125,7 @@ APIテスト用にWebブラウザを使用します。
     4. 講師に相談
 
 ??? question "Q2: 接続情報をどこに入力すればいいか分からない"
-    
+
     **対処法**:
     
     1. プロジェクトフォルダ内の`setup/participant`フォルダを開く
