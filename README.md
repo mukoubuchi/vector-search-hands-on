@@ -94,7 +94,8 @@ cd docs
 ```
 
 **リファクタリング済み:**
-- CSSとJavaScriptがモジュール化され、保守性が向上
+
+- CSS と JavaScript がモジュール化され、保守性が向上
 - 各機能が独立したファイルに分離
 - 詳細は [`docs/README.md`](docs/README.md) を参照
 

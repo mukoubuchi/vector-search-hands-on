@@ -31,7 +31,7 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 
     === ":fontawesome-brands-windows: Windows"
         右クリック → 「すべて展開」
-        
+
         ※ ダブルクリックで開いただけでは展開されないため、「すべて展開」を実行してください
 
 3. **`.bob`** フォルダが作成されていることを確認
@@ -40,7 +40,7 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 
 1. IBM Bob を起動
 
-2. <kbd>File</kbd> → <kbd>Open Folder</kbd> でプロジェクトフォルダを選択
+2. ++File++ → ++Open Folder++ でプロジェクトフォルダを選択
 
 3. IBM Bob をリロード
 

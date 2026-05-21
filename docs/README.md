@@ -1,6 +1,6 @@
 # ドキュメントディレクトリ構造
 
-このディレクトリには、MkDocsで生成されるドキュメントのソースファイルが含まれています。
+このディレクトリには、MkDocs で生成されるドキュメントのソースファイルが含まれています。
 
 ## ディレクトリ構造
 
@@ -9,19 +9,19 @@ docs/
 ├── README.md                 # このファイル
 ├── index.md                  # ホームページ
 ├── preparation.md            # 事前準備
-├── part1.md                  # Part 1: Vector Searchを体験
-├── part2.md                  # Part 2: IBM Bobで機能を追加
+├── part1.md                  # Part 1: Vector Search を体験
+├── part2.md                  # Part 2: IBM Bob で機能を追加
 ├── part3.md                  # Part 3: 動作確認
 ├── summary.md                # まとめ
-├── Dockerfile                # ドキュメントサーバー用Dockerfile
-├── stylesheets/              # カスタムCSS（モジュール化済み）
-│   ├── extra.css            # メインCSSファイル（各モジュールをインポート）
+├── Dockerfile                # ドキュメントサーバー用 Dockerfile
+├── stylesheets/              # カスタム CSS（モジュール化済み）
+│   ├── extra.css            # メイン CSS ファイル（各モジュールをインポート）
 │   ├── typography.css       # タイポグラフィスタイル
 │   ├── navigation.css       # ナビゲーションスタイル
 │   ├── code.css             # コードブロックスタイル
 │   └── components.css       # UIコンポーネントスタイル
-├── javascripts/              # カスタムJavaScript（モジュール化済み）
-│   ├── extra.js             # メインJSファイル（ドキュメント用）
+├── javascripts/              # カスタム JavaScript（モジュール化済み）
+│   ├── extra.js             # メイン JS ファイル（ドキュメント用）
 │   ├── search.js            # 検索機能
 │   ├── navigation.js        # ナビゲーション機能
 │   ├── tasks.js             # タスクリスト機能
@@ -33,52 +33,65 @@ docs/
 ## スタイルシートの構成
 
 ### extra.css
-メインのCSSファイル。各モジュールをインポートします。
+
+メインの CSS ファイル。各モジュールをインポートします。
 
 ### typography.css
+
 - 見出し（h1, h2, h3）のスタイル
 - 段落、リスト、リンクのスタイル
 - キーボードキー表示のスタイル
 - 定義リストのスタイル
 
 ### navigation.css
+
 - ヘッダーとタブのスタイル
-- サイドバーとTOCのスタイル
+- サイドバーと TOC のスタイル
 - バックトゥトップボタン
 - スクロールバーのスタイル
 
 ### code.css
+
 - コードブロックのスタイル
 - インラインコードのスタイル
 - シンタックスハイライトの色設定
-- 言語別のコードスタイル（Bash, Python, Properties等）
+- 言語別のコードスタイル（Bash, Python, Properties 等）
 
 ### components.css
+
 - 検索ボックスのスタイル
 - タスクリストのスタイル
 - アドモニション（注意書き）のスタイル
 - タブコンテンツのスタイル
 
-## JavaScriptの構成
+## JavaScript の構成
 
 ### search.js
+
 検索ボックスの動作を制御します：
+
 - 検索ボックス外をクリックした時に検索を閉じる機能
 
 ### navigation.js
+
 ナビゲーション機能を制御します：
+
 - バックトゥトップボタンの表示/非表示制御
 - スクロール位置に応じた動作
 
 ### tasks.js
+
 タスクリスト機能を提供します：
-- チェックボックスの状態をlocalStorageに保存
+
+- チェックボックスの状態を localStorage に保存
 - ページ再読み込み時に状態を復元
 
 ### syntax-highlight.js
+
 コードブロックのシンタックスハイライトを強化します：
-- Bashコマンドの最初の単語を強調表示
-- Propertiesファイルの数値とコメントを適切にハイライト
+
+- Bash コマンドの最初の単語を強調表示
+- Properties ファイルの数値とコメントを適切にハイライト
 
 ## モジュール化の利点
 
@@ -90,20 +103,23 @@ docs/
 ## カスタマイズ方法
 
 ### スタイルの変更
-特定のスタイルを変更したい場合は、該当するCSSモジュールを編集してください：
+
+特定のスタイルを変更したい場合は、該当する CSS モジュールを編集してください：
 
 - タイポグラフィ → `typography.css`
 - ナビゲーション → `navigation.css`
 - コードブロック → `code.css`
-- UIコンポーネント → `components.css`
+- UI コンポーネント → `components.css`
 
 ### 機能の追加
-新しいJavaScript機能を追加する場合：
 
-1. `javascripts/`ディレクトリに新しいファイルを作成
-2. `mkdocs.yml`の`extra_javascript`セクションに追加
+新しい JavaScript 機能を追加する場合：
+
+1. `javascripts/` ディレクトリに新しいファイルを作成
+2. `mkdocs.yml` の `extra_javascript` セクションに追加
 
 例：
+
 ```yaml
 extra_javascript:
   - javascripts/search.js
@@ -115,19 +131,22 @@ extra_javascript:
 
 ## 開発ガイドライン
 
-### CSSの記述ルール
-- CSS変数（`var(--md-*)`）を使用してMaterial Themeとの一貫性を保つ
+### CSS の記述ルール
+
+- CSS 変数（`var(--md-*)`）を使用して Material Theme との一貫性を保つ
 - コメントで各セクションの目的を明記
 - レスポンシブデザインを考慮（メディアクエリの使用）
 
-### JavaScriptの記述ルール
-- 各ファイルの先頭にJSDocコメントで機能を説明
-- `DOMContentLoaded`イベントを使用して初期化
-- 必要に応じて`setTimeout`でMaterial Themeの初期化を待つ
+### JavaScript の記述ルール
+
+- 各ファイルの先頭に JSDoc コメントで機能を説明
+- `DOMContentLoaded` イベントを使用して初期化
+- 必要に応じて `setTimeout` で Material Theme の初期化を待つ
 
 ## ビルドとプレビュー
 
 ### ローカルでのプレビュー
+
 ```bash
 # プロジェクトルートで実行
 mkdocs serve
@@ -136,6 +155,7 @@ mkdocs serve
 ブラウザで `http://localhost:8000` にアクセス
 
 ### 本番ビルド
+
 ```bash
 # プロジェクトルートで実行
 mkdocs build
@@ -146,17 +166,19 @@ mkdocs build
 ## トラブルシューティング
 
 ### スタイルが反映されない
-1. ブラウザのキャッシュをクリア
-2. `mkdocs serve`を再起動
-3. CSSファイルのインポート順序を確認
 
-### JavaScriptが動作しない
+1. ブラウザのキャッシュをクリア
+2. `mkdocs serve` を再起動
+3. CSS ファイルのインポート順序を確認
+
+### JavaScript が動作しない
+
 1. ブラウザのコンソールでエラーを確認
-2. `mkdocs.yml`の`extra_javascript`セクションを確認
+2. `mkdocs.yml` の `extra_javascript` セクションを確認
 3. ファイルパスが正しいか確認
 
 ## 参考リンク
 
-- [MkDocs公式ドキュメント](https://www.mkdocs.org/)
+- [MkDocs 公式ドキュメント](https://www.mkdocs.org/)
 - [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
-- [Python Markdown拡張機能](https://python-markdown.github.io/extensions/)
+- [Python Markdown 拡張機能](https://python-markdown.github.io/extensions/)
