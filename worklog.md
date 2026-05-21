@@ -556,10 +556,10 @@ python test_connection_simple.py
 ```bash
 # Docker ランタイムを自動検出
 if docker version 2>&1 | grep -q "podman"; then
-    # Podman 用の設定
+# Podman 用の設定
     export DOCKER_HOST="unix://$PODMAN_SOCK"
 else
-    # Docker/Colima 用の設定
+# Docker/Colima 用の設定
 fi
 
 ```
@@ -879,7 +879,7 @@ icon:
 # 変更後
 icon:
   repo: fontawesome/brands/github
-  # logo: fontawesome/solid/house  # ホームタブがあるため不要
+# logo: fontawesome/solid/house  # ホームタブがあるため不要
 
 ```
 
@@ -4166,3 +4166,4 @@ git push
 ### コミット
 
 - [`0c942cc`](README.md:1) - `style: 和欧文間のスペースを調整`
+
