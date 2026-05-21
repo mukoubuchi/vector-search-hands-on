@@ -25,11 +25,11 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 1. 配布された`vector-search-builder.zip`をプロジェクトフォルダにコピー
 2. zip ファイルを解凍
 
-    === ":fontawesome-brands-windows: Windows"
-        右クリック → 「すべて展開」
-
     === ":fontawesome-brands-apple: Mac"
         ダブルクリック
+
+    === ":fontawesome-brands-windows: Windows"
+        右クリック → 「すべて展開」
 
 3. `.bob`フォルダが作成されていることを確認
 
@@ -58,14 +58,14 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
     1. `setup/participant`フォルダを開く
     2. `.env.example`を`.env`にコピー
         
-        === ":fontawesome-brands-windows: Windows"
-            ファイルをコピーして名前を変更
-        
         === ":fontawesome-brands-apple: Mac"
             ```bash
             cd setup/participant
             cp .env.example .env
             ```
+
+        === ":fontawesome-brands-windows: Windows"
+            ファイルをコピーして名前を変更
 
     3. `.env`ファイルを開き、`MILVUS_HOST`に講師から配布された IP アドレスを入力
        
