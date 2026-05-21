@@ -83,7 +83,3 @@ cd setup/instructor
 
 - **受講者用実践手順書**: [docs/hands-on-procedure.md](docs/hands-on-procedure.md)
 - **Code Engineデプロイ**: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs-to-cloud.md)
-
-## 📝 ライセンス
-
-IBM社内教育目的
