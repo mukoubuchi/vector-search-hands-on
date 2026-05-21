@@ -159,10 +159,8 @@ vector-search-handson/
 │       ├── README.md               # 受講者向けガイド
 │       ├── hands-on-procedure.md   # 受講者用実践手順書
 │       ├── mkdocs.yml              # MkDocs設定
-│       ├── serve-docs.sh           # 簡易サーバー起動（macOS/Linux）
-│       ├── serve-docs.bat          # 簡易サーバー起動（Windows）
-│       ├── start-docs.sh           # MkDocsサーバー起動（開発者向け）
-│       ├── start-docs.bat          # MkDocsサーバー起動（開発者向け）
+│       ├── start-docs.sh           # MkDocsサーバー起動（macOS/Linux）
+│       ├── start-docs.bat          # MkDocsサーバー起動（Windows）
 │       ├── deploy-to-code-engine.sh # Code Engineデプロイスクリプト
 │       ├── Dockerfile              # Code Engine用Dockerイメージ
 │       └── docs/                   # MkDocsコンテンツ

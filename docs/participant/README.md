@@ -28,40 +28,30 @@ https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 - ✅ 常に最新版
 - ✅ ブックマーク推奨
 
-### ローカルで閲覧（講師・開発者向け）
+### ローカルで閲覧（開発者向け）
 
 **Code Engineが利用できない場合のみ使用してください。**
 
-> **注意**: この方法は、講師がビルド済みの`site`ディレクトリを配布している場合、または開発者がリポジトリ全体を持っている場合のみ使用できます。
+**前提条件**: MkDocs Materialのインストール
+```bash
+pip install mkdocs-material
+```
 
-#### 簡易サーバーで閲覧（ビルド済みファイルが必要）
-
-**前提条件**: `docs/participant/site`ディレクトリが存在すること
+**起動方法:**
 
 **macOS / Linux:**
 ```bash
 cd docs/participant
-./serve-docs.sh
+./start-docs.sh
 ```
 
 **Windows:**
 ```cmd
 cd docs\participant
-serve-docs.bat
+start-docs.bat
 ```
 
-ブラウザで http://localhost:8000 にアクセスしてドキュメントを閲覧できます。
-
-#### MkDocsをインストールして閲覧
-
-Pythonの簡易サーバーが使えない場合は、MkDocsをインストールして閲覧できます。
-
-**インストール:**
-```bash
-pip install mkdocs-material
-```
-
-**起動:**
+**または直接コマンド実行:**
 ```bash
 cd docs/participant
 mkdocs serve
@@ -75,10 +65,8 @@ mkdocs serve
 docs/participant/
 ├── README.md               # このファイル
 ├── mkdocs.yml              # MkDocs設定ファイル
-├── serve-docs.sh           # 簡易サーバー起動（macOS/Linux）★推奨
-├── serve-docs.bat          # 簡易サーバー起動（Windows）★推奨
-├── start-docs.sh           # MkDocsサーバー起動（開発者向け）
-├── start-docs.bat          # MkDocsサーバー起動（開発者向け）
+├── start-docs.sh           # MkDocsサーバー起動（macOS/Linux）
+├── start-docs.bat          # MkDocsサーバー起動（Windows）
 ├── site/                   # MkDocsビルド結果（自動生成、Git管理外）
 └── docs/                   # Markdownソースファイル
     ├── index.md            # ハンズオン概要
@@ -117,9 +105,9 @@ docs/participant/
 
 ## 💡 ヒント
 
-- **推奨**: `serve-docs.sh` または `serve-docs.bat` を使用（ナビゲーションが正しく動作）
-- **Pythonのみ必要**: 追加のパッケージインストール不要
-- **オフライン閲覧可能**: インターネット接続不要
+- **推奨**: Code Engine版を使用（インストール不要）
+- **ローカル開発**: `start-docs.sh`でMkDocsサーバーを起動
+- **自動リロード**: ファイル変更時に自動的にブラウザが更新されます
 - **検索機能**: ドキュメントサイト内で全文検索が使えます
 - **ダークモード**: 右上のアイコンで切り替えられます
 - **コードコピー**: コードブロックの右上にコピーボタンがあります
