@@ -3,9 +3,7 @@
   "MD012": {
     "maximum": 1
   },
-  "MD024": {
-    "siblings_only": true
-  },
+  "MD024": false,
   "MD026": false,
   "MD031": true,
   "MD032": true,
