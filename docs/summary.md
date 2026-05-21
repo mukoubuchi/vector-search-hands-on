@@ -69,6 +69,23 @@
 - 商品レコメンデーション
 - カスタマーサポート
 
+## 本番環境への展開
+
+### 現在の構成（学習用）
+- **Hugging Face + Milvus**: 完全無料、オフライン対応、学習に最適
+
+### IBM製品への移行
+- **watsonx.ai**: エンタープライズグレード、高度なモデル、商用サポート
+- **watsonx.data**: 大規模データ統合、ガバナンス機能、ペタバイト対応
+
+### 選択ガイド
+| 規模 | 推奨構成 |
+|------|---------|
+| 学習・PoC | Hugging Face + Milvus |
+| 小規模本番 | Hugging Face + Milvus |
+| 中規模本番 | watsonx.ai + Milvus |
+| 大規模本番 | watsonx.ai + watsonx.data |
+
 ## 参考資料
 
 - [Building Blocks ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/)

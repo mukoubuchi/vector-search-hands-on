@@ -21,7 +21,7 @@ cd setup/instructor
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
 # 3. ドキュメントをCode Engineにデプロイ（リモート参加者向け）
-cd ../../docs/participant
+cd ../../docs
 ./deploy-to-code-engine.sh
 
 # 4. 受講者に共有
@@ -29,7 +29,7 @@ cd ../../docs/participant
 # - ドキュメント: Code Engine URL
 ```
 
-詳細: [setup/instructor/README.md](setup/instructor/README.md)
+詳細: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs-to-cloud.md)
 
 ### 👨‍🎓 受講者向け
 
@@ -44,7 +44,7 @@ cd ../../docs/participant
 # ドキュメントを見ながら進める
 ```
 
-詳細: [docs/participant/hands-on-procedure.md](docs/participant/hands-on-procedure.md)
+詳細: [docs/hands-on-procedure.md](docs/hands-on-procedure.md)
 
 ## 📁 主要ファイル
 
@@ -53,12 +53,11 @@ vector-search-handson/
 ├── setup/
 │   ├── instructor/          # 講師用（Docker Compose、起動スクリプト）
 │   └── participant/         # 受講者用（接続テスト、vector-search-builder.zip）
-├── docs/
-│   └── participant/         # MkDocsドキュメント
-│       ├── docs/            # コンテンツ（index.md, part1-3.md等）
-│       ├── mkdocs.yml       # 設定
-│       ├── start-docs.sh    # ローカル起動
-│       └── Dockerfile       # Code Engine用
+├── docs/                    # MkDocsドキュメント
+│   ├── index.md, part1-3.md # コンテンツ
+│   ├── mkdocs.yml           # 設定
+│   ├── start-docs.sh        # ローカル起動
+│   └── Dockerfile           # Code Engine用
 └── .bob/                    # IBM Bob IDEカスタムモード
 ```
 
@@ -67,7 +66,7 @@ vector-search-handson/
 ### MkDocsドキュメント
 
 ```bash
-cd docs/participant
+cd docs
 ./start-docs.sh
 # http://localhost:8000
 ```
@@ -82,8 +81,7 @@ cd setup/instructor
 
 ## 📖 ドキュメント
 
-- **受講者用実践手順書**: [docs/participant/hands-on-procedure.md](docs/participant/hands-on-procedure.md)
-- **講師用セットアップ**: [setup/instructor/README.md](setup/instructor/README.md)
+- **受講者用実践手順書**: [docs/hands-on-procedure.md](docs/hands-on-procedure.md)
 - **Code Engineデプロイ**: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs-to-cloud.md)
 
 ## 📝 ライセンス
