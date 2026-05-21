@@ -93,8 +93,6 @@
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [Sentence Transformers](https://www.sbert.net/)
 
-## Happy Coding with IBM Bob
-
 学んだスキルを活用して、顧客への価値提供と社内の開発効率化に貢献してください！
 
 **次のアクション**:

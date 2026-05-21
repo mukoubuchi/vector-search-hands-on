@@ -199,5 +199,3 @@ Vector Search Builder のセットアップから始めましょう！
 - Vector Search Builder モードが表示されない
 
 すべて講師がサポートします。安心して進めてください！
-
-### Happy Learning
