@@ -25,7 +25,7 @@ echo ""
 echo "終了するには Ctrl+C を押してください"
 echo ""
 
-# MkDocsサーバーを起動
-mkdocs serve
+# MkDocs 2.0 に関する Material の将来互換性警告を抑止して起動
+NO_MKDOCS_2_WARNING=true mkdocs serve
 
 # Made with Bob

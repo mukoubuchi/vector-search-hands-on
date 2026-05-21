@@ -1,0 +1,5 @@
+#!/bin/bash
+export NO_MKDOCS_2_WARNING=true
+exec python3 -m mkdocs "$@"
+
+# Made with Bob

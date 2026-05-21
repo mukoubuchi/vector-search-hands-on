@@ -27,7 +27,8 @@ echo.
 echo 終了するには Ctrl+C を押してください
 echo.
 
-REM MkDocsサーバーを起動
+REM MkDocs 2.0 に関する Material の将来互換性警告を抑止して起動
+set NO_MKDOCS_2_WARNING=true
 mkdocs serve
 
 @REM Made with Bob
