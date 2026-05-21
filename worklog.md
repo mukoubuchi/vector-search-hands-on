@@ -94,6 +94,50 @@ vector-search-handson/
 
 ---
 
+## 2026 年 5 月 22 日（金）07:58 JST - MkDocs ライトテーマ準拠の表示調整
+
+MkDocs ドキュメントのコードブロック配色が VS 系ダーク寄りになっていたため、Material のライトテーマ表示に合わせて調整した。あわせて、コードブロック内の不要な `**` 表示や、目次まわりの見た目競合も解消した。
+
+#### 背景
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:1) に、ライトテーマと競合する強制色指定が残っていた
+- コードブロック内で Markdown 強調記法の `**...**` が文字として表示されていた
+- 目次リンクの演出と、目次スクロールバーの見え方に個別調整が必要だった
+- [`mkdocs.yml`](mkdocs.yml:1) の Material パレット設定は維持しつつ、問題箇所のみ直す必要があった
+
+#### 実施内容
+
+**1. コードブロックのライトテーマ準拠化**
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:549) のコードブロック背景・境界線・インラインコード色をライトテーマ向けに調整
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:648) 以降のシンタックスハイライト定義を、ダークテーマ寄りの固定色からライトテーマ寄りの配色へ見直し
+- shell / bash / properties 系の個別上書きも含めて調整
+
+**2. コードブロック内の不要な強調記号を除去**
+- [`docs/part1.md`](docs/part1.md:105) の出力例に含まれていた `**192.168.1.100**` や `**384**` などの表記を削除
+- Markdown コードブロック内で `**` がそのまま見える問題を解消
+
+**3. 目次リンク演出の再調整**
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:853) の目次リンクスタイルを調整
+- hover 時の文字色変更は戻し、青い下線スライド演出だけを維持
+- Material 標準色と独自アニメーションの両立を図った
+
+**4. 目次スクロールバーの見た目を限定的に調整**
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:860) に、右側 TOC 領域限定のスクロールバー指定を追加
+- Material 全体の blue-grey 配色は維持しつつ、問題になっていた細い青い縦バーだけを対象に調整
+- [`mkdocs.yml`](mkdocs.yml:12) の [`theme.palette`](mkdocs.yml:12) は最終的に `blue-grey` のまま維持
+
+#### 変更ファイル
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:1)
+- [`docs/part1.md`](docs/part1.md:1)
+- [`mkdocs.yml`](mkdocs.yml:1)
+
+#### 効果
+- ✅ コードブロック配色がライトテーマに馴染む見た目になった
+- ✅ コード例内の不要な `**` 表示を解消
+- ✅ 目次リンク演出を維持しつつ、目次まわりの視覚ノイズを低減
+- ✅ Material の blue-grey テーマ方針を保ったまま部分調整できた
+
+---
+
 ## 2026 年 5 月 22 日（金）02:12 JST - MkDocs ドキュメント全体を刷新
 
 ### 作業概要
@@ -4001,3 +4045,39 @@ git push
 - CSS の変更: 該当するモジュール（[`typography.css`](docs/stylesheets/typography.css:1)、[`navigation.css`](docs/stylesheets/navigation.css:1)、[`code.css`](docs/stylesheets/code.css:1)、[`components.css`](docs/stylesheets/components.css:1)）を編集
 - JavaScript の変更: 該当するモジュール（[`search.js`](docs/javascripts/search.js:1)、[`navigation.js`](docs/javascripts/navigation.js:1)、[`tasks.js`](docs/javascripts/tasks.js:1)、[`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1)）を編集
 - 新機能の追加: 新しいファイルを作成し、[`mkdocs.yml`](mkdocs.yml:1) の [`extra_javascript`](mkdocs.yml:91) セクションに追加
+
+
+- ✅ 目次リンク演出を維持しつつ、目次まわりの視覚ノイズを低減
+- ✅ Material の blue-grey テーマ方針を保ったまま部分調整できた
+
+
+---
+
+## 2026 年 5 月 22 日（金）08:17 JST - 和欧文間スペースの再調整と反映
+
+### 作業概要
+
+ワークスペース内の Markdown を再点検し、和欧文が隣接している箇所へ半角スペースを追加した。あわせて Markdown lint を再実行し、修正内容を GitHub に反映した。
+
+### 実施した作業
+
+- [`README.md`](README.md) の `CSS` / `JavaScript` まわりの和欧文間スペースを調整
+- [`docs/README.md`](docs/README.md) の `MkDocs`、`Dockerfile`、`CSS`、`JavaScript`、`TOC`、`localStorage`、`Material Theme` などの表記を調整
+- [`docs/index.md`](docs/index.md) の `4 GB` / `8 GB` 表記を調整
+- [`docs/preparation.md`](docs/preparation.md) の操作表記を `++File++` / `++Open Folder++` に統一
+- [`docs/summary.md`](docs/summary.md) の `` `/review` コマンド `` 表記を調整
+- [`markdownlint-cli2`](README.md:1) を再実行し、`0 error(s)` を確認
+- [`git.commit`](README.md:1) `style: 和欧文間のスペースを調整` を作成
+- [`git.push`](README.md:1) で [`main`](README.md:1) をリモートへ反映
+
+### 変更ファイル
+
+- [`README.md`](README.md)
+- [`docs/README.md`](docs/README.md)
+- [`docs/index.md`](docs/index.md)
+- [`docs/preparation.md`](docs/preparation.md)
+- [`docs/summary.md`](docs/summary.md)
+
+### コミット
+
+- [`0c942cc`](README.md:1) - `style: 和欧文間のスペースを調整`
