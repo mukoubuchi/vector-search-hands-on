@@ -27,6 +27,7 @@ logs/
 *.temp
 
 # MkDocs build output
+site/
 docs/participant/site/
 
 # Python
