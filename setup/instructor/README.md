@@ -77,12 +77,9 @@ Milvus接続情報:
 - User: root
 - Password: Milvus
 
-MkDocsドキュメント（ローカル参加者）:
-- URL: http://<講師のIPアドレス>:8001
-
-MkDocsドキュメント（リモート参加者）:
+MkDocsドキュメント:
 - URL例: `https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud`
-  > **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。
+  > **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
 ```
 
 **リモート参加者がいる場合**:

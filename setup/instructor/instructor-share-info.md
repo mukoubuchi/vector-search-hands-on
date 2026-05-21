@@ -29,19 +29,13 @@ MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
 ### ドキュメントURL
 
-**ローカル参加者（同じWiFi/ネットワーク）**:
-```
-http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
-```
-
-**リモート参加者（異なるWiFi/ネットワーク）**:
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
 > **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
 
-!!! warning "リモート参加者向けURL"
+!!! warning "Code Engine URL"
     Code Engine URLは環境により異なります。
     [deploy-docs-to-cloud.md](./deploy-docs-to-cloud.md)を参照してデプロイ後、
     実際のURLを受講者に共有してください。
@@ -65,7 +59,7 @@ COLLECTION_NAME=knowledge_base
 
 ## 📝 受講者への案内テキスト
 
-以下のテキストをコピーして受講者に送信してください。**【講師のIPアドレス】を実際のIPアドレスに置き換えてください。**
+以下のテキストをコピーして受講者に送信してください。**【講師のIPアドレス】と【ドキュメントURL】を実際の値に置き換えてください。**
 
 ```
 【ベクトル検索ハンズオン 接続情報】
@@ -73,14 +67,8 @@ COLLECTION_NAME=knowledge_base
 ■ Milvus接続情報（これだけ変更してください）
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
-■ ドキュメントURL（ローカル参加者）
-http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
-
-■ ドキュメントURL（リモート参加者）
-```
-https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
-```
-> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
+■ ドキュメントURL
+【ドキュメントURL】  # 例: https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 
 【セットアップ手順】
 1. プロジェクトフォルダに vector-search-builder.zip を配置
