@@ -56,11 +56,7 @@ markdown_extensions:
       generic: true
   - footnotes
   - pymdownx.details
-  - pymdownx.superfences:
-      custom_fences:
-        - name: terminal
-          class: terminal
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences
   - pymdownx.mark
   - attr_list
   - md_in_html
