@@ -1,8 +1,10 @@
 version: '3.8'
 
 services:
+  # Milvus環境（3サービス）
   etcd:
     image: quay.io/coreos/etcd:v3.5.5
+    profiles: ["milvus", "all"]
     environment:
       - ETCD_AUTO_COMPACTION_MODE=revision
       - ETCD_AUTO_COMPACTION_RETENTION=1000
@@ -19,6 +21,7 @@ services:
 
   minio:
     image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    profiles: ["milvus", "all"]
     environment:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
@@ -36,6 +39,7 @@ services:
 
   milvus:
     image: milvusdb/milvus:v2.3.3
+    profiles: ["milvus", "all"]
     command: ["milvus", "run", "standalone"]
     environment:
       ETCD_ENDPOINTS: etcd:2379
@@ -55,9 +59,27 @@ services:
       timeout: 20s
       retries: 3
 
+  # MkDocsドキュメントサーバー
+  mkdocs:
+    image: squidfunk/mkdocs-material:latest
+    profiles: ["docs", "all"]
+    container_name: vector-search-docs
+    ports:
+      - "8001:8000"
+    volumes:
+      - ../../docs/participant:/docs
+    command: serve --dev-addr=0.0.0.0:8000
+    restart: unless-stopped
+
 volumes:
   etcd_data:
   minio_data:
   milvus_data:
+
+# プロファイル使用例:
+# - 全サービス起動: docker compose --profile all up -d
+# - Milvusのみ:     docker compose --profile milvus up -d
+# - ドキュメントのみ: docker compose --profile docs up -d
+# - 全サービス停止: docker compose --profile all down
 
 # Made with Bob

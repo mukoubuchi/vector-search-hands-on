@@ -30,20 +30,29 @@
 ## 📋 ファイル一覧
 
 ### `docker-compose.yml`
-**ローカルDocker使用時のみ必要**: Milvus 環境を起動するための Docker Compose 設定ファイルです。
+**すべてのサービスを管理**: Docker Composeのプロファイル機能を使用して、Milvus環境とMkDocsドキュメントサーバーを1つのファイルで管理します。
 
 **含まれるサービス**:
-- **Milvus**: ベクトルデータベース（ポート 19530）
-- **etcd**: Milvus のメタデータストア
-- **MinIO**: Milvus のオブジェクトストレージ
+- **Milvus環境** (profile: `milvus` または `all`)
+  - **etcd**: Milvusのメタデータストア
+  - **minio**: Milvusのオブジェクトストレージ
+  - **milvus**: ベクトルデータベース本体（ポート 19530）
+- **MkDocsドキュメントサーバー** (profile: `docs` または `all`)
+  - **mkdocs**: ドキュメントサーバー（ポート 8001）
+
+**プロファイル使用例**:
+```bash
+# 全サービス起動（推奨）
+docker compose --profile all up -d
+
+# Milvusのみ起動
+docker compose --profile milvus up -d
+
+# ドキュメントのみ起動
+docker compose --profile docs up -d
+```
 
 **watsonx.data使用時は不要です。**
-
-### `docker-compose-docs.yml`
-**両方の環境で必要**: MkDocsドキュメントサーバーを起動するための Docker Compose 設定ファイルです。
-
-**含まれるサービス**:
-- **mkdocs**: ドキュメントサーバー（ポート 8001）
 
 ### `start-all.sh`
 Milvus環境とMkDocsドキュメントサーバーを一括起動するスクリプトです。
@@ -213,22 +222,24 @@ cd setup/instructor
 
 ## 🔧 個別起動（トラブルシューティング用）
 
+プロファイル機能を使用して、サービスを個別に起動・停止できます。
+
 ### Milvusのみ起動
 
 ```bash
 cd setup/instructor
 
 # 起動
-docker compose -f docker-compose.yml up -d
+docker compose --profile milvus up -d
 
 # 状態確認
-docker compose -f docker-compose.yml ps
+docker compose --profile milvus ps
 
 # ログ確認
-docker compose -f docker-compose.yml logs -f
+docker compose --profile milvus logs -f
 
 # 停止
-docker compose -f docker-compose.yml down
+docker compose --profile milvus down
 ```
 
 ### MkDocsドキュメントサーバーのみ起動
@@ -237,16 +248,34 @@ docker compose -f docker-compose.yml down
 cd setup/instructor
 
 # 起動
-docker compose -f docker-compose-docs.yml up -d
+docker compose --profile docs up -d
 
 # 状態確認
-docker compose -f docker-compose-docs.yml ps
+docker compose --profile docs ps
 
 # ログ確認
-docker compose -f docker-compose-docs.yml logs -f
+docker compose --profile docs logs -f
 
 # 停止
-docker compose -f docker-compose-docs.yml down
+docker compose --profile docs down
+```
+
+### 全サービスの起動
+
+```bash
+cd setup/instructor
+
+# 起動
+docker compose --profile all up -d
+
+# 状態確認
+docker compose --profile all ps
+
+# ログ確認
+docker compose --profile all logs -f
+
+# 停止
+docker compose --profile all down
 ```
 
 ## 🐛 トラブルシューティング
@@ -255,13 +284,13 @@ docker compose -f docker-compose-docs.yml down
 
 ```bash
 # ログ確認
-docker compose -f docker-compose.yml logs
+docker compose --profile all logs
 
 # 特定のサービスのログ
-docker compose -f docker-compose.yml logs milvus
+docker compose --profile all logs milvus
 
 # 再起動
-docker compose -f docker-compose.yml restart
+docker compose --profile all restart
 ```
 
 ### ポートが既に使用されている
@@ -272,22 +301,22 @@ lsof -i :19530  # Milvus
 lsof -i :8001   # MkDocs
 
 # 使用中のプロセスを停止してから再起動
-docker compose -f docker-compose.yml down
-docker compose -f docker-compose.yml up -d
+docker compose --profile all down
+docker compose --profile all up -d
 ```
 
 ### Milvus が起動しない
 
 ```bash
 # すべてのログを確認
-docker compose -f docker-compose.yml logs
+docker compose --profile all logs
 
 # Milvus のヘルスチェック
 curl http://localhost:9091/healthz
 
 # 完全にクリーンアップして再起動
-docker compose -f docker-compose.yml down -v
-docker compose -f docker-compose.yml up -d
+docker compose --profile all down -v
+docker compose --profile all up -d
 ```
 
 ### 受講者が接続できない

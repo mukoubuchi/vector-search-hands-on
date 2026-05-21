@@ -71,27 +71,16 @@ fi
 
 echo ""
 
-# Milvus環境を起動
-echo "1. Milvus環境を起動中..."
-$COMPOSE_CMD -f docker-compose.yml up -d
+# すべてのサービスを起動（プロファイル機能を使用）
+echo "すべてのサービスを起動中..."
+$COMPOSE_CMD --profile all up -d
 
 if [ $? -eq 0 ]; then
-    echo "✓ Milvus環境が起動しました"
+    echo "✓ すべてのサービスが起動しました"
+    echo "  - Milvus環境（etcd, minio, milvus）"
+    echo "  - MkDocsドキュメントサーバー"
 else
-    echo "❌ Milvus環境の起動に失敗しました"
-    exit 1
-fi
-
-echo ""
-
-# MkDocsドキュメントサーバーを起動
-echo "2. MkDocsドキュメントサーバーを起動中..."
-$COMPOSE_CMD -f docker-compose-docs.yml up -d
-
-if [ $? -eq 0 ]; then
-    echo "✓ MkDocsドキュメントサーバーが起動しました"
-else
-    echo "❌ MkDocsドキュメントサーバーの起動に失敗しました"
+    echo "❌ サービスの起動に失敗しました"
     exit 1
 fi
 

@@ -34,26 +34,16 @@ else
     exit 1
 fi
 
-# Milvus環境を停止
-echo "1. Milvus環境を停止中..."
-$COMPOSE_CMD -f docker-compose.yml down
+# すべてのサービスを停止（プロファイル機能を使用）
+echo "すべてのサービスを停止中..."
+$COMPOSE_CMD --profile all down
 
 if [ $? -eq 0 ]; then
-    echo "✓ Milvus環境が停止しました"
+    echo "✓ すべてのサービスが停止しました"
+    echo "  - Milvus環境（etcd, minio, milvus）"
+    echo "  - MkDocsドキュメントサーバー"
 else
-    echo "❌ Milvus環境の停止に失敗しました"
-fi
-
-echo ""
-
-# MkDocsドキュメントサーバーを停止
-echo "2. MkDocsドキュメントサーバーを停止中..."
-$COMPOSE_CMD -f docker-compose-docs.yml down
-
-if [ $? -eq 0 ]; then
-    echo "✓ MkDocsドキュメントサーバーが停止しました"
-else
-    echo "❌ MkDocsドキュメントサーバーの停止に失敗しました"
+    echo "❌ サービスの停止に失敗しました"
 fi
 
 echo ""

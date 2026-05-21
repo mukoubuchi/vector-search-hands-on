@@ -31,8 +31,7 @@ vector-search-builder.zip
 - MkDocsドキュメントとの整合性を確保
 
 **講師専用ファイル（setup/instructor/）:**
-- `docker-compose.yml` - Milvus環境
-- `docker-compose-docs.yml` - MkDocsサーバー
+- `docker-compose.yml` - 統合設定（Milvus + MkDocs、プロファイル機能使用）
 - `start-all.sh` / `stop-all.sh` - 起動/停止スクリプト
 - `instructor-share-info.md` - 講師用共有情報準備ガイド
 - `deploy-docs-to-cloud.md` - リモート参加者対応ガイド
@@ -183,8 +182,7 @@ vector-search-handson/
 │   ├── README.md                   # セットアップ全体説明
 │   ├── instructor/                 # 講師専用ファイル
 │   │   ├── README.md               # 講師用セットアップガイド
-│   │   ├── docker-compose.yml      # Milvus 環境設定
-│   │   ├── docker-compose-docs.yml # MkDocsサーバー設定
+│   │   ├── docker-compose.yml      # 統合設定（Milvus + MkDocs、プロファイル機能）
 │   │   ├── start-all.sh            # 全サービス起動スクリプト
 │   │   ├── stop-all.sh             # 全サービス停止スクリプト
 │   │   ├── instructor-share-info.md # 講師用共有情報準備ガイド

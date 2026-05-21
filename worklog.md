@@ -1,3 +1,123 @@
+## 2026年5月22日（金）00:52 JST - Docker Composeファイルをプロファイル機能で統合
+
+### 作業概要
+2つのdocker-compose.ymlファイル（Milvus用とMkDocs用）を1つに統合し、プロファイル機能で管理
+
+### 背景
+- `docker-compose.yml`と`docker-compose-docs.yml`の2ファイルが存在
+- 名前が似ていて混乱しやすい
+- Docker Composeのプロファイル機能を使えば1ファイルで管理可能
+
+### 実施した作業
+
+#### 1. docker-compose.ymlの統合
+**統合前**:
+- `docker-compose.yml`: Milvus環境（etcd, minio, milvus）
+- `docker-compose-docs.yml`: MkDocsドキュメントサーバー
+
+**統合後**:
+```yaml
+services:
+  etcd:
+    profiles: ["milvus", "all"]
+  minio:
+    profiles: ["milvus", "all"]
+  milvus:
+    profiles: ["milvus", "all"]
+  mkdocs:
+    profiles: ["docs", "all"]
+```
+
+**プロファイル使用例**:
+```bash
+# 全サービス起動
+docker compose --profile all up -d
+
+# Milvusのみ
+docker compose --profile milvus up -d
+
+# ドキュメントのみ
+docker compose --profile docs up -d
+```
+
+#### 2. スクリプトの更新
+
+**start-all.sh**:
+```bash
+# 変更前
+$COMPOSE_CMD -f docker-compose.yml up -d
+$COMPOSE_CMD -f docker-compose-docs.yml up -d
+
+# 変更後
+$COMPOSE_CMD --profile all up -d
+```
+
+**stop-all.sh**:
+```bash
+# 変更前
+$COMPOSE_CMD -f docker-compose.yml down
+$COMPOSE_CMD -f docker-compose-docs.yml down
+
+# 変更後
+$COMPOSE_CMD --profile all down
+```
+
+#### 3. ドキュメント更新
+- `setup/instructor/README.md`: プロファイル機能の説明追加
+- `setup/README.md`: ファイル構成を更新
+- `README.md`: ディレクトリ構造を更新
+
+#### 4. 動作確認
+```bash
+# 停止テスト
+./stop-all.sh
+✓ すべてのサービスが停止
+
+# 起動テスト
+./start-all.sh
+✓ すべてのサービスが起動
+  - Milvus環境（etcd, minio, milvus）
+  - MkDocsドキュメントサーバー
+
+# 接続テスト
+python test_connection_simple.py
+✓ Milvusに接続成功
+```
+
+### メリット
+
+1. **シンプル化**
+   - 1つのファイルで全サービスを管理
+   - ファイル名の混乱を解消
+
+2. **柔軟性**
+   - プロファイルで個別起動が可能
+   - 開発/本番環境の切り替えに対応
+
+3. **保守性**
+   - スクリプトがシンプルに
+   - Docker Composeの標準機能を活用
+
+4. **一般性**
+   - プロファイル機能は業界標準
+   - Docker Compose v1.28以降で利用可能
+
+### 技術的なポイント
+
+**プロファイル機能の特徴**:
+- Docker Compose v1.28以降の標準機能
+- 開発/本番環境の切り替えに広く使われている
+- 明示的で分かりやすい構成管理
+
+**削除したファイル**:
+- `setup/instructor/docker-compose-docs.yml`（統合により不要）
+
+### コミット情報
+- 変更ファイル: 6ファイル
+- 削除ファイル: 1ファイル（docker-compose-docs.yml）
+
+---
+
 ## 2026年5月22日（金）00:42 JST - Colima/Podman対応のドキュメント化完了
 
 ### 作業概要

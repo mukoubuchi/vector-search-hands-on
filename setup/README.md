@@ -8,8 +8,7 @@
 setup/
 ├── instructor/              # 講師専用ファイル
 │   ├── README.md           # 講師用セットアップガイド
-│   ├── docker-compose.yml  # Milvus環境
-│   ├── docker-compose-docs.yml  # MkDocsドキュメントサーバー
+│   ├── docker-compose.yml  # 統合設定（Milvus + MkDocs、プロファイル機能使用）
 │   ├── start-all.sh        # 一括起動スクリプト
 │   ├── stop-all.sh         # 一括停止スクリプト
 │   └── instructor-share-info.md  # 受講者への共有情報準備ガイド
