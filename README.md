@@ -33,18 +33,20 @@ cd ../../docs
 
 ### 👨‍🎓 受講者向け
 
+**配布ファイル:**
+- `setup/participant/vector-search-builder.zip` - IBM Bob IDEモード定義と接続テスト
+
+**セットアップ手順:**
 ```bash
-# 1. IBM Bob IDEを起動
-
-# 2. 講師から受け取った情報を設定
-# - Milvus接続情報
-# - ドキュメントURL
-
-# 3. ハンズオン開始
-# ドキュメントを見ながら進める
+# 1. vector-search-builder.zipを解凍
+# 2. IBM Bob IDEでプロジェクトフォルダを開く
+# 3. 講師から受け取った接続情報を設定
+#    - Milvus接続情報
+#    - ドキュメントURL
+# 4. ハンズオン開始
 ```
 
-詳細: [docs/hands-on-procedure.md](docs/hands-on-procedure.md)
+詳細: [docs/preparation.md](docs/preparation.md)
 
 ## 📁 主要ファイル
 
