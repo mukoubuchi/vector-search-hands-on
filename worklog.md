@@ -3920,3 +3920,84 @@ git push
 
 - 事前準備ページのキー表記が視覚的にわかりやすくなった
 - Windows の解凍手順と `.env` 作成手順の意図が明確になった
+
+
+### 追記: README 更新と Git 反映
+
+- [`README.md`](README.md) の受講者向けセットアップ手順を、[`docs/preparation.md`](docs/preparation.md) と整合する内容に更新
+- 解凍方法、[`File`](README.md:47) → [`Open Folder`](README.md:47)、[`.env.example`](README.md:50) から [` .env `](README.md:50) 作成、[`MILVUS_HOST`](README.md:51) 設定を明記
+- 変更対象を [`README.md`](README.md)、[`docs/preparation.md`](docs/preparation.md)、[`worklog.md`](worklog.md) の 3 ファイルに限定して [`git add`](git) を実施
+- [`Improve preparation guide instructions`](git) で [`commit`](git) 済み
+- [`origin/main`](git) へ [`push`](git) 済み（commit: [`0a1ca86`](git)）
+
+
+### 追記: 03:46 以降の対応
+
+- [`worklog更新→commit&push`](worklog.md) の指示に対し、先に [`README.md`](README.md) の更新が必要との指摘を受け、Git 操作の前に README 修正へ切り替え
+- [`README.md`](README.md) の受講者向けセットアップ手順をコードブロック形式から手順リスト形式へ変更し、[`docs/preparation.md`](docs/preparation.md) と整合するよう更新
+- 更新内容として、Windows の [`「すべて展開」`](docs/preparation.md:33)、[`File`](docs/preparation.md:41) → [`Open Folder`](docs/preparation.md:41)、[`setup/participant/.env.example`](README.md:50) から [`setup/participant/.env`](README.md:50) の作成、[`MILVUS_HOST`](README.md:51) 設定を README に明記
+- その後、対象ファイルのみで [`git add`](git) / [`commit`](git) / [`push`](git) を実施し、[`Improve preparation guide instructions`](git) として [`origin/main`](git) へ反映
+- さらに [`worklog.md`](worklog.md) への追記後、ユーザーから「3:46以降の作業もあるはず」と指摘を受けたため、本追記で README 更新判断、差分確認、コミット・プッシュ実施までの流れを補完
+
+
+---
+
+## 2026-05-22 (続き)
+
+### MkDocs プロジェクトのリファクタリング
+
+#### 背景
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css) (907行) と [`docs/javascripts/extra.js`](docs/javascripts/extra.js) (184行) が単一ファイルで肥大化
+- 保守性と可読性の向上が必要
+
+#### 実施内容
+
+**1. CSS のモジュール化**
+- [`extra.css`](docs/stylesheets/extra.css:1) を 5 つのモジュールに分割：
+  - [`typography.css`](docs/stylesheets/typography.css:1) (182行) - 見出し、段落、リスト、リンク
+  - [`navigation.css`](docs/stylesheets/navigation.css:1) (248行) - ヘッダー、タブ、サイドバー、TOC
+  - [`code.css`](docs/stylesheets/code.css:1) (234行) - コードブロック、シンタックスハイライト
+  - [`components.css`](docs/stylesheets/components.css:1) (247行) - 検索、タスクリスト、アドモニション
+  - [`extra.css`](docs/stylesheets/extra.css:1) (16行) - メインファイル（各モジュールをインポート）
+
+**2. JavaScript のモジュール化**
+- [`extra.js`](docs/javascripts/extra.js:1) を 5 つのモジュールに分割：
+  - [`search.js`](docs/javascripts/search.js:1) (29行) - 検索ボックスの動作制御
+  - [`navigation.js`](docs/javascripts/navigation.js:1) (25行) - バックトゥトップボタン制御
+  - [`tasks.js`](docs/javascripts/tasks.js:1) (36行) - タスクリストの状態管理
+  - [`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1) (115行) - コードブロックのハイライト強化
+  - [`extra.js`](docs/javascripts/extra.js:1) (18行) - メインファイル（ドキュメント用）
+
+**3. 設定ファイルの最適化**
+- [`mkdocs.yml`](mkdocs.yml:1) に日本語コメントを追加して可読性を向上
+- [`extra_javascript`](mkdocs.yml:91) セクションを更新してモジュール化されたファイルを読み込み
+- [`exclude_docs`](mkdocs.yml:7) を追加して [`docs/README.md`](docs/README.md:1) の競合を解消
+
+**4. ドキュメント整備**
+- [`docs/README.md`](docs/README.md:1) - ドキュメントディレクトリの構造説明を追加
+- [`docs/.mkdocsignore`](docs/.mkdocsignore:1) - ビルドから除外するファイルのリスト
+- [`REFACTORING.md`](REFACTORING.md:1) - リファクタリング記録を作成
+- [`README.md`](README.md:1) - プロジェクトルートの README にリファクタリング情報を追加
+
+#### 動作確認
+- `mkdocs build --clean` でビルド成功（警告なし）
+- すべての既存機能が正常に動作することを確認
+
+#### 改善効果
+- ✅ **保守性向上**: 各機能が独立したファイルに分離され、修正が容易
+- ✅ **可読性向上**: ファイルサイズが小さくなり、コードが読みやすい
+- ✅ **拡張性向上**: 新機能の追加が簡単
+- ✅ **デバッグ容易**: 問題のある機能を特定しやすい
+
+#### Git コミット情報
+- **コミットメッセージ**: `refactor: MkDocsプロジェクトのモジュール化`
+- **コミットハッシュ**: [`2dc75a5`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson/commit/2dc75a5)
+- **変更ファイル**: 39ファイル
+- **追加行数**: 2,837行
+- **削除行数**: 2,149行
+- **プッシュ**: [`origin/main`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson) へ反映済み
+
+#### 今後の保守
+- CSS の変更: 該当するモジュール（[`typography.css`](docs/stylesheets/typography.css:1)、[`navigation.css`](docs/stylesheets/navigation.css:1)、[`code.css`](docs/stylesheets/code.css:1)、[`components.css`](docs/stylesheets/components.css:1)）を編集
+- JavaScript の変更: 該当するモジュール（[`search.js`](docs/javascripts/search.js:1)、[`navigation.js`](docs/javascripts/navigation.js:1)、[`tasks.js`](docs/javascripts/tasks.js:1)、[`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1)）を編集
+- 新機能の追加: 新しいファイルを作成し、[`mkdocs.yml`](mkdocs.yml:1) の [`extra_javascript`](mkdocs.yml:91) セクションに追加
