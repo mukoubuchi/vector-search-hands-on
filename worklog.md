@@ -1,3 +1,99 @@
+## 2026年5月22日（金）00:42 JST - Colima/Podman対応のドキュメント化完了
+
+### 作業概要
+Docker Desktopの代替としてColimaとPodmanをサポートし、その理由と使用方法をドキュメント化
+
+### 背景
+- 企業環境でDocker Desktopのライセンス制約がある
+- 無料で使えるコンテナランタイムの選択肢を提供
+- `docker-compose.yml`ファイル名を維持する理由を明確化
+
+### 実施した作業
+
+#### 1. Colima環境のテスト
+```bash
+# Colimaのインストールと起動
+brew install colima docker docker-compose
+colima start
+
+# Milvus環境の起動テスト
+cd setup/instructor
+./start-all.sh
+
+# 接続テスト
+cd setup/participant
+python test_connection_simple.py
+```
+
+**結果**: ✓ Colima環境でMilvus接続成功
+
+#### 2. Podman環境のテスト（既存）
+**結果**: ✓ Podman環境でMilvus接続成功（前回確認済み）
+
+#### 3. ドキュメント更新
+
+**更新したファイル**:
+- `README.md`: コンテナランタイム選択肢を追加
+- `setup/README.md`: 自動検出機能を説明
+- `setup/instructor/README.md`: Podman/Colimaの詳細セットアップ手順
+- `setup/instructor/.env.example`: localhost設定に更新
+- `setup/participant/.env.example`: 接続情報テンプレート更新
+
+**記載した内容**:
+1. **対応理由**
+   - ライセンスフリー（商用利用でも完全無料）
+   - 互換性（`docker-compose.yml`をそのまま使用可能）
+   - 自動検出（`start-all.sh`がランタイムを自動判別）
+   - 標準準拠（Docker Compose形式は業界標準）
+
+2. **ファイル名維持の理由**
+   - 他の環境への移行が容易
+   - チーム内での混乱を回避
+   - ドキュメントとの整合性を保持
+
+3. **推奨構成**
+   - Podman: Linux/macOS対応、本格的なコンテナ管理
+   - Colima: macOS専用、軽量でシンプル
+
+### 技術的なポイント
+
+#### docker-compose.ymlの互換性
+```yaml
+# このファイルは以下のすべてで動作:
+# - Docker Desktop
+# - Podman (podman-compose)
+# - Colima (docker compose)
+```
+
+#### start-all.shの自動検出
+```bash
+# Dockerランタイムを自動検出
+if docker version 2>&1 | grep -q "podman"; then
+    # Podman用の設定
+    export DOCKER_HOST="unix://$PODMAN_SOCK"
+else
+    # Docker/Colima用の設定
+fi
+```
+
+### 検証結果
+
+| 環境 | Milvus起動 | 接続テスト | docker-compose.yml |
+|------|-----------|-----------|-------------------|
+| Podman | ✓ | ✓ | ✓ そのまま使用可能 |
+| Colima | ✓ | ✓ | ✓ そのまま使用可能 |
+
+### コミット情報
+- コミットメッセージ: "Add Colima/Podman support documentation"
+- コミットハッシュ: a05a826
+- 変更: 5ファイル、92行追加、19行削除
+
+### 次のステップ
+- 受講者向けドキュメントでの言及（必要に応じて）
+- ハンズオン資料での説明追加（オプション）
+
+---
+
 ## 2026年5月18日（日）13:34 JST - MkDocs全体の箇条書きリスト表示を修正
 
 ### 作業概要
