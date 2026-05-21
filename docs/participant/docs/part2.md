@@ -109,18 +109,18 @@ IBM Bobが以下のような提案をします：
 
 4. 結果を確認：
 
-   ```json
-   {
-     "results": [
-       {
-         "product_name": "赤いランニングシューズ",
-         "image_url": "https://example.com/images/red-shoes.jpg",
-         "similarity_score": 0.92,
-         "price": 8900
-       }
-     ]
-   }
-   ```
+    ```json
+    {
+      "results": [
+        {
+          "product_name": "赤いランニングシューズ",
+          "image_url": "https://example.com/images/red-shoes.jpg",
+          "similarity_score": 0.92,
+          "price": 8900
+        }
+      ]
+    }
+    ```
 
 **確認ポイント**: `image_url`フィールドが追加されている
 
