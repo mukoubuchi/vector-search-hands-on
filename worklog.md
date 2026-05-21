@@ -1,3 +1,89 @@
+## 2026年5月22日（金）02:12 JST - MkDocsドキュメント全体を刷新
+
+### 作業概要
+参加者向けMkDocsドキュメントを全面的に簡素化し、Code Engineに再デプロイ完了。
+
+### 実施した作業
+
+#### 1. ドキュメントファイルの簡素化
+
+全てのMkDocsドキュメントファイルを刷新し、冗長な説明を削除：
+
+**preparation.md**:
+- IBM Bobインストール手順を削除（既にインストール済みを前提）
+- Linux関連の説明を削除（WindowsとMacのみ）
+- ファイルパスを`setup/`から`setup/participant/`に統一
+- 257行 → 157行（約39%削減）
+
+**index.md**:
+- IBM Bobインストールセクションを削除
+- 冗長な説明を簡素化
+- 350行 → 213行（約39%削減）
+
+**part1.md**:
+- Vector Searchの説明を簡潔に
+- Linux関連の説明を削除
+- ファイルパスを`setup/participant/`に統一
+- 490行 → 363行（約26%削減）
+
+**part2.md**:
+- IBM Bob使用方法の説明を簡素化
+- 冗長な手順説明を削除
+- 570行 → 318行（約44%削減）
+
+**part3.md**:
+- テスト手順を簡素化
+- コードレビューの説明を簡潔に
+- 395行 → 268行（約32%削減）
+
+**summary.md**:
+- まとめセクションを大幅に簡素化
+- 重複する説明を削除
+- 364行 → 80行（約78%削減）
+
+#### 2. Code Engineへの再デプロイ
+
+**デプロイ手順**:
+```bash
+# 1. Podmanでビルド（AMD64用）
+cd docs/participant
+podman build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
+
+# 2. PodmanイメージをDockerにロード
+podman save jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest | docker load
+
+# 3. Dockerでプッシュ
+docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
+
+# 4. Code Engineアプリケーション更新
+ibmcloud ce application update --name mkdocs-docs \
+  --image jp.icr.io/cr-itz-btxelcjs/mkdocs-docs@sha256:86366f14b6c6f4dddeb2d885c004c1ea931120e588afc50de22c662e3c917a5f
+```
+
+**デプロイ結果**:
+- リビジョン: `mkdocs-docs-00019`
+- イメージダイジェスト: `sha256:86366f14b6c6f4dddeb2d885c004c1ea931120e588afc50de22c662e3c917a5f`
+- ステータス: Application deployed successfully ✅
+- URL: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+
+### 改善のポイント
+
+#### ドキュメントの簡素化
+- **読みやすさ向上**: 冗長な説明を削除し、要点を絞った
+- **メンテナンス性向上**: 行数が大幅に削減され、更新が容易に
+- **一貫性向上**: 全ファイルで統一されたスタイルとパス表記
+
+#### 前提条件の明確化
+- IBM Bobは既にインストール済みを前提
+- WindowsとMacのみをサポート（Linuxは削除）
+- ファイルパスを`setup/participant/`に統一
+
+### 次のステップ
+- 変更をGitにコミット＆プッシュ
+- 参加者向けドキュメントの動作確認
+
+---
+
 ## 2026年5月22日（金）01:43 JST - Code Engineデプロイ成功とPodman認証問題の解決
 
 ### 作業概要

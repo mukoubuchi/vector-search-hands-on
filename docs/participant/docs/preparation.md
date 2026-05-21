@@ -2,251 +2,133 @@
 
 ハンズオンをスムーズに進めるために、以下の準備を完了してください。
 
+## 前提条件
+
+!!! info "前提条件"
+    IBM Bobが既にインストールされ、使用できる状況を前提としています。
+
 ## 必要なもの
 
-### 1. IBM Bob（必須）
-
-IBM Bobは、AIがコーディングをサポートしてくれる開発ツールです。
-
-#### ステップ1: IBM Bobアカウントを作成する
-
-1. ブラウザで以下のURLを開く
-    ```
-    https://bob.ibm.com/trial
-    ```
-2. 「30日間無料トライアル」ボタンをクリック
-3. 必要な情報を入力
-
-    - メールアドレス
-    - パスワード
-    - 名前
-
-4. 登録完了メールを確認
-
-    - 受信トレイをチェック
-    - メール内のリンクをクリックして認証
-
-#### ステップ2: IBM Bob IDEをインストールする
-
-1. ダウンロードページを開く
-    ```
-    https://bob.ibm.com/download
-    ```
-2. お使いのOSを選択
-
-    - :fontawesome-brands-windows: **Windows**: 「Download for Windows」をクリック
-    - :fontawesome-brands-apple: **Mac**: 「Download for Mac」をクリック
-    - :fontawesome-brands-linux: **Linux**: 「Download for Linux」をクリック
-
-3. ダウンロードしたファイルを実行
-
-    - **Windowsの場合**: `.exe`ファイルをダブルクリック
-    - **Macの場合**: `.dmg`ファイルを開いてアプリケーションフォルダにドラッグ
-    - **Linuxの場合**: インストール手順に従う
-
-4. IBM Bob IDEを起動
-
-    - アプリケーションを開く
-    - 初回起動時にアカウントでログイン
-
-### 2. Vector Search Builder モード（必須）
+### 1. Vector Search Builder モード
 
 Vector Search Builderは、ベクトル検索機能を簡単に構築できるIBM Bobの専用モードです。
 
 #### ステップ1: プロジェクトフォルダを作成
 
-1. デスクトップに新しいフォルダを作成
+デスクトップに新しいフォルダを作成します。
 
-    - **フォルダ名**: `vector-search-handson`
-    - **場所**: どこでも構いませんが、デスクトップが分かりやすいです
-
-2. フォルダの場所を覚えておく（後でIBM Bobで開くため）
+- **フォルダ名**: `vector-search-handson`
+- **場所**: デスクトップ推奨
 
 #### ステップ2: Vector Search Builderをインストール
 
-1. 配布されたzipファイルを確認
-
-    - **ファイル名**: `vector-search-builder.zip`
-    - 講師から配布されたファイルです
-2. zipファイルをプロジェクトフォルダにコピー
-3. zipファイルを解凍
+1. 配布された`vector-search-builder.zip`をプロジェクトフォルダにコピー
+2. zipファイルを解凍
 
     === ":fontawesome-brands-windows: Windows"
         右クリック → 「すべて展開」
     
     === ":fontawesome-brands-apple: Mac"
         ダブルクリック
-    
-    === ":fontawesome-brands-linux: Linux"
-        ```bash
-        unzip vector-search-builder.zip
-        ```
 
-4. 解凍結果を確認
+3. `.bob`フォルダが作成されていることを確認
 
-    - `.bob`フォルダが作成されていることを確認
-    - このフォルダにVector Search Builderモードが含まれています
+#### ステップ3: IBM Bobでプロジェクトを開く
 
-#### ステップ3: IBM BobでプロジェクトをOpen
-
-1. IBM Bob IDEを起動
-2. プロジェクトフォルダを開く
-
-    - メニューバーから ++file++ → ++open-folder++ をクリック
-    - `vector-search-handson`フォルダを選択
-    - 「開く」ボタンをクリック
+1. IBM Bobを起動
+2. ++file++ → ++open-folder++ でプロジェクトフォルダを選択
 3. IBM Bobをリロード
     
-    コマンドパレットを開く:
-    
     === ":fontawesome-brands-apple: Mac"
-        ++cmd+shift+p++
+        ++cmd+shift+p++ → 「Reload Window」
     
-    === ":fontawesome-brands-windows: Windows / :fontawesome-brands-linux: Linux"
-        ++ctrl+shift+p++
+    === ":fontawesome-brands-windows: Windows"
+        ++ctrl+shift+p++ → 「Reload Window」
+
+4. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認
+
+### 2. 接続情報
+
+#### Milvus（ベクトルデータベース）
+
+講師から配布されたIPアドレスを設定します。
+
+!!! example "接続情報の設定"
     
-    表示されたコマンドパレットに「Reload Window」と入力し、「Developer: Reload Window」を選択してEnter
-
-4. Vector Search Builderモードを確認
-
-    - IBM Bob画面の右下を確認
-    - 「Mode」セレクターに「Vector Search Builder」が表示されていればOK
-
-### 3. 接続情報（必須）
-
-ハンズオンでは、以下のサービスに接続します：
-
-Milvus（ベクトルデータベース）
-:   ベクトルデータを保存・検索するデータベース
-:   講師から接続情報が配布されます
-
-埋め込みモデル（Hugging Face Transformers）
-:   テキストをベクトル（数値の配列）に変換
-:   APIキー不要、無料で使用可能
-:   モデル: `paraphrase-multilingual-MiniLM-L12-v2`（多言語対応、384次元）
-
-#### 接続情報の設定方法
-
-!!! example "実践: 接続情報を設定しよう"
-    
-    1. プロジェクトフォルダ内の`setup`フォルダを開く
-    2. `.env.example`ファイルを`.env`にコピー
+    1. `setup/participant`フォルダを開く
+    2. `.env.example`を`.env`にコピー
         
         === ":fontawesome-brands-windows: Windows"
             ファイルをコピーして名前を変更
         
-        === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+        === ":fontawesome-brands-apple: Mac"
             ```bash
+            cd setup/participant
             cp .env.example .env
             ```
 
-    3. `.env`ファイルを開く（IBM Bob IDEまたはテキストエディタ）
-    4. 講師から配布されたホスト名を入力
-       
-        !!! warning "重要"
-            変更が必要なのは`MILVUS_HOST`だけです！
+    3. `.env`ファイルを開き、`MILVUS_HOST`に講師から配布されたIPアドレスを入力
        
         ```env hl_lines="2"
-        # Milvus接続情報（講師から配布された情報に置き換え）
-        MILVUS_HOST=192.168.1.100  # ← ここだけ講師から配布されたIPアドレスに変更
+        # Milvus接続情報
+        MILVUS_HOST=192.168.1.100  # ← 講師から配布されたIPアドレスに変更
         
-        # 以下は変更不要（すでに正しい値が設定されています）
+        # 以下は変更不要
         MILVUS_PORT=19530
         MILVUS_USER=root
         MILVUS_PASSWORD=Milvus
-        
-        # Embedding モデル設定（変更不要）
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
         EMBEDDING_DIMENSION=384
-        
-        # コレクション設定（変更不要）
         COLLECTION_NAME=knowledge_base
         ```
 
-    5. ファイルを保存
-        
-        === ":fontawesome-brands-apple: Mac"
-            ++cmd+s++
-        
-        === ":fontawesome-brands-windows: Windows / :fontawesome-brands-linux: Linux"
-            ++ctrl+s++
+    4. ファイルを保存（++cmd+s++ / ++ctrl+s++）
+    5. IBM Bobをリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
 
-    6. IBM Bobをリロード
-        
-        === ":fontawesome-brands-apple: Mac"
-            ++cmd+shift+p++ → 「Reload Window」を実行
-        
-        === ":fontawesome-brands-windows: Windows / :fontawesome-brands-linux: Linux"
-            ++ctrl+shift+p++ → 「Reload Window」を実行
+#### 埋め込みモデル
 
-### 4. Webブラウザ（必須）
+Hugging Face Transformersを使用します（APIキー不要、無料）。
 
-ハンズオンでは、Webブラウザを使ってAPIをテストします。
+- モデル: `paraphrase-multilingual-MiniLM-L12-v2`
+- 次元数: 384
+- 特徴: 多言語対応
 
-#### 推奨ブラウザ
+### 3. Webブラウザ
 
-- :fontawesome-brands-chrome: **Google Chrome**（推奨）
-- :fontawesome-brands-firefox: **Mozilla Firefox**
-- :fontawesome-brands-edge: **Microsoft Edge**
-- :fontawesome-brands-safari: **Safari**
+APIテスト用にWebブラウザを使用します。
 
-#### ブラウザの確認
-
-1. ブラウザを起動
-2. 以下のURLにアクセスできることを確認
-    ```
-    https://www.google.com
-    ```
-3. 正常に表示されればOK
+- :fontawesome-brands-chrome: Google Chrome（推奨）
+- :fontawesome-brands-firefox: Mozilla Firefox
+- :fontawesome-brands-edge: Microsoft Edge
+- :fontawesome-brands-safari: Safari
 
 ## 準備完了チェックリスト
 
-すべての準備が完了したら、以下をチェックしてください：
-
-- IBM Bobアカウントを作成した
-- IBM Bob IDEをインストールした
-- IBM Bob IDEを起動できる
-- プロジェクトフォルダを作成した
-- `vector-search-builder.zip`を解凍した
-- `.bob`フォルダが存在する
-- IBM BobでプロジェクトフォルダをOpenした
-- 「Vector Search Builder」モードが表示される
-- `.env`ファイルに接続情報を入力した
-- Webブラウザが使用できる
+- [ ] IBM Bobがインストールされ、使用できる
+- [ ] プロジェクトフォルダを作成した
+- [ ] `vector-search-builder.zip`を解凍した
+- [ ] `.bob`フォルダが存在する
+- [ ] IBM Bobでプロジェクトフォルダを開いた
+- [ ] 「Vector Search Builder」モードが表示される
+- [ ] `setup/participant/.env`ファイルに接続情報を入力した
+- [ ] Webブラウザが使用できる
 
 ## 困ったときは
 
-??? question "Q1: IBM Bobアカウントの登録メールが届かない"
-    
-    **対処法**:
-    
-    1. 迷惑メールフォルダを確認
-    2. 数分待ってから再度確認
-    3. それでも届かない場合は、講師に相談
-
-??? question "Q2: IBM Bob IDEがインストールできない"
-    
-    **対処法**:
-    
-    1. OSのバージョンを確認（古すぎる場合は更新が必要）
-    2. 管理者権限でインストールを試す
-    3. セキュリティソフトが邪魔をしていないか確認
-    4. 講師に相談
-
-??? question "Q3: Vector Search Builderモードが表示されない"
+??? question "Q1: Vector Search Builderモードが表示されない"
     
     **対処法**:
     
     1. `.bob`フォルダが存在するか確認
-    2. IBM Bobをリロード（++cmd+shift+p++ (Mac) または ++ctrl+shift+p++ (Windows/Linux) → 「Reload Window」を実行）
+    2. IBM Bobをリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
     3. プロジェクトフォルダを開き直す
     4. 講師に相談
 
-??? question "Q4: 接続情報をどこに入力すればいいか分からない"
+??? question "Q2: 接続情報をどこに入力すればいいか分からない"
     
     **対処法**:
     
-    1. プロジェクトフォルダ内の`setup`フォルダを開く
+    1. プロジェクトフォルダ内の`setup/participant`フォルダを開く
     2. `.env`ファイルを探す（見つからない場合は`.env.example`をコピー）
     3. 講師に画面を見せて確認してもらう
 
