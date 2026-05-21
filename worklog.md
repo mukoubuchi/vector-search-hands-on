@@ -3898,3 +3898,25 @@ git push
 すべての Markdown ファイルが markdownlint のチェックをパスし、ワークスペース全体で統一された記法になりました。
 
 ---
+
+
+## 2026-05-22
+
+### ドキュメント修正
+
+- [`docs/preparation.md`](docs/preparation.md) の IBM Bob 起動手順で、`++file++ → ++open-folder++` 表記がキー表示になっていなかった問題を修正
+- [`++File++`](docs/preparation.md:41) / [`++Open Folder++`](docs/preparation.md:41) では表示が安定しなかったため、[`<kbd>File</kbd> → <kbd>Open Folder</kbd>`](docs/preparation.md:41) に変更
+- Windows の zip 解凍手順に、[`ダブルクリックでは展開されないため「すべて展開」が必要`](docs/preparation.md:34) という注記を追加
+- 接続情報設定手順の Windows 側を、[`ファイルをコピーして名前を変更`](docs/preparation.md:73) から [```.env.example``` をコピーし、コピーしたファイル名を ```.env``` に変更](docs/preparation.md:73) に修正
+- Mac と Windows の操作差分が「OS差」ではなく「CLI例とGUI例の違い」である点を踏まえて、手順が伝わりやすい文言に調整
+
+### 確認内容
+
+- [`mkdocs.yml`](mkdocs.yml) で [`pymdownx.keys`](mkdocs.yml:79) が有効であることを確認
+- `++...++` 記法では [`Open Folder`](docs/preparation.md:41) が期待通りレンダリングされないことをブラウザで確認
+- ローカルの MkDocs 表示で、[`<kbd>File</kbd> → <kbd>Open Folder</kbd>`](docs/preparation.md:41) が正しくキー表示されることを確認
+
+### 作業結果
+
+- 事前準備ページのキー表記が視覚的にわかりやすくなった
+- Windows の解凍手順と `.env` 作成手順の意図が明確になった

@@ -39,14 +39,18 @@ cd ../../docs
 
 **セットアップ手順:**
 
-```bash
-# 1. vector-search-builder.zip を解凍
-# 2. IBM Bob IDE でプロジェクトフォルダを開く
-# 3. 講師から受け取った接続情報を設定
-#    - Milvus 接続情報
-#    - ドキュメント URL
-# 4. ハンズオン開始
-```
+1. `vector-search-builder.zip` を解凍
+   - Mac: ダブルクリック
+   - Windows: 右クリック → 「すべて展開」
+
+2. IBM Bob IDE でプロジェクトフォルダを開く
+   - `File` → `Open Folder`
+
+3. 講師から受け取った接続情報を設定
+   - `setup/participant/.env.example` をコピーして `setup/participant/.env` を作成
+   - `MILVUS_HOST` に講師から共有された IP アドレスを設定
+
+4. ハンズオン開始
 
 詳細: [docs/preparation.md](docs/preparation.md)
 
