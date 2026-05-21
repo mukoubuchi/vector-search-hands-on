@@ -13,12 +13,19 @@
 - ❌ IBM Cloudアカウントが必要
 - **必要なファイル**: `docker-compose-docs.yml`のみ（MkDocs用）
 
-### オプション2: ローカルDocker
+### オプション2: ローカルDocker/Podman/Colima
 - ✅ ローカル環境で完結
 - ✅ インターネット接続不要（初回セットアップ後）
-- ❌ Docker Desktopが必要
+- ❌ コンテナランタイムが必要（Docker Desktop/Podman/Colima）
 - ❌ リソース消費が大きい
 - **必要なファイル**: `docker-compose.yml`（Milvus用）+ `docker-compose-docs.yml`（MkDocs用）
+
+**コンテナランタイムの選択**:
+- **Docker Desktop**: 商用利用には有償ライセンスが必要な場合あり
+- **Podman**: オープンソース、無料、Dockerと互換性あり（推奨）
+- **Colima**: macOS向け軽量Docker Desktop代替、無料（推奨）
+
+**重要**: `docker-compose.yml`と`docker-compose-docs.yml`は、Docker Desktop、Podman、Colimaのいずれでも使用できます。ファイル名を変更する必要はありません。
 
 ## 📋 ファイル一覧
 
@@ -58,13 +65,75 @@ TechZone環境でのCode Engine利用ガイド
 
 ## 🚀 講師用クイックスタート
 
+### 0. 前提条件：コンテナランタイムのインストール
+
+**Docker Desktopが使用できない環境での代替手段**
+
+企業環境でDocker Desktopのライセンス制約がある場合、以下の無料代替手段を使用できます。
+どちらも`docker-compose.yml`ファイルをそのまま使用でき、ファイル名の変更は不要です。
+
+#### オプション1: Podman（推奨 - Linux/macOS）
+
+**macOSの場合**:
+```bash
+# Homebrewでインストール
+brew install podman
+
+# Podman仮想マシンの初期化と起動
+podman machine init
+podman machine start
+
+# 動作確認
+podman --version
+```
+
+**Linuxの場合**:
+```bash
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install podman
+
+# RHEL/CentOS/Fedora
+sudo dnf install podman
+
+# 動作確認
+podman --version
+```
+
+#### オプション2: Colima（推奨 - macOS専用）
+
+macOS向けの軽量なDocker Desktop代替です。Docker CLIとの完全な互換性があります：
+
+```bash
+# Homebrewでインストール
+brew install colima docker docker-compose
+
+# Colimaを起動
+colima start
+
+# 動作確認
+docker --version
+docker compose version
+```
+
+**Colima/Podman対応の理由**:
+1. **ライセンスフリー**: 商用利用でも完全無料
+2. **互換性**: `docker-compose.yml`をそのまま使用可能
+3. **自動検出**: `start-all.sh`スクリプトがランタイムを自動判別
+4. **標準準拠**: Docker Compose形式は業界標準
+
+**重要**: どのランタイムを使用しても、`docker-compose.yml`という名前を維持してください。これにより：
+- 他の環境（Docker Desktop、Colima、Podman）への移行が容易
+- チーム内での混乱を回避
+- ドキュメントとの整合性を保持
+
 ### 1. 環境の起動
 
 ```bash
 # setup/instructor ディレクトリに移動
 cd setup/instructor
 
-# すべてのサービスを起動
+# すべてのサービスを起動（DockerまたはPodmanを自動検出）
 ./start-all.sh
 ```
 

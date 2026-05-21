@@ -28,10 +28,17 @@ setup/
 
 講師用のセットアップ手順は [`instructor/README.md`](instructor/README.md) を参照してください。
 
+**コンテナランタイムの選択**:
+- Docker Desktop（有償ライセンスが必要な場合あり）
+- **Podman**（推奨 - 無料、Linux/macOS対応）
+- **Colima**（推奨 - 無料、macOS専用）
+
+**重要**: `docker-compose.yml`ファイルは、Docker Desktop、Podman、Colimaのいずれでも使用できます。
+
 **クイックスタート**:
 ```bash
 cd setup/instructor
-./start-all.sh
+./start-all.sh  # Docker/Podman/Colimaを自動検出
 ```
 
 ## 👨‍🎓 受講者の方へ

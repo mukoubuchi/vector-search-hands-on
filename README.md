@@ -218,7 +218,13 @@ vector-search-handson/
 ### 講師の方
 
 #### 事前準備
-1. Docker Desktop をインストール
+1. **コンテナランタイムをインストール**
+   - Docker Desktop（有償ライセンスが必要な場合あり）
+   - **Podman**（推奨 - 無料、Linux/macOS対応）
+   - **Colima**（推奨 - 無料、macOS専用）
+   
+   詳細は [講師用セットアップガイド](setup/instructor/README.md#0-前提条件コンテナランタイムのインストール) を参照
+
 2. **すべてのサービスを一括起動**:
    ```bash
    cd setup/instructor
