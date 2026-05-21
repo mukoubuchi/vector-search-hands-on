@@ -56,7 +56,7 @@
 
 #### 手順
 
-1. Swagger UI で`/search`を開く
+1. Swagger UI で `/search`を開く
 2. 「Try it out」をクリック
 3. 以下を入力：
 
@@ -110,7 +110,7 @@
 
 #### 手順
 
-1. Swagger UI で`/search`を開く
+1. Swagger UI で `/search`を開く
 2. 「Try it out」をクリック
 3. 以下を入力：
 

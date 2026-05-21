@@ -34,9 +34,11 @@ cd ../../docs
 ### 👨‍🎓 受講者向け
 
 **配布ファイル:**
+
 - `vector-search-builder.zip` - IBM Bob IDE モード定義と接続テスト
 
 **セットアップ手順:**
+
 ```bash
 # 1. vector-search-builder.zip を解凍
 # 2. IBM Bob IDE でプロジェクトフォルダを開く

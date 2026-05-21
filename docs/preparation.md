@@ -23,6 +23,7 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 #### ステップ 2: Vector Search Builder をインストール
 
 1. 配布された`vector-search-builder.zip`をプロジェクトフォルダにコピー
+
 2. zip ファイルを解凍
 
     === ":fontawesome-brands-apple: Mac"
@@ -36,7 +37,9 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 #### ステップ 3: IBM Bob でプロジェクトを開く
 
 1. IBM Bob を起動
+
 2. ++file++ → ++open-folder++ でプロジェクトフォルダを選択
+
 3. IBM Bob をリロード
 
     === ":fontawesome-brands-apple: Mac"
