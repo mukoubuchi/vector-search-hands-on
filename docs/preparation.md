@@ -5,25 +5,25 @@
 ## 前提条件
 
 !!! info "前提条件"
-    IBM Bobが既にインストールされ、使用できる状況を前提としています。
+    IBM Bob が既にインストールされ、使用できる状況を前提としています。
 
 ## 必要なもの
 
 ### 1. Vector Search Builder モード
 
-Vector Search Builderは、ベクトル検索機能を簡単に構築できるIBM Bobの専用モードです。
+Vector Search Builder は、ベクトル検索機能を簡単に構築できる IBM Bob の専用モードです。
 
-#### ステップ1: プロジェクトフォルダを作成
+#### ステップ 1: プロジェクトフォルダを作成
 
 デスクトップに新しいフォルダを作成します。
 
 - **フォルダ名**: `vector-search-handson`
 - **場所**: デスクトップ推奨
 
-#### ステップ2: Vector Search Builderをインストール
+#### ステップ 2: Vector Search Builder をインストール
 
 1. 配布された`vector-search-builder.zip`をプロジェクトフォルダにコピー
-2. zipファイルを解凍
+2. zip ファイルを解凍
 
     === ":fontawesome-brands-windows: Windows"
         右クリック → 「すべて展開」
@@ -33,11 +33,11 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
 
 3. `.bob`フォルダが作成されていることを確認
 
-#### ステップ3: IBM Bobでプロジェクトを開く
+#### ステップ 3: IBM Bob でプロジェクトを開く
 
-1. IBM Bobを起動
+1. IBM Bob を起動
 2. ++file++ → ++open-folder++ でプロジェクトフォルダを選択
-3. IBM Bobをリロード
+3. IBM Bob をリロード
 
     === ":fontawesome-brands-apple: Mac"
         ++cmd+shift+p++ → 「Reload Window」
@@ -51,7 +51,7 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
 
 #### Milvus（ベクトルデータベース）
 
-講師から配布されたIPアドレスを設定します。
+講師から配布された IP アドレスを設定します。
 
 !!! example "接続情報の設定"
 
@@ -67,11 +67,11 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
             cp .env.example .env
             ```
 
-    3. `.env`ファイルを開き、`MILVUS_HOST`に講師から配布されたIPアドレスを入力
+    3. `.env`ファイルを開き、`MILVUS_HOST`に講師から配布された IP アドレスを入力
        
         ```env hl_lines="2"
-        # Milvus接続情報
-        MILVUS_HOST=192.168.1.100  # ← 講師から配布されたIPアドレスに変更
+        # Milvus 接続情報
+        MILVUS_HOST=192.168.1.100  # ← 講師から配布された IP アドレスに変更
         
         # 以下は変更不要
         MILVUS_PORT=19530
@@ -83,19 +83,19 @@ Vector Search Builderは、ベクトル検索機能を簡単に構築できるIB
         ```
 
     4. ファイルを保存（++cmd+s++ / ++ctrl+s++）
-    5. IBM Bobをリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
+    5. IBM Bob をリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
 
 #### 埋め込みモデル
 
-Hugging Face Transformersを使用します（APIキー不要、無料）。
+Hugging Face Transformers を使用します（API キー不要、無料）。
 
 - モデル: `paraphrase-multilingual-MiniLM-L12-v2`
 - 次元数: 384
 - 特徴: 多言語対応
 
-### 3. Webブラウザ
+### 3. Web ブラウザ
 
-APIテスト用にWebブラウザを使用します。
+API テスト用に Web ブラウザを使用します。
 
 - :fontawesome-brands-chrome: Google Chrome（推奨）
 - :fontawesome-brands-firefox: Mozilla Firefox
@@ -104,23 +104,23 @@ APIテスト用にWebブラウザを使用します。
 
 ## 準備完了チェックリスト
 
-- [ ] IBM Bobがインストールされ、使用できる
+- [ ] IBM Bob がインストールされ、使用できる
 - [ ] プロジェクトフォルダを作成した
 - [ ] `vector-search-builder.zip`を解凍した
 - [ ] `.bob`フォルダが存在する
-- [ ] IBM Bobでプロジェクトフォルダを開いた
+- [ ] IBM Bob でプロジェクトフォルダを開いた
 - [ ] 「Vector Search Builder」モードが表示される
 - [ ] `setup/participant/.env`ファイルに接続情報を入力した
-- [ ] Webブラウザが使用できる
+- [ ] Web ブラウザが使用できる
 
 ## 困ったときは
 
-??? question "Q1: Vector Search Builderモードが表示されない"
+??? question "Q1: Vector Search Builder モードが表示されない"
 
     **対処法**:
     
     1. `.bob`フォルダが存在するか確認
-    2. IBM Bobをリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
+    2. IBM Bob をリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
     3. プロジェクトフォルダを開き直す
     4. 講師に相談
 
@@ -136,4 +136,4 @@ APIテスト用にWebブラウザを使用します。
 
 準備が完了したら、[Part 1: 環境確認とデモ](part1.md)に進みましょう！
 
-Part 1では、実際にVector Searchがどのように動作するかを体験します。
+Part 1 では、実際に Vector Search がどのように動作するかを体験します。

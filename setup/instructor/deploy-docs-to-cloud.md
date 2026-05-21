@@ -2,14 +2,14 @@
 
 ## 概要
 
-リモート参加者（異なるWiFi/ネットワーク）がドキュメントにアクセスできるよう、IBM Cloud Code Engineにデプロイします。
+リモート参加者（異なる WiFi/ネットワーク）がドキュメントにアクセスできるよう、IBM Cloud Code Engine にデプロイします。
 
-## クイックスタート（5分）
+## クイックスタート（5 分）
 
 ### 1. 前提条件の確認
 
 ```bash
-# IBM Cloud CLIがインストールされているか確認
+# IBM Cloud CLI がインストールされているか確認
 ibmcloud version
 
 # なければインストール
@@ -20,10 +20,10 @@ ibmcloud plugin install code-engine
 ibmcloud plugin install container-registry
 ```
 
-### 2. IBM Cloudにログイン
+### 2. IBM Cloud にログイン
 
 ```bash
-# SSOでログイン
+# SSO でログイン
 ibmcloud login --sso
 
 # 東京リージョンを選択
@@ -36,7 +36,7 @@ ibmcloud target -r jp-tok
 # 利用可能なリソースグループを確認
 ibmcloud resource groups
 
-# リソースグループを設定（TechZone環境の場合）
+# リソースグループを設定（TechZone 環境の場合）
 ibmcloud target -g itz-wxd-6a08d26e2b7a7a1e72c97a
 
 # または、自分の環境に合わせて設定
@@ -48,66 +48,66 @@ ibmcloud target -g itz-wxd-6a08d26e2b7a7a1e72c97a
 ### 4. デプロイ実行
 
 ```bash
-# docs/participantディレクトリに移動
+# docs/participant ディレクトリに移動
 cd docs/participant
 
 # デプロイスクリプトを実行
 ./deploy-to-code-engine.sh
 ```
 
-### 5. URLを確認
+### 5. URL を確認
 
-デプロイ完了後、URLを確認する方法は2つあります：
+デプロイ完了後、URL を確認する方法は 2 つあります：
 
-**方法1: デプロイスクリプトの出力から確認**
+**方法 1: デプロイスクリプトの出力から確認**
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
+> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新の URL を使用してください。
 
-**方法2: URL確認スクリプトを使用**
+**方法 2: URL 確認スクリプトを使用**
 ```bash
 cd setup/instructor
 ./check_docs_url.sh
 ```
 
-このスクリプトは、Code Engineプロジェクトから自動的にURLを取得します。
+このスクリプトは、Code Engine プロジェクトから自動的に URL を取得します。
 
-### 6. URLを受講者に共有
+### 6. URL を受講者に共有
 
-確認したURLを受講者に共有してください。
+確認した URL を受講者に共有してください。
 
 **実際のデプロイ例**:
 - プロジェクト: `vector-search-docs`
 - リージョン: `us-south`
-- URL例: `https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud`
+- URL 例: `https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud`
   > **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。
 - ステータス: ✅ 稼働中
 
-!!! warning "TechZone環境でのURL変更について"
-    TechZone環境の期限切れ後、再予約すると新しいCode Engineプロジェクトが作成され、URLが変わります。
+!!! warning "TechZone 環境での URL 変更について"
+    TechZone 環境の期限切れ後、再予約すると新しい Code Engine プロジェクトが作成され、URL が変わります。
     
     **対応方法**:
     1. 新しい環境でデプロイスクリプトを再実行
-    2. 新しいURLを受講者に共有
-    3. 必要に応じてドキュメント内のURL例を更新
+    2. 新しい URL を受講者に共有
+    3. 必要に応じてドキュメント内の URL 例を更新
 
 ## 受講者への案内文例
 
 ```
-【ハンズオン資料のURL】
+【ハンズオン資料の URL】
 
-以下のURLからハンズオン資料にアクセスできます：
+以下の URL からハンズオン資料にアクセスできます：
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
+> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新の URL を使用してください。
 
 ※ インターネット接続があればどこからでもアクセス可能です
 ※ ブックマーク推奨
-※ 異なるWiFi/ネットワークからもアクセス可能
+※ 異なる WiFi/ネットワークからもアクセス可能
 ```
 
 ## ドキュメント更新時
@@ -119,7 +119,7 @@ cd docs/participant
 ./deploy-to-code-engine.sh
 ```
 
-既存のアプリケーションが自動的に更新されます（URLは変わりません）。
+既存のアプリケーションが自動的に更新されます（URL は変わりません）。
 
 ## ハンズオン終了後
 
@@ -137,7 +137,7 @@ ibmcloud ce project delete --name vector-search-docs
 
 ### プラットフォーム互換性
 
-Apple Silicon（M1/M2/M3）Macでビルドする場合、Dockerfileに以下の設定が必要です：
+Apple Silicon（M1/M2/M3）Mac でビルドする場合、Dockerfile に以下の設定が必要です：
 
 ```dockerfile
 FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
@@ -145,16 +145,16 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 
 これにより、Code Engine（AMD64）で正しく動作するイメージが作成されます。
 
-### TechZone環境での利用
+### TechZone 環境での利用
 
-TechZone環境を使用する場合：
-- Container Registryの既存ネームスペース（`cr-itz-*`）が自動検出されます
+TechZone 環境を使用する場合：
+- Container Registry の既存ネームスペース（`cr-itz-*`）が自動検出されます
 - リソースグループ（`itz-*`）が優先的に選択されます
 - 詳細は `techzone-code-engine-guide.md` を参照
 
 ## トラブルシューティング
 
-### Podman認証エラー（Identity Token問題）
+### Podman 認証エラー（Identity Token 問題）
 
 **症状**:
 ```
@@ -166,44 +166,44 @@ Error: currently logged in, auth file contains an Identity token
 ```
 
 **原因**:
-IBM Cloud Container Registry（ICR）の`ibmcloud cr login`コマンドは「Identity token」という一時的な認証トークンを使用します。このトークンはDockerでは動作しますが、Podmanでは互換性の問題があります。
+IBM Cloud Container Registry（ICR）の`ibmcloud cr login`コマンドは「Identity token」という一時的な認証トークンを使用します。このトークンは Docker では動作しますが、Podman では互換性の問題があります。
 
 **解決方法**:
 
-**方法1: Podman→Docker経由でプッシュ（推奨）**
+**方法 1: Podman→Docker 経由でプッシュ（推奨）**
 ```bash
-# 1. Podmanでビルド（AMD64用）
+# 1. Podman でビルド（AMD64 用）
 podman build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
 
-# 2. PodmanイメージをDockerにロード
+# 2. Podman イメージを Docker にロード
 podman save jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest | docker load
 
-# 3. Dockerでプッシュ
+# 3. Docker でプッシュ
 docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
 ```
 
-**方法2: Dockerのみを使用**
+**方法 2: Docker のみを使用**
 ```bash
-# Colimaを起動（macOS）
+# Colima を起動（macOS）
 colima start
 
-# Dockerでビルド＆プッシュ
+# Docker でビルド＆プッシュ
 docker build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
 docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
 ```
 
 **注意**:
-- `deploy-to-code-engine.sh`スクリプトは、Dockerが利用可能な場合は自動的にDockerを優先します
-- Podman単独での認証は、IBM CloudのIdentity token方式との互換性問題により困難です
+- `deploy-to-code-engine.sh`スクリプトは、Docker が利用可能な場合は自動的に Docker を優先します
+- Podman 単独での認証は、IBM Cloud の Identity token 方式との互換性問題により困難です
 
 ### デプロイが失敗する
 
-1. IBM Cloudにログインしているか確認：
+1. IBM Cloud にログインしているか確認：
    ```bash
    ibmcloud target
    ```
 
-2. Dockerが起動しているか確認：
+2. Docker が起動しているか確認：
    ```bash
    docker ps
    ```
@@ -213,7 +213,7 @@ docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
    ibmcloud ce app logs --name mkdocs-docs
    ```
 
-### URLにアクセスできない
+### URL にアクセスできない
 
 1. アプリケーションの状態を確認：
    ```bash
@@ -224,9 +224,9 @@ docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
 
 ## コスト
 
-- **無料枠**: 月間180,000 vCPU秒（約50時間）
+- **無料枠**: 月間 180,000 vCPU 秒（約 50 時間）
 - **推奨設定**: CPU 0.25、メモリ 0.5GB
-- **想定コスト**: 1日8時間のハンズオンを約6日間実施可能（無料枠内）
+- **想定コスト**: 1 日 8 時間のハンズオンを約 6 日間実施可能（無料枠内）
 
 ## 詳細ドキュメント
 
@@ -235,9 +235,9 @@ docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
 
 ## 代替案
 
-Code Engineが使えない場合：
+Code Engine が使えない場合：
 
-### オプションA: 静的HTMLをZIP配布
+### オプション A: 静的 HTML を ZIP 配布
 ```bash
 cd docs/participant
 docker run --rm -v $(pwd):/docs squidfunk/mkdocs-material:latest build
@@ -245,7 +245,7 @@ zip -r mkdocs-site.zip site/
 ```
 受講者に`mkdocs-site.zip`を配布し、解凍後`site/index.html`を開いてもらう。
 
-### オプションB: 各自がローカルで起動
+### オプション B: 各自がローカルで起動
 受講者に以下を実行してもらう：
 ```bash
 cd docs/participant
