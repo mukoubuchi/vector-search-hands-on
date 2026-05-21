@@ -38,15 +38,15 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 
 1. IBM Bob を起動
 
-2. **File** → **Open Folder** でプロジェクトフォルダを選択
+2. ++file++ → ++open-folder++ でプロジェクトフォルダを選択
 
 3. IBM Bob をリロード
 
     === ":fontawesome-brands-apple: Mac"
-        **Cmd+Shift+P** → 「Reload Window」
+        ++cmd+shift+p++ → 「Reload Window」
 
     === ":fontawesome-brands-windows: Windows"
-        **Ctrl+Shift+P** → 「Reload Window」
+        ++ctrl+shift+p++ → 「Reload Window」
 
 4. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認
 
@@ -85,8 +85,8 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
         COLLECTION_NAME=knowledge_base
         ```
 
-    4. ファイルを保存（**Cmd+S** / **Ctrl+S**）
-    5. IBM Bob をリロード（**Cmd+Shift+P** / **Ctrl+Shift+P** → 「Reload Window」）
+    4. ファイルを保存（++cmd+s++ / ++ctrl+s++）
+    5. IBM Bob をリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
 
 #### 埋め込みモデル
 

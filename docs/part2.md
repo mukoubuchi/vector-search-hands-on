@@ -98,7 +98,7 @@ IBM Bob が以下のような提案をします：
 1. Swagger UI を開く（`http://localhost:8000/docs`）
 2. アプリケーションを再起動
 
-   - ターミナルで **Ctrl+C**（停止）
+   - ターミナルで ++ctrl+c++（停止）
    - `python app.py`（再起動）
 3. 検索を実行：
 

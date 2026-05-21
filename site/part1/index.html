@@ -1,0 +1,1902 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="IBM Bob × Milvus × watsonx.ai を使ったベクトル検索ハンズオン">
+      
+      
+        <meta name="author" content="IBM Build Team">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/part1/">
+      
+      
+        <link rel="prev" href="../preparation/">
+      
+      
+        <link rel="next" href="../part2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Part 1 - 基本的なベクトル検索 - Vector Search ハンズオン</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#part-1-vector-search" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href=".." title="Vector Search ハンズオン" class="md-header__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vector Search ハンズオン
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Part 1 - 基本的なベクトル検索
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../preparation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  事前準備
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 1 - 基本的なベクトル検索
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 2 - 高度な検索機能
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part3/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 3 - 実践的な応用
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../summary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  まとめ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vector Search ハンズオン" class="md-nav__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vector Search ハンズオン
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1 - 基本的なベクトル検索
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1 - 基本的なベクトル検索
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        このパートのゴール
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-vector-search-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: Vector Search とは？（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ステップ 1: Vector Search とは？（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        従来の検索の問題点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Search の仕組み
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-search_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Search の動作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: 接続テストを実行（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ステップ 2: 接続テストを実行（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ターミナルを開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setupparticipant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setup/participant フォルダに移動
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        接続テストを実行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果を確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="結果を確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成功の場合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        失敗の場合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-vector-search-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: Vector Search を体験（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ステップ 3: Vector Search を体験（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        デモアプリケーションを起動
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="デモアプリケーションを起動">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1: IBM Bob に依頼（推奨）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2: 手動で起動
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        起動を確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Swagger UI を開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        検索を試してみる
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="検索を試してみる">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: /search エンドポイントを開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-try-it-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: 「Try it out」をクリック
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: 検索クエリを入力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 4: 「Execute」をクリック
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 5: 結果を確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        色々な検索を試してみる
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="色々な検索を試してみる">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例 1: 初心者向けの商品を探す
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例 2: ビジネス向けの商品を探す
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例 3: 高性能な商品を探す
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-search_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Search の凄さを実感
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 完了チェック
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 で学んだこと
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 で学んだこと">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理解したこと
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        できるようになったこと
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        次のステップ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        困ったときは
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="困ったときは">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        よくある質問
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="よくある質問">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q1: 接続テストが失敗する
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q2-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q2: Swagger UI が開けない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q3-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q3: 検索結果が 0 件
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2 - 高度な検索機能
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3 - 実践的な応用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    まとめ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        このパートのゴール
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-vector-search-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: Vector Search とは？（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ステップ 1: Vector Search とは？（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        従来の検索の問題点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Search の仕組み
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-search_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Search の動作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: 接続テストを実行（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ステップ 2: 接続テストを実行（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ターミナルを開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setupparticipant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setup/participant フォルダに移動
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        接続テストを実行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果を確認
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="結果を確認">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成功の場合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        失敗の場合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-vector-search-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: Vector Search を体験（5 分）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ステップ 3: Vector Search を体験（5 分）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        デモアプリケーションを起動
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="デモアプリケーションを起動">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1: IBM Bob に依頼（推奨）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2: 手動で起動
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        起動を確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Swagger UI を開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        検索を試してみる
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="検索を試してみる">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: /search エンドポイントを開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-try-it-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: 「Try it out」をクリック
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: 検索クエリを入力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 4: 「Execute」をクリック
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 5: 結果を確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        色々な検索を試してみる
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="色々な検索を試してみる">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例 1: 初心者向けの商品を探す
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例 2: ビジネス向けの商品を探す
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例 3: 高性能な商品を探す
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-search_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Search の凄さを実感
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 完了チェック
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 で学んだこと
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 で学んだこと">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理解したこと
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        できるようになったこと
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        次のステップ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        困ったときは
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="困ったときは">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        よくある質問
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="よくある質問">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q1: 接続テストが失敗する
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q2-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q2: Swagger UI が開けない
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q3-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q3: 検索結果が 0 件
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="part-1-vector-search">Part 1: Vector Search を体験しよう<a class="headerlink" href="#part-1-vector-search" title="Anchor link to this section for reference">&para;</a></h1>
+<p><strong>所要時間</strong>: 15 分</p>
+<p>このパートでは、Vector Search（ベクトル検索）がどのように動作するかを実際に体験します。</p>
+<h2 id="_1">このパートのゴール<a class="headerlink" href="#_1" title="Anchor link to this section for reference">&para;</a></h2>
+<ul>
+<li>Vector Search とは何かを理解する</li>
+<li>実際に Vector Search を動かしてみる</li>
+<li>「意味で検索」の便利さを体感する</li>
+</ul>
+<h2 id="1-vector-search-5">ステップ 1: Vector Search とは？（5 分）<a class="headerlink" href="#1-vector-search-5" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="_2">従来の検索の問題点<a class="headerlink" href="#_2" title="Anchor link to this section for reference">&para;</a></h3>
+<p><strong>例: EC サイトで商品を探す場合</strong></p>
+<p><strong>あなたの検索</strong>: 「赤いスニーカー」</p>
+<p><strong>従来の検索結果</strong>:</p>
+<ul>
+<li>「赤いスニーカー」→ 見つかる</li>
+<li>「赤色のランニングシューズ」→ 見つからない</li>
+<li>「レッドのスポーツシューズ」→ 見つからない</li>
+</ul>
+<p><strong>なぜ見つからない？</strong></p>
+<ul>
+<li>従来の検索は「文字」を探すだけ</li>
+<li>「赤い」と「赤色」は違う文字として扱われる</li>
+</ul>
+<h3 id="vector-search">Vector Search の仕組み<a class="headerlink" href="#vector-search" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Vector Search は「意味」を理解して検索します。</p>
+<p><strong>あなたの検索</strong>: 「赤いスニーカー」</p>
+<p><strong>Vector Search の結果</strong>:</p>
+<ul>
+<li>「赤いスニーカー」→ 見つかる</li>
+<li>「赤色のランニングシューズ」→ 見つかる（意味が似ている）</li>
+<li>「レッドのスポーツシューズ」→ 見つかる（意味が似ている）</li>
+</ul>
+<p><strong>なぜ見つかる？</strong></p>
+<ul>
+<li>Vector Search は「意味」を理解する</li>
+<li>「赤い」「赤色」「レッド」→ 同じ意味と理解</li>
+<li>「スニーカー」「ランニングシューズ」「スポーツシューズ」→ 似た意味と理解</li>
+</ul>
+<h3 id="vector-search_1">Vector Search の動作<a class="headerlink" href="#vector-search_1" title="Anchor link to this section for reference">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ステップ 1: テキストを数値に変換
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>「赤いスニーカー」→ [0.2, 0.8, 0.1, 0.5, ...] （ベクトル）
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>ステップ 2: 似た数値を探す
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>データベースから似た数値のパターンを検索
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>ステップ 3: 結果を返す
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>似た意味の商品を返す
+</span></code></pre></div>
+<p><strong>ポイント</strong>:</p>
+<ul>
+<li>「ベクトル」= 数値の配列</li>
+<li>意味が似ていると、数値のパターンも似る</li>
+<li>コンピュータは数値の類似度を高速に計算できる</li>
+</ul>
+<h2 id="2-5">ステップ 2: 接続テストを実行（5 分）<a class="headerlink" href="#2-5" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">実践: ここから手を動かします</p>
+<p>実際に Vector Search を動かす前に、必要なサービスに接続できるか確認します。</p>
+</div>
+<h3 id="_3">ターミナルを開く<a class="headerlink" href="#_3" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li>IBM Bob の画面下部の「TERMINAL」タブをクリック</li>
+<li>黒い画面（ターミナル）が表示されます</li>
+</ol>
+<h3 id="setupparticipant">setup/participant フォルダに移動<a class="headerlink" href="#setupparticipant" title="Anchor link to this section for reference">&para;</a></h3>
+<p>ターミナルに以下を入力して Enter：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>setup/participant
+</span></code></pre></div>
+<h3 id="_4">接続テストを実行<a class="headerlink" href="#_4" title="Anchor link to this section for reference">&para;</a></h3>
+<p>ターミナルに以下を入力して Enter：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>test_connection_simple.py
+</span></code></pre></div>
+<h3 id="_5">結果を確認<a class="headerlink" href="#_5" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="_6">成功の場合<a class="headerlink" href="#_6" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>==================================================
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Milvus &amp; 埋め込みモデル 接続テスト
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>==================================================
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>=== 環境変数確認 ===
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>✓ MILVUS_HOST: 192.168.1.100
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>✓ MILVUS_PORT: 19530
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>✓ EMBEDDING_DIMENSION: 384
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>=== Milvus 接続テスト ===
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>接続先: 192.168.1.100:19530
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>✓ Milvus に接続成功
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>✓ 既存コレクション数: 0
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>=== 埋め込みモデル テスト ===
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>モデル: paraphrase-multilingual-MiniLM-L12-v2
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>✓ モデルのロードに成功しました
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>✓ 埋め込みベクトル生成成功
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>  次元数: 384
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>✓ すべての接続テストが成功しました！
+</span></code></pre></div>
+<p><strong>これは何？</strong>:</p>
+<ul>
+<li><strong>Milvus</strong>: ベクトルデータベース（データを保存する場所）</li>
+<li><strong>埋め込みモデル</strong>: テキストをベクトルに変換</li>
+<li><strong>次元数 384</strong>: 384 個の数値で意味を表現</li>
+</ul>
+<h4 id="_7">失敗の場合<a class="headerlink" href="#_7" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>✗ Milvus 接続エラー: Connection refused
+</span></code></pre></div>
+<p><strong>対処法</strong>:</p>
+<ol>
+<li>講師に声をかける</li>
+<li><code>.env</code>ファイルを確認</li>
+<li>インターネット接続を確認</li>
+</ol>
+<h2 id="3-vector-search-5">ステップ 3: Vector Search を体験（5 分）<a class="headerlink" href="#3-vector-search-5" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">実践: Vector Search を動かしてみよう</p>
+<p>接続テストが成功したら、実際に Vector Search を体験しましょう。</p>
+</div>
+<h3 id="_8">デモアプリケーションを起動<a class="headerlink" href="#_8" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="1-ibm-bob">方法 1: IBM Bob に依頼（推奨）<a class="headerlink" href="#1-ibm-bob" title="Anchor link to this section for reference">&para;</a></h4>
+<p>IBM Bob のチャット画面で以下を入力：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>setup/participant フォルダでデモアプリケーションを起動して
+</span></code></pre></div>
+<h4 id="2">方法 2: 手動で起動<a class="headerlink" href="#2" title="Anchor link to this section for reference">&para;</a></h4>
+<p>ターミナルに以下を入力：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python<span class="w"> </span>app.py
+</span></code></pre></div>
+<h3 id="_9">起動を確認<a class="headerlink" href="#_9" title="Anchor link to this section for reference">&para;</a></h3>
+<p>ターミナルに以下のような表示が出れば OK：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>INFO:     Uvicorn running on http://localhost:8000
+</span></code></pre></div>
+<p><strong>重要</strong>: この画面は閉じないでください</p>
+<h3 id="swagger-ui">Swagger UI を開く<a class="headerlink" href="#swagger-ui" title="Anchor link to this section for reference">&para;</a></h3>
+<ol>
+<li>Web ブラウザを開く</li>
+<li>以下の URL にアクセス：</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>http://localhost:8000/docs
+</span></code></pre></div>
+<p><strong>Swagger UI</strong> = API を視覚的にテストできるツール</p>
+<h3 id="_10">検索を試してみる<a class="headerlink" href="#_10" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="1-search">ステップ 1: /search エンドポイントを開く<a class="headerlink" href="#1-search" title="Anchor link to this section for reference">&para;</a></h4>
+<ol>
+<li>Swagger UI 画面で「/search」を探す</li>
+<li>「/search」をクリック</li>
+</ol>
+<h4 id="2-try-it-out">ステップ 2: 「Try it out」をクリック<a class="headerlink" href="#2-try-it-out" title="Anchor link to this section for reference">&para;</a></h4>
+<p>右上の「Try it out」ボタンをクリック</p>
+<h4 id="3">ステップ 3: 検索クエリを入力<a class="headerlink" href="#3" title="Anchor link to this section for reference">&para;</a></h4>
+<p>「Request body」の欄に以下を入力：</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;赤いスニーカー&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="4-execute">ステップ 4: 「Execute」をクリック<a class="headerlink" href="#4-execute" title="Anchor link to this section for reference">&para;</a></h4>
+<p>青い「Execute」ボタンをクリック</p>
+<h4 id="5">ステップ 5: 結果を確認<a class="headerlink" href="#5" title="Anchor link to this section for reference">&para;</a></h4>
+<p>以下のような結果が表示されます：</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;赤いランニングシューズ&quot;</span><span class="p">,</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">      </span><span class="nt">&quot;similarity_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.92</span><span class="p">,</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">      </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8900</span><span class="p">,</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;スニーカー&quot;</span><span class="p">,</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;軽量で通気性の良いランニングシューズ&quot;</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>結果の見方</strong>:</p>
+<ul>
+<li><code>product_name</code>: 商品名</li>
+<li><code>similarity_score</code>: 類似度（0.0〜1.0、高いほど似ている）</li>
+<li><code>price</code>: 価格</li>
+<li><code>category</code>: カテゴリ</li>
+<li><code>description</code>: 説明</li>
+</ul>
+<h3 id="_11">色々な検索を試してみる<a class="headerlink" href="#_11" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="1">例 1: 初心者向けの商品を探す<a class="headerlink" href="#1" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;初心者向けのカメラ&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="2_1">例 2: ビジネス向けの商品を探す<a class="headerlink" href="#2_1" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ビジネス向けのノートパソコン&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="3_1">例 3: 高性能な商品を探す<a class="headerlink" href="#3_1" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;高性能なゲーミング PC&quot;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="vector-search_2">Vector Search の凄さを実感<a class="headerlink" href="#vector-search_2" title="Anchor link to this section for reference">&para;</a></h3>
+<p>色々な検索を試すと、以下のことに気づくはずです：</p>
+<p><strong>気づき 1: 言い方が違っても見つかる</strong></p>
+<ul>
+<li>「初心者向け」→「入門用」「ビギナー向け」も見つかる</li>
+</ul>
+<p><strong>気づき 2: 類似度スコアが便利</strong></p>
+<ul>
+<li>スコアが高い = より似ている</li>
+<li>結果の信頼度が分かる</li>
+</ul>
+<p><strong>気づき 3: 説明文も考慮される</strong></p>
+<ul>
+<li>商品名だけでなく、説明文の意味も理解</li>
+</ul>
+<h2 id="part-1">Part 1 完了チェック<a class="headerlink" href="#part-1" title="Anchor link to this section for reference">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Vector Search とは何かを理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> 従来の検索との違いを理解した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> 接続テストが成功した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> デモアプリケーションを起動できた</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Swagger UI を開けた</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> 検索を実行できた</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> 色々な検索を試した</li>
+</ul>
+<h2 id="part-1_1">Part 1 で学んだこと<a class="headerlink" href="#part-1_1" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="_12">理解したこと<a class="headerlink" href="#_12" title="Anchor link to this section for reference">&para;</a></h3>
+<ul>
+<li>Vector Search は「意味」を理解して検索する</li>
+<li>従来の検索は「文字」を探すだけ</li>
+<li>ベクトル = テキストを数値に変換したもの</li>
+<li>類似度スコア = どれくらい似ているかの指標</li>
+</ul>
+<h3 id="_13">できるようになったこと<a class="headerlink" href="#_13" title="Anchor link to this section for reference">&para;</a></h3>
+<ul>
+<li>接続テストの実行</li>
+<li>デモアプリケーションの起動</li>
+<li>Swagger UI の使い方</li>
+<li>Vector Search の実行</li>
+</ul>
+<h2 id="_14">次のステップ<a class="headerlink" href="#_14" title="Anchor link to this section for reference">&para;</a></h2>
+<p>Part 1 が完了したら、<a href="../part2/">Part 2: IBM Bob で機能を追加</a>に進みましょう！</p>
+<p>Part 2 では、IBM Bob を使って、このアプリケーションに新しい機能を追加します。</p>
+<p><strong>Part 2 で追加する機能</strong>:</p>
+<ul>
+<li>検索結果に商品画像を表示</li>
+<li>価格でフィルター</li>
+<li>レコメンド理由を表示</li>
+</ul>
+<p>プログラミング経験がなくても大丈夫です。IBM Bob が全部やってくれます！</p>
+<h2 id="_15">困ったときは<a class="headerlink" href="#_15" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="_16">よくある質問<a class="headerlink" href="#_16" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="q1">Q1: 接続テストが失敗する<a class="headerlink" href="#q1" title="Anchor link to this section for reference">&para;</a></h4>
+<p><strong>対処法</strong>:</p>
+<ol>
+<li><code>.env</code>ファイルの内容を確認</li>
+<li>インターネット接続を確認</li>
+<li>講師に相談</li>
+</ol>
+<h4 id="q2-swagger-ui">Q2: Swagger UI が開けない<a class="headerlink" href="#q2-swagger-ui" title="Anchor link to this section for reference">&para;</a></h4>
+<p><strong>対処法</strong>:</p>
+<ol>
+<li>アプリケーションが起動しているか確認</li>
+<li>URL が正しいか確認（<code>http://localhost:8000/docs</code>）</li>
+<li>ブラウザを変えてみる</li>
+<li>講師に相談</li>
+</ol>
+<h4 id="q3-0">Q3: 検索結果が 0 件<a class="headerlink" href="#q3-0" title="Anchor link to this section for reference">&para;</a></h4>
+<p><strong>対処法</strong>:</p>
+<ol>
+<li>サンプルデータが投入されているか確認</li>
+<li>検索クエリを変えてみる</li>
+<li>講師に相談</li>
+</ol>
+<hr />
+<p><strong>お疲れ様でした！Part 1 が完了しました！</strong></p>
+<p>休憩を取ってから、Part 2 に進みましょう！</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
