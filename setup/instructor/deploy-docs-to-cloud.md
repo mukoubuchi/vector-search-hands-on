@@ -61,8 +61,10 @@ cd docs/participant
 
 **方法1: デプロイスクリプトの出力から確認**
 ```
-https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
+https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
+
+> **注**: **xxxxx**の部分は環境により異なります。これはあくまで例です。
 
 **方法2: URL確認スクリプトを使用**
 ```bash
@@ -79,7 +81,7 @@ cd setup/instructor
 **実際のデプロイ例**:
 - プロジェクト: `vector-search-docs`
 - リージョン: `us-south`
-- URL例: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+- URL例: https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud ※**xxxxx**は環境により異なります（あくまで例）
 - ステータス: ✅ 稼働中
 
 !!! warning "TechZone環境でのURL変更について"
@@ -96,8 +98,9 @@ cd setup/instructor
 【ハンズオン資料のURL】
 
 以下のURLからハンズオン資料にアクセスできます：
-https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud
 
+※ **xxxxx**の部分は環境により異なります（あくまで例）
 ※ インターネット接続があればどこからでもアクセス可能です
 ※ ブックマーク推奨
 ※ 異なるWiFi/ネットワークからもアクセス可能

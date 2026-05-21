@@ -1085,7 +1085,7 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 - **リージョン**: us-south
 - **リソース**: CPU 0.25, Memory 0.5G
 - **スケーリング**: Min 1, Max 2インスタンス
-- **URL**: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+- **URL**: https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud ※**xxxxx**は環境により異なります（あくまで例）
 
 #### ステータス
 ✅ デプロイ成功（Application deployed successfully）

@@ -43,8 +43,10 @@ docs/
 
 **URL例**:
 ```
-https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
+https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
+
+> **注**: **xxxxx**の部分は環境により異なります。これはあくまで例です。
 
 > **注意**: URLは環境により異なります。必ず講師から共有された最新のURLを使用してください。
 

@@ -16,10 +16,10 @@ IBM Bob × Milvus × Hugging Face Transformers を使ったベクトル検索（
 
 **URL例**:
 ```
-https://mkdocs-docs.xxxxxxxxxx.us-south.codeengine.appdomain.cloud
+https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-> **注意**: URLは環境により異なります。必ず講師から共有された最新のURLを使用してください。
+> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
 
 **メリット:**
 - ✅ インストール不要

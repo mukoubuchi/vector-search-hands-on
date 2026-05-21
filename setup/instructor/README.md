@@ -81,7 +81,7 @@ MkDocsドキュメント（ローカル参加者）:
 - URL: http://<講師のIPアドレス>:8001
 
 MkDocsドキュメント（リモート参加者）:
-- URL例: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+- URL例: https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud ※**xxxxx**は環境により異なります（あくまで例）
 ```
 
 **リモート参加者がいる場合**:

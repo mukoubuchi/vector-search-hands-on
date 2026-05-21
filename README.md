@@ -231,7 +231,7 @@ vector-search-handson/
 3. **受講者に以下を共有**:
    - Milvus接続情報（IPアドレス、ポート、認証情報）
    - **ドキュメントURL（ローカル）**: `http://<講師のIPアドレス>:8001`
-   - **ドキュメントURL（リモート）**: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+   - **ドキュメントURL（リモート）**: https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud ※**xxxxx**は環境により異なります（あくまで例）
    - **重要**: Watsonx.ai APIキーは不要（Hugging Face Transformersを使用）
 
 #### リモート参加者対応
@@ -283,7 +283,7 @@ cd setup/instructor
 **方法2: Webドキュメントで学ぶ**
 1. **講師から共有されたドキュメントURLにアクセス**:
    - **ローカル参加**: `http://<講師のIPアドレス>:8001`
-   - **リモート参加**: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+   - **リモート参加**: https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud ※**xxxxx**は環境により異なります（あくまで例）
 2. ナビゲーションと検索機能を活用
 3. 詳しい説明を参照しながら進める
 
