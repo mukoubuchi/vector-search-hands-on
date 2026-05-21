@@ -20,15 +20,38 @@ def test_milvus_connection():
         
         host = os.getenv("MILVUS_HOST")
         port = os.getenv("MILVUS_PORT", "19530")
+        secure = os.getenv("MILVUS_SECURE", "false").lower() == "true"
+        token = os.getenv("MILVUS_TOKEN") or os.getenv("IBM_CLOUD_API_KEY")
         
         print(f"接続先: {host}:{port}")
+        print(f"SSL: {'有効' if secure else '無効'}")
+        print(f"認証: {'トークン認証' if token else 'ユーザー/パスワード認証'}")
+        
+        # 接続パラメータ
+        connect_params = {
+            "alias": "default",
+            "host": host,
+            "port": port
+        }
+        
+        # SSL接続の場合
+        if secure:
+            connect_params["secure"] = True
+        
+        # IBM Cloud認証の場合
+        if token:
+            # IBM Cloud APIキーをusernameとして使用
+            connect_params["user"] = token
+            connect_params["password"] = ""
+        else:
+            # ユーザー/パスワード認証
+            user = os.getenv("MILVUS_USER", "root")
+            password = os.getenv("MILVUS_PASSWORD", "Milvus")
+            connect_params["user"] = user
+            connect_params["password"] = password
         
         # 接続
-        connections.connect(
-            alias="default",
-            host=host,
-            port=port
-        )
+        connections.connect(**connect_params)
         
         # 接続確認
         print("✓ Milvusに接続成功")

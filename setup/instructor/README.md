@@ -2,18 +2,38 @@
 
 このディレクトリには、講師がMilvus環境とMkDocsドキュメントサーバーを提供する際に使用するセットアップファイルが含まれています。
 
+## 🎯 Milvus環境の選択
+
+講師は以下のいずれかの方法でMilvus環境を提供できます：
+
+### オプション1: IBM watsonx.data（推奨）
+- ✅ クラウドベースのマネージドサービス
+- ✅ インフラ管理不要
+- ✅ スケーラブル
+- ❌ IBM Cloudアカウントが必要
+- **必要なファイル**: `docker-compose-docs.yml`のみ（MkDocs用）
+
+### オプション2: ローカルDocker
+- ✅ ローカル環境で完結
+- ✅ インターネット接続不要（初回セットアップ後）
+- ❌ Docker Desktopが必要
+- ❌ リソース消費が大きい
+- **必要なファイル**: `docker-compose.yml`（Milvus用）+ `docker-compose-docs.yml`（MkDocs用）
+
 ## 📋 ファイル一覧
 
 ### `docker-compose.yml`
-Milvus 環境を起動するための Docker Compose 設定ファイルです。
+**ローカルDocker使用時のみ必要**: Milvus 環境を起動するための Docker Compose 設定ファイルです。
 
 **含まれるサービス**:
 - **Milvus**: ベクトルデータベース（ポート 19530）
 - **etcd**: Milvus のメタデータストア
 - **MinIO**: Milvus のオブジェクトストレージ
 
+**watsonx.data使用時は不要です。**
+
 ### `docker-compose-docs.yml`
-MkDocsドキュメントサーバーを起動するための Docker Compose 設定ファイルです。
+**両方の環境で必要**: MkDocsドキュメントサーバーを起動するための Docker Compose 設定ファイルです。
 
 **含まれるサービス**:
 - **mkdocs**: ドキュメントサーバー（ポート 8001）
