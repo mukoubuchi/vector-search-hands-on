@@ -9,9 +9,11 @@
     - **ローカル版**: 講師から共有されたIPアドレス（同じWiFi接続時のみ）
     
     **現在のオンライン版URL（例）**:
-    https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud
+    ```
+    https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
+    ```
     
-    > **注**: **xxxxx**の部分は環境により異なります。これはあくまで例です。
+    > **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
     
     !!! warning "URLについて"
         Code Engine URLは環境により異なります。必ず講師から共有された最新のURLを使用してください。

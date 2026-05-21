@@ -39,7 +39,7 @@ http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-> **注**: **xxxxx**の部分は環境により異なります。これはあくまで例です。
+> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
 
 !!! warning "リモート参加者向けURL"
     Code Engine URLは環境により異なります。
@@ -77,8 +77,10 @@ MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 
 ■ ドキュメントURL（リモート参加者）
-https://mkdocs-docs.**xxxxx**.us-south.codeengine.appdomain.cloud
-（**xxxxx**は環境により異なります。講師から共有されたURLを使用してください）
+```
+https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
+```
+> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新のURLを使用してください。
 
 【セットアップ手順】
 1. プロジェクトフォルダに vector-search-builder.zip を配置
