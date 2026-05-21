@@ -1,3 +1,91 @@
+## 2026年5月22日（金）01:43 JST - Code Engineデプロイ成功とPodman認証問題の解決
+
+### 作業概要
+MkDocsドキュメントをIBM Cloud Code Engineにデプロイ完了。Podman認証問題を解決。
+
+### 背景
+- リモート参加者向けにドキュメントをクラウドにデプロイする必要があった
+- Podman単独でのIBM Container Registryへのプッシュが認証エラーで失敗
+- `ibmcloud cr login`のIdentity token方式がPodmanと互換性がない
+
+### 実施した作業
+
+#### 1. Podman認証問題の調査と解決
+
+**問題**:
+```bash
+Error: unable to retrieve auth token: invalid username/password: unauthorized
+Error: currently logged in, auth file contains an Identity token
+```
+
+**原因**:
+- IBM Cloud Container Registry（ICR）の`ibmcloud cr login`は「Identity token」を使用
+- このトークンはDockerでは動作するが、Podmanでは互換性問題がある
+- `ibmcloud cr login --client podman`も同じエラーが発生
+
+**解決方法**:
+```bash
+# 1. Podmanでビルド（AMD64用）
+podman build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
+
+# 2. PodmanイメージをDockerにロード
+podman save jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest | docker load
+
+# 3. Dockerでプッシュ
+docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
+```
+
+#### 2. deploy-to-code-engine.shスクリプトの改善
+
+**変更内容**:
+- Dockerが利用可能な場合はDockerを優先的に使用
+- Podmanのみの場合はPodmanを使用（ただし認証問題あり）
+
+#### 3. Code Engineデプロイ成功
+
+**デプロイ結果**:
+- プロジェクト: `vector-search-docs`
+- アプリケーション: `mkdocs-docs`
+- URL: https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+- ステータス: Application deployed successfully ✅
+- リビジョン: mkdocs-docs-00018
+- イメージ: AMD64アーキテクチャ（sha256:3fadc2e...）
+- インスタンス: 3/3 Running
+
+#### 4. ドキュメント更新
+
+**setup/instructor/deploy-docs-to-cloud.md**:
+- Podman認証エラーのトラブルシューティングセクションを追加
+- 解決方法（Podman→Docker経由）を記載
+- Identity token問題の説明を追加
+
+### 学んだこと
+
+1. **IBM CloudのPodman対応状況**:
+   - `ibmcloud cr login --client podman`コマンドは存在する
+   - しかし、Identity token方式がPodmanと完全に互換性がない
+   - 現時点ではPodman単独での認証は困難
+
+2. **実用的な解決策**:
+   - Podmanでビルド→Dockerでプッシュが最も確実
+   - 両方のツールを併用することで、それぞれの利点を活かせる
+   - Podman: rootless、セキュア、AMD64ビルド対応
+   - Docker: IBM Cloud認証との互換性
+
+3. **クロスプラットフォームビルド**:
+   - Apple Silicon（ARM64）からAMD64イメージをビルドする必要がある
+   - Podmanは`--platform linux/amd64`フラグで対応可能
+   - Code Engine（AMD64）で正しく動作するイメージが作成できた
+
+### 次のステップ
+
+- [x] Code Engineデプロイ完了
+- [x] ドキュメント更新
+- [ ] 変更をコミット＆プッシュ
+- [ ] 受講者への案内準備
+
+---
+
 ## 2026年5月22日（金）00:52 JST - Docker Composeファイルをプロファイル機能で統合
 
 ### 作業概要

@@ -154,6 +154,48 @@ TechZone環境を使用する場合：
 
 ## トラブルシューティング
 
+### Podman認証エラー（Identity Token問題）
+
+**症状**:
+```
+Error: unable to retrieve auth token: invalid username/password: unauthorized
+```
+または
+```
+Error: currently logged in, auth file contains an Identity token
+```
+
+**原因**:
+IBM Cloud Container Registry（ICR）の`ibmcloud cr login`コマンドは「Identity token」という一時的な認証トークンを使用します。このトークンはDockerでは動作しますが、Podmanでは互換性の問題があります。
+
+**解決方法**:
+
+**方法1: Podman→Docker経由でプッシュ（推奨）**
+```bash
+# 1. Podmanでビルド（AMD64用）
+podman build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
+
+# 2. PodmanイメージをDockerにロード
+podman save jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest | docker load
+
+# 3. Dockerでプッシュ
+docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
+```
+
+**方法2: Dockerのみを使用**
+```bash
+# Colimaを起動（macOS）
+colima start
+
+# Dockerでビルド＆プッシュ
+docker build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
+docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
+```
+
+**注意**:
+- `deploy-to-code-engine.sh`スクリプトは、Dockerが利用可能な場合は自動的にDockerを優先します
+- Podman単独での認証は、IBM CloudのIdentity token方式との互換性問題により困難です
+
 ### デプロイが失敗する
 
 1. IBM Cloudにログインしているか確認：

@@ -138,12 +138,31 @@ echo -e "${GREEN}✓ イメージ名: $FULL_IMAGE_NAME${NC}"
 
 # 7. Dockerイメージのビルド
 echo -e "\n${YELLOW}7. Dockerイメージをビルド中...${NC}"
-echo -e "${YELLOW}マルチプラットフォーム対応（amd64/arm64）でビルドします${NC}"
-docker buildx build --platform linux/amd64,linux/arm64 -t "$FULL_IMAGE_NAME" --push .
+echo -e "${YELLOW}AMD64プラットフォーム向けにビルドします（Code Engine用）${NC}"
 
-# 8. イメージのプッシュ確認
-echo -e "\n${YELLOW}8. イメージのプッシュを確認中...${NC}"
-echo -e "${GREEN}✓ イメージは buildx により自動的にプッシュされました${NC}"
+# DockerまたはPodmanを検出（Dockerを優先）
+if command -v docker &> /dev/null && docker info &> /dev/null; then
+    echo -e "${YELLOW}Dockerを使用してビルドします${NC}"
+    docker build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .
+elif command -v podman &> /dev/null; then
+    echo -e "${YELLOW}Podmanを使用してビルドします${NC}"
+    podman build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .
+else
+    echo -e "${RED}❌ DockerまたはPodmanが必要です${NC}"
+    exit 1
+fi
+
+# 8. イメージのプッシュ
+echo -e "\n${YELLOW}8. イメージをContainer Registryにプッシュ中...${NC}"
+if command -v docker &> /dev/null && docker info &> /dev/null; then
+    docker push "$FULL_IMAGE_NAME"
+elif command -v podman &> /dev/null; then
+    podman push "$FULL_IMAGE_NAME"
+else
+    echo -e "${RED}❌ DockerまたはPodmanが必要です${NC}"
+    exit 1
+fi
+echo -e "${GREEN}✓ イメージをプッシュしました${NC}"
 
 # 9. Container Registryアクセス用のシークレットを作成
 echo -e "\n${YELLOW}9. Container Registryアクセス用のシークレットを設定中...${NC}"
