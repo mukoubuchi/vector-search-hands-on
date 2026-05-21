@@ -34,7 +34,7 @@ cd ../../docs
 ### 👨‍🎓 受講者向け
 
 **配布ファイル:**
-- `setup/participant/vector-search-builder.zip` - IBM Bob IDE モード定義と接続テスト
+- `vector-search-builder.zip` - IBM Bob IDE モード定義と接続テスト
 
 **セットアップ手順:**
 ```bash
@@ -52,9 +52,10 @@ cd ../../docs
 
 ```
 vector-search-handson/
+├── vector-search-builder.zip # 受講者配布ファイル
 ├── setup/
 │   ├── instructor/          # 講師用（Docker Compose、起動スクリプト）
-│   └── participant/         # 受講者用（接続テスト、vector-search-builder.zip）
+│   └── participant/         # 受講者用（接続テスト）
 ├── docs/                    # MkDocs ドキュメント
 │   ├── index.md, part1-3.md # コンテンツ
 │   ├── mkdocs.yml           # 設定

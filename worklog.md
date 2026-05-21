@@ -1,3 +1,87 @@
+## 2026年5月22日（金）03:46 JST - 配布ファイルをルートに移動
+
+### 作業概要
+受講者配布ファイル `vector-search-builder.zip` をルートディレクトリに移動。
+
+### 実施した作業
+- `setup/participant/vector-search-builder.zip` を ルートに移動
+- README.md のパスを更新
+- ファイル構成図を更新
+
+### 理由
+- 受講者が最初にアクセスするファイルなのでルートが適切
+- ダウンロード後すぐに見つけやすい
+- プロジェクト構造がシンプルに
+
+---
+
+## 2026年5月22日（金）03:44 JST - ドキュメント構造の大幅な簡素化
+
+### 作業概要
+プロジェクト全体のドキュメント構造を簡素化し、保守性を向上。
+
+### 実施した作業
+
+#### 1. 不要なスクリプトの削除
+- `serve-docs.sh`/`serve-docs.bat` を削除
+- ローカル開発は `start-docs.sh` に統一
+- README とドキュメントを更新
+
+#### 2. README の集約と簡素化
+- サブディレクトリの README を削除（4ファイル）
+  - `docs/participant/README.md`
+  - `setup/README.md`
+  - `setup/instructor/README.md`
+  - `setup/participant/README.md`
+- ルート README を 339行→88行に簡素化
+- クイックスタートと主要ファイルのみに集約
+
+#### 3. ドキュメント構造の再編成
+- `docs/instructor/` を削除
+  - `ibm-products-comparison.md` を `summary.md` に統合
+- `docs/participant/` を削除
+  - `docs/participant/docs/` を `docs/` へ移動
+- `mkdocs.yml` をルートに配置
+- スクリプト（`start-docs.sh`等）をルートに配置
+
+**新しい構造:**
+```
+vector-search-handson/
+├── mkdocs.yml           # ルートに配置
+├── start-docs.sh        # ルートから起動
+├── docs/                # MkDocs コンテンツ
+│   ├── index.md
+│   ├── part1-3.md
+│   └── summary.md       # IBM 製品比較を統合
+└── README.md            # 簡素化済み
+```
+
+#### 4. 配布ファイル情報の追加
+- README に `vector-search-builder.zip` の配布情報を追加
+- セットアップ手順を明記
+- `docs/preparation.md` へのリンクを追加
+
+#### 5. 和欧文間のスペーシング
+- すべての Markdown ファイルで和欧文間に半角スペースを挿入
+- 11ファイル、921箇所を修正
+- 自動化スクリプトで一括処理
+
+### 成果
+- ✅ ドキュメント構造が大幅に簡素化
+- ✅ 保守性が向上（重複ファイルの削除）
+- ✅ 標準的な MkDocs 構造に準拠
+- ✅ 和欧文間のスペーシングが統一
+
+### コミット
+- `1c3c8c7` - 不要な serve-docs スクリプトを削除
+- `50f4117` - README をルートに集約し簡素化
+- `efcbbdd` - ドキュメント構造を大幅に簡素化
+- `ae00d63` - ライセンスセクションを削除
+- `65a2808` - 受講者向けに配布ファイルの情報を追加
+- `066b6e9` - 和欧文間に半角スペースを追加
+
+---
+
 ## 2026 年 5 月 22 日（金）02:12 JST - MkDocs ドキュメント全体を刷新
 
 ### 作業概要
