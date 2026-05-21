@@ -17,12 +17,12 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 
 デスクトップに新しいフォルダを作成します。
 
-- **フォルダ名**: `vector-search-handson`
+- **フォルダ名**: **`vector-search-handson`**
 - **場所**: デスクトップ推奨
 
 #### ステップ 2: Vector Search Builder をインストール
 
-1. 配布された`vector-search-builder.zip`をプロジェクトフォルダにコピー
+1. 配布された **`vector-search-builder.zip`** をプロジェクトフォルダにコピー
 
 2. zip ファイルを解凍
 
@@ -32,7 +32,7 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
     === ":fontawesome-brands-windows: Windows"
         右クリック → 「すべて展開」
 
-3. `.bob`フォルダが作成されていることを確認
+3. **`.bob`** フォルダが作成されていることを確認
 
 #### ステップ 3: IBM Bob でプロジェクトを開く
 
@@ -58,8 +58,8 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 
 !!! example "接続情報の設定"
 
-    1. `setup/participant`フォルダを開く
-    2. `.env.example`を`.env`にコピー
+    1. **`setup/participant`** フォルダを開く
+    2. **`.env.example`** を **`.env`** にコピー
         
         === ":fontawesome-brands-apple: Mac"
             ```bash
@@ -70,9 +70,9 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
         === ":fontawesome-brands-windows: Windows"
             ファイルをコピーして名前を変更
 
-    3. `.env`ファイルを開き、`MILVUS_HOST`に講師から配布された IP アドレスを入力
+    3. **`.env`** ファイルを開き、**`MILVUS_HOST`** に講師から配布された IP アドレスを入力
        
-        ```env hl_lines="2"
+        ```properties
         # Milvus 接続情報
         MILVUS_HOST=192.168.1.100  # ← 講師から配布された IP アドレスに変更
         
@@ -92,8 +92,8 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 
 Hugging Face Transformers を使用します（API キー不要、無料）。
 
-- モデル: `paraphrase-multilingual-MiniLM-L12-v2`
-- 次元数: 384
+- モデル: **`paraphrase-multilingual-MiniLM-L12-v2`**
+- 次元数: **384**
 - 特徴: 多言語対応
 
 ### 3. Web ブラウザ
@@ -109,11 +109,11 @@ API テスト用に Web ブラウザを使用します。
 
 - [ ] IBM Bob がインストールされ、使用できる
 - [ ] プロジェクトフォルダを作成した
-- [ ] `vector-search-builder.zip`を解凍した
-- [ ] `.bob`フォルダが存在する
+- [ ] **`vector-search-builder.zip`** を解凍した
+- [ ] **`.bob`** フォルダが存在する
 - [ ] IBM Bob でプロジェクトフォルダを開いた
 - [ ] 「Vector Search Builder」モードが表示される
-- [ ] `setup/participant/.env`ファイルに接続情報を入力した
+- [ ] **`setup/participant/.env`** ファイルに接続情報を入力した
 - [ ] Web ブラウザが使用できる
 
 ## 困ったときは
@@ -122,7 +122,7 @@ API テスト用に Web ブラウザを使用します。
 
     **対処法**:
     
-    1. `.bob`フォルダが存在するか確認
+    1. **`.bob`** フォルダが存在するか確認
     2. IBM Bob をリロード（**Cmd+Shift+P** / **Ctrl+Shift+P** → 「Reload Window」）
     3. プロジェクトフォルダを開き直す
     4. 講師に相談
@@ -131,8 +131,8 @@ API テスト用に Web ブラウザを使用します。
 
     **対処法**:
     
-    1. プロジェクトフォルダ内の`setup/participant`フォルダを開く
-    2. `.env`ファイルを探す（見つからない場合は`.env.example`をコピー）
+    1. プロジェクトフォルダ内の **`setup/participant`** フォルダを開く
+    2. **`.env`** ファイルを探す（見つからない場合は **`.env.example`** をコピー）
     3. 講師に画面を見せて確認してもらう
 
 ## 次のステップ

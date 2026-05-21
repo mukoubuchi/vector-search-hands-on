@@ -19,8 +19,8 @@
 
 #### 手順
 
-1. Swagger UI を開く（`http://localhost:8000/docs`）
-2. `/search`エンドポイントを開く
+1. Swagger UI を開く（**`http://localhost:8000/docs`**）
+2. **`/search`** エンドポイントを開く
 3. 「Try it out」をクリック
 4. 以下を入力：
 
@@ -48,15 +48,15 @@
 
 #### 確認ポイント
 
-- `image_url`フィールドが存在する
-- URL が正しい形式（`https://`で始まる）
+- **`image_url`** フィールドが存在する
+- URL が正しい形式（**`https://`** で始まる）
 - すべての検索結果に画像 URL が含まれる
 
 ### テスト 2: 価格フィルター
 
 #### 手順
 
-1. Swagger UI で `/search`を開く
+1. Swagger UI で **`/search`** を開く
 2. 「Try it out」をクリック
 3. 以下を入力：
 
@@ -110,7 +110,7 @@
 
 #### 手順
 
-1. Swagger UI で `/search`を開く
+1. Swagger UI で **`/search`** を開く
 2. 「Try it out」をクリック
 3. 以下を入力：
 
@@ -137,7 +137,7 @@
 
 #### 確認ポイント
 
-- `recommendation_reason`フィールドが存在する
+- **`recommendation_reason`** フィールドが存在する
 - 理由が分かりやすい日本語で表示される
 - 類似度スコアに基づいた説明になっている
 
@@ -172,7 +172,7 @@
 
 チャット入力欄に以下を入力して Enter：
 
-```
+```text
 app.py をレビューしてください
 ```
 
@@ -215,7 +215,7 @@ IBM Bob が指摘した改善点を確認します。
 
 改善したい点があれば、IBM Bob に依頼します：
 
-```
+```text
 ログ出力を追加してください
 ```
 

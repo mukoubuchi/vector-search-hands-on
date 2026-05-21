@@ -1,10 +1,14 @@
+# サイト基本情報
 site_name: Vector Search ハンズオン
 site_description: IBM Bob × Milvus × watsonx.ai を使ったベクトル検索ハンズオン
 site_author: IBM Build Team
 site_url: http://localhost:8000/
 docs_dir: docs
 site_dir: site
+exclude_docs: |
+  README.md
 
+# テーマ設定
 theme:
   name: material
   language: ja
@@ -28,14 +32,15 @@ theme:
     - content.action.view
   icon:
     repo: fontawesome/brands/github
-    # logo: fontawesome/solid/house  # ホームタブがあるため不要
   font:
     text: Roboto
     code: Roboto Mono
 
+# リポジトリ情報（必要に応じてコメント解除）
 # repo_name: vector-search-handson
 # repo_url: https://github.com/your-org/vector-search-handson
 
+# ナビゲーション構造
 nav:
   - ホーム: index.md
   - 事前準備: preparation.md
@@ -44,6 +49,7 @@ nav:
   - Part 3 - 実践的な応用: part3.md
   - まとめ: summary.md
 
+# Markdown拡張機能
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
@@ -75,15 +81,22 @@ markdown_extensions:
       permalink: true
       permalink_title: Anchor link to this section for reference
 
+# プラグイン設定
 plugins:
   - search:
       lang: ja
 
+# 追加設定
 extra:
   generator: false
 
+# カスタムCSS（モジュール化済み）
 extra_css:
   - stylesheets/extra.css
 
+# カスタムJavaScript（モジュール化済み）
 extra_javascript:
-  - javascripts/extra.js
+  - javascripts/search.js
+  - javascripts/navigation.js
+  - javascripts/tasks.js
+  - javascripts/syntax-highlight.js

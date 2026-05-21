@@ -58,11 +58,24 @@ vector-search-handson/
 ├── setup/
 │   ├── instructor/          # 講師用（Docker Compose、起動スクリプト）
 │   └── participant/         # 受講者用（接続テスト）
-├── docs/                    # MkDocs ドキュメント
+├── docs/                    # MkDocs ドキュメント（モジュール化済み）
+│   ├── README.md            # ドキュメント構造の説明
 │   ├── index.md, part1-3.md # コンテンツ
 │   ├── mkdocs.yml           # 設定
 │   ├── start-docs.sh        # ローカル起動
-│   └── Dockerfile           # Code Engine 用
+│   ├── Dockerfile           # Code Engine 用
+│   ├── stylesheets/         # カスタムCSS（モジュール化）
+│   │   ├── extra.css        # メインファイル
+│   │   ├── typography.css   # タイポグラフィ
+│   │   ├── navigation.css   # ナビゲーション
+│   │   ├── code.css         # コードブロック
+│   │   └── components.css   # UIコンポーネント
+│   └── javascripts/         # カスタムJS（モジュール化）
+│       ├── extra.js         # メインファイル
+│       ├── search.js        # 検索機能
+│       ├── navigation.js    # ナビゲーション
+│       ├── tasks.js         # タスクリスト
+│       └── syntax-highlight.js # シンタックスハイライト
 └── .bob/                    # IBM Bob IDE カスタムモード
 ```
 
@@ -75,6 +88,11 @@ cd docs
 ./start-docs.sh
 # http://localhost:8000
 ```
+
+**リファクタリング済み:**
+- CSSとJavaScriptがモジュール化され、保守性が向上
+- 各機能が独立したファイルに分離
+- 詳細は [`docs/README.md`](docs/README.md) を参照
 
 ### Milvus 環境
 
