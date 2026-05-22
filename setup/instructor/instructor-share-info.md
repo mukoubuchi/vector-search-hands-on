@@ -48,25 +48,41 @@ cd /path/to/vector-search-handson
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 ```
 
-### ドキュメントURL（2つの選択肢）
+### ドキュメントURL（開催形式により選択）
 
-**オプション1: ローカルネットワーク共有（推奨）**
+#### オプション1: ローカルネットワーク共有（オンサイト開催向け）
 
-同じWiFi/ネットワーク内の受講者向け：
+**適用シーン**: 同じWiFi/ネットワーク内で開催（オフィス、会議室など）
 
 ```
 http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 ```
 
-**オプション2: Code Engine（リモート参加者向け）**
+**メリット**:
+- Code Engineのデプロイ不要
+- セットアップが簡単（`./start-all.sh`のみ）
+- ネットワーク内で高速アクセス
 
-異なるネットワークの受講者向け：
+**制約**:
+- 同じネットワーク内の受講者のみアクセス可能
+
+#### オプション2: Code Engine（リモート/ハイブリッド開催向け）
+
+**適用シーン**: リモート参加者がいる、または異なるネットワークからの参加
 
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
 > **注意**: `xxxxx`は環境により異なります。デプロイ後の実際のURLを共有してください。
+
+**メリット**:
+- インターネット経由でどこからでもアクセス可能（万能）
+- ネットワーク環境に依存しない
+- 複数の開催場所に対応可能
+
+**制約**:
+- 事前にCode Engineへのデプロイが必要（[deploy-docs-to-cloud.md](./deploy-docs-to-cloud.md)参照）
 
 !!! warning "重要"
     - 受講者に共有するのは**IPアドレスとドキュメントURL**のみ
@@ -90,6 +106,8 @@ COLLECTION_NAME=knowledge_base
 
 ## 📝 受講者への案内文（コピー用）
 
+### オンサイト開催の場合
+
 以下をコピーして、**【講師のIPアドレス】**を実際の値に置き換えて送信してください。
 
 ```text
@@ -99,8 +117,34 @@ COLLECTION_NAME=knowledge_base
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
 ■ ドキュメントURL
-同じネットワーク内: http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
-リモート参加者: 【Code Engine URL】  # 例: https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
+http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
+
+【セットアップ手順】
+1. vector-search-builder.zipを解凍
+2. IBM Bob IDEでプロジェクトフォルダを開く
+3. setup/participant/.env.exampleをsetup/participant/.envにコピー
+4. setup/participant/.envを開き、MILVUS_HOSTだけを上記のIPアドレスに変更
+5. IBM Bobをリロード（Cmd+Shift+P → Developer: Reload Window）
+6. 依存関係をインストール: pip install -r setup/participant/requirements.txt
+7. 接続テスト実行: python setup/participant/test_embeddings_hf.py
+
+【重要】
+- 変更が必要なのはMILVUS_HOSTのみ
+- その他の設定は変更不要（既に正しい値が設定済み）
+```
+
+### リモート/ハイブリッド開催の場合
+
+以下をコピーして、**【講師のIPアドレス】**と**【Code Engine URL】**を実際の値に置き換えて送信してください。
+
+```text
+【ベクトル検索ハンズオン 接続情報】
+
+■ Milvus接続情報
+MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
+
+■ ドキュメントURL
+【Code Engine URL】  # 例: https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 
 【セットアップ手順】
 1. vector-search-builder.zipを解凍
