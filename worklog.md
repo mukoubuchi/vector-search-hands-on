@@ -4496,3 +4496,28 @@ git push
 
 - ✅ Dockerビルドエラーを解消
 - ✅ Apple Siliconでのビルドが正常に動作
+
+---
+
+## 2026-05-22 15:49 - deploy-to-code-engine.shのプラットフォーム指定を削除
+
+### 作業内容
+
+#### ビルドコマンドからプラットフォーム指定を削除
+
+`deploy-to-code-engine.sh`のDockerビルドコマンドから`--platform linux/amd64`を削除：
+
+- 修正前: `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+- 修正後: `docker build -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+- Podmanも同様に修正
+
+### 理由
+
+- Apple Silicon（M1/M2/M3）でビルド時に`--platform linux/amd64`を指定すると、マルチステージビルドの中間イメージでプラットフォームの不一致エラーが発生
+- MkDocs Materialイメージはマルチアーキテクチャ対応しているため、プラットフォーム指定なしでビルドしても問題なし
+- Code Engineは自動的に適切なアーキテクチャで実行
+
+### 成果
+
+- ✅ Apple Siliconでのビルドエラーを完全に解消
+- ✅ プラットフォーム指定なしでシンプルなビルドコマンドに
