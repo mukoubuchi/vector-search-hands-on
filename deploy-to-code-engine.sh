@@ -139,8 +139,11 @@ echo -e "${GREEN}✓ イメージ名: $FULL_IMAGE_NAME${NC}"
 # 7. Dockerイメージのビルド
 echo -e "\n${YELLOW}7. Dockerイメージをビルド中...${NC}"
 
-# DockerまたはPodmanを検出（Dockerを優先）
-if command -v docker &> /dev/null && docker info &> /dev/null; then
+# PodmanまたはDockerを検出（Podmanを優先）
+if command -v podman &> /dev/null; then
+    echo -e "${YELLOW}Podmanを使用してビルドします（linux/amd64プラットフォーム）${NC}"
+    podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
+elif command -v docker &> /dev/null && docker info &> /dev/null; then
     # docker buildxが利用可能か確認
     if docker buildx version &> /dev/null; then
         echo -e "${YELLOW}Docker Buildxを使用してビルドします（linux/amd64プラットフォーム）${NC}"
@@ -156,13 +159,11 @@ if command -v docker &> /dev/null && docker info &> /dev/null; then
         docker buildx build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" --load .
     else
         echo -e "${RED}❌ Docker Buildxが利用できません${NC}"
-        echo -e "${YELLOW}Docker Desktopを最新版に更新するか、以下のコマンドでBuildxをインストールしてください:${NC}"
-        echo -e "${YELLOW}  brew install docker-buildx${NC}"
+        echo -e "${YELLOW}Podmanをインストールすることをお勧めします:${NC}"
+        echo -e "${YELLOW}  brew install podman${NC}"
+        echo -e "${YELLOW}  colima start --arch x86_64 --vm-type=vz --vz-rosetta${NC}"
         exit 1
     fi
-elif command -v podman &> /dev/null; then
-    echo -e "${YELLOW}Podmanを使用してビルドします（linux/amd64プラットフォーム）${NC}"
-    podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
 else
     echo -e "${RED}❌ DockerまたはPodmanが必要です${NC}"
     exit 1
@@ -170,10 +171,10 @@ fi
 
 # 8. イメージのプッシュ
 echo -e "\n${YELLOW}8. イメージをContainer Registryにプッシュ中...${NC}"
-if command -v docker &> /dev/null && docker info &> /dev/null; then
-    docker push "$FULL_IMAGE_NAME"
-elif command -v podman &> /dev/null; then
+if command -v podman &> /dev/null; then
     podman push "$FULL_IMAGE_NAME"
+elif command -v docker &> /dev/null && docker info &> /dev/null; then
+    docker push "$FULL_IMAGE_NAME"
 else
     echo -e "${RED}❌ DockerまたはPodmanが必要です${NC}"
     exit 1

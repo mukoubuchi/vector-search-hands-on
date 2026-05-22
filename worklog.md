@@ -4744,21 +4744,25 @@ git push
 
 ### 修正内容
 
-1. `docker buildx`の利用可能性を確認する条件分岐を追加
-2. `docker buildx`が利用可能な場合:
-   - マルチアーキテクチャビルダー（multiarch）の自動作成・使用
-   - `docker buildx build --platform linux/amd64 --load`を使用
-   - `--load`オプションでローカルのDockerイメージストアにロード
-3. `docker buildx`が利用不可の場合:
-   - エラーメッセージを表示してスクリプトを終了
-   - Docker Desktopの更新またはBuildxのインストール方法を案内
+1. **Podmanを優先的に使用**
+   - 以前の解決策（Podman + Colima）を採用
+   - Podmanが利用可能な場合は、Podmanを優先的に使用
+   - `podman build --platform linux/amd64`でAMD64イメージをビルド
+
+2. **Dockerはフォールバック**
+   - Podmanが利用できない場合のみDockerを使用
+   - Docker Buildxが利用可能な場合は、マルチアーキテクチャビルダーを自動作成
+   - Buildxが利用不可の場合は、Podmanのインストールを推奨
+
+3. **イメージプッシュもPodman優先**
+   - プッシュ処理もPodmanを優先的に使用
 
 ### 変更ファイル
 
-- `deploy-to-code-engine.sh`: Docker Buildxの自動セットアップを追加（143-165行目）
+- `deploy-to-code-engine.sh`: Podmanを優先的に使用するように変更（143-177行目）
 
 ### 効果
 
-- Docker Buildxが利用可能であれば、マルチアーキテクチャビルダーを自動作成
-- AMD64アーキテクチャ用のイメージを確実にビルド
-- Buildxが利用不可の場合は、明確なエラーメッセージで対処方法を案内
+- Podman + Colimaの組み合わせで、AMD64アーキテクチャ用のイメージを確実にビルド
+- Docker Buildxの問題を回避
+- より安定したマルチアーキテクチャビルドを実現
