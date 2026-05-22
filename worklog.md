@@ -4472,3 +4472,27 @@ git push
 - 複数の空行（2行以上連続）は使用しない
 - URLは必ず`<>`で囲む（例: `<http://localhost:8000>`）
 - 新しいエントリを追加したら、必ずmarkdownlint警告を確認する
+
+---
+
+## 2026-05-22 15:46 - Dockerfileのプラットフォーム指定を削除
+
+### 作業内容
+
+#### Dockerfileの修正
+
+`docs/Dockerfile`の`FROM`行からプラットフォーム指定を削除：
+
+- 修正前: `FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest`
+- 修正後: `FROM squidfunk/mkdocs-material:latest`
+
+### 理由
+
+- Apple Silicon（M1/M2/M3）でビルド時に`--platform=linux/amd64`をDockerfile内で指定すると、中間イメージでプラットフォームの不一致エラーが発生
+- `deploy-to-code-engine.sh`のビルドコマンドで`--platform linux/amd64`を指定しているため、Dockerfile内での指定は不要
+- ビルドコマンドレベルでのプラットフォーム指定の方が柔軟で問題が少ない
+
+### 成果
+
+- ✅ Dockerビルドエラーを解消
+- ✅ Apple Siliconでのビルドが正常に動作
