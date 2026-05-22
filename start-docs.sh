@@ -1,23 +1,24 @@
 #!/bin/bash
 # MkDocsドキュメントサーバーを起動するスクリプト
 
-echo "=================================="
-echo "Vector Search ハンズオン"
-echo "ドキュメントサーバーを起動中..."
-echo "=================================="
-echo ""
+set -e
+
+# スクリプトのディレクトリを取得
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# 共通関数を読み込み
+# shellcheck source=lib/common.sh
+source "$SCRIPT_DIR/lib/common.sh"
+
+# ヘッダー表示
+log_header "Vector Search ハンズオン\nドキュメントサーバーを起動中..."
 
 # MkDocsがインストールされているか確認
-if ! command -v mkdocs &> /dev/null; then
-    echo "❌ MkDocsがインストールされていません"
-    echo ""
-    echo "インストール方法:"
-    echo "  pip install mkdocs mkdocs-material"
-    echo ""
+if ! check_command mkdocs "インストール方法:\n  pip install mkdocs mkdocs-material"; then
     exit 1
 fi
 
-echo "✓ MkDocsが見つかりました"
+log_info "MkDocsが見つかりました"
 echo ""
 echo "ドキュメントサーバーを起動しています..."
 echo "ブラウザで http://localhost:8000 にアクセスしてください"

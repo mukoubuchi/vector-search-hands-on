@@ -4,55 +4,50 @@
 
 set -e
 
-# 色付き出力
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# スクリプトのディレクトリを取得
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# 共通関数を読み込み
+# shellcheck source=../../lib/common.sh
+source "$SCRIPT_DIR/../../lib/common.sh"
 
 APP_NAME="${1:-mkdocs-docs}"
 
-echo "=========================================="
-echo "Code Engine デプロイ状況確認"
-echo "=========================================="
-echo ""
+# ヘッダー表示
+log_header "Code Engine デプロイ状況確認"
 
 # IBM Cloudログイン確認
-if ! ibmcloud target &> /dev/null; then
-    echo -e "${RED}❌ IBM Cloudにログインしていません${NC}"
-    echo "以下のコマンドでログインしてください:"
-    echo "  ibmcloud login --sso"
+if ! check_ibmcloud_login; then
     exit 1
 fi
 
-echo -e "${GREEN}✓ IBM Cloudにログイン済み${NC}"
+log_info "IBM Cloudにログイン済み"
 echo ""
 
 # 現在のターゲット情報
-echo -e "${BLUE}=== 現在のターゲット ===${NC}"
+log_blue "=== 現在のターゲット ==="
 ibmcloud target
 echo ""
 
 # アプリケーション一覧
-echo -e "${BLUE}=== アプリケーション一覧 ===${NC}"
+log_blue "=== アプリケーション一覧 ==="
 ibmcloud ce app list
 echo ""
 
 # 特定アプリケーションの詳細
-echo -e "${BLUE}=== アプリケーション詳細: $APP_NAME ===${NC}"
+log_blue "=== アプリケーション詳細: $APP_NAME ==="
 if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
     ibmcloud ce app get --name "$APP_NAME"
     echo ""
     
-    # ステータスを取得（Readyコンディションのステータスを確認）
+    # ステータスを取得
     APP_JSON=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1)
     
     # デバッグ: JSON全体を一時ファイルに保存
     TEMP_JSON="/tmp/ce-app-status-$$.json"
     echo "$APP_JSON" > "$TEMP_JSON"
     
-    echo -e "${YELLOW}=== デバッグ: JSON出力を確認 ===${NC}"
+    log_section "=== デバッグ: JSON出力を確認 ==="
     echo "JSON出力を $TEMP_JSON に保存しました"
     echo ""
     echo "conditions部分:"
@@ -60,44 +55,7 @@ if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
     echo ""
     
     # JSONからReadyコンディションのstatusを抽出
-    READY_STATUS=""
-    
-    # 方法1: jqが利用可能な場合
-    if command -v jq &> /dev/null; then
-        READY_STATUS=$(jq -r '.status.conditions[]? | select(.type=="Ready")? | .status' "$TEMP_JSON" 2>/dev/null || echo "")
-        echo -e "${YELLOW}方法1 (jq): READY_STATUS='$READY_STATUS'${NC}"
-    fi
-    
-    # 方法2: pythonが利用可能な場合
-    if [ -z "$READY_STATUS" ] && command -v python3 &> /dev/null; then
-        READY_STATUS=$(python3 -c "
-import sys, json
-try:
-    with open('$TEMP_JSON', 'r') as f:
-        data = json.load(f)
-    for cond in data.get('status', {}).get('conditions', []):
-        if cond.get('type') == 'Ready':
-            print(cond.get('status', ''))
-            break
-except Exception as e:
-    print('', file=sys.stderr)
-" 2>/dev/null || echo "")
-        echo -e "${YELLOW}方法2 (python): READY_STATUS='$READY_STATUS'${NC}"
-    fi
-    
-    # 方法3: 改善されたgrep+awk（複数行対応）
-    if [ -z "$READY_STATUS" ]; then
-        # "type": "Ready" を含む行から次の "status" までを抽出
-        READY_STATUS=$(awk '
-            /"type"[[:space:]]*:[[:space:]]*"Ready"/ { found=1; next }
-            found && /"status"[[:space:]]*:[[:space:]]*"/ {
-                match($0, /"status"[[:space:]]*:[[:space:]]*"([^"]*)"/, arr)
-                print arr[1]
-                exit
-            }
-        ' "$TEMP_JSON")
-        echo -e "${YELLOW}方法3 (awk): READY_STATUS='$READY_STATUS'${NC}"
-    fi
+    READY_STATUS=$(extract_ce_ready_status "$APP_JSON")
     
     # 一時ファイルを削除
     rm -f "$TEMP_JSON"
@@ -106,42 +64,42 @@ except Exception as e:
     
     # Readyステータスに基づいてアプリケーションステータスを判定
     if [ "$READY_STATUS" = "True" ]; then
-        echo -e "${GREEN}✓ ステータス: Ready（正常稼働中）${NC}"
+        log_info "ステータス: Ready（正常稼働中）"
     elif [ "$READY_STATUS" = "False" ]; then
-        echo -e "${YELLOW}⚠ ステータス: Deploying（デプロイ中）${NC}"
+        log_warn "ステータス: Deploying（デプロイ中）"
     elif [ -z "$READY_STATUS" ]; then
-        echo -e "${YELLOW}⚠ ステータス: 確認中...${NC}"
+        log_warn "ステータス: 確認中..."
     else
-        echo -e "${YELLOW}⚠ ステータス: Unknown (Ready condition: $READY_STATUS)${NC}"
+        log_warn "ステータス: Unknown (Ready condition: $READY_STATUS)"
     fi
     echo ""
 else
-    echo -e "${RED}❌ アプリケーション '$APP_NAME' が見つかりません${NC}"
+    log_error "アプリケーション '$APP_NAME' が見つかりません"
     echo ""
 fi
 
 # リビジョン一覧
-echo -e "${BLUE}=== リビジョン一覧 ===${NC}"
+log_blue "=== リビジョン一覧 ==="
 if ibmcloud ce revision list --application "$APP_NAME" &> /dev/null; then
     ibmcloud ce revision list --application "$APP_NAME"
     echo ""
 else
-    echo -e "${YELLOW}リビジョン情報を取得できませんでした${NC}"
+    log_warn "リビジョン情報を取得できませんでした"
     echo ""
 fi
 
 # 最新のログ
-echo -e "${BLUE}=== 最新のログ（最新50行） ===${NC}"
+log_blue "=== 最新のログ（最新50行） ==="
 if ibmcloud ce app logs --name "$APP_NAME" --tail 50 &> /dev/null; then
     ibmcloud ce app logs --name "$APP_NAME" --tail 50
     echo ""
 else
-    echo -e "${YELLOW}ログを取得できませんでした${NC}"
+    log_warn "ログを取得できませんでした"
     echo ""
 fi
 
 # トラブルシューティングのヒント
-echo -e "${BLUE}=== トラブルシューティング ===${NC}"
+log_blue "=== トラブルシューティング ==="
 echo ""
 echo "デプロイが完了しない場合の確認事項:"
 echo ""

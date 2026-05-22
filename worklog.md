@@ -4983,3 +4983,177 @@ https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 1. `jq`の利用を推奨（オプション）
 2. より詳細なエラーメッセージ
 3. リトライ機能の追加
+
+
+## 2026-05-22: start-all.shとstop-all.shの整合性修正
+
+### 問題の発見
+
+[`start-all.sh`](setup/instructor/start-all.sh:1)と[`stop-all.sh`](setup/instructor/stop-all.sh:1)の整合性をテストした結果、以下の不整合を発見：
+
+1. **プロファイルの不整合**
+   - `start-all.sh`: `--profile milvus` で起動
+   - `stop-all.sh`: `--profile all` で停止
+   - 問題: 起動していない`mkdocs`サービスも停止しようとする
+
+2. **エラーハンドリングの違い**
+   - `start-all.sh`: compose コマンドがない場合はエラーで終了
+   - `stop-all.sh`: デフォルト値を設定して続行を試みる
+
+3. **Podman DOCKER_HOST設定の欠如**
+   - `start-all.sh`: Podmanのdockerエイリアス使用時に`DOCKER_HOST`を設定
+   - `stop-all.sh`: この設定がない
+
+### 実施した修正
+
+#### 1. プロファイル指定の統一
+
+```bash
+# 修正前
+$COMPOSE_CMD --profile all down
+
+# 修正後
+$COMPOSE_CMD --profile milvus down
+```
+
+#### 2. エラーハンドリングの統一
+
+```bash
+# 修正前（デフォルト値で続行）
+else
+    COMPOSE_CMD="docker-compose"  # デフォルトで試す
+fi
+
+# 修正後（明示的にエラー終了）
+else
+    echo "❌ docker-composeがインストールされていません"
+    echo ""
+    echo "インストール方法:"
+    echo "  brew install docker-compose"
+    echo ""
+    exit 1
+fi
+```
+
+#### 3. Podman DOCKER_HOST設定の追加
+
+```bash
+# Podmanのdockerエイリアスを使用している場合、DOCKER_HOSTを設定
+if docker version 2>&1 | grep -q "podman"; then
+    # macOSのPodman machine socketパスを取得
+    PODMAN_SOCK=$(podman machine inspect podman-machine-default 2>/dev/null | grep -o '"Path": "[^"]*"' | head -1 | cut -d'"' -f4)
+    if [ -n "$PODMAN_SOCK" ]; then
+        export DOCKER_HOST="unix://$PODMAN_SOCK"
+        echo "✓ Podman（dockerエイリアス経由）が見つかりました"
+    else
+        echo "✓ Dockerが見つかりました"
+    fi
+else
+    echo "✓ Dockerが見つかりました"
+fi
+```
+
+#### 4. メッセージの整合性
+
+```bash
+# 修正前
+echo "✓ すべてのサービスが停止しました"
+echo "  - Milvus環境（etcd, minio, milvus）"
+echo "  - MkDocsドキュメントサーバー"
+
+# 修正後
+echo "✓ Milvus環境が停止しました"
+echo "  - etcd, minio, milvus"
+```
+
+### テスト結果
+
+#### start-all.sh の実行
+
+```bash
+$ cd setup/instructor && ./start-all.sh
+==========================================
+Vector Search ハンズオン環境を起動中...
+==========================================
+
+✓ Dockerが見つかりました
+
+Milvus環境を起動中...
+ Container instructor-minio-1 Creating 
+ Container instructor-etcd-1 Creating 
+ Container instructor-minio-1 Created 
+ Container instructor-etcd-1 Created 
+ Container instructor-milvus-1 Creating 
+ Container instructor-milvus-1 Created 
+ Container instructor-minio-1 Starting 
+ Container instructor-etcd-1 Starting 
+ Container instructor-etcd-1 Started 
+ Container instructor-minio-1 Started 
+ Container instructor-milvus-1 Starting 
+ Container instructor-milvus-1 Started 
+✓ Milvus環境が起動しました
+  - etcd, minio, milvus
+```
+
+#### stop-all.sh の実行
+
+```bash
+$ cd setup/instructor && ./stop-all.sh
+==========================================
+Vector Search ハンズオン環境を停止中...
+==========================================
+
+✓ Dockerが見つかりました
+
+Milvus環境を停止中...
+ Container instructor-milvus-1 Stopping 
+ Container instructor-milvus-1 Stopped 
+ Container instructor-milvus-1 Removing 
+ Container instructor-milvus-1 Removed 
+ Container instructor-etcd-1 Stopping 
+ Container instructor-minio-1 Stopping 
+ Container instructor-etcd-1 Stopped 
+ Container instructor-etcd-1 Removing 
+ Container instructor-etcd-1 Removed 
+ Container instructor-minio-1 Stopped 
+ Container instructor-minio-1 Removing 
+ Container instructor-minio-1 Removed 
+✓ Milvus環境が停止しました
+  - etcd, minio, milvus
+```
+
+### 整合性確認
+
+両スクリプトは以下の点で完全に整合：
+
+1. **同じプロファイル使用**: 両方とも`--profile milvus`
+2. **同じサービス対象**: etcd, minio, milvus
+3. **統一されたエラーハンドリング**: compose未検出時は明示的にエラー終了
+4. **同じPodman対応**: DOCKER_HOST環境変数の設定ロジック統一
+5. **起動→停止のサイクル**: 正常に動作
+
+### 技術的な学び
+
+1. **スクリプトの整合性の重要性**
+   - 起動スクリプトと停止スクリプトは対称的であるべき
+   - 起動したサービスのみを停止する設計が重要
+
+2. **エラーハンドリングの統一**
+   - デフォルト値での続行は予期しない動作を引き起こす可能性
+   - 明示的なエラーメッセージとexit 1が望ましい
+
+3. **Podman互換性**
+   - dockerエイリアス経由でPodmanを使用する場合、DOCKER_HOST設定が必要
+   - 両スクリプトで同じ環境変数設定が必要
+
+### 影響範囲
+
+- ✅ `setup/instructor/stop-all.sh`: 修正完了
+- ✅ `setup/instructor/start-all.sh`: 変更なし（既に正しい実装）
+- ✅ `setup/instructor/docker-compose.yml`: 変更なし（プロファイル定義は正しい）
+
+### 今後の改善案
+
+1. 統合テストスクリプトの作成
+2. CI/CDでの自動整合性チェック
+3. プロファイル定義のドキュメント化

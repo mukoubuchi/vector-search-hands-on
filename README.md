@@ -59,11 +59,15 @@ cd ../..
 ```
 vector-search-handson/
 ├── README.md                    # このファイル
-├── deploy-to-code-engine.sh     # Code Engine デプロイスクリプト
+├── REFACTORING.md               # スクリプトリファクタリング詳細
+├── deploy-to-code-engine.sh     # Code Engine デプロイスクリプト（リファクタリング済み）
 ├── mkdocs.yml                   # MkDocs 設定ファイル
-├── start-docs.sh                # ローカルドキュメント起動スクリプト
+├── start-docs.sh                # ローカルドキュメント起動スクリプト（リファクタリング済み）
 ├── vector-search-builder.zip    # 受講者配布ファイル
 ├── .bob/                        # IBM Bob IDE カスタムモード
+├── lib/                         # 共通関数ライブラリ（新規）
+│   ├── common.sh                # 全スクリプト共通関数
+│   └── deploy-helpers.sh        # デプロイ専用ヘルパー関数
 ├── docs/                        # MkDocs ドキュメント（モジュール化済み）
 │   ├── README.md                # ドキュメント構造の説明
 │   ├── index.md                 # ホームページ
@@ -90,9 +94,10 @@ vector-search-handson/
 └── setup/
     ├── instructor/              # 講師用
     │   ├── docker-compose.yml   # Milvus 環境
-    │   ├── start-all.sh         # 環境起動スクリプト
-    │   ├── stop-all.sh          # 環境停止スクリプト
-    │   ├── check_docs_url.sh    # Code Engine URL 確認
+    │   ├── start-all.sh         # 環境起動スクリプト（リファクタリング済み）
+    │   ├── stop-all.sh          # 環境停止スクリプト（リファクタリング済み）
+    │   ├── check_docs_url.sh    # Code Engine URL 確認（リファクタリング済み）
+    │   ├── check-deploy-status.sh # デプロイ状況確認（リファクタリング済み）
     │   └── deploy-docs-to-cloud.md  # デプロイ手順
     └── participant/             # 受講者用
         ├── .env.example         # 接続設定テンプレート
@@ -135,6 +140,7 @@ cd setup/instructor
 
 ## 📖 関連ドキュメント
 
+- **スクリプトリファクタリング**: [`REFACTORING.md`](REFACTORING.md) - 全スクリプトの改善詳細
 - **ドキュメント構造**: [`docs/README.md`](docs/README.md)
 - **Code Engine デプロイ**: [`setup/instructor/deploy-docs-to-cloud.md`](setup/instructor/deploy-docs-to-cloud.md)
 - **TechZone 環境ガイド**: [`setup/instructor/techzone-code-engine-guide.md`](setup/instructor/techzone-code-engine-guide.md)
