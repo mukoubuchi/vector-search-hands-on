@@ -228,13 +228,24 @@ if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
         echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
         MAX_WAIT=120  # 最大2分待機
         ELAPSED=0
+        
+        # 初回は少し待ってから確認開始
+        sleep 3
+        
         while [ $ELAPSED -lt $MAX_WAIT ]; do
-            STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>/dev/null | grep -o '"status":"[^"]*' | cut -d'"' -f4)
-            if [ "$STATUS" = "Ready" ]; then
+            # ステータスを取得（エラー出力も確認用に保存）
+            STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | grep -o '"status":"[^"]*' | cut -d'"' -f4)
+            
+            # ステータスが取得できない場合
+            if [ -z "$STATUS" ]; then
+                echo -e "${YELLOW}  状態: 確認中... (${ELAPSED}秒経過)${NC}"
+            elif [ "$STATUS" = "Ready" ]; then
                 echo -e "${GREEN}✓ アプリケーションの準備が完了しました (${ELAPSED}秒)${NC}"
                 break
+            else
+                echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
             fi
-            echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
+            
             sleep 5
             ELAPSED=$((ELAPSED + 5))
         done
@@ -264,13 +275,24 @@ else
         echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
         MAX_WAIT=120  # 最大2分待機
         ELAPSED=0
+        
+        # 初回は少し待ってから確認開始
+        sleep 3
+        
         while [ $ELAPSED -lt $MAX_WAIT ]; do
-            STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>/dev/null | grep -o '"status":"[^"]*' | cut -d'"' -f4)
-            if [ "$STATUS" = "Ready" ]; then
+            # ステータスを取得（エラー出力も確認用に保存）
+            STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | grep -o '"status":"[^"]*' | cut -d'"' -f4)
+            
+            # ステータスが取得できない場合
+            if [ -z "$STATUS" ]; then
+                echo -e "${YELLOW}  状態: 確認中... (${ELAPSED}秒経過)${NC}"
+            elif [ "$STATUS" = "Ready" ]; then
                 echo -e "${GREEN}✓ アプリケーションの準備が完了しました (${ELAPSED}秒)${NC}"
                 break
+            else
+                echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
             fi
-            echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
+            
             sleep 5
             ELAPSED=$((ELAPSED + 5))
         done
