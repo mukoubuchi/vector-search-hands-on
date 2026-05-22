@@ -30,6 +30,15 @@ logs/
 site/
 docs/participant/site/
 
+# Test outputs
+tests/*.log
+tests/coverage/
+.coverage
+htmlcov/
+
+# Config overrides
+config/*.local.conf
+
 # Python
 __pycache__/
 *.py[cod]

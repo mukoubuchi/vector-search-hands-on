@@ -370,4 +370,70 @@ get_ip_address() {
     fi
 }
 
+# パラメータバリデーション関数
+validate_not_empty() {
+    local var_name="$1"
+    local var_value="$2"
+    
+    if [ -z "$var_value" ]; then
+        log_error "必須パラメータ '$var_name' が空です"
+        return 1
+    fi
+    return 0
+}
+
+validate_file_exists() {
+    local file_path="$1"
+    
+    if [ ! -f "$file_path" ]; then
+        log_error "ファイルが見つかりません: $file_path"
+        return 1
+    fi
+    return 0
+}
+
+validate_dir_exists() {
+    local dir_path="$1"
+    
+    if [ ! -d "$dir_path" ]; then
+        log_error "ディレクトリが見つかりません: $dir_path"
+        return 1
+    fi
+    return 0
+}
+
+validate_port() {
+    local port="$1"
+    
+    if ! [[ "$port" =~ ^[0-9]+$ ]] || [ "$port" -lt 1 ] || [ "$port" -gt 65535 ]; then
+        log_error "無効なポート番号: $port"
+        return 1
+    fi
+    return 0
+}
+
+validate_url() {
+    local url="$1"
+    
+    if ! [[ "$url" =~ ^https?:// ]]; then
+        log_error "無効なURL形式: $url"
+        return 1
+    fi
+    return 0
+}
+
+# 安全なクリーンアップ関数
+cleanup_on_error() {
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        log_error "スクリプトがエラーで終了しました (終了コード: $exit_code)"
+    fi
+}
+
+# エラートラップの設定
+setup_error_handling() {
+    set -euo pipefail
+    trap cleanup_on_error EXIT
+}
+
 # Made with Bob

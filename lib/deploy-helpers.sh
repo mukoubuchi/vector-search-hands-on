@@ -13,18 +13,33 @@ setup_container_registry() {
     
     # Container Registryのリージョンを設定
     echo "Container Registryのリージョンを設定中..."
-    ibmcloud cr region-set jp-tok
+    if ! ibmcloud cr region-set jp-tok; then
+        log_error "Container Registryのリージョン設定に失敗しました"
+        return 1
+    fi
     
     # Container Registryにログイン
     echo "Container Registryにログイン中..."
-    ibmcloud cr login
+    if ! ibmcloud cr login; then
+        log_error "Container Registryへのログインに失敗しました"
+        return 1
+    fi
     log_info "Container Registryにログインしました"
+    return 0
 }
 
 # Dockerイメージのビルド
 build_docker_image() {
     local full_image_name="$1"
     local build_tool="$2"
+    
+    # パラメータバリデーション
+    if ! validate_not_empty "full_image_name" "$full_image_name"; then
+        return 1
+    fi
+    if ! validate_not_empty "build_tool" "$build_tool"; then
+        return 1
+    fi
     
     log_section "Dockerイメージをビルド中..."
     
@@ -64,6 +79,14 @@ build_docker_image() {
 push_docker_image() {
     local full_image_name="$1"
     local build_tool="$2"
+    
+    # パラメータバリデーション
+    if ! validate_not_empty "full_image_name" "$full_image_name"; then
+        return 1
+    fi
+    if ! validate_not_empty "build_tool" "$build_tool"; then
+        return 1
+    fi
     
     log_section "イメージをContainer Registryにプッシュ中..."
     
@@ -133,6 +156,11 @@ push_docker_image() {
 create_registry_secret() {
     local registry_secret="$1"
     
+    # パラメータバリデーション
+    if ! validate_not_empty "registry_secret" "$registry_secret"; then
+        return 1
+    fi
+    
     log_section "Container Registryアクセス用のシークレットを設定中..."
     
     # 既存のシークレットを確認
@@ -185,6 +213,11 @@ monitor_app_deployment() {
     local max_wait="${2:-300}"
     local elapsed=0
     local prev_status=""
+    
+    # パラメータバリデーション
+    if ! validate_not_empty "app_name" "$app_name"; then
+        return 1
+    fi
     
     log_section "アプリケーションの準備状態を確認中..."
     
@@ -276,6 +309,17 @@ update_ce_app() {
     local full_image_name="$2"
     local registry_secret="$3"
     
+    # パラメータバリデーション
+    if ! validate_not_empty "app_name" "$app_name"; then
+        return 1
+    fi
+    if ! validate_not_empty "full_image_name" "$full_image_name"; then
+        return 1
+    fi
+    if ! validate_not_empty "registry_secret" "$registry_secret"; then
+        return 1
+    fi
+    
     log_section "既存のアプリケーションを更新中..."
     printf "${YELLOW}アプリケーション '%s' を最新リビジョンに更新しています。${NC}\n" "$app_name" >&2
     
@@ -315,6 +359,17 @@ create_ce_app() {
     local app_name="$1"
     local full_image_name="$2"
     local registry_secret="$3"
+    
+    # パラメータバリデーション
+    if ! validate_not_empty "app_name" "$app_name"; then
+        return 1
+    fi
+    if ! validate_not_empty "full_image_name" "$full_image_name"; then
+        return 1
+    fi
+    if ! validate_not_empty "registry_secret" "$registry_secret"; then
+        return 1
+    fi
     
     log_section "新しいアプリケーションを作成中..."
     printf "${YELLOW}アプリケーション '%s' を作成しています。${NC}\n" "$app_name" >&2
