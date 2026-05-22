@@ -25,11 +25,30 @@ if ! command -v ibmcloud &> /dev/null; then
 fi
 echo -e "${GREEN}✓ IBM Cloud CLI${NC}"
 
-if ! command -v docker &> /dev/null; then
-    echo -e "${RED}❌ Dockerがインストールされていません${NC}"
+# ビルドツールの確認
+# 注: Podmanでビルドする場合も、プッシュにはDockerが必要（Colima経由）
+if command -v podman &> /dev/null; then
+    echo -e "${GREEN}✓ Podman（ビルド用）${NC}"
+    BUILD_TOOL="podman"
+    
+    # Podman使用時はDockerも必要
+    if ! command -v docker &> /dev/null || ! docker info &> /dev/null 2>&1; then
+        echo -e "${YELLOW}⚠ Podmanでビルドする場合、イメージプッシュにはDockerが必要です${NC}"
+        echo -e "${YELLOW}Colimaを起動してください:${NC}"
+        echo -e "${YELLOW}  colima start --arch x86_64 --vm-type=vz --vz-rosetta${NC}"
+    else
+        echo -e "${GREEN}✓ Docker CLI（プッシュ用）${NC}"
+    fi
+elif command -v docker &> /dev/null && docker info &> /dev/null 2>&1; then
+    echo -e "${GREEN}✓ Docker CLI（Colima経由など）${NC}"
+    BUILD_TOOL="docker"
+else
+    echo -e "${RED}❌ DockerまたはPodmanが必要です${NC}"
+    echo "インストール方法:"
+    echo "  brew install podman"
+    echo "  colima start --arch x86_64 --vm-type=vz --vz-rosetta"
     exit 1
 fi
-echo -e "${GREEN}✓ Docker${NC}"
 
 # 2. IBM Cloudにログイン確認
 echo -e "\n${YELLOW}2. IBM Cloudログイン状態を確認中...${NC}"
@@ -101,8 +120,10 @@ echo -e "\n${YELLOW}6. Container Registryを設定中...${NC}"
 echo -e "${YELLOW}Container Registryのリージョンを設定中...${NC}"
 ibmcloud cr region-set jp-tok
 
-# Container Registryにログイン
+# Container Registryにログイン（Docker用）
+echo -e "${YELLOW}Container Registryにログイン中...${NC}"
 ibmcloud cr login
+echo -e "${GREEN}✓ Container Registryにログインしました${NC}"
 
 # 既存のネームスペースを確認
 echo -e "${YELLOW}既存のネームスペースを確認中...${NC}"
@@ -171,15 +192,66 @@ fi
 
 # 8. イメージのプッシュ
 echo -e "\n${YELLOW}8. イメージをContainer Registryにプッシュ中...${NC}"
-if command -v podman &> /dev/null; then
-    podman push "$FULL_IMAGE_NAME"
-elif command -v docker &> /dev/null && docker info &> /dev/null; then
+
+# Podmanでビルドした場合は、Dockerにロードしてからプッシュ
+if [ "$BUILD_TOOL" = "podman" ]; then
+    echo -e "${YELLOW}PodmanイメージをDockerにロード中...${NC}"
+    
+    # Dockerが利用可能か確認
+    if ! command -v docker &> /dev/null; then
+        echo -e "${RED}❌ dockerコマンドが見つかりません${NC}"
+        echo -e "${YELLOW}Colimaを起動してください:${NC}"
+        echo -e "${YELLOW}  colima start${NC}"
+        exit 1
+    fi
+    
+    # Docker contextをcolimaに設定
+    if docker context ls | grep -q "colima"; then
+        echo -e "${YELLOW}Docker contextをcolimaに設定中...${NC}"
+        docker context use colima &> /dev/null || true
+    fi
+    
+    # Docker daemonが起動しているか確認
+    if ! docker info &> /dev/null; then
+        echo -e "${RED}❌ Docker daemonに接続できません${NC}"
+        echo -e "${YELLOW}Colimaのステータス:${NC}"
+        colima status
+        echo -e ""
+        echo -e "${YELLOW}以下のコマンドを試してください:${NC}"
+        echo -e "${YELLOW}  docker context use colima${NC}"
+        echo -e "${YELLOW}  docker info${NC}"
+        exit 1
+    fi
+    
+    echo -e "${GREEN}✓ Dockerが利用可能です${NC}"
+    
+    # PodmanイメージをDockerにロード
+    podman save "$FULL_IMAGE_NAME" | docker load
+    
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}❌ イメージのロードに失敗しました${NC}"
+        exit 1
+    fi
+    
+    echo -e "${GREEN}✓ イメージをDockerにロードしました${NC}"
+    
+    # Dockerでプッシュ
+    echo -e "${YELLOW}Dockerでイメージをプッシュ中...${NC}"
+    docker push "$FULL_IMAGE_NAME"
+elif [ "$BUILD_TOOL" = "docker" ]; then
+    # Dockerでビルドした場合は直接プッシュ
     docker push "$FULL_IMAGE_NAME"
 else
-    echo -e "${RED}❌ DockerまたはPodmanが必要です${NC}"
+    echo -e "${RED}❌ ビルドツールが不明です${NC}"
     exit 1
 fi
-echo -e "${GREEN}✓ イメージをプッシュしました${NC}"
+
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✓ イメージをプッシュしました${NC}"
+else
+    echo -e "${RED}❌ イメージのプッシュに失敗しました${NC}"
+    exit 1
+fi
 
 # 9. Container Registryアクセス用のシークレットを作成
 echo -e "\n${YELLOW}9. Container Registryアクセス用のシークレットを設定中...${NC}"
@@ -268,30 +340,114 @@ if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
         
         # 更新状態を監視
         printf "${YELLOW}アプリケーションの準備状態を確認中...${NC}\n" >&2
-        MAX_WAIT=120  # 最大2分待機
         ELAPSED=0
+        PREV_STATUS=""
+        MAX_WAIT=300  # 最大待機時間（5分）
         
-        while [ $ELAPSED -lt $MAX_WAIT ]; do
-            # ステータスを取得
-            STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | grep -o '"status":"[^"]*' | cut -d'"' -f4)
+        while true; do
+            # タイムアウトチェック
+            if [ $ELAPSED -ge $MAX_WAIT ]; then
+                printf "\n${RED}❌ タイムアウト: %d秒経過してもデプロイが完了しません${NC}\n" "$MAX_WAIT" >&2
+                printf "${YELLOW}現在の状態を確認しています...${NC}\n" >&2
+                
+                # 詳細情報を取得
+                printf "\n${YELLOW}=== アプリケーション詳細 ===${NC}\n" >&2
+                ibmcloud ce app get --name "$APP_NAME" 2>&1 | tee /dev/stderr
+                
+                printf "\n${YELLOW}=== 最新のログ ===${NC}\n" >&2
+                ibmcloud ce app logs --name "$APP_NAME" --tail 50 2>&1 | tee /dev/stderr
+                
+                printf "\n${YELLOW}=== リビジョン一覧 ===${NC}\n" >&2
+                ibmcloud ce revision list --application "$APP_NAME" 2>&1 | tee /dev/stderr
+                
+                printf "\n${RED}デプロイに失敗した可能性があります。上記の情報を確認してください。${NC}\n" >&2
+                exit 1
+            fi
             
-            if [ -z "$STATUS" ]; then
-                printf "${YELLOW}  [%3ds] 状態: 確認中...${NC}\n" "$ELAPSED" >&2
-            elif [ "$STATUS" = "Ready" ]; then
-                printf "${GREEN}✓ アプリケーションの準備が完了しました (%d秒)${NC}\n" "$ELAPSED" >&2
-                break
+            # ステータスを取得（Readyコンディションのステータスを確認）
+            APP_JSON=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1)
+            
+            # JSONからReadyコンディションのstatusを抽出
+            READY_STATUS=""
+            
+            # 方法1: jqが利用可能な場合
+            if command -v jq &> /dev/null; then
+                READY_STATUS=$(echo "$APP_JSON" | jq -r '.status.conditions[]? | select(.type=="Ready")? | .status' 2>/dev/null || echo "")
+            fi
+            
+            # 方法2: pythonが利用可能な場合
+            if [ -z "$READY_STATUS" ] && command -v python3 &> /dev/null; then
+                READY_STATUS=$(echo "$APP_JSON" | python3 -c "
+import sys, json
+try:
+    data = json.loads(sys.stdin.read())
+    for cond in data.get('status', {}).get('conditions', []):
+        if cond.get('type') == 'Ready':
+            print(cond.get('status', ''))
+            break
+except:
+    pass
+" 2>/dev/null || echo "")
+            fi
+            
+            # 方法3: 改善されたawk（複数行対応）
+            if [ -z "$READY_STATUS" ]; then
+                READY_STATUS=$(echo "$APP_JSON" | awk '
+                    /"type"[[:space:]]*:[[:space:]]*"Ready"/ { found=1; next }
+                    found && /"status"[[:space:]]*:[[:space:]]*"/ {
+                        match($0, /"status"[[:space:]]*:[[:space:]]*"([^"]*)"/, arr)
+                        print arr[1]
+                        exit
+                    }
+                ')
+            fi
+            
+            # Readyステータスに基づいてアプリケーションステータスを判定
+            if [ "$READY_STATUS" = "True" ]; then
+                STATUS="Ready"
+            elif [ "$READY_STATUS" = "False" ]; then
+                STATUS="Deploying"
+            elif [ "$READY_STATUS" = "Unknown" ]; then
+                STATUS="Deploying"  # Unknownもデプロイ中として扱う
             else
-                printf "${YELLOW}  [%3ds] 状態: %s${NC}\n" "$ELAPSED" "$STATUS" >&2
+                STATUS=""  # 空の場合はイメージプル中
+            fi
+            
+            # デバッグ: ステータスを常に確認
+            if [ $ELAPSED -eq 0 ]; then
+                printf "${YELLOW}初回ステータス確認: READY_STATUS='%s', STATUS='%s'${NC}\n" "$READY_STATUS" "$STATUS" >&2
+            fi
+            
+            # ステータスが変わった場合のみ表示を更新
+            if [ "$STATUS" != "$PREV_STATUS" ]; then
+                if [ -z "$STATUS" ]; then
+                    printf "${YELLOW}[%3ds] イメージをプル中...${NC}\n" "$ELAPSED" >&2
+                elif [ "$STATUS" = "Deploying" ]; then
+                    printf "${YELLOW}[%3ds] デプロイ中...${NC}\n" "$ELAPSED" >&2
+                elif [ "$STATUS" = "Ready" ]; then
+                    printf "${GREEN}[%3ds] ✓ 準備完了${NC}\n" "$ELAPSED" >&2
+                    break
+                elif [ "$STATUS" = "Failed" ]; then
+                    printf "${RED}[%3ds] ✗ デプロイ失敗${NC}\n" "$ELAPSED" >&2
+                    printf "\n${YELLOW}=== エラー詳細 ===${NC}\n" >&2
+                    ibmcloud ce app get --name "$APP_NAME" 2>&1 | tee /dev/stderr
+                    printf "\n${YELLOW}=== 最新のログ ===${NC}\n" >&2
+                    ibmcloud ce app logs --name "$APP_NAME" --tail 50 2>&1 | tee /dev/stderr
+                    exit 1
+                else
+                    printf "${YELLOW}[%3ds] 状態: %s${NC}\n" "$ELAPSED" "$STATUS" >&2
+                fi
+                PREV_STATUS="$STATUS"
+            else
+                # ステータスが変わっていない場合でも、進行中であることを示すドットを表示
+                if [ "$STATUS" = "Deploying" ] || [ -z "$STATUS" ]; then
+                    printf "." >&2
+                fi
             fi
             
             sleep 5
             ELAPSED=$((ELAPSED + 5))
         done
-        
-        if [ $ELAPSED -ge $MAX_WAIT ]; then
-            printf "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}\n" >&2
-            printf "${YELLOW}  'ibmcloud ce app get --name %s' で状態を確認してください${NC}\n" "$APP_NAME" >&2
-        fi
     else
         printf "${RED}❌ アプリケーションの更新に失敗しました (終了コード: %d)${NC}\n" "$UPDATE_EXIT_CODE" >&2
         exit 1
@@ -335,30 +491,114 @@ else
         
         # 作成状態を監視
         printf "${YELLOW}アプリケーションの準備状態を確認中...${NC}\n" >&2
-        MAX_WAIT=120  # 最大2分待機
         ELAPSED=0
+        PREV_STATUS=""
+        MAX_WAIT=300  # 最大待機時間（5分）
         
-        while [ $ELAPSED -lt $MAX_WAIT ]; do
-            # ステータスを取得
-            STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | grep -o '"status":"[^"]*' | cut -d'"' -f4)
+        while true; do
+            # タイムアウトチェック
+            if [ $ELAPSED -ge $MAX_WAIT ]; then
+                printf "\n${RED}❌ タイムアウト: %d秒経過してもデプロイが完了しません${NC}\n" "$MAX_WAIT" >&2
+                printf "${YELLOW}現在の状態を確認しています...${NC}\n" >&2
+                
+                # 詳細情報を取得
+                printf "\n${YELLOW}=== アプリケーション詳細 ===${NC}\n" >&2
+                ibmcloud ce app get --name "$APP_NAME" 2>&1 | tee /dev/stderr
+                
+                printf "\n${YELLOW}=== 最新のログ ===${NC}\n" >&2
+                ibmcloud ce app logs --name "$APP_NAME" --tail 50 2>&1 | tee /dev/stderr
+                
+                printf "\n${YELLOW}=== リビジョン一覧 ===${NC}\n" >&2
+                ibmcloud ce revision list --application "$APP_NAME" 2>&1 | tee /dev/stderr
+                
+                printf "\n${RED}デプロイに失敗した可能性があります。上記の情報を確認してください。${NC}\n" >&2
+                exit 1
+            fi
             
-            if [ -z "$STATUS" ]; then
-                printf "${YELLOW}  [%3ds] 状態: 確認中...${NC}\n" "$ELAPSED" >&2
-            elif [ "$STATUS" = "Ready" ]; then
-                printf "${GREEN}✓ アプリケーションの準備が完了しました (%d秒)${NC}\n" "$ELAPSED" >&2
-                break
+            # ステータスを取得（Readyコンディションのステータスを確認）
+            APP_JSON=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1)
+            
+            # JSONからReadyコンディションのstatusを抽出
+            READY_STATUS=""
+            
+            # 方法1: jqが利用可能な場合
+            if command -v jq &> /dev/null; then
+                READY_STATUS=$(echo "$APP_JSON" | jq -r '.status.conditions[]? | select(.type=="Ready")? | .status' 2>/dev/null || echo "")
+            fi
+            
+            # 方法2: pythonが利用可能な場合
+            if [ -z "$READY_STATUS" ] && command -v python3 &> /dev/null; then
+                READY_STATUS=$(echo "$APP_JSON" | python3 -c "
+import sys, json
+try:
+    data = json.loads(sys.stdin.read())
+    for cond in data.get('status', {}).get('conditions', []):
+        if cond.get('type') == 'Ready':
+            print(cond.get('status', ''))
+            break
+except:
+    pass
+" 2>/dev/null || echo "")
+            fi
+            
+            # 方法3: 改善されたawk（複数行対応）
+            if [ -z "$READY_STATUS" ]; then
+                READY_STATUS=$(echo "$APP_JSON" | awk '
+                    /"type"[[:space:]]*:[[:space:]]*"Ready"/ { found=1; next }
+                    found && /"status"[[:space:]]*:[[:space:]]*"/ {
+                        match($0, /"status"[[:space:]]*:[[:space:]]*"([^"]*)"/, arr)
+                        print arr[1]
+                        exit
+                    }
+                ')
+            fi
+            
+            # Readyステータスに基づいてアプリケーションステータスを判定
+            if [ "$READY_STATUS" = "True" ]; then
+                STATUS="Ready"
+            elif [ "$READY_STATUS" = "False" ]; then
+                STATUS="Deploying"
+            elif [ "$READY_STATUS" = "Unknown" ]; then
+                STATUS="Deploying"  # Unknownもデプロイ中として扱う
             else
-                printf "${YELLOW}  [%3ds] 状態: %s${NC}\n" "$ELAPSED" "$STATUS" >&2
+                STATUS=""  # 空の場合はイメージプル中
+            fi
+            
+            # デバッグ: ステータスを常に確認
+            if [ $ELAPSED -eq 0 ]; then
+                printf "${YELLOW}初回ステータス確認: READY_STATUS='%s', STATUS='%s'${NC}\n" "$READY_STATUS" "$STATUS" >&2
+            fi
+            
+            # ステータスが変わった場合のみ表示を更新
+            if [ "$STATUS" != "$PREV_STATUS" ]; then
+                if [ -z "$STATUS" ]; then
+                    printf "${YELLOW}[%3ds] イメージをプル中...${NC}\n" "$ELAPSED" >&2
+                elif [ "$STATUS" = "Deploying" ]; then
+                    printf "${YELLOW}[%3ds] デプロイ中...${NC}\n" "$ELAPSED" >&2
+                elif [ "$STATUS" = "Ready" ]; then
+                    printf "${GREEN}[%3ds] ✓ 準備完了${NC}\n" "$ELAPSED" >&2
+                    break
+                elif [ "$STATUS" = "Failed" ]; then
+                    printf "${RED}[%3ds] ✗ デプロイ失敗${NC}\n" "$ELAPSED" >&2
+                    printf "\n${YELLOW}=== エラー詳細 ===${NC}\n" >&2
+                    ibmcloud ce app get --name "$APP_NAME" 2>&1 | tee /dev/stderr
+                    printf "\n${YELLOW}=== 最新のログ ===${NC}\n" >&2
+                    ibmcloud ce app logs --name "$APP_NAME" --tail 50 2>&1 | tee /dev/stderr
+                    exit 1
+                else
+                    printf "${YELLOW}[%3ds] 状態: %s${NC}\n" "$ELAPSED" "$STATUS" >&2
+                fi
+                PREV_STATUS="$STATUS"
+            else
+                # ステータスが変わっていない場合でも、進行中であることを示すドットを表示
+                if [ "$STATUS" = "Deploying" ] || [ -z "$STATUS" ]; then
+                    printf "." >&2
+                fi
             fi
             
             sleep 5
             ELAPSED=$((ELAPSED + 5))
         done
-        
-        if [ $ELAPSED -ge $MAX_WAIT ]; then
-            printf "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}\n" >&2
-            printf "${YELLOW}  'ibmcloud ce app get --name %s' で状態を確認してください${NC}\n" "$APP_NAME" >&2
-        fi
     else
         printf "${RED}❌ アプリケーションの作成に失敗しました (終了コード: %d)${NC}\n" "$CREATE_EXIT_CODE" >&2
         exit 1
@@ -367,7 +607,14 @@ fi
 
 # 11. アプリケーションURLの取得
 echo -e "\n${YELLOW}11. アプリケーションURLを取得中...${NC}"
-APP_URL=$(ibmcloud ce app get --name "$APP_NAME" --output json | grep -o '"url":"[^"]*' | cut -d'"' -f4)
+APP_JSON=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1)
+APP_URL=$(echo "$APP_JSON" | grep '"url":' | grep -v '"cluster_local_url"' | head -1 | sed 's/.*"url": "\([^"]*\)".*/\1/')
+
+# デバッグ: URLが取得できたか確認
+if [ -z "$APP_URL" ]; then
+    echo -e "${RED}⚠ URLの取得に失敗しました。JSONから直接確認します...${NC}"
+    echo "$APP_JSON" | grep -A 2 '"url"'
+fi
 
 echo ""
 echo "=========================================="
