@@ -221,6 +221,26 @@ if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
         --max-scale 2 \
         --cpu 0.25 \
         --memory 0.5G
+    
+    # 更新状態を監視
+    echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
+    MAX_WAIT=120  # 最大2分待機
+    ELAPSED=0
+    while [ $ELAPSED -lt $MAX_WAIT ]; do
+        STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>/dev/null | grep -o '"status":"[^"]*' | cut -d'"' -f4)
+        if [ "$STATUS" = "Ready" ]; then
+            echo -e "${GREEN}✓ アプリケーションの準備が完了しました${NC}"
+            break
+        fi
+        echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
+        sleep 5
+        ELAPSED=$((ELAPSED + 5))
+    done
+    
+    if [ $ELAPSED -ge $MAX_WAIT ]; then
+        echo -e "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}"
+        echo -e "${YELLOW}  'ibmcloud ce app get --name $APP_NAME' で状態を確認してください${NC}"
+    fi
 else
     echo -e "${YELLOW}新しいアプリケーションを作成中...${NC}"
     ibmcloud ce app create --name "$APP_NAME" \
@@ -231,6 +251,26 @@ else
         --max-scale 2 \
         --cpu 0.25 \
         --memory 0.5G
+    
+    # 作成状態を監視
+    echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
+    MAX_WAIT=120  # 最大2分待機
+    ELAPSED=0
+    while [ $ELAPSED -lt $MAX_WAIT ]; do
+        STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>/dev/null | grep -o '"status":"[^"]*' | cut -d'"' -f4)
+        if [ "$STATUS" = "Ready" ]; then
+            echo -e "${GREEN}✓ アプリケーションの準備が完了しました${NC}"
+            break
+        fi
+        echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
+        sleep 5
+        ELAPSED=$((ELAPSED + 5))
+    done
+    
+    if [ $ELAPSED -ge $MAX_WAIT ]; then
+        echo -e "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}"
+        echo -e "${YELLOW}  'ibmcloud ce app get --name $APP_NAME' で状態を確認してください${NC}"
+    fi
 fi
 
 # 11. アプリケーションURLの取得
