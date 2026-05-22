@@ -12,6 +12,8 @@ cd setup/instructor
 これにより以下が起動します：
 - **Milvus環境**（etcd, MinIO, Milvus）
 - **ローカルドキュメントサーバー**（http://localhost:8001）
+  - 注: docker-composeのポートマッピング（`8001:8000`）により、講師側は8001でアクセス
+  - 受講者が各自で起動する場合は8000（デフォルトポート）
 
 ### 2. 講師のIPアドレス確認
 
@@ -165,7 +167,8 @@ docker ps
 
 ### ローカル環境（講師側のみ）
 - Milvus: `localhost:19530`
-- ドキュメント: `http://localhost:8001`
+- ドキュメント: `http://localhost:8001`（docker-composeのポートマッピング）
+  - 受講者が各自で起動する場合: `http://localhost:8000`
 
 ---
 
