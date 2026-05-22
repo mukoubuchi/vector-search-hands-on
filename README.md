@@ -86,30 +86,6 @@ vector-search-handson/
         └── test_embeddings_hf.py # Embedding テスト
 ```
 
-## 🔧 ローカル開発
-
-### MkDocs ドキュメント
-
-```bash
-./start-docs.sh
-# http://localhost:8000
-```
-
-### Milvus 環境
-
-```bash
-cd setup/instructor
-./start-all.sh
-# Milvus: localhost:19530 (root/Milvus)
-```
-
-停止する場合：
-
-```bash
-cd setup/instructor
-./stop-all.sh
-```
-
 ## 📖 関連ドキュメント
 
 - **Code Engine デプロイ**: [`setup/instructor/deploy-docs-to-cloud.md`](setup/instructor/deploy-docs-to-cloud.md)
@@ -130,7 +106,6 @@ cd setup/instructor
 ### 講師向け
 - Docker/Podman/Colima
 - IBM Cloud CLI (code-engine, container-registry プラグイン)
-- MkDocs
 
 ### 受講者向け
 - IBM Bob IDE
