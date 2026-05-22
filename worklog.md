@@ -4746,18 +4746,19 @@ git push
 
 1. `docker buildx`の利用可能性を確認する条件分岐を追加
 2. `docker buildx`が利用可能な場合:
+   - マルチアーキテクチャビルダー（multiarch）の自動作成・使用
    - `docker buildx build --platform linux/amd64 --load`を使用
    - `--load`オプションでローカルのDockerイメージストアにロード
 3. `docker buildx`が利用不可の場合:
-   - 通常の`docker build`を使用（警告を表示）
-   - ネイティブアーキテクチャでビルド
+   - エラーメッセージを表示してスクリプトを終了
+   - Docker Desktopの更新またはBuildxのインストール方法を案内
 
 ### 変更ファイル
 
-- `deploy-to-code-engine.sh`: Docker Buildxの条件分岐を追加（143-154行目）
+- `deploy-to-code-engine.sh`: Docker Buildxの自動セットアップを追加（143-165行目）
 
 ### 効果
 
-- Docker Buildxが利用可能な環境では、AMD64アーキテクチャ用のイメージを正しくビルド
-- Buildxが利用不可の環境でも、警告を表示しつつビルドを継続
-- 環境に応じた柔軟なビルド戦略を実現
+- Docker Buildxが利用可能であれば、マルチアーキテクチャビルダーを自動作成
+- AMD64アーキテクチャ用のイメージを確実にビルド
+- Buildxが利用不可の場合は、明確なエラーメッセージで対処方法を案内

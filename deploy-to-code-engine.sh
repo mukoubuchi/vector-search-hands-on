@@ -144,11 +144,21 @@ if command -v docker &> /dev/null && docker info &> /dev/null; then
     # docker buildxが利用可能か確認
     if docker buildx version &> /dev/null; then
         echo -e "${YELLOW}Docker Buildxを使用してビルドします（linux/amd64プラットフォーム）${NC}"
+        
+        # マルチアーキテクチャビルダーが存在するか確認
+        if ! docker buildx inspect multiarch &> /dev/null; then
+            echo -e "${YELLOW}マルチアーキテクチャビルダーを作成中...${NC}"
+            docker buildx create --name multiarch --driver docker-container --use
+        else
+            docker buildx use multiarch
+        fi
+        
         docker buildx build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" --load .
     else
-        echo -e "${YELLOW}Dockerを使用してビルドします（ネイティブアーキテクチャ）${NC}"
-        echo -e "${YELLOW}⚠ 注意: Code Engineで実行できない可能性があります${NC}"
-        docker build -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
+        echo -e "${RED}❌ Docker Buildxが利用できません${NC}"
+        echo -e "${YELLOW}Docker Desktopを最新版に更新するか、以下のコマンドでBuildxをインストールしてください:${NC}"
+        echo -e "${YELLOW}  brew install docker-buildx${NC}"
+        exit 1
     fi
 elif command -v podman &> /dev/null; then
     echo -e "${YELLOW}Podmanを使用してビルドします（linux/amd64プラットフォーム）${NC}"
