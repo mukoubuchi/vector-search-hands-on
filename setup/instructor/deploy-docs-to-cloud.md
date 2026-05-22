@@ -1,18 +1,18 @@
-# リモート参加者対応：ドキュメントのクラウドデプロイ
+# ドキュメントのクラウドデプロイ
 
 ## 概要
 
-リモート参加者（異なる WiFi/ネットワーク）がドキュメントにアクセスできるよう、IBM Cloud Code Engine にデプロイします。
+リモート参加者がドキュメントにアクセスできるよう、IBM Cloud Code Engineにデプロイします。
 
-## クイックスタート（5 分）
+## 🚀 クイックスタート（5分）
 
-### 1. 前提条件の確認
+### 1. 前提条件
 
 ```bash
-# IBM Cloud CLI がインストールされているか確認
+# IBM Cloud CLIの確認
 ibmcloud version
 
-# なければインストール
+# なければインストール（macOS）
 curl -fsSL https://clis.cloud.ibm.com/install/osx | sh
 
 # プラグインのインストール
@@ -20,126 +20,137 @@ ibmcloud plugin install code-engine
 ibmcloud plugin install container-registry
 ```
 
-### 2. IBM Cloud にログイン
+### 2. IBM Cloudにログイン
 
 ```bash
-# SSO でログイン
+# SSOでログイン
 ibmcloud login --sso
 
-# 東京リージョンを選択
+# リージョン選択（東京）
 ibmcloud target -r jp-tok
-```
 
-### 3. リソースグループの設定
-
-```bash
-# 利用可能なリソースグループを確認
+# リソースグループ確認
 ibmcloud resource groups
 
-# リソースグループを設定（TechZone 環境の場合）
+# リソースグループ設定（TechZone環境の例）
 ibmcloud target -g itz-wxd-6a08d26e2b7a7a1e72c97a
-
-# または、自分の環境に合わせて設定
-# ibmcloud target -g <your-resource-group-name>
 ```
 
-**注意**: リソースグループが設定されていないと、デプロイスクリプトがエラーになる場合があります。
-
-### 4. デプロイ実行
+### 3. デプロイ実行
 
 ```bash
-# プロジェクトルートに移動
 cd /path/to/vector-search-handson
-
-# デプロイスクリプトを実行
 ./deploy-to-code-engine.sh
 ```
 
-### 5. URL を確認
+### 4. URL確認
 
-デプロイ完了後、URL を確認する方法は 2 つあります：
-
-**方法 1: デプロイスクリプトの出力から確認**
+**方法1: デプロイスクリプトの出力**
 
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新の URL を使用してください。
-
-**方法 2: URL 確認スクリプトを使用**
+**方法2: URL確認スクリプト**
 
 ```bash
 cd setup/instructor
 ./check_docs_url.sh
 ```
 
-このスクリプトは、Code Engine プロジェクトから自動的に URL を取得します。
+### 5. URLを受講者に共有
 
-### 6. URL を受講者に共有
+確認したURLを受講者に共有してください。
 
-確認した URL を受講者に共有してください。
+---
 
-**実際のデプロイ例**:
-
-- プロジェクト: `vector-search-docs`
-- リージョン: `us-south`
-- URL 例: `https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud`
-  > **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。
-- ステータス: ✅ 稼働中
-
-!!! warning "TechZone 環境での URL 変更について"
-    TechZone 環境の期限切れ後、再予約すると新しい Code Engine プロジェクトが作成され、URL が変わります。
-
-    **対応方法**:
-
-    1. 新しい環境でデプロイスクリプトを再実行
-    2. 新しい URL を受講者に共有
-    3. 必要に応じてドキュメント内の URL 例を更新
-
-## 受講者への案内文例
+## 📝 受講者への案内文（コピー用）
 
 ```text
-【ハンズオン資料の URL】
+【ハンズオン資料URL】
 
-以下の URL からハンズオン資料にアクセスできます：
-<https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud>
+以下のURLからハンズオン資料にアクセスできます：
+https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
+
+※ インターネット接続があればどこからでもアクセス可能
+※ ブックマーク推奨
 ```
 
-> **注意**: **xxxxx**の部分は環境により異なります（あくまで例）。必ず講師から共有された最新の URL を使用してください。
+---
 
-※ インターネット接続があればどこからでもアクセス可能です
-※ ブックマーク推奨
-※ 異なる WiFi/ネットワークからもアクセス可能
+## 🔄 ドキュメント更新方法
 
-## ドキュメント更新時
+### ローカル環境 vs Code Engineの違い
 
-ドキュメントを更新した場合、再度デプロイスクリプトを実行するだけです：
+| 環境 | 更新方法 | 自動更新 | 理由 |
+|------|---------|---------|------|
+| **ローカル**<br>(`docker-compose`) | ファイル編集のみ | ✅ 自動 | ボリュームマウント + 開発サーバー |
+| **Code Engine**<br>(クラウド) | デプロイスクリプト再実行 | ❌ 手動 | Dockerイメージに焼き込み |
+
+### ローカル環境の自動更新
+
+`docker-compose.yml`の設定により自動更新されます：
+
+```yaml
+volumes:
+  - ../../:/docs  # プロジェクトディレクトリをマウント
+command: serve --dev-addr=0.0.0.0:8000  # 開発サーバーモード
+```
+
+- ファイル変更がコンテナに即座に反映
+- MkDocsが変更を自動検知してリアルタイム再ビルド
+- ブラウザが自動リロード
+
+### Code Engineの手動更新
+
+`docs/Dockerfile`でファイルがイメージに焼き込まれます：
+
+```dockerfile
+COPY mkdocs.yml /docs/
+COPY docs/ /docs/docs/
+```
+
+- ビルド時点のファイルがDockerイメージ内に固定
+- デプロイ後はイメージ内容が変更されない
+- 更新には新しいイメージのビルド＆デプロイが必要
+
+### 更新手順
+
+ドキュメントを更新した場合：
 
 ```bash
 cd /path/to/vector-search-handson
 ./deploy-to-code-engine.sh
 ```
 
-既存のアプリケーションが自動的に更新されます（URL は変わりません）。
+既存のアプリケーションが自動更新されます（URLは変わりません）。
 
-## ハンズオン終了後
+!!! tip "ベストプラクティス"
+    - **開発中**: ローカル環境で編集 → 自動更新で確認
+    - **公開時**: 内容確定後にCode Engineへデプロイ
+    - **修正時**: ローカルで修正確認 → Code Engineへ再デプロイ
+
+---
+
+## 🧹 ハンズオン終了後
 
 リソースを削除してコストを節約：
 
 ```bash
-# アプリケーションの削除
+# アプリケーション削除
 ibmcloud ce app delete --name mkdocs-docs
 
-# プロジェクト全体の削除（オプション）
+# プロジェクト全体削除（オプション）
 ibmcloud ce project delete --name vector-search-docs
 ```
 
-## 重要な注意事項
+---
 
-### プラットフォーム互換性
+## ⚠️ 重要な注意事項
 
-Apple Silicon（M1/M2/M3）Mac でビルドする場合、Dockerfile に以下の設定が必要です：
+### Apple Silicon（M1/M2/M3）Mac
+
+Dockerfileに以下の設定が必要です：
 
 ```dockerfile
 FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
@@ -147,111 +158,91 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 
 これにより、Code Engine（AMD64）で正しく動作するイメージが作成されます。
 
-### TechZone 環境での利用
+### TechZone環境
 
-TechZone 環境を使用する場合：
-
-- Container Registry の既存ネームスペース（`cr-itz-*`）が自動検出されます
+- Container Registryの既存ネームスペース（`cr-itz-*`）が自動検出されます
 - リソースグループ（`itz-*`）が優先的に選択されます
-- 詳細は `techzone-code-engine-guide.md` を参照
+- 環境を再予約すると新しいプロジェクトが作成され、**URLが変わります**
 
-## トラブルシューティング
+!!! warning "TechZone環境再予約時"
+    1. 新しい環境でデプロイスクリプトを再実行
+    2. 新しいURLを受講者に共有
+    3. 必要に応じてドキュメント内のURL例を更新
 
-### Podman 認証エラー（Identity Token 問題）
+---
+
+## 🔧 トラブルシューティング
+
+### Podman認証エラー
 
 **症状**:
-
 ```
-Error: unable to retrieve auth token: invalid username/password: unauthorized
-```
-
-または
-
-```
-Error: currently logged in, auth file contains an Identity token
+Error: unable to retrieve auth token: invalid username/password
+Error: auth file contains an Identity token
 ```
 
-**原因**:
-IBM Cloud Container Registry（ICR）の`ibmcloud cr login`コマンドは「Identity token」という一時的な認証トークンを使用します。このトークンは Docker では動作しますが、Podman では互換性の問題があります。
+**原因**: IBM Cloud Container RegistryのIdentity tokenがPodmanと互換性がない
 
-**解決方法**:
-
-**方法 1: Podman→Docker 経由でプッシュ（推奨）**
+**解決方法1: Podman→Docker経由でプッシュ（推奨）**
 
 ```bash
-# 1. Podman でビルド（AMD64 用）
-podman build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
+# 1. Podmanでビルド
+podman build --platform linux/amd64 -t jp.icr.io/namespace/mkdocs-docs:latest .
 
-# 2. Podman イメージを Docker にロード
-podman save jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest | docker load
+# 2. PodmanイメージをDockerにロード
+podman save jp.icr.io/namespace/mkdocs-docs:latest | docker load
 
-# 3. Docker でプッシュ
-docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
+# 3. Dockerでプッシュ
+docker push jp.icr.io/namespace/mkdocs-docs:latest
 ```
 
-**方法 2: Docker のみを使用**
+**解決方法2: Dockerのみを使用**
 
 ```bash
-# Colima を起動（macOS）
+# Colimaを起動（macOS）
 colima start
 
-# Docker でビルド＆プッシュ
-docker build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
-docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
+# Dockerでビルド＆プッシュ
+docker build --platform linux/amd64 -t jp.icr.io/namespace/mkdocs-docs:latest .
+docker push jp.icr.io/namespace/mkdocs-docs:latest
 ```
 
-**注意**:
-
-- `deploy-to-code-engine.sh`スクリプトは、Docker が利用可能な場合は自動的に Docker を優先します
-- Podman 単独での認証は、IBM Cloud の Identity token 方式との互換性問題により困難です
+**注意**: `deploy-to-code-engine.sh`は、Dockerが利用可能な場合は自動的にDockerを優先します。
 
 ### デプロイが失敗する
 
-1. IBM Cloud にログインしているか確認：
+**1. IBM Cloudログイン確認**
+```bash
+ibmcloud target
+```
 
-   ```bash
-   ibmcloud target
-   ```
+**2. Docker起動確認**
+```bash
+docker ps
+```
 
-2. Docker が起動しているか確認：
+**3. ログ確認**
+```bash
+ibmcloud ce app logs --name mkdocs-docs
+```
 
-   ```bash
-   docker ps
-   ```
+### URLにアクセスできない
 
-3. ログを確認：
+**1. アプリケーション状態確認**
+```bash
+ibmcloud ce app get --name mkdocs-docs
+```
 
-   ```bash
-   ibmcloud ce app logs --name mkdocs-docs
-   ```
+**2. 初回起動の待機**
+初回起動に数分かかる場合があります。少し待ってから再度アクセスしてください。
 
-### URL にアクセスできない
+---
 
-1. アプリケーションの状態を確認：
+## 🔗 代替案
 
-   ```bash
-   ibmcloud ce app get --name mkdocs-docs
-   ```
+Code Engineが使えない場合：
 
-2. 数分待ってから再度アクセス（初回起動に時間がかかる場合があります）
-
-## コスト
-
-- **無料枠**: 月間 180,000 vCPU 秒（約 50 時間）
-- **推奨設定**: CPU 0.25、メモリ 0.5GB
-- **想定コスト**: 1 日 8 時間のハンズオンを約 6 日間実施可能（無料枠内）
-
-## 詳細ドキュメント
-
-詳細な手順やトラブルシューティングは以下を参照：
-
-- `setup/instructor/techzone-code-engine-guide.md`
-
-## 代替案
-
-Code Engine が使えない場合：
-
-### オプション A: 静的 HTML を ZIP 配布
+### オプションA: 静的HTML配布
 
 ```bash
 cd /path/to/vector-search-handson
@@ -261,7 +252,7 @@ zip -r mkdocs-site.zip site/
 
 受講者に`mkdocs-site.zip`を配布し、解凍後`site/index.html`を開いてもらう。
 
-### オプション B: 各自がローカルで起動
+### オプションB: 各自がローカルで起動
 
 受講者に以下を実行してもらう：
 
@@ -272,7 +263,10 @@ cd /path/to/vector-search-handson
 
 各自のマシンで<http://localhost:8000>にアクセス。
 
-## 参考リンク
+---
+
+## 📚 参考リンク
 
 - [IBM Cloud Code Engine](https://cloud.ibm.com/codeengine)
 - [Code Engine CLI](https://cloud.ibm.com/docs/codeengine?topic=codeengine-cli)
+- [TechZone環境詳細ガイド](./techzone-code-engine-guide.md)
