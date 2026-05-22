@@ -4376,3 +4376,42 @@ git push
 - ✅ deploy-to-code-engine.shのパスが正しく修正
 - ✅ MkDocsサーバーが正常に起動
 - ✅ 不要なセクション（リファクタリング済み、ライセンス）を削除
+
+---
+
+## 2026-05-22 15:32 - deploy-docs-to-cloud.mdのパス修正
+
+### 作業内容
+
+#### 間違ったパスの修正
+
+`setup/instructor/deploy-docs-to-cloud.md`内の誤ったパスを修正：
+
+1. **デプロイ実行セクション（4. デプロイ実行）**
+   - 誤: `cd docs/participant` → 正: `cd /path/to/vector-search-handson`
+   - `docs/participant`ディレクトリは存在しない
+
+2. **ドキュメント更新時セクション**
+   - 誤: `cd docs/participant` → 正: `cd /path/to/vector-search-handson`
+
+3. **詳細ドキュメントセクション**
+   - 誤: `docs/participant/code-engine-deploy.md` → 正: `setup/instructor/techzone-code-engine-guide.md`
+   - 存在しないファイルへの参照を修正
+
+4. **代替案セクション**
+   - オプションA: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - オプションB: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - docker-compose参照を削除し、`./start-docs.sh`に変更
+   - ポート番号: 8001 → 8000
+
+### 理由
+
+- `docs/participant`ディレクトリは存在しない
+- `deploy-to-code-engine.sh`はプロジェクトルートに配置されている
+- 実際のファイル構造に合わせた正確なパスに修正
+
+### 成果
+
+- ✅ すべての誤ったパス参照を修正
+- ✅ 存在しないファイルへの参照を修正
+- ✅ 実際のプロジェクト構造に即した内容に更新

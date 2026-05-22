@@ -48,8 +48,8 @@ ibmcloud target -g itz-wxd-6a08d26e2b7a7a1e72c97a
 ### 4. デプロイ実行
 
 ```bash
-# docs/participant ディレクトリに移動
-cd docs/participant
+# プロジェクトルートに移動
+cd /path/to/vector-search-handson
 
 # デプロイスクリプトを実行
 ./deploy-to-code-engine.sh
@@ -117,7 +117,7 @@ cd setup/instructor
 ドキュメントを更新した場合、再度デプロイスクリプトを実行するだけです：
 
 ```bash
-cd docs/participant
+cd /path/to/vector-search-handson
 ./deploy-to-code-engine.sh
 ```
 
@@ -245,7 +245,7 @@ docker push jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest
 
 詳細な手順やトラブルシューティングは以下を参照：
 
-- `docs/participant/code-engine-deploy.md`
+- `setup/instructor/techzone-code-engine-guide.md`
 
 ## 代替案
 
@@ -254,8 +254,8 @@ Code Engine が使えない場合：
 ### オプション A: 静的 HTML を ZIP 配布
 
 ```bash
-cd docs/participant
-docker run --rm -v $(pwd):/docs squidfunk/mkdocs-material:latest build
+cd /path/to/vector-search-handson
+mkdocs build
 zip -r mkdocs-site.zip site/
 ```
 
@@ -266,11 +266,11 @@ zip -r mkdocs-site.zip site/
 受講者に以下を実行してもらう：
 
 ```bash
-cd docs/participant
-docker-compose -f ../../setup/instructor/docker-compose-docs.yml up
+cd /path/to/vector-search-handson
+./start-docs.sh
 ```
 
-各自のマシンで`http://localhost:8001`にアクセス。
+各自のマシンで<http://localhost:8000>にアクセス。
 
 ## 参考リンク
 
