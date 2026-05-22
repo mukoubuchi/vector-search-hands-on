@@ -4845,3 +4845,141 @@ git push
 4. 古いインスタンスの停止
 
 これは正常な動作で、安全なデプロイを保証するための時間です。
+
+## 2026-05-22: Code Engineデプロイスクリプトの改善 - JSONパース問題の解決
+
+### 問題
+
+1. **ステータス取得の失敗**
+   - `ibmcloud ce app get --output json`からのステータス取得が正しく動作しない
+   - `READY_STATUS='Unknown'`となり、デプロイ完了を検出できない
+   - 結果として、タイムアウト（300秒）まで待機し続ける
+
+2. **URL取得の失敗**
+   - アプリケーションURLが空文字列となり表示されない
+   - デプロイ完了後もURLが確認できない
+
+3. **awk構文エラー**
+   - macOS環境で`match()`関数の配列構文がサポートされていない
+   - `awk: syntax error at source line 4`エラーが発生
+
+### 原因分析
+
+1. **JSON構造の複雑さ**
+   - `"status"`フィールドが複数箇所に存在
+   - 必要なのは`status.conditions[type="Ready"].status`の値
+   - 単純な`grep`では正しいフィールドを取得できない
+
+2. **awk実装の互換性問題**
+   - GNU awk専用の`match()`配列構文を使用
+   - macOS/BSD awkでは動作しない
+
+### 解決策
+
+#### 1. タイムアウト時間の短縮
+```bash
+MAX_WAIT=300  # 600秒から300秒（5分）に変更
+```
+
+#### 2. JSONパース方法の変更（awk → sed）
+```bash
+# 旧実装（動作しない）
+READY_STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | \
+    grep -o '"status":"[^"]*' | cut -d'"' -f4)
+
+# 新実装（sedを使用）
+READY_STATUS=$(echo "$APP_JSON" | \
+    grep -A 3 '"type": "Ready"' | \
+    grep '"status"' | \
+    head -1 | \
+    sed 's/.*"status": "\([^"]*\)".*/\1/')
+```
+
+処理の流れ:
+1. `grep -A 3 '"type": "Ready"'` - "Ready"を含む行とその後3行を取得
+2. `grep '"status"'` - "status"を含む行を抽出
+3. `head -1` - 最初の行のみ
+4. `sed 's/.*"status": "\([^"]*\)".*/\1/'` - 値を抽出
+
+#### 3. URL取得の改善
+```bash
+# 旧実装
+APP_URL=$(ibmcloud ce app get --name "$APP_NAME" --output json | \
+    grep -o '"url":"[^"]*' | cut -d'"' -f4)
+
+# 新実装
+APP_URL=$(echo "$APP_JSON" | \
+    grep '"url":' | \
+    grep -v '"cluster_local_url"' | \
+    head -1 | \
+    sed 's/.*"url": "\([^"]*\)".*/\1/')
+```
+
+#### 4. デバッグ出力の追加
+```bash
+# 初回ステータス確認時にデバッグ情報を表示
+if [ $ELAPSED -eq 0 ]; then
+    printf "${YELLOW}初回ステータス確認: READY_STATUS='%s', STATUS='%s'${NC}\n" \
+        "$READY_STATUS" "$STATUS" >&2
+fi
+```
+
+#### 5. デプロイ状況確認スクリプトの作成
+新規ファイル: `setup/instructor/check-deploy-status.sh`
+- アプリケーション詳細の表示
+- リビジョン一覧の表示
+- 最新ログの表示（50行）
+- トラブルシューティングのヒント
+
+### 変更ファイル
+
+1. **`deploy-to-code-engine.sh`**
+   - タイムアウト: 600秒 → 300秒
+   - ステータス取得: awk → sed（2箇所）
+   - URL取得: grep/cut → sed
+   - デバッグ出力の追加
+   - 監視開始メッセージの追加
+
+2. **`setup/instructor/check-deploy-status.sh`** (新規作成)
+   - デプロイ状況の包括的な確認ツール
+   - トラブルシューティングガイド付き
+
+### 動作確認
+
+期待される出力:
+```
+✓ アプリケーションの更新コマンドが完了しました
+アプリケーションの準備状態を確認中...
+初回ステータス確認: READY_STATUS='True', STATUS='Ready'
+[  0s] ✓ 準備完了
+
+==========================================
+✓ デプロイ完了！
+==========================================
+
+アプリケーションURL:
+https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+```
+
+### 技術的な学び
+
+1. **JSONパースの選択肢**
+   - `jq`: 最も確実だが、インストールが必要
+   - `python3`: 確実だが、やや重い
+   - `awk`: 軽量だが、互換性に注意
+   - `sed`: 軽量で互換性が高い（今回採用）
+
+2. **macOS/BSD awkの制限**
+   - `match()`の配列構文は使えない
+   - `gsub()`は使えるが、複雑な処理には不向き
+   - シンプルなパターンマッチングに限定すべき
+
+3. **デバッグの重要性**
+   - 初回実行時のステータス表示で問題を早期発見
+   - 中間変数の値を表示することで原因特定が容易に
+
+### 今後の改善案
+
+1. `jq`の利用を推奨（オプション）
+2. より詳細なエラーメッセージ
+3. リトライ機能の追加
