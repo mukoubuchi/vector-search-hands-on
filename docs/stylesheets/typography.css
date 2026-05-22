@@ -70,6 +70,34 @@
     transform: translateX(4px);
 }
 
+.md-typeset h4::before {
+    content: "\f0da";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.3em;
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset h4 {
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #2c3e50;
+    background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.08) 0%, transparent 100%);
+    padding: 0.4em 0.6em;
+    border-left: 4px solid var(--md-primary-fg-color);
+    border-radius: 0 4px 4px 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h4:hover {
+    transform: translateX(4px);
+    background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.12) 0%, transparent 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Paragraph and list spacing */
 .md-typeset p {
     margin-bottom: 0.8em;

@@ -40,15 +40,15 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 
 1. IBM Bob を起動
 
-2. ++File++ → ++Open Folder++ でプロジェクトフォルダを選択
+2. <kbd>File</kbd> → <kbd>Open Folder</kbd> でプロジェクトフォルダを選択
 
 3. IBM Bob をリロード
 
     === ":fontawesome-brands-apple: Mac"
-        ++cmd+shift+p++ → 「Reload Window」
+        <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → 「Reload Window」
 
     === ":fontawesome-brands-windows: Windows"
-        ++ctrl+shift+p++ → 「Reload Window」
+        <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → 「Reload Window」
 
 4. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認
 
@@ -90,12 +90,14 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
     4. ファイルを保存（++cmd+s++ / ++ctrl+s++）
     5. IBM Bob をリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
 
-#### 埋め込みモデル
+#### 埋め込みモデル（テキストを数値に変換するAI）
 
 Hugging Face Transformers を使用します（API キー不要、無料）。
 
+**埋め込みモデルとは**: テキストの「意味」を数値（ベクトル）に変換するAIモデルです。
+
 - モデル: **`paraphrase-multilingual-MiniLM-L12-v2`**
-- 次元数: **384**
+- 次元数: **384**（384個の数値で意味を表現）
 - 特徴: 多言語対応
 
 ### 3. Web ブラウザ
