@@ -65,4 +65,3 @@ cd ../..
 **講師**: Docker/Podman/Colima、IBM Cloud CLI
 
 **受講者**: IBM Bob IDE
-
