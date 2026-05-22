@@ -4744,13 +4744,16 @@ git push
 
 ### 修正内容
 
-- `deploy-to-code-engine.sh`のDockerビルドコマンドに`--platform linux/amd64`オプションを追加
-- これにより、Apple Siliconマシンでも明示的にAMD64アーキテクチャ用のイメージをビルド
+1. `deploy-to-code-engine.sh`のDockerビルドコマンドに`--platform linux/amd64`オプションを追加
+2. `DOCKER_BUILDKIT=1`環境変数を設定してBuildKitを有効化
+   - レガシービルダーではマルチプラットフォームビルドが正しく動作しない
+   - BuildKitを使用することで、ベースイメージのマルチアーキテクチャサポートを活用
 
 ### 変更ファイル
 
-- `deploy-to-code-engine.sh`: Dockerビルドコマンドにプラットフォーム指定を追加（145, 148行目）
+- `deploy-to-code-engine.sh`: Dockerビルドコマンドにプラットフォーム指定とBuildKitを追加（145行目）
 
-### 次のステップ
+### 効果
 
-- 修正したスクリプトで再デプロイが必要
+- Apple Siliconマシンでも明示的にAMD64アーキテクチャ用のイメージをビルド可能
+- Code Engine（AMD64）で正常に実行できるイメージを生成

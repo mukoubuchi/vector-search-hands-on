@@ -141,8 +141,8 @@ echo -e "\n${YELLOW}7. Dockerイメージをビルド中...${NC}"
 
 # DockerまたはPodmanを検出（Dockerを優先）
 if command -v docker &> /dev/null && docker info &> /dev/null; then
-    echo -e "${YELLOW}Dockerを使用してビルドします（linux/amd64プラットフォーム）${NC}"
-    docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
+    echo -e "${YELLOW}Dockerを使用してビルドします（linux/amd64プラットフォーム、BuildKit使用）${NC}"
+    DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
 elif command -v podman &> /dev/null; then
     echo -e "${YELLOW}Podmanを使用してビルドします（linux/amd64プラットフォーム）${NC}"
     podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
