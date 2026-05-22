@@ -12,8 +12,12 @@ cd setup/instructor
 これにより以下が起動します：
 - **Milvus環境**（etcd, MinIO, Milvus）
 - **ローカルドキュメントサーバー**（http://localhost:8001）
-  - 注: docker-composeのポートマッピング（`8001:8000`）により、講師側は8001でアクセス
-  - 受講者が各自で起動する場合は8000（デフォルトポート）
+
+!!! info "ポート8001を使用する理由"
+    - docker-composeのポートマッピング（`8001:8000`）により、講師側は8001でアクセス
+    - **同じネットワーク内の受講者全員が`講師のIP:8001`でドキュメントにアクセス可能**
+    - ポート8000は受講者のFastAPIアプリと競合する可能性があるため、8001を使用
+    - これにより、各受講者が個別にドキュメントサーバーを起動する必要がなくなります
 
 ### 2. 講師のIPアドレス確認
 
@@ -44,7 +48,19 @@ cd /path/to/vector-search-handson
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 ```
 
-### ドキュメントURL
+### ドキュメントURL（2つの選択肢）
+
+**オプション1: ローカルネットワーク共有（推奨）**
+
+同じWiFi/ネットワーク内の受講者向け：
+
+```
+http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
+```
+
+**オプション2: Code Engine（リモート参加者向け）**
+
+異なるネットワークの受講者向け：
 
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
@@ -74,7 +90,7 @@ COLLECTION_NAME=knowledge_base
 
 ## 📝 受講者への案内文（コピー用）
 
-以下をコピーして、**【講師のIPアドレス】**と**【ドキュメントURL】**を実際の値に置き換えて送信してください。
+以下をコピーして、**【講師のIPアドレス】**を実際の値に置き換えて送信してください。
 
 ```text
 【ベクトル検索ハンズオン 接続情報】
@@ -83,7 +99,8 @@ COLLECTION_NAME=knowledge_base
 MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
 ■ ドキュメントURL
-【ドキュメントURL】  # 例: https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
+同じネットワーク内: http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
+リモート参加者: 【Code Engine URL】  # 例: https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 
 【セットアップ手順】
 1. vector-search-builder.zipを解凍
