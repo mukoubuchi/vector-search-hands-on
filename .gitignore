@@ -26,10 +26,6 @@ logs/
 *.tmp
 *.temp
 
-# MkDocs build output
-site/
-docs/participant/site/
-
 # Test outputs
 tests/*.log
 tests/coverage/
@@ -48,5 +44,3 @@ __pycache__/
 venv/
 env/
 ENV/
-
-# Made with Bob
