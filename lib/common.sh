@@ -436,4 +436,3 @@ setup_error_handling() {
     trap cleanup_on_error EXIT
 }
 
-# Made with Bob

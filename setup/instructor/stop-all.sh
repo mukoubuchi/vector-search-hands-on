@@ -35,4 +35,3 @@ fi
 echo ""
 log_header "✓ Milvus環境が停止しました"
 
-# Made with Bob

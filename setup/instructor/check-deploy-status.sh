@@ -131,4 +131,3 @@ echo "  ibmcloud ce app delete --name $APP_NAME"
 echo "  ./deploy-to-code-engine.sh"
 echo ""
 
-# Made with Bob

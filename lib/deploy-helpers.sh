@@ -405,4 +405,3 @@ create_ce_app() {
     fi
 }
 
-# Made with Bob

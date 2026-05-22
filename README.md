@@ -136,4 +136,3 @@ cd setup/instructor
 - IBM Bob IDE
 - Python 3.9+ (接続テスト用)
 
-# Made with Bob

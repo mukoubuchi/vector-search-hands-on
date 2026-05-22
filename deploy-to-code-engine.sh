@@ -136,4 +136,3 @@ echo "  状態確認: ibmcloud ce app get --name $APP_NAME"
 echo "  削除:     ibmcloud ce app delete --name $APP_NAME"
 echo ""
 
-# Made with Bob

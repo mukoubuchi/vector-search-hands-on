@@ -58,4 +58,3 @@ echo "停止するには以下を実行してください:"
 echo "  ./stop-all.sh"
 echo ""
 
-# Made with Bob
