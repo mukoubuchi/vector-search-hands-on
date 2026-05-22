@@ -4744,16 +4744,20 @@ git push
 
 ### 修正内容
 
-1. `deploy-to-code-engine.sh`のDockerビルドコマンドに`--platform linux/amd64`オプションを追加
-2. `DOCKER_BUILDKIT=1`環境変数を設定してBuildKitを有効化
-   - レガシービルダーではマルチプラットフォームビルドが正しく動作しない
-   - BuildKitを使用することで、ベースイメージのマルチアーキテクチャサポートを活用
+1. `docker buildx`の利用可能性を確認する条件分岐を追加
+2. `docker buildx`が利用可能な場合:
+   - `docker buildx build --platform linux/amd64 --load`を使用
+   - `--load`オプションでローカルのDockerイメージストアにロード
+3. `docker buildx`が利用不可の場合:
+   - 通常の`docker build`を使用（警告を表示）
+   - ネイティブアーキテクチャでビルド
 
 ### 変更ファイル
 
-- `deploy-to-code-engine.sh`: Dockerビルドコマンドにプラットフォーム指定とBuildKitを追加（145行目）
+- `deploy-to-code-engine.sh`: Docker Buildxの条件分岐を追加（143-154行目）
 
 ### 効果
 
-- Apple Siliconマシンでも明示的にAMD64アーキテクチャ用のイメージをビルド可能
-- Code Engine（AMD64）で正常に実行できるイメージを生成
+- Docker Buildxが利用可能な環境では、AMD64アーキテクチャ用のイメージを正しくビルド
+- Buildxが利用不可の環境でも、警告を表示しつつビルドを継続
+- 環境に応じた柔軟なビルド戦略を実現

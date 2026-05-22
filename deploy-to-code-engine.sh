@@ -141,8 +141,15 @@ echo -e "\n${YELLOW}7. Dockerイメージをビルド中...${NC}"
 
 # DockerまたはPodmanを検出（Dockerを優先）
 if command -v docker &> /dev/null && docker info &> /dev/null; then
-    echo -e "${YELLOW}Dockerを使用してビルドします（linux/amd64プラットフォーム、BuildKit使用）${NC}"
-    DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
+    # docker buildxが利用可能か確認
+    if docker buildx version &> /dev/null; then
+        echo -e "${YELLOW}Docker Buildxを使用してビルドします（linux/amd64プラットフォーム）${NC}"
+        docker buildx build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" --load .
+    else
+        echo -e "${YELLOW}Dockerを使用してビルドします（ネイティブアーキテクチャ）${NC}"
+        echo -e "${YELLOW}⚠ 注意: Code Engineで実行できない可能性があります${NC}"
+        docker build -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
+    fi
 elif command -v podman &> /dev/null; then
     echo -e "${YELLOW}Podmanを使用してビルドします（linux/amd64プラットフォーム）${NC}"
     podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
