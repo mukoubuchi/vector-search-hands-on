@@ -13,11 +13,12 @@ cd setup/instructor
 - **Milvus環境**（etcd, MinIO, Milvus）
 - **ローカルドキュメントサーバー**（http://localhost:8001）
 
-!!! info "ポート8001を使用する理由"
-    - docker-composeのポートマッピング（`8001:8000`）により、講師側は8001でアクセス
-    - **同じネットワーク内の受講者全員が`講師のIP:8001`でドキュメントにアクセス可能**
-    - ポート8000は受講者のFastAPIアプリと競合する可能性があるため、8001を使用
-    - これにより、各受講者が個別にドキュメントサーバーを起動する必要がなくなります
+> [!NOTE]
+> **ポート8001を使用する理由**
+> - docker-composeのポートマッピング（`8001:8000`）により、講師側は8001でアクセス
+> - **同じネットワーク内の受講者全員が`講師のIP:8001`でドキュメントにアクセス可能**
+> - ポート8000は受講者のFastAPIアプリと競合する可能性があるため、8001を使用
+> - これにより、各受講者が個別にドキュメントサーバーを起動する必要がなくなります
 
 ### 2. 講師のIPアドレス確認
 
@@ -74,7 +75,8 @@ http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-> **注意**: `xxxxx`は環境により異なります。デプロイ後の実際のURLを共有してください。
+> [!IMPORTANT]
+> `xxxxx`は環境により異なります。デプロイ後の実際のURLを共有してください。
 
 **メリット**:
 - インターネット経由でどこからでもアクセス可能（万能）
@@ -84,10 +86,11 @@ https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 **制約**:
 - 事前にCode Engineへのデプロイが必要（[deploy-docs-to-cloud.md](./deploy-docs-to-cloud.md)参照）
 
-!!! warning "重要"
-    - 受講者に共有するのは**IPアドレスとドキュメントURL**のみ
-    - その他の設定（PORT、USER、PASSWORD等）は`.env.example`に設定済み
-    - TechZone環境を再予約した場合、URLが変わるため再デプロイが必要
+> [!IMPORTANT]
+> **重要**
+> - 受講者に共有するのは**IPアドレスとドキュメントURL**のみ
+> - その他の設定（PORT、USER、PASSWORD等）は`.env.example`に設定済み
+> - TechZone環境を再予約した場合、URLが変わるため再デプロイが必要
 
 ### 補足：その他の設定値（共有不要）
 
