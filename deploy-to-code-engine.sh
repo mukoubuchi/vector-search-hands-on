@@ -213,8 +213,9 @@ APP_NAME="mkdocs-docs"
 # アプリケーションが存在するか確認
 if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
     echo -e "${YELLOW}既存のアプリケーションを更新中...${NC}"
+    printf "${YELLOW}アプリケーション '%s' を最新リビジョンに更新しています。${NC}\n" "$APP_NAME" >&2
     
-    # アプリケーション更新を実行
+    # バックグラウンドでアプリケーション更新を実行
     ibmcloud ce app update --name "$APP_NAME" \
         --image "$FULL_IMAGE_NAME" \
         --registry-secret "$REGISTRY_SECRET" \
@@ -222,33 +223,47 @@ if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
         --min-scale 1 \
         --max-scale 2 \
         --cpu 0.25 \
-        --memory 0.5G
+        --memory 0.5G \
+        --no-wait &
     
+    UPDATE_PID=$!
+    
+    # 更新コマンドの実行を監視
+    printf "${YELLOW}更新コマンドを実行中...${NC}\n" >&2
+    DOTS=0
+    while kill -0 $UPDATE_PID 2>/dev/null; do
+        printf "." >&2
+        DOTS=$((DOTS + 1))
+        if [ $DOTS -ge 60 ]; then
+            printf "\n" >&2
+            DOTS=0
+        fi
+        sleep 1
+    done
+    printf "\n" >&2
+    
+    wait $UPDATE_PID
     UPDATE_EXIT_CODE=$?
     
     if [ $UPDATE_EXIT_CODE -eq 0 ]; then
-        echo -e "${GREEN}✓ アプリケーションの更新コマンドが完了しました (終了コード: $UPDATE_EXIT_CODE)${NC}"
+        printf "${GREEN}✓ アプリケーションの更新コマンドが完了しました${NC}\n" >&2
         
         # 更新状態を監視
-        echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
+        printf "${YELLOW}アプリケーションの準備状態を確認中...${NC}\n" >&2
         MAX_WAIT=120  # 最大2分待機
         ELAPSED=0
         
-        # 初回は少し待ってから確認開始
-        sleep 3
-        
         while [ $ELAPSED -lt $MAX_WAIT ]; do
-            # ステータスを取得（エラー出力も確認用に保存）
+            # ステータスを取得
             STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | grep -o '"status":"[^"]*' | cut -d'"' -f4)
             
-            # ステータスが取得できない場合
             if [ -z "$STATUS" ]; then
-                echo -e "${YELLOW}  状態: 確認中... (${ELAPSED}秒経過)${NC}"
+                printf "${YELLOW}  [%3ds] 状態: 確認中...${NC}\n" "$ELAPSED" >&2
             elif [ "$STATUS" = "Ready" ]; then
-                echo -e "${GREEN}✓ アプリケーションの準備が完了しました (${ELAPSED}秒)${NC}"
+                printf "${GREEN}✓ アプリケーションの準備が完了しました (%d秒)${NC}\n" "$ELAPSED" >&2
                 break
             else
-                echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
+                printf "${YELLOW}  [%3ds] 状態: %s${NC}\n" "$ELAPSED" "$STATUS" >&2
             fi
             
             sleep 5
@@ -256,17 +271,18 @@ if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
         done
         
         if [ $ELAPSED -ge $MAX_WAIT ]; then
-            echo -e "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}"
-            echo -e "${YELLOW}  'ibmcloud ce app get --name $APP_NAME' で状態を確認してください${NC}"
+            printf "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}\n" >&2
+            printf "${YELLOW}  'ibmcloud ce app get --name %s' で状態を確認してください${NC}\n" "$APP_NAME" >&2
         fi
     else
-        echo -e "${RED}❌ アプリケーションの更新に失敗しました${NC}"
+        printf "${RED}❌ アプリケーションの更新に失敗しました (終了コード: %d)${NC}\n" "$UPDATE_EXIT_CODE" >&2
         exit 1
     fi
 else
     echo -e "${YELLOW}新しいアプリケーションを作成中...${NC}"
+    printf "${YELLOW}アプリケーション '%s' を作成しています。${NC}\n" "$APP_NAME" >&2
     
-    # アプリケーション作成を実行
+    # バックグラウンドでアプリケーション作成を実行
     ibmcloud ce app create --name "$APP_NAME" \
         --image "$FULL_IMAGE_NAME" \
         --registry-secret "$REGISTRY_SECRET" \
@@ -274,33 +290,47 @@ else
         --min-scale 1 \
         --max-scale 2 \
         --cpu 0.25 \
-        --memory 0.5G
+        --memory 0.5G \
+        --no-wait &
     
+    CREATE_PID=$!
+    
+    # 作成コマンドの実行を監視
+    printf "${YELLOW}作成コマンドを実行中...${NC}\n" >&2
+    DOTS=0
+    while kill -0 $CREATE_PID 2>/dev/null; do
+        printf "." >&2
+        DOTS=$((DOTS + 1))
+        if [ $DOTS -ge 60 ]; then
+            printf "\n" >&2
+            DOTS=0
+        fi
+        sleep 1
+    done
+    printf "\n" >&2
+    
+    wait $CREATE_PID
     CREATE_EXIT_CODE=$?
     
     if [ $CREATE_EXIT_CODE -eq 0 ]; then
-        echo -e "${GREEN}✓ アプリケーションの作成コマンドが完了しました (終了コード: $CREATE_EXIT_CODE)${NC}"
+        printf "${GREEN}✓ アプリケーションの作成コマンドが完了しました${NC}\n" >&2
         
         # 作成状態を監視
-        echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
+        printf "${YELLOW}アプリケーションの準備状態を確認中...${NC}\n" >&2
         MAX_WAIT=120  # 最大2分待機
         ELAPSED=0
         
-        # 初回は少し待ってから確認開始
-        sleep 3
-        
         while [ $ELAPSED -lt $MAX_WAIT ]; do
-            # ステータスを取得（エラー出力も確認用に保存）
+            # ステータスを取得
             STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | grep -o '"status":"[^"]*' | cut -d'"' -f4)
             
-            # ステータスが取得できない場合
             if [ -z "$STATUS" ]; then
-                echo -e "${YELLOW}  状態: 確認中... (${ELAPSED}秒経過)${NC}"
+                printf "${YELLOW}  [%3ds] 状態: 確認中...${NC}\n" "$ELAPSED" >&2
             elif [ "$STATUS" = "Ready" ]; then
-                echo -e "${GREEN}✓ アプリケーションの準備が完了しました (${ELAPSED}秒)${NC}"
+                printf "${GREEN}✓ アプリケーションの準備が完了しました (%d秒)${NC}\n" "$ELAPSED" >&2
                 break
             else
-                echo -e "${YELLOW}  状態: $STATUS (${ELAPSED}秒経過)${NC}"
+                printf "${YELLOW}  [%3ds] 状態: %s${NC}\n" "$ELAPSED" "$STATUS" >&2
             fi
             
             sleep 5
@@ -308,11 +338,11 @@ else
         done
         
         if [ $ELAPSED -ge $MAX_WAIT ]; then
-            echo -e "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}"
-            echo -e "${YELLOW}  'ibmcloud ce app get --name $APP_NAME' で状態を確認してください${NC}"
+            printf "${YELLOW}⚠ タイムアウト: アプリケーションの準備に時間がかかっています${NC}\n" >&2
+            printf "${YELLOW}  'ibmcloud ce app get --name %s' で状態を確認してください${NC}\n" "$APP_NAME" >&2
         fi
     else
-        echo -e "${RED}❌ アプリケーションの作成に失敗しました${NC}"
+        printf "${RED}❌ アプリケーションの作成に失敗しました (終了コード: %d)${NC}\n" "$CREATE_EXIT_CODE" >&2
         exit 1
     fi
 fi
