@@ -213,16 +213,21 @@ APP_NAME="mkdocs-docs"
 # アプリケーションが存在するか確認
 if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
     echo -e "${YELLOW}既存のアプリケーションを更新中...${NC}"
-    if ibmcloud ce app update --name "$APP_NAME" \
+    
+    # アプリケーション更新を実行
+    ibmcloud ce app update --name "$APP_NAME" \
         --image "$FULL_IMAGE_NAME" \
         --registry-secret "$REGISTRY_SECRET" \
         --port 8000 \
         --min-scale 1 \
         --max-scale 2 \
         --cpu 0.25 \
-        --memory 0.5G; then
-        
-        echo -e "${GREEN}✓ アプリケーションの更新コマンドが完了しました${NC}"
+        --memory 0.5G
+    
+    UPDATE_EXIT_CODE=$?
+    
+    if [ $UPDATE_EXIT_CODE -eq 0 ]; then
+        echo -e "${GREEN}✓ アプリケーションの更新コマンドが完了しました (終了コード: $UPDATE_EXIT_CODE)${NC}"
         
         # 更新状態を監視
         echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
@@ -260,16 +265,21 @@ if ibmcloud ce app get --name "$APP_NAME" &> /dev/null; then
     fi
 else
     echo -e "${YELLOW}新しいアプリケーションを作成中...${NC}"
-    if ibmcloud ce app create --name "$APP_NAME" \
+    
+    # アプリケーション作成を実行
+    ibmcloud ce app create --name "$APP_NAME" \
         --image "$FULL_IMAGE_NAME" \
         --registry-secret "$REGISTRY_SECRET" \
         --port 8000 \
         --min-scale 1 \
         --max-scale 2 \
         --cpu 0.25 \
-        --memory 0.5G; then
-        
-        echo -e "${GREEN}✓ アプリケーションの作成コマンドが完了しました${NC}"
+        --memory 0.5G
+    
+    CREATE_EXIT_CODE=$?
+    
+    if [ $CREATE_EXIT_CODE -eq 0 ]; then
+        echo -e "${GREEN}✓ アプリケーションの作成コマンドが完了しました (終了コード: $CREATE_EXIT_CODE)${NC}"
         
         # 作成状態を監視
         echo -e "${YELLOW}アプリケーションの準備状態を確認中...${NC}"
