@@ -1,5 +1,5 @@
 #!/bin/bash
-# Milvus環境とMkDocsドキュメントサーバーを一括起動するスクリプト
+# Milvus環境を起動するスクリプト
 
 echo "=========================================="
 echo "Vector Search ハンズオン環境を起動中..."
@@ -71,14 +71,13 @@ fi
 
 echo ""
 
-# すべてのサービスを起動（プロファイル機能を使用）
-echo "すべてのサービスを起動中..."
-$COMPOSE_CMD --profile all up -d
+# Milvus環境を起動
+echo "Milvus環境を起動中..."
+$COMPOSE_CMD --profile milvus up -d
 
 if [ $? -eq 0 ]; then
-    echo "✓ すべてのサービスが起動しました"
-    echo "  - Milvus環境（etcd, minio, milvus）"
-    echo "  - MkDocsドキュメントサーバー"
+    echo "✓ Milvus環境が起動しました"
+    echo "  - etcd, minio, milvus"
 else
     echo "❌ サービスの起動に失敗しました"
     exit 1
@@ -86,7 +85,7 @@ fi
 
 echo ""
 echo "=========================================="
-echo "✓ すべてのサービスが起動しました"
+echo "✓ Milvus環境が起動しました"
 echo "=========================================="
 echo ""
 echo "📊 アクセス情報:"
@@ -94,17 +93,18 @@ echo ""
 echo "  Milvus:"
 echo "    - ホスト: localhost"
 echo "    - ポート: 19530"
+echo "    - 認証: root/Milvus"
 echo ""
-echo "  MkDocsドキュメント:"
-echo "    - URL: http://localhost:8001"
-echo "    - 受講者に共有: http://$(hostname -I | awk '{print $1}'):8001"
+echo "📝 次のステップ:"
 echo ""
-echo "📝 受講者への案内:"
+echo "  1. 受講者に共有するMilvusホスト:"
+echo "     $(hostname -I | awk '{print $1}' || ipconfig getifaddr en0 || echo 'IPアドレスを手動で確認してください')"
 echo ""
-echo "  1. ブラウザで以下のURLにアクセスしてください:"
-echo "     http://$(hostname -I | awk '{print $1}'):8001"
+echo "  2. ドキュメントをCode Engineにデプロイ:"
+echo "     cd ../.."
+echo "     ./deploy-to-code-engine.sh"
 echo ""
-echo "  2. 左側のメニューから「事前準備」を選択してください"
+echo "  詳細: setup/instructor/deploy-docs-to-cloud.md"
 echo ""
 echo "=========================================="
 echo ""

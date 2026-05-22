@@ -59,7 +59,7 @@ services:
       timeout: 20s
       retries: 3
 
-  # MkDocsドキュメントサーバー
+  # MkDocsドキュメントサーバー（ローカルテスト用）
   mkdocs:
     image: squidfunk/mkdocs-material:latest
     profiles: ["docs", "all"]
@@ -67,7 +67,7 @@ services:
     ports:
       - "8001:8000"
     volumes:
-      - ../../docs/participant:/docs
+      - ../../:/docs
     command: serve --dev-addr=0.0.0.0:8000
     restart: unless-stopped
 

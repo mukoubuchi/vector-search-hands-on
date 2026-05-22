@@ -7,7 +7,8 @@
 ```bash
 cd setup/instructor
 ./start-all.sh
-# 出力される「受講者に共有: http://xxx.xxx.xxx.xxx:8001」の IP アドレスを確認
+# Milvus環境が起動します
+# ドキュメントはCode Engineにデプロイしてください（deploy-docs-to-cloud.md参照）
 ```
 
 または手動で確認：
@@ -72,15 +73,14 @@ MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 【ドキュメント URL】  # 例: https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 
 【セットアップ手順】
-1. プロジェクトフォルダに vector-search-builder.zip を配置
-2. 解凍して .bob フォルダと setup フォルダを確認
-3. IBM Bob IDE でプロジェクトフォルダを開く
-4. setup/.env.example を setup/.env にコピー
-5. setup/.env を開き、MILVUS_HOST だけを上記の IP アドレスに変更
+1. vector-search-builder.zip を解凍
+2. IBM Bob IDE でプロジェクトフォルダを開く
+3. setup/participant/.env.example を setup/participant/.env にコピー
+4. setup/participant/.env を開き、MILVUS_HOST だけを上記の IP アドレスに変更
    （その他の設定は変更不要です）
-6. IBM Bob をリロード（Cmd + Shift + P → Developer: Reload Window）
-7. setup/requirements.txt をインストール: pip install -r requirements.txt
-8. 接続テスト実行: python setup/test_embeddings_hf.py
+5. IBM Bob をリロード（Cmd + Shift + P → Developer: Reload Window）
+6. setup/participant/requirements.txt をインストール: pip install -r setup/participant/requirements.txt
+7. 接続テスト実行: python setup/participant/test_embeddings_hf.py
 
 【重要】
 - 変更が必要なのは MILVUS_HOST だけです
@@ -108,7 +108,7 @@ MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 ### トラブルシューティング準備
 
 - [ ] ファイアウォール設定確認
-- [ ] ポート 19530, 8001 が開放されているか確認
+- [ ] ポート 19530 が開放されているか確認
 - [ ] 受講者のネットワーク接続確認
 
 ---
@@ -128,7 +128,6 @@ MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 
    ```bash
    lsof -i :19530
-   lsof -i :8001
    ```
 
 3. **Docker 確認**
@@ -150,8 +149,8 @@ MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 ## 📊 環境情報
 
 - **Milvus**: localhost:19530（講師側）
-- **MkDocs**: <http://localhost:8001（講師側）>
-- **受講者用 URL**: http://【講師の IP アドレス】:8001（毎回確認必要）
+- **MkDocs**: <http://localhost:8000>（講師側）
+- **受講者用 URL**: Code Engine URL（deploy-docs-to-cloud.md参照）
 - **埋め込みモデル**: paraphrase-multilingual-MiniLM-L12-v2 (384 次元)
 - **Python**: 3.11.0
 - **sentence-transformers**: 5.5.0
@@ -159,7 +158,7 @@ MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 ### 固定される情報
 
 - Milvus ポート: 19530
-- MkDocs ポート: 8001
+- MkDocs ポート: 8000
 - 認証情報: root/Milvus
 - 埋め込みモデル名と次元数
 

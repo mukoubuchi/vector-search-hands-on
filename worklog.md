@@ -4521,3 +4521,39 @@ git push
 
 - ✅ Apple Siliconでのビルドエラーを完全に解消
 - ✅ プラットフォーム指定なしでシンプルなビルドコマンドに
+
+---
+
+## 2026-05-22 15:56 - 全ファイルのパス参照を修正
+
+### 作業内容
+
+#### 存在しないパスへの参照を修正
+
+1. **docker-compose.yml**
+   - 70行目: `../../docs/participant:/docs` → `../../:/docs`
+   - 存在しない`docs/participant`ディレクトリへの参照を修正
+
+2. **instructor-share-info.md**
+   - セットアップ手順のパスを修正（`setup/` → `setup/participant/`）
+   - ポート8001への参照を削除（現在はCode Engine使用）
+   - MkDocsポート: 8001 → 8000
+
+3. **start-all.sh**
+   - MkDocsドキュメントサーバー関連の出力を削除
+   - Milvus環境のみを起動するように変更
+   - Code Engineデプロイの案内を追加
+
+### 理由
+
+- `docs/participant`ディレクトリは存在しない
+- 現在はCode Engineでドキュメントを配信
+- ローカルのMkDocsサーバー（ポート8001）は使用しない
+- 実際のファイル構造に合わせた正確なパスに修正
+
+### 成果
+
+- ✅ すべての存在しないパス参照を修正
+- ✅ docker-compose.ymlのボリュームマウントを修正
+- ✅ ドキュメント配信方法をCode Engineに統一
+- ✅ start-all.shの出力を現状に合わせて更新
