@@ -203,8 +203,8 @@ MkDocs ドキュメントのコードブロック配色が VS 系ダーク寄り
 
 ```bash
 # 1. Podman でビルド（AMD64 用）
-cd docs/participant
-podman build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest .
+cd /path/to/vector-search-handson
+podman build --platform linux/amd64 -t jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest -f docs/Dockerfile .
 
 # 2. Podman イメージを Docker にロード
 podman save jp.icr.io/cr-itz-btxelcjs/mkdocs-docs:latest | docker load
@@ -1950,8 +1950,8 @@ ibmcloud ce app delete -n mkdocs-docs
 
 ### ドキュメント更新時の手順
 
-1. `docs/participant/`でドキュメントを編集
-2. `cd docs/participant && ./deploy-to-code-engine.sh`を実行
+1. `docs/`でドキュメントを編集
+2. `cd /path/to/vector-search-handson && ./deploy-to-code-engine.sh`を実行
 3. 既存アプリケーションが自動更新される（URL は変わらない）
 
 ---
@@ -4415,3 +4415,26 @@ git push
 - ✅ すべての誤ったパス参照を修正
 - ✅ 存在しないファイルへの参照を修正
 - ✅ 実際のプロジェクト構造に即した内容に更新
+
+---
+
+## 2026-05-22 15:37 - techzone-code-engine-guide.mdとworklog.mdのパス修正
+
+### 作業内容
+
+#### 残っていた誤ったパスの修正
+
+1. **techzone-code-engine-guide.md**
+   - 3箇所の`cd docs/participant`を`cd /path/to/vector-search-handson`に修正
+   - 行78, 88, 130
+
+2. **worklog.md（過去のエントリ）**
+   - 行206: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - Dockerfileのパスも追加: `-f docs/Dockerfile`
+   - 行1954: `cd docs/participant && ./deploy-to-code-engine.sh` → `cd /path/to/vector-search-handson && ./deploy-to-code-engine.sh`
+
+### 成果
+
+- ✅ すべてのドキュメントから`cd docs/participant`を削除
+- ✅ 正しいパス（プロジェクトルート）に統一
+- ✅ Dockerfileの参照パスも修正
