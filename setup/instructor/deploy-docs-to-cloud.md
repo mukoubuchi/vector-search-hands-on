@@ -45,13 +45,13 @@ cd /path/to/vector-search-handson
 
 ### 4. URL確認
 
-**方法1: デプロイスクリプトの出力**
+#### 方法1: デプロイスクリプトの出力
 
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 ```
 
-**方法2: URL確認スクリプト**
+#### 方法2: URL確認スクリプト
 
 ```bash
 cd setup/instructor
@@ -177,15 +177,16 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 
 ### Podman認証エラー
 
-**症状**:
+#### 症状
 ```
 Error: unable to retrieve auth token: invalid username/password
 Error: auth file contains an Identity token
 ```
 
-**原因**: IBM Cloud Container RegistryのIdentity tokenがPodmanと互換性がない
+#### 原因
+IBM Cloud Container RegistryのIdentity tokenがPodmanと互換性がない
 
-**解決方法1: Podman→Docker経由でプッシュ（推奨）**
+#### 解決方法1: Podman→Docker経由でプッシュ（推奨）
 
 ```bash
 # 1. Podmanでビルド
@@ -198,7 +199,7 @@ podman save jp.icr.io/namespace/mkdocs-docs:latest | docker load
 docker push jp.icr.io/namespace/mkdocs-docs:latest
 ```
 
-**解決方法2: Dockerのみを使用**
+#### 解決方法2: Dockerのみを使用
 
 ```bash
 # Colimaを起動（macOS）
@@ -209,33 +210,34 @@ docker build --platform linux/amd64 -t jp.icr.io/namespace/mkdocs-docs:latest .
 docker push jp.icr.io/namespace/mkdocs-docs:latest
 ```
 
-**注意**: `deploy-to-code-engine.sh`は、Dockerが利用可能な場合は自動的にDockerを優先します。
+> [!NOTE]
+> `deploy-to-code-engine.sh`は、Dockerが利用可能な場合は自動的にDockerを優先します。
 
 ### デプロイが失敗する
 
-**1. IBM Cloudログイン確認**
+#### 1. IBM Cloudログイン確認
 ```bash
 ibmcloud target
 ```
 
-**2. Docker起動確認**
+#### 2. Docker起動確認
 ```bash
 docker ps
 ```
 
-**3. ログ確認**
+#### 3. ログ確認
 ```bash
 ibmcloud ce app logs --name mkdocs-docs
 ```
 
 ### URLにアクセスできない
 
-**1. アプリケーション状態確認**
+#### 1. アプリケーション状態確認
 ```bash
 ibmcloud ce app get --name mkdocs-docs
 ```
 
-**2. 初回起動の待機**
+#### 2. 初回起動の待機
 初回起動に数分かかる場合があります。少し待ってから再度アクセスしてください。
 
 ---

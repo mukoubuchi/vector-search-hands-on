@@ -53,23 +53,25 @@ MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
 #### オプション1: ローカルネットワーク共有（オンサイト開催向け）
 
-**適用シーン**: 同じWiFi/ネットワーク内で開催（オフィス、会議室など）
+##### 適用シーン
+同じWiFi/ネットワーク内で開催（オフィス、会議室など）
 
 ```
 http://【講師のIPアドレス】:8001  # 例: http://10.0.1.5:8001
 ```
 
-**メリット**:
+##### メリット
 - Code Engineのデプロイ不要
 - セットアップが簡単（`./start-all.sh`のみ）
 - ネットワーク内で高速アクセス
 
-**制約**:
+##### 制約
 - 同じネットワーク内の受講者のみアクセス可能
 
 #### オプション2: Code Engine（リモート/ハイブリッド開催向け）
 
-**適用シーン**: リモート参加者がいる、または異なるネットワークからの参加
+##### 適用シーン
+リモート参加者がいる、または異なるネットワークからの参加
 
 ```
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
@@ -78,12 +80,12 @@ https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 > [!IMPORTANT]
 > `xxxxx`は環境により異なります。デプロイ後の実際のURLを共有してください。
 
-**メリット**:
+##### メリット
 - インターネット経由でどこからでもアクセス可能（万能）
 - ネットワーク環境に依存しない
 - 複数の開催場所に対応可能
 
-**制約**:
+##### 制約
 - 事前にCode Engineへのデプロイが必要（[deploy-docs-to-cloud.md](./deploy-docs-to-cloud.md)参照）
 
 > [!IMPORTANT]
@@ -189,18 +191,18 @@ MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 
 ### 接続できない
 
-**1. ファイアウォール確認**
+#### 1. ファイアウォール確認
 ```bash
 # macOS
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
 ```
 
-**2. ポート確認**
+#### 2. ポート確認
 ```bash
 lsof -i :19530
 ```
 
-**3. Docker確認**
+#### 3. Docker確認
 ```bash
 docker ps
 # milvus-standalone, vector-search-docsがRunningであることを確認
@@ -210,7 +212,7 @@ docker ps
 
 初回実行時、Hugging Faceからモデルをダウンロード（約200MB）するため時間がかかります。
 
-**対策**:
+#### 対策
 - 受講者に事前ダウンロードを促す
 - 講師側で事前ダウンロードしてキャッシュを共有
 
