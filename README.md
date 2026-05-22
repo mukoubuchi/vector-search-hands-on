@@ -54,60 +54,15 @@ cd ../..
 
 詳細: [docs/preparation.md](docs/preparation.md)
 
-## 📁 プロジェクト構造
-
-```
-vector-search-handson/
-├── README.md                    # このファイル
-├── deploy-to-code-engine.sh     # Code Engine デプロイスクリプト
-├── mkdocs.yml                   # MkDocs 設定ファイル
-├── start-docs.sh                # ローカルドキュメント起動スクリプト
-├── vector-search-builder.zip    # 受講者配布ファイル
-├── .bob/                        # IBM Bob IDE カスタムモード
-├── lib/                         # 共通関数ライブラリ
-│   ├── common.sh                # 全スクリプト共通関数
-│   └── deploy-helpers.sh        # デプロイ専用ヘルパー関数
-├── docs/                        # MkDocs ドキュメント
-│   ├── index.md                 # ホームページ
-│   ├── preparation.md           # 事前準備
-│   ├── part1.md                 # Part 1: Vector Search を体験
-│   ├── part2.md                 # Part 2: IBM Bob で機能を追加
-│   ├── part3.md                 # Part 3: 動作確認
-│   └── summary.md               # まとめ
-└── setup/
-    ├── instructor/              # 講師用
-    │   ├── docker-compose.yml   # Milvus 環境
-    │   ├── start-all.sh         # 環境起動スクリプト
-    │   ├── stop-all.sh          # 環境停止スクリプト
-    │   └── deploy-docs-to-cloud.md  # デプロイ手順
-    └── participant/             # 受講者用
-        ├── .env.example         # 接続設定テンプレート
-        ├── test_connection.py   # Milvus 接続テスト
-        └── test_embeddings_hf.py # Embedding テスト
-```
-
-## 📖 関連ドキュメント
+## 📖 ドキュメント
 
 - **Code Engine デプロイ**: [`setup/instructor/deploy-docs-to-cloud.md`](setup/instructor/deploy-docs-to-cloud.md)
 - **TechZone 環境ガイド**: [`setup/instructor/techzone-code-engine-guide.md`](setup/instructor/techzone-code-engine-guide.md)
 - **講師向け情報共有**: [`setup/instructor/instructor-share-info.md`](setup/instructor/instructor-share-info.md)
 
-## 🛠️ 技術スタック
-
-- **Vector Database**: Milvus 2.3+
-- **Embedding Model**: Hugging Face Transformers (sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2)
-- **IDE**: IBM Bob IDE
-- **Documentation**: MkDocs Material
-- **Container**: Docker / Podman / Colima
-- **Cloud**: IBM Cloud Code Engine
-
 ## 📦 必要なツール
 
-### 講師向け
-- Docker/Podman/Colima
-- IBM Cloud CLI (code-engine, container-registry プラグイン)
+**講師**: Docker/Podman/Colima、IBM Cloud CLI
 
-### 受講者向け
-- IBM Bob IDE
-- Python 3.9+ (接続テスト用)
+**受講者**: IBM Bob IDE
 
