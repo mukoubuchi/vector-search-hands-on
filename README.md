@@ -21,7 +21,7 @@ cd setup/instructor
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
 # 3. ドキュメントを Code Engine にデプロイ（リモート参加者向け）
-cd ../../docs
+cd ../..
 ./deploy-to-code-engine.sh
 
 # 4. 受講者に共有
@@ -54,60 +54,97 @@ cd ../../docs
 
 詳細: [docs/preparation.md](docs/preparation.md)
 
-## 📁 主要ファイル
+## 📁 プロジェクト構造
 
 ```
 vector-search-handson/
-├── vector-search-builder.zip # 受講者配布ファイル
-├── setup/
-│   ├── instructor/          # 講師用（Docker Compose、起動スクリプト）
-│   └── participant/         # 受講者用（接続テスト）
-├── docs/                    # MkDocs ドキュメント（モジュール化済み）
-│   ├── README.md            # ドキュメント構造の説明
-│   ├── index.md, part1-3.md # コンテンツ
-│   ├── mkdocs.yml           # 設定
-│   ├── start-docs.sh        # ローカル起動
-│   ├── Dockerfile           # Code Engine 用
-│   ├── stylesheets/         # カスタムCSS（モジュール化）
-│   │   ├── extra.css        # メインファイル
-│   │   ├── typography.css   # タイポグラフィ
-│   │   ├── navigation.css   # ナビゲーション
-│   │   ├── code.css         # コードブロック
-│   │   └── components.css   # UIコンポーネント
-│   └── javascripts/         # カスタムJS（モジュール化）
-│       ├── extra.js         # メインファイル
-│       ├── search.js        # 検索機能
-│       ├── navigation.js    # ナビゲーション
-│       ├── tasks.js         # タスクリスト
-│       └── syntax-highlight.js # シンタックスハイライト
-└── .bob/                    # IBM Bob IDE カスタムモード
+├── README.md                    # このファイル
+├── deploy-to-code-engine.sh     # Code Engine デプロイスクリプト
+├── mkdocs.yml                   # MkDocs 設定ファイル
+├── start-docs.sh                # ローカルドキュメント起動スクリプト
+├── vector-search-builder.zip    # 受講者配布ファイル
+├── .bob/                        # IBM Bob IDE カスタムモード
+├── docs/                        # MkDocs ドキュメント（モジュール化済み）
+│   ├── README.md                # ドキュメント構造の説明
+│   ├── index.md                 # ホームページ
+│   ├── preparation.md           # 事前準備
+│   ├── part1.md                 # Part 1: Vector Search を体験
+│   ├── part2.md                 # Part 2: IBM Bob で機能を追加
+│   ├── part3.md                 # Part 3: 動作確認
+│   ├── summary.md               # まとめ
+│   ├── Dockerfile               # Code Engine 用
+│   ├── stylesheets/             # カスタムCSS（モジュール化）
+│   │   ├── extra.css            # メインファイル
+│   │   ├── typography.css       # タイポグラフィ
+│   │   ├── navigation.css       # ナビゲーション
+│   │   ├── code.css             # コードブロック
+│   │   └── components.css       # UIコンポーネント
+│   ├── javascripts/             # カスタムJS（モジュール化）
+│   │   ├── extra.js             # メインファイル
+│   │   ├── search.js            # 検索機能
+│   │   ├── navigation.js        # ナビゲーション
+│   │   ├── tasks.js             # タスクリスト
+│   │   └── syntax-highlight.js  # シンタックスハイライト
+│   └── overrides/               # テーマオーバーライド
+│       └── main.html            # カスタムHTMLテンプレート
+└── setup/
+    ├── instructor/              # 講師用
+    │   ├── docker-compose.yml   # Milvus 環境
+    │   ├── start-all.sh         # 環境起動スクリプト
+    │   ├── stop-all.sh          # 環境停止スクリプト
+    │   ├── check_docs_url.sh    # Code Engine URL 確認
+    │   └── deploy-docs-to-cloud.md  # デプロイ手順
+    └── participant/             # 受講者用
+        ├── .env.example         # 接続設定テンプレート
+        ├── test_connection.py   # Milvus 接続テスト
+        └── test_embeddings_hf.py # Embedding テスト
 ```
 
 ## 🔧 ローカル開発
 
 ### MkDocs ドキュメント
 
+プロジェクトルートから起動：
+
 ```bash
-cd docs
 ./start-docs.sh
 # http://localhost:8000
 ```
 
-**リファクタリング済み:**
+または MkDocs コマンドを直接使用：
 
-- CSS と JavaScript がモジュール化され、保守性が向上
-- 各機能が独立したファイルに分離
-- 詳細は [`docs/README.md`](docs/README.md) を参照
+```bash
+mkdocs serve
+# http://localhost:8000
+```
 
 ### Milvus 環境
 
 ```bash
 cd setup/instructor
 ./start-all.sh
-# Milvus: localhost:19530
+# Milvus: localhost:19530 (root/Milvus)
 ```
 
-## 📖 ドキュメント
+停止する場合：
 
-- **受講者用実践手順書**: [docs/hands-on-procedure.md](docs/hands-on-procedure.md)
-- **Code Engine デプロイ**: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs-to-cloud.md)
+```bash
+cd setup/instructor
+./stop-all.sh
+```
+
+## 📖 関連ドキュメント
+
+- **ドキュメント構造**: [`docs/README.md`](docs/README.md)
+- **Code Engine デプロイ**: [`setup/instructor/deploy-docs-to-cloud.md`](setup/instructor/deploy-docs-to-cloud.md)
+- **TechZone 環境ガイド**: [`setup/instructor/techzone-code-engine-guide.md`](setup/instructor/techzone-code-engine-guide.md)
+- **講師向け情報共有**: [`setup/instructor/instructor-share-info.md`](setup/instructor/instructor-share-info.md)
+
+## 🛠️ 技術スタック
+
+- **Vector Database**: Milvus 2.3+
+- **Embedding Model**: Hugging Face Transformers (sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2)
+- **IDE**: IBM Bob IDE
+- **Documentation**: MkDocs Material
+- **Container**: Docker / Podman / Colima
+- **Cloud**: IBM Cloud Code Engine
