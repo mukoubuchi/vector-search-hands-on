@@ -143,10 +143,10 @@ echo -e "${YELLOW}AMD64プラットフォーム向けにビルドします（Cod
 # DockerまたはPodmanを検出（Dockerを優先）
 if command -v docker &> /dev/null && docker info &> /dev/null; then
     echo -e "${YELLOW}Dockerを使用してビルドします${NC}"
-    docker build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .
+    docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
 elif command -v podman &> /dev/null; then
     echo -e "${YELLOW}Podmanを使用してビルドします${NC}"
-    podman build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .
+    podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .
 else
     echo -e "${RED}❌ DockerまたはPodmanが必要です${NC}"
     exit 1

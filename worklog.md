@@ -4438,3 +4438,28 @@ git push
 - ✅ すべてのドキュメントから`cd docs/participant`を削除
 - ✅ 正しいパス（プロジェクトルート）に統一
 - ✅ Dockerfileの参照パスも修正
+
+---
+
+## 2026-05-22 15:42 - deploy-to-code-engine.shのDockerfileパス修正
+
+### 作業内容
+
+#### Dockerfileパスの指定
+
+`deploy-to-code-engine.sh`のDockerビルドコマンドにDockerfileのパスを追加：
+
+- 146行目: `docker build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
+  → `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+- 149行目: `podman build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
+  → `podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+
+### 理由
+
+- Dockerfileはプロジェクトルートではなく`docs/Dockerfile`に配置されている
+- パスを指定しないと「Dockerfile: no such file or directory」エラーが発生
+
+### 成果
+
+- ✅ Dockerfileのパスを正しく指定
+- ✅ プロジェクトルートからデプロイスクリプトを実行可能に
