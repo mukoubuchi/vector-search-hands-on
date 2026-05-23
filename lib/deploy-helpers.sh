@@ -274,25 +274,25 @@ monitor_app_deployment() {
         # ステータスが変わった場合のみ表示を更新
         if [ "$status" != "$prev_status" ]; then
             if [ -z "$status" ]; then
-                printf "${YELLOW}[%3ds] イメージをプル中...${NC}\n" "$elapsed" >&2
+                printf "${YELLOW}イメージをプル中...${NC}\n" >&2
             elif [ "$status" = "Deploying" ]; then
-                printf "${YELLOW}[%3ds] デプロイ中...${NC}\n" "$elapsed" >&2
+                printf "${YELLOW}デプロイ中...${NC}\n" >&2
             elif [ "$status" = "Ready" ]; then
-                printf "${GREEN}[%3ds] ✓ 準備完了${NC}\n" "$elapsed" >&2
+                printf "${GREEN}✓ 準備完了 (%ds)${NC}\n" "$elapsed" >&2
                 return 0
             elif [ "$status" = "Failed" ]; then
-                printf "${RED}[%3ds] ✗ デプロイ失敗${NC}\n" "$elapsed" >&2
+                printf "${RED}✗ デプロイ失敗 (%ds)${NC}\n" "$elapsed" >&2
                 printf "\n${YELLOW}=== エラー詳細 ===${NC}\n" >&2
                 ibmcloud ce app get --name "$app_name" 2>&1 | tee /dev/stderr
                 printf "\n${YELLOW}=== 最新のログ ===${NC}\n" >&2
                 ibmcloud ce app logs --name "$app_name" --tail 50 2>&1 | tee /dev/stderr
                 return 1
             else
-                printf "${YELLOW}[%3ds] 状態: %s${NC}\n" "$elapsed" "$status" >&2
+                printf "${YELLOW}状態: %s${NC}\n" "$status" >&2
             fi
             prev_status="$status"
         else
-            # ステータスが変わっていない場合でも、進行中であることを示すドットを表示
+            # ステータスが変わっていない場合、ドットを表示
             if [ "$status" = "Deploying" ] || [ -z "$status" ]; then
                 printf "." >&2
             fi
