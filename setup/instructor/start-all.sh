@@ -1,5 +1,5 @@
 #!/bin/bash
-# Milvus環境を起動するスクリプト
+# Milvus環境とMkDocsドキュメントを起動するスクリプト
 
 set -e
 
@@ -20,20 +20,21 @@ fi
 
 echo ""
 
-# Milvus環境を起動
-echo "Milvus環境を起動中..."
-$COMPOSE_CMD --profile milvus up -d
+# Milvus環境とMkDocsを起動
+echo "Milvus環境とMkDocsドキュメントを起動中..."
+$COMPOSE_CMD --profile all up -d
 
 if [ $? -eq 0 ]; then
-    log_info "Milvus環境が起動しました"
+    log_info "すべてのサービスが起動しました"
     echo "  - etcd, minio, milvus"
+    echo "  - mkdocs (ドキュメントサーバー)"
 else
     log_error "サービスの起動に失敗しました"
     exit 1
 fi
 
 echo ""
-log_header "✓ Milvus環境が起動しました"
+log_header "✓ すべてのサービスが起動しました"
 echo "📊 アクセス情報:"
 echo ""
 echo "  Milvus:"
@@ -41,12 +42,17 @@ echo "    - ホスト: localhost"
 echo "    - ポート: 19530"
 echo "    - 認証: root/Milvus"
 echo ""
+echo "  MkDocs (ローカル):"
+echo "    - URL: http://localhost:8001"
+echo "    - 用途: ドキュメント修正作業、同一ネットワーク内での共有"
+echo ""
 echo "📝 次のステップ:"
 echo ""
-echo "  1. 受講者に共有するMilvusホスト:"
-echo "     $(get_ip_address)"
+echo "  1. 受講者に共有する情報:"
+echo "     - Milvusホスト: $(get_ip_address):19530"
+echo "     - ドキュメント: http://$(get_ip_address):8001 (同一ネットワーク)"
 echo ""
-echo "  2. ドキュメントをCode Engineにデプロイ:"
+echo "  2. リモート参加者向けにCode Engineにデプロイ:"
 echo "     cd ../.."
 echo "     ./deploy-to-code-engine.sh"
 echo ""

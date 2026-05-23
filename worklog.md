@@ -1,3 +1,42 @@
+## 2026年5月24日（土）00:35 JST - MkDocsをstart-all/stop-allに統合
+
+### 作業概要
+
+MkDocsドキュメントサーバーの起動・停止を`start-all.sh`/`stop-all.sh`に統合し、ドキュメント修正作業と同一ネットワーク内での共有を容易にした。
+
+### 実施した作業
+
+#### 1. start-all.sh の更新
+- `--profile milvus` → `--profile all` に変更
+- MilvusとMkDocsを同時に起動
+- アクセス情報にMkDocsのURL追加:
+  - ローカル: `http://localhost:8001`
+  - 同一ネットワーク: `http://<IP>:8001`
+
+#### 2. stop-all.sh の更新
+- `--profile milvus` → `--profile all` に変更
+- MilvusとMkDocsを同時に停止
+
+#### 3. README.md の更新
+- 講師向けクイックスタートを7ステップに更新
+- MkDocsアクセス情報を追加
+- 環境停止手順を追加
+
+### 背景
+
+- MkDocsコンテナが`mkdocs.yml`を見つけられず停止していた
+- `setup/instructor`から`docker-compose --profile docs up -d`で再起動が必要だった
+- ポートマッピング`8001:8000`により、ホスト側では8001でアクセス
+
+### 利点
+
+- ✅ 1コマンドでMilvus + MkDocsを起動/停止
+- ✅ ドキュメント修正作業が即座に可能
+- ✅ 同一ネットワーク内で受講者と共有可能
+- ✅ リモート参加者向けにはCode Engineも併用可能
+
+---
+
 ## 2026年5月22日（金）03:46 JST - 配布ファイルをルートに移動
 
 ### 作業概要

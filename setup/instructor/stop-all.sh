@@ -1,5 +1,5 @@
 #!/bin/bash
-# Milvus環境を停止するスクリプト
+# Milvus環境とMkDocsドキュメントを停止するスクリプト
 
 set -e
 
@@ -20,18 +20,19 @@ fi
 
 echo ""
 
-# Milvus環境を停止
-echo "Milvus環境を停止中..."
-$COMPOSE_CMD --profile milvus down
+# Milvus環境とMkDocsを停止
+echo "Milvus環境とMkDocsドキュメントを停止中..."
+$COMPOSE_CMD --profile all down
 
 if [ $? -eq 0 ]; then
-    log_info "Milvus環境が停止しました"
+    log_info "すべてのサービスが停止しました"
     echo "  - etcd, minio, milvus"
+    echo "  - mkdocs (ドキュメントサーバー)"
 else
     log_error "サービスの停止に失敗しました"
     exit 1
 fi
 
 echo ""
-log_header "✓ Milvus環境が停止しました"
+log_header "✓ すべてのサービスが停止しました"
 
