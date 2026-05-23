@@ -295,7 +295,7 @@ select_resource_group() {
     local resource_group="${RESOURCE_GROUP:-}"
     
     if [ -z "$resource_group" ]; then
-        log_section "利用可能なリソースグループを確認中..."
+        log_section "利用可能なリソースグループを確認中..." >&2
         local resource_groups
         
         # 方法1: JSON出力からパース
@@ -318,16 +318,16 @@ select_resource_group() {
             # itz-*が見つからない場合は最初のリソースグループを使用
             if [ -z "$resource_group" ]; then
                 resource_group=$(echo "$resource_groups" | head -n 1)
-                log_warn "リソースグループ '$resource_group' を使用します"
+                log_warn "リソースグループ '$resource_group' を使用します" >&2
             else
-                log_warn "TechZoneリソースグループ '$resource_group' を使用します"
+                log_warn "TechZoneリソースグループ '$resource_group' を使用します" >&2
             fi
         fi
     fi
     
     if [ -n "$resource_group" ]; then
         ibmcloud target -g "$resource_group" > /dev/null 2>&1
-        log_info "リソースグループ: $resource_group"
+        log_info "リソースグループ: $resource_group" >&2
         echo "$resource_group"
         return 0
     else
@@ -335,11 +335,11 @@ select_resource_group() {
         local current_rg
         current_rg=$(ibmcloud target 2>/dev/null | grep "Resource group:" | awk '{print $3}')
         if [ -n "$current_rg" ] && [ "$current_rg" != "No" ]; then
-            log_info "現在のリソースグループを使用: $current_rg"
+            log_info "現在のリソースグループを使用: $current_rg" >&2
             echo "$current_rg"
             return 0
         fi
-        log_warn "リソースグループが設定されていません（デフォルトを使用）"
+        log_warn "リソースグループが設定されていません（デフォルトを使用）" >&2
         return 0
     fi
 }
@@ -348,29 +348,29 @@ select_resource_group() {
 select_registry_namespace() {
     local registry_namespace="${REGISTRY_NAMESPACE:-}"
     
-    log_section "既存のネームスペースを確認中..."
+    log_section "既存のネームスペースを確認中..." >&2
     # ANSIエスケープシーケンスを削除してから、ヘッダー行をスキップ
     local existing_namespaces
     existing_namespaces=$(ibmcloud cr namespace-list 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g' | tail -n +4 | grep -v "^OK$" | grep -v "^$" | awk '{print $1}')
     
     if [ -z "$existing_namespaces" ]; then
-        log_error "利用可能なContainer Registryネームスペースがありません"
-        echo "TechZone環境では、既存のネームスペースを使用する必要があります"
+        log_error "利用可能なContainer Registryネームスペースがありません" >&2
+        echo "TechZone環境では、既存のネームスペースを使用する必要があります" >&2
         return 1
     fi
     
     if [ -z "$registry_namespace" ]; then
         registry_namespace=$(echo "$existing_namespaces" | head -n 1)
-        log_warn "ネームスペース '$registry_namespace' を使用します"
+        log_warn "ネームスペース '$registry_namespace' を使用します" >&2
     else
         # 指定されたネームスペースが存在するか確認
         if ! echo "$existing_namespaces" | grep -q "^${registry_namespace}$"; then
-            log_error "指定されたネームスペース '$registry_namespace' が見つかりません"
-            echo "利用可能なネームスペース:"
-            echo "$existing_namespaces"
+            log_error "指定されたネームスペース '$registry_namespace' が見つかりません" >&2
+            echo "利用可能なネームスペース:" >&2
+            echo "$existing_namespaces" >&2
             return 1
         fi
-        log_info "ネームスペース '$registry_namespace' を使用します"
+        log_info "ネームスペース '$registry_namespace' を使用します" >&2
     fi
     
     echo "$registry_namespace"
