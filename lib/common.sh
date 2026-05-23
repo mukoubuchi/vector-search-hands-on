@@ -65,8 +65,10 @@ check_command() {
 check_ibmcloud_login() {
     if ! ibmcloud target &> /dev/null; then
         log_error "IBM Cloudにログインしていません"
+        echo ""
         echo "以下のコマンドでログインしてください:"
         echo "  ibmcloud login --sso"
+        echo ""
         return 1
     fi
     return 0
