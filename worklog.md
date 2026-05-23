@@ -5346,3 +5346,73 @@ select_registry_namespace() {
 - `c760ac3` fix: Code Engineプロジェクト作成時のエラーハンドリング改善
 - `53fb7a3` fix: select関数のログ出力をstderrにリダイレクト
 - `8384dda` refactor: デプロイ進捗表示から経過時間を削除
+
+## 2026-05-23: READMEのColima + Podman対応を明確化
+
+### 作業内容
+
+**背景**:
+- Colimaが起動していない状態で`./start-all.sh`を実行するとエラーが発生
+- READMEのクイックスタートにColima起動手順が不足していた
+- Podmanの制限事項（Code Engineデプロイ時の認証問題）が不明確だった
+
+**実施した改善**:
+
+1. **READMEクイックスタートの更新**
+   - Colima起動手順を追加（`colima start --runtime podman`）
+   - 初回起動と2回目以降の違いを明記
+   - 不要な技術的詳細を削除してシンプル化
+
+2. **用語の整理**
+   - 「スタンドアロン Podman」の表現を維持（ユーザー要望）
+   - 「コンテナランタイム」の用語を維持（技術的に正確）
+
+3. **スクリプトの実装確認**
+   - `lib/common.sh`の`detect_build_tool()`を確認
+   - `lib/deploy-helpers.sh`の`push_docker_image()`を確認
+   - Podmanでビルドした場合、自動的にDocker経由でプッシュする実装を確認
+
+### 技術的な詳細
+
+**Colimaのランタイム指定**:
+- 初回起動時のみ`--runtime podman`を指定
+- 2回目以降は`colima start`のみで同じランタイムで起動
+- `colima stop`後の再起動でも`--runtime`は不要
+
+**Podmanの制限事項**:
+- IBM Cloud Container Registryとの認証に問題がある
+- `deploy-to-code-engine.sh`が自動的にDocker経由でプッシュする
+- ユーザーは手動でランタイムを切り替える必要なし
+
+### 最終的なクイックスタート構成
+
+```bash
+# 1. コンテナランタイムを起動
+colima start --runtime podman
+
+# 2. Milvus環境を起動
+cd setup/instructor
+./start-all.sh
+
+# 3. IPアドレス確認
+ifconfig | grep "inet " | grep -v 127.0.0.1
+
+# 4. Code Engineにデプロイ
+cd ../..
+./deploy-to-code-engine.sh
+
+# 5. 受講者に共有
+```
+
+### コミット
+- `65e1340` docs: ColimaとPodmanの使用方法を明確化
+- `1a05129` docs: READMEから前提条件セクションを削除
+- `f641acd` docs: 用語を明確化（スタンドアロン Podman → Podman を直接使用）
+- `18f1e19` revert: スタンドアロン Podman の表現に戻す
+- `62a5c3e` docs: Code Engineデプロイの不要な注意事項を削除
+- `d6ba018` docs: クイックスタートから技術的な詳細を削除
+- `c1209c4` docs: クイックスタートをシンプル化
+- `b81ed6c` docs: Colimaの起動方法を修正
+- `28091d5` docs: Colimaの起動説明を簡潔化
+
+---
