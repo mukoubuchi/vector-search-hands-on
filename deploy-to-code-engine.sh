@@ -56,13 +56,27 @@ PROJECT_NAME="${CODE_ENGINE_PROJECT:-vector-search-docs}"
 # プロジェクトが存在するか確認
 if ! ibmcloud ce project get --name "$PROJECT_NAME" &> /dev/null; then
     log_warn "プロジェクト '$PROJECT_NAME' を作成中..."
-    ibmcloud ce project create --name "$PROJECT_NAME"
+    if ! ibmcloud ce project create --name "$PROJECT_NAME"; then
+        log_error "プロジェクトの作成に失敗しました"
+        echo ""
+        echo "IBM Cloudに再ログインしてください:"
+        echo "  ibmcloud login --sso"
+        echo ""
+        exit 1
+    fi
 else
     log_info "プロジェクト '$PROJECT_NAME' が存在します"
 fi
 
 # プロジェクトを選択
-ibmcloud ce project select --name "$PROJECT_NAME"
+if ! ibmcloud ce project select --name "$PROJECT_NAME"; then
+    log_error "プロジェクトの選択に失敗しました"
+    echo ""
+    echo "IBM Cloudに再ログインしてください:"
+    echo "  ibmcloud login --sso"
+    echo ""
+    exit 1
+fi
 
 # 6. Container Registryの設定
 setup_container_registry
