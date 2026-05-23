@@ -39,7 +39,7 @@ log_info "IBM Cloudにログイン済み"
 
 # 3. リソースグループの設定
 log_section "3. リソースグループを設定中..."
-select_resource_group
+RESOURCE_GROUP=$(select_resource_group)
 
 # 4. Code Engineプラグインの確認
 log_section "4. Code Engineプラグインを確認中..."
