@@ -5255,3 +5255,94 @@ Milvus環境を停止中...
 ### 成果
 - 講師が両環境の違いを理解し、適切に使い分けられるようになった
 - ドキュメントが簡潔明瞭になり、必要な情報にすぐアクセスできるようになった
+
+
+---
+
+## 2026-05-23 23:52 JST - Colimaランタイム設定とデプロイスクリプト改善
+
+### 背景
+- `colima delete`に時間がかかる問題を調査
+- Podmanランタイムのサポート状況を確認
+- デプロイスクリプトのエラーハンドリングを改善
+
+### 実施内容
+
+#### 1. Colimaランタイムの修正
+**問題**: Colima 0.10.1はPodmanランタイムをサポートしていない
+- サポートされているランタイム: docker, containerd, incus
+- 過去にPodmanランタイムを推奨していたが、実際には使用不可
+
+**対応**:
+- README.mdを修正: `--runtime podman` → `--runtime docker`
+- instructor向けドキュメントを更新
+- 初回起動時の想定時間を追記（5〜10分程度）
+
+#### 2. デプロイスクリプトの改善
+**問題**: 複数のエラーハンドリングとログ出力の問題
+- `lib/common.sh`の多重読み込みでreadonly変数エラー
+- リソースグループ自動選択が機能しない
+- ログメッセージが変数に混入してイメージ名が不正
+
+**対応**:
+- 多重読み込み防止ガードを追加（`COMMON_SH_LOADED`フラグ）
+- `select_resource_group`と`select_registry_namespace`のログ出力をstderrにリダイレクト
+- Code Engineプロジェクト作成時のエラーハンドリング改善
+- IBM Cloudログインエラーメッセージに`--sso`オプションを明記
+- デプロイ進捗表示から経過時間を削除（シンプル化）
+
+#### 3. Podman machine環境のクリーンアップ
+**問題**: ColimaとPodman machineが両方起動していた
+- リソースの無駄（CPU 6、メモリ 4GiB）
+- 環境の複雑化
+
+**対応**:
+- Podman machineを停止・削除
+- Colimaのみを使用する構成に統一
+- リソース使用量を最適化（CPU 2、メモリ 2GiB）
+
+### 技術的な詳細
+
+**多重読み込み防止**:
+```bash
+if [ -n "${COMMON_SH_LOADED:-}" ]; then
+    return 0
+fi
+readonly COMMON_SH_LOADED=1
+```
+
+**ログ出力のリダイレクト**:
+```bash
+# 変数キャプチャ用の関数
+select_registry_namespace() {
+    log_section "確認中..." >&2  # stderrへ
+    echo "$registry_namespace"    # stdoutへ（変数キャプチャ用）
+}
+```
+
+**デプロイ進捗表示**:
+```
+イメージをプル中...
+.....
+デプロイ中...
+.........
+✓ 準備完了 (120s)
+```
+
+### 成果
+- Colimaのみで安定動作する環境を構築
+- デプロイスクリプトのエラーハンドリングが改善
+- リソース使用量を50%削減
+- ドキュメントが正確な情報に更新された
+
+### コミット
+- `72d4431` docs: podmanからdockerランタイムに変更
+- `b553507` docs: 和欧文間に半角スペースを追加
+- `a0e927c` docs: instructor向けドキュメントをdockerランタイムに更新
+- `2e578c8` fix: common.shの多重読み込みを防止
+- `3f2aa2d` fix: リソースグループ自動選択の改善
+- `08ce32a` fix: select_resource_groupの戻り値を変数に格納
+- `fc65d1d` docs: IBM Cloudログインエラーメッセージを改善
+- `c760ac3` fix: Code Engineプロジェクト作成時のエラーハンドリング改善
+- `53fb7a3` fix: select関数のログ出力をstderrにリダイレクト
+- `8384dda` refactor: デプロイ進捗表示から経過時間を削除
