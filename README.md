@@ -29,8 +29,6 @@ cd setup/instructor
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
 # 4. ドキュメントを Code Engine にデプロイ（リモート参加者向け）
-# 注意: Colima を使用する場合は Docker ランタイムで起動してください
-# colima stop && colima start  # デフォルトは Docker ランタイム
 cd ../..
 ./deploy-to-code-engine.sh
 
