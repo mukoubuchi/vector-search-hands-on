@@ -1,43 +1,43 @@
-## 2026年5月24日（土）00:35 JST - MkDocsをstart-all/stop-allに統合
+## 2026 年 5 月 24 日（土）00:35 JST - MkDocs を start-all/stop-all に統合
 
 ### 作業概要
 
-MkDocsドキュメントサーバーの起動・停止を`start-all.sh`/`stop-all.sh`に統合し、ドキュメント修正作業と同一ネットワーク内での共有を容易にした。
+MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-all.sh`に統合し、ドキュメント修正作業と同一ネットワーク内での共有を容易にした。
 
 ### 実施した作業
 
 #### 1. start-all.sh の更新
 - `--profile milvus` → `--profile all` に変更
-- MilvusとMkDocsを同時に起動
-- アクセス情報にMkDocsのURL追加:
+- Milvus と MkDocs を同時に起動
+- アクセス情報に MkDocs の URL 追加:
   - ローカル: `http://localhost:8001`
   - 同一ネットワーク: `http://<IP>:8001`
 
 #### 2. stop-all.sh の更新
 - `--profile milvus` → `--profile all` に変更
-- MilvusとMkDocsを同時に停止
+- Milvus と MkDocs を同時に停止
 
 #### 3. README.md の更新
-- 講師向けクイックスタートを7ステップに更新
-- MkDocsアクセス情報を追加
+- 講師向けクイックスタートを 7 ステップに更新
+- MkDocs アクセス情報を追加
 - 環境停止手順を追加
 
 ### 背景
 
-- MkDocsコンテナが`mkdocs.yml`を見つけられず停止していた
+- MkDocs コンテナが`mkdocs.yml`を見つけられず停止していた
 - `setup/instructor`から`docker-compose --profile docs up -d`で再起動が必要だった
-- ポートマッピング`8001:8000`により、ホスト側では8001でアクセス
+- ポートマッピング`8001:8000`により、ホスト側では 8001 でアクセス
 
 ### 利点
 
-- ✅ 1コマンドでMilvus + MkDocsを起動/停止
+- ✅ 1 コマンドで Milvus + MkDocs を起動/停止
 - ✅ ドキュメント修正作業が即座に可能
 - ✅ 同一ネットワーク内で受講者と共有可能
-- ✅ リモート参加者向けにはCode Engineも併用可能
+- ✅ リモート参加者向けには Code Engine も併用可能
 
 ---
 
-## 2026年5月22日（金）03:46 JST - 配布ファイルをルートに移動
+## 2026 年 5 月 22 日（金）03:46 JST - 配布ファイルをルートに移動
 
 ### 作業概要
 
@@ -57,7 +57,7 @@ MkDocsドキュメントサーバーの起動・停止を`start-all.sh`/`stop-al
 
 ---
 
-## 2026年5月22日（金）03:44 JST - ドキュメント構造の大幅な簡素化
+## 2026 年 5 月 22 日（金）03:44 JST - ドキュメント構造の大幅な簡素化
 
 ### 作業概要
 
@@ -73,12 +73,12 @@ MkDocsドキュメントサーバーの起動・停止を`start-all.sh`/`stop-al
 
 #### 2. README の集約と簡素化
 
-- サブディレクトリの README を削除（4ファイル）
+- サブディレクトリの README を削除（4 ファイル）
   - `docs/participant/README.md`
   - `setup/README.md`
   - `setup/instructor/README.md`
   - `setup/participant/README.md`
-- ルート README を 339行→88行に簡素化
+- ルート README を 339 行→88 行に簡素化
 - クイックスタートと主要ファイルのみに集約
 
 #### 3. ドキュメント構造の再編成
@@ -114,7 +114,7 @@ vector-search-handson/
 #### 5. 和欧文間のスペーシング
 
 - すべての Markdown ファイルで和欧文間に半角スペースを挿入
-- 11ファイル、921箇所を修正
+- 11 ファイル、921 箇所を修正
 - 自動化スクリプトで一括処理
 
 ### 成果
@@ -3990,7 +3990,7 @@ docs/setup/
 
 ---
 
-## 2026年5月21日（水）- markdownlint ルール有効化とワークスペース全体の修正
+## 2026 年 5 月 21 日（水）- markdownlint ルール有効化とワークスペース全体の修正
 
 ### 作業概要
 
@@ -4113,18 +4113,18 @@ git checkout HEAD~1 -- worklog.md
 
 ```bash
 git add -A
-git commit -m "fix: markdownlintルール有効化とワークスペース全体のMarkdown記法修正
+git commit -m "fix: markdownlint ルール有効化とワークスペース全体の Markdown 記法修正
 
-- MD031/MD032を有効化（リスト・コードブロック前後の空行チェック）
-- VSCode自動保存設定を追加（.vscode/settings.json）
-- docs/配下のMarkdownファイルを修正
+- MD031/MD032 を有効化（リスト・コードブロック前後の空行チェック）
+- VSCode 自動保存設定を追加（.vscode/settings.json）
+- docs/配下の Markdown ファイルを修正
   - コードブロック後の空行を追加（part2.md, part3.md）
   - 見出し後の空行を追加（summary.md）
   - テーブル前の空行を追加（summary.md）
   - リスト前の空行を追加（README.md）
-- setup/instructor/配下のMarkdownファイルを自動修正
-- worklog.mdを自動修正
-- markdownlint --fixで一括修正を実施"
+- setup/instructor/配下の Markdown ファイルを自動修正
+- worklog.md を自動修正
+- markdownlint --fix で一括修正を実施"
 git push
 
 ```
@@ -4179,7 +4179,7 @@ git push
 - [`++File++`](docs/preparation.md:41) / [`++Open Folder++`](docs/preparation.md:41) では表示が安定しなかったため、[`<kbd>File</kbd> → <kbd>Open Folder</kbd>`](docs/preparation.md:41) に変更
 - Windows の zip 解凍手順に、[`ダブルクリックでは展開されないため「すべて展開」が必要`](docs/preparation.md:34) という注記を追加
 - 接続情報設定手順の Windows 側を、[`ファイルをコピーして名前を変更`](docs/preparation.md:73) から [```.env.example``` をコピーし、コピーしたファイル名を ```.env``` に変更](docs/preparation.md:73) に修正
-- Mac と Windows の操作差分が「OS差」ではなく「CLI例とGUI例の違い」である点を踏まえて、手順が伝わりやすい文言に調整
+- Mac と Windows の操作差分が「OS 差」ではなく「CLI 例と GUI 例の違い」である点を踏まえて、手順が伝わりやすい文言に調整
 
 ### 確認内容
 
@@ -4202,11 +4202,11 @@ git push
 
 ### 追記: 03:46 以降の対応
 
-- [`worklog更新→commit&push`](worklog.md) の指示に対し、先に [`README.md`](README.md) の更新が必要との指摘を受け、Git 操作の前に README 修正へ切り替え
+- [`worklog 更新→commit&push`](worklog.md) の指示に対し、先に [`README.md`](README.md) の更新が必要との指摘を受け、Git 操作の前に README 修正へ切り替え
 - [`README.md`](README.md) の受講者向けセットアップ手順をコードブロック形式から手順リスト形式へ変更し、[`docs/preparation.md`](docs/preparation.md) と整合するよう更新
 - 更新内容として、Windows の [`「すべて展開」`](docs/preparation.md:33)、[`File`](docs/preparation.md:41) → [`Open Folder`](docs/preparation.md:41)、[`setup/participant/.env.example`](README.md:50) から [`setup/participant/.env`](README.md:50) の作成、[`MILVUS_HOST`](README.md:51) 設定を README に明記
 - その後、対象ファイルのみで [`git add`](git) / [`commit`](git) / [`push`](git) を実施し、[`Improve preparation guide instructions`](git) として [`origin/main`](git) へ反映
-- さらに [`worklog.md`](worklog.md) への追記後、ユーザーから「3:46以降の作業もあるはず」と指摘を受けたため、本追記で README 更新判断、差分確認、コミット・プッシュ実施までの流れを補完
+- さらに [`worklog.md`](worklog.md) への追記後、ユーザーから「3:46 以降の作業もあるはず」と指摘を受けたため、本追記で README 更新判断、差分確認、コミット・プッシュ実施までの流れを補完
 
 ---
 
@@ -4216,7 +4216,7 @@ git push
 
 #### 背景
 
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css) (907行) と [`docs/javascripts/extra.js`](docs/javascripts/extra.js) (184行) が単一ファイルで肥大化
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css) (907 行) と [`docs/javascripts/extra.js`](docs/javascripts/extra.js) (184 行) が単一ファイルで肥大化
 - 保守性と可読性の向上が必要
 
 #### 実施内容
@@ -4224,20 +4224,20 @@ git push
 **1. CSS のモジュール化**
 
 - [`extra.css`](docs/stylesheets/extra.css:1) を 5 つのモジュールに分割：
-  - [`typography.css`](docs/stylesheets/typography.css:1) (182行) - 見出し、段落、リスト、リンク
-  - [`navigation.css`](docs/stylesheets/navigation.css:1) (248行) - ヘッダー、タブ、サイドバー、TOC
-  - [`code.css`](docs/stylesheets/code.css:1) (234行) - コードブロック、シンタックスハイライト
-  - [`components.css`](docs/stylesheets/components.css:1) (247行) - 検索、タスクリスト、アドモニション
-  - [`extra.css`](docs/stylesheets/extra.css:1) (16行) - メインファイル（各モジュールをインポート）
+  - [`typography.css`](docs/stylesheets/typography.css:1) (182 行) - 見出し、段落、リスト、リンク
+  - [`navigation.css`](docs/stylesheets/navigation.css:1) (248 行) - ヘッダー、タブ、サイドバー、TOC
+  - [`code.css`](docs/stylesheets/code.css:1) (234 行) - コードブロック、シンタックスハイライト
+  - [`components.css`](docs/stylesheets/components.css:1) (247 行) - 検索、タスクリスト、アドモニション
+  - [`extra.css`](docs/stylesheets/extra.css:1) (16 行) - メインファイル（各モジュールをインポート）
 
 **2. JavaScript のモジュール化**
 
 - [`extra.js`](docs/javascripts/extra.js:1) を 5 つのモジュールに分割：
-  - [`search.js`](docs/javascripts/search.js:1) (29行) - 検索ボックスの動作制御
-  - [`navigation.js`](docs/javascripts/navigation.js:1) (25行) - バックトゥトップボタン制御
-  - [`tasks.js`](docs/javascripts/tasks.js:1) (36行) - タスクリストの状態管理
-  - [`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1) (115行) - コードブロックのハイライト強化
-  - [`extra.js`](docs/javascripts/extra.js:1) (18行) - メインファイル（ドキュメント用）
+  - [`search.js`](docs/javascripts/search.js:1) (29 行) - 検索ボックスの動作制御
+  - [`navigation.js`](docs/javascripts/navigation.js:1) (25 行) - バックトゥトップボタン制御
+  - [`tasks.js`](docs/javascripts/tasks.js:1) (36 行) - タスクリストの状態管理
+  - [`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1) (115 行) - コードブロックのハイライト強化
+  - [`extra.js`](docs/javascripts/extra.js:1) (18 行) - メインファイル（ドキュメント用）
 
 **3. 設定ファイルの最適化**
 
@@ -4266,11 +4266,11 @@ git push
 
 #### Git コミット情報
 
-- **コミットメッセージ**: `refactor: MkDocsプロジェクトのモジュール化`
+- **コミットメッセージ**: `refactor: MkDocs プロジェクトのモジュール化`
 - **コミットハッシュ**: [`2dc75a5`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson/commit/2dc75a5)
-- **変更ファイル**: 39ファイル
-- **追加行数**: 2,837行
-- **削除行数**: 2,149行
+- **変更ファイル**: 39 ファイル
+- **追加行数**: 2,837 行
+- **削除行数**: 2,149 行
 - **プッシュ**: [`origin/main`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson) へ反映済み
 
 #### 今後の保守
@@ -4315,81 +4315,81 @@ git push
 
 ---
 
-## 2026年5月22日（金）08:19 JST - Git保留中の変更とMarkdownlint警告の解決
+## 2026 年 5 月 22 日（金）08:19 JST - Git 保留中の変更と Markdownlint 警告の解決
 
 ### 作業概要
 
-68件の保留中の変更とworklog.mdの多数のMarkdownlint警告を解決。
+68 件の保留中の変更と worklog.md の多数の Markdownlint 警告を解決。
 
 ### 実施した作業
 
 #### 1. site/ディレクトリの除外
 
-- MkDocsビルド出力62ファイルをGit追跡から削除
+- MkDocs ビルド出力 62 ファイルを Git 追跡から削除
 - `.gitignore`に`site/`を追加
 - ビルド生成ファイルはバージョン管理対象外に
 
-#### 2. MkDocs 2.0警告抑止機能の追加
+#### 2. MkDocs 2.0 警告抑止機能の追加
 
 - `start-docs.bat`と`start-docs.sh`に`NO_MKDOCS_2_WARNING`環境変数を追加
 - `mkdocs`ラッパースクリプトを作成
-- Material themeの将来互換性警告を抑止
+- Material theme の将来互換性警告を抑止
 
-#### 3. worklog.mdのMarkdownlint警告修正（3回のコミット）
+#### 3. worklog.md の Markdownlint 警告修正（3 回のコミット）
 
-**コミット1（169件の問題を修正）:**
+**コミット 1（169 件の問題を修正）:**
 
 - コードブロック前後の空行を追加（MD031/MD032）
-- 連続空行を最大2行に制限（MD012）
+- 連続空行を最大 2 行に制限（MD012）
 
-**コミット2（4件の問題を修正）:**
+**コミット 2（4 件の問題を修正）:**
 
 - インデントされた見出しを修正（MD023）
 - ファイル末尾に改行を追加（MD047）
 
-**コミット3（196件以上の問題を修正）:**
+**コミット 3（196 件以上の問題を修正）:**
 
-- 見出しレベルを段階的に修正（MD001）：H2→H4をH2→H3に変更
+- 見出しレベルを段階的に修正（MD001）：H2→H4 を H2→H3 に変更
 - 見出しの前後に空行を追加（MD022）
 - リストの前に空行を追加（MD032）
 
-#### 4. Markdownlint設定の最適化
+#### 4. Markdownlint 設定の最適化
 
-- `.markdownlint.json`でMD024（重複する見出し）を完全に無効化
-- worklogの性質上、異なるセクションで同じ見出し名を使用するため
+- `.markdownlint.json`で MD024（重複する見出し）を完全に無効化
+- worklog の性質上、異なるセクションで同じ見出し名を使用するため
 
 ### 成果
 
-- ✅ 保留中の変更: 68件 → 0件
-- ✅ Markdownlint警告: 369件以上 → 0件
+- ✅ 保留中の変更: 68 件 → 0 件
+- ✅ Markdownlint 警告: 369 件以上 → 0 件
 - ✅ すべてのルール違反を解決（MD001, MD012, MD022, MD023, MD031, MD032, MD047）
 - ✅ ワーキングツリー: クリーン
 
 ### コミット
 
-- `d23a5a0` - site/ディレクトリをGit追跡から削除し.gitignoreに追加
-- `e74cdaf` - MkDocs 2.0互換性警告抑止機能を追加
-- `45c8aee` - worklog.mdのmarkdownlint警告を修正（コードブロック関連）
-- `88c1b06` - worklog.mdの残りのmarkdownlint警告を修正（見出し・改行）
-- `40a4757` - worklog.mdのすべてのmarkdownlint警告を修正（見出しレベル・空行）
-- `5c41d50` - markdownlint設定でMD024を完全に無効化
+- `d23a5a0` - site/ディレクトリを Git 追跡から削除し.gitignore に追加
+- `e74cdaf` - MkDocs 2.0 互換性警告抑止機能を追加
+- `45c8aee` - worklog.md の markdownlint 警告を修正（コードブロック関連）
+- `88c1b06` - worklog.md の残りの markdownlint 警告を修正（見出し・改行）
+- `40a4757` - worklog.md のすべての markdownlint 警告を修正（見出しレベル・空行）
+- `5c41d50` - markdownlint 設定で MD024 を完全に無効化
 
 ---
 
-## 2026-05-22 15:00 - README.md修正とMkDocsサーバー起動
+## 2026-05-22 15:00 - README.md 修正と MkDocs サーバー起動
 
 ### 作業内容
 
-#### README.mdの修正
+#### README.md の修正
 
-1. **deploy-to-code-engine.shのパス修正**
+1. **deploy-to-code-engine.sh のパス修正**
    - 誤: `cd ../../docs` → 正: `cd ../..`
    - スクリプトはプロジェクトルートにあるため
 
 2. **プロジェクト構造の詳細化**
    - 実際のファイル構成に合わせて更新
    - `deploy-to-code-engine.sh`、`mkdocs.yml`、`start-docs.sh`がルートにあることを明記
-   - docs配下の実際のファイル（index.md, preparation.md, part1-3.md, summary.md）を反映
+   - docs 配下の実際のファイル（index.md, preparation.md, part1-3.md, summary.md）を反映
 
 3. **不要なセクションの削除**
    - 「リファクタリング済み」セクションを削除
@@ -4397,28 +4397,28 @@ git push
 
 4. **ローカル開発セクションの改善**
    - プロジェクトルートから`./start-docs.sh`で起動できることを明記
-   - Milvus環境の停止方法を追加
+   - Milvus 環境の停止方法を追加
 
 5. **関連ドキュメントセクションの追加**
    - 実際に存在するドキュメントへのリンクを整理
-   - TechZone環境ガイドと講師向け情報共有ドキュメントを追加
+   - TechZone 環境ガイドと講師向け情報共有ドキュメントを追加
 
-#### MkDocsサーバーの起動
+#### MkDocs サーバーの起動
 
-- `./start-docs.sh`を実行してMkDocsサーバーを起動
+- `./start-docs.sh`を実行して MkDocs サーバーを起動
 - <http://localhost:8000> で正常にアクセス可能
-- ドキュメントビルド: 0.30秒で完了
+- ドキュメントビルド: 0.30 秒で完了
 
 ### 成果
 
-- ✅ README.mdが現状のファイル構造に即した内容に更新
-- ✅ deploy-to-code-engine.shのパスが正しく修正
-- ✅ MkDocsサーバーが正常に起動
+- ✅ README.md が現状のファイル構造に即した内容に更新
+- ✅ deploy-to-code-engine.sh のパスが正しく修正
+- ✅ MkDocs サーバーが正常に起動
 - ✅ 不要なセクション（リファクタリング済み、ライセンス）を削除
 
 ---
 
-## 2026-05-22 15:32 - deploy-docs-to-cloud.mdのパス修正
+## 2026-05-22 15:32 - deploy-docs-to-cloud.md のパス修正
 
 ### 作業内容
 
@@ -4438,9 +4438,9 @@ git push
    - 存在しないファイルへの参照を修正
 
 4. **代替案セクション**
-   - オプションA: `cd docs/participant` → `cd /path/to/vector-search-handson`
-   - オプションB: `cd docs/participant` → `cd /path/to/vector-search-handson`
-   - docker-compose参照を削除し、`./start-docs.sh`に変更
+   - オプション A: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - オプション B: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - docker-compose 参照を削除し、`./start-docs.sh`に変更
    - ポート番号: 8001 → 8000
 
 ### 理由
@@ -4457,68 +4457,68 @@ git push
 
 ---
 
-## 2026-05-22 15:37 - techzone-code-engine-guide.mdとworklog.mdのパス修正
+## 2026-05-22 15:37 - techzone-code-engine-guide.md と worklog.md のパス修正
 
 ### 作業内容
 
 #### 残っていた誤ったパスの修正
 
 1. **techzone-code-engine-guide.md**
-   - 3箇所の`cd docs/participant`を`cd /path/to/vector-search-handson`に修正
-   - 行78, 88, 130
+   - 3 箇所の`cd docs/participant`を`cd /path/to/vector-search-handson`に修正
+   - 行 78, 88, 130
 
 2. **worklog.md（過去のエントリ）**
-   - 行206: `cd docs/participant` → `cd /path/to/vector-search-handson`
-   - Dockerfileのパスも追加: `-f docs/Dockerfile`
-   - 行1954: `cd docs/participant && ./deploy-to-code-engine.sh` → `cd /path/to/vector-search-handson && ./deploy-to-code-engine.sh`
+   - 行 206: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - Dockerfile のパスも追加: `-f docs/Dockerfile`
+   - 行 1954: `cd docs/participant && ./deploy-to-code-engine.sh` → `cd /path/to/vector-search-handson && ./deploy-to-code-engine.sh`
 
 ### 成果
 
 - ✅ すべてのドキュメントから`cd docs/participant`を削除
 - ✅ 正しいパス（プロジェクトルート）に統一
-- ✅ Dockerfileの参照パスも修正
+- ✅ Dockerfile の参照パスも修正
 
 ---
 
-## 2026-05-22 15:42 - deploy-to-code-engine.shのDockerfileパス修正
+## 2026-05-22 15:42 - deploy-to-code-engine.sh の Dockerfile パス修正
 
 ### 作業内容
 
-#### Dockerfileパスの指定
+#### Dockerfile パスの指定
 
-`deploy-to-code-engine.sh`のDockerビルドコマンドにDockerfileのパスを追加：
+`deploy-to-code-engine.sh`の Docker ビルドコマンドに Dockerfile のパスを追加：
 
-- 146行目: `docker build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
+- 146 行目: `docker build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
   → `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
-- 149行目: `podman build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
+- 149 行目: `podman build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
   → `podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
 
 ### 理由
 
-- Dockerfileはプロジェクトルートではなく`docs/Dockerfile`に配置されている
+- Dockerfile はプロジェクトルートではなく`docs/Dockerfile`に配置されている
 - パスを指定しないと「Dockerfile: no such file or directory」エラーが発生
 
 ### 成果
 
-- ✅ Dockerfileのパスを正しく指定
+- ✅ Dockerfile のパスを正しく指定
 - ✅ プロジェクトルートからデプロイスクリプトを実行可能に
 
-### 注意事項（今後のworklog更新時）
+### 注意事項（今後の worklog 更新時）
 
-**markdownlint警告を防ぐため:**
+**markdownlint 警告を防ぐため:**
 
-- エントリ間の区切り（`---`）の前後は空行1行のみ
-- 複数の空行（2行以上連続）は使用しない
-- URLは必ず`<>`で囲む（例: `<http://localhost:8000>`）
-- 新しいエントリを追加したら、必ずmarkdownlint警告を確認する
+- エントリ間の区切り（`---`）の前後は空行 1 行のみ
+- 複数の空行（2 行以上連続）は使用しない
+- URL は必ず`<>`で囲む（例: `<http://localhost:8000>`）
+- 新しいエントリを追加したら、必ず markdownlint 警告を確認する
 
 ---
 
-## 2026-05-22 15:46 - Dockerfileのプラットフォーム指定を削除
+## 2026-05-22 15:46 - Dockerfile のプラットフォーム指定を削除
 
 ### 作業内容
 
-#### Dockerfileの修正
+#### Dockerfile の修正
 
 `docs/Dockerfile`の`FROM`行からプラットフォーム指定を削除：
 
@@ -4527,38 +4527,38 @@ git push
 
 ### 理由
 
-- Apple Silicon（M1/M2/M3）でビルド時に`--platform=linux/amd64`をDockerfile内で指定すると、中間イメージでプラットフォームの不一致エラーが発生
-- `deploy-to-code-engine.sh`のビルドコマンドで`--platform linux/amd64`を指定しているため、Dockerfile内での指定は不要
+- Apple Silicon（M1/M2/M3）でビルド時に`--platform=linux/amd64`を Dockerfile 内で指定すると、中間イメージでプラットフォームの不一致エラーが発生
+- `deploy-to-code-engine.sh`のビルドコマンドで`--platform linux/amd64`を指定しているため、Dockerfile 内での指定は不要
 - ビルドコマンドレベルでのプラットフォーム指定の方が柔軟で問題が少ない
 
 ### 成果
 
-- ✅ Dockerビルドエラーを解消
-- ✅ Apple Siliconでのビルドが正常に動作
+- ✅ Docker ビルドエラーを解消
+- ✅ Apple Silicon でのビルドが正常に動作
 
 ---
 
-## 2026-05-22 15:49 - deploy-to-code-engine.shのプラットフォーム指定を削除
+## 2026-05-22 15:49 - deploy-to-code-engine.sh のプラットフォーム指定を削除
 
 ### 作業内容
 
 #### ビルドコマンドからプラットフォーム指定を削除
 
-`deploy-to-code-engine.sh`のDockerビルドコマンドから`--platform linux/amd64`を削除：
+`deploy-to-code-engine.sh`の Docker ビルドコマンドから`--platform linux/amd64`を削除：
 
 - 修正前: `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
 - 修正後: `docker build -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
-- Podmanも同様に修正
+- Podman も同様に修正
 
 ### 理由
 
 - Apple Silicon（M1/M2/M3）でビルド時に`--platform linux/amd64`を指定すると、マルチステージビルドの中間イメージでプラットフォームの不一致エラーが発生
-- MkDocs Materialイメージはマルチアーキテクチャ対応しているため、プラットフォーム指定なしでビルドしても問題なし
-- Code Engineは自動的に適切なアーキテクチャで実行
+- MkDocs Material イメージはマルチアーキテクチャ対応しているため、プラットフォーム指定なしでビルドしても問題なし
+- Code Engine は自動的に適切なアーキテクチャで実行
 
 ### 成果
 
-- ✅ Apple Siliconでのビルドエラーを完全に解消
+- ✅ Apple Silicon でのビルドエラーを完全に解消
 - ✅ プラットフォーム指定なしでシンプルなビルドコマンドに
 
 ---
@@ -4570,36 +4570,36 @@ git push
 #### 存在しないパスへの参照を修正
 
 1. **docker-compose.yml**
-   - 70行目: `../../docs/participant:/docs` → `../../:/docs`
+   - 70 行目: `../../docs/participant:/docs` → `../../:/docs`
    - 存在しない`docs/participant`ディレクトリへの参照を修正
 
 2. **instructor-share-info.md**
    - セットアップ手順のパスを修正（`setup/` → `setup/participant/`）
-   - ポート8001への参照を削除（現在はCode Engine使用）
-   - MkDocsポート: 8001 → 8000
+   - ポート 8001 への参照を削除（現在は Code Engine 使用）
+   - MkDocs ポート: 8001 → 8000
 
 3. **start-all.sh**
-   - MkDocsドキュメントサーバー関連の出力を削除
-   - Milvus環境のみを起動するように変更
-   - Code Engineデプロイの案内を追加
+   - MkDocs ドキュメントサーバー関連の出力を削除
+   - Milvus 環境のみを起動するように変更
+   - Code Engine デプロイの案内を追加
 
 ### 理由
 
 - `docs/participant`ディレクトリは存在しない
-- 現在はCode Engineでドキュメントを配信
-- ローカルのMkDocsサーバー（ポート8001）は使用しない
+- 現在は Code Engine でドキュメントを配信
+- ローカルの MkDocs サーバー（ポート 8001）は使用しない
 - 実際のファイル構造に合わせた正確なパスに修正
 
 ### 成果
 
 - ✅ すべての存在しないパス参照を修正
-- ✅ docker-compose.ymlのボリュームマウントを修正
-- ✅ ドキュメント配信方法をCode Engineに統一
-- ✅ start-all.shの出力を現状に合わせて更新
+- ✅ docker-compose.yml のボリュームマウントを修正
+- ✅ ドキュメント配信方法を Code Engine に統一
+- ✅ start-all.sh の出力を現状に合わせて更新
 
 ---
 
-## 2026-05-22 16:00 - deploy-to-code-engine.shに進捗表示を追加
+## 2026-05-22 16:00 - deploy-to-code-engine.sh に進捗表示を追加
 
 ### 作業内容
 
@@ -4607,9 +4607,9 @@ git push
 
 `deploy-to-code-engine.sh`のアプリケーション更新/作成後に、準備状態を監視する機能を追加：
 
-- 5秒ごとにアプリケーションの状態をチェック
-- 経過時間を表示（例: "状態: Deploying (15秒経過)"）
-- 最大2分間待機
+- 5 秒ごとにアプリケーションの状態をチェック
+- 経過時間を表示（例: "状態: Deploying (15 秒経過)"）
+- 最大 2 分間待機
 - 準備完了（Ready）になったら完了メッセージを表示
 - タイムアウト時は手動確認を促すメッセージを表示
 
@@ -4622,12 +4622,12 @@ git push
 ### 成果
 
 - ✅ アプリケーション更新/作成時の進捗を可視化
-- ✅ 5秒ごとに状態と経過時間を表示
-- ✅ タイムアウト処理を実装（最大2分）
+- ✅ 5 秒ごとに状態と経過時間を表示
+- ✅ タイムアウト処理を実装（最大 2 分）
 
 ---
 
-## 2026-05-22 16:05 - deploy-to-code-engine.shの進捗表示を修正
+## 2026-05-22 16:05 - deploy-to-code-engine.sh の進捗表示を修正
 
 ### 作業内容
 
@@ -4641,7 +4641,7 @@ git push
 
 2. **インデントの修正**
    - 監視ループのインデントを正しく設定
-   - if文のネストを適切に修正
+   - if 文のネストを適切に修正
 
 3. **メッセージの改善**
    - コマンド完了時に成功メッセージを表示
@@ -4660,7 +4660,7 @@ git push
 
 ---
 
-## 2026-05-22 16:09 - deploy-to-code-engine.shの進捗表示を再修正
+## 2026-05-22 16:09 - deploy-to-code-engine.sh の進捗表示を再修正
 
 ### 作業内容
 
@@ -4669,7 +4669,7 @@ git push
 `deploy-to-code-engine.sh`の進捗監視ロジックを再修正：
 
 1. **初回待機時間の追加**
-   - 監視開始前に3秒待機を追加
+   - 監視開始前に 3 秒待機を追加
    - `ibmcloud ce app update/create`コマンドは非同期で実行されるため、即座にステータスを確認しても更新が反映されていない
 
 2. **ステータス取得の改善**
@@ -4688,13 +4688,13 @@ git push
 
 ### 成果
 
-- ✅ 初回待機時間を追加（3秒）
+- ✅ 初回待機時間を追加（3 秒）
 - ✅ ステータス取得のエラーハンドリングを改善
 - ✅ 空ステータスの場合の処理を追加
 
 ---
 
-## 2026-05-22 16:12 - deploy-to-code-engine.shの出力バッファリング問題を修正
+## 2026-05-22 16:12 - deploy-to-code-engine.sh の出力バッファリング問題を修正
 
 ### 作業内容
 
@@ -4702,8 +4702,8 @@ git push
 
 `deploy-to-code-engine.sh`のコマンド実行方法を変更：
 
-1. **if文の条件からコマンド実行を分離**
-   - `if ibmcloud ce app update ...`を2つのステップに分割
+1. **if 文の条件からコマンド実行を分離**
+   - `if ibmcloud ce app update ...`を 2 つのステップに分割
    - まずコマンドを実行して出力を表示
    - 次に終了コードをチェック
 
@@ -4712,12 +4712,12 @@ git push
    - 成功メッセージに終了コードを表示
 
 3. **出力のリアルタイム表示**
-   - if文の条件内でコマンドを実行すると出力がバッファリングされる
+   - if 文の条件内でコマンドを実行すると出力がバッファリングされる
    - コマンドを先に実行することで出力が即座に表示される
 
 ### 理由
 
-- if文の条件内でコマンドを実行すると、bashが出力をバッファリングする
+- if 文の条件内でコマンドを実行すると、bash が出力をバッファリングする
 - そのため、コマンドの実行中に何も表示されず、完了後に一気に表示される
 - コマンドを先に実行してから終了コードをチェックすることで、リアルタイムに出力が表示される
 
@@ -4727,12 +4727,12 @@ git push
 - ✅ 出力のリアルタイム表示を実現
 - ✅ 終了コードを明示的に表示してデバッグを容易に
 
-## 2026-05-22 16:15 - Code Engineデプロイスクリプトの進捗表示問題を修正
+## 2026-05-22 16:15 - Code Engine デプロイスクリプトの進捗表示問題を修正
 
 ### 問題
 
 - `deploy-to-code-engine.sh`実行時に、アプリケーションのデプロイ進捗が表示されない
-- ステップ10（Code Engineアプリケーションをデプロイ中）の後、進捗状況が更新されない
+- ステップ 10（Code Engine アプリケーションをデプロイ中）の後、進捗状況が更新されない
 
 ### 原因
 
@@ -4744,14 +4744,14 @@ git push
 
 1. **`--no-wait`オプションの追加**
    - `ibmcloud ce app update/create`コマンドに`--no-wait`オプションを追加
-   - コマンドをバックグラウンドで実行し、プロセスIDを取得
+   - コマンドをバックグラウンドで実行し、プロセス ID を取得
 
 2. **視覚的な進捗インジケーター**
-   - コマンド実行中にドット（`.`）を1秒ごとに表示
-   - 60個ごとに改行して見やすく表示
+   - コマンド実行中にドット（`.`）を 1 秒ごとに表示
+   - 60 個ごとに改行して見やすく表示
 
 3. **詳細な状態監視**
-   - 5秒ごとにアプリケーションの状態をチェック
+   - 5 秒ごとにアプリケーションの状態をチェック
    - `[  5s] 状態: Deploying`のような形式で経過時間とステータスを表示
 
 4. **出力のリダイレクト**
@@ -4760,7 +4760,7 @@ git push
 
 ### 変更ファイル
 
-- `deploy-to-code-engine.sh`: アプリケーションのデプロイ処理を改善（214-318行目）
+- `deploy-to-code-engine.sh`: アプリケーションのデプロイ処理を改善（214-318 行目）
 
 ### 効果
 
@@ -4772,43 +4772,43 @@ git push
 
 ### 問題
 
-- Code Engineにデプロイしたアプリケーションが起動に失敗
+- Code Engine にデプロイしたアプリケーションが起動に失敗
 - エラー: `exec /sbin/tini: exec format error`
-- 新しいリビジョンが`1/3 Running`で6回再起動を繰り返す
+- 新しいリビジョンが`1/3 Running`で 6 回再起動を繰り返す
 
 ### 原因
 
-- Apple Silicon（ARM64）でビルドしたDockerイメージを、AMD64アーキテクチャのCode Engineで実行しようとしていた
+- Apple Silicon（ARM64）でビルドした Docker イメージを、AMD64 アーキテクチャの Code Engine で実行しようとしていた
 - アーキテクチャの不一致により、バイナリが実行できない
 
 ### 修正内容
 
-1. **Podmanを優先的に使用**
+1. **Podman を優先的に使用**
    - 以前の解決策（Podman + Colima）を採用
-   - Podmanが利用可能な場合は、Podmanを優先的に使用
-   - `podman build --platform linux/amd64`でAMD64イメージをビルド
+   - Podman が利用可能な場合は、Podman を優先的に使用
+   - `podman build --platform linux/amd64`で AMD64 イメージをビルド
 
-2. **Dockerはフォールバック**
-   - Podmanが利用できない場合のみDockerを使用
-   - Docker Buildxが利用可能な場合は、マルチアーキテクチャビルダーを自動作成
-   - Buildxが利用不可の場合は、Podmanのインストールを推奨
+2. **Docker はフォールバック**
+   - Podman が利用できない場合のみ Docker を使用
+   - Docker Buildx が利用可能な場合は、マルチアーキテクチャビルダーを自動作成
+   - Buildx が利用不可の場合は、Podman のインストールを推奨
 
-3. **イメージプッシュもPodman優先**
-   - プッシュ処理もPodmanを優先的に使用
+3. **イメージプッシュも Podman 優先**
+   - プッシュ処理も Podman を優先的に使用
 
 ### 変更ファイル
 
-- `deploy-to-code-engine.sh`: Podmanを優先的に使用するように変更（143-177行目）
+- `deploy-to-code-engine.sh`: Podman を優先的に使用するように変更（143-177 行目）
 
 ### 効果
 
-- Podman + Colimaの組み合わせで、AMD64アーキテクチャ用のイメージを確実にビルド
-- Docker Buildxの問題を回避
+- Podman + Colima の組み合わせで、AMD64 アーキテクチャ用のイメージを確実にビルド
+- Docker Buildx の問題を回避
 - より安定したマルチアーキテクチャビルドを実現
 
 ---
 
-## 2026-05-22: Code Engineデプロイステータス取得の修正
+## 2026-05-22: Code Engine デプロイステータス取得の修正
 
 ### 問題
 
@@ -4816,11 +4816,11 @@ git push
 
 ### 原因分析
 
-1. **JSONパース処理は正常に動作**
+1. **JSON パース処理は正常に動作**
    - `jq`コマンドは正しく動作しており、`"status": "Unknown"`を正確に取得していました
    - 問題は`awk`や`sed`ではなく、`Unknown`状態の処理ロジックにありました
 
-2. **Code Engineのステータス遷移**
+2. **Code Engine のステータス遷移**
    - デプロイ開始直後: `"status": "Unknown"`
    - デプロイ中: `"status": "False"`
    - デプロイ完了: `"status": "True"`
@@ -4838,28 +4838,28 @@ git push
    elif [ "$READY_STATUS" = "False" ]; then
        STATUS="Deploying"
    elif [ "$READY_STATUS" = "Unknown" ]; then
-       STATUS="Deploying"  # Unknownもデプロイ中として扱う
+       STATUS="Deploying"  # Unknown もデプロイ中として扱う
    else
        STATUS=""  # 空の場合はイメージプル中
    fi
    ```
 
 2. **進行状況の可視化**
-   - ステータスが変わらない場合でも、5秒ごとにドット(`.`)を表示
+   - ステータスが変わらない場合でも、5 秒ごとにドット(`.`)を表示
    - ユーザーに処理が進行中であることを明示
 
 3. **複数のフォールバック方法を実装**
-   - 方法1: `jq`（JSONパーサー）
-   - 方法2: `python3`（JSON処理）
-   - 方法3: `awk`（複数行対応の改善版）
+   - 方法 1: `jq`（JSON パーサー）
+   - 方法 2: `python3`（JSON 処理）
+   - 方法 3: `awk`（複数行対応の改善版）
 
 ### 変更ファイル
 
-1. **`setup/instructor/check-deploy-status.sh`** (48-103行目)
-   - 3つのフォールバック方法を実装
-   - 一時ファイルを使用してJSON処理を確実に実行
+1. **`setup/instructor/check-deploy-status.sh`** (48-103 行目)
+   - 3 つのフォールバック方法を実装
+   - 一時ファイルを使用して JSON 処理を確実に実行
 
-2. **`deploy-to-code-engine.sh`** (367-448行目, 511-593行目)
+2. **`deploy-to-code-engine.sh`** (367-448 行目, 511-593 行目)
    - 更新時と新規作成時の両方でステータス判定を改善
    - `Unknown`状態を「デプロイ中」として処理
    - 進行状況を示すドット表示を追加
@@ -4875,9 +4875,9 @@ git push
 [ 25s] ✓ 準備完了
 ```
 
-### 補足: デプロイに25秒かかる理由
+### 補足: デプロイに 25 秒かかる理由
 
-既存アプリケーションの更新時も、Code Engineは以下のゼロダウンタイムデプロイプロセスを実行します：
+既存アプリケーションの更新時も、Code Engine は以下のゼロダウンタイムデプロイプロセスを実行します：
 
 1. 新しいコンテナインスタンスの起動
 2. ヘルスチェックの完了待機
@@ -4886,50 +4886,50 @@ git push
 
 これは正常な動作で、安全なデプロイを保証するための時間です。
 
-## 2026-05-22: Code Engineデプロイスクリプトの改善 - JSONパース問題の解決
+## 2026-05-22: Code Engine デプロイスクリプトの改善 - JSON パース問題の解決
 
 ### 問題
 
 1. **ステータス取得の失敗**
    - `ibmcloud ce app get --output json`からのステータス取得が正しく動作しない
    - `READY_STATUS='Unknown'`となり、デプロイ完了を検出できない
-   - 結果として、タイムアウト（300秒）まで待機し続ける
+   - 結果として、タイムアウト（300 秒）まで待機し続ける
 
-2. **URL取得の失敗**
-   - アプリケーションURLが空文字列となり表示されない
-   - デプロイ完了後もURLが確認できない
+2. **URL 取得の失敗**
+   - アプリケーション URL が空文字列となり表示されない
+   - デプロイ完了後も URL が確認できない
 
-3. **awk構文エラー**
-   - macOS環境で`match()`関数の配列構文がサポートされていない
+3. **awk 構文エラー**
+   - macOS 環境で`match()`関数の配列構文がサポートされていない
    - `awk: syntax error at source line 4`エラーが発生
 
 ### 原因分析
 
-1. **JSON構造の複雑さ**
+1. **JSON 構造の複雑さ**
    - `"status"`フィールドが複数箇所に存在
    - 必要なのは`status.conditions[type="Ready"].status`の値
    - 単純な`grep`では正しいフィールドを取得できない
 
-2. **awk実装の互換性問題**
-   - GNU awk専用の`match()`配列構文を使用
-   - macOS/BSD awkでは動作しない
+2. **awk 実装の互換性問題**
+   - GNU awk 専用の`match()`配列構文を使用
+   - macOS/BSD awk では動作しない
 
 ### 解決策
 
 #### 1. タイムアウト時間の短縮
 
 ```bash
-MAX_WAIT=300  # 600秒から300秒（5分）に変更
+MAX_WAIT=300  # 600 秒から 300 秒（5 分）に変更
 ```
 
-#### 2. JSONパース方法の変更（awk → sed）
+#### 2. JSON パース方法の変更（awk → sed）
 
 ```bash
 # 旧実装（動作しない）
 READY_STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | \
     grep -o '"status":"[^"]*' | cut -d'"' -f4)
 
-# 新実装（sedを使用）
+# 新実装（sed を使用）
 READY_STATUS=$(echo "$APP_JSON" | \
     grep -A 3 '"type": "Ready"' | \
     grep '"status"' | \
@@ -4939,12 +4939,12 @@ READY_STATUS=$(echo "$APP_JSON" | \
 
 処理の流れ:
 
-1. `grep -A 3 '"type": "Ready"'` - "Ready"を含む行とその後3行を取得
+1. `grep -A 3 '"type": "Ready"'` - "Ready"を含む行とその後 3 行を取得
 2. `grep '"status"'` - "status"を含む行を抽出
 3. `head -1` - 最初の行のみ
 4. `sed 's/.*"status": "\([^"]*\)".*/\1/'` - 値を抽出
 
-#### 3. URL取得の改善
+#### 3. URL 取得の改善
 
 ```bash
 # 旧実装
@@ -4975,15 +4975,15 @@ fi
 
 - アプリケーション詳細の表示
 - リビジョン一覧の表示
-- 最新ログの表示（50行）
+- 最新ログの表示（50 行）
 - トラブルシューティングのヒント
 
 ### 変更ファイル
 
 1. **`deploy-to-code-engine.sh`**
-   - タイムアウト: 600秒 → 300秒
-   - ステータス取得: awk → sed（2箇所）
-   - URL取得: grep/cut → sed
+   - タイムアウト: 600 秒 → 300 秒
+   - ステータス取得: awk → sed（2 箇所）
+   - URL 取得: grep/cut → sed
    - デバッグ出力の追加
    - 監視開始メッセージの追加
 
@@ -5005,19 +5005,19 @@ fi
 ✓ デプロイ完了！
 ==========================================
 
-アプリケーションURL:
+アプリケーション URL:
 https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 ```
 
 ### 技術的な学び
 
-1. **JSONパースの選択肢**
+1. **JSON パースの選択肢**
    - `jq`: 最も確実だが、インストールが必要
    - `python3`: 確実だが、やや重い
    - `awk`: 軽量だが、互換性に注意
    - `sed`: 軽量で互換性が高い（今回採用）
 
-2. **macOS/BSD awkの制限**
+2. **macOS/BSD awk の制限**
    - `match()`の配列構文は使えない
    - `gsub()`は使えるが、複雑な処理には不向き
    - シンプルなパターンマッチングに限定すべき
@@ -5032,7 +5032,7 @@ https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
 2. より詳細なエラーメッセージ
 3. リトライ機能の追加
 
-## 2026-05-22: start-all.shとstop-all.shの整合性修正
+## 2026-05-22: start-all.sh と stop-all.sh の整合性修正
 
 ### 問題の発見
 
@@ -5047,8 +5047,8 @@ https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
    - `start-all.sh`: compose コマンドがない場合はエラーで終了
    - `stop-all.sh`: デフォルト値を設定して続行を試みる
 
-3. **Podman DOCKER_HOST設定の欠如**
-   - `start-all.sh`: Podmanのdockerエイリアス使用時に`DOCKER_HOST`を設定
+3. **Podman DOCKER_HOST 設定の欠如**
+   - `start-all.sh`: Podman の docker エイリアス使用時に`DOCKER_HOST`を設定
    - `stop-all.sh`: この設定がない
 
 ### 実施した修正
@@ -5073,7 +5073,7 @@ fi
 
 # 修正後（明示的にエラー終了）
 else
-    echo "❌ docker-composeがインストールされていません"
+    echo "❌ docker-compose がインストールされていません"
     echo ""
     echo "インストール方法:"
     echo "  brew install docker-compose"
@@ -5082,21 +5082,21 @@ else
 fi
 ```
 
-#### 3. Podman DOCKER_HOST設定の追加
+#### 3. Podman DOCKER_HOST 設定の追加
 
 ```bash
-# Podmanのdockerエイリアスを使用している場合、DOCKER_HOSTを設定
+# Podman の docker エイリアスを使用している場合、DOCKER_HOST を設定
 if docker version 2>&1 | grep -q "podman"; then
-    # macOSのPodman machine socketパスを取得
+    # macOS の Podman machine socket パスを取得
     PODMAN_SOCK=$(podman machine inspect podman-machine-default 2>/dev/null | grep -o '"Path": "[^"]*"' | head -1 | cut -d'"' -f4)
     if [ -n "$PODMAN_SOCK" ]; then
         export DOCKER_HOST="unix://$PODMAN_SOCK"
-        echo "✓ Podman（dockerエイリアス経由）が見つかりました"
+        echo "✓ Podman（docker エイリアス経由）が見つかりました"
     else
-        echo "✓ Dockerが見つかりました"
+        echo "✓ Docker が見つかりました"
     fi
 else
-    echo "✓ Dockerが見つかりました"
+    echo "✓ Docker が見つかりました"
 fi
 ```
 
@@ -5105,11 +5105,11 @@ fi
 ```bash
 # 修正前
 echo "✓ すべてのサービスが停止しました"
-echo "  - Milvus環境（etcd, minio, milvus）"
-echo "  - MkDocsドキュメントサーバー"
+echo "  - Milvus 環境（etcd, minio, milvus）"
+echo "  - MkDocs ドキュメントサーバー"
 
 # 修正後
-echo "✓ Milvus環境が停止しました"
+echo "✓ Milvus 環境が停止しました"
 echo "  - etcd, minio, milvus"
 ```
 
@@ -5123,9 +5123,9 @@ $ cd setup/instructor && ./start-all.sh
 Vector Search ハンズオン環境を起動中...
 ==========================================
 
-✓ Dockerが見つかりました
+✓ Docker が見つかりました
 
-Milvus環境を起動中...
+Milvus 環境を起動中...
  Container instructor-minio-1 Creating 
  Container instructor-etcd-1 Creating 
  Container instructor-minio-1 Created 
@@ -5138,7 +5138,7 @@ Milvus環境を起動中...
  Container instructor-minio-1 Started 
  Container instructor-milvus-1 Starting 
  Container instructor-milvus-1 Started 
-✓ Milvus環境が起動しました
+✓ Milvus 環境が起動しました
   - etcd, minio, milvus
 ```
 
@@ -5150,9 +5150,9 @@ $ cd setup/instructor && ./stop-all.sh
 Vector Search ハンズオン環境を停止中...
 ==========================================
 
-✓ Dockerが見つかりました
+✓ Docker が見つかりました
 
-Milvus環境を停止中...
+Milvus 環境を停止中...
  Container instructor-milvus-1 Stopping 
  Container instructor-milvus-1 Stopped 
  Container instructor-milvus-1 Removing 
@@ -5165,7 +5165,7 @@ Milvus環境を停止中...
  Container instructor-minio-1 Stopped 
  Container instructor-minio-1 Removing 
  Container instructor-minio-1 Removed 
-✓ Milvus環境が停止しました
+✓ Milvus 環境が停止しました
   - etcd, minio, milvus
 ```
 
@@ -5175,8 +5175,8 @@ Milvus環境を停止中...
 
 1. **同じプロファイル使用**: 両方とも`--profile milvus`
 2. **同じサービス対象**: etcd, minio, milvus
-3. **統一されたエラーハンドリング**: compose未検出時は明示的にエラー終了
-4. **同じPodman対応**: DOCKER_HOST環境変数の設定ロジック統一
+3. **統一されたエラーハンドリング**: compose 未検出時は明示的にエラー終了
+4. **同じ Podman 対応**: DOCKER_HOST 環境変数の設定ロジック統一
 5. **起動→停止のサイクル**: 正常に動作
 
 ### 技術的な学び
@@ -5187,10 +5187,10 @@ Milvus環境を停止中...
 
 2. **エラーハンドリングの統一**
    - デフォルト値での続行は予期しない動作を引き起こす可能性
-   - 明示的なエラーメッセージとexit 1が望ましい
+   - 明示的なエラーメッセージと exit 1 が望ましい
 
-3. **Podman互換性**
-   - dockerエイリアス経由でPodmanを使用する場合、DOCKER_HOST設定が必要
+3. **Podman 互換性**
+   - docker エイリアス経由で Podman を使用する場合、DOCKER_HOST 設定が必要
    - 両スクリプトで同じ環境変数設定が必要
 
 ### 影響範囲
@@ -5202,7 +5202,7 @@ Milvus環境を停止中...
 ### 今後の改善案
 
 1. 統合テストスクリプトの作成
-2. CI/CDでの自動整合性チェック
+2. CI/CD での自動整合性チェック
 3. プロファイル定義のドキュメント化
 
 
@@ -5217,26 +5217,26 @@ Milvus環境を停止中...
    - 理由: 環境や使用状況によって変わるため、確証のない情報は記載しない
 
 2. **箇条書きの入れ子の修正**
-   - `docs/index.md`: 2スペースインデントを4スペースインデントに変更
-   - MkDocsでは入れ子の箇条書きに4スペースのインデントが必要
+   - `docs/index.md`: 2 スペースインデントを 4 スペースインデントに変更
+   - MkDocs では入れ子の箇条書きに 4 スペースのインデントが必要
 
-3. **ハンズオン手順書URLの追加**
-   - `docs/index.md`: 「講師から配布されるもの」に「ハンズオン手順書のURL（本ドキュメント）」を追加
+3. **ハンズオン手順書 URL の追加**
+   - `docs/index.md`: 「講師から配布されるもの」に「ハンズオン手順書の URL（本ドキュメント）」を追加
    - 時系列順に一番上に配置
 
 4. **キーボード記法の修正**
-   - `docs/preparation.md`: MkDocsのキーボード記法（`++key++`）をHTMLの`<kbd>`タグに変更
+   - `docs/preparation.md`: MkDocs のキーボード記法（`++key++`）を HTML の`<kbd>`タグに変更
    - 番号付きリスト内でも正しくレンダリングされるように修正
 
 5. **埋め込みモデルの説明改善**
-   - `docs/preparation.md`: 見出しに「（テキストを数値に変換するAI）」を追加
-   - `docs/index.md`: 役割を「テキストを数値に変換するAI」に変更
+   - `docs/preparation.md`: 見出しに「（テキストを数値に変換する AI）」を追加
+   - `docs/index.md`: 役割を「テキストを数値に変換する AI」に変更
    - より分かりやすい説明に改善
 
-6. **h4見出しのスタイル強化**
+6. **h4 見出しのスタイル強化**
    - `docs/stylesheets/typography.css`: `h4`のスタイルを新規追加
-   - フォントサイズ1.1em、左側に4pxの太い境界線、グラデーション背景
-   - FontAwesomeアイコン、ホバー時のシャドウ効果を追加
+   - フォントサイズ 1.1em、左側に 4px の太い境界線、グラデーション背景
+   - FontAwesome アイコン、ホバー時のシャドウ効果を追加
    - `####`見出しが単なる太字`**`よりも視覚的に強調されるように改善
 
 7. **不要な文章の削除**
@@ -5254,28 +5254,28 @@ Milvus環境を停止中...
 ### 成果
 
 - ドキュメントの可読性向上
-- MkDocsでの正しいレンダリング
-- h4見出しの視覚的な強調
+- MkDocs での正しいレンダリング
+- h4 見出しの視覚的な強調
 - より分かりやすい説明
 
 
-## 2026-05-22 21:46 - instructor用ドキュメントの更新
+## 2026-05-22 21:46 - instructor 用ドキュメントの更新
 
 ### 実施内容
-1. ローカル環境とCode Engineでのドキュメント更新方法の違いを明記
-2. instructor用の2つのドキュメントを最新の内容に更新し、簡潔明瞭化
+1. ローカル環境と Code Engine でのドキュメント更新方法の違いを明記
+2. instructor 用の 2 つのドキュメントを最新の内容に更新し、簡潔明瞭化
 
 ### 更新ファイル
 - `setup/instructor/instructor-share-info.md`
-  - クイックスタートセクションを追加（環境起動、IP確認、デプロイ）
+  - クイックスタートセクションを追加（環境起動、IP 確認、デプロイ）
   - 受講者への案内文を簡潔化
   - チェックリストを整理
   - 環境情報を「固定設定」と「環境依存」に分類
 
 - `setup/instructor/deploy-docs-to-cloud.md`
-  - クイックスタートを5ステップに簡素化
-  - ローカル環境 vs Code Engineの更新方法の違いを明記（比較表付き）
-  - 自動更新の仕組みを技術的に説明（ボリュームマウント vs Dockerイメージ焼き込み）
+  - クイックスタートを 5 ステップに簡素化
+  - ローカル環境 vs Code Engine の更新方法の違いを明記（比較表付き）
+  - 自動更新の仕組みを技術的に説明（ボリュームマウント vs Docker イメージ焼き込み）
   - ベストプラクティスを追加（開発→公開→修正のワークフロー）
   - トラブルシューティングを簡潔化
   - コストセクションを削除
@@ -5283,10 +5283,10 @@ Milvus環境を停止中...
 ### 技術的な説明
 **ローカル環境での自動更新**:
 - `docker-compose.yml`でボリュームマウント（`../../:/docs`）
-- MkDocs開発サーバーモード（`serve`コマンド）
+- MkDocs 開発サーバーモード（`serve`コマンド）
 - ファイル変更を自動検知してリアルタイム再ビルド
 
-**Code Engineでの手動更新**:
+**Code Engine での手動更新**:
 - `Dockerfile`でファイルをイメージに焼き込み（`COPY`）
 - ビルド時点の内容で固定
 - 更新には再デプロイが必要
@@ -5298,46 +5298,46 @@ Milvus環境を停止中...
 
 ---
 
-## 2026-05-23 23:52 JST - Colimaランタイム設定とデプロイスクリプト改善
+## 2026-05-23 23:52 JST - Colima ランタイム設定とデプロイスクリプト改善
 
 ### 背景
 - `colima delete`に時間がかかる問題を調査
-- Podmanランタイムのサポート状況を確認
+- Podman ランタイムのサポート状況を確認
 - デプロイスクリプトのエラーハンドリングを改善
 
 ### 実施内容
 
-#### 1. Colimaランタイムの修正
-**問題**: Colima 0.10.1はPodmanランタイムをサポートしていない
+#### 1. Colima ランタイムの修正
+**問題**: Colima 0.10.1 は Podman ランタイムをサポートしていない
 - サポートされているランタイム: docker, containerd, incus
-- 過去にPodmanランタイムを推奨していたが、実際には使用不可
+- 過去に Podman ランタイムを推奨していたが、実際には使用不可
 
 **対応**:
-- README.mdを修正: `--runtime podman` → `--runtime docker`
-- instructor向けドキュメントを更新
-- 初回起動時の想定時間を追記（5〜10分程度）
+- README.md を修正: `--runtime podman` → `--runtime docker`
+- instructor 向けドキュメントを更新
+- 初回起動時の想定時間を追記（5〜10 分程度）
 
 #### 2. デプロイスクリプトの改善
 **問題**: 複数のエラーハンドリングとログ出力の問題
-- `lib/common.sh`の多重読み込みでreadonly変数エラー
+- `lib/common.sh`の多重読み込みで readonly 変数エラー
 - リソースグループ自動選択が機能しない
 - ログメッセージが変数に混入してイメージ名が不正
 
 **対応**:
 - 多重読み込み防止ガードを追加（`COMMON_SH_LOADED`フラグ）
-- `select_resource_group`と`select_registry_namespace`のログ出力をstderrにリダイレクト
-- Code Engineプロジェクト作成時のエラーハンドリング改善
-- IBM Cloudログインエラーメッセージに`--sso`オプションを明記
+- `select_resource_group`と`select_registry_namespace`のログ出力を stderr にリダイレクト
+- Code Engine プロジェクト作成時のエラーハンドリング改善
+- IBM Cloud ログインエラーメッセージに`--sso`オプションを明記
 - デプロイ進捗表示から経過時間を削除（シンプル化）
 
-#### 3. Podman machine環境のクリーンアップ
-**問題**: ColimaとPodman machineが両方起動していた
+#### 3. Podman machine 環境のクリーンアップ
+**問題**: Colima と Podman machine が両方起動していた
 - リソースの無駄（CPU 6、メモリ 4GiB）
 - 環境の複雑化
 
 **対応**:
-- Podman machineを停止・削除
-- Colimaのみを使用する構成に統一
+- Podman machine を停止・削除
+- Colima のみを使用する構成に統一
 - リソース使用量を最適化（CPU 2、メモリ 2GiB）
 
 ### 技術的な詳細
@@ -5354,8 +5354,8 @@ readonly COMMON_SH_LOADED=1
 ```bash
 # 変数キャプチャ用の関数
 select_registry_namespace() {
-    log_section "確認中..." >&2  # stderrへ
-    echo "$registry_namespace"    # stdoutへ（変数キャプチャ用）
+    log_section "確認中..." >&2  # stderr へ
+    echo "$registry_namespace"    # stdout へ（変数キャプチャ用）
 }
 ```
 
@@ -5369,37 +5369,37 @@ select_registry_namespace() {
 ```
 
 ### 成果
-- Colimaのみで安定動作する環境を構築
+- Colima のみで安定動作する環境を構築
 - デプロイスクリプトのエラーハンドリングが改善
-- リソース使用量を50%削減
+- リソース使用量を 50%削減
 - ドキュメントが正確な情報に更新された
 
 ### コミット
-- `72d4431` docs: podmanからdockerランタイムに変更
+- `72d4431` docs: podman から docker ランタイムに変更
 - `b553507` docs: 和欧文間に半角スペースを追加
-- `a0e927c` docs: instructor向けドキュメントをdockerランタイムに更新
-- `2e578c8` fix: common.shの多重読み込みを防止
+- `a0e927c` docs: instructor 向けドキュメントを docker ランタイムに更新
+- `2e578c8` fix: common.sh の多重読み込みを防止
 - `3f2aa2d` fix: リソースグループ自動選択の改善
-- `08ce32a` fix: select_resource_groupの戻り値を変数に格納
-- `fc65d1d` docs: IBM Cloudログインエラーメッセージを改善
-- `c760ac3` fix: Code Engineプロジェクト作成時のエラーハンドリング改善
-- `53fb7a3` fix: select関数のログ出力をstderrにリダイレクト
+- `08ce32a` fix: select_resource_group の戻り値を変数に格納
+- `fc65d1d` docs: IBM Cloud ログインエラーメッセージを改善
+- `c760ac3` fix: Code Engine プロジェクト作成時のエラーハンドリング改善
+- `53fb7a3` fix: select 関数のログ出力を stderr にリダイレクト
 - `8384dda` refactor: デプロイ進捗表示から経過時間を削除
 
-## 2026-05-23: READMEのColima + Podman対応を明確化
+## 2026-05-23: README の Colima + Podman 対応を明確化
 
 ### 作業内容
 
 **背景**:
-- Colimaが起動していない状態で`./start-all.sh`を実行するとエラーが発生
-- READMEのクイックスタートにColima起動手順が不足していた
-- Podmanの制限事項（Code Engineデプロイ時の認証問題）が不明確だった
+- Colima が起動していない状態で`./start-all.sh`を実行するとエラーが発生
+- README のクイックスタートに Colima 起動手順が不足していた
+- Podman の制限事項（Code Engine デプロイ時の認証問題）が不明確だった
 
 **実施した改善**:
 
-1. **READMEクイックスタートの更新**
-   - Colima起動手順を追加（`colima start --runtime podman`）
-   - 初回起動と2回目以降の違いを明記
+1. **README クイックスタートの更新**
+   - Colima 起動手順を追加（`colima start --runtime podman`）
+   - 初回起動と 2 回目以降の違いを明記
    - 不要な技術的詳細を削除してシンプル化
 
 2. **用語の整理**
@@ -5409,18 +5409,18 @@ select_registry_namespace() {
 3. **スクリプトの実装確認**
    - `lib/common.sh`の`detect_build_tool()`を確認
    - `lib/deploy-helpers.sh`の`push_docker_image()`を確認
-   - Podmanでビルドした場合、自動的にDocker経由でプッシュする実装を確認
+   - Podman でビルドした場合、自動的に Docker 経由でプッシュする実装を確認
 
 ### 技術的な詳細
 
-**Colimaのランタイム指定**:
+**Colima のランタイム指定**:
 - 初回起動時のみ`--runtime podman`を指定
-- 2回目以降は`colima start`のみで同じランタイムで起動
+- 2 回目以降は`colima start`のみで同じランタイムで起動
 - `colima stop`後の再起動でも`--runtime`は不要
 
-**Podmanの制限事項**:
-- IBM Cloud Container Registryとの認証に問題がある
-- `deploy-to-code-engine.sh`が自動的にDocker経由でプッシュする
+**Podman の制限事項**:
+- IBM Cloud Container Registry との認証に問題がある
+- `deploy-to-code-engine.sh`が自動的に Docker 経由でプッシュする
 - ユーザーは手動でランタイムを切り替える必要なし
 
 ### 最終的なクイックスタート構成
@@ -5429,14 +5429,14 @@ select_registry_namespace() {
 # 1. コンテナランタイムを起動
 colima start --runtime podman
 
-# 2. Milvus環境を起動
+# 2. Milvus 環境を起動
 cd setup/instructor
 ./start-all.sh
 
-# 3. IPアドレス確認
+# 3. IP アドレス確認
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
-# 4. Code Engineにデプロイ
+# 4. Code Engine にデプロイ
 cd ../..
 ./deploy-to-code-engine.sh
 
@@ -5444,14 +5444,14 @@ cd ../..
 ```
 
 ### コミット
-- `65e1340` docs: ColimaとPodmanの使用方法を明確化
-- `1a05129` docs: READMEから前提条件セクションを削除
+- `65e1340` docs: Colima と Podman の使用方法を明確化
+- `1a05129` docs: README から前提条件セクションを削除
 - `f641acd` docs: 用語を明確化（スタンドアロン Podman → Podman を直接使用）
 - `18f1e19` revert: スタンドアロン Podman の表現に戻す
-- `62a5c3e` docs: Code Engineデプロイの不要な注意事項を削除
+- `62a5c3e` docs: Code Engine デプロイの不要な注意事項を削除
 - `d6ba018` docs: クイックスタートから技術的な詳細を削除
 - `c1209c4` docs: クイックスタートをシンプル化
-- `b81ed6c` docs: Colimaの起動方法を修正
-- `28091d5` docs: Colimaの起動説明を簡潔化
+- `b81ed6c` docs: Colima の起動方法を修正
+- `28091d5` docs: Colima の起動説明を簡潔化
 
 ---

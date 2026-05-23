@@ -19,7 +19,7 @@ docs/
 │   ├── typography.css       # タイポグラフィスタイル
 │   ├── navigation.css       # ナビゲーションスタイル
 │   ├── code.css             # コードブロックスタイル
-│   └── components.css       # UIコンポーネントスタイル
+│   └── components.css       # UI コンポーネントスタイル
 ├── javascripts/              # カスタム JavaScript（モジュール化済み）
 │   ├── extra.js             # メイン JS ファイル（ドキュメント用）
 │   ├── search.js            # 検索機能
@@ -27,7 +27,7 @@ docs/
 │   ├── tasks.js             # タスクリスト機能
 │   └── syntax-highlight.js  # シンタックスハイライト強化
 └── overrides/                # テーマオーバーライド
-    └── main.html            # カスタムHTMLテンプレート
+    └── main.html            # カスタム HTML テンプレート
 ```
 
 ## スタイルシートの構成
