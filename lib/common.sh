@@ -3,6 +3,12 @@
 # 共通関数ライブラリ
 # 全てのスクリプトで使用される共通機能を提供
 
+# 多重読み込み防止
+if [ -n "${COMMON_SH_LOADED:-}" ]; then
+    return 0
+fi
+readonly COMMON_SH_LOADED=1
+
 # 色定義
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
