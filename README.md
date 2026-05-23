@@ -24,8 +24,6 @@ cd setup/instructor
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
 # 4. ドキュメントを Code Engine にデプロイ（リモート参加者向け）
-# 注意: Podman でビルドする場合、プッシュには Docker が必要です
-# Colima を使用している場合は自動的に Docker 経由でプッシュされます
 cd ../..
 ./deploy-to-code-engine.sh
 
