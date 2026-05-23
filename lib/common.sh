@@ -295,7 +295,19 @@ select_resource_group() {
     if [ -z "$resource_group" ]; then
         log_section "利用可能なリソースグループを確認中..."
         local resource_groups
-        resource_groups=$(ibmcloud resource groups --output json 2>/dev/null | grep -o '"name":"[^"]*' | cut -d'"' -f4)
+        
+        # 方法1: JSON出力からパース
+        if command -v jq &> /dev/null; then
+            resource_groups=$(ibmcloud resource groups --output json 2>/dev/null | jq -r '.[].name' 2>/dev/null)
+        else
+            # 方法2: grepでパース
+            resource_groups=$(ibmcloud resource groups --output json 2>/dev/null | grep -o '"name":"[^"]*' | cut -d'"' -f4)
+        fi
+        
+        # 方法3: テーブル形式から取得（JSONが失敗した場合）
+        if [ -z "$resource_groups" ]; then
+            resource_groups=$(ibmcloud resource groups 2>/dev/null | tail -n +4 | awk '{print $1}' | grep -v "^$" | grep -v "^OK$")
+        fi
         
         if [ -n "$resource_groups" ]; then
             # TechZone環境（itz-*）を優先的に選択
@@ -317,8 +329,16 @@ select_resource_group() {
         echo "$resource_group"
         return 0
     else
+        # デフォルトのリソースグループを使用
+        local current_rg
+        current_rg=$(ibmcloud target 2>/dev/null | grep "Resource group:" | awk '{print $3}')
+        if [ -n "$current_rg" ] && [ "$current_rg" != "No" ]; then
+            log_info "現在のリソースグループを使用: $current_rg"
+            echo "$current_rg"
+            return 0
+        fi
         log_warn "リソースグループが設定されていません（デフォルトを使用）"
-        return 1
+        return 0
     fi
 }
 
