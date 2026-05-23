@@ -170,7 +170,7 @@ MILVUS_HOST=【講師のIPアドレス】  # 例: 10.0.1.5
 ## ✅ 講師チェックリスト
 
 ### 事前準備
-- [ ] Docker Desktop起動
+- [ ] コンテナランタイム起動（Docker Desktop または `colima start`）
 - [ ] Milvus環境起動（`./start-all.sh`）
 - [ ] IPアドレス確認
 - [ ] ドキュメントをCode Engineにデプロイ

@@ -203,6 +203,8 @@ docker push jp.icr.io/namespace/mkdocs-docs:latest
 
 ```bash
 # Colimaを起動（macOS）
+# 前提条件: 初回起動時のみ `colima start --runtime docker` を実行（5〜10 分程度）
+# 2 回目以降は以下のコマンドのみで OK
 colima start
 
 # Dockerでビルド＆プッシュ
