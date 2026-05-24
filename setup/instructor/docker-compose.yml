@@ -59,7 +59,10 @@ services:
       timeout: 20s
       retries: 3
 
-  # MkDocsドキュメントサーバー（ローカルテスト用）
+  # MkDocsドキュメントサーバー（共有用）
+  # 注意: macOS Docker Desktopではファイル変更の自動検知が動作しません
+  # 開発時は `python -m mkdocs serve` (ポート8000) を使用してください
+  # このコンテナは受講者への共有用です（ポート8001）
   mkdocs:
     image: squidfunk/mkdocs-material:latest
     profiles: ["docs", "all"]
@@ -68,7 +71,7 @@ services:
       - "8001:8000"
     volumes:
       - ../../:/docs
-    command: serve --dev-addr=0.0.0.0:8000 --watch-poll
+    command: serve --dev-addr=0.0.0.0:8000
     restart: unless-stopped
 
 volumes:

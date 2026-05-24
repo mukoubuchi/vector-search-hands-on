@@ -5551,3 +5551,63 @@ cd ../..
 - `[pending]` docs: Part1/Part2のリンク追加とMkDocsライブリロード改善
 
 ---
+## 2026-05-24 09:48 - Docker MkDocsの自動リロード問題の調査と修正
+
+### 問題
+- Docker版MkDocs（ポート8001）でファイル変更が反映されない
+- `stop-all.sh` → `start-all.sh`後、ポート8001にアクセスできなくなった
+
+### 原因分析
+
+1. **`--watch-poll`オプションの非サポート**
+   - 新しいMkDocsバージョンで`--watch-poll`オプションが削除されていた
+   - エラー: `Error: No such option: --watch-poll`
+   - コンテナが再起動を繰り返していた
+
+2. **macOS Docker Desktopの制限**
+   - ホストのファイルシステムイベントがLinuxコンテナに伝わらない
+   - `--watch`オプションや`--dirty`オプションでも自動検知は動作しない
+   - これはmacOS Docker Desktopの既知の問題
+
+### 実施した修正
+
+1. **docker-compose.ymlの修正**
+   - `--watch-poll`オプションを削除
+   - コメントでmacOS Docker Desktopの制限を明記
+   - シンプルな`serve --dev-addr=0.0.0.0:8000`に変更
+
+2. **ドキュメントの更新**
+   - `instructor-share-info.md`に詳細な使い分けガイドを追加
+   - ポート8000（ローカル開発用）とポート8001（共有用）の違いを明確化
+   - 推奨ワークフローを記載
+
+### 結論
+
+**ポート8000と8001の正しい使い分け**:
+
+- **ポート8000（ローカル開発用）**
+  - `python -m mkdocs serve`で起動
+  - ファイル変更の自動検知が動作
+  - 自動リロードが機能
+  - 用途: ドキュメント編集・開発
+
+- **ポート8001（受講者共有用）**
+  - Docker Composeで起動
+  - ネットワーク内の全員がアクセス可能
+  - ファイル変更の自動検知は動作しない（macOS Docker Desktopの制限）
+  - 手動でブラウザをリロードする必要あり
+  - 用途: 受講者への共有
+
+**以前の理解の誤り**:
+- 8000の起動が8001の更新をトリガーしているわけではない
+- 8000で自動リロードが動作するのは、ホスト上で直接実行されているため
+- 8001で自動リロードが動作しないのは、Docker Desktopの制限のため
+
+### 修正ファイル
+- `setup/instructor/docker-compose.yml`: `--watch-poll`削除、コメント追加
+- `setup/instructor/instructor-share-info.md`: 使い分けガイド更新
+
+### コミット
+- `[pending]` fix: Docker MkDocsの自動リロード問題を修正し、使い分けガイドを追加
+
+---
