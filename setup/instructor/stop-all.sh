@@ -25,12 +25,34 @@ echo "Milvus環境とMkDocsドキュメントを停止中..."
 $COMPOSE_CMD --profile all down
 
 if [ $? -eq 0 ]; then
-    log_info "すべてのサービスが停止しました"
+    log_info "Dockerコンテナが停止しました"
     echo "  - etcd, minio, milvus"
-    echo "  - mkdocs (ドキュメントサーバー)"
+    echo "  - mkdocs (コンテナ版、ポート8001)"
 else
-    log_error "サービスの停止に失敗しました"
+    log_error "Dockerコンテナの停止に失敗しました"
     exit 1
+fi
+
+echo ""
+
+# ポート8000で動作しているmkdocsプロセスを停止
+echo "ポート8000のmkdocs開発サーバーを確認中..."
+MKDOCS_PID=$(lsof -ti:8000 2>/dev/null || true)
+
+if [ -n "$MKDOCS_PID" ]; then
+    echo "ポート8000で動作中のプロセス (PID: $MKDOCS_PID) を停止中..."
+    kill "$MKDOCS_PID" 2>/dev/null || true
+    sleep 1
+    
+    # プロセスが残っている場合は強制終了
+    if kill -0 "$MKDOCS_PID" 2>/dev/null; then
+        echo "強制終了中..."
+        kill -9 "$MKDOCS_PID" 2>/dev/null || true
+    fi
+    
+    log_info "mkdocs開発サーバー (ポート8000) を停止しました"
+else
+    echo "ポート8000で動作中のプロセスはありません"
 fi
 
 echo ""
