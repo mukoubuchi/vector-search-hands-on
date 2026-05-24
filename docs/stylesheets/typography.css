@@ -13,7 +13,7 @@
     margin-top: 1.5em;
     margin-bottom: 0.8em;
     font-weight: 700;
-    color: #2c3e50;
+    color: var(--md-primary-fg-color);
     border-bottom: solid 2px #5a6c7d;
     padding-bottom: 5px;
     transition: transform 0.3s ease;
@@ -36,7 +36,7 @@
     margin-top: 1.5em;
     margin-bottom: 0.8em;
     font-weight: 700;
-    color: #34495e;
+    color: var(--md-primary-fg-color);
     border-bottom: 1px dotted #7f8c8d;
     padding-bottom: 5px;
     transition: transform 0.3s ease;
@@ -59,7 +59,7 @@
     margin-top: 1.5em;
     margin-bottom: 0.8em;
     font-weight: 700;
-    color: #455a64;
+    color: var(--md-primary-fg-color);
     border-bottom: 1px dotted #bdc3c7;
     padding-bottom: 3px;
     transition: transform 0.3s ease;
@@ -83,7 +83,7 @@
     margin-bottom: 0.6em;
     font-weight: 700;
     font-size: 1.1em;
-    color: #2c3e50;
+    color: var(--md-primary-fg-color);
     background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.08) 0%, transparent 100%);
     padding: 0.4em 0.6em;
     border-left: 4px solid var(--md-primary-fg-color);
