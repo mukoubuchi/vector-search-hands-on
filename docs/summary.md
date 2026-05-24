@@ -100,6 +100,43 @@ Building Blocks には Vector Search 以外にも、専用の Bob Mode を持つ
 | 中規模本番 | watsonx.ai + Milvus |
 | 大規模本番 | watsonx.ai + watsonx.data |
 
+## 課題
+
+??? challenge "発展課題: Agentic RAG における検索手法の比較"
+    
+    **テーマ**: Agentic RAG における Lexical Search と Vector Search の Harness Engineering による差異について調査してみましょう！
+    
+    ### 調査のポイント
+    
+    1. **Lexical Search（語彙検索）**
+        - キーワードマッチング、BM25 などの従来型検索
+        - 完全一致や部分一致による検索精度
+        - Agentic RAG での活用シーン
+    
+    2. **Vector Search（ベクトル検索）**
+        - 意味的類似性に基づく検索
+        - 埋め込みモデルによる表現学習
+        - Agentic RAG での活用シーン
+    
+    3. **Harness Engineering（ハーネスエンジニアリング）**
+        - 両手法の組み合わせ方
+        - ハイブリッド検索の実装パターン
+        - スコアリングと再ランキング戦略
+    
+    4. **Agentic RAG における差異**
+        - エージェントの意思決定への影響
+        - 検索精度と応答品質の関係
+        - コストとパフォーマンスのトレードオフ
+    
+    ### 推奨アプローチ
+    
+    - 実際のユースケースで両手法を比較実装
+    - 検索精度、応答時間、コストを定量評価
+    - Building Blocks の Agent Builder モードを活用
+    - 評価結果をドキュメント化して共有
+    
+    この課題を通じて、RAG システムの設計における重要な意思決定ポイントを理解できます。
+
 ## 参考資料
 
 - [Building Blocks ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
