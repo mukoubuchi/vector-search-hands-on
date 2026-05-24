@@ -5663,3 +5663,16 @@ cd ../..
 - setup/instructor/start-all.sh
 - setup/instructor/stop-all.sh
 - setup/instructor/instructor-share-info.md
+
+
+## 2026-05-24: ドキュメントから「お疲れ様でした」セクションを削除
+
+### 実施内容
+
+part1.md、part2.md、part3.mdの最後にあった「お疲れ様でした」のセクションを削除しました。
+
+### 変更ファイル
+
+- docs/part1.md
+- docs/part2.md
+- docs/part3.md
