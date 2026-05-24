@@ -61,7 +61,7 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 !!! example "接続情報の設定"
 
     1. **`setup/participant`** フォルダを開く
-    2. **`.env.example`** を **`.env`** にコピー
+    2. **`.env.example`** をコピーし、コピーしたファイル名を **`.env`** に変更
         
         === ":fontawesome-brands-apple: Mac"
             ```bash
@@ -70,7 +70,10 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
             ```
 
         === ":fontawesome-brands-windows: Windows"
-            `.env.example` をコピーし、コピーしたファイル名を `.env` に変更
+            ```bash
+            cd setup¥participant
+            copy .env.example .env
+            ```
 
     3. **`.env`** ファイルを開き、**`MILVUS_HOST`** に講師から配布された IP アドレスを入力
        

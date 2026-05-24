@@ -55,8 +55,19 @@
 
 ### Building Blocks の他の機能
 
+Building Blocks には Vector Search 以外にも、専用の Bob Mode を持つ機能が多数あります：
+
+- **Agent Builder**: 自律型 AI エージェント、音声対応エージェントの構築
+- **Multi-Agent Orchestration**: 複数エージェントの協調制御
+- **Agent Ops**: AI エージェントの運用管理とパフォーマンス監視
+- **Model Evaluation**: Gen AI/予測 ML モデルの評価
 - **Text2SQL**: 自然言語から SQL クエリを生成
-- **Agent Builder**: マルチエージェントシステムの構築
+- **Data Pipeline AI-Generated**: データパイプラインの自動生成
+- **Zero-Copy Lakehouse**: データコピー不要のレイクハウス構築
+- **IaaS**: Terraform/CloudFormation テンプレート生成
+- **Automated Resilience and Compliance**: 自動レジリエンスとコンプライアンス
+- **Automated Resource Management**: リソース自動管理とコスト最適化
+- **Secrets Management**: シークレットと非人間アイデンティティの管理
 
 ### IBM Bob の高度な機能
 
