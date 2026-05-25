@@ -103,9 +103,9 @@ Building Blocks には Vector Search 以外にも、専用の Bob Mode を持つ
 ## 課題
 
 ??? challenge "発展課題: Agentic RAG における検索手法の比較"
-    
+
     **テーマ**: Agentic RAG における Lexical Search と Vector Search の Harness Engineering による差異について調査してみましょう！
-    
+
     ### 調査のポイント
     
     1. **Lexical Search（語彙検索）**

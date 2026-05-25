@@ -1,75 +1,122 @@
-## 2026-05-25: 前提条件にBobプラン名を追記
+## 2026-05-25: markdownlint 警告の修正と和欧文間スペースの追加
 
 ### 問題
+
+- markdownlint で 92 個の警告が検出された
+- 主な問題：リストインデント、連続空行、インライン HTML、行末スペース
+- 和欧文間に半角スペースが欠けている箇所があった
+
+### 解決策
+
+1. **markdownlint 設定の更新**
+   - [`.markdownlint.json`](.markdownlint.json:1): MD007（リストインデント）と MD033（インライン HTML）を無効化
+   - MkDocs のレンダリングに必要な 4 スペースインデントと `<kbd>` タグを許可
+
+2. **ファイルの修正**
+   - [`docs/index.md`](docs/index.md:169): ファイル末尾の連続空行を削除
+   - [`docs/part1.md`](docs/part1.md:342): ファイル末尾の連続空行を削除
+   - [`docs/part2.md`](docs/part2.md:295): ファイル末尾の連続空行を削除
+   - [`docs/part3.md`](docs/part3.md:267): ファイル末尾の連続空行を削除
+   - [`docs/summary.md`](docs/summary.md:106): 行末の余分なスペースを削除
+   - [`worklog.md`](worklog.md:1): 73 個の警告を自動修正（`--fix` オプション使用）
+
+3. **和欧文間スペースの追加**
+   - 全 Markdown ファイルに対して sed コマンドで一括置換
+   - 日本語と英数字の間に半角スペースを追加
+   - 例：「Docker 版 MkDocs」「Bob プラン名」
+
+### 検証結果
+
+```bash
+npx markdownlint-cli2 "docs/**/*.md" "*.md" --config .markdownlint.json
+# Summary: 0 error(s)
+```
+
+すべての markdownlint 警告が解消されました。
+
+### コミット
+
+- `[pending]` docs: fix markdownlint warnings and add spaces between Japanese and alphanumeric characters
+
+## 2026-05-25: 前提条件に Bob プラン名を追記
+
+### 問題
+
 - [`mkdocs`](mkdocs) の前提条件説明で、Bob がインストール済みであることは書かれていたが、利用プラン名が明記されていなかった
 - 画面表示に合わせて「IBM Internal Version」であることをドキュメント上でも明示したかった
 
 ### 解決策
+
 - [`docs/index.md`](docs/index.md) の前提条件文言に「（プラン：IBM Internal Version）」を追記
 - [`docs/preparation.md`](docs/preparation.md) の前提条件文言にも同じ表記を追記
 - ホームと事前準備ページで表記を統一
 
 ### コミット
+
 - [`c5b9c89`](worklog.md)
 
-## 2026-05-24 09:48 - Docker MkDocsの自動リロード問題の調査と修正
+## 2026-05-24 09:48 - Docker MkDocs の自動リロード問題の調査と修正
 
 ### 問題
-- Docker版MkDocs（ポート8001）でファイル変更が反映されない
-- `stop-all.sh` → `start-all.sh`後、ポート8001にアクセスできなくなった
+
+- Docker 版 MkDocs（ポート 8001）でファイル変更が反映されない
+- `stop-all.sh` → `start-all.sh`後、ポート 8001 にアクセスできなくなった
 
 ### 原因分析
 
 1. **`--watch-poll`オプションの非サポート**
-   - 新しいMkDocsバージョンで`--watch-poll`オプションが削除されていた
+   - 新しい MkDocs バージョンで`--watch-poll`オプションが削除されていた
    - エラー: `Error: No such option: --watch-poll`
    - コンテナが再起動を繰り返していた
 
-2. **macOS Docker Desktopの制限**
-   - ホストのファイルシステムイベントがLinuxコンテナに伝わらない
+2. **macOS Docker Desktop の制限**
+   - ホストのファイルシステムイベントが Linux コンテナに伝わらない
    - `--watch`オプションや`--dirty`オプションでも自動検知は動作しない
-   - これはmacOS Docker Desktopの既知の問題
+   - これは macOS Docker Desktop の既知の問題
 
 ### 実施した修正
 
-1. **docker-compose.ymlの修正**
+1. **docker-compose.yml の修正**
    - `--watch-poll`オプションを削除
-   - コメントでmacOS Docker Desktopの制限を明記
+   - コメントで macOS Docker Desktop の制限を明記
    - シンプルな`serve --dev-addr=0.0.0.0:8000`に変更
 
 2. **ドキュメントの更新**
    - `instructor-share-info.md`に詳細な使い分けガイドを追加
-   - ポート8000（ローカル開発用）とポート8001（共有用）の違いを明確化
+   - ポート 8000（ローカル開発用）とポート 8001（共有用）の違いを明確化
    - 推奨ワークフローを記載
 
 ### 結論
 
-**ポート8000と8001の正しい使い分け**:
+**ポート 8000 と 8001 の正しい使い分け**:
 
-- **ポート8000（ローカル開発用）**
+- **ポート 8000（ローカル開発用）**
   - `python -m mkdocs serve`で起動
   - ファイル変更の自動検知が動作
   - 自動リロードが機能
   - 用途: ドキュメント編集・開発
 
-- **ポート8001（受講者共有用）**
-  - Docker Composeで起動
+- **ポート 8001（受講者共有用）**
+  - Docker Compose で起動
   - ネットワーク内の全員がアクセス可能
-  - ファイル変更の自動検知は動作しない（macOS Docker Desktopの制限）
+  - ファイル変更の自動検知は動作しない（macOS Docker Desktop の制限）
   - 手動でブラウザをリロードする必要あり
   - 用途: 受講者への共有
 
 **以前の理解の誤り**:
-- 8000の起動が8001の更新をトリガーしているわけではない
-- 8000で自動リロードが動作するのは、ホスト上で直接実行されているため
-- 8001で自動リロードが動作しないのは、Docker Desktopの制限のため
+
+- 8000 の起動が 8001 の更新をトリガーしているわけではない
+- 8000 で自動リロードが動作するのは、ホスト上で直接実行されているため
+- 8001 で自動リロードが動作しないのは、Docker Desktop の制限のため
 
 ### 修正ファイル
+
 - `setup/instructor/docker-compose.yml`: `--watch-poll`削除、コメント追加
 - `setup/instructor/instructor-share-info.md`: 使い分けガイド更新
 
 ### コミット
-- `[pending]` fix: Docker MkDocsの自動リロード問題を修正し、使い分けガイドを追加
+
+- `[pending]` fix: Docker MkDocs の自動リロード問題を修正し、使い分けガイドを追加
 
 ---
 
@@ -82,6 +129,7 @@ MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-a
 ### 実施した作業
 
 #### 1. start-all.sh の更新
+
 - `--profile milvus` → `--profile all` に変更
 - Milvus と MkDocs を同時に起動
 - アクセス情報に MkDocs の URL 追加:
@@ -89,10 +137,12 @@ MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-a
   - 同一ネットワーク: `http://<IP>:8001`
 
 #### 2. stop-all.sh の更新
+
 - `--profile milvus` → `--profile all` に変更
 - Milvus と MkDocs を同時に停止
 
 #### 3. README.md の更新
+
 - 講師向けクイックスタートを 7 ステップに更新
 - MkDocs アクセス情報を追加
 - 環境停止手順を追加
@@ -115,13 +165,16 @@ MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-a
 ## 2026-05-24: まとめページの文言調整
 
 ### 問題
+
 - `docs/summary.md` に「専用の Bob Mode を持つ機能が」という不自然な表現が残っていた
 
 ### 解決策
+
 - `docs/summary.md:58` の文言を「専用の Bob Mode を持つものが多数あります」に修正
 - 説明対象が「機能」ではなく、Building Blocks 内の各要素として自然に読める表現へ調整
 
 ### コミット
+
 - `5b2df27` docs: refine summary wording
 
 ---
@@ -129,6 +182,7 @@ MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-a
 ## 2026-05-24: ホーム導線と文言の整理
 
 ### 問題
+
 - ホームの「事前準備」「Part 1」セクション見出しにリンク色が乗り、他見出しと見た目が揃っていなかった
 - ホーム末尾の案内やサポート節に、冗長または現在の導線に合わない表現が残っていた
 - 「ハンズオンの流れ」に所要時間の情報が不足していた
@@ -152,20 +206,23 @@ MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-a
    - 合計約 60 分と整合する構成にした
 
 ### 備考
+
 - 途中で表のモダン化や縦罫線追加も試行したが、最終的には通常の Markdown 表へ戻した
 - 不要となった `docs/stylesheets/components.css` の追加スタイルは削除済み
 
 ### コミット
+
 - 未実施
 
 ---
 
-## 2026-05-24: Part1/Part2のリンク追加とMkDocsライブリロード改善
+## 2026-05-24: Part1/Part2 のリンク追加と MkDocs ライブリロード改善
 
 ### 問題
-- Part1の末尾「Part 2に進みましょう」にリンクがない
-- Part2の末尾「Part 3に進みましょう」にリンクがない
-- Docker版MkDocs（ポート8001）でファイル変更が自動反映されない
+
+- Part1 の末尾「Part 2 に進みましょう」にリンクがない
+- Part2 の末尾「Part 3 に進みましょう」にリンクがない
+- Docker 版 MkDocs（ポート 8001）でファイル変更が自動反映されない
 
 ### 解決策
 
@@ -173,78 +230,82 @@ MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-a
    - `docs/part1.md:353`: "休憩を取ってから、Part 2 に進みましょう！" → `[Part 2](part2.md)`を追加
    - `docs/part2.md:321`: "休憩を取ってから、Part 3 に進みましょう！" → `[Part 3](part3.md)`を追加
 
-2. **Docker版MkDocsにポーリング機能を追加**
+2. **Docker 版 MkDocs にポーリング機能を追加**
    - `setup/instructor/docker-compose.yml:71`: `--watch-poll`オプションを追加
-   - ポーリングベースのファイル監視により、Dockerコンテナ環境でもライブリロードが確実に機能
-   - 1-2秒の遅延はあるが、クリティカルなデメリットはない
+   - ポーリングベースのファイル監視により、Docker コンテナ環境でもライブリロードが確実に機能
+   - 1-2 秒の遅延はあるが、クリティカルなデメリットはない
 
 3. **講師用ドキュメントの更新**
    - `setup/instructor/instructor-share-info.md`: ポーリング機能について説明を追記
-   - Docker版（8001）でもライブリロードが機能することを明記
+   - Docker 版（8001）でもライブリロードが機能することを明記
    - 即座の反映が必要な場合のローカル版（8000）併用方法を記載
 
 ### 技術的な詳細
 
 **ポーリングベースのデメリット**:
-- CPU使用率の増加（定期的なファイルスキャン）
-- 反映の遅延（ポーリング間隔1-2秒）
-- ディスクI/Oの増加
+
+- CPU 使用率の増加（定期的なファイルスキャン）
+- 反映の遅延（ポーリング間隔 1-2 秒）
+- ディスク I/O の増加
 - バッテリー消費の増加
 
-ただし、いずれも実用上問題にならないレベル。Dockerコンテナ環境でinotifyイベントが正しく伝播しない問題を回避できるため、トレードオフとして許容できる。
+ただし、いずれも実用上問題にならないレベル。Docker コンテナ環境で inotify イベントが正しく伝播しない問題を回避できるため、トレードオフとして許容できる。
 
 **`--livereload`と`--watch-poll`**:
-- `--livereload`: MkDocsでデフォルト有効のため、明示的な追加は不要
+
+- `--livereload`: MkDocs でデフォルト有効のため、明示的な追加は不要
 - `--watch-poll`: ポーリングベースの監視を有効化（これのみ追加すれば十分）
 
-**8000と8001の関係**:
-- ポート8000: ローカルで`python -m mkdocs serve`を実行したMkDocsサーバー
-- ポート8001: Dockerコンテナで実行されているMkDocsサーバー
+**8000 と 8001 の関係**:
+
+- ポート 8000: ローカルで`python -m mkdocs serve`を実行した MkDocs サーバー
+- ポート 8001: Docker コンテナで実行されている MkDocs サーバー
 - 両方とも同じファイルシステムを参照しているため、独立して同じファイルの変更を検知
-- 8000の起動が8001の更新のトリガーではなく、単なる偶然のタイミング
+- 8000 の起動が 8001 の更新のトリガーではなく、単なる偶然のタイミング
 
 ### コミット
-- `[pending]` docs: Part1/Part2のリンク追加とMkDocsライブリロード改善
+
+- `[pending]` docs: Part1/Part2 のリンク追加と MkDocs ライブリロード改善
 
 ---
 
-## 2026-05-24: MkDocsポート8000/8001の使い分けを明確化
+## 2026-05-24: MkDocs ポート 8000/8001 の使い分けを明確化
 
 ### 実施内容
 
-1. **start-all.shの更新**
+1. **start-all.sh の更新**
    - コンテナ版（8001）と開発版（8000）の違いを明確化
    - 開発版は別途手動起動が必要であることを明記
    - プロジェクトルートでの実行が必要であることを追加
    - バックグラウンド実行のオプションと停止方法を追加
 
-2. **stop-all.shの更新**
-   - ポート8000で動作するmkdocsプロセスを自動検出して停止
+2. **stop-all.sh の更新**
+   - ポート 8000 で動作する mkdocs プロセスを自動検出して停止
    - フォアグラウンド/バックグラウンドに関係なく停止可能
-   - lsofコマンドでポート使用プロセスを特定
+   - lsof コマンドでポート使用プロセスを特定
 
-3. **instructor-share-info.mdの更新**
-   - コンテナ版vs開発版の比較表を追加
-   - FAQセクションを追加（5つの質問）
+3. **instructor-share-info.md の更新**
+   - コンテナ版 vs 開発版の比較表を追加
+   - FAQ セクションを追加（5 つの質問）
      - Q1: 同時起動の可否とメリット・デメリット
      - Q2: 自動更新の動作
-     - Q3: mkdocs.ymlエラーの解決方法
+     - Q3: mkdocs.yml エラーの解決方法
      - Q4: バックグラウンド実行時の停止方法
-     - Q5: 受講者が8000にアクセスした場合
+     - Q5: 受講者が 8000 にアクセスした場合
    - 実行ディレクトリの重要性を明記
 
 ### 技術的なポイント
 
-- **ポート8000と8001は競合しない**
-  - 8001: Dockerコンテナ（start-all.shで自動起動）
+- **ポート 8000 と 8001 は競合しない**
+  - 8001: Docker コンテナ（start-all.sh で自動起動）
   - 8000: ローカルプロセス（手動起動）
   
-- **stop-all.shの動作**
+- **stop-all.sh の動作**
   - `lsof -ti:8000`でポート使用プロセスを検出
   - フォアグラウンド/バックグラウンドに関係なく停止可能
   
-- **mkdocs serveの実行要件**
-  - mkdocs.ymlがあるディレクトリ（プロジェクトルート）で実行必須
+- **mkdocs serve の実行要件**
+  - mkdocs.yml があるディレクトリ（プロジェクトルート）で実行必須
   - setup/instructor/から実行する場合は`cd ../..`が必要
 
 ### 推奨される運用
@@ -263,7 +324,7 @@ MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-a
 
 ### 実施内容
 
-part1.md、part2.md、part3.mdの最後にあった「お疲れ様でした」のセクションを削除しました。
+part1.md、part2.md、part3.md の最後にあった「お疲れ様でした」のセクションを削除しました。
 
 ### 変更ファイル
 
@@ -279,7 +340,7 @@ summary.md のまとめページに「課題」セクションを追加しまし
 
 - Custom admonition（`??? challenge`）を使用した折り畳み可能な課題セクション
 - Agentic RAG における Lexical Search と Vector Search の Harness Engineering による差異の調査課題
-- 調査のポイント（4つの観点）と推奨アプローチを記載
+- 調査のポイント（4 つの観点）と推奨アプローチを記載
 - 和欧文間に半角スペースを追加して可読性を向上
 
 ### 変更ファイル
@@ -292,6 +353,7 @@ summary.md のまとめページに「課題」セクションを追加しまし
 ## 2026-05-23 23:52 JST - Colima ランタイム設定とデプロイスクリプト改善
 
 ### 背景
+
 - `colima delete`に時間がかかる問題を調査
 - Podman ランタイムのサポート状況を確認
 - デプロイスクリプトのエラーハンドリングを改善
@@ -299,22 +361,28 @@ summary.md のまとめページに「課題」セクションを追加しまし
 ### 実施内容
 
 #### 1. Colima ランタイムの修正
+
 **問題**: Colima 0.10.1 は Podman ランタイムをサポートしていない
+
 - サポートされているランタイム: docker, containerd, incus
 - 過去に Podman ランタイムを推奨していたが、実際には使用不可
 
 **対応**:
+
 - README.md を修正: `--runtime podman` → `--runtime docker`
 - instructor 向けドキュメントを更新
 - 初回起動時の想定時間を追記（5〜10 分程度）
 
 #### 2. デプロイスクリプトの改善
+
 **問題**: 複数のエラーハンドリングとログ出力の問題
+
 - `lib/common.sh`の多重読み込みで readonly 変数エラー
 - リソースグループ自動選択が機能しない
 - ログメッセージが変数に混入してイメージ名が不正
 
 **対応**:
+
 - 多重読み込み防止ガードを追加（`COMMON_SH_LOADED`フラグ）
 - `select_resource_group`と`select_registry_namespace`のログ出力を stderr にリダイレクト
 - Code Engine プロジェクト作成時のエラーハンドリング改善
@@ -322,11 +390,14 @@ summary.md のまとめページに「課題」セクションを追加しまし
 - デプロイ進捗表示から経過時間を削除（シンプル化）
 
 #### 3. Podman machine 環境のクリーンアップ
+
 **問題**: Colima と Podman machine が両方起動していた
+
 - リソースの無駄（CPU 6、メモリ 4GiB）
 - 環境の複雑化
 
 **対応**:
+
 - Podman machine を停止・削除
 - Colima のみを使用する構成に統一
 - リソース使用量を最適化（CPU 2、メモリ 2GiB）
@@ -334,6 +405,7 @@ summary.md のまとめページに「課題」セクションを追加しまし
 ### 技術的な詳細
 
 **多重読み込み防止**:
+
 ```bash
 if [ -n "${COMMON_SH_LOADED:-}" ]; then
     return 0
@@ -342,6 +414,7 @@ readonly COMMON_SH_LOADED=1
 ```
 
 **ログ出力のリダイレクト**:
+
 ```bash
 # 変数キャプチャ用の関数
 select_registry_namespace() {
@@ -351,6 +424,7 @@ select_registry_namespace() {
 ```
 
 **デプロイ進捗表示**:
+
 ```
 イメージをプル中...
 .....
@@ -360,12 +434,14 @@ select_registry_namespace() {
 ```
 
 ### 成果
+
 - Colima のみで安定動作する環境を構築
 - デプロイスクリプトのエラーハンドリングが改善
 - リソース使用量を 50%削減
 - ドキュメントが正確な情報に更新された
 
 ### コミット
+
 - `72d4431` docs: podman から docker ランタイムに変更
 - `b553507` docs: 和欧文間に半角スペースを追加
 - `a0e927c` docs: instructor 向けドキュメントを docker ランタイムに更新
@@ -382,6 +458,7 @@ select_registry_namespace() {
 ### 作業内容
 
 **背景**:
+
 - Colima が起動していない状態で`./start-all.sh`を実行するとエラーが発生
 - README のクイックスタートに Colima 起動手順が不足していた
 - Podman の制限事項（Code Engine デプロイ時の認証問題）が不明確だった
@@ -405,11 +482,13 @@ select_registry_namespace() {
 ### 技術的な詳細
 
 **Colima のランタイム指定**:
+
 - 初回起動時のみ`--runtime podman`を指定
 - 2 回目以降は`colima start`のみで同じランタイムで起動
 - `colima stop`後の再起動でも`--runtime`は不要
 
 **Podman の制限事項**:
+
 - IBM Cloud Container Registry との認証に問題がある
 - `deploy-to-code-engine.sh`が自動的に Docker 経由でプッシュする
 - ユーザーは手動でランタイムを切り替える必要なし
@@ -435,6 +514,7 @@ cd ../..
 ```
 
 ### コミット
+
 - `65e1340` docs: Colima と Podman の使用方法を明確化
 - `1a05129` docs: README から前提条件セクションを削除
 - `f641acd` docs: 用語を明確化（スタンドアロン Podman → Podman を直接使用）
@@ -450,10 +530,12 @@ cd ../..
 ## 2026-05-22 21:46 - instructor 用ドキュメントの更新
 
 ### 実施内容
+
 1. ローカル環境と Code Engine でのドキュメント更新方法の違いを明記
 2. instructor 用の 2 つのドキュメントを最新の内容に更新し、簡潔明瞭化
 
 ### 更新ファイル
+
 - `setup/instructor/instructor-share-info.md`
   - クイックスタートセクションを追加（環境起動、IP 確認、デプロイ）
   - 受講者への案内文を簡潔化
@@ -469,20 +551,23 @@ cd ../..
   - コストセクションを削除
 
 ### 技術的な説明
+
 **ローカル環境での自動更新**:
+
 - `docker-compose.yml`でボリュームマウント（`../../:/docs`）
 - MkDocs 開発サーバーモード（`serve`コマンド）
 - ファイル変更を自動検知してリアルタイム再ビルド
 
 **Code Engine での手動更新**:
+
 - `Dockerfile`でファイルをイメージに焼き込み（`COPY`）
 - ビルド時点の内容で固定
 - 更新には再デプロイが必要
 
 ### 成果
+
 - 講師が両環境の違いを理解し、適切に使い分けられるようになった
 - ドキュメントが簡潔明瞭になり、必要な情報にすぐアクセスできるようになった
-
 
 ---
 
@@ -2124,7 +2209,6 @@ Milvus 環境を停止中...
 1. 統合テストスクリプトの作成
 2. CI/CD での自動整合性チェック
 3. プロファイル定義のドキュメント化
-
 
 ---
 
@@ -4260,7 +4344,6 @@ ibmcloud ce app delete -n mkdocs-docs
 3. 既存アプリケーションが自動更新される（URL は変わらない）
 
 ---
-
 
 ### 実施した作業
 
