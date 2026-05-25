@@ -3,7 +3,7 @@
 このハンズオンでは、IBM Bob を使って「意味で検索する」機能（Vector Search）を体験します。
 
 !!! info "前提条件"
-    IBM Bob が既にインストールされ、使用できる状況を前提としています。
+    IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン：IBM Internal Version）。
 
 ## Vector Search とは？
 
