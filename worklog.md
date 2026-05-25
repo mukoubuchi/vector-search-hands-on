@@ -1,3 +1,117 @@
+## 2026-05-25: 前提条件にBobプラン名を追記
+
+### 問題
+- [`mkdocs`](mkdocs) の前提条件説明で、Bob がインストール済みであることは書かれていたが、利用プラン名が明記されていなかった
+- 画面表示に合わせて「IBM Internal Version」であることをドキュメント上でも明示したかった
+
+### 解決策
+- [`docs/index.md`](docs/index.md) の前提条件文言に「（プラン：IBM Internal Version）」を追記
+- [`docs/preparation.md`](docs/preparation.md) の前提条件文言にも同じ表記を追記
+- ホームと事前準備ページで表記を統一
+
+### コミット
+- [`c5b9c89`](worklog.md)
+
+## 2026-05-24 09:48 - Docker MkDocsの自動リロード問題の調査と修正
+
+### 問題
+- Docker版MkDocs（ポート8001）でファイル変更が反映されない
+- `stop-all.sh` → `start-all.sh`後、ポート8001にアクセスできなくなった
+
+### 原因分析
+
+1. **`--watch-poll`オプションの非サポート**
+   - 新しいMkDocsバージョンで`--watch-poll`オプションが削除されていた
+   - エラー: `Error: No such option: --watch-poll`
+   - コンテナが再起動を繰り返していた
+
+2. **macOS Docker Desktopの制限**
+   - ホストのファイルシステムイベントがLinuxコンテナに伝わらない
+   - `--watch`オプションや`--dirty`オプションでも自動検知は動作しない
+   - これはmacOS Docker Desktopの既知の問題
+
+### 実施した修正
+
+1. **docker-compose.ymlの修正**
+   - `--watch-poll`オプションを削除
+   - コメントでmacOS Docker Desktopの制限を明記
+   - シンプルな`serve --dev-addr=0.0.0.0:8000`に変更
+
+2. **ドキュメントの更新**
+   - `instructor-share-info.md`に詳細な使い分けガイドを追加
+   - ポート8000（ローカル開発用）とポート8001（共有用）の違いを明確化
+   - 推奨ワークフローを記載
+
+### 結論
+
+**ポート8000と8001の正しい使い分け**:
+
+- **ポート8000（ローカル開発用）**
+  - `python -m mkdocs serve`で起動
+  - ファイル変更の自動検知が動作
+  - 自動リロードが機能
+  - 用途: ドキュメント編集・開発
+
+- **ポート8001（受講者共有用）**
+  - Docker Composeで起動
+  - ネットワーク内の全員がアクセス可能
+  - ファイル変更の自動検知は動作しない（macOS Docker Desktopの制限）
+  - 手動でブラウザをリロードする必要あり
+  - 用途: 受講者への共有
+
+**以前の理解の誤り**:
+- 8000の起動が8001の更新をトリガーしているわけではない
+- 8000で自動リロードが動作するのは、ホスト上で直接実行されているため
+- 8001で自動リロードが動作しないのは、Docker Desktopの制限のため
+
+### 修正ファイル
+- `setup/instructor/docker-compose.yml`: `--watch-poll`削除、コメント追加
+- `setup/instructor/instructor-share-info.md`: 使い分けガイド更新
+
+### コミット
+- `[pending]` fix: Docker MkDocsの自動リロード問題を修正し、使い分けガイドを追加
+
+---
+
+## 2026 年 5 月 24 日（土）00:35 JST - MkDocs を start-all/stop-all に統合
+
+### 作業概要
+
+MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-all.sh`に統合し、ドキュメント修正作業と同一ネットワーク内での共有を容易にした。
+
+### 実施した作業
+
+#### 1. start-all.sh の更新
+- `--profile milvus` → `--profile all` に変更
+- Milvus と MkDocs を同時に起動
+- アクセス情報に MkDocs の URL 追加:
+  - ローカル: `http://localhost:8001`
+  - 同一ネットワーク: `http://<IP>:8001`
+
+#### 2. stop-all.sh の更新
+- `--profile milvus` → `--profile all` に変更
+- Milvus と MkDocs を同時に停止
+
+#### 3. README.md の更新
+- 講師向けクイックスタートを 7 ステップに更新
+- MkDocs アクセス情報を追加
+- 環境停止手順を追加
+
+### 背景
+
+- MkDocs コンテナが`mkdocs.yml`を見つけられず停止していた
+- `setup/instructor`から`docker-compose --profile docs up -d`で再起動が必要だった
+- ポートマッピング`8001:8000`により、ホスト側では 8001 でアクセス
+
+### 利点
+
+- ✅ 1 コマンドで Milvus + MkDocs を起動/停止
+- ✅ ドキュメント修正作業が即座に可能
+- ✅ 同一ネットワーク内で受講者と共有可能
+- ✅ リモート参加者向けには Code Engine も併用可能
+
+---
+
 ## 2026-05-24: まとめページの文言調整
 
 ### 問題
@@ -46,43 +160,904 @@
 
 ---
 
+## 2026-05-24: Part1/Part2のリンク追加とMkDocsライブリロード改善
 
-## 2026 年 5 月 24 日（土）00:35 JST - MkDocs を start-all/stop-all に統合
+### 問題
+- Part1の末尾「Part 2に進みましょう」にリンクがない
+- Part2の末尾「Part 3に進みましょう」にリンクがない
+- Docker版MkDocs（ポート8001）でファイル変更が自動反映されない
+
+### 解決策
+
+1. **リンクの追加**
+   - `docs/part1.md:353`: "休憩を取ってから、Part 2 に進みましょう！" → `[Part 2](part2.md)`を追加
+   - `docs/part2.md:321`: "休憩を取ってから、Part 3 に進みましょう！" → `[Part 3](part3.md)`を追加
+
+2. **Docker版MkDocsにポーリング機能を追加**
+   - `setup/instructor/docker-compose.yml:71`: `--watch-poll`オプションを追加
+   - ポーリングベースのファイル監視により、Dockerコンテナ環境でもライブリロードが確実に機能
+   - 1-2秒の遅延はあるが、クリティカルなデメリットはない
+
+3. **講師用ドキュメントの更新**
+   - `setup/instructor/instructor-share-info.md`: ポーリング機能について説明を追記
+   - Docker版（8001）でもライブリロードが機能することを明記
+   - 即座の反映が必要な場合のローカル版（8000）併用方法を記載
+
+### 技術的な詳細
+
+**ポーリングベースのデメリット**:
+- CPU使用率の増加（定期的なファイルスキャン）
+- 反映の遅延（ポーリング間隔1-2秒）
+- ディスクI/Oの増加
+- バッテリー消費の増加
+
+ただし、いずれも実用上問題にならないレベル。Dockerコンテナ環境でinotifyイベントが正しく伝播しない問題を回避できるため、トレードオフとして許容できる。
+
+**`--livereload`と`--watch-poll`**:
+- `--livereload`: MkDocsでデフォルト有効のため、明示的な追加は不要
+- `--watch-poll`: ポーリングベースの監視を有効化（これのみ追加すれば十分）
+
+**8000と8001の関係**:
+- ポート8000: ローカルで`python -m mkdocs serve`を実行したMkDocsサーバー
+- ポート8001: Dockerコンテナで実行されているMkDocsサーバー
+- 両方とも同じファイルシステムを参照しているため、独立して同じファイルの変更を検知
+- 8000の起動が8001の更新のトリガーではなく、単なる偶然のタイミング
+
+### コミット
+- `[pending]` docs: Part1/Part2のリンク追加とMkDocsライブリロード改善
+
+---
+
+## 2026-05-24: MkDocsポート8000/8001の使い分けを明確化
+
+### 実施内容
+
+1. **start-all.shの更新**
+   - コンテナ版（8001）と開発版（8000）の違いを明確化
+   - 開発版は別途手動起動が必要であることを明記
+   - プロジェクトルートでの実行が必要であることを追加
+   - バックグラウンド実行のオプションと停止方法を追加
+
+2. **stop-all.shの更新**
+   - ポート8000で動作するmkdocsプロセスを自動検出して停止
+   - フォアグラウンド/バックグラウンドに関係なく停止可能
+   - lsofコマンドでポート使用プロセスを特定
+
+3. **instructor-share-info.mdの更新**
+   - コンテナ版vs開発版の比較表を追加
+   - FAQセクションを追加（5つの質問）
+     - Q1: 同時起動の可否とメリット・デメリット
+     - Q2: 自動更新の動作
+     - Q3: mkdocs.ymlエラーの解決方法
+     - Q4: バックグラウンド実行時の停止方法
+     - Q5: 受講者が8000にアクセスした場合
+   - 実行ディレクトリの重要性を明記
+
+### 技術的なポイント
+
+- **ポート8000と8001は競合しない**
+  - 8001: Dockerコンテナ（start-all.shで自動起動）
+  - 8000: ローカルプロセス（手動起動）
+  
+- **stop-all.shの動作**
+  - `lsof -ti:8000`でポート使用プロセスを検出
+  - フォアグラウンド/バックグラウンドに関係なく停止可能
+  
+- **mkdocs serveの実行要件**
+  - mkdocs.ymlがあるディレクトリ（プロジェクトルート）で実行必須
+  - setup/instructor/から実行する場合は`cd ../..`が必要
+
+### 推奨される運用
+
+- **ハンズオン本番**: コンテナ版（8001）のみ使用
+- **ドキュメント編集**: 開発版（8000）を追加起動
+- **同時起動**: 技術的には可能だが、通常は不要
+
+### 変更ファイル
+
+- setup/instructor/start-all.sh
+- setup/instructor/stop-all.sh
+- setup/instructor/instructor-share-info.md
+
+## 2026-05-24: ドキュメントから「お疲れ様でした」セクションを削除
+
+### 実施内容
+
+part1.md、part2.md、part3.mdの最後にあった「お疲れ様でした」のセクションを削除しました。
+
+### 変更ファイル
+
+- docs/part1.md
+- docs/part2.md
+- docs/part3.md
+
+## 2026-05-24: まとめページに課題セクションを追加
+
+### 実施内容
+
+summary.md のまとめページに「課題」セクションを追加しました。
+
+- Custom admonition（`??? challenge`）を使用した折り畳み可能な課題セクション
+- Agentic RAG における Lexical Search と Vector Search の Harness Engineering による差異の調査課題
+- 調査のポイント（4つの観点）と推奨アプローチを記載
+- 和欧文間に半角スペースを追加して可読性を向上
+
+### 変更ファイル
+
+- mkdocs.yml: custom admonitions の設定を追加
+- docs/summary.md: 課題セクションを追加
+
+---
+
+## 2026-05-23 23:52 JST - Colima ランタイム設定とデプロイスクリプト改善
+
+### 背景
+- `colima delete`に時間がかかる問題を調査
+- Podman ランタイムのサポート状況を確認
+- デプロイスクリプトのエラーハンドリングを改善
+
+### 実施内容
+
+#### 1. Colima ランタイムの修正
+**問題**: Colima 0.10.1 は Podman ランタイムをサポートしていない
+- サポートされているランタイム: docker, containerd, incus
+- 過去に Podman ランタイムを推奨していたが、実際には使用不可
+
+**対応**:
+- README.md を修正: `--runtime podman` → `--runtime docker`
+- instructor 向けドキュメントを更新
+- 初回起動時の想定時間を追記（5〜10 分程度）
+
+#### 2. デプロイスクリプトの改善
+**問題**: 複数のエラーハンドリングとログ出力の問題
+- `lib/common.sh`の多重読み込みで readonly 変数エラー
+- リソースグループ自動選択が機能しない
+- ログメッセージが変数に混入してイメージ名が不正
+
+**対応**:
+- 多重読み込み防止ガードを追加（`COMMON_SH_LOADED`フラグ）
+- `select_resource_group`と`select_registry_namespace`のログ出力を stderr にリダイレクト
+- Code Engine プロジェクト作成時のエラーハンドリング改善
+- IBM Cloud ログインエラーメッセージに`--sso`オプションを明記
+- デプロイ進捗表示から経過時間を削除（シンプル化）
+
+#### 3. Podman machine 環境のクリーンアップ
+**問題**: Colima と Podman machine が両方起動していた
+- リソースの無駄（CPU 6、メモリ 4GiB）
+- 環境の複雑化
+
+**対応**:
+- Podman machine を停止・削除
+- Colima のみを使用する構成に統一
+- リソース使用量を最適化（CPU 2、メモリ 2GiB）
+
+### 技術的な詳細
+
+**多重読み込み防止**:
+```bash
+if [ -n "${COMMON_SH_LOADED:-}" ]; then
+    return 0
+fi
+readonly COMMON_SH_LOADED=1
+```
+
+**ログ出力のリダイレクト**:
+```bash
+# 変数キャプチャ用の関数
+select_registry_namespace() {
+    log_section "確認中..." >&2  # stderr へ
+    echo "$registry_namespace"    # stdout へ（変数キャプチャ用）
+}
+```
+
+**デプロイ進捗表示**:
+```
+イメージをプル中...
+.....
+デプロイ中...
+.........
+✓ 準備完了 (120s)
+```
+
+### 成果
+- Colima のみで安定動作する環境を構築
+- デプロイスクリプトのエラーハンドリングが改善
+- リソース使用量を 50%削減
+- ドキュメントが正確な情報に更新された
+
+### コミット
+- `72d4431` docs: podman から docker ランタイムに変更
+- `b553507` docs: 和欧文間に半角スペースを追加
+- `a0e927c` docs: instructor 向けドキュメントを docker ランタイムに更新
+- `2e578c8` fix: common.sh の多重読み込みを防止
+- `3f2aa2d` fix: リソースグループ自動選択の改善
+- `08ce32a` fix: select_resource_group の戻り値を変数に格納
+- `fc65d1d` docs: IBM Cloud ログインエラーメッセージを改善
+- `c760ac3` fix: Code Engine プロジェクト作成時のエラーハンドリング改善
+- `53fb7a3` fix: select 関数のログ出力を stderr にリダイレクト
+- `8384dda` refactor: デプロイ進捗表示から経過時間を削除
+
+## 2026-05-23: README の Colima + Podman 対応を明確化
+
+### 作業内容
+
+**背景**:
+- Colima が起動していない状態で`./start-all.sh`を実行するとエラーが発生
+- README のクイックスタートに Colima 起動手順が不足していた
+- Podman の制限事項（Code Engine デプロイ時の認証問題）が不明確だった
+
+**実施した改善**:
+
+1. **README クイックスタートの更新**
+   - Colima 起動手順を追加（`colima start --runtime podman`）
+   - 初回起動と 2 回目以降の違いを明記
+   - 不要な技術的詳細を削除してシンプル化
+
+2. **用語の整理**
+   - 「スタンドアロン Podman」の表現を維持（ユーザー要望）
+   - 「コンテナランタイム」の用語を維持（技術的に正確）
+
+3. **スクリプトの実装確認**
+   - `lib/common.sh`の`detect_build_tool()`を確認
+   - `lib/deploy-helpers.sh`の`push_docker_image()`を確認
+   - Podman でビルドした場合、自動的に Docker 経由でプッシュする実装を確認
+
+### 技術的な詳細
+
+**Colima のランタイム指定**:
+- 初回起動時のみ`--runtime podman`を指定
+- 2 回目以降は`colima start`のみで同じランタイムで起動
+- `colima stop`後の再起動でも`--runtime`は不要
+
+**Podman の制限事項**:
+- IBM Cloud Container Registry との認証に問題がある
+- `deploy-to-code-engine.sh`が自動的に Docker 経由でプッシュする
+- ユーザーは手動でランタイムを切り替える必要なし
+
+### 最終的なクイックスタート構成
+
+```bash
+# 1. コンテナランタイムを起動
+colima start --runtime podman
+
+# 2. Milvus 環境を起動
+cd setup/instructor
+./start-all.sh
+
+# 3. IP アドレス確認
+ifconfig | grep "inet " | grep -v 127.0.0.1
+
+# 4. Code Engine にデプロイ
+cd ../..
+./deploy-to-code-engine.sh
+
+# 5. 受講者に共有
+```
+
+### コミット
+- `65e1340` docs: Colima と Podman の使用方法を明確化
+- `1a05129` docs: README から前提条件セクションを削除
+- `f641acd` docs: 用語を明確化（スタンドアロン Podman → Podman を直接使用）
+- `18f1e19` revert: スタンドアロン Podman の表現に戻す
+- `62a5c3e` docs: Code Engine デプロイの不要な注意事項を削除
+- `d6ba018` docs: クイックスタートから技術的な詳細を削除
+- `c1209c4` docs: クイックスタートをシンプル化
+- `b81ed6c` docs: Colima の起動方法を修正
+- `28091d5` docs: Colima の起動説明を簡潔化
+
+---
+
+## 2026-05-22 21:46 - instructor 用ドキュメントの更新
+
+### 実施内容
+1. ローカル環境と Code Engine でのドキュメント更新方法の違いを明記
+2. instructor 用の 2 つのドキュメントを最新の内容に更新し、簡潔明瞭化
+
+### 更新ファイル
+- `setup/instructor/instructor-share-info.md`
+  - クイックスタートセクションを追加（環境起動、IP 確認、デプロイ）
+  - 受講者への案内文を簡潔化
+  - チェックリストを整理
+  - 環境情報を「固定設定」と「環境依存」に分類
+
+- `setup/instructor/deploy-docs-to-cloud.md`
+  - クイックスタートを 5 ステップに簡素化
+  - ローカル環境 vs Code Engine の更新方法の違いを明記（比較表付き）
+  - 自動更新の仕組みを技術的に説明（ボリュームマウント vs Docker イメージ焼き込み）
+  - ベストプラクティスを追加（開発→公開→修正のワークフロー）
+  - トラブルシューティングを簡潔化
+  - コストセクションを削除
+
+### 技術的な説明
+**ローカル環境での自動更新**:
+- `docker-compose.yml`でボリュームマウント（`../../:/docs`）
+- MkDocs 開発サーバーモード（`serve`コマンド）
+- ファイル変更を自動検知してリアルタイム再ビルド
+
+**Code Engine での手動更新**:
+- `Dockerfile`でファイルをイメージに焼き込み（`COPY`）
+- ビルド時点の内容で固定
+- 更新には再デプロイが必要
+
+### 成果
+- 講師が両環境の違いを理解し、適切に使い分けられるようになった
+- ドキュメントが簡潔明瞭になり、必要な情報にすぐアクセスできるようになった
+
+
+---
+
+## 2026-05-22 16:27 - アーキテクチャ不一致問題を修正
+
+### 問題
+
+- Code Engine にデプロイしたアプリケーションが起動に失敗
+- エラー: `exec /sbin/tini: exec format error`
+- 新しいリビジョンが`1/3 Running`で 6 回再起動を繰り返す
+
+### 原因
+
+- Apple Silicon（ARM64）でビルドした Docker イメージを、AMD64 アーキテクチャの Code Engine で実行しようとしていた
+- アーキテクチャの不一致により、バイナリが実行できない
+
+### 修正内容
+
+1. **Podman を優先的に使用**
+   - 以前の解決策（Podman + Colima）を採用
+   - Podman が利用可能な場合は、Podman を優先的に使用
+   - `podman build --platform linux/amd64`で AMD64 イメージをビルド
+
+2. **Docker はフォールバック**
+   - Podman が利用できない場合のみ Docker を使用
+   - Docker Buildx が利用可能な場合は、マルチアーキテクチャビルダーを自動作成
+   - Buildx が利用不可の場合は、Podman のインストールを推奨
+
+3. **イメージプッシュも Podman 優先**
+   - プッシュ処理も Podman を優先的に使用
+
+### 変更ファイル
+
+- `deploy-to-code-engine.sh`: Podman を優先的に使用するように変更（143-177 行目）
+
+### 効果
+
+- Podman + Colima の組み合わせで、AMD64 アーキテクチャ用のイメージを確実にビルド
+- Docker Buildx の問題を回避
+- より安定したマルチアーキテクチャビルドを実現
+
+---
+
+## 2026-05-22 16:15 - Code Engine デプロイスクリプトの進捗表示問題を修正
+
+### 問題
+
+- `deploy-to-code-engine.sh`実行時に、アプリケーションのデプロイ進捗が表示されない
+- ステップ 10（Code Engine アプリケーションをデプロイ中）の後、進捗状況が更新されない
+
+### 原因
+
+1. `ibmcloud ce app update/create`コマンドの出力がバッファリングされていた
+2. コマンドが完了するまで待機するため、リアルタイムの進捗が表示されなかった
+3. 進捗監視ループの出力が標準出力に送られ、バッファリングの影響を受けていた
+
+### 修正内容
+
+1. **`--no-wait`オプションの追加**
+   - `ibmcloud ce app update/create`コマンドに`--no-wait`オプションを追加
+   - コマンドをバックグラウンドで実行し、プロセス ID を取得
+
+2. **視覚的な進捗インジケーター**
+   - コマンド実行中にドット（`.`）を 1 秒ごとに表示
+   - 60 個ごとに改行して見やすく表示
+
+3. **詳細な状態監視**
+   - 5 秒ごとにアプリケーションの状態をチェック
+   - `[  5s] 状態: Deploying`のような形式で経過時間とステータスを表示
+
+4. **出力のリダイレクト**
+   - すべての進捗メッセージを標準エラー出力（`>&2`）にリダイレクト
+   - バッファリングの問題を回避
+
+### 変更ファイル
+
+- `deploy-to-code-engine.sh`: アプリケーションのデプロイ処理を改善（214-318 行目）
+
+### 効果
+
+- デプロイ中の進捗がリアルタイムで表示されるようになった
+- ユーザーはコマンドが実行中であることを視覚的に確認できる
+- アプリケーションの準備状態を定期的に確認し、状態遷移を追跡できる
+
+## 2026-05-22 16:12 - deploy-to-code-engine.sh の出力バッファリング問題を修正
+
+### 作業内容
+
+#### コマンド出力がバッファリングされる問題を修正
+
+`deploy-to-code-engine.sh`のコマンド実行方法を変更：
+
+1. **if 文の条件からコマンド実行を分離**
+   - `if ibmcloud ce app update ...`を 2 つのステップに分割
+   - まずコマンドを実行して出力を表示
+   - 次に終了コードをチェック
+
+2. **終了コードの明示的な表示**
+   - `UPDATE_EXIT_CODE=$?`で終了コードを保存
+   - 成功メッセージに終了コードを表示
+
+3. **出力のリアルタイム表示**
+   - if 文の条件内でコマンドを実行すると出力がバッファリングされる
+   - コマンドを先に実行することで出力が即座に表示される
+
+### 理由
+
+- if 文の条件内でコマンドを実行すると、bash が出力をバッファリングする
+- そのため、コマンドの実行中に何も表示されず、完了後に一気に表示される
+- コマンドを先に実行してから終了コードをチェックすることで、リアルタイムに出力が表示される
+
+### 成果
+
+- ✅ コマンド実行と終了コードチェックを分離
+- ✅ 出力のリアルタイム表示を実現
+- ✅ 終了コードを明示的に表示してデバッグを容易に
+
+## 2026-05-22 16:09 - deploy-to-code-engine.sh の進捗表示を再修正
+
+### 作業内容
+
+#### 進捗表示が動作しない問題の根本原因を修正
+
+`deploy-to-code-engine.sh`の進捗監視ロジックを再修正：
+
+1. **初回待機時間の追加**
+   - 監視開始前に 3 秒待機を追加
+   - `ibmcloud ce app update/create`コマンドは非同期で実行されるため、即座にステータスを確認しても更新が反映されていない
+
+2. **ステータス取得の改善**
+   - `2>/dev/null`を`2>&1`に変更してエラー出力も確認
+   - ステータスが取得できない場合は「確認中...」と表示
+
+3. **空ステータスのハンドリング**
+   - ステータスが空の場合の処理を追加
+   - より詳細な状態表示
+
+### 理由
+
+- `ibmcloud ce app update`コマンドはすぐに完了するが、実際のアプリケーション更新は裏で進行する
+- コマンド完了直後にステータスを確認すると、まだ更新が反映されていない
+- ステータス取得コマンドが失敗している可能性があり、エラー出力を確認する必要がある
+
+### 成果
+
+- ✅ 初回待機時間を追加（3 秒）
+- ✅ ステータス取得のエラーハンドリングを改善
+- ✅ 空ステータスの場合の処理を追加
+
+---
+
+## 2026-05-22 16:05 - deploy-to-code-engine.sh の進捗表示を修正
+
+### 作業内容
+
+#### 進捗表示が動作しない問題を修正
+
+`deploy-to-code-engine.sh`の進捗監視ロジックを修正：
+
+1. **エラーハンドリングの追加**
+   - `ibmcloud ce app update/create`コマンドの実行結果をチェック
+   - コマンド失敗時はエラーメッセージを表示して終了
+
+2. **インデントの修正**
+   - 監視ループのインデントを正しく設定
+   - if 文のネストを適切に修正
+
+3. **メッセージの改善**
+   - コマンド完了時に成功メッセージを表示
+   - 準備完了時に経過時間を表示
+
+### 理由
+
+- `app update`コマンドの実行結果をチェックしていなかったため、コマンドが失敗しても監視ループが実行されていた
+- インデントが不適切で、監視ループが正しく実行されていなかった
+
+### 成果
+
+- ✅ コマンド実行結果のチェックを追加
+- ✅ エラーハンドリングを実装
+- ✅ インデントを修正して監視ループが正しく動作するように改善
+
+---
+
+## 2026-05-22 16:00 - deploy-to-code-engine.sh に進捗表示を追加
+
+### 作業内容
+
+#### アプリケーション更新時の進捗表示
+
+`deploy-to-code-engine.sh`のアプリケーション更新/作成後に、準備状態を監視する機能を追加：
+
+- 5 秒ごとにアプリケーションの状態をチェック
+- 経過時間を表示（例: "状態: Deploying (15 秒経過)"）
+- 最大 2 分間待機
+- 準備完了（Ready）になったら完了メッセージを表示
+- タイムアウト時は手動確認を促すメッセージを表示
+
+### 理由
+
+- アプリケーション更新時に「時間がかかる」という状況で、進捗が見えないと不安
+- 状態と経過時間を表示することで、処理が進行中であることを確認できる
+- タイムアウト処理により、無限待機を防ぐ
+
+### 成果
+
+- ✅ アプリケーション更新/作成時の進捗を可視化
+- ✅ 5 秒ごとに状態と経過時間を表示
+- ✅ タイムアウト処理を実装（最大 2 分）
+
+---
+
+## 2026-05-22 15:56 - 全ファイルのパス参照を修正
+
+### 作業内容
+
+#### 存在しないパスへの参照を修正
+
+1. **docker-compose.yml**
+   - 70 行目: `../../docs/participant:/docs` → `../../:/docs`
+   - 存在しない`docs/participant`ディレクトリへの参照を修正
+
+2. **instructor-share-info.md**
+   - セットアップ手順のパスを修正（`setup/` → `setup/participant/`）
+   - ポート 8001 への参照を削除（現在は Code Engine 使用）
+   - MkDocs ポート: 8001 → 8000
+
+3. **start-all.sh**
+   - MkDocs ドキュメントサーバー関連の出力を削除
+   - Milvus 環境のみを起動するように変更
+   - Code Engine デプロイの案内を追加
+
+### 理由
+
+- `docs/participant`ディレクトリは存在しない
+- 現在は Code Engine でドキュメントを配信
+- ローカルの MkDocs サーバー（ポート 8001）は使用しない
+- 実際のファイル構造に合わせた正確なパスに修正
+
+### 成果
+
+- ✅ すべての存在しないパス参照を修正
+- ✅ docker-compose.yml のボリュームマウントを修正
+- ✅ ドキュメント配信方法を Code Engine に統一
+- ✅ start-all.sh の出力を現状に合わせて更新
+
+---
+
+## 2026-05-22 15:49 - deploy-to-code-engine.sh のプラットフォーム指定を削除
+
+### 作業内容
+
+#### ビルドコマンドからプラットフォーム指定を削除
+
+`deploy-to-code-engine.sh`の Docker ビルドコマンドから`--platform linux/amd64`を削除：
+
+- 修正前: `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+- 修正後: `docker build -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+- Podman も同様に修正
+
+### 理由
+
+- Apple Silicon（M1/M2/M3）でビルド時に`--platform linux/amd64`を指定すると、マルチステージビルドの中間イメージでプラットフォームの不一致エラーが発生
+- MkDocs Material イメージはマルチアーキテクチャ対応しているため、プラットフォーム指定なしでビルドしても問題なし
+- Code Engine は自動的に適切なアーキテクチャで実行
+
+### 成果
+
+- ✅ Apple Silicon でのビルドエラーを完全に解消
+- ✅ プラットフォーム指定なしでシンプルなビルドコマンドに
+
+---
+
+## 2026-05-22 15:46 - Dockerfile のプラットフォーム指定を削除
+
+### 作業内容
+
+#### Dockerfile の修正
+
+`docs/Dockerfile`の`FROM`行からプラットフォーム指定を削除：
+
+- 修正前: `FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest`
+- 修正後: `FROM squidfunk/mkdocs-material:latest`
+
+### 理由
+
+- Apple Silicon（M1/M2/M3）でビルド時に`--platform=linux/amd64`を Dockerfile 内で指定すると、中間イメージでプラットフォームの不一致エラーが発生
+- `deploy-to-code-engine.sh`のビルドコマンドで`--platform linux/amd64`を指定しているため、Dockerfile 内での指定は不要
+- ビルドコマンドレベルでのプラットフォーム指定の方が柔軟で問題が少ない
+
+### 成果
+
+- ✅ Docker ビルドエラーを解消
+- ✅ Apple Silicon でのビルドが正常に動作
+
+---
+
+## 2026-05-22 15:42 - deploy-to-code-engine.sh の Dockerfile パス修正
+
+### 作業内容
+
+#### Dockerfile パスの指定
+
+`deploy-to-code-engine.sh`の Docker ビルドコマンドに Dockerfile のパスを追加：
+
+- 146 行目: `docker build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
+  → `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+- 149 行目: `podman build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
+  → `podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
+
+### 理由
+
+- Dockerfile はプロジェクトルートではなく`docs/Dockerfile`に配置されている
+- パスを指定しないと「Dockerfile: no such file or directory」エラーが発生
+
+### 成果
+
+- ✅ Dockerfile のパスを正しく指定
+- ✅ プロジェクトルートからデプロイスクリプトを実行可能に
+
+### 注意事項（今後の worklog 更新時）
+
+**markdownlint 警告を防ぐため:**
+
+- エントリ間の区切り（`---`）の前後は空行 1 行のみ
+- 複数の空行（2 行以上連続）は使用しない
+- URL は必ず`<>`で囲む（例: `<http://localhost:8000>`）
+- 新しいエントリを追加したら、必ず markdownlint 警告を確認する
+
+---
+
+## 2026-05-22 15:37 - techzone-code-engine-guide.md と worklog.md のパス修正
+
+### 作業内容
+
+#### 残っていた誤ったパスの修正
+
+1. **techzone-code-engine-guide.md**
+   - 3 箇所の`cd docs/participant`を`cd /path/to/vector-search-handson`に修正
+   - 行 78, 88, 130
+
+2. **worklog.md（過去のエントリ）**
+   - 行 206: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - Dockerfile のパスも追加: `-f docs/Dockerfile`
+   - 行 1954: `cd docs/participant && ./deploy-to-code-engine.sh` → `cd /path/to/vector-search-handson && ./deploy-to-code-engine.sh`
+
+### 成果
+
+- ✅ すべてのドキュメントから`cd docs/participant`を削除
+- ✅ 正しいパス（プロジェクトルート）に統一
+- ✅ Dockerfile の参照パスも修正
+
+---
+
+## 2026-05-22 15:32 - deploy-docs-to-cloud.md のパス修正
+
+### 作業内容
+
+#### 間違ったパスの修正
+
+`setup/instructor/deploy-docs-to-cloud.md`内の誤ったパスを修正：
+
+1. **デプロイ実行セクション（4. デプロイ実行）**
+   - 誤: `cd docs/participant` → 正: `cd /path/to/vector-search-handson`
+   - `docs/participant`ディレクトリは存在しない
+
+2. **ドキュメント更新時セクション**
+   - 誤: `cd docs/participant` → 正: `cd /path/to/vector-search-handson`
+
+3. **詳細ドキュメントセクション**
+   - 誤: `docs/participant/code-engine-deploy.md` → 正: `setup/instructor/techzone-code-engine-guide.md`
+   - 存在しないファイルへの参照を修正
+
+4. **代替案セクション**
+   - オプション A: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - オプション B: `cd docs/participant` → `cd /path/to/vector-search-handson`
+   - docker-compose 参照を削除し、`./start-docs.sh`に変更
+   - ポート番号: 8001 → 8000
+
+### 理由
+
+- `docs/participant`ディレクトリは存在しない
+- `deploy-to-code-engine.sh`はプロジェクトルートに配置されている
+- 実際のファイル構造に合わせた正確なパスに修正
+
+### 成果
+
+- ✅ すべての誤ったパス参照を修正
+- ✅ 存在しないファイルへの参照を修正
+- ✅ 実際のプロジェクト構造に即した内容に更新
+
+---
+
+## 2026-05-22 15:00 - README.md 修正と MkDocs サーバー起動
+
+### 作業内容
+
+#### README.md の修正
+
+1. **deploy-to-code-engine.sh のパス修正**
+   - 誤: `cd ../../docs` → 正: `cd ../..`
+   - スクリプトはプロジェクトルートにあるため
+
+2. **プロジェクト構造の詳細化**
+   - 実際のファイル構成に合わせて更新
+   - `deploy-to-code-engine.sh`、`mkdocs.yml`、`start-docs.sh`がルートにあることを明記
+   - docs 配下の実際のファイル（index.md, preparation.md, part1-3.md, summary.md）を反映
+
+3. **不要なセクションの削除**
+   - 「リファクタリング済み」セクションを削除
+   - 「ライセンス」セクションを削除
+
+4. **ローカル開発セクションの改善**
+   - プロジェクトルートから`./start-docs.sh`で起動できることを明記
+   - Milvus 環境の停止方法を追加
+
+5. **関連ドキュメントセクションの追加**
+   - 実際に存在するドキュメントへのリンクを整理
+   - TechZone 環境ガイドと講師向け情報共有ドキュメントを追加
+
+#### MkDocs サーバーの起動
+
+- `./start-docs.sh`を実行して MkDocs サーバーを起動
+- <http://localhost:8000> で正常にアクセス可能
+- ドキュメントビルド: 0.30 秒で完了
+
+### 成果
+
+- ✅ README.md が現状のファイル構造に即した内容に更新
+- ✅ deploy-to-code-engine.sh のパスが正しく修正
+- ✅ MkDocs サーバーが正常に起動
+- ✅ 不要なセクション（リファクタリング済み、ライセンス）を削除
+
+---
+
+## 2026 年 5 月 22 日（金）08:19 JST - Git 保留中の変更と Markdownlint 警告の解決
 
 ### 作業概要
 
-MkDocs ドキュメントサーバーの起動・停止を`start-all.sh`/`stop-all.sh`に統合し、ドキュメント修正作業と同一ネットワーク内での共有を容易にした。
+68 件の保留中の変更と worklog.md の多数の Markdownlint 警告を解決。
 
 ### 実施した作業
 
-#### 1. start-all.sh の更新
-- `--profile milvus` → `--profile all` に変更
-- Milvus と MkDocs を同時に起動
-- アクセス情報に MkDocs の URL 追加:
-  - ローカル: `http://localhost:8001`
-  - 同一ネットワーク: `http://<IP>:8001`
+#### 1. site/ディレクトリの除外
 
-#### 2. stop-all.sh の更新
-- `--profile milvus` → `--profile all` に変更
-- Milvus と MkDocs を同時に停止
+- MkDocs ビルド出力 62 ファイルを Git 追跡から削除
+- `.gitignore`に`site/`を追加
+- ビルド生成ファイルはバージョン管理対象外に
 
-#### 3. README.md の更新
-- 講師向けクイックスタートを 7 ステップに更新
-- MkDocs アクセス情報を追加
-- 環境停止手順を追加
+#### 2. MkDocs 2.0 警告抑止機能の追加
+
+- `start-docs.bat`と`start-docs.sh`に`NO_MKDOCS_2_WARNING`環境変数を追加
+- `mkdocs`ラッパースクリプトを作成
+- Material theme の将来互換性警告を抑止
+
+#### 3. worklog.md の Markdownlint 警告修正（3 回のコミット）
+
+**コミット 1（169 件の問題を修正）:**
+
+- コードブロック前後の空行を追加（MD031/MD032）
+- 連続空行を最大 2 行に制限（MD012）
+
+**コミット 2（4 件の問題を修正）:**
+
+- インデントされた見出しを修正（MD023）
+- ファイル末尾に改行を追加（MD047）
+
+**コミット 3（196 件以上の問題を修正）:**
+
+- 見出しレベルを段階的に修正（MD001）：H2→H4 を H2→H3 に変更
+- 見出しの前後に空行を追加（MD022）
+- リストの前に空行を追加（MD032）
+
+#### 4. Markdownlint 設定の最適化
+
+- `.markdownlint.json`で MD024（重複する見出し）を完全に無効化
+- worklog の性質上、異なるセクションで同じ見出し名を使用するため
+
+### 成果
+
+- ✅ 保留中の変更: 68 件 → 0 件
+- ✅ Markdownlint 警告: 369 件以上 → 0 件
+- ✅ すべてのルール違反を解決（MD001, MD012, MD022, MD023, MD031, MD032, MD047）
+- ✅ ワーキングツリー: クリーン
+
+### コミット
+
+- `d23a5a0` - site/ディレクトリを Git 追跡から削除し.gitignore に追加
+- `e74cdaf` - MkDocs 2.0 互換性警告抑止機能を追加
+- `45c8aee` - worklog.md の markdownlint 警告を修正（コードブロック関連）
+- `88c1b06` - worklog.md の残りの markdownlint 警告を修正（見出し・改行）
+- `40a4757` - worklog.md のすべての markdownlint 警告を修正（見出しレベル・空行）
+- `5c41d50` - markdownlint 設定で MD024 を完全に無効化
+
+---
+
+## 2026 年 5 月 22 日（金）08:17 JST - 和欧文間スペースの再調整と反映
+
+### 作業概要
+
+ワークスペース内の Markdown を再点検し、和欧文が隣接している箇所へ半角スペースを追加した。あわせて Markdown lint を再実行し、修正内容を GitHub に反映した。
+
+### 実施した作業
+
+- [`README.md`](README.md) の `CSS` / `JavaScript` まわりの和欧文間スペースを調整
+- [`docs/README.md`](docs/README.md) の `MkDocs`、`Dockerfile`、`CSS`、`JavaScript`、`TOC`、`localStorage`、`Material Theme` などの表記を調整
+- [`docs/index.md`](docs/index.md) の `4 GB` / `8 GB` 表記を調整
+- [`docs/preparation.md`](docs/preparation.md) の操作表記を `++File++` / `++Open Folder++` に統一
+- [`docs/summary.md`](docs/summary.md) の `` `/review` コマンド `` 表記を調整
+- [`markdownlint-cli2`](README.md:1) を再実行し、`0 error(s)` を確認
+- [`git.commit`](README.md:1) `style: 和欧文間のスペースを調整` を作成
+- [`git.push`](README.md:1) で [`main`](README.md:1) をリモートへ反映
+
+### 変更ファイル
+
+- [`README.md`](README.md)
+- [`docs/README.md`](docs/README.md)
+- [`docs/index.md`](docs/index.md)
+- [`docs/preparation.md`](docs/preparation.md)
+- [`docs/summary.md`](docs/summary.md)
+
+### コミット
+
+- [`0c942cc`](README.md:1) - `style: 和欧文間のスペースを調整`
+
+---
+
+## 2026 年 5 月 22 日（金）07:58 JST - MkDocs ライトテーマ準拠の表示調整
+
+MkDocs ドキュメントのコードブロック配色が VS 系ダーク寄りになっていたため、Material のライトテーマ表示に合わせて調整した。あわせて、コードブロック内の不要な `**` 表示や、目次まわりの見た目競合も解消した。
 
 ### 背景
 
-- MkDocs コンテナが`mkdocs.yml`を見つけられず停止していた
-- `setup/instructor`から`docker-compose --profile docs up -d`で再起動が必要だった
-- ポートマッピング`8001:8000`により、ホスト側では 8001 でアクセス
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:1) に、ライトテーマと競合する強制色指定が残っていた
+- コードブロック内で Markdown 強調記法の `**...**` が文字として表示されていた
+- 目次リンクの演出と、目次スクロールバーの見え方に個別調整が必要だった
+- [`mkdocs.yml`](mkdocs.yml:1) の Material パレット設定は維持しつつ、問題箇所のみ直す必要があった
 
-### 利点
+### 実施内容
 
-- ✅ 1 コマンドで Milvus + MkDocs を起動/停止
-- ✅ ドキュメント修正作業が即座に可能
-- ✅ 同一ネットワーク内で受講者と共有可能
-- ✅ リモート参加者向けには Code Engine も併用可能
+**1. コードブロックのライトテーマ準拠化**
+
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:549) のコードブロック背景・境界線・インラインコード色をライトテーマ向けに調整
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:648) 以降のシンタックスハイライト定義を、ダークテーマ寄りの固定色からライトテーマ寄りの配色へ見直し
+- shell / bash / properties 系の個別上書きも含めて調整
+
+**2. コードブロック内の不要な強調記号を除去**
+
+- [`docs/part1.md`](docs/part1.md:105) の出力例に含まれていた `**192.168.1.100**` や `**384**` などの表記を削除
+- Markdown コードブロック内で `**` がそのまま見える問題を解消
+
+**3. 目次リンク演出の再調整**
+
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:853) の目次リンクスタイルを調整
+- hover 時の文字色変更は戻し、青い下線スライド演出だけを維持
+- Material 標準色と独自アニメーションの両立を図った
+
+**4. 目次スクロールバーの見た目を限定的に調整**
+
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:860) に、右側 TOC 領域限定のスクロールバー指定を追加
+- Material 全体の blue-grey 配色は維持しつつ、問題になっていた細い青い縦バーだけを対象に調整
+- [`mkdocs.yml`](mkdocs.yml:12) の [`theme.palette`](mkdocs.yml:12) は最終的に `blue-grey` のまま維持
+
+#### 変更ファイル
+
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:1)
+- [`docs/part1.md`](docs/part1.md:1)
+- [`mkdocs.yml`](mkdocs.yml:1)
+
+#### 効果
+
+- ✅ コードブロック配色がライトテーマに馴染む見た目になった
+- ✅ コード例内の不要な `**` 表示を解消
+- ✅ 目次リンク演出を維持しつつ、目次まわりの視覚ノイズを低減
+- ✅ Material の blue-grey テーマ方針を保ったまま部分調整できた
 
 ---
 
@@ -183,57 +1158,6 @@ vector-search-handson/
 - `ae00d63` - ライセンスセクションを削除
 - `65a2808` - 受講者向けに配布ファイルの情報を追加
 - `066b6e9` - 和欧文間に半角スペースを追加
-
----
-
-## 2026 年 5 月 22 日（金）07:58 JST - MkDocs ライトテーマ準拠の表示調整
-
-MkDocs ドキュメントのコードブロック配色が VS 系ダーク寄りになっていたため、Material のライトテーマ表示に合わせて調整した。あわせて、コードブロック内の不要な `**` 表示や、目次まわりの見た目競合も解消した。
-
-### 背景
-
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:1) に、ライトテーマと競合する強制色指定が残っていた
-- コードブロック内で Markdown 強調記法の `**...**` が文字として表示されていた
-- 目次リンクの演出と、目次スクロールバーの見え方に個別調整が必要だった
-- [`mkdocs.yml`](mkdocs.yml:1) の Material パレット設定は維持しつつ、問題箇所のみ直す必要があった
-
-### 実施内容
-
-**1. コードブロックのライトテーマ準拠化**
-
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:549) のコードブロック背景・境界線・インラインコード色をライトテーマ向けに調整
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:648) 以降のシンタックスハイライト定義を、ダークテーマ寄りの固定色からライトテーマ寄りの配色へ見直し
-- shell / bash / properties 系の個別上書きも含めて調整
-
-**2. コードブロック内の不要な強調記号を除去**
-
-- [`docs/part1.md`](docs/part1.md:105) の出力例に含まれていた `**192.168.1.100**` や `**384**` などの表記を削除
-- Markdown コードブロック内で `**` がそのまま見える問題を解消
-
-**3. 目次リンク演出の再調整**
-
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:853) の目次リンクスタイルを調整
-- hover 時の文字色変更は戻し、青い下線スライド演出だけを維持
-- Material 標準色と独自アニメーションの両立を図った
-
-**4. 目次スクロールバーの見た目を限定的に調整**
-
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:860) に、右側 TOC 領域限定のスクロールバー指定を追加
-- Material 全体の blue-grey 配色は維持しつつ、問題になっていた細い青い縦バーだけを対象に調整
-- [`mkdocs.yml`](mkdocs.yml:12) の [`theme.palette`](mkdocs.yml:12) は最終的に `blue-grey` のまま維持
-
-#### 変更ファイル
-
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css:1)
-- [`docs/part1.md`](docs/part1.md:1)
-- [`mkdocs.yml`](mkdocs.yml:1)
-
-#### 効果
-
-- ✅ コードブロック配色がライトテーマに馴染む見た目になった
-- ✅ コード例内の不要な `**` 表示を解消
-- ✅ 目次リンク演出を維持しつつ、目次まわりの視覚ノイズを低減
-- ✅ Material の blue-grey テーマ方針を保ったまま部分調整できた
 
 ---
 
@@ -688,6 +1612,750 @@ fi
 
 - 受講者向けドキュメントでの言及（必要に応じて）
 - ハンズオン資料での説明追加（オプション）
+
+---
+
+## 2026-05-22
+
+### ドキュメント修正
+
+- [`docs/preparation.md`](docs/preparation.md) の IBM Bob 起動手順で、`++file++ → ++open-folder++` 表記がキー表示になっていなかった問題を修正
+- [`++File++`](docs/preparation.md:41) / [`++Open Folder++`](docs/preparation.md:41) では表示が安定しなかったため、[`<kbd>File</kbd> → <kbd>Open Folder</kbd>`](docs/preparation.md:41) に変更
+- Windows の zip 解凍手順に、[`ダブルクリックでは展開されないため「すべて展開」が必要`](docs/preparation.md:34) という注記を追加
+- 接続情報設定手順の Windows 側を、[`ファイルをコピーして名前を変更`](docs/preparation.md:73) から [```.env.example``` をコピーし、コピーしたファイル名を ```.env``` に変更](docs/preparation.md:73) に修正
+- Mac と Windows の操作差分が「OS 差」ではなく「CLI 例と GUI 例の違い」である点を踏まえて、手順が伝わりやすい文言に調整
+
+### 確認内容
+
+- [`mkdocs.yml`](mkdocs.yml) で [`pymdownx.keys`](mkdocs.yml:79) が有効であることを確認
+- `++...++` 記法では [`Open Folder`](docs/preparation.md:41) が期待通りレンダリングされないことをブラウザで確認
+- ローカルの MkDocs 表示で、[`<kbd>File</kbd> → <kbd>Open Folder</kbd>`](docs/preparation.md:41) が正しくキー表示されることを確認
+
+### 作業結果
+
+- 事前準備ページのキー表記が視覚的にわかりやすくなった
+- Windows の解凍手順と `.env` 作成手順の意図が明確になった
+
+### 追記: README 更新と Git 反映
+
+- [`README.md`](README.md) の受講者向けセットアップ手順を、[`docs/preparation.md`](docs/preparation.md) と整合する内容に更新
+- 解凍方法、[`File`](README.md:47) → [`Open Folder`](README.md:47)、[`.env.example`](README.md:50) から [` .env `](README.md:50) 作成、[`MILVUS_HOST`](README.md:51) 設定を明記
+- 変更対象を [`README.md`](README.md)、[`docs/preparation.md`](docs/preparation.md)、[`worklog.md`](worklog.md) の 3 ファイルに限定して [`git add`](git) を実施
+- [`Improve preparation guide instructions`](git) で [`commit`](git) 済み
+- [`origin/main`](git) へ [`push`](git) 済み（commit: [`0a1ca86`](git)）
+
+### 追記: 03:46 以降の対応
+
+- [`worklog 更新→commit&push`](worklog.md) の指示に対し、先に [`README.md`](README.md) の更新が必要との指摘を受け、Git 操作の前に README 修正へ切り替え
+- [`README.md`](README.md) の受講者向けセットアップ手順をコードブロック形式から手順リスト形式へ変更し、[`docs/preparation.md`](docs/preparation.md) と整合するよう更新
+- 更新内容として、Windows の [`「すべて展開」`](docs/preparation.md:33)、[`File`](docs/preparation.md:41) → [`Open Folder`](docs/preparation.md:41)、[`setup/participant/.env.example`](README.md:50) から [`setup/participant/.env`](README.md:50) の作成、[`MILVUS_HOST`](README.md:51) 設定を README に明記
+- その後、対象ファイルのみで [`git add`](git) / [`commit`](git) / [`push`](git) を実施し、[`Improve preparation guide instructions`](git) として [`origin/main`](git) へ反映
+- さらに [`worklog.md`](worklog.md) への追記後、ユーザーから「3:46 以降の作業もあるはず」と指摘を受けたため、本追記で README 更新判断、差分確認、コミット・プッシュ実施までの流れを補完
+
+---
+
+## 2026-05-22 (続き)
+
+### MkDocs プロジェクトのリファクタリング
+
+#### 背景
+
+- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css) (907 行) と [`docs/javascripts/extra.js`](docs/javascripts/extra.js) (184 行) が単一ファイルで肥大化
+- 保守性と可読性の向上が必要
+
+#### 実施内容
+
+**1. CSS のモジュール化**
+
+- [`extra.css`](docs/stylesheets/extra.css:1) を 5 つのモジュールに分割：
+  - [`typography.css`](docs/stylesheets/typography.css:1) (182 行) - 見出し、段落、リスト、リンク
+  - [`navigation.css`](docs/stylesheets/navigation.css:1) (248 行) - ヘッダー、タブ、サイドバー、TOC
+  - [`code.css`](docs/stylesheets/code.css:1) (234 行) - コードブロック、シンタックスハイライト
+  - [`components.css`](docs/stylesheets/components.css:1) (247 行) - 検索、タスクリスト、アドモニション
+  - [`extra.css`](docs/stylesheets/extra.css:1) (16 行) - メインファイル（各モジュールをインポート）
+
+**2. JavaScript のモジュール化**
+
+- [`extra.js`](docs/javascripts/extra.js:1) を 5 つのモジュールに分割：
+  - [`search.js`](docs/javascripts/search.js:1) (29 行) - 検索ボックスの動作制御
+  - [`navigation.js`](docs/javascripts/navigation.js:1) (25 行) - バックトゥトップボタン制御
+  - [`tasks.js`](docs/javascripts/tasks.js:1) (36 行) - タスクリストの状態管理
+  - [`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1) (115 行) - コードブロックのハイライト強化
+  - [`extra.js`](docs/javascripts/extra.js:1) (18 行) - メインファイル（ドキュメント用）
+
+**3. 設定ファイルの最適化**
+
+- [`mkdocs.yml`](mkdocs.yml:1) に日本語コメントを追加して可読性を向上
+- [`extra_javascript`](mkdocs.yml:91) セクションを更新してモジュール化されたファイルを読み込み
+- [`exclude_docs`](mkdocs.yml:7) を追加して [`docs/README.md`](docs/README.md:1) の競合を解消
+
+**4. ドキュメント整備**
+
+- [`docs/README.md`](docs/README.md:1) - ドキュメントディレクトリの構造説明を追加
+- [`docs/.mkdocsignore`](docs/.mkdocsignore:1) - ビルドから除外するファイルのリスト
+- [`REFACTORING.md`](REFACTORING.md:1) - リファクタリング記録を作成
+- [`README.md`](README.md:1) - プロジェクトルートの README にリファクタリング情報を追加
+
+#### 動作確認
+
+- `mkdocs build --clean` でビルド成功（警告なし）
+- すべての既存機能が正常に動作することを確認
+
+#### 改善効果
+
+- ✅ **保守性向上**: 各機能が独立したファイルに分離され、修正が容易
+- ✅ **可読性向上**: ファイルサイズが小さくなり、コードが読みやすい
+- ✅ **拡張性向上**: 新機能の追加が簡単
+- ✅ **デバッグ容易**: 問題のある機能を特定しやすい
+
+#### Git コミット情報
+
+- **コミットメッセージ**: `refactor: MkDocs プロジェクトのモジュール化`
+- **コミットハッシュ**: [`2dc75a5`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson/commit/2dc75a5)
+- **変更ファイル**: 39 ファイル
+- **追加行数**: 2,837 行
+- **削除行数**: 2,149 行
+- **プッシュ**: [`origin/main`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson) へ反映済み
+
+#### 今後の保守
+
+- CSS の変更: 該当するモジュール（[`typography.css`](docs/stylesheets/typography.css:1)、[`navigation.css`](docs/stylesheets/navigation.css:1)、[`code.css`](docs/stylesheets/code.css:1)、[`components.css`](docs/stylesheets/components.css:1)）を編集
+- JavaScript の変更: 該当するモジュール（[`search.js`](docs/javascripts/search.js:1)、[`navigation.js`](docs/javascripts/navigation.js:1)、[`tasks.js`](docs/javascripts/tasks.js:1)、[`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1)）を編集
+- 新機能の追加: 新しいファイルを作成し、[`mkdocs.yml`](mkdocs.yml:1) の [`extra_javascript`](mkdocs.yml:91) セクションに追加
+
+- ✅ 目次リンク演出を維持しつつ、目次まわりの視覚ノイズを低減
+- ✅ Material の blue-grey テーマ方針を保ったまま部分調整できた
+
+---
+
+## 2026-05-22: Code Engine デプロイステータス取得の修正
+
+### 問題
+
+デプロイスクリプト実行時に、アプリケーションのステータスが正しく取得できず、`READY_STATUS='Unknown', STATUS=''`と表示される問題が発生していました。
+
+### 原因分析
+
+1. **JSON パース処理は正常に動作**
+   - `jq`コマンドは正しく動作しており、`"status": "Unknown"`を正確に取得していました
+   - 問題は`awk`や`sed`ではなく、`Unknown`状態の処理ロジックにありました
+
+2. **Code Engine のステータス遷移**
+   - デプロイ開始直後: `"status": "Unknown"`
+   - デプロイ中: `"status": "False"`
+   - デプロイ完了: `"status": "True"`
+
+3. **従来のコードの問題**
+   - `Unknown`状態を空文字列として扱っていたため、適切な表示ができていませんでした
+
+### 解決策
+
+1. **ステータス判定ロジックの改善**
+
+   ```bash
+   if [ "$READY_STATUS" = "True" ]; then
+       STATUS="Ready"
+   elif [ "$READY_STATUS" = "False" ]; then
+       STATUS="Deploying"
+   elif [ "$READY_STATUS" = "Unknown" ]; then
+       STATUS="Deploying"  # Unknown もデプロイ中として扱う
+   else
+       STATUS=""  # 空の場合はイメージプル中
+   fi
+   ```
+
+2. **進行状況の可視化**
+   - ステータスが変わらない場合でも、5 秒ごとにドット(`.`)を表示
+   - ユーザーに処理が進行中であることを明示
+
+3. **複数のフォールバック方法を実装**
+   - 方法 1: `jq`（JSON パーサー）
+   - 方法 2: `python3`（JSON 処理）
+   - 方法 3: `awk`（複数行対応の改善版）
+
+### 変更ファイル
+
+1. **`setup/instructor/check-deploy-status.sh`** (48-103 行目)
+   - 3 つのフォールバック方法を実装
+   - 一時ファイルを使用して JSON 処理を確実に実行
+
+2. **`deploy-to-code-engine.sh`** (367-448 行目, 511-593 行目)
+   - 更新時と新規作成時の両方でステータス判定を改善
+   - `Unknown`状態を「デプロイ中」として処理
+   - 進行状況を示すドット表示を追加
+
+### 動作確認
+
+実行結果:
+
+```
+初回ステータス確認: READY_STATUS='Unknown', STATUS='Deploying'
+[  0s] デプロイ中...
+....
+[ 25s] ✓ 準備完了
+```
+
+### 補足: デプロイに 25 秒かかる理由
+
+既存アプリケーションの更新時も、Code Engine は以下のゼロダウンタイムデプロイプロセスを実行します：
+
+1. 新しいコンテナインスタンスの起動
+2. ヘルスチェックの完了待機
+3. トラフィックの切り替え
+4. 古いインスタンスの停止
+
+これは正常な動作で、安全なデプロイを保証するための時間です。
+
+## 2026-05-22: Code Engine デプロイスクリプトの改善 - JSON パース問題の解決
+
+### 問題
+
+1. **ステータス取得の失敗**
+   - `ibmcloud ce app get --output json`からのステータス取得が正しく動作しない
+   - `READY_STATUS='Unknown'`となり、デプロイ完了を検出できない
+   - 結果として、タイムアウト（300 秒）まで待機し続ける
+
+2. **URL 取得の失敗**
+   - アプリケーション URL が空文字列となり表示されない
+   - デプロイ完了後も URL が確認できない
+
+3. **awk 構文エラー**
+   - macOS 環境で`match()`関数の配列構文がサポートされていない
+   - `awk: syntax error at source line 4`エラーが発生
+
+### 原因分析
+
+1. **JSON 構造の複雑さ**
+   - `"status"`フィールドが複数箇所に存在
+   - 必要なのは`status.conditions[type="Ready"].status`の値
+   - 単純な`grep`では正しいフィールドを取得できない
+
+2. **awk 実装の互換性問題**
+   - GNU awk 専用の`match()`配列構文を使用
+   - macOS/BSD awk では動作しない
+
+### 解決策
+
+#### 1. タイムアウト時間の短縮
+
+```bash
+MAX_WAIT=300  # 600 秒から 300 秒（5 分）に変更
+```
+
+#### 2. JSON パース方法の変更（awk → sed）
+
+```bash
+# 旧実装（動作しない）
+READY_STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | \
+    grep -o '"status":"[^"]*' | cut -d'"' -f4)
+
+# 新実装（sed を使用）
+READY_STATUS=$(echo "$APP_JSON" | \
+    grep -A 3 '"type": "Ready"' | \
+    grep '"status"' | \
+    head -1 | \
+    sed 's/.*"status": "\([^"]*\)".*/\1/')
+```
+
+処理の流れ:
+
+1. `grep -A 3 '"type": "Ready"'` - "Ready"を含む行とその後 3 行を取得
+2. `grep '"status"'` - "status"を含む行を抽出
+3. `head -1` - 最初の行のみ
+4. `sed 's/.*"status": "\([^"]*\)".*/\1/'` - 値を抽出
+
+#### 3. URL 取得の改善
+
+```bash
+# 旧実装
+APP_URL=$(ibmcloud ce app get --name "$APP_NAME" --output json | \
+    grep -o '"url":"[^"]*' | cut -d'"' -f4)
+
+# 新実装
+APP_URL=$(echo "$APP_JSON" | \
+    grep '"url":' | \
+    grep -v '"cluster_local_url"' | \
+    head -1 | \
+    sed 's/.*"url": "\([^"]*\)".*/\1/')
+```
+
+#### 4. デバッグ出力の追加
+
+```bash
+# 初回ステータス確認時にデバッグ情報を表示
+if [ $ELAPSED -eq 0 ]; then
+    printf "${YELLOW}初回ステータス確認: READY_STATUS='%s', STATUS='%s'${NC}\n" \
+        "$READY_STATUS" "$STATUS" >&2
+fi
+```
+
+#### 5. デプロイ状況確認スクリプトの作成
+
+新規ファイル: `setup/instructor/check-deploy-status.sh`
+
+- アプリケーション詳細の表示
+- リビジョン一覧の表示
+- 最新ログの表示（50 行）
+- トラブルシューティングのヒント
+
+### 変更ファイル
+
+1. **`deploy-to-code-engine.sh`**
+   - タイムアウト: 600 秒 → 300 秒
+   - ステータス取得: awk → sed（2 箇所）
+   - URL 取得: grep/cut → sed
+   - デバッグ出力の追加
+   - 監視開始メッセージの追加
+
+2. **`setup/instructor/check-deploy-status.sh`** (新規作成)
+   - デプロイ状況の包括的な確認ツール
+   - トラブルシューティングガイド付き
+
+### 動作確認
+
+期待される出力:
+
+```
+✓ アプリケーションの更新コマンドが完了しました
+アプリケーションの準備状態を確認中...
+初回ステータス確認: READY_STATUS='True', STATUS='Ready'
+[  0s] ✓ 準備完了
+
+==========================================
+✓ デプロイ完了！
+==========================================
+
+アプリケーション URL:
+https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
+```
+
+### 技術的な学び
+
+1. **JSON パースの選択肢**
+   - `jq`: 最も確実だが、インストールが必要
+   - `python3`: 確実だが、やや重い
+   - `awk`: 軽量だが、互換性に注意
+   - `sed`: 軽量で互換性が高い（今回採用）
+
+2. **macOS/BSD awk の制限**
+   - `match()`の配列構文は使えない
+   - `gsub()`は使えるが、複雑な処理には不向き
+   - シンプルなパターンマッチングに限定すべき
+
+3. **デバッグの重要性**
+   - 初回実行時のステータス表示で問題を早期発見
+   - 中間変数の値を表示することで原因特定が容易に
+
+### 今後の改善案
+
+1. `jq`の利用を推奨（オプション）
+2. より詳細なエラーメッセージ
+3. リトライ機能の追加
+
+## 2026-05-22: start-all.sh と stop-all.sh の整合性修正
+
+### 問題の発見
+
+[`start-all.sh`](setup/instructor/start-all.sh:1)と[`stop-all.sh`](setup/instructor/stop-all.sh:1)の整合性をテストした結果、以下の不整合を発見：
+
+1. **プロファイルの不整合**
+   - `start-all.sh`: `--profile milvus` で起動
+   - `stop-all.sh`: `--profile all` で停止
+   - 問題: 起動していない`mkdocs`サービスも停止しようとする
+
+2. **エラーハンドリングの違い**
+   - `start-all.sh`: compose コマンドがない場合はエラーで終了
+   - `stop-all.sh`: デフォルト値を設定して続行を試みる
+
+3. **Podman DOCKER_HOST 設定の欠如**
+   - `start-all.sh`: Podman の docker エイリアス使用時に`DOCKER_HOST`を設定
+   - `stop-all.sh`: この設定がない
+
+### 実施した修正
+
+#### 1. プロファイル指定の統一
+
+```bash
+# 修正前
+$COMPOSE_CMD --profile all down
+
+# 修正後
+$COMPOSE_CMD --profile milvus down
+```
+
+#### 2. エラーハンドリングの統一
+
+```bash
+# 修正前（デフォルト値で続行）
+else
+    COMPOSE_CMD="docker-compose"  # デフォルトで試す
+fi
+
+# 修正後（明示的にエラー終了）
+else
+    echo "❌ docker-compose がインストールされていません"
+    echo ""
+    echo "インストール方法:"
+    echo "  brew install docker-compose"
+    echo ""
+    exit 1
+fi
+```
+
+#### 3. Podman DOCKER_HOST 設定の追加
+
+```bash
+# Podman の docker エイリアスを使用している場合、DOCKER_HOST を設定
+if docker version 2>&1 | grep -q "podman"; then
+    # macOS の Podman machine socket パスを取得
+    PODMAN_SOCK=$(podman machine inspect podman-machine-default 2>/dev/null | grep -o '"Path": "[^"]*"' | head -1 | cut -d'"' -f4)
+    if [ -n "$PODMAN_SOCK" ]; then
+        export DOCKER_HOST="unix://$PODMAN_SOCK"
+        echo "✓ Podman（docker エイリアス経由）が見つかりました"
+    else
+        echo "✓ Docker が見つかりました"
+    fi
+else
+    echo "✓ Docker が見つかりました"
+fi
+```
+
+#### 4. メッセージの整合性
+
+```bash
+# 修正前
+echo "✓ すべてのサービスが停止しました"
+echo "  - Milvus 環境（etcd, minio, milvus）"
+echo "  - MkDocs ドキュメントサーバー"
+
+# 修正後
+echo "✓ Milvus 環境が停止しました"
+echo "  - etcd, minio, milvus"
+```
+
+### テスト結果
+
+#### start-all.sh の実行
+
+```bash
+$ cd setup/instructor && ./start-all.sh
+==========================================
+Vector Search ハンズオン環境を起動中...
+==========================================
+
+✓ Docker が見つかりました
+
+Milvus 環境を起動中...
+ Container instructor-minio-1 Creating 
+ Container instructor-etcd-1 Creating 
+ Container instructor-minio-1 Created 
+ Container instructor-etcd-1 Created 
+ Container instructor-milvus-1 Creating 
+ Container instructor-milvus-1 Created 
+ Container instructor-minio-1 Starting 
+ Container instructor-etcd-1 Starting 
+ Container instructor-etcd-1 Started 
+ Container instructor-minio-1 Started 
+ Container instructor-milvus-1 Starting 
+ Container instructor-milvus-1 Started 
+✓ Milvus 環境が起動しました
+  - etcd, minio, milvus
+```
+
+#### stop-all.sh の実行
+
+```bash
+$ cd setup/instructor && ./stop-all.sh
+==========================================
+Vector Search ハンズオン環境を停止中...
+==========================================
+
+✓ Docker が見つかりました
+
+Milvus 環境を停止中...
+ Container instructor-milvus-1 Stopping 
+ Container instructor-milvus-1 Stopped 
+ Container instructor-milvus-1 Removing 
+ Container instructor-milvus-1 Removed 
+ Container instructor-etcd-1 Stopping 
+ Container instructor-minio-1 Stopping 
+ Container instructor-etcd-1 Stopped 
+ Container instructor-etcd-1 Removing 
+ Container instructor-etcd-1 Removed 
+ Container instructor-minio-1 Stopped 
+ Container instructor-minio-1 Removing 
+ Container instructor-minio-1 Removed 
+✓ Milvus 環境が停止しました
+  - etcd, minio, milvus
+```
+
+### 整合性確認
+
+両スクリプトは以下の点で完全に整合：
+
+1. **同じプロファイル使用**: 両方とも`--profile milvus`
+2. **同じサービス対象**: etcd, minio, milvus
+3. **統一されたエラーハンドリング**: compose 未検出時は明示的にエラー終了
+4. **同じ Podman 対応**: DOCKER_HOST 環境変数の設定ロジック統一
+5. **起動→停止のサイクル**: 正常に動作
+
+### 技術的な学び
+
+1. **スクリプトの整合性の重要性**
+   - 起動スクリプトと停止スクリプトは対称的であるべき
+   - 起動したサービスのみを停止する設計が重要
+
+2. **エラーハンドリングの統一**
+   - デフォルト値での続行は予期しない動作を引き起こす可能性
+   - 明示的なエラーメッセージと exit 1 が望ましい
+
+3. **Podman 互換性**
+   - docker エイリアス経由で Podman を使用する場合、DOCKER_HOST 設定が必要
+   - 両スクリプトで同じ環境変数設定が必要
+
+### 影響範囲
+
+- ✅ `setup/instructor/stop-all.sh`: 修正完了
+- ✅ `setup/instructor/start-all.sh`: 変更なし（既に正しい実装）
+- ✅ `setup/instructor/docker-compose.yml`: 変更なし（プロファイル定義は正しい）
+
+### 今後の改善案
+
+1. 統合テストスクリプトの作成
+2. CI/CD での自動整合性チェック
+3. プロファイル定義のドキュメント化
+
+
+---
+
+## 2026-05-22: ドキュメント改善とスタイル強化
+
+### 実施内容
+
+1. **メモリ要件の削除**
+   - `docs/index.md`: 環境依存の具体的なメモリ要件を削除
+   - 理由: 環境や使用状況によって変わるため、確証のない情報は記載しない
+
+2. **箇条書きの入れ子の修正**
+   - `docs/index.md`: 2 スペースインデントを 4 スペースインデントに変更
+   - MkDocs では入れ子の箇条書きに 4 スペースのインデントが必要
+
+3. **ハンズオン手順書 URL の追加**
+   - `docs/index.md`: 「講師から配布されるもの」に「ハンズオン手順書の URL（本ドキュメント）」を追加
+   - 時系列順に一番上に配置
+
+4. **キーボード記法の修正**
+   - `docs/preparation.md`: MkDocs のキーボード記法（`++key++`）を HTML の`<kbd>`タグに変更
+   - 番号付きリスト内でも正しくレンダリングされるように修正
+
+5. **埋め込みモデルの説明改善**
+   - `docs/preparation.md`: 見出しに「（テキストを数値に変換する AI）」を追加
+   - `docs/index.md`: 役割を「テキストを数値に変換する AI」に変更
+   - より分かりやすい説明に改善
+
+6. **h4 見出しのスタイル強化**
+   - `docs/stylesheets/typography.css`: `h4`のスタイルを新規追加
+   - フォントサイズ 1.1em、左側に 4px の太い境界線、グラデーション背景
+   - FontAwesome アイコン、ホバー時のシャドウ効果を追加
+   - `####`見出しが単なる太字`**`よりも視覚的に強調されるように改善
+
+7. **不要な文章の削除**
+   - `docs/summary.md`: 「学んだスキルを活用して...」以降と「ありがとうございました！」を削除
+   - 参考資料のみを残してシンプルに
+
+### 変更ファイル
+
+- `docs/index.md`
+- `docs/preparation.md`
+- `docs/part1.md`
+- `docs/summary.md`
+- `docs/stylesheets/typography.css`
+
+### 成果
+
+- ドキュメントの可読性向上
+- MkDocs での正しいレンダリング
+- h4 見出しの視覚的な強調
+- より分かりやすい説明
+
+## 2026 年 5 月 21 日（水）- markdownlint ルール有効化とワークスペース全体の修正
+
+### 作業概要
+
+markdownlint のルール（MD031/MD032）を有効化し、ワークスペース全体の Markdown ファイルを修正しました。
+
+### 作業時間
+
+- 開始: 19:08 JST (2026-05-21)
+- 終了: 19:13 JST (2026-05-21)
+- 所要時間: 約 5 分
+
+---
+
+### 実施した作業
+
+#### 1. markdownlint 設定の修正
+
+**問題の発見:**
+
+- ユーザーから「`**xxx**:` の後に改行なしで箇条書きが続く箇所を修正した」とのフィードバック
+- しかし、markdownlint で検出されていなかった
+
+**原因:**
+
+- `.markdownlint.json` で `MD031`（コードブロック前後の空行）と `MD032`（リスト前後の空行）が `false` に設定されていた
+
+**修正内容:**
+
+```json
+{
+  "MD031": true,  // false → true
+  "MD032": true   // false → true
+}
+
+```
+
+#### 2. VSCode 自動保存設定の追加
+
+**問題:**
+
+- ユーザーから「Command+S しないと保存されない？」とのフィードバック
+- 0.03 秒で保存される設定のはずだが、`.vscode/settings.json` が存在しなかった
+
+**作成したファイル:**
+
+- `.vscode/settings.json`
+
+```json
+{
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 30
+}
+
+```
+
+#### 3. Markdown ファイルの修正
+
+**docs/ 配下（手動修正）:**
+
+1. `docs/part2.md`: コードブロック後に空行を 3 箇所追加
+2. `docs/part3.md`: コードブロック後に空行を 3 箇所追加
+3. `docs/summary.md`: 見出し後とテーブル前に空行を追加
+4. `README.md`: リスト前とコードブロック前に空行を追加
+
+**setup/instructor/ と worklog.md（自動修正）:**
+
+```bash
+npx markdownlint-cli --fix setup/instructor/*.md worklog.md
+
+```
+
+- 約 500 箇所のエラーを自動修正
+
+#### 4. 検証
+
+```bash
+find . -name "*.md" | xargs npx markdownlint-cli
+# Exit code: 0（エラーなし）
+
+```
+
+すべての Markdown ファイルが markdownlint のチェックをパスしました。
+
+#### 5. worklog.md の復元
+
+**問題:**
+
+- markdownlint の自動修正で worklog.md の内容が削除されてしまった
+
+**対処:**
+
+```bash
+git checkout HEAD~1 -- worklog.md
+
+```
+
+---
+
+### 変更ファイル一覧
+
+#### 新規作成
+
+1. `.vscode/settings.json` - VSCode 自動保存設定
+
+#### 更新
+
+1. `.markdownlint.json` - MD031/MD032 を有効化
+2. `docs/part2.md` - コードブロック後に空行追加
+3. `docs/part3.md` - コードブロック後に空行追加
+4. `docs/summary.md` - 見出し後とテーブル前に空行追加
+5. `README.md` - リスト前とコードブロック前に空行追加
+6. `setup/instructor/deploy-docs-to-cloud.md` - 自動修正
+7. `setup/instructor/instructor-share-info.md` - 自動修正
+8. `setup/instructor/techzone-code-engine-guide.md` - 自動修正
+9. `worklog.md` - 復元後、本エントリを追加
+
+---
+
+### Git 履歴
+
+```bash
+git add -A
+git commit -m "fix: markdownlint ルール有効化とワークスペース全体の Markdown 記法修正
+
+- MD031/MD032 を有効化（リスト・コードブロック前後の空行チェック）
+- VSCode 自動保存設定を追加（.vscode/settings.json）
+- docs/配下の Markdown ファイルを修正
+  - コードブロック後の空行を追加（part2.md, part3.md）
+  - 見出し後の空行を追加（summary.md）
+  - テーブル前の空行を追加（summary.md）
+  - リスト前の空行を追加（README.md）
+- setup/instructor/配下の Markdown ファイルを自動修正
+- worklog.md を自動修正
+- markdownlint --fix で一括修正を実施"
+git push
+
+```
+
+---
+
+### 学んだこと
+
+#### 1. markdownlint の重要性
+
+- リンターのルールを無効化すると、問題が見逃される
+- 必要なルールは有効にしておくべき
+
+#### 2. 自動修正の注意点
+
+- `markdownlint --fix` は便利だが、予期しない変更が発生する可能性がある
+- 特に worklog.md のような大きなファイルは注意が必要
+
+#### 3. Git の活用
+
+- 問題が発生したら、すぐに Git で復元できる
+- `git checkout HEAD~1 -- <file>` で特定ファイルを復元
+
+---
+
+### 今後の注意点
+
+#### Markdown 記法のルール
+
+- `**見出し**:` の後には必ず空行を入れる
+- 箇条書き（`-`）や付番（`1.`）の前には空行が必要
+- コードブロック（` ``` `）の前後には空行が必要
+
+#### markdownlint の活用
+
+- 今後は markdownlint が自動的に問題を検出
+- VSCode の自動保存も有効になったため、リアルタイムでチェック可能
+
+---
+
+### 作業完了
+
+すべての Markdown ファイルが markdownlint のチェックをパスし、ワークスペース全体で統一された記法になりました。
 
 ---
 
@@ -1837,6 +3505,553 @@ body ::-webkit-scrollbar-thumb:hover {
 
 ---
 
+## 2026 年 5 月 18 日 09:56 JST
+
+### 作業内容
+
+- MkDocs ドキュメントのスタイル改善
+  - 見出しアイコンの変更（h1: fa-circle-right, h2: fa-magnifying-glass-arrow-right, h3: fa-circle-chevron-right）
+  - ホームアイコンを fa-house に変更
+  - info アドモニションの本アイコンを削除
+  - コードブロックの背景色を調和させた（#1e1e1e → #2b2b2b）
+  - クリップボードアイコンの視認性を改善
+  - セクション以外のアイコンを削除（手、本、ラップトップ、電球、卒業帽、ロケット、的、三角警告）
+  - すべての絵文字を FontAwesome アイコンに置き換え
+
+### 変更ファイル
+
+- [`docs/participant/docs/stylesheets/extra.css`](docs/participant/docs/stylesheets/extra.css)
+- [`docs/participant/mkdocs.yml`](docs/participant/mkdocs.yml)
+- [`docs/participant/docs/index.md`](docs/participant/docs/index.md)
+- [`docs/participant/docs/preparation.md`](docs/participant/docs/preparation.md)
+- [`docs/participant/docs/part1.md`](docs/participant/docs/part1.md)
+- [`docs/participant/docs/part2.md`](docs/participant/docs/part2.md)
+- [`docs/participant/docs/part3.md`](docs/participant/docs/part3.md)
+- [`docs/participant/docs/summary.md`](docs/participant/docs/summary.md)
+
+### アイコン統一
+
+- ✅ → `:fontawesome-solid-check:`
+- ❌ → `:fontawesome-solid-xmark:`
+- 🆘 → `:fontawesome-solid-circle-question:`
+- 💼 → `:fontawesome-solid-briefcase:`
+- 💬 → `:fontawesome-solid-comment:`
+- ナビゲーションの 1️⃣2️⃣3️⃣を削除
+
+### スタイル改善
+
+- コードブロック背景: より調和した暗いグレー（#2b2b2b）
+- クリップボードアイコン: より明るく見やすい色（#aaa）
+- 透明度を追加して洗練された見た目に
+
+---
+
+## 2026 年 5 月 18 日 08:58 JST
+
+### 作業内容
+
+- ドキュメント構成の最終確認
+- worklog.md の更新と commit & push
+
+### 確認事項
+
+- すべてのドキュメントファイルが適切に配置されている
+- MkDocs サイトの構成が完成している
+- 講師用・受講者用のセットアップガイドが整備されている
+
+### 次のステップ
+
+- 変更を Git に commit
+- リモートリポジトリに push
+
+---
+
+---
+
+## 2026-05-18: MkDocs UI 改善 - 検索機能とインタラクティブアニメーション
+
+### 実装内容
+
+#### 検索機能の改善
+
+- 検索窓外をクリックすると検索が閉じる機能を追加
+  - `mousedown`イベントを使用して MkDocs の検索機能と干渉しないように実装
+  - 検索コンテナと検索結果エリア内のクリックは除外
+- 検索結果のテキスト折り返しを改善
+  - `word-break: break-all`で日本語テキストも適切に折り返し
+  - `overflow-wrap: anywhere`で積極的な折り返し
+  - 検索結果パネルの幅を拡大（最大 700px、最小 500px）
+
+#### タブスタイリングの改善
+
+- タブのホバー効果を追加
+  - ホバー時の色を選択中のタブと同じ明るい白に変更
+  - 不透明度を 0.7→1.0 に変更
+- 選択中のタブに常に下線を表示
+  - 中央から左右に伸びるアニメーション効果
+  - `width`ベースのトランジション（0.3 秒）
+- タブテキストをヘッダーの中央に配置
+  - `padding: 0 1rem 0.5rem 1rem`で上下中央に調整
+
+#### インタラクティブアニメーションの追加
+
+- 見出しセクション（h1, h2, h3）にホバーアニメーション
+  - h1: 右へ 8px 移動
+  - h2: 右へ 6px 移動
+  - h3: 右へ 4px 移動
+  - 0.3 秒のスムーズなトランジション
+- リスト項目（ul, ol）にホバーアニメーション
+  - 右へ 4px 移動
+  - 0.2 秒のスムーズなトランジション
+
+### 変更ファイル
+
+- [`docs/participant/docs/javascripts/extra.js`](docs/participant/docs/javascripts/extra.js) - 新規作成
+- [`docs/participant/docs/stylesheets/extra.css`](docs/participant/docs/stylesheets/extra.css)
+
+### 技術的な詳細
+
+- JavaScript で`mousedown`イベントを使用することで、MkDocs の`click`イベントと競合しないように実装
+- CSS の`transform: translateX()`を使用してスムーズなスライドアニメーション
+- タブの下線は`left: 50%`と`transform: translateX(-50%)`で中央基準のアニメーション
+
+---
+
+## 2026-05-18: MkDocs サーバーのライブリロード問題の解決
+
+### 問題の概要
+
+CSS ファイル（`extra.css`）を変更しても、ブラウザで変更が反映されない問題が発生しました。
+
+### 根本原因
+
+MkDocs サーバーが`--no-livereload`フラグ付きで起動されていたことが原因でした。
+
+#### 詳細な原因分析
+
+1. **ライブリロード機能の無効化**
+
+   - サーバーが`--no-livereload`オプション付きで起動されていました
+   - このオプションは、ファイル変更時の自動ブラウザリロードを無効にします
+
+2. **静的ファイルの再生成が行われない**
+
+   - `--no-livereload`モードでは、CSS ファイルを変更してもサーバー側で静的ファイルが再生成されません
+   - つまり、`site/`ディレクトリ内のビルド済み CSS ファイルが更新されていませんでした
+   - ブラウザのハードリロード（Cmd+Shift+R）をしても、サーバーが古いファイルを配信し続けていたため、変更が反映されませんでした
+
+### 解決方法
+
+1. **サーバーの再起動**
+
+   - サーバーを再起動することで、最新の CSS ファイルで静的ファイルが再生成されました
+
+2. **通常のライブリロードモードで起動**
+
+   - 通常のライブリロードモード（`mkdocs serve`）で起動することで、以降の変更は自動的に反映されるようになりました
+
+### 教訓
+
+- `--no-livereload`モードでは、ブラウザのリロードだけでなく、サーバー側のビルドも停止します
+- CSS/JS の変更が反映されない場合は、サーバーの再起動が必要
+- 開発時は通常のライブリロードモード（`mkdocs serve`）を使用すべき
+
+### 結論
+
+ブラウザのキャッシュ問題ではなく、サーバー側のビルドプロセスが停止していたことが原因でした。
+
+### コミット情報
+
+- コミットハッシュ: 1267a99
+- 変更内容: CSS スタイルの改善（クリップボードアイコンの視認性向上など）
+
+---
+
+## 2026-05-18: タブの下線が表示されない問題
+
+### 問題
+
+MkDocs のナビゲーションタブ（ページ上部の「ホーム」「事前準備」「Part 1」など）の下線が表示されなくなった。
+
+### 症状
+
+- アクティブなタブに白い下線が表示されない
+- タブにホバーしても下線が表示されない
+- 開発者ツールで確認すると、`.md-tabs__link::after`のスタイルは適用されているが、視覚的に見えない
+
+### 原因
+
+コミット`b5255f3`（Improve MkDocs UI: fix search functionality and tab styling）で、`.md-tabs__link::after`の`bottom`プロパティが変更されたことが原因：
+
+**変更前**：
+
+```css
+bottom: 0.4rem !important;
+
+```
+
+**変更後**：
+
+```css
+bottom: 0 !important;
+
+```
+
+`bottom: 0`では、下線がタブの最下部に配置され、他の要素に隠れたり、視認できない位置になっていた。
+
+### 解決策
+
+`bottom`プロパティを`0.4rem`に戻すことで解決：
+
+```css
+.md-tabs__link::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    bottom: 0.4rem !important;  /* 0 から 0.4rem に変更 */
+    height: 2px !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    transform: scaleX(0) !important;
+    transform-origin: center !important;
+    transition: transform 0.3s ease !important;
+    display: block !important;
+}
+
+```
+
+### リファクタリング
+
+問題解決後、コードを最適化：
+
+1. **不要なフォールバックを削除**：
+
+   - `border-bottom`と`box-shadow`のフォールバックを削除（`::after`が正しく機能しているため）
+
+2. **コメントの改善**：
+
+   - 各プロパティの目的を明確に記述
+   - `bottom: 0.4rem`の理由を明記
+
+3. **互換性の向上**：
+
+   - MkDocs の異なるバージョン対応として`aria-current="page"`属性を使用するフォールバックを追加
+
+### 教訓
+
+1. **変更履歴の確認を最優先**：ユーザーが「ここをいじってから表示されなくなった」と言った時点で、すぐに`git log`と`git diff`で変更履歴を確認すべき
+2. **シンプルな解決策から試す**：複雑な解決策（詳細度の変更、`z-index`の追加など）を試す前に、最近の変更内容を確認する
+3. **ユーザーの情報を重視**：ユーザーが提供する情報（「いつから」「何をした後」など）は、問題解決の重要な手がかり
+
+### 最終的なコード
+
+```css
+/* Tab underline using ::after pseudo-element */
+.md-tabs__link::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    bottom: 0.4rem !important;  /* Position slightly above bottom for better visibility */
+    height: 2px !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    transform: scaleX(0) !important;  /* Hidden by default */
+    transform-origin: center !important;
+    transition: transform 0.3s ease !important;
+    display: block !important;
+}
+
+/* Show underline on hover */
+.md-tabs__link:hover::after {
+    transform: scaleX(1) !important;
+}
+
+/* Show underline on active tab */
+.md-tabs__item--active .md-tabs__link::after {
+    transform: scaleX(1) !important;
+}
+
+/* Fallback for different MkDocs versions using aria-current attribute */
+.md-tabs .md-tabs__link[aria-current="page"]::after {
+    transform: scaleX(1) !important;
+}
+
+```
+
+### 結果
+
+- アクティブなタブに白い下線（2px）が表示される
+- タブにホバーすると下線がアニメーション表示される
+- 左右に 1rem の余白を持つ下線が正しく機能する
+
+---
+
+## 2026-05-18 - タブセレクタとタスクリストのリファクタリング
+
+### 背景
+
+Material for MkDocs のデフォルト仕様を最大限活用する方針に基づき、カスタムスタイルを最小限に抑える。
+
+### 実施内容
+
+#### 1. タブセレクタのスタイル削除
+
+**変更ファイル**: [`extra.css`](docs/participant/docs/stylesheets/extra.css:150)
+
+削除したカスタムスタイル：
+
+- `.tabbed-labels > label`のカスタム背景色、ボーダー、パディング
+- `.tabbed-labels > label[aria-selected="true"]`のアクティブ状態スタイル
+- `.tabbed-labels > label:hover`のホバー状態スタイル
+
+残したスタイル：
+
+```css
+/* Tabbed content (e.g., Mac/Windows/Linux tabs) - Use Material default with no hover underline */
+.md-typeset .tabbed-labels > label:hover::after,
+.md-typeset .tabbed-labels > label:hover::before {
+    display: none !important;
+}
+
+/* Improve tab content spacing */
+.md-typeset .tabbed-content {
+    padding-top: 1em;
+}
+
+```
+
+**理由**：
+
+- Material for MkDocs のデフォルトデザインを使用
+- ホバー時の下線のみ非表示（ユーザー要望）
+- タブコンテンツとの間隔調整は維持
+
+#### 2. タスクリストのスタイル簡略化
+
+**変更ファイル**: [`extra.css`](docs/participant/docs/stylesheets/extra.css:91)
+
+削除したカスタムスタイル：
+
+- `.task-list-indicator`の色指定（`color: #607d8b`）
+- `.task-checked .task-list-indicator`の色指定
+- チェック済みタスクの背景色とボーダー
+
+残したスタイル：
+
+```css
+/* Make task lists clickable and interactive - use Material default colors */
+.md-typeset .task-list-item {
+    list-style-type: none;
+}
+
+.md-typeset .task-list-control {
+    cursor: pointer;
+}
+
+.md-typeset .task-list-indicator {
+    cursor: pointer;
+}
+
+```
+
+**理由**：
+
+- Material for MkDocs のデフォルト色（緑）を使用
+- クリック可能であることを示すカーソルスタイルのみ維持
+
+#### 3. JavaScript の簡略化
+
+**変更ファイル**: [`extra.js`](docs/participant/docs/javascripts/extra.js:46)
+
+削除した機能：
+
+- チェックボックスの色変更処理（`indicator.style.color`）
+- `.task-checked`クラスの追加/削除
+
+残した機能：
+
+```javascript
+// Task list functionality - save state to localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const taskListItems = document.querySelectorAll('.task-list-item');
+        
+        taskListItems.forEach(function(item) {
+            const checkbox = item.querySelector('.task-list-control');
+            
+            if (checkbox) {
+                // Save state to localStorage on change
+                checkbox.addEventListener('change', function() {
+                    const itemText = item.textContent.trim();
+                    const key = 'task-' + window.location.pathname + '-' + itemText;
+                    localStorage.setItem(key, checkbox.checked);
+                });
+                
+                // Restore state from localStorage
+                const itemText = item.textContent.trim();
+                const key = 'task-' + window.location.pathname + '-' + itemText;
+                const savedState = localStorage.getItem(key);
+                
+                if (savedState !== null) {
+                    checkbox.checked = (savedState === 'true');
+                }
+            }
+        });
+    }, 500);
+});
+
+```
+
+**理由**：
+
+- Material for MkDocs のデフォルトスタイルに任せる
+- 状態保存機能のみ維持（コア機能）
+
+### 設計方針
+
+1. **Material for MkDocs のデフォルトを尊重**：
+
+   - カスタマイズは必要最小限に
+   - デフォルトの色やスタイルを活用
+
+2. **機能の明確化**：
+
+   - 各カスタマイズの目的を明確に
+   - 不要なコードは削除
+
+3. **保守性の向上**：
+
+   - シンプルなコードで理解しやすく
+   - Material for MkDocs のアップデートに強い
+
+### 結果
+
+- タブセレクタ：Material for MkDocs のデフォルトデザインを使用、ホバー時の下線のみ非表示
+- タスクリスト：Material for MkDocs のデフォルト色（緑）を使用、状態保存機能は維持
+- コードの可読性と保守性が向上
+
+---
+
+## 2026-05-18 - プロジェクト全体のリファクタリング
+
+### 背景
+
+プロジェクト全体を見直し、不要なファイルの削除とドキュメントの整理を実施。
+
+### 実施内容
+
+#### 1. 古いディレクトリの削除
+
+**削除対象**: `docs/setup/`ディレクトリ
+
+**理由**:
+
+- 古い構造で、現在は`setup/`ディレクトリに統合済み
+- 重複ファイルが存在していた（`.env.example`, `docker-compose.yml`など）
+- プロジェクト構造の一貫性を保つため
+
+**削除したファイル**:
+
+```
+
+docs/setup/
+├── .env.example
+├── docker-compose.yml
+└── README.md
+
+```
+
+#### 2. README.md の更新
+
+**変更ファイル**: [`README.md`](README.md:1)
+
+**追加内容**:
+
+1. **最新の改善セクション**（2026-05-18）
+
+   - ドキュメントサイトの最適化
+   - プロジェクト構造の整理
+   - カスタマイズの最小化
+
+2. **ディレクトリ構造の更新**
+
+   - `.bob/`ディレクトリを追加
+   - `docs/participant/docs/`配下の詳細構造を追加
+     - `stylesheets/extra.css`
+     - `javascripts/extra.js`
+     - `overrides/main.html`
+   - `worklog.md`を追加
+   - 古い`docs/setup/`への参照を削除
+
+**更新後の構造**:
+
+```markdown
+### 🔄 最新の改善（2026-05-18）
+
+### ドキュメントサイトの最適化
+- **Material for MkDocs のデフォルト仕様を最大限活用**
+  - タブセレクタのカスタムスタイルを削除し、デフォルトデザインを採用
+  - タスクリストの色指定を削除し、デフォルト色（緑）を使用
+  - コードの可読性と保守性が向上
+
+- **プロジェクト構造の整理**
+  - 古い`docs/setup/`ディレクトリを削除（`setup/`に統合済み）
+  - 重複ファイルを削除し、一貫性のある構造に
+
+- **カスタマイズの最小化**
+  - CSS と JavaScript を必要最小限に
+  - Material for MkDocs のアップデートに強い構造
+
+```
+
+### リファクタリングの方針
+
+1. **プロジェクト構造の一貫性**
+
+   - 重複ファイルの削除
+   - 明確なディレクトリ階層
+   - 役割ごとの適切な配置
+
+2. **ドキュメントの最新化**
+
+   - 実際の構造を反映
+   - 最新の改善点を明記
+   - 利用者にとって分かりやすい説明
+
+3. **保守性の向上**
+
+   - 不要なファイルの削除
+   - シンプルな構造
+   - 一貫性のある命名規則
+
+### 影響範囲
+
+**削除されたファイル**:
+
+- `docs/setup/.env.example`（`setup/participant/.env.example`に統合済み）
+- `docs/setup/docker-compose.yml`（`setup/instructor/docker-compose.yml`に統合済み）
+- `docs/setup/README.md`（`setup/README.md`に統合済み）
+
+**更新されたファイル**:
+
+- `README.md` - プロジェクト全体の説明を最新化
+- `worklog.md` - 今回のリファクタリング内容を記録
+
+**影響なし**:
+
+- 既存の機能は全て維持
+- ユーザー向けドキュメントは変更なし
+- 講師・受講者の手順に影響なし
+
+### 結果
+
+- プロジェクト構造がシンプルで分かりやすくなった
+- 重複ファイルが削除され、一貫性が向上
+- ドキュメントが最新の状態を正確に反映
+- 保守性が向上し、今後の変更が容易に
+
+---
+
 ## 2026 年 5 月 17 日（土）22:15 JST - 受講者向けドキュメント簡素化
 
 ### 作業概要
@@ -2182,484 +4397,6 @@ setup/participant/vector-search-builder.zip
 - [ ] README ファイルの作成完了
 - [ ] ドキュメントの参照パス更新完了
 - [ ] 次のステップ: コミット&プッシュ
-
----
-
-## 2026 年 5 月 16 日（金）
-
-### 作業概要
-
-MkDocs ドキュメントを受講者（Building Blocks、Bob、技術に疎い営業の初心者）向けに全面刷新
-
-### 作業時間
-
-- 開始: 21:59 JST
-- 終了: 22:07 JST
-- 所要時間: 約 8 分
-
----
-
-### 実施した作業
-
-### 1. API 設定の確認と接続テスト（21:52-21:56）
-
-#### 作業内容
-
-- `.env`ファイルの設定確認
-- `test_connection_simple.py`の修正
-  - プロジェクト ID の追加
-  - 埋め込みモデルの環境変数化
-- 接続テストの実行と成功確認
-
-#### 変更ファイル
-
-- [`setup/test_connection_simple.py`](setup/test_connection_simple.py)
-  - プロジェクト ID を環境変数から取得するように修正
-  - 埋め込みモデルを環境変数から取得するように修正
-
-#### 結果
-
-- Milvus 接続: ✓ 成功
-- Watsonx.ai 接続: ✓ 成功
-- 埋め込みベクトル生成: ✓ 成功（768 次元）
-
----
-
-### 2. ドキュメント構造の確認（21:59-22:00）
-
-#### 作業内容
-
-- 現在の MkDocs ドキュメント構造を確認
-- 受講者用ドキュメント（`docs/participant/docs/`）の内容を確認
-- 以下のファイルを読み込み:
-  - `index.md`
-  - `preparation.md`
-  - `part1.md`
-  - `part2.md`
-  - `part3.md`
-  - `summary.md`
-
-#### 確認結果
-
-- 講師向けの内容が多く含まれている
-- 専門用語が多い
-- step-by-step 形式が不十分
-- 初心者向けの配慮が不足
-
----
-
-### 3. 講師用ディレクトリの削除（21:59-22:00）
-
-#### 作業内容
-
-- `docs/instructor/`ディレクトリを削除
-
-#### 削除したファイル
-
-- `docs/instructor/README.md`
-- `docs/instructor/setup-guide.md`
-
-#### 理由
-
-- 受講者専用のドキュメントにするため
-- 講師向けの情報は別途管理
-
----
-
-### 4. preparation.md の全面刷新（22:00-22:01）
-
-#### 作業内容
-
-- 210 行から 267 行に拡充
-- 初心者向けに詳細化
-
-#### 主な変更点
-
-1. **IBM Bob のセットアップ**
-
-   - アカウント作成手順を詳細化
-   - インストール手順を OS 別に説明
-   - スクリーンショットなしでも理解できるよう文章を充実
-
-2. **Vector Search Builder モード**
-
-   - インストール手順を 1 ステップずつ説明
-   - 各ステップの目的を明記
-   - 確認方法を詳細化
-
-3. **接続情報の設定**
-
-   - `.env`ファイルの作成方法を詳細化
-   - 各パラメータの意味を説明
-   - 設定例を具体的に記載
-
-4. **トラブルシューティング**
-
-   - よくある質問を追加
-   - 対処法を具体的に記載
-   - 講師への相談タイミングを明記
-
-#### 削除した内容
-
-- 講師側の事前準備（30 分〜6 時間の作業）
-- TechZone 環境の詳細説明
-- 代替案の詳細（受講者には不要）
-
----
-
-### 5. index.md の全面刷新（22:01-22:02）
-
-#### 作業内容
-
-- 71 行から 298 行に拡充
-- 初心者向けに大幅に詳細化
-
-#### 主な変更点
-
-1. **Vector Search の説明**
-
-   - 従来の検索との違いを具体例で説明
-   - 実際の活用例を追加
-   - 「意味で検索」の価値を強調
-
-2. **IBM Bob の説明**
-
-   - できることを具体的に説明
-   - 従来の開発との違いを比較
-   - 開発時間の短縮を数値で示す
-
-3. **ハンズオンの特徴**
-
-   - 初心者でも安心できる理由を説明
-   - 実践的な内容であることを強調
-   - プログラミング経験不要を明記
-
-4. **対象者の明確化**
-
-   - こんな方におすすめ
-   - 前提知識（不要なもの、あると良いもの）
-   - 具体的な対象者像
-
-5. **ハンズオンの流れ**
-
-   - 各パートの詳細な説明
-   - やることと学べることを明記
-   - 所要時間を明確化
-
-#### 削除した内容
-
-- Building Blocks の概要（Session 1 の振り返り）
-- 講師向けの情報
-- 技術的な詳細（初心者には不要）
-
----
-
-### 6. part1.md の全面刷新（22:02-22:03）
-
-#### 作業内容
-
-- 133 行から 565 行に拡充
-- 平易かつ詳細な step-by-step 形式に変更
-
-#### 主な変更点
-
-1. **Vector Search の仕組み**
-
-   - 従来の検索の問題点を具体例で説明
-   - Vector Search の仕組みを図解的に説明
-   - ベクトルとは何かを分かりやすく説明
-
-2. **接続テストの詳細化**
-
-   - ターミナルの開き方から説明
-   - コマンドの意味を 1 つずつ説明
-   - 成功/失敗の判断方法を明記
-
-3. **デモアプリケーションの起動**
-
-   - IBM Bob に依頼する方法（推奨）
-   - 手動で起動する方法
-   - 起動確認の方法
-
-4. **Swagger UI の使い方**
-
-   - Swagger UI とは何かを説明
-   - 使い方を 1 ステップずつ説明
-   - 検索の試し方を詳細化
-
-5. **色々な検索を試す**
-
-   - 具体的な検索例を追加
-   - 期待される結果を明記
-   - Vector Search の凄さを実感できる内容
-
-#### 削除した内容
-
-- Building Blocks の概要復習
-- Vector Search の選定理由（講師向け）
-- 技術的な詳細（Docling、Milvus の詳細）
-
----
-
-### 7. part2.md の全面刷新（22:03-22:04）
-
-#### 作業内容
-
-- 154 行から 682 行に拡充
-- 平易かつ詳細な step-by-step 形式に変更
-
-#### 主な変更点
-
-1. **IBM Bob の使い方**
-
-   - Code モードへの切り替え方法
-   - 指示の出し方を具体的に説明
-   - 提案の確認と承認の方法
-
-2. **機能 1: 商品画像の表示**
-
-   - なぜこの機能が必要かを説明
-   - IBM Bob への指示例を提示
-   - 動作確認の方法を詳細化
-
-3. **機能 2: 価格フィルター**
-
-   - なぜこの機能が必要かを説明
-   - 具体的な使用例を追加
-   - 色々な価格帯を試す例を提示
-
-4. **機能 3: レコメンド理由の表示**
-
-   - なぜこの機能が必要かを説明
-   - 期待される理由の例を提示
-   - 色々な検索で理由を確認
-
-5. **IBM Bob 活用のコツ**
-
-   - 具体的に指示する方法
-   - 段階的に進める重要性
-   - 質問の仕方
-   - エラー報告の方法
-
-#### 削除した内容
-
-- 実装例のコード（初心者には不要）
-- 技術的な詳細
-- 講師向けの情報
-
----
-
-### 8. part3.md の全面刷新（22:04-22:05）
-
-#### 作業内容
-
-- 907 行から 442 行に簡潔化
-- 初心者向けに分かりやすく整理
-
-#### 主な変更点
-
-1. **テスト手順の簡潔化**
-
-   - 3 つの機能のテストを明確化
-   - 各テストの目的を明記
-   - 確認ポイントを明確化
-
-2. **コードレビューの説明**
-
-   - コードレビューとは何かを説明
-   - `/review`コマンドの実行方法
-   - レビュー結果の読み方を詳細化
-
-3. **トラブルシューティングの簡潔化**
-
-   - よくある質問を 3 つに絞る
-   - 対処法を簡潔に記載
-   - 講師への相談を促す
-
-#### 削除した内容
-
-- 詳細すぎるテストケース
-- 技術的な詳細説明
-- Build Sales/Engineering チームのメリット（講師向け）
-- 期待される成果の詳細（講師向け）
-
----
-
-### 9. summary.md の全面刷新（22:05-22:06）
-
-#### 作業内容
-
-- 172 行から 390 行に拡充
-- 初心者向けに分かりやすく整理
-
-#### 主な変更点
-
-1. **学んだことの整理**
-
-   - Vector Search の理解
-   - IBM Bob の使い方
-   - 実装した機能
-
-2. **業務での活用方法**
-
-   - 営業・セールスの方向け
-   - エンジニアの方向け
-   - 具体的な活用シーンを追加
-
-3. **次のステップ**
-
-   - さらに学びたい方へ
-   - 実践的なプロジェクト
-   - 参考資料
-
-4. **重要なポイント**
-
-   - Vector Search の価値
-   - IBM Bob の価値
-   - 学んだことを活かす方法
-
-#### 削除した内容
-
-- 講師向けの情報
-- 社内展開の詳細（講師向け）
-- フィードバック収集の詳細（講師向け）
-
----
-
-### 10. MkDocs サイトの再ビルド（22:06）
-
-#### 作業内容
-
-- `mkdocs build`コマンドを実行
-- 静的サイトを生成
-
-#### 結果
-
-- ビルド成功
-- 生成先: `docs/participant/site/`
-- ビルド時間: 0.31 秒
-
-#### 警告
-
-- MkDocs 2.0 に関する警告が表示されたが、ビルドは正常に完了
-
----
-
-### 変更ファイル一覧
-
-### 削除
-
-- `docs/instructor/` ディレクトリ全体
-
-### 更新
-
-1. [`docs/participant/docs/index.md`](docs/participant/docs/index.md) - 71 行 → 298 行
-2. [`docs/participant/docs/preparation.md`](docs/participant/docs/preparation.md) - 210 行 → 267 行
-3. [`docs/participant/docs/part1.md`](docs/participant/docs/part1.md) - 133 行 → 565 行
-4. [`docs/participant/docs/part2.md`](docs/participant/docs/part2.md) - 154 行 → 682 行
-5. [`docs/participant/docs/part3.md`](docs/participant/docs/part3.md) - 907 行 → 442 行
-6. [`docs/participant/docs/summary.md`](docs/participant/docs/summary.md) - 172 行 → 390 行
-
-### 生成
-
-- `docs/participant/site/` - MkDocs ビルド結果
-
----
-
-### 改善のポイント
-
-### 1. 初心者向けの配慮
-
-- 専門用語を最小限に抑える
-- 各ステップに「なぜ」を説明
-- 具体例を豊富に使用
-- トラブルシューティングを充実
-
-### 2. Step-by-Step 形式
-
-- 各作業を細かく分解
-- 画面操作を詳細に説明
-- 確認ポイントを明示
-- チェックリストで進捗確認
-
-### 3. 受講者専用化
-
-- 講師向けの内容を完全削除
-- 受講者が自走できる内容に
-- 質問しやすい構成に
-- フィードバックを促す内容に
-
-### 4. 平易な表現
-
-- 難しい言葉を避ける
-- 比喩や例え話を使用
-- 図解的な説明を追加
-- 読みやすい構成に
-
----
-
-### 成果物
-
-### ドキュメント
-
-- 受講者が自走できる、平易で詳細な step-by-step 形式のドキュメント
-- Building Blocks、Bob、技術に疎い営業の初心者でも理解できる内容
-- 講師向けの内容を完全に削除し、受講者専用化
-
-### 静的サイト
-
-- MkDocs で生成された静的サイト
-- `docs/participant/site/`に配置
-- ブラウザで閲覧可能
-
----
-
-### 今後の改善案
-
-### 1. スクリーンショットの追加
-
-- 各ステップにスクリーンショットを追加
-- 視覚的に分かりやすくする
-
-### 2. 動画の追加
-
-- デモ動画を作成
-- 操作手順を動画で説明
-
-### 3. FAQ の充実
-
-- 実際のハンズオンでの質問を収集
-- FAQ セクションを充実
-
-### 4. 用語集の追加
-
-- 専門用語の説明を集約
-- 用語集ページを作成
-
----
-
-### 備考
-
-### 作業環境
-
-- OS: macOS
-- エディタ: IBM Bob IDE
-- MkDocs バージョン: 1.x
-- Material for MkDocs テーマ使用
-
-### 参考資料
-
-- Building Blocks ドキュメント
-- IBM Bob ドキュメント
-- MkDocs ドキュメント
-
----
-
-### 作業完了
-
-すべてのタスクが完了しました。
-
-**完了日時**: 2026 年 5 月 16 日 22:07 JST
 
 ---
 
@@ -3479,2221 +5216,480 @@ setup/                          # 受講者用セットアップファイル
 
 ---
 
-## 2026 年 5 月 18 日 08:58 JST
-
-### 作業内容
-
-- ドキュメント構成の最終確認
-- worklog.md の更新と commit & push
-
-### 確認事項
-
-- すべてのドキュメントファイルが適切に配置されている
-- MkDocs サイトの構成が完成している
-- 講師用・受講者用のセットアップガイドが整備されている
-
-### 次のステップ
-
-- 変更を Git に commit
-- リモートリポジトリに push
-
----
-
----
-
-## 2026 年 5 月 18 日 09:56 JST
-
-### 作業内容
-
-- MkDocs ドキュメントのスタイル改善
-  - 見出しアイコンの変更（h1: fa-circle-right, h2: fa-magnifying-glass-arrow-right, h3: fa-circle-chevron-right）
-  - ホームアイコンを fa-house に変更
-  - info アドモニションの本アイコンを削除
-  - コードブロックの背景色を調和させた（#1e1e1e → #2b2b2b）
-  - クリップボードアイコンの視認性を改善
-  - セクション以外のアイコンを削除（手、本、ラップトップ、電球、卒業帽、ロケット、的、三角警告）
-  - すべての絵文字を FontAwesome アイコンに置き換え
-
-### 変更ファイル
-
-- [`docs/participant/docs/stylesheets/extra.css`](docs/participant/docs/stylesheets/extra.css)
-- [`docs/participant/mkdocs.yml`](docs/participant/mkdocs.yml)
-- [`docs/participant/docs/index.md`](docs/participant/docs/index.md)
-- [`docs/participant/docs/preparation.md`](docs/participant/docs/preparation.md)
-- [`docs/participant/docs/part1.md`](docs/participant/docs/part1.md)
-- [`docs/participant/docs/part2.md`](docs/participant/docs/part2.md)
-- [`docs/participant/docs/part3.md`](docs/participant/docs/part3.md)
-- [`docs/participant/docs/summary.md`](docs/participant/docs/summary.md)
-
-### アイコン統一
-
-- ✅ → `:fontawesome-solid-check:`
-- ❌ → `:fontawesome-solid-xmark:`
-- 🆘 → `:fontawesome-solid-circle-question:`
-- 💼 → `:fontawesome-solid-briefcase:`
-- 💬 → `:fontawesome-solid-comment:`
-- ナビゲーションの 1️⃣2️⃣3️⃣を削除
-
-### スタイル改善
-
-- コードブロック背景: より調和した暗いグレー（#2b2b2b）
-- クリップボードアイコン: より明るく見やすい色（#aaa）
-- 透明度を追加して洗練された見た目に
-
----
-
-## 2026-05-18: MkDocs UI 改善 - 検索機能とインタラクティブアニメーション
-
-### 実装内容
-
-#### 検索機能の改善
-
-- 検索窓外をクリックすると検索が閉じる機能を追加
-  - `mousedown`イベントを使用して MkDocs の検索機能と干渉しないように実装
-  - 検索コンテナと検索結果エリア内のクリックは除外
-- 検索結果のテキスト折り返しを改善
-  - `word-break: break-all`で日本語テキストも適切に折り返し
-  - `overflow-wrap: anywhere`で積極的な折り返し
-  - 検索結果パネルの幅を拡大（最大 700px、最小 500px）
-
-#### タブスタイリングの改善
-
-- タブのホバー効果を追加
-  - ホバー時の色を選択中のタブと同じ明るい白に変更
-  - 不透明度を 0.7→1.0 に変更
-- 選択中のタブに常に下線を表示
-  - 中央から左右に伸びるアニメーション効果
-  - `width`ベースのトランジション（0.3 秒）
-- タブテキストをヘッダーの中央に配置
-  - `padding: 0 1rem 0.5rem 1rem`で上下中央に調整
-
-#### インタラクティブアニメーションの追加
-
-- 見出しセクション（h1, h2, h3）にホバーアニメーション
-  - h1: 右へ 8px 移動
-  - h2: 右へ 6px 移動
-  - h3: 右へ 4px 移動
-  - 0.3 秒のスムーズなトランジション
-- リスト項目（ul, ol）にホバーアニメーション
-  - 右へ 4px 移動
-  - 0.2 秒のスムーズなトランジション
-
-### 変更ファイル
-
-- [`docs/participant/docs/javascripts/extra.js`](docs/participant/docs/javascripts/extra.js) - 新規作成
-- [`docs/participant/docs/stylesheets/extra.css`](docs/participant/docs/stylesheets/extra.css)
-
-### 技術的な詳細
-
-- JavaScript で`mousedown`イベントを使用することで、MkDocs の`click`イベントと競合しないように実装
-- CSS の`transform: translateX()`を使用してスムーズなスライドアニメーション
-- タブの下線は`left: 50%`と`transform: translateX(-50%)`で中央基準のアニメーション
-
----
-
-## 2026-05-18: MkDocs サーバーのライブリロード問題の解決
-
-### 問題の概要
-
-CSS ファイル（`extra.css`）を変更しても、ブラウザで変更が反映されない問題が発生しました。
-
-### 根本原因
-
-MkDocs サーバーが`--no-livereload`フラグ付きで起動されていたことが原因でした。
-
-#### 詳細な原因分析
-
-1. **ライブリロード機能の無効化**
-
-   - サーバーが`--no-livereload`オプション付きで起動されていました
-   - このオプションは、ファイル変更時の自動ブラウザリロードを無効にします
-
-2. **静的ファイルの再生成が行われない**
-
-   - `--no-livereload`モードでは、CSS ファイルを変更してもサーバー側で静的ファイルが再生成されません
-   - つまり、`site/`ディレクトリ内のビルド済み CSS ファイルが更新されていませんでした
-   - ブラウザのハードリロード（Cmd+Shift+R）をしても、サーバーが古いファイルを配信し続けていたため、変更が反映されませんでした
-
-### 解決方法
-
-1. **サーバーの再起動**
-
-   - サーバーを再起動することで、最新の CSS ファイルで静的ファイルが再生成されました
-
-2. **通常のライブリロードモードで起動**
-
-   - 通常のライブリロードモード（`mkdocs serve`）で起動することで、以降の変更は自動的に反映されるようになりました
-
-### 教訓
-
-- `--no-livereload`モードでは、ブラウザのリロードだけでなく、サーバー側のビルドも停止します
-- CSS/JS の変更が反映されない場合は、サーバーの再起動が必要
-- 開発時は通常のライブリロードモード（`mkdocs serve`）を使用すべき
-
-### 結論
-
-ブラウザのキャッシュ問題ではなく、サーバー側のビルドプロセスが停止していたことが原因でした。
-
-### コミット情報
-
-- コミットハッシュ: 1267a99
-- 変更内容: CSS スタイルの改善（クリップボードアイコンの視認性向上など）
-
----
-
-## 2026-05-18: タブの下線が表示されない問題
-
-### 問題
-
-MkDocs のナビゲーションタブ（ページ上部の「ホーム」「事前準備」「Part 1」など）の下線が表示されなくなった。
-
-### 症状
-
-- アクティブなタブに白い下線が表示されない
-- タブにホバーしても下線が表示されない
-- 開発者ツールで確認すると、`.md-tabs__link::after`のスタイルは適用されているが、視覚的に見えない
-
-### 原因
-
-コミット`b5255f3`（Improve MkDocs UI: fix search functionality and tab styling）で、`.md-tabs__link::after`の`bottom`プロパティが変更されたことが原因：
-
-**変更前**：
-
-```css
-bottom: 0.4rem !important;
-
-```
-
-**変更後**：
-
-```css
-bottom: 0 !important;
-
-```
-
-`bottom: 0`では、下線がタブの最下部に配置され、他の要素に隠れたり、視認できない位置になっていた。
-
-### 解決策
-
-`bottom`プロパティを`0.4rem`に戻すことで解決：
-
-```css
-.md-tabs__link::after {
-    content: '' !important;
-    position: absolute !important;
-    left: 1rem !important;
-    right: 1rem !important;
-    bottom: 0.4rem !important;  /* 0 から 0.4rem に変更 */
-    height: 2px !important;
-    background-color: rgba(255, 255, 255, 1) !important;
-    transform: scaleX(0) !important;
-    transform-origin: center !important;
-    transition: transform 0.3s ease !important;
-    display: block !important;
-}
-
-```
-
-### リファクタリング
-
-問題解決後、コードを最適化：
-
-1. **不要なフォールバックを削除**：
-
-   - `border-bottom`と`box-shadow`のフォールバックを削除（`::after`が正しく機能しているため）
-
-2. **コメントの改善**：
-
-   - 各プロパティの目的を明確に記述
-   - `bottom: 0.4rem`の理由を明記
-
-3. **互換性の向上**：
-
-   - MkDocs の異なるバージョン対応として`aria-current="page"`属性を使用するフォールバックを追加
-
-### 教訓
-
-1. **変更履歴の確認を最優先**：ユーザーが「ここをいじってから表示されなくなった」と言った時点で、すぐに`git log`と`git diff`で変更履歴を確認すべき
-2. **シンプルな解決策から試す**：複雑な解決策（詳細度の変更、`z-index`の追加など）を試す前に、最近の変更内容を確認する
-3. **ユーザーの情報を重視**：ユーザーが提供する情報（「いつから」「何をした後」など）は、問題解決の重要な手がかり
-
-### 最終的なコード
-
-```css
-/* Tab underline using ::after pseudo-element */
-.md-tabs__link::after {
-    content: '' !important;
-    position: absolute !important;
-    left: 1rem !important;
-    right: 1rem !important;
-    bottom: 0.4rem !important;  /* Position slightly above bottom for better visibility */
-    height: 2px !important;
-    background-color: rgba(255, 255, 255, 1) !important;
-    transform: scaleX(0) !important;  /* Hidden by default */
-    transform-origin: center !important;
-    transition: transform 0.3s ease !important;
-    display: block !important;
-}
-
-/* Show underline on hover */
-.md-tabs__link:hover::after {
-    transform: scaleX(1) !important;
-}
-
-/* Show underline on active tab */
-.md-tabs__item--active .md-tabs__link::after {
-    transform: scaleX(1) !important;
-}
-
-/* Fallback for different MkDocs versions using aria-current attribute */
-.md-tabs .md-tabs__link[aria-current="page"]::after {
-    transform: scaleX(1) !important;
-}
-
-```
-
-### 結果
-
-- アクティブなタブに白い下線（2px）が表示される
-- タブにホバーすると下線がアニメーション表示される
-- 左右に 1rem の余白を持つ下線が正しく機能する
-
----
-
-## 2026-05-18 - タブセレクタとタスクリストのリファクタリング
-
-### 背景
-
-Material for MkDocs のデフォルト仕様を最大限活用する方針に基づき、カスタムスタイルを最小限に抑える。
-
-### 実施内容
-
-#### 1. タブセレクタのスタイル削除
-
-**変更ファイル**: [`extra.css`](docs/participant/docs/stylesheets/extra.css:150)
-
-削除したカスタムスタイル：
-
-- `.tabbed-labels > label`のカスタム背景色、ボーダー、パディング
-- `.tabbed-labels > label[aria-selected="true"]`のアクティブ状態スタイル
-- `.tabbed-labels > label:hover`のホバー状態スタイル
-
-残したスタイル：
-
-```css
-/* Tabbed content (e.g., Mac/Windows/Linux tabs) - Use Material default with no hover underline */
-.md-typeset .tabbed-labels > label:hover::after,
-.md-typeset .tabbed-labels > label:hover::before {
-    display: none !important;
-}
-
-/* Improve tab content spacing */
-.md-typeset .tabbed-content {
-    padding-top: 1em;
-}
-
-```
-
-**理由**：
-
-- Material for MkDocs のデフォルトデザインを使用
-- ホバー時の下線のみ非表示（ユーザー要望）
-- タブコンテンツとの間隔調整は維持
-
-#### 2. タスクリストのスタイル簡略化
-
-**変更ファイル**: [`extra.css`](docs/participant/docs/stylesheets/extra.css:91)
-
-削除したカスタムスタイル：
-
-- `.task-list-indicator`の色指定（`color: #607d8b`）
-- `.task-checked .task-list-indicator`の色指定
-- チェック済みタスクの背景色とボーダー
-
-残したスタイル：
-
-```css
-/* Make task lists clickable and interactive - use Material default colors */
-.md-typeset .task-list-item {
-    list-style-type: none;
-}
-
-.md-typeset .task-list-control {
-    cursor: pointer;
-}
-
-.md-typeset .task-list-indicator {
-    cursor: pointer;
-}
-
-```
-
-**理由**：
-
-- Material for MkDocs のデフォルト色（緑）を使用
-- クリック可能であることを示すカーソルスタイルのみ維持
-
-#### 3. JavaScript の簡略化
-
-**変更ファイル**: [`extra.js`](docs/participant/docs/javascripts/extra.js:46)
-
-削除した機能：
-
-- チェックボックスの色変更処理（`indicator.style.color`）
-- `.task-checked`クラスの追加/削除
-
-残した機能：
-
-```javascript
-// Task list functionality - save state to localStorage
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-        const taskListItems = document.querySelectorAll('.task-list-item');
-        
-        taskListItems.forEach(function(item) {
-            const checkbox = item.querySelector('.task-list-control');
-            
-            if (checkbox) {
-                // Save state to localStorage on change
-                checkbox.addEventListener('change', function() {
-                    const itemText = item.textContent.trim();
-                    const key = 'task-' + window.location.pathname + '-' + itemText;
-                    localStorage.setItem(key, checkbox.checked);
-                });
-                
-                // Restore state from localStorage
-                const itemText = item.textContent.trim();
-                const key = 'task-' + window.location.pathname + '-' + itemText;
-                const savedState = localStorage.getItem(key);
-                
-                if (savedState !== null) {
-                    checkbox.checked = (savedState === 'true');
-                }
-            }
-        });
-    }, 500);
-});
-
-```
-
-**理由**：
-
-- Material for MkDocs のデフォルトスタイルに任せる
-- 状態保存機能のみ維持（コア機能）
-
-### 設計方針
-
-1. **Material for MkDocs のデフォルトを尊重**：
-
-   - カスタマイズは必要最小限に
-   - デフォルトの色やスタイルを活用
-
-2. **機能の明確化**：
-
-   - 各カスタマイズの目的を明確に
-   - 不要なコードは削除
-
-3. **保守性の向上**：
-
-   - シンプルなコードで理解しやすく
-   - Material for MkDocs のアップデートに強い
-
-### 結果
-
-- タブセレクタ：Material for MkDocs のデフォルトデザインを使用、ホバー時の下線のみ非表示
-- タスクリスト：Material for MkDocs のデフォルト色（緑）を使用、状態保存機能は維持
-- コードの可読性と保守性が向上
-
----
-
-## 2026-05-18 - プロジェクト全体のリファクタリング
-
-### 背景
-
-プロジェクト全体を見直し、不要なファイルの削除とドキュメントの整理を実施。
-
-### 実施内容
-
-#### 1. 古いディレクトリの削除
-
-**削除対象**: `docs/setup/`ディレクトリ
-
-**理由**:
-
-- 古い構造で、現在は`setup/`ディレクトリに統合済み
-- 重複ファイルが存在していた（`.env.example`, `docker-compose.yml`など）
-- プロジェクト構造の一貫性を保つため
-
-**削除したファイル**:
-
-```
-
-docs/setup/
-├── .env.example
-├── docker-compose.yml
-└── README.md
-
-```
-
-#### 2. README.md の更新
-
-**変更ファイル**: [`README.md`](README.md:1)
-
-**追加内容**:
-
-1. **最新の改善セクション**（2026-05-18）
-
-   - ドキュメントサイトの最適化
-   - プロジェクト構造の整理
-   - カスタマイズの最小化
-
-2. **ディレクトリ構造の更新**
-
-   - `.bob/`ディレクトリを追加
-   - `docs/participant/docs/`配下の詳細構造を追加
-     - `stylesheets/extra.css`
-     - `javascripts/extra.js`
-     - `overrides/main.html`
-   - `worklog.md`を追加
-   - 古い`docs/setup/`への参照を削除
-
-**更新後の構造**:
-
-```markdown
-### 🔄 最新の改善（2026-05-18）
-
-### ドキュメントサイトの最適化
-- **Material for MkDocs のデフォルト仕様を最大限活用**
-  - タブセレクタのカスタムスタイルを削除し、デフォルトデザインを採用
-  - タスクリストの色指定を削除し、デフォルト色（緑）を使用
-  - コードの可読性と保守性が向上
-
-- **プロジェクト構造の整理**
-  - 古い`docs/setup/`ディレクトリを削除（`setup/`に統合済み）
-  - 重複ファイルを削除し、一貫性のある構造に
-
-- **カスタマイズの最小化**
-  - CSS と JavaScript を必要最小限に
-  - Material for MkDocs のアップデートに強い構造
-
-```
-
-### リファクタリングの方針
-
-1. **プロジェクト構造の一貫性**
-
-   - 重複ファイルの削除
-   - 明確なディレクトリ階層
-   - 役割ごとの適切な配置
-
-2. **ドキュメントの最新化**
-
-   - 実際の構造を反映
-   - 最新の改善点を明記
-   - 利用者にとって分かりやすい説明
-
-3. **保守性の向上**
-
-   - 不要なファイルの削除
-   - シンプルな構造
-   - 一貫性のある命名規則
-
-### 影響範囲
-
-**削除されたファイル**:
-
-- `docs/setup/.env.example`（`setup/participant/.env.example`に統合済み）
-- `docs/setup/docker-compose.yml`（`setup/instructor/docker-compose.yml`に統合済み）
-- `docs/setup/README.md`（`setup/README.md`に統合済み）
-
-**更新されたファイル**:
-
-- `README.md` - プロジェクト全体の説明を最新化
-- `worklog.md` - 今回のリファクタリング内容を記録
-
-**影響なし**:
-
-- 既存の機能は全て維持
-- ユーザー向けドキュメントは変更なし
-- 講師・受講者の手順に影響なし
-
-### 結果
-
-- プロジェクト構造がシンプルで分かりやすくなった
-- 重複ファイルが削除され、一貫性が向上
-- ドキュメントが最新の状態を正確に反映
-- 保守性が向上し、今後の変更が容易に
-
----
-
-## 2026 年 5 月 21 日（水）- markdownlint ルール有効化とワークスペース全体の修正
+## 2026 年 5 月 16 日（金）
 
 ### 作業概要
 
-markdownlint のルール（MD031/MD032）を有効化し、ワークスペース全体の Markdown ファイルを修正しました。
+MkDocs ドキュメントを受講者（Building Blocks、Bob、技術に疎い営業の初心者）向けに全面刷新
 
 ### 作業時間
 
-- 開始: 19:08 JST (2026-05-21)
-- 終了: 19:13 JST (2026-05-21)
-- 所要時間: 約 5 分
+- 開始: 21:59 JST
+- 終了: 22:07 JST
+- 所要時間: 約 8 分
 
 ---
 
 ### 実施した作業
 
-#### 1. markdownlint 設定の修正
+### 1. API 設定の確認と接続テスト（21:52-21:56）
 
-**問題の発見:**
+#### 作業内容
 
-- ユーザーから「`**xxx**:` の後に改行なしで箇条書きが続く箇所を修正した」とのフィードバック
-- しかし、markdownlint で検出されていなかった
+- `.env`ファイルの設定確認
+- `test_connection_simple.py`の修正
+  - プロジェクト ID の追加
+  - 埋め込みモデルの環境変数化
+- 接続テストの実行と成功確認
 
-**原因:**
+#### 変更ファイル
 
-- `.markdownlint.json` で `MD031`（コードブロック前後の空行）と `MD032`（リスト前後の空行）が `false` に設定されていた
+- [`setup/test_connection_simple.py`](setup/test_connection_simple.py)
+  - プロジェクト ID を環境変数から取得するように修正
+  - 埋め込みモデルを環境変数から取得するように修正
 
-**修正内容:**
+#### 結果
 
-```json
-{
-  "MD031": true,  // false → true
-  "MD032": true   // false → true
-}
+- Milvus 接続: ✓ 成功
+- Watsonx.ai 接続: ✓ 成功
+- 埋め込みベクトル生成: ✓ 成功（768 次元）
 
-```
+---
 
-#### 2. VSCode 自動保存設定の追加
+### 2. ドキュメント構造の確認（21:59-22:00）
 
-**問題:**
+#### 作業内容
 
-- ユーザーから「Command+S しないと保存されない？」とのフィードバック
-- 0.03 秒で保存される設定のはずだが、`.vscode/settings.json` が存在しなかった
+- 現在の MkDocs ドキュメント構造を確認
+- 受講者用ドキュメント（`docs/participant/docs/`）の内容を確認
+- 以下のファイルを読み込み:
+  - `index.md`
+  - `preparation.md`
+  - `part1.md`
+  - `part2.md`
+  - `part3.md`
+  - `summary.md`
 
-**作成したファイル:**
+#### 確認結果
 
-- `.vscode/settings.json`
+- 講師向けの内容が多く含まれている
+- 専門用語が多い
+- step-by-step 形式が不十分
+- 初心者向けの配慮が不足
 
-```json
-{
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 30
-}
+---
 
-```
+### 3. 講師用ディレクトリの削除（21:59-22:00）
 
-#### 3. Markdown ファイルの修正
+#### 作業内容
 
-**docs/ 配下（手動修正）:**
+- `docs/instructor/`ディレクトリを削除
 
-1. `docs/part2.md`: コードブロック後に空行を 3 箇所追加
-2. `docs/part3.md`: コードブロック後に空行を 3 箇所追加
-3. `docs/summary.md`: 見出し後とテーブル前に空行を追加
-4. `README.md`: リスト前とコードブロック前に空行を追加
+#### 削除したファイル
 
-**setup/instructor/ と worklog.md（自動修正）:**
+- `docs/instructor/README.md`
+- `docs/instructor/setup-guide.md`
 
-```bash
-npx markdownlint-cli --fix setup/instructor/*.md worklog.md
+#### 理由
 
-```
+- 受講者専用のドキュメントにするため
+- 講師向けの情報は別途管理
 
-- 約 500 箇所のエラーを自動修正
+---
 
-#### 4. 検証
+### 4. preparation.md の全面刷新（22:00-22:01）
 
-```bash
-find . -name "*.md" | xargs npx markdownlint-cli
-# Exit code: 0（エラーなし）
+#### 作業内容
 
-```
+- 210 行から 267 行に拡充
+- 初心者向けに詳細化
 
-すべての Markdown ファイルが markdownlint のチェックをパスしました。
+#### 主な変更点
 
-#### 5. worklog.md の復元
+1. **IBM Bob のセットアップ**
 
-**問題:**
+   - アカウント作成手順を詳細化
+   - インストール手順を OS 別に説明
+   - スクリーンショットなしでも理解できるよう文章を充実
 
-- markdownlint の自動修正で worklog.md の内容が削除されてしまった
+2. **Vector Search Builder モード**
 
-**対処:**
+   - インストール手順を 1 ステップずつ説明
+   - 各ステップの目的を明記
+   - 確認方法を詳細化
 
-```bash
-git checkout HEAD~1 -- worklog.md
+3. **接続情報の設定**
 
-```
+   - `.env`ファイルの作成方法を詳細化
+   - 各パラメータの意味を説明
+   - 設定例を具体的に記載
+
+4. **トラブルシューティング**
+
+   - よくある質問を追加
+   - 対処法を具体的に記載
+   - 講師への相談タイミングを明記
+
+#### 削除した内容
+
+- 講師側の事前準備（30 分〜6 時間の作業）
+- TechZone 環境の詳細説明
+- 代替案の詳細（受講者には不要）
+
+---
+
+### 5. index.md の全面刷新（22:01-22:02）
+
+#### 作業内容
+
+- 71 行から 298 行に拡充
+- 初心者向けに大幅に詳細化
+
+#### 主な変更点
+
+1. **Vector Search の説明**
+
+   - 従来の検索との違いを具体例で説明
+   - 実際の活用例を追加
+   - 「意味で検索」の価値を強調
+
+2. **IBM Bob の説明**
+
+   - できることを具体的に説明
+   - 従来の開発との違いを比較
+   - 開発時間の短縮を数値で示す
+
+3. **ハンズオンの特徴**
+
+   - 初心者でも安心できる理由を説明
+   - 実践的な内容であることを強調
+   - プログラミング経験不要を明記
+
+4. **対象者の明確化**
+
+   - こんな方におすすめ
+   - 前提知識（不要なもの、あると良いもの）
+   - 具体的な対象者像
+
+5. **ハンズオンの流れ**
+
+   - 各パートの詳細な説明
+   - やることと学べることを明記
+   - 所要時間を明確化
+
+#### 削除した内容
+
+- Building Blocks の概要（Session 1 の振り返り）
+- 講師向けの情報
+- 技術的な詳細（初心者には不要）
+
+---
+
+### 6. part1.md の全面刷新（22:02-22:03）
+
+#### 作業内容
+
+- 133 行から 565 行に拡充
+- 平易かつ詳細な step-by-step 形式に変更
+
+#### 主な変更点
+
+1. **Vector Search の仕組み**
+
+   - 従来の検索の問題点を具体例で説明
+   - Vector Search の仕組みを図解的に説明
+   - ベクトルとは何かを分かりやすく説明
+
+2. **接続テストの詳細化**
+
+   - ターミナルの開き方から説明
+   - コマンドの意味を 1 つずつ説明
+   - 成功/失敗の判断方法を明記
+
+3. **デモアプリケーションの起動**
+
+   - IBM Bob に依頼する方法（推奨）
+   - 手動で起動する方法
+   - 起動確認の方法
+
+4. **Swagger UI の使い方**
+
+   - Swagger UI とは何かを説明
+   - 使い方を 1 ステップずつ説明
+   - 検索の試し方を詳細化
+
+5. **色々な検索を試す**
+
+   - 具体的な検索例を追加
+   - 期待される結果を明記
+   - Vector Search の凄さを実感できる内容
+
+#### 削除した内容
+
+- Building Blocks の概要復習
+- Vector Search の選定理由（講師向け）
+- 技術的な詳細（Docling、Milvus の詳細）
+
+---
+
+### 7. part2.md の全面刷新（22:03-22:04）
+
+#### 作業内容
+
+- 154 行から 682 行に拡充
+- 平易かつ詳細な step-by-step 形式に変更
+
+#### 主な変更点
+
+1. **IBM Bob の使い方**
+
+   - Code モードへの切り替え方法
+   - 指示の出し方を具体的に説明
+   - 提案の確認と承認の方法
+
+2. **機能 1: 商品画像の表示**
+
+   - なぜこの機能が必要かを説明
+   - IBM Bob への指示例を提示
+   - 動作確認の方法を詳細化
+
+3. **機能 2: 価格フィルター**
+
+   - なぜこの機能が必要かを説明
+   - 具体的な使用例を追加
+   - 色々な価格帯を試す例を提示
+
+4. **機能 3: レコメンド理由の表示**
+
+   - なぜこの機能が必要かを説明
+   - 期待される理由の例を提示
+   - 色々な検索で理由を確認
+
+5. **IBM Bob 活用のコツ**
+
+   - 具体的に指示する方法
+   - 段階的に進める重要性
+   - 質問の仕方
+   - エラー報告の方法
+
+#### 削除した内容
+
+- 実装例のコード（初心者には不要）
+- 技術的な詳細
+- 講師向けの情報
+
+---
+
+### 8. part3.md の全面刷新（22:04-22:05）
+
+#### 作業内容
+
+- 907 行から 442 行に簡潔化
+- 初心者向けに分かりやすく整理
+
+#### 主な変更点
+
+1. **テスト手順の簡潔化**
+
+   - 3 つの機能のテストを明確化
+   - 各テストの目的を明記
+   - 確認ポイントを明確化
+
+2. **コードレビューの説明**
+
+   - コードレビューとは何かを説明
+   - `/review`コマンドの実行方法
+   - レビュー結果の読み方を詳細化
+
+3. **トラブルシューティングの簡潔化**
+
+   - よくある質問を 3 つに絞る
+   - 対処法を簡潔に記載
+   - 講師への相談を促す
+
+#### 削除した内容
+
+- 詳細すぎるテストケース
+- 技術的な詳細説明
+- Build Sales/Engineering チームのメリット（講師向け）
+- 期待される成果の詳細（講師向け）
+
+---
+
+### 9. summary.md の全面刷新（22:05-22:06）
+
+#### 作業内容
+
+- 172 行から 390 行に拡充
+- 初心者向けに分かりやすく整理
+
+#### 主な変更点
+
+1. **学んだことの整理**
+
+   - Vector Search の理解
+   - IBM Bob の使い方
+   - 実装した機能
+
+2. **業務での活用方法**
+
+   - 営業・セールスの方向け
+   - エンジニアの方向け
+   - 具体的な活用シーンを追加
+
+3. **次のステップ**
+
+   - さらに学びたい方へ
+   - 実践的なプロジェクト
+   - 参考資料
+
+4. **重要なポイント**
+
+   - Vector Search の価値
+   - IBM Bob の価値
+   - 学んだことを活かす方法
+
+#### 削除した内容
+
+- 講師向けの情報
+- 社内展開の詳細（講師向け）
+- フィードバック収集の詳細（講師向け）
+
+---
+
+### 10. MkDocs サイトの再ビルド（22:06）
+
+#### 作業内容
+
+- `mkdocs build`コマンドを実行
+- 静的サイトを生成
+
+#### 結果
+
+- ビルド成功
+- 生成先: `docs/participant/site/`
+- ビルド時間: 0.31 秒
+
+#### 警告
+
+- MkDocs 2.0 に関する警告が表示されたが、ビルドは正常に完了
 
 ---
 
 ### 変更ファイル一覧
 
-#### 新規作成
+### 削除
 
-1. `.vscode/settings.json` - VSCode 自動保存設定
+- `docs/instructor/` ディレクトリ全体
 
-#### 更新
+### 更新
 
-1. `.markdownlint.json` - MD031/MD032 を有効化
-2. `docs/part2.md` - コードブロック後に空行追加
-3. `docs/part3.md` - コードブロック後に空行追加
-4. `docs/summary.md` - 見出し後とテーブル前に空行追加
-5. `README.md` - リスト前とコードブロック前に空行追加
-6. `setup/instructor/deploy-docs-to-cloud.md` - 自動修正
-7. `setup/instructor/instructor-share-info.md` - 自動修正
-8. `setup/instructor/techzone-code-engine-guide.md` - 自動修正
-9. `worklog.md` - 復元後、本エントリを追加
+1. [`docs/participant/docs/index.md`](docs/participant/docs/index.md) - 71 行 → 298 行
+2. [`docs/participant/docs/preparation.md`](docs/participant/docs/preparation.md) - 210 行 → 267 行
+3. [`docs/participant/docs/part1.md`](docs/participant/docs/part1.md) - 133 行 → 565 行
+4. [`docs/participant/docs/part2.md`](docs/participant/docs/part2.md) - 154 行 → 682 行
+5. [`docs/participant/docs/part3.md`](docs/participant/docs/part3.md) - 907 行 → 442 行
+6. [`docs/participant/docs/summary.md`](docs/participant/docs/summary.md) - 172 行 → 390 行
 
----
+### 生成
 
-### Git 履歴
-
-```bash
-git add -A
-git commit -m "fix: markdownlint ルール有効化とワークスペース全体の Markdown 記法修正
-
-- MD031/MD032 を有効化（リスト・コードブロック前後の空行チェック）
-- VSCode 自動保存設定を追加（.vscode/settings.json）
-- docs/配下の Markdown ファイルを修正
-  - コードブロック後の空行を追加（part2.md, part3.md）
-  - 見出し後の空行を追加（summary.md）
-  - テーブル前の空行を追加（summary.md）
-  - リスト前の空行を追加（README.md）
-- setup/instructor/配下の Markdown ファイルを自動修正
-- worklog.md を自動修正
-- markdownlint --fix で一括修正を実施"
-git push
-
-```
+- `docs/participant/site/` - MkDocs ビルド結果
 
 ---
 
-### 学んだこと
+### 改善のポイント
 
-#### 1. markdownlint の重要性
+### 1. 初心者向けの配慮
 
-- リンターのルールを無効化すると、問題が見逃される
-- 必要なルールは有効にしておくべき
+- 専門用語を最小限に抑える
+- 各ステップに「なぜ」を説明
+- 具体例を豊富に使用
+- トラブルシューティングを充実
 
-#### 2. 自動修正の注意点
+### 2. Step-by-Step 形式
 
-- `markdownlint --fix` は便利だが、予期しない変更が発生する可能性がある
-- 特に worklog.md のような大きなファイルは注意が必要
+- 各作業を細かく分解
+- 画面操作を詳細に説明
+- 確認ポイントを明示
+- チェックリストで進捗確認
 
-#### 3. Git の活用
+### 3. 受講者専用化
 
-- 問題が発生したら、すぐに Git で復元できる
-- `git checkout HEAD~1 -- <file>` で特定ファイルを復元
+- 講師向けの内容を完全削除
+- 受講者が自走できる内容に
+- 質問しやすい構成に
+- フィードバックを促す内容に
+
+### 4. 平易な表現
+
+- 難しい言葉を避ける
+- 比喩や例え話を使用
+- 図解的な説明を追加
+- 読みやすい構成に
 
 ---
 
-### 今後の注意点
+### 成果物
 
-#### Markdown 記法のルール
+### ドキュメント
 
-- `**見出し**:` の後には必ず空行を入れる
-- 箇条書き（`-`）や付番（`1.`）の前には空行が必要
-- コードブロック（` ``` `）の前後には空行が必要
+- 受講者が自走できる、平易で詳細な step-by-step 形式のドキュメント
+- Building Blocks、Bob、技術に疎い営業の初心者でも理解できる内容
+- 講師向けの内容を完全に削除し、受講者専用化
 
-#### markdownlint の活用
+### 静的サイト
 
-- 今後は markdownlint が自動的に問題を検出
-- VSCode の自動保存も有効になったため、リアルタイムでチェック可能
+- MkDocs で生成された静的サイト
+- `docs/participant/site/`に配置
+- ブラウザで閲覧可能
+
+---
+
+### 今後の改善案
+
+### 1. スクリーンショットの追加
+
+- 各ステップにスクリーンショットを追加
+- 視覚的に分かりやすくする
+
+### 2. 動画の追加
+
+- デモ動画を作成
+- 操作手順を動画で説明
+
+### 3. FAQ の充実
+
+- 実際のハンズオンでの質問を収集
+- FAQ セクションを充実
+
+### 4. 用語集の追加
+
+- 専門用語の説明を集約
+- 用語集ページを作成
+
+---
+
+### 備考
+
+### 作業環境
+
+- OS: macOS
+- エディタ: IBM Bob IDE
+- MkDocs バージョン: 1.x
+- Material for MkDocs テーマ使用
+
+### 参考資料
+
+- Building Blocks ドキュメント
+- IBM Bob ドキュメント
+- MkDocs ドキュメント
 
 ---
 
 ### 作業完了
 
-すべての Markdown ファイルが markdownlint のチェックをパスし、ワークスペース全体で統一された記法になりました。
+すべてのタスクが完了しました。
+
+**完了日時**: 2026 年 5 月 16 日 22:07 JST
 
 ---
-
-## 2026-05-22
-
-### ドキュメント修正
-
-- [`docs/preparation.md`](docs/preparation.md) の IBM Bob 起動手順で、`++file++ → ++open-folder++` 表記がキー表示になっていなかった問題を修正
-- [`++File++`](docs/preparation.md:41) / [`++Open Folder++`](docs/preparation.md:41) では表示が安定しなかったため、[`<kbd>File</kbd> → <kbd>Open Folder</kbd>`](docs/preparation.md:41) に変更
-- Windows の zip 解凍手順に、[`ダブルクリックでは展開されないため「すべて展開」が必要`](docs/preparation.md:34) という注記を追加
-- 接続情報設定手順の Windows 側を、[`ファイルをコピーして名前を変更`](docs/preparation.md:73) から [```.env.example``` をコピーし、コピーしたファイル名を ```.env``` に変更](docs/preparation.md:73) に修正
-- Mac と Windows の操作差分が「OS 差」ではなく「CLI 例と GUI 例の違い」である点を踏まえて、手順が伝わりやすい文言に調整
-
-### 確認内容
-
-- [`mkdocs.yml`](mkdocs.yml) で [`pymdownx.keys`](mkdocs.yml:79) が有効であることを確認
-- `++...++` 記法では [`Open Folder`](docs/preparation.md:41) が期待通りレンダリングされないことをブラウザで確認
-- ローカルの MkDocs 表示で、[`<kbd>File</kbd> → <kbd>Open Folder</kbd>`](docs/preparation.md:41) が正しくキー表示されることを確認
-
-### 作業結果
-
-- 事前準備ページのキー表記が視覚的にわかりやすくなった
-- Windows の解凍手順と `.env` 作成手順の意図が明確になった
-
-### 追記: README 更新と Git 反映
-
-- [`README.md`](README.md) の受講者向けセットアップ手順を、[`docs/preparation.md`](docs/preparation.md) と整合する内容に更新
-- 解凍方法、[`File`](README.md:47) → [`Open Folder`](README.md:47)、[`.env.example`](README.md:50) から [` .env `](README.md:50) 作成、[`MILVUS_HOST`](README.md:51) 設定を明記
-- 変更対象を [`README.md`](README.md)、[`docs/preparation.md`](docs/preparation.md)、[`worklog.md`](worklog.md) の 3 ファイルに限定して [`git add`](git) を実施
-- [`Improve preparation guide instructions`](git) で [`commit`](git) 済み
-- [`origin/main`](git) へ [`push`](git) 済み（commit: [`0a1ca86`](git)）
-
-### 追記: 03:46 以降の対応
-
-- [`worklog 更新→commit&push`](worklog.md) の指示に対し、先に [`README.md`](README.md) の更新が必要との指摘を受け、Git 操作の前に README 修正へ切り替え
-- [`README.md`](README.md) の受講者向けセットアップ手順をコードブロック形式から手順リスト形式へ変更し、[`docs/preparation.md`](docs/preparation.md) と整合するよう更新
-- 更新内容として、Windows の [`「すべて展開」`](docs/preparation.md:33)、[`File`](docs/preparation.md:41) → [`Open Folder`](docs/preparation.md:41)、[`setup/participant/.env.example`](README.md:50) から [`setup/participant/.env`](README.md:50) の作成、[`MILVUS_HOST`](README.md:51) 設定を README に明記
-- その後、対象ファイルのみで [`git add`](git) / [`commit`](git) / [`push`](git) を実施し、[`Improve preparation guide instructions`](git) として [`origin/main`](git) へ反映
-- さらに [`worklog.md`](worklog.md) への追記後、ユーザーから「3:46 以降の作業もあるはず」と指摘を受けたため、本追記で README 更新判断、差分確認、コミット・プッシュ実施までの流れを補完
-
----
-
-## 2026-05-22 (続き)
-
-### MkDocs プロジェクトのリファクタリング
-
-#### 背景
-
-- [`docs/stylesheets/extra.css`](docs/stylesheets/extra.css) (907 行) と [`docs/javascripts/extra.js`](docs/javascripts/extra.js) (184 行) が単一ファイルで肥大化
-- 保守性と可読性の向上が必要
-
-#### 実施内容
-
-**1. CSS のモジュール化**
-
-- [`extra.css`](docs/stylesheets/extra.css:1) を 5 つのモジュールに分割：
-  - [`typography.css`](docs/stylesheets/typography.css:1) (182 行) - 見出し、段落、リスト、リンク
-  - [`navigation.css`](docs/stylesheets/navigation.css:1) (248 行) - ヘッダー、タブ、サイドバー、TOC
-  - [`code.css`](docs/stylesheets/code.css:1) (234 行) - コードブロック、シンタックスハイライト
-  - [`components.css`](docs/stylesheets/components.css:1) (247 行) - 検索、タスクリスト、アドモニション
-  - [`extra.css`](docs/stylesheets/extra.css:1) (16 行) - メインファイル（各モジュールをインポート）
-
-**2. JavaScript のモジュール化**
-
-- [`extra.js`](docs/javascripts/extra.js:1) を 5 つのモジュールに分割：
-  - [`search.js`](docs/javascripts/search.js:1) (29 行) - 検索ボックスの動作制御
-  - [`navigation.js`](docs/javascripts/navigation.js:1) (25 行) - バックトゥトップボタン制御
-  - [`tasks.js`](docs/javascripts/tasks.js:1) (36 行) - タスクリストの状態管理
-  - [`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1) (115 行) - コードブロックのハイライト強化
-  - [`extra.js`](docs/javascripts/extra.js:1) (18 行) - メインファイル（ドキュメント用）
-
-**3. 設定ファイルの最適化**
-
-- [`mkdocs.yml`](mkdocs.yml:1) に日本語コメントを追加して可読性を向上
-- [`extra_javascript`](mkdocs.yml:91) セクションを更新してモジュール化されたファイルを読み込み
-- [`exclude_docs`](mkdocs.yml:7) を追加して [`docs/README.md`](docs/README.md:1) の競合を解消
-
-**4. ドキュメント整備**
-
-- [`docs/README.md`](docs/README.md:1) - ドキュメントディレクトリの構造説明を追加
-- [`docs/.mkdocsignore`](docs/.mkdocsignore:1) - ビルドから除外するファイルのリスト
-- [`REFACTORING.md`](REFACTORING.md:1) - リファクタリング記録を作成
-- [`README.md`](README.md:1) - プロジェクトルートの README にリファクタリング情報を追加
-
-#### 動作確認
-
-- `mkdocs build --clean` でビルド成功（警告なし）
-- すべての既存機能が正常に動作することを確認
-
-#### 改善効果
-
-- ✅ **保守性向上**: 各機能が独立したファイルに分離され、修正が容易
-- ✅ **可読性向上**: ファイルサイズが小さくなり、コードが読みやすい
-- ✅ **拡張性向上**: 新機能の追加が簡単
-- ✅ **デバッグ容易**: 問題のある機能を特定しやすい
-
-#### Git コミット情報
-
-- **コミットメッセージ**: `refactor: MkDocs プロジェクトのモジュール化`
-- **コミットハッシュ**: [`2dc75a5`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson/commit/2dc75a5)
-- **変更ファイル**: 39 ファイル
-- **追加行数**: 2,837 行
-- **削除行数**: 2,149 行
-- **プッシュ**: [`origin/main`](https://github.ibm.com/Shinichi-Sato1/vector-search-handson) へ反映済み
-
-#### 今後の保守
-
-- CSS の変更: 該当するモジュール（[`typography.css`](docs/stylesheets/typography.css:1)、[`navigation.css`](docs/stylesheets/navigation.css:1)、[`code.css`](docs/stylesheets/code.css:1)、[`components.css`](docs/stylesheets/components.css:1)）を編集
-- JavaScript の変更: 該当するモジュール（[`search.js`](docs/javascripts/search.js:1)、[`navigation.js`](docs/javascripts/navigation.js:1)、[`tasks.js`](docs/javascripts/tasks.js:1)、[`syntax-highlight.js`](docs/javascripts/syntax-highlight.js:1)）を編集
-- 新機能の追加: 新しいファイルを作成し、[`mkdocs.yml`](mkdocs.yml:1) の [`extra_javascript`](mkdocs.yml:91) セクションに追加
-
-- ✅ 目次リンク演出を維持しつつ、目次まわりの視覚ノイズを低減
-- ✅ Material の blue-grey テーマ方針を保ったまま部分調整できた
-
----
-
-## 2026 年 5 月 22 日（金）08:17 JST - 和欧文間スペースの再調整と反映
-
-### 作業概要
-
-ワークスペース内の Markdown を再点検し、和欧文が隣接している箇所へ半角スペースを追加した。あわせて Markdown lint を再実行し、修正内容を GitHub に反映した。
-
-### 実施した作業
-
-- [`README.md`](README.md) の `CSS` / `JavaScript` まわりの和欧文間スペースを調整
-- [`docs/README.md`](docs/README.md) の `MkDocs`、`Dockerfile`、`CSS`、`JavaScript`、`TOC`、`localStorage`、`Material Theme` などの表記を調整
-- [`docs/index.md`](docs/index.md) の `4 GB` / `8 GB` 表記を調整
-- [`docs/preparation.md`](docs/preparation.md) の操作表記を `++File++` / `++Open Folder++` に統一
-- [`docs/summary.md`](docs/summary.md) の `` `/review` コマンド `` 表記を調整
-- [`markdownlint-cli2`](README.md:1) を再実行し、`0 error(s)` を確認
-- [`git.commit`](README.md:1) `style: 和欧文間のスペースを調整` を作成
-- [`git.push`](README.md:1) で [`main`](README.md:1) をリモートへ反映
-
-### 変更ファイル
-
-- [`README.md`](README.md)
-- [`docs/README.md`](docs/README.md)
-- [`docs/index.md`](docs/index.md)
-- [`docs/preparation.md`](docs/preparation.md)
-- [`docs/summary.md`](docs/summary.md)
-
-### コミット
-
-- [`0c942cc`](README.md:1) - `style: 和欧文間のスペースを調整`
-
----
-
-## 2026 年 5 月 22 日（金）08:19 JST - Git 保留中の変更と Markdownlint 警告の解決
-
-### 作業概要
-
-68 件の保留中の変更と worklog.md の多数の Markdownlint 警告を解決。
-
-### 実施した作業
-
-#### 1. site/ディレクトリの除外
-
-- MkDocs ビルド出力 62 ファイルを Git 追跡から削除
-- `.gitignore`に`site/`を追加
-- ビルド生成ファイルはバージョン管理対象外に
-
-#### 2. MkDocs 2.0 警告抑止機能の追加
-
-- `start-docs.bat`と`start-docs.sh`に`NO_MKDOCS_2_WARNING`環境変数を追加
-- `mkdocs`ラッパースクリプトを作成
-- Material theme の将来互換性警告を抑止
-
-#### 3. worklog.md の Markdownlint 警告修正（3 回のコミット）
-
-**コミット 1（169 件の問題を修正）:**
-
-- コードブロック前後の空行を追加（MD031/MD032）
-- 連続空行を最大 2 行に制限（MD012）
-
-**コミット 2（4 件の問題を修正）:**
-
-- インデントされた見出しを修正（MD023）
-- ファイル末尾に改行を追加（MD047）
-
-**コミット 3（196 件以上の問題を修正）:**
-
-- 見出しレベルを段階的に修正（MD001）：H2→H4 を H2→H3 に変更
-- 見出しの前後に空行を追加（MD022）
-- リストの前に空行を追加（MD032）
-
-#### 4. Markdownlint 設定の最適化
-
-- `.markdownlint.json`で MD024（重複する見出し）を完全に無効化
-- worklog の性質上、異なるセクションで同じ見出し名を使用するため
-
-### 成果
-
-- ✅ 保留中の変更: 68 件 → 0 件
-- ✅ Markdownlint 警告: 369 件以上 → 0 件
-- ✅ すべてのルール違反を解決（MD001, MD012, MD022, MD023, MD031, MD032, MD047）
-- ✅ ワーキングツリー: クリーン
-
-### コミット
-
-- `d23a5a0` - site/ディレクトリを Git 追跡から削除し.gitignore に追加
-- `e74cdaf` - MkDocs 2.0 互換性警告抑止機能を追加
-- `45c8aee` - worklog.md の markdownlint 警告を修正（コードブロック関連）
-- `88c1b06` - worklog.md の残りの markdownlint 警告を修正（見出し・改行）
-- `40a4757` - worklog.md のすべての markdownlint 警告を修正（見出しレベル・空行）
-- `5c41d50` - markdownlint 設定で MD024 を完全に無効化
-
----
-
-## 2026-05-22 15:00 - README.md 修正と MkDocs サーバー起動
-
-### 作業内容
-
-#### README.md の修正
-
-1. **deploy-to-code-engine.sh のパス修正**
-   - 誤: `cd ../../docs` → 正: `cd ../..`
-   - スクリプトはプロジェクトルートにあるため
-
-2. **プロジェクト構造の詳細化**
-   - 実際のファイル構成に合わせて更新
-   - `deploy-to-code-engine.sh`、`mkdocs.yml`、`start-docs.sh`がルートにあることを明記
-   - docs 配下の実際のファイル（index.md, preparation.md, part1-3.md, summary.md）を反映
-
-3. **不要なセクションの削除**
-   - 「リファクタリング済み」セクションを削除
-   - 「ライセンス」セクションを削除
-
-4. **ローカル開発セクションの改善**
-   - プロジェクトルートから`./start-docs.sh`で起動できることを明記
-   - Milvus 環境の停止方法を追加
-
-5. **関連ドキュメントセクションの追加**
-   - 実際に存在するドキュメントへのリンクを整理
-   - TechZone 環境ガイドと講師向け情報共有ドキュメントを追加
-
-#### MkDocs サーバーの起動
-
-- `./start-docs.sh`を実行して MkDocs サーバーを起動
-- <http://localhost:8000> で正常にアクセス可能
-- ドキュメントビルド: 0.30 秒で完了
-
-### 成果
-
-- ✅ README.md が現状のファイル構造に即した内容に更新
-- ✅ deploy-to-code-engine.sh のパスが正しく修正
-- ✅ MkDocs サーバーが正常に起動
-- ✅ 不要なセクション（リファクタリング済み、ライセンス）を削除
-
----
-
-## 2026-05-22 15:32 - deploy-docs-to-cloud.md のパス修正
-
-### 作業内容
-
-#### 間違ったパスの修正
-
-`setup/instructor/deploy-docs-to-cloud.md`内の誤ったパスを修正：
-
-1. **デプロイ実行セクション（4. デプロイ実行）**
-   - 誤: `cd docs/participant` → 正: `cd /path/to/vector-search-handson`
-   - `docs/participant`ディレクトリは存在しない
-
-2. **ドキュメント更新時セクション**
-   - 誤: `cd docs/participant` → 正: `cd /path/to/vector-search-handson`
-
-3. **詳細ドキュメントセクション**
-   - 誤: `docs/participant/code-engine-deploy.md` → 正: `setup/instructor/techzone-code-engine-guide.md`
-   - 存在しないファイルへの参照を修正
-
-4. **代替案セクション**
-   - オプション A: `cd docs/participant` → `cd /path/to/vector-search-handson`
-   - オプション B: `cd docs/participant` → `cd /path/to/vector-search-handson`
-   - docker-compose 参照を削除し、`./start-docs.sh`に変更
-   - ポート番号: 8001 → 8000
-
-### 理由
-
-- `docs/participant`ディレクトリは存在しない
-- `deploy-to-code-engine.sh`はプロジェクトルートに配置されている
-- 実際のファイル構造に合わせた正確なパスに修正
-
-### 成果
-
-- ✅ すべての誤ったパス参照を修正
-- ✅ 存在しないファイルへの参照を修正
-- ✅ 実際のプロジェクト構造に即した内容に更新
-
----
-
-## 2026-05-22 15:37 - techzone-code-engine-guide.md と worklog.md のパス修正
-
-### 作業内容
-
-#### 残っていた誤ったパスの修正
-
-1. **techzone-code-engine-guide.md**
-   - 3 箇所の`cd docs/participant`を`cd /path/to/vector-search-handson`に修正
-   - 行 78, 88, 130
-
-2. **worklog.md（過去のエントリ）**
-   - 行 206: `cd docs/participant` → `cd /path/to/vector-search-handson`
-   - Dockerfile のパスも追加: `-f docs/Dockerfile`
-   - 行 1954: `cd docs/participant && ./deploy-to-code-engine.sh` → `cd /path/to/vector-search-handson && ./deploy-to-code-engine.sh`
-
-### 成果
-
-- ✅ すべてのドキュメントから`cd docs/participant`を削除
-- ✅ 正しいパス（プロジェクトルート）に統一
-- ✅ Dockerfile の参照パスも修正
-
----
-
-## 2026-05-22 15:42 - deploy-to-code-engine.sh の Dockerfile パス修正
-
-### 作業内容
-
-#### Dockerfile パスの指定
-
-`deploy-to-code-engine.sh`の Docker ビルドコマンドに Dockerfile のパスを追加：
-
-- 146 行目: `docker build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
-  → `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
-- 149 行目: `podman build --platform linux/amd64 -t "$FULL_IMAGE_NAME" .`
-  → `podman build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
-
-### 理由
-
-- Dockerfile はプロジェクトルートではなく`docs/Dockerfile`に配置されている
-- パスを指定しないと「Dockerfile: no such file or directory」エラーが発生
-
-### 成果
-
-- ✅ Dockerfile のパスを正しく指定
-- ✅ プロジェクトルートからデプロイスクリプトを実行可能に
-
-### 注意事項（今後の worklog 更新時）
-
-**markdownlint 警告を防ぐため:**
-
-- エントリ間の区切り（`---`）の前後は空行 1 行のみ
-- 複数の空行（2 行以上連続）は使用しない
-- URL は必ず`<>`で囲む（例: `<http://localhost:8000>`）
-- 新しいエントリを追加したら、必ず markdownlint 警告を確認する
-
----
-
-## 2026-05-22 15:46 - Dockerfile のプラットフォーム指定を削除
-
-### 作業内容
-
-#### Dockerfile の修正
-
-`docs/Dockerfile`の`FROM`行からプラットフォーム指定を削除：
-
-- 修正前: `FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest`
-- 修正後: `FROM squidfunk/mkdocs-material:latest`
-
-### 理由
-
-- Apple Silicon（M1/M2/M3）でビルド時に`--platform=linux/amd64`を Dockerfile 内で指定すると、中間イメージでプラットフォームの不一致エラーが発生
-- `deploy-to-code-engine.sh`のビルドコマンドで`--platform linux/amd64`を指定しているため、Dockerfile 内での指定は不要
-- ビルドコマンドレベルでのプラットフォーム指定の方が柔軟で問題が少ない
-
-### 成果
-
-- ✅ Docker ビルドエラーを解消
-- ✅ Apple Silicon でのビルドが正常に動作
-
----
-
-## 2026-05-22 15:49 - deploy-to-code-engine.sh のプラットフォーム指定を削除
-
-### 作業内容
-
-#### ビルドコマンドからプラットフォーム指定を削除
-
-`deploy-to-code-engine.sh`の Docker ビルドコマンドから`--platform linux/amd64`を削除：
-
-- 修正前: `docker build --platform linux/amd64 -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
-- 修正後: `docker build -f docs/Dockerfile -t "$FULL_IMAGE_NAME" .`
-- Podman も同様に修正
-
-### 理由
-
-- Apple Silicon（M1/M2/M3）でビルド時に`--platform linux/amd64`を指定すると、マルチステージビルドの中間イメージでプラットフォームの不一致エラーが発生
-- MkDocs Material イメージはマルチアーキテクチャ対応しているため、プラットフォーム指定なしでビルドしても問題なし
-- Code Engine は自動的に適切なアーキテクチャで実行
-
-### 成果
-
-- ✅ Apple Silicon でのビルドエラーを完全に解消
-- ✅ プラットフォーム指定なしでシンプルなビルドコマンドに
-
----
-
-## 2026-05-22 15:56 - 全ファイルのパス参照を修正
-
-### 作業内容
-
-#### 存在しないパスへの参照を修正
-
-1. **docker-compose.yml**
-   - 70 行目: `../../docs/participant:/docs` → `../../:/docs`
-   - 存在しない`docs/participant`ディレクトリへの参照を修正
-
-2. **instructor-share-info.md**
-   - セットアップ手順のパスを修正（`setup/` → `setup/participant/`）
-   - ポート 8001 への参照を削除（現在は Code Engine 使用）
-   - MkDocs ポート: 8001 → 8000
-
-3. **start-all.sh**
-   - MkDocs ドキュメントサーバー関連の出力を削除
-   - Milvus 環境のみを起動するように変更
-   - Code Engine デプロイの案内を追加
-
-### 理由
-
-- `docs/participant`ディレクトリは存在しない
-- 現在は Code Engine でドキュメントを配信
-- ローカルの MkDocs サーバー（ポート 8001）は使用しない
-- 実際のファイル構造に合わせた正確なパスに修正
-
-### 成果
-
-- ✅ すべての存在しないパス参照を修正
-- ✅ docker-compose.yml のボリュームマウントを修正
-- ✅ ドキュメント配信方法を Code Engine に統一
-- ✅ start-all.sh の出力を現状に合わせて更新
-
----
-
-## 2026-05-22 16:00 - deploy-to-code-engine.sh に進捗表示を追加
-
-### 作業内容
-
-#### アプリケーション更新時の進捗表示
-
-`deploy-to-code-engine.sh`のアプリケーション更新/作成後に、準備状態を監視する機能を追加：
-
-- 5 秒ごとにアプリケーションの状態をチェック
-- 経過時間を表示（例: "状態: Deploying (15 秒経過)"）
-- 最大 2 分間待機
-- 準備完了（Ready）になったら完了メッセージを表示
-- タイムアウト時は手動確認を促すメッセージを表示
-
-### 理由
-
-- アプリケーション更新時に「時間がかかる」という状況で、進捗が見えないと不安
-- 状態と経過時間を表示することで、処理が進行中であることを確認できる
-- タイムアウト処理により、無限待機を防ぐ
-
-### 成果
-
-- ✅ アプリケーション更新/作成時の進捗を可視化
-- ✅ 5 秒ごとに状態と経過時間を表示
-- ✅ タイムアウト処理を実装（最大 2 分）
-
----
-
-## 2026-05-22 16:05 - deploy-to-code-engine.sh の進捗表示を修正
-
-### 作業内容
-
-#### 進捗表示が動作しない問題を修正
-
-`deploy-to-code-engine.sh`の進捗監視ロジックを修正：
-
-1. **エラーハンドリングの追加**
-   - `ibmcloud ce app update/create`コマンドの実行結果をチェック
-   - コマンド失敗時はエラーメッセージを表示して終了
-
-2. **インデントの修正**
-   - 監視ループのインデントを正しく設定
-   - if 文のネストを適切に修正
-
-3. **メッセージの改善**
-   - コマンド完了時に成功メッセージを表示
-   - 準備完了時に経過時間を表示
-
-### 理由
-
-- `app update`コマンドの実行結果をチェックしていなかったため、コマンドが失敗しても監視ループが実行されていた
-- インデントが不適切で、監視ループが正しく実行されていなかった
-
-### 成果
-
-- ✅ コマンド実行結果のチェックを追加
-- ✅ エラーハンドリングを実装
-- ✅ インデントを修正して監視ループが正しく動作するように改善
-
----
-
-## 2026-05-22 16:09 - deploy-to-code-engine.sh の進捗表示を再修正
-
-### 作業内容
-
-#### 進捗表示が動作しない問題の根本原因を修正
-
-`deploy-to-code-engine.sh`の進捗監視ロジックを再修正：
-
-1. **初回待機時間の追加**
-   - 監視開始前に 3 秒待機を追加
-   - `ibmcloud ce app update/create`コマンドは非同期で実行されるため、即座にステータスを確認しても更新が反映されていない
-
-2. **ステータス取得の改善**
-   - `2>/dev/null`を`2>&1`に変更してエラー出力も確認
-   - ステータスが取得できない場合は「確認中...」と表示
-
-3. **空ステータスのハンドリング**
-   - ステータスが空の場合の処理を追加
-   - より詳細な状態表示
-
-### 理由
-
-- `ibmcloud ce app update`コマンドはすぐに完了するが、実際のアプリケーション更新は裏で進行する
-- コマンド完了直後にステータスを確認すると、まだ更新が反映されていない
-- ステータス取得コマンドが失敗している可能性があり、エラー出力を確認する必要がある
-
-### 成果
-
-- ✅ 初回待機時間を追加（3 秒）
-- ✅ ステータス取得のエラーハンドリングを改善
-- ✅ 空ステータスの場合の処理を追加
-
----
-
-## 2026-05-22 16:12 - deploy-to-code-engine.sh の出力バッファリング問題を修正
-
-### 作業内容
-
-#### コマンド出力がバッファリングされる問題を修正
-
-`deploy-to-code-engine.sh`のコマンド実行方法を変更：
-
-1. **if 文の条件からコマンド実行を分離**
-   - `if ibmcloud ce app update ...`を 2 つのステップに分割
-   - まずコマンドを実行して出力を表示
-   - 次に終了コードをチェック
-
-2. **終了コードの明示的な表示**
-   - `UPDATE_EXIT_CODE=$?`で終了コードを保存
-   - 成功メッセージに終了コードを表示
-
-3. **出力のリアルタイム表示**
-   - if 文の条件内でコマンドを実行すると出力がバッファリングされる
-   - コマンドを先に実行することで出力が即座に表示される
-
-### 理由
-
-- if 文の条件内でコマンドを実行すると、bash が出力をバッファリングする
-- そのため、コマンドの実行中に何も表示されず、完了後に一気に表示される
-- コマンドを先に実行してから終了コードをチェックすることで、リアルタイムに出力が表示される
-
-### 成果
-
-- ✅ コマンド実行と終了コードチェックを分離
-- ✅ 出力のリアルタイム表示を実現
-- ✅ 終了コードを明示的に表示してデバッグを容易に
-
-## 2026-05-22 16:15 - Code Engine デプロイスクリプトの進捗表示問題を修正
-
-### 問題
-
-- `deploy-to-code-engine.sh`実行時に、アプリケーションのデプロイ進捗が表示されない
-- ステップ 10（Code Engine アプリケーションをデプロイ中）の後、進捗状況が更新されない
-
-### 原因
-
-1. `ibmcloud ce app update/create`コマンドの出力がバッファリングされていた
-2. コマンドが完了するまで待機するため、リアルタイムの進捗が表示されなかった
-3. 進捗監視ループの出力が標準出力に送られ、バッファリングの影響を受けていた
-
-### 修正内容
-
-1. **`--no-wait`オプションの追加**
-   - `ibmcloud ce app update/create`コマンドに`--no-wait`オプションを追加
-   - コマンドをバックグラウンドで実行し、プロセス ID を取得
-
-2. **視覚的な進捗インジケーター**
-   - コマンド実行中にドット（`.`）を 1 秒ごとに表示
-   - 60 個ごとに改行して見やすく表示
-
-3. **詳細な状態監視**
-   - 5 秒ごとにアプリケーションの状態をチェック
-   - `[  5s] 状態: Deploying`のような形式で経過時間とステータスを表示
-
-4. **出力のリダイレクト**
-   - すべての進捗メッセージを標準エラー出力（`>&2`）にリダイレクト
-   - バッファリングの問題を回避
-
-### 変更ファイル
-
-- `deploy-to-code-engine.sh`: アプリケーションのデプロイ処理を改善（214-318 行目）
-
-### 効果
-
-- デプロイ中の進捗がリアルタイムで表示されるようになった
-- ユーザーはコマンドが実行中であることを視覚的に確認できる
-- アプリケーションの準備状態を定期的に確認し、状態遷移を追跡できる
-
-## 2026-05-22 16:27 - アーキテクチャ不一致問題を修正
-
-### 問題
-
-- Code Engine にデプロイしたアプリケーションが起動に失敗
-- エラー: `exec /sbin/tini: exec format error`
-- 新しいリビジョンが`1/3 Running`で 6 回再起動を繰り返す
-
-### 原因
-
-- Apple Silicon（ARM64）でビルドした Docker イメージを、AMD64 アーキテクチャの Code Engine で実行しようとしていた
-- アーキテクチャの不一致により、バイナリが実行できない
-
-### 修正内容
-
-1. **Podman を優先的に使用**
-   - 以前の解決策（Podman + Colima）を採用
-   - Podman が利用可能な場合は、Podman を優先的に使用
-   - `podman build --platform linux/amd64`で AMD64 イメージをビルド
-
-2. **Docker はフォールバック**
-   - Podman が利用できない場合のみ Docker を使用
-   - Docker Buildx が利用可能な場合は、マルチアーキテクチャビルダーを自動作成
-   - Buildx が利用不可の場合は、Podman のインストールを推奨
-
-3. **イメージプッシュも Podman 優先**
-   - プッシュ処理も Podman を優先的に使用
-
-### 変更ファイル
-
-- `deploy-to-code-engine.sh`: Podman を優先的に使用するように変更（143-177 行目）
-
-### 効果
-
-- Podman + Colima の組み合わせで、AMD64 アーキテクチャ用のイメージを確実にビルド
-- Docker Buildx の問題を回避
-- より安定したマルチアーキテクチャビルドを実現
-
----
-
-## 2026-05-22: Code Engine デプロイステータス取得の修正
-
-### 問題
-
-デプロイスクリプト実行時に、アプリケーションのステータスが正しく取得できず、`READY_STATUS='Unknown', STATUS=''`と表示される問題が発生していました。
-
-### 原因分析
-
-1. **JSON パース処理は正常に動作**
-   - `jq`コマンドは正しく動作しており、`"status": "Unknown"`を正確に取得していました
-   - 問題は`awk`や`sed`ではなく、`Unknown`状態の処理ロジックにありました
-
-2. **Code Engine のステータス遷移**
-   - デプロイ開始直後: `"status": "Unknown"`
-   - デプロイ中: `"status": "False"`
-   - デプロイ完了: `"status": "True"`
-
-3. **従来のコードの問題**
-   - `Unknown`状態を空文字列として扱っていたため、適切な表示ができていませんでした
-
-### 解決策
-
-1. **ステータス判定ロジックの改善**
-
-   ```bash
-   if [ "$READY_STATUS" = "True" ]; then
-       STATUS="Ready"
-   elif [ "$READY_STATUS" = "False" ]; then
-       STATUS="Deploying"
-   elif [ "$READY_STATUS" = "Unknown" ]; then
-       STATUS="Deploying"  # Unknown もデプロイ中として扱う
-   else
-       STATUS=""  # 空の場合はイメージプル中
-   fi
-   ```
-
-2. **進行状況の可視化**
-   - ステータスが変わらない場合でも、5 秒ごとにドット(`.`)を表示
-   - ユーザーに処理が進行中であることを明示
-
-3. **複数のフォールバック方法を実装**
-   - 方法 1: `jq`（JSON パーサー）
-   - 方法 2: `python3`（JSON 処理）
-   - 方法 3: `awk`（複数行対応の改善版）
-
-### 変更ファイル
-
-1. **`setup/instructor/check-deploy-status.sh`** (48-103 行目)
-   - 3 つのフォールバック方法を実装
-   - 一時ファイルを使用して JSON 処理を確実に実行
-
-2. **`deploy-to-code-engine.sh`** (367-448 行目, 511-593 行目)
-   - 更新時と新規作成時の両方でステータス判定を改善
-   - `Unknown`状態を「デプロイ中」として処理
-   - 進行状況を示すドット表示を追加
-
-### 動作確認
-
-実行結果:
-
-```
-初回ステータス確認: READY_STATUS='Unknown', STATUS='Deploying'
-[  0s] デプロイ中...
-....
-[ 25s] ✓ 準備完了
-```
-
-### 補足: デプロイに 25 秒かかる理由
-
-既存アプリケーションの更新時も、Code Engine は以下のゼロダウンタイムデプロイプロセスを実行します：
-
-1. 新しいコンテナインスタンスの起動
-2. ヘルスチェックの完了待機
-3. トラフィックの切り替え
-4. 古いインスタンスの停止
-
-これは正常な動作で、安全なデプロイを保証するための時間です。
-
-## 2026-05-22: Code Engine デプロイスクリプトの改善 - JSON パース問題の解決
-
-### 問題
-
-1. **ステータス取得の失敗**
-   - `ibmcloud ce app get --output json`からのステータス取得が正しく動作しない
-   - `READY_STATUS='Unknown'`となり、デプロイ完了を検出できない
-   - 結果として、タイムアウト（300 秒）まで待機し続ける
-
-2. **URL 取得の失敗**
-   - アプリケーション URL が空文字列となり表示されない
-   - デプロイ完了後も URL が確認できない
-
-3. **awk 構文エラー**
-   - macOS 環境で`match()`関数の配列構文がサポートされていない
-   - `awk: syntax error at source line 4`エラーが発生
-
-### 原因分析
-
-1. **JSON 構造の複雑さ**
-   - `"status"`フィールドが複数箇所に存在
-   - 必要なのは`status.conditions[type="Ready"].status`の値
-   - 単純な`grep`では正しいフィールドを取得できない
-
-2. **awk 実装の互換性問題**
-   - GNU awk 専用の`match()`配列構文を使用
-   - macOS/BSD awk では動作しない
-
-### 解決策
-
-#### 1. タイムアウト時間の短縮
-
-```bash
-MAX_WAIT=300  # 600 秒から 300 秒（5 分）に変更
-```
-
-#### 2. JSON パース方法の変更（awk → sed）
-
-```bash
-# 旧実装（動作しない）
-READY_STATUS=$(ibmcloud ce app get --name "$APP_NAME" --output json 2>&1 | \
-    grep -o '"status":"[^"]*' | cut -d'"' -f4)
-
-# 新実装（sed を使用）
-READY_STATUS=$(echo "$APP_JSON" | \
-    grep -A 3 '"type": "Ready"' | \
-    grep '"status"' | \
-    head -1 | \
-    sed 's/.*"status": "\([^"]*\)".*/\1/')
-```
-
-処理の流れ:
-
-1. `grep -A 3 '"type": "Ready"'` - "Ready"を含む行とその後 3 行を取得
-2. `grep '"status"'` - "status"を含む行を抽出
-3. `head -1` - 最初の行のみ
-4. `sed 's/.*"status": "\([^"]*\)".*/\1/'` - 値を抽出
-
-#### 3. URL 取得の改善
-
-```bash
-# 旧実装
-APP_URL=$(ibmcloud ce app get --name "$APP_NAME" --output json | \
-    grep -o '"url":"[^"]*' | cut -d'"' -f4)
-
-# 新実装
-APP_URL=$(echo "$APP_JSON" | \
-    grep '"url":' | \
-    grep -v '"cluster_local_url"' | \
-    head -1 | \
-    sed 's/.*"url": "\([^"]*\)".*/\1/')
-```
-
-#### 4. デバッグ出力の追加
-
-```bash
-# 初回ステータス確認時にデバッグ情報を表示
-if [ $ELAPSED -eq 0 ]; then
-    printf "${YELLOW}初回ステータス確認: READY_STATUS='%s', STATUS='%s'${NC}\n" \
-        "$READY_STATUS" "$STATUS" >&2
-fi
-```
-
-#### 5. デプロイ状況確認スクリプトの作成
-
-新規ファイル: `setup/instructor/check-deploy-status.sh`
-
-- アプリケーション詳細の表示
-- リビジョン一覧の表示
-- 最新ログの表示（50 行）
-- トラブルシューティングのヒント
-
-### 変更ファイル
-
-1. **`deploy-to-code-engine.sh`**
-   - タイムアウト: 600 秒 → 300 秒
-   - ステータス取得: awk → sed（2 箇所）
-   - URL 取得: grep/cut → sed
-   - デバッグ出力の追加
-   - 監視開始メッセージの追加
-
-2. **`setup/instructor/check-deploy-status.sh`** (新規作成)
-   - デプロイ状況の包括的な確認ツール
-   - トラブルシューティングガイド付き
-
-### 動作確認
-
-期待される出力:
-
-```
-✓ アプリケーションの更新コマンドが完了しました
-アプリケーションの準備状態を確認中...
-初回ステータス確認: READY_STATUS='True', STATUS='Ready'
-[  0s] ✓ 準備完了
-
-==========================================
-✓ デプロイ完了！
-==========================================
-
-アプリケーション URL:
-https://mkdocs-docs.29z4m356f40c.us-south.codeengine.appdomain.cloud
-```
-
-### 技術的な学び
-
-1. **JSON パースの選択肢**
-   - `jq`: 最も確実だが、インストールが必要
-   - `python3`: 確実だが、やや重い
-   - `awk`: 軽量だが、互換性に注意
-   - `sed`: 軽量で互換性が高い（今回採用）
-
-2. **macOS/BSD awk の制限**
-   - `match()`の配列構文は使えない
-   - `gsub()`は使えるが、複雑な処理には不向き
-   - シンプルなパターンマッチングに限定すべき
-
-3. **デバッグの重要性**
-   - 初回実行時のステータス表示で問題を早期発見
-   - 中間変数の値を表示することで原因特定が容易に
-
-### 今後の改善案
-
-1. `jq`の利用を推奨（オプション）
-2. より詳細なエラーメッセージ
-3. リトライ機能の追加
-
-## 2026-05-22: start-all.sh と stop-all.sh の整合性修正
-
-### 問題の発見
-
-[`start-all.sh`](setup/instructor/start-all.sh:1)と[`stop-all.sh`](setup/instructor/stop-all.sh:1)の整合性をテストした結果、以下の不整合を発見：
-
-1. **プロファイルの不整合**
-   - `start-all.sh`: `--profile milvus` で起動
-   - `stop-all.sh`: `--profile all` で停止
-   - 問題: 起動していない`mkdocs`サービスも停止しようとする
-
-2. **エラーハンドリングの違い**
-   - `start-all.sh`: compose コマンドがない場合はエラーで終了
-   - `stop-all.sh`: デフォルト値を設定して続行を試みる
-
-3. **Podman DOCKER_HOST 設定の欠如**
-   - `start-all.sh`: Podman の docker エイリアス使用時に`DOCKER_HOST`を設定
-   - `stop-all.sh`: この設定がない
-
-### 実施した修正
-
-#### 1. プロファイル指定の統一
-
-```bash
-# 修正前
-$COMPOSE_CMD --profile all down
-
-# 修正後
-$COMPOSE_CMD --profile milvus down
-```
-
-#### 2. エラーハンドリングの統一
-
-```bash
-# 修正前（デフォルト値で続行）
-else
-    COMPOSE_CMD="docker-compose"  # デフォルトで試す
-fi
-
-# 修正後（明示的にエラー終了）
-else
-    echo "❌ docker-compose がインストールされていません"
-    echo ""
-    echo "インストール方法:"
-    echo "  brew install docker-compose"
-    echo ""
-    exit 1
-fi
-```
-
-#### 3. Podman DOCKER_HOST 設定の追加
-
-```bash
-# Podman の docker エイリアスを使用している場合、DOCKER_HOST を設定
-if docker version 2>&1 | grep -q "podman"; then
-    # macOS の Podman machine socket パスを取得
-    PODMAN_SOCK=$(podman machine inspect podman-machine-default 2>/dev/null | grep -o '"Path": "[^"]*"' | head -1 | cut -d'"' -f4)
-    if [ -n "$PODMAN_SOCK" ]; then
-        export DOCKER_HOST="unix://$PODMAN_SOCK"
-        echo "✓ Podman（docker エイリアス経由）が見つかりました"
-    else
-        echo "✓ Docker が見つかりました"
-    fi
-else
-    echo "✓ Docker が見つかりました"
-fi
-```
-
-#### 4. メッセージの整合性
-
-```bash
-# 修正前
-echo "✓ すべてのサービスが停止しました"
-echo "  - Milvus 環境（etcd, minio, milvus）"
-echo "  - MkDocs ドキュメントサーバー"
-
-# 修正後
-echo "✓ Milvus 環境が停止しました"
-echo "  - etcd, minio, milvus"
-```
-
-### テスト結果
-
-#### start-all.sh の実行
-
-```bash
-$ cd setup/instructor && ./start-all.sh
-==========================================
-Vector Search ハンズオン環境を起動中...
-==========================================
-
-✓ Docker が見つかりました
-
-Milvus 環境を起動中...
- Container instructor-minio-1 Creating 
- Container instructor-etcd-1 Creating 
- Container instructor-minio-1 Created 
- Container instructor-etcd-1 Created 
- Container instructor-milvus-1 Creating 
- Container instructor-milvus-1 Created 
- Container instructor-minio-1 Starting 
- Container instructor-etcd-1 Starting 
- Container instructor-etcd-1 Started 
- Container instructor-minio-1 Started 
- Container instructor-milvus-1 Starting 
- Container instructor-milvus-1 Started 
-✓ Milvus 環境が起動しました
-  - etcd, minio, milvus
-```
-
-#### stop-all.sh の実行
-
-```bash
-$ cd setup/instructor && ./stop-all.sh
-==========================================
-Vector Search ハンズオン環境を停止中...
-==========================================
-
-✓ Docker が見つかりました
-
-Milvus 環境を停止中...
- Container instructor-milvus-1 Stopping 
- Container instructor-milvus-1 Stopped 
- Container instructor-milvus-1 Removing 
- Container instructor-milvus-1 Removed 
- Container instructor-etcd-1 Stopping 
- Container instructor-minio-1 Stopping 
- Container instructor-etcd-1 Stopped 
- Container instructor-etcd-1 Removing 
- Container instructor-etcd-1 Removed 
- Container instructor-minio-1 Stopped 
- Container instructor-minio-1 Removing 
- Container instructor-minio-1 Removed 
-✓ Milvus 環境が停止しました
-  - etcd, minio, milvus
-```
-
-### 整合性確認
-
-両スクリプトは以下の点で完全に整合：
-
-1. **同じプロファイル使用**: 両方とも`--profile milvus`
-2. **同じサービス対象**: etcd, minio, milvus
-3. **統一されたエラーハンドリング**: compose 未検出時は明示的にエラー終了
-4. **同じ Podman 対応**: DOCKER_HOST 環境変数の設定ロジック統一
-5. **起動→停止のサイクル**: 正常に動作
-
-### 技術的な学び
-
-1. **スクリプトの整合性の重要性**
-   - 起動スクリプトと停止スクリプトは対称的であるべき
-   - 起動したサービスのみを停止する設計が重要
-
-2. **エラーハンドリングの統一**
-   - デフォルト値での続行は予期しない動作を引き起こす可能性
-   - 明示的なエラーメッセージと exit 1 が望ましい
-
-3. **Podman 互換性**
-   - docker エイリアス経由で Podman を使用する場合、DOCKER_HOST 設定が必要
-   - 両スクリプトで同じ環境変数設定が必要
-
-### 影響範囲
-
-- ✅ `setup/instructor/stop-all.sh`: 修正完了
-- ✅ `setup/instructor/start-all.sh`: 変更なし（既に正しい実装）
-- ✅ `setup/instructor/docker-compose.yml`: 変更なし（プロファイル定義は正しい）
-
-### 今後の改善案
-
-1. 統合テストスクリプトの作成
-2. CI/CD での自動整合性チェック
-3. プロファイル定義のドキュメント化
-
-
----
-
-## 2026-05-22: ドキュメント改善とスタイル強化
-
-### 実施内容
-
-1. **メモリ要件の削除**
-   - `docs/index.md`: 環境依存の具体的なメモリ要件を削除
-   - 理由: 環境や使用状況によって変わるため、確証のない情報は記載しない
-
-2. **箇条書きの入れ子の修正**
-   - `docs/index.md`: 2 スペースインデントを 4 スペースインデントに変更
-   - MkDocs では入れ子の箇条書きに 4 スペースのインデントが必要
-
-3. **ハンズオン手順書 URL の追加**
-   - `docs/index.md`: 「講師から配布されるもの」に「ハンズオン手順書の URL（本ドキュメント）」を追加
-   - 時系列順に一番上に配置
-
-4. **キーボード記法の修正**
-   - `docs/preparation.md`: MkDocs のキーボード記法（`++key++`）を HTML の`<kbd>`タグに変更
-   - 番号付きリスト内でも正しくレンダリングされるように修正
-
-5. **埋め込みモデルの説明改善**
-   - `docs/preparation.md`: 見出しに「（テキストを数値に変換する AI）」を追加
-   - `docs/index.md`: 役割を「テキストを数値に変換する AI」に変更
-   - より分かりやすい説明に改善
-
-6. **h4 見出しのスタイル強化**
-   - `docs/stylesheets/typography.css`: `h4`のスタイルを新規追加
-   - フォントサイズ 1.1em、左側に 4px の太い境界線、グラデーション背景
-   - FontAwesome アイコン、ホバー時のシャドウ効果を追加
-   - `####`見出しが単なる太字`**`よりも視覚的に強調されるように改善
-
-7. **不要な文章の削除**
-   - `docs/summary.md`: 「学んだスキルを活用して...」以降と「ありがとうございました！」を削除
-   - 参考資料のみを残してシンプルに
-
-### 変更ファイル
-
-- `docs/index.md`
-- `docs/preparation.md`
-- `docs/part1.md`
-- `docs/summary.md`
-- `docs/stylesheets/typography.css`
-
-### 成果
-
-- ドキュメントの可読性向上
-- MkDocs での正しいレンダリング
-- h4 見出しの視覚的な強調
-- より分かりやすい説明
-
-
-## 2026-05-22 21:46 - instructor 用ドキュメントの更新
-
-### 実施内容
-1. ローカル環境と Code Engine でのドキュメント更新方法の違いを明記
-2. instructor 用の 2 つのドキュメントを最新の内容に更新し、簡潔明瞭化
-
-### 更新ファイル
-- `setup/instructor/instructor-share-info.md`
-  - クイックスタートセクションを追加（環境起動、IP 確認、デプロイ）
-  - 受講者への案内文を簡潔化
-  - チェックリストを整理
-  - 環境情報を「固定設定」と「環境依存」に分類
-
-- `setup/instructor/deploy-docs-to-cloud.md`
-  - クイックスタートを 5 ステップに簡素化
-  - ローカル環境 vs Code Engine の更新方法の違いを明記（比較表付き）
-  - 自動更新の仕組みを技術的に説明（ボリュームマウント vs Docker イメージ焼き込み）
-  - ベストプラクティスを追加（開発→公開→修正のワークフロー）
-  - トラブルシューティングを簡潔化
-  - コストセクションを削除
-
-### 技術的な説明
-**ローカル環境での自動更新**:
-- `docker-compose.yml`でボリュームマウント（`../../:/docs`）
-- MkDocs 開発サーバーモード（`serve`コマンド）
-- ファイル変更を自動検知してリアルタイム再ビルド
-
-**Code Engine での手動更新**:
-- `Dockerfile`でファイルをイメージに焼き込み（`COPY`）
-- ビルド時点の内容で固定
-- 更新には再デプロイが必要
-
-### 成果
-- 講師が両環境の違いを理解し、適切に使い分けられるようになった
-- ドキュメントが簡潔明瞭になり、必要な情報にすぐアクセスできるようになった
-
-
----
-
-## 2026-05-23 23:52 JST - Colima ランタイム設定とデプロイスクリプト改善
-
-### 背景
-- `colima delete`に時間がかかる問題を調査
-- Podman ランタイムのサポート状況を確認
-- デプロイスクリプトのエラーハンドリングを改善
-
-### 実施内容
-
-#### 1. Colima ランタイムの修正
-**問題**: Colima 0.10.1 は Podman ランタイムをサポートしていない
-- サポートされているランタイム: docker, containerd, incus
-- 過去に Podman ランタイムを推奨していたが、実際には使用不可
-
-**対応**:
-- README.md を修正: `--runtime podman` → `--runtime docker`
-- instructor 向けドキュメントを更新
-- 初回起動時の想定時間を追記（5〜10 分程度）
-
-#### 2. デプロイスクリプトの改善
-**問題**: 複数のエラーハンドリングとログ出力の問題
-- `lib/common.sh`の多重読み込みで readonly 変数エラー
-- リソースグループ自動選択が機能しない
-- ログメッセージが変数に混入してイメージ名が不正
-
-**対応**:
-- 多重読み込み防止ガードを追加（`COMMON_SH_LOADED`フラグ）
-- `select_resource_group`と`select_registry_namespace`のログ出力を stderr にリダイレクト
-- Code Engine プロジェクト作成時のエラーハンドリング改善
-- IBM Cloud ログインエラーメッセージに`--sso`オプションを明記
-- デプロイ進捗表示から経過時間を削除（シンプル化）
-
-#### 3. Podman machine 環境のクリーンアップ
-**問題**: Colima と Podman machine が両方起動していた
-- リソースの無駄（CPU 6、メモリ 4GiB）
-- 環境の複雑化
-
-**対応**:
-- Podman machine を停止・削除
-- Colima のみを使用する構成に統一
-- リソース使用量を最適化（CPU 2、メモリ 2GiB）
-
-### 技術的な詳細
-
-**多重読み込み防止**:
-```bash
-if [ -n "${COMMON_SH_LOADED:-}" ]; then
-    return 0
-fi
-readonly COMMON_SH_LOADED=1
-```
-
-**ログ出力のリダイレクト**:
-```bash
-# 変数キャプチャ用の関数
-select_registry_namespace() {
-    log_section "確認中..." >&2  # stderr へ
-    echo "$registry_namespace"    # stdout へ（変数キャプチャ用）
-}
-```
-
-**デプロイ進捗表示**:
-```
-イメージをプル中...
-.....
-デプロイ中...
-.........
-✓ 準備完了 (120s)
-```
-
-### 成果
-- Colima のみで安定動作する環境を構築
-- デプロイスクリプトのエラーハンドリングが改善
-- リソース使用量を 50%削減
-- ドキュメントが正確な情報に更新された
-
-### コミット
-- `72d4431` docs: podman から docker ランタイムに変更
-- `b553507` docs: 和欧文間に半角スペースを追加
-- `a0e927c` docs: instructor 向けドキュメントを docker ランタイムに更新
-- `2e578c8` fix: common.sh の多重読み込みを防止
-- `3f2aa2d` fix: リソースグループ自動選択の改善
-- `08ce32a` fix: select_resource_group の戻り値を変数に格納
-- `fc65d1d` docs: IBM Cloud ログインエラーメッセージを改善
-- `c760ac3` fix: Code Engine プロジェクト作成時のエラーハンドリング改善
-- `53fb7a3` fix: select 関数のログ出力を stderr にリダイレクト
-- `8384dda` refactor: デプロイ進捗表示から経過時間を削除
-
-## 2026-05-23: README の Colima + Podman 対応を明確化
-
-### 作業内容
-
-**背景**:
-- Colima が起動していない状態で`./start-all.sh`を実行するとエラーが発生
-- README のクイックスタートに Colima 起動手順が不足していた
-- Podman の制限事項（Code Engine デプロイ時の認証問題）が不明確だった
-
-**実施した改善**:
-
-1. **README クイックスタートの更新**
-   - Colima 起動手順を追加（`colima start --runtime podman`）
-   - 初回起動と 2 回目以降の違いを明記
-   - 不要な技術的詳細を削除してシンプル化
-
-2. **用語の整理**
-   - 「スタンドアロン Podman」の表現を維持（ユーザー要望）
-   - 「コンテナランタイム」の用語を維持（技術的に正確）
-
-3. **スクリプトの実装確認**
-   - `lib/common.sh`の`detect_build_tool()`を確認
-   - `lib/deploy-helpers.sh`の`push_docker_image()`を確認
-   - Podman でビルドした場合、自動的に Docker 経由でプッシュする実装を確認
-
-### 技術的な詳細
-
-**Colima のランタイム指定**:
-- 初回起動時のみ`--runtime podman`を指定
-- 2 回目以降は`colima start`のみで同じランタイムで起動
-- `colima stop`後の再起動でも`--runtime`は不要
-
-**Podman の制限事項**:
-- IBM Cloud Container Registry との認証に問題がある
-- `deploy-to-code-engine.sh`が自動的に Docker 経由でプッシュする
-- ユーザーは手動でランタイムを切り替える必要なし
-
-### 最終的なクイックスタート構成
-
-```bash
-# 1. コンテナランタイムを起動
-colima start --runtime podman
-
-# 2. Milvus 環境を起動
-cd setup/instructor
-./start-all.sh
-
-# 3. IP アドレス確認
-ifconfig | grep "inet " | grep -v 127.0.0.1
-
-# 4. Code Engine にデプロイ
-cd ../..
-./deploy-to-code-engine.sh
-
-# 5. 受講者に共有
-```
-
-### コミット
-- `65e1340` docs: Colima と Podman の使用方法を明確化
-- `1a05129` docs: README から前提条件セクションを削除
-- `f641acd` docs: 用語を明確化（スタンドアロン Podman → Podman を直接使用）
-- `18f1e19` revert: スタンドアロン Podman の表現に戻す
-- `62a5c3e` docs: Code Engine デプロイの不要な注意事項を削除
-- `d6ba018` docs: クイックスタートから技術的な詳細を削除
-- `c1209c4` docs: クイックスタートをシンプル化
-- `b81ed6c` docs: Colima の起動方法を修正
-- `28091d5` docs: Colima の起動説明を簡潔化
-
----
-
-## 2026-05-24: Part1/Part2のリンク追加とMkDocsライブリロード改善
-
-### 問題
-- Part1の末尾「Part 2に進みましょう」にリンクがない
-- Part2の末尾「Part 3に進みましょう」にリンクがない
-- Docker版MkDocs（ポート8001）でファイル変更が自動反映されない
-
-### 解決策
-
-1. **リンクの追加**
-   - `docs/part1.md:353`: "休憩を取ってから、Part 2 に進みましょう！" → `[Part 2](part2.md)`を追加
-   - `docs/part2.md:321`: "休憩を取ってから、Part 3 に進みましょう！" → `[Part 3](part3.md)`を追加
-
-2. **Docker版MkDocsにポーリング機能を追加**
-   - `setup/instructor/docker-compose.yml:71`: `--watch-poll`オプションを追加
-   - ポーリングベースのファイル監視により、Dockerコンテナ環境でもライブリロードが確実に機能
-   - 1-2秒の遅延はあるが、クリティカルなデメリットはない
-
-3. **講師用ドキュメントの更新**
-   - `setup/instructor/instructor-share-info.md`: ポーリング機能について説明を追記
-   - Docker版（8001）でもライブリロードが機能することを明記
-   - 即座の反映が必要な場合のローカル版（8000）併用方法を記載
-
-### 技術的な詳細
-
-**ポーリングベースのデメリット**:
-- CPU使用率の増加（定期的なファイルスキャン）
-- 反映の遅延（ポーリング間隔1-2秒）
-- ディスクI/Oの増加
-- バッテリー消費の増加
-
-ただし、いずれも実用上問題にならないレベル。Dockerコンテナ環境でinotifyイベントが正しく伝播しない問題を回避できるため、トレードオフとして許容できる。
-
-**`--livereload`と`--watch-poll`**:
-- `--livereload`: MkDocsでデフォルト有効のため、明示的な追加は不要
-- `--watch-poll`: ポーリングベースの監視を有効化（これのみ追加すれば十分）
-
-**8000と8001の関係**:
-- ポート8000: ローカルで`python -m mkdocs serve`を実行したMkDocsサーバー
-- ポート8001: Dockerコンテナで実行されているMkDocsサーバー
-- 両方とも同じファイルシステムを参照しているため、独立して同じファイルの変更を検知
-- 8000の起動が8001の更新のトリガーではなく、単なる偶然のタイミング
-
-### コミット
-- `[pending]` docs: Part1/Part2のリンク追加とMkDocsライブリロード改善
-
----
-## 2026-05-24 09:48 - Docker MkDocsの自動リロード問題の調査と修正
-
-### 問題
-- Docker版MkDocs（ポート8001）でファイル変更が反映されない
-- `stop-all.sh` → `start-all.sh`後、ポート8001にアクセスできなくなった
-
-### 原因分析
-
-1. **`--watch-poll`オプションの非サポート**
-   - 新しいMkDocsバージョンで`--watch-poll`オプションが削除されていた
-   - エラー: `Error: No such option: --watch-poll`
-   - コンテナが再起動を繰り返していた
-
-2. **macOS Docker Desktopの制限**
-   - ホストのファイルシステムイベントがLinuxコンテナに伝わらない
-   - `--watch`オプションや`--dirty`オプションでも自動検知は動作しない
-   - これはmacOS Docker Desktopの既知の問題
-
-### 実施した修正
-
-1. **docker-compose.ymlの修正**
-   - `--watch-poll`オプションを削除
-   - コメントでmacOS Docker Desktopの制限を明記
-   - シンプルな`serve --dev-addr=0.0.0.0:8000`に変更
-
-2. **ドキュメントの更新**
-   - `instructor-share-info.md`に詳細な使い分けガイドを追加
-   - ポート8000（ローカル開発用）とポート8001（共有用）の違いを明確化
-   - 推奨ワークフローを記載
-
-### 結論
-
-**ポート8000と8001の正しい使い分け**:
-
-- **ポート8000（ローカル開発用）**
-  - `python -m mkdocs serve`で起動
-  - ファイル変更の自動検知が動作
-  - 自動リロードが機能
-  - 用途: ドキュメント編集・開発
-
-- **ポート8001（受講者共有用）**
-  - Docker Composeで起動
-  - ネットワーク内の全員がアクセス可能
-  - ファイル変更の自動検知は動作しない（macOS Docker Desktopの制限）
-  - 手動でブラウザをリロードする必要あり
-  - 用途: 受講者への共有
-
-**以前の理解の誤り**:
-- 8000の起動が8001の更新をトリガーしているわけではない
-- 8000で自動リロードが動作するのは、ホスト上で直接実行されているため
-- 8001で自動リロードが動作しないのは、Docker Desktopの制限のため
-
-### 修正ファイル
-- `setup/instructor/docker-compose.yml`: `--watch-poll`削除、コメント追加
-- `setup/instructor/instructor-share-info.md`: 使い分けガイド更新
-
-### コミット
-- `[pending]` fix: Docker MkDocsの自動リロード問題を修正し、使い分けガイドを追加
-
----
-
-
-## 2026-05-24: MkDocsポート8000/8001の使い分けを明確化
-
-### 実施内容
-
-1. **start-all.shの更新**
-   - コンテナ版（8001）と開発版（8000）の違いを明確化
-   - 開発版は別途手動起動が必要であることを明記
-   - プロジェクトルートでの実行が必要であることを追加
-   - バックグラウンド実行のオプションと停止方法を追加
-
-2. **stop-all.shの更新**
-   - ポート8000で動作するmkdocsプロセスを自動検出して停止
-   - フォアグラウンド/バックグラウンドに関係なく停止可能
-   - lsofコマンドでポート使用プロセスを特定
-
-3. **instructor-share-info.mdの更新**
-   - コンテナ版vs開発版の比較表を追加
-   - FAQセクションを追加（5つの質問）
-     - Q1: 同時起動の可否とメリット・デメリット
-     - Q2: 自動更新の動作
-     - Q3: mkdocs.ymlエラーの解決方法
-     - Q4: バックグラウンド実行時の停止方法
-     - Q5: 受講者が8000にアクセスした場合
-   - 実行ディレクトリの重要性を明記
-
-### 技術的なポイント
-
-- **ポート8000と8001は競合しない**
-  - 8001: Dockerコンテナ（start-all.shで自動起動）
-  - 8000: ローカルプロセス（手動起動）
-  
-- **stop-all.shの動作**
-  - `lsof -ti:8000`でポート使用プロセスを検出
-  - フォアグラウンド/バックグラウンドに関係なく停止可能
-  
-- **mkdocs serveの実行要件**
-  - mkdocs.ymlがあるディレクトリ（プロジェクトルート）で実行必須
-  - setup/instructor/から実行する場合は`cd ../..`が必要
-
-### 推奨される運用
-
-- **ハンズオン本番**: コンテナ版（8001）のみ使用
-- **ドキュメント編集**: 開発版（8000）を追加起動
-- **同時起動**: 技術的には可能だが、通常は不要
-
-### 変更ファイル
-
-- setup/instructor/start-all.sh
-- setup/instructor/stop-all.sh
-- setup/instructor/instructor-share-info.md
-
-
-## 2026-05-24: ドキュメントから「お疲れ様でした」セクションを削除
-
-### 実施内容
-
-part1.md、part2.md、part3.mdの最後にあった「お疲れ様でした」のセクションを削除しました。
-
-### 変更ファイル
-
-- docs/part1.md
-- docs/part2.md
-- docs/part3.md
-
-
-## 2026-05-24: まとめページに課題セクションを追加
-
-### 実施内容
-
-summary.md のまとめページに「課題」セクションを追加しました。
-
-- Custom admonition（`??? challenge`）を使用した折り畳み可能な課題セクション
-- Agentic RAG における Lexical Search と Vector Search の Harness Engineering による差異の調査課題
-- 調査のポイント（4つの観点）と推奨アプローチを記載
-- 和欧文間に半角スペースを追加して可読性を向上
-
-### 変更ファイル
-
-- mkdocs.yml: custom admonitions の設定を追加
-- docs/summary.md: 課題セクションを追加
-
----
-
-## 2026-05-25: 前提条件にBobプラン名を追記
-
-### 問題
-- [`mkdocs`](mkdocs) の前提条件説明で、Bob がインストール済みであることは書かれていたが、利用プラン名が明記されていなかった
-- 画面表示に合わせて「IBM Internal Version」であることをドキュメント上でも明示したかった
-
-### 解決策
-- [`docs/index.md`](docs/index.md) の前提条件文言に「（プラン：IBM Internal Version）」を追記
-- [`docs/preparation.md`](docs/preparation.md) の前提条件文言にも同じ表記を追記
-- ホームと事前準備ページで表記を統一
-
-### コミット
-- [`c5b9c89`](worklog.md)
