@@ -1,9 +1,156 @@
 # Vector Search ハンズオンへようこそ
 
-このハンズオンでは、IBM Bob を使って「意味で検索する」機能（Vector Search）を体験します。
+このハンズオンでは、**IBM Building Blocks** と **IBM Bob** を組み合わせて、「意味で検索する」機能（Vector Search）を短時間で構築・体験します。
 
 !!! info "前提条件"
     IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン：IBM Internal Version）。
+
+## このハンズオンで体験できること
+
+### Building Blocks + IBM Bob の価値
+
+このハンズオンでは、**IBM Building Blocks** という事前構築済みの技術コンポーネントと、**IBM Bob** という AI 開発アシスタントを組み合わせることで、従来は数日〜数週間かかっていた開発を **約60分** で完了できることを体験します。
+
+#### Building Blocks なしの場合（従来の開発）
+
+```mermaid
+graph LR
+    A[要件定義] --> B[技術選定]
+    B --> C[環境構築]
+    C --> D[コーディング]
+    D --> E[テスト]
+    E --> F[デバッグ]
+    F --> G[完成]
+    
+    style A fill:#ffcccc
+    style B fill:#ffcccc
+    style C fill:#ffcccc
+    style D fill:#ffcccc
+    style E fill:#ffcccc
+    style F fill:#ffcccc
+    style G fill:#ccffcc
+```
+
+**所要時間**: 数日〜数週間
+
+- ベクトルデータベースの選定・学習
+- 埋め込みモデルの選定・統合
+- API の設計・実装
+- エラーハンドリング
+- パフォーマンスチューニング
+
+#### Building Blocks + IBM Bob の場合（このハンズオン）
+
+```mermaid
+graph LR
+    A[Building Blocks<br/>インストール] --> B[IBM Bob で<br/>カスタマイズ]
+    B --> C[完成]
+    
+    style A fill:#cce5ff
+    style B fill:#cce5ff
+    style C fill:#ccffcc
+```
+
+**所要時間**: 約60分
+
+- **Building Blocks**: Vector Search Builder モードで基盤を即座に構築
+- **IBM Bob**: 日本語の指示だけで機能追加・カスタマイズ
+- **結果**: 本番レベルのコード品質を短時間で実現
+
+## IBM Building Blocks とは？
+
+**IBM Building Blocks** は、IBM の技術スタックを活用した **事前構築済みの技術コンポーネント** です。Build Engineering チームが開発し、ソリューション開発を加速させます。
+
+### Building Blocks の特徴
+
+- **即座に使える**: 複雑な設定や学習なしに、すぐに使い始められる
+- **ベストプラクティス**: IBM のエンジニアリングチームが設計した最適な実装パターン
+- **統合済み**: watsonx.ai、watsonx.data などの IBM サービスとシームレスに連携
+- **カスタマイズ可能**: IBM Bob を使って、ビジネス要件に合わせて柔軟に拡張
+
+### このハンズオンで使用する Building Block
+
+**Vector Search Builder** (Milvus ベース)
+
+- **提供内容**: ベクトルデータベース（Milvus）の構築・管理機能
+- **含まれる機能**:
+    - Milvus データベースのセットアップ
+    - コレクション（データの入れ物）の作成
+    - 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
+    - データ取り込みパイプライン
+    - ベクトル検索の最適化
+    - IBM Cloud Object Storage との連携
+
+- **IBM Bob との連携**: Vector Search Builder モードを使うことで、IBM Bob が Vector Search に特化した支援を提供
+
+!!! example "Building Blocks の価値"
+    **従来**: Milvus のドキュメントを読み、Python SDK を学習し、埋め込みモデルを選定・統合（数日）
+    
+    **Building Blocks**: Vector Search Builder をインストールし、IBM Bob に指示（数分）
+
+### このハンズオンの独自の工夫
+
+**オリジナルの Building Blocks が提供するもの**:
+- **`.bob/modes/`**: Vector Search Builder モード定義（zipファイル）
+- 各自がローカル環境でMilvusを構築して使用
+
+**このハンズオンで追加したもの**:
+- **`setup/instructor/`**: 講師用Milvus環境（Docker Compose）
+- **`setup/participant/`**: 受講者用接続テストスクリプト
+- **`docs/`**: ハンズオン用ドキュメント（MkDocs）
+- **`deploy-to-code-engine.sh`**: リモート配信用デプロイスクリプト
+
+#### 1. **講師・受講者分離アーキテクチャ**
+
+**オリジナル Building Blocks**:
+- 各自がMilvus環境を構築（Docker/Podman/Colima）
+- 個別に埋め込みモデルをダウンロード（約200MB）
+- 環境構築に30分程度必要
+
+**このハンズオンの工夫**:
+- **講師**: Milvus環境を一元管理（`setup/instructor/docker-compose.yml`）
+- **受講者**: IBM Bobのみで参加（`.bob/modes/` + 接続情報のみ）
+- **メリット**: セットアップ時間を30分→5分に短縮
+
+#### 2. **ハイブリッド配信対応**
+
+**オリジナル Building Blocks**:
+- ローカル環境での実行を想定
+
+**このハンズオンの工夫**:
+- **オンサイト**: ローカルネットワーク共有（`http://講師IP:8001`）
+- **リモート**: Code Engine へのドキュメントデプロイ
+- **メリット**: オンサイト/リモート/ハイブリッド開催に対応
+
+#### 3. **API キー不要の設計**
+
+**オリジナル Building Blocks**:
+- watsonx.ai の API キーが必要
+- 受講者が個別に取得・設定
+
+**このハンズオンの工夫**:
+- **Hugging Face Transformers** を使用（API キー不要）
+- **ローカル実行**: インターネット接続のみで動作
+- **メリット**: 受講者の準備負担を削減、コスト削減
+
+#### 4. **段階的な学習パス**
+
+**オリジナル Building Blocks**:
+- 技術的な実装に焦点
+
+**このハンズオンの工夫**:
+- **Part 1**: Vector Search の体験（理解）
+- **Part 2**: IBM Bob での機能追加（実践）
+- **Part 3**: コードレビューと改善（応用）
+- **メリット**: 初心者でも段階的に学習できる
+
+!!! success "このハンズオンの価値提案"
+    **Building Blocks（基盤）** + **ハンズオン独自の工夫（教育設計）** = **最短時間で最大の学習効果**
+    
+    - 環境構築: 不要（講師が一元管理）
+    - API キー: 不要（Hugging Face 使用）
+    - 開催形式: 柔軟（オンサイト/リモート/ハイブリッド）
+    - 学習効果: 高い（段階的な学習パス）
 
 ## Vector Search とは？
 
@@ -37,12 +184,28 @@
 - **自然な日本語で指示**: 「検索結果に画像を表示して」と伝えるだけ
 - **コードを自動生成**: IBM Bob がコードを書いてくれる
 - **コードレビュー**: 書いたコードの問題点を指摘してくれる
+- **Building Blocks との連携**: 専用モードで、技術に特化した支援を提供
+
+### Building Blocks との相乗効果
+
+**Building Blocks 単体**:
+- 基盤となる機能は提供されるが、カスタマイズには技術知識が必要
+
+**IBM Bob 単体**:
+- コード生成は可能だが、ゼロから構築するため時間がかかる
+
+**Building Blocks + IBM Bob**:
+- Building Blocks で基盤を即座に構築
+- IBM Bob で日本語指示だけでカスタマイズ
+- **結果**: 最短時間で本番レベルの品質を実現
 
 ### 従来の開発との違い
 
-**従来の開発**: プログラミング言語を学ぶ → コードを書く → バグを修正 → テスト（数日〜数週間）
-
-**IBM Bob を使った開発**: 日本語で指示 → IBM Bob がコード生成 → 動作確認（数分〜数時間）
+| 開発方法 | 所要時間 | 必要なスキル | コード品質 |
+|:---|---:|:---|:---|
+| **従来の開発** | 数日〜数週間 | プログラミング、DB設計、API設計 | 開発者のスキルに依存 |
+| **IBM Bob のみ** | 数時間〜数日 | 基本的な技術理解 | 高品質だが構築に時間 |
+| **Building Blocks + IBM Bob** | 数分〜数時間 | 日本語で指示できればOK | 本番レベルの高品質 |
 
 ## ハンズオンの流れ
 
@@ -142,25 +305,49 @@ IBM Bob を使って、アプリケーションに新しい機能を追加しま
 - IBM Bob で簡単な機能追加ができる
 - 顧客に Vector Search の価値を説明できる
 
-## 使用する技術
+## 使用する技術スタック
+
+このハンズオンでは、以下の技術を **Building Blocks** として統合して使用します：
+
+### **IBM Building Blocks: Vector Search Builder**
+
+- **役割**: Vector Search 機能の統合基盤
+- **提供内容**:
+    - Milvus データベースの構築・管理
+    - 埋め込みモデルの統合
+    - データ取り込みパイプライン
+    - 検索最適化機能
+- **特徴**: すぐに使える、ベストプラクティス実装済み
 
 ### **Milvus（ミルバス）**
 
-- **役割**: ベクトルデータベース
+- **役割**: ベクトルデータベース（Building Blocks に含まれる）
 - **機能**: ベクトルデータを保存・検索
 - **特徴**: 高速・大規模データに対応
+- **Building Blocks での提供**: セットアップ済み、最適化済み
 
 ### **埋め込みモデル（Hugging Face Transformers）**
 
-- **役割**: テキストを数値に変換する AI
+- **役割**: テキストを数値に変換する AI（Building Blocks に統合済み）
 - **機能**: テキストの「意味」をベクトル（数値の配列）に変換
 - **特徴**: 日本語対応・高精度
+- **Building Blocks での提供**: 簡単に切り替え可能（watsonx、HuggingFace、ローカル）
 
-### **IBM Bob**
+### **IBM Bob + Vector Search Builder Mode**
 
-- **役割**: AI 開発アシスタント
-- **機能**: コード生成・レビュー・サポート
-- **特徴**: 自然言語で指示できる
+- **役割**: AI 開発アシスタント（Building Blocks 専用モード付き）
+- **機能**:
+    - Vector Search に特化したコード生成
+    - Building Blocks の機能を活用したカスタマイズ
+    - コードレビュー・サポート
+- **特徴**: 自然言語で指示できる、Vector Search の専門知識を持つ
+
+!!! tip "技術スタックの統合"
+    これらの技術は個別に使うこともできますが、**Building Blocks** として統合することで：
+    
+    - 複雑な設定が不要
+    - 相互連携が保証されている
+    - IBM Bob が全体を理解してサポート
 
 ## 次のステップ
 

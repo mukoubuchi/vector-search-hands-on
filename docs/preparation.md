@@ -11,7 +11,30 @@
 
 ### 1. Vector Search Builder モード
 
-Vector Search Builder は、ベクトル検索機能を簡単に構築できる IBM Bob の専用モードです。
+**Vector Search Builder** は、IBM Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob の専用モードです。
+
+#### Building Blocks としての Vector Search Builder
+
+**提供元**: IBM Build Engineering Team
+
+**含まれる機能**:
+- Milvus データベースのセットアップと管理
+- 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
+- データ取り込みパイプラインの構築
+- ベクトル検索の最適化
+- IBM Cloud Object Storage との連携
+
+**IBM Bob との連携**:
+- Vector Search に特化した AI アシスタント
+- Building Blocks の機能を理解した上でコード生成
+- ベストプラクティスに基づいた実装支援
+
+!!! info "Building Blocks の利点"
+    **通常の開発**: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）
+    
+    **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に日本語で指示（数分）
+    
+    **このハンズオンでの工夫**: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）
 
 #### ステップ 1: プロジェクトフォルダを作成
 
@@ -20,7 +43,18 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
 - **フォルダ名**: **`vector-search-handson`**
 - **場所**: デスクトップ推奨
 
-#### ステップ 2: Vector Search Builder をインストール
+#### ステップ 2: Vector Search Builder（Building Block）をインストール
+
+**`vector-search-builder.zip`** には、以下が含まれています：
+
+**オリジナルの Building Blocks**:
+- **`.bob/modes/`**: Vector Search Builder モード定義（IBM提供）
+
+**このハンズオンで追加したもの**:
+- **`setup/instructor/`**: 講師用Milvus環境（Docker Compose）
+- **`setup/participant/`**: 受講者用接続テストスクリプト
+- **`.env.example`**: 接続情報設定テンプレート
+- **`docs/`**: ハンズオン用ドキュメント
 
 1. 配布された **`vector-search-builder.zip`** をプロジェクトフォルダにコピー
 
@@ -35,6 +69,14 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
         ※ ダブルクリックで開いただけでは展開されないため、「すべて展開」を実行してください
 
 3. **`.bob`** フォルダが作成されていることを確認
+
+!!! tip "Building Blocks のインストール"
+    通常、Building Blocks は以下の方法でインストールします：
+    
+    - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/modes/`
+    - **プロジェクトローカル**: `.bob/modes/`（このハンズオンの方法）
+    
+    このハンズオンでは、プロジェクトローカルにインストールすることで、環境を汚さず、簡単にクリーンアップできます。
 
 #### ステップ 3: IBM Bob でプロジェクトを開く
 
@@ -51,6 +93,16 @@ Vector Search Builder は、ベクトル検索機能を簡単に構築できる 
         <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → 「Reload Window」
 
 4. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認
+
+!!! success "Building Blocks モードの認識"
+    IBM Bob が `.bob/modes/` フォルダを検出し、Vector Search Builder モードを自動的に読み込みます。
+    
+    このモードにより、IBM Bob は以下を理解します：
+    
+    - Milvus データベースの操作方法
+    - ベクトル検索のベストプラクティス
+    - 埋め込みモデルの統合方法
+    - Building Blocks の機能と制約
 
 ### 2. 接続情報
 

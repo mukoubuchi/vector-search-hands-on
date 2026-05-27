@@ -5811,3 +5811,47 @@ vector-search-builder.zip
 **完了日時**: 2026年5月27日 09:34 JST
 
 ---
+
+## 2026年5月27日 09:56 JST - Building Blocksの説明追加
+
+### 目的
+ハンズオンドキュメントに「Building Blocks + IBM Bob」の価値を訴求する内容を追加。オリジナルのBuilding Blocksとこのハンズオン独自の工夫を明確に区別。
+
+### 実施内容
+
+#### 1. `docs/index.md`の更新
+
+**追加したセクション**:
+- **Building Blocks + IBM Bob の価値**: 従来開発との比較（Mermaid図）
+- **IBM Building Blocks とは？**: 特徴、提供内容、IBM Bobとの連携
+- **このハンズオンの独自の工夫**: オリジナルとの差異を明記
+  - オリジナルBuilding Blocks: `.bob/modes/`のみ提供
+  - このハンズオンで追加: `setup/instructor/`, `setup/participant/`, `docs/`, デプロイスクリプト
+- **使用する技術スタック**: Building Blocksとしての統合を強調
+
+**4つの工夫点**:
+1. 講師・受講者分離アーキテクチャ（セットアップ30分→5分）
+2. ハイブリッド配信対応（オンサイト/リモート/ハイブリッド）
+3. APIキー不要の設計（Hugging Face使用）
+4. 段階的な学習パス（Part 1-3）
+
+#### 2. `docs/preparation.md`の更新
+
+**追加したセクション**:
+- **Building Blocks としての Vector Search Builder**: 提供元、機能、連携
+- **vector-search-builder.zipの内容**: オリジナルと追加分を明確に区別
+- **Building Blocks のインストール**: グローバル/ローカルの違い
+- **Building Blocks モードの認識**: IBM Bobの動作説明
+
+### 変更ファイル
+- `docs/index.md`: Building Blocksの説明、価値訴求、差異の明記
+- `docs/preparation.md`: Vector Search Builder Modeの詳細説明
+
+### 成果
+- Building Blocks（基盤）とハンズオン独自の工夫（教育設計）の違いが明確化
+- 「Building Blocks + IBM Bob」の価値提案が具体的に説明された
+- オリジナル（`.bob/modes/`のみ）とハンズオン追加要素の区別が明確化
+
+**完了日時**: 2026年5月27日 09:56 JST
+
+---
