@@ -55,7 +55,7 @@
 
 ### Building Blocks の他の機能
 
-Building Blocks には Vector Search 以外にも、専用の Bob Mode を持つものが多数あります：
+Building Blocks には Vector Search Builder 以外にも、専用の Bob Mode を持つものが多数あります：
 
 - **Agent Builder**: 自律型 AI エージェント、音声対応エージェントの構築
 - **Multi-Agent Orchestration**: 複数エージェントの協調制御
