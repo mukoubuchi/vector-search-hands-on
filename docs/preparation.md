@@ -127,7 +127,7 @@
 
         === ":fontawesome-brands-windows: Windows"
             ```bash
-            cd setup¥participant
+            cd setup/participant
             copy .env.example .env
             ```
 

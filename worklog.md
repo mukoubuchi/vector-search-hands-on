@@ -6141,3 +6141,26 @@ IBM Bob のモード名称を正確な用語「カスタムモード」に統一
 **完了日時**: 2026年5月27日 11:53 JST
 
 ---
+
+
+## 2026年5月27日 12:00 JST - Windowsパスの円記号をスラッシュに修正
+
+### 目的
+Windowsコマンド例のパス区切り文字を円記号からスラッシュに統一
+
+### 実施内容
+
+1. **パス区切り文字の修正**: `docs/preparation.md`
+   - `cd setup¥participant` → `cd setup/participant`
+   - Windows/Mac/Linux共通で動作するスラッシュに統一
+
+### 変更ファイル
+- `docs/preparation.md`: Windowsコマンド例のパスを修正
+
+### 成果
+- すべてのパス区切り文字がスラッシュ（`/`）で統一
+- Windows/Mac/Linux環境で共通のコマンドが使用可能
+
+**完了日時**: 2026年5月27日 12:00 JST
+
+---
