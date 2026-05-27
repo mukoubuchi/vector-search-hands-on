@@ -320,7 +320,7 @@ IBM Bob を使って、アプリケーションに新しい機能を追加しま
 
 このハンズオンでは、以下の技術を使用します：
 
-### **IBM Building Blocks: Vector Search Builder**（オリジナル提供）
+### **IBM Building Blocks: Vector Search Builder**
 
 - **役割**: Vector Search 機能の統合基盤
 - **提供内容**:
@@ -330,23 +330,23 @@ IBM Bob を使って、アプリケーションに新しい機能を追加しま
     - 検索最適化機能
 - **特徴**: すぐに使える、ベストプラクティス実装済み
 
-### **Milvus（ミルバス）**（Building Blocks に含まれる）
+### **Milvus（ミルバス）**
 
-- **役割**: ベクトルデータベース
+- **役割**: ベクトルデータベース（Building Blocks に含まれる）
 - **機能**: ベクトルデータを保存・検索
 - **特徴**: 高速・大規模データに対応
 - **提供形態**: Building Blocks でセットアップ済み、最適化済み
 
-### **埋め込みモデル（Hugging Face Transformers）**（このハンズオンで選択）
+### **埋め込みモデル（Hugging Face Transformers）**
 
 - **役割**: テキストを数値に変換する AI
 - **機能**: テキストの「意味」をベクトル（数値の配列）に変換
 - **特徴**: 日本語対応・高精度、API キー不要
-- **選択理由**: Building Blocks は複数の埋め込みモデルに対応しており、このハンズオンでは Hugging Face を選択
+- **このハンズオンでの選択**: Building Blocks は複数の埋め込みモデルに対応しており、このハンズオンでは Hugging Face を選択
 
-### **IBM Bob + Vector Search Builder Mode**（Building Blocks に含まれる）
+### **IBM Bob + Vector Search Builder Mode**
 
-- **役割**: AI 開発アシスタント
+- **役割**: AI 開発アシスタント（Building Blocks に含まれる）
 - **機能**:
     - Vector Search に特化したコード生成
     - Building Blocks の機能を活用したカスタマイズ
