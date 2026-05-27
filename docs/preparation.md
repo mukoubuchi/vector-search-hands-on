@@ -40,41 +40,70 @@
 
 #### ステップ 1: プロジェクトフォルダを作成
 
-デスクトップに新しいフォルダを作成します。
+新しいフォルダを作成します。
 
 - **フォルダ名**: **`vector-search-handson`**
 - **場所**: デスクトップ推奨
 
+=== ":fontawesome-brands-apple: Mac"
+    **GUI**: Finder でデスクトップを開き、右クリック →「新規フォルダ」
+    
+    **ターミナル**:
+    ```bash
+    mkdir ~/Desktop/vector-search-handson
+    ```
+
+=== ":fontawesome-brands-windows: Windows"
+    **GUI**: エクスプローラーでデスクトップを開き、右クリック →「新規作成」→「フォルダー」
+    
+    **ターミナル**:
+    ```bash
+    mkdir %USERPROFILE%\Desktop\vector-search-handson
+    ```
+
 #### ステップ 2: Vector Search Builder（Building Block）をインストール
-
-**`vector-search-builder.zip`** には、以下が含まれています:
-
-**Building Blocks**:
-
-- **`.bob/modes/`**: Vector Search Builder モード定義（IBM 提供）
-
-**このハンズオンで追加したもの**:
-
-- **`setup/instructor/`**: 講師用 Milvus 環境（Docker Compose）
-- **`setup/participant/`**: 受講者用接続テストスクリプト
-- **`.env.example`**: 接続情報設定テンプレート
-- **`docs/`**: ハンズオン用ドキュメント
 
 1. 配布された **`vector-search-builder.zip`** をプロジェクトフォルダにコピー
 
 2. zip ファイルを解凍
 
     === ":fontawesome-brands-apple: Mac"
-        ダブルクリック
+        **GUI**: ダブルクリック
+        
+        **ターミナル**:
+        ```bash
+        cd ~/Desktop/vector-search-handson
+        unzip vector-search-builder.zip
+        ```
 
     === ":fontawesome-brands-windows: Windows"
-        右クリック → 「すべて展開」
+        **GUI**: 右クリック →「すべて展開」
 
         ※ ダブルクリックで開いただけでは展開されないため、「すべて展開」を実行してください
+        
+        **ターミナル**:
+        ```bash
+        cd %USERPROFILE%\Desktop\vector-search-handson
+        tar -xf vector-search-builder.zip
+        ```
 
 3. **`.bob`** フォルダが作成されていることを確認
 
-!!! tip "Building Blocks のインストール"
+??? info "vector-search-builder.zip の内容"
+    **`vector-search-builder.zip`** には、以下が含まれています:
+
+    **Building Blocks**:
+
+    - **`.bob/modes/`**: Vector Search Builder モード定義（IBM 提供）
+
+    **このハンズオンで追加したもの**:
+
+    - **`setup/instructor/`**: 講師用 Milvus 環境（Docker Compose）
+    - **`setup/participant/`**: 受講者用接続テストスクリプト
+    - **`.env.example`**: 接続情報設定テンプレート
+    - **`docs/`**: ハンズオン用ドキュメント
+
+??? tip "Building Blocks のインストール方法"
     通常、Building Blocks は以下の方法でインストールします:
 
     - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/modes/`
@@ -86,15 +115,31 @@
 
 1. IBM Bob を起動
 
-2. <kbd>File</kbd> → <kbd>Open Folder</kbd> でプロジェクトフォルダを選択
+2. プロジェクトフォルダを開く
+
+    === ":fontawesome-brands-apple: Mac"
+        **GUI**: <kbd>File</kbd> → <kbd>Open Folder</kbd> でプロジェクトフォルダを選択
+        
+        **ターミナル**:
+        ```bash
+        code ~/Desktop/vector-search-handson
+        ```
+
+    === ":fontawesome-brands-windows: Windows"
+        **GUI**: <kbd>File</kbd> → <kbd>Open Folder</kbd> でプロジェクトフォルダを選択
+        
+        **ターミナル**:
+        ```bash
+        code %USERPROFILE%\Desktop\vector-search-handson
+        ```
 
 3. IBM Bob をリロード
 
     === ":fontawesome-brands-apple: Mac"
-        <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → 「Reload Window」
+        <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
 
     === ":fontawesome-brands-windows: Windows"
-        <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → 「Reload Window」
+        <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
 
 4. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認
 
@@ -117,17 +162,24 @@
 !!! example "接続情報の設定"
 
     1. **`setup/participant`** フォルダを開く
+    
     2. **`.env.example`** をコピーし、コピーしたファイル名を **`.env`** に変更
         
         === ":fontawesome-brands-apple: Mac"
+            **GUI**: Finder で `.env.example` を右クリック →「複製」→ ファイル名を `.env` に変更
+            
+            **ターミナル**:
             ```bash
             cd setup/participant
             cp .env.example .env
             ```
 
         === ":fontawesome-brands-windows: Windows"
+            **GUI**: エクスプローラーで `.env.example` を右クリック →「コピー」→「貼り付け」→ ファイル名を `.env` に変更
+            
+            **ターミナル**:
             ```bash
-            cd setup/participant
+            cd setup\participant
             copy .env.example .env
             ```
 
@@ -146,8 +198,21 @@
         COLLECTION_NAME=knowledge_base
         ```
 
-    4. ファイルを保存（++cmd+s++ / ++ctrl+s++）
-    5. IBM Bob をリロード（++cmd+shift+p++ / ++ctrl+shift+p++ → 「Reload Window」）
+    4. ファイルを保存
+    
+        === ":fontawesome-brands-apple: Mac"
+            <kbd>Cmd</kbd> + <kbd>S</kbd>
+
+        === ":fontawesome-brands-windows: Windows"
+            <kbd>Ctrl</kbd> + <kbd>S</kbd>
+    
+    5. IBM Bob をリロード
+    
+        === ":fontawesome-brands-apple: Mac"
+            <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
+
+        === ":fontawesome-brands-windows: Windows"
+            <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
 
 #### 埋め込みモデル（テキストを数値に変換する AI）
 
@@ -159,15 +224,6 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
 - 次元数: **384**（384 個の数値で意味を表現）
 - 特徴: 多言語対応
 
-### 3. Web ブラウザ
-
-API テスト用に Web ブラウザを使用します。
-
-- :fontawesome-brands-chrome: Google Chrome（推奨）
-- :fontawesome-brands-firefox: Mozilla Firefox
-- :fontawesome-brands-edge: Microsoft Edge
-- :fontawesome-brands-safari: Safari
-
 ## 準備完了チェックリスト
 
 - [ ] IBM Bob がインストールされ、使用できる
@@ -177,22 +233,21 @@ API テスト用に Web ブラウザを使用します。
 - [ ] IBM Bob でプロジェクトフォルダを開いた
 - [ ] 「Vector Search Builder」モードが表示される
 - [ ] **`setup/participant/.env`** ファイルに接続情報を入力した
-- [ ] Web ブラウザが使用できる
 
 ## 困ったときは
 
 ??? question "Q1: Vector Search Builder モードが表示されない"
 
-    **対処法**:
+    対処法:
     
     1. **`.bob`** フォルダが存在するか確認
-    2. IBM Bob をリロード（**Cmd+Shift+P** / **Ctrl+Shift+P** → 「Reload Window」）
+    2. IBM Bob をリロード（**Cmd+Shift+P** / **Ctrl+Shift+P** →「Reload Window」）
     3. プロジェクトフォルダを開き直す
     4. 講師に相談
 
 ??? question "Q2: 接続情報をどこに入力すればいいか分からない"
 
-    **対処法**:
+    対処法:
     
     1. プロジェクトフォルダ内の **`setup/participant`** フォルダを開く
     2. **`.env`** ファイルを探す（見つからない場合は **`.env.example`** をコピー）

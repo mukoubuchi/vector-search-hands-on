@@ -71,16 +71,23 @@ Vector Search は「意味」を理解して検索します。
 
 ### ターミナルを開く
 
-1. IBM Bob の画面下部の「TERMINAL」タブをクリック
-2. 黒い画面（ターミナル）が表示されます
+メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>、または <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）で開きます。
+
+画面下部に黒い画面（ターミナル）が表示されます。
 
 ### **`setup/participant`** フォルダに移動
 
 ターミナルに以下を入力して Enter:
 
-```bash
-cd setup/participant
-```
+=== ":fontawesome-brands-apple: Mac"
+    ```bash
+    cd setup/participant
+    ```
+
+=== ":fontawesome-brands-windows: Windows"
+    ```bash
+    cd setup\participant
+    ```
 
 ### 接続テストを実行
 
@@ -305,7 +312,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ??? question "Q1: 接続テストが失敗する"
 
-    **対処法**:
+    対処法:
     
     1. **`.env`** ファイルの内容を確認
     2. インターネット接続を確認
@@ -313,7 +320,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ??? question "Q2: Swagger UI が開けない"
 
-    **対処法**:
+    対処法:
     
     1. アプリケーションが起動しているか確認
     2. URL が正しいか確認（**`http://localhost:8000/docs`**）
@@ -322,7 +329,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ??? question "Q3: 検索結果が 0 件"
 
-    **対処法**:
+    対処法:
     
     1. サンプルデータが投入されているか確認
     2. 検索クエリを変えてみる
