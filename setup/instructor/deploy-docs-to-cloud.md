@@ -127,6 +127,7 @@ cd /path/to/vector-search-handson
 
 > [!TIP]
 > **ベストプラクティス**
+>
 > - **開発中**: ローカル環境で編集 → 自動更新で確認
 > - **公開時**: 内容確定後に Code Engine へデプロイ
 > - **修正時**: ローカルで修正確認 → Code Engine へ再デプロイ
@@ -167,6 +168,7 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 
 > [!WARNING]
 > **TechZone 環境再予約時**
+>
 > 1. 新しい環境でデプロイスクリプトを再実行
 > 2. 新しい URL を受講者に共有
 > 3. 必要に応じてドキュメント内の URL 例を更新
@@ -178,12 +180,14 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 ### Podman 認証エラー
 
 #### 症状
+
 ```
 Error: unable to retrieve auth token: invalid username/password
 Error: auth file contains an Identity token
 ```
 
 #### 原因
+
 IBM Cloud Container Registry の Identity token が Podman と互換性がない
 
 #### 解決方法 1: Podman→Docker 経由でプッシュ（推奨）
@@ -218,16 +222,19 @@ docker push jp.icr.io/namespace/mkdocs-docs:latest
 ### デプロイが失敗する
 
 #### 1. IBM Cloud ログイン確認
+
 ```bash
 ibmcloud target
 ```
 
 #### 2. Docker 起動確認
+
 ```bash
 docker ps
 ```
 
 #### 3. ログ確認
+
 ```bash
 ibmcloud ce app logs --name mkdocs-docs
 ```
@@ -235,11 +242,13 @@ ibmcloud ce app logs --name mkdocs-docs
 ### URL にアクセスできない
 
 #### 1. アプリケーション状態確認
+
 ```bash
 ibmcloud ce app get --name mkdocs-docs
 ```
 
 #### 2. 初回起動の待機
+
 初回起動に数分かかる場合があります。少し待ってから再度アクセスしてください。
 
 ---
