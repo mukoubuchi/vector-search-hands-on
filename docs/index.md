@@ -109,7 +109,7 @@ graph LR
 **Building Blocks**:
 
 - 各自が Milvus 環境を構築（Docker/Podman/Colima）
-- 個別に埋め込みモデルをダウンロード（約 200MB）
+- 個別に埋め込みモデルをダウンロード（約 200 MB）
 - 環境構築に 30 分程度必要
 
 **このハンズオンの工夫**:
