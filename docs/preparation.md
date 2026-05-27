@@ -11,7 +11,7 @@
 
 ### 1. Vector Search Builder モード
 
-**Vector Search Builder** は、IBM Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob の専用モードです。
+**Vector Search Builder** は、IBM Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。
 
 #### Building Blocks としての Vector Search Builder
 
