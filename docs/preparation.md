@@ -33,9 +33,9 @@
 
 !!! info "Building Blocks の利点"
     **通常の開発**: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）
-    
+
     **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に自然言語で指示（数分）
-    
+
     **このハンズオンでの工夫**: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）
 
 #### ステップ 1: プロジェクトフォルダを作成
@@ -76,10 +76,10 @@
 
 !!! tip "Building Blocks のインストール"
     通常、Building Blocks は以下の方法でインストールします：
-    
+
     - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/modes/`
     - **プロジェクトローカル**: `.bob/modes/`（このハンズオンの方法）
-    
+
     このハンズオンでは、プロジェクトローカルにインストールすることで、環境を汚さず、簡単にクリーンアップできます。
 
 #### ステップ 3: IBM Bob でプロジェクトを開く
@@ -100,9 +100,9 @@
 
 !!! success "Building Blocks モードの認識"
     IBM Bob が `.bob/modes/` フォルダを検出し、Vector Search Builder モードを自動的に読み込みます。
-    
+
     このモードにより、IBM Bob は以下を理解します：
-    
+
     - Milvus データベースの操作方法
     - ベクトル検索のベストプラクティス
     - 埋め込みモデルの統合方法

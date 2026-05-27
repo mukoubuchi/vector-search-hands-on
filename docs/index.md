@@ -87,12 +87,12 @@ graph LR
 
 !!! example "Building Blocks の価値"
     **Building Blocks なし**: Milvus のドキュメントを読み、Python SDK を学習し、埋め込みモデルを選定・統合（数日）
-    
+
     **Building Blocks あり**: Vector Search Builder をインストールし、IBM Bob に指示（数分）
 
 ??? info "このハンズオンの独自の工夫"
     **Building Blocks が提供するもの**:
-    
+
     - **`.bob/modes/`**: Vector Search Builder モード定義（zipファイル）
     - 各自がローカル環境で Milvus を構築して使用
     
