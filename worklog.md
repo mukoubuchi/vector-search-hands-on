@@ -6301,3 +6301,41 @@ markdownlintの警告（trailing spaces）を解消
 - 可読性とメンテナンス性が向上
 
 **完了日時**: 2026年5月27日 12:20 JST
+
+
+---
+
+## 2026年5月27日 12:43 JST - vector-search-builder.zip更新
+
+### 作業内容
+
+受講者向け配布ファイル`vector-search-builder.zip`を最新の内容で更新しました。
+
+### 変更内容
+
+- 古い`vector-search-builder.zip`を削除
+- 最新のプロジェクトファイルで新しいzipファイルを作成
+- 個人設定ファイル（`setup/participant/.env`）を配布対象から除外
+
+### 含まれるファイル
+
+1. **IBM Bob IDEモード定義**
+   - `.bob/custom_modes.yaml`
+   - `.bob/rules-vector-search-builder/1_vector_search_workflow.xml`
+   - `.bob/rules-vector-search-builder/2_best_practices.xml`
+   - `.bob/rules-vector-search-builder/3_common_patterns.xml`
+
+2. **受講者向けセットアップファイル**
+   - `setup/participant/test_connection.py`
+   - `setup/participant/test_connection_simple.py`
+   - `setup/participant/test_embeddings_hf.py`
+   - `setup/participant/requirements.txt`
+   - `setup/participant/.env.example`
+
+### 成果
+
+- 合計11ファイル、67,357バイトのzipファイルを作成
+- 配布用に適切なファイルのみを含む構成に整理
+- 受講者がすぐにハンズオンを開始できる状態
+
+**完了日時**: 2026年5月27日 12:43 JST
