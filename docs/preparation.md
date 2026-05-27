@@ -5,7 +5,7 @@
 ## 前提条件
 
 !!! info "前提条件"
-    IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン：IBM Internal Version）。
+    IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン: IBM Internal Version）。
 
 ## 必要なもの
 
@@ -47,7 +47,7 @@
 
 #### ステップ 2: Vector Search Builder（Building Block）をインストール
 
-**`vector-search-builder.zip`** には、以下が含まれています：
+**`vector-search-builder.zip`** には、以下が含まれています:
 
 **Building Blocks**:
 
@@ -75,7 +75,7 @@
 3. **`.bob`** フォルダが作成されていることを確認
 
 !!! tip "Building Blocks のインストール"
-    通常、Building Blocks は以下の方法でインストールします：
+    通常、Building Blocks は以下の方法でインストールします:
 
     - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/modes/`
     - **プロジェクトローカル**: `.bob/modes/`（このハンズオンの方法）
@@ -101,7 +101,7 @@
 !!! success "Building Blocks モードの認識"
     IBM Bob が `.bob/modes/` フォルダを検出し、Vector Search Builder モードを自動的に読み込みます。
 
-    このモードにより、IBM Bob は以下を理解します：
+    このモードにより、IBM Bob は以下を理解します:
 
     - Milvus データベースの操作方法
     - ベクトル検索のベストプラクティス

@@ -3,7 +3,7 @@
 このハンズオンでは、**IBM Building Blocks** と **IBM Bob** を組み合わせて、「意味で検索する」機能（Vector Search）を短時間で構築・体験します。
 
 !!! info "前提条件"
-    IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン：IBM Internal Version）。
+    IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン: IBM Internal Version）。
 
 ## このハンズオンで体験できること
 

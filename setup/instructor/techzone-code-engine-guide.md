@@ -48,14 +48,14 @@ IBM TechZone で予約した**watsonx-events**アカウントには、Code Engin
 
 IBM Cloud Console (<https://cloud.ibm.com/resources>) にアクセスし、watsonx-events アカウントを選択します。
 
-**Containers**セクションに以下が表示されます：
+**Containers**セクションに以下が表示されます:
 
 - **Code Engine**: `ce-itz-wxd-xxxxxxxxxx` (Tokyo, Active)
 - **Container Registry**: `cr-itz-xxxxxxx` (Tokyo)
 
 ### 2. プロジェクト名の取得
 
-Code Engine のリソース名をメモします。例：
+Code Engine のリソース名をメモします。例:
 
 ```
 ce-itz-wxd-6a08d26e2b7a7a1e72c97a
@@ -82,7 +82,7 @@ export CODE_ENGINE_PROJECT="ce-itz-wxd-6a08d26e2b7a7a1e72c97a"
 
 ### オプション 2: 新規プロジェクトを作成
 
-TechZone 環境内に新しいプロジェクトを作成する場合：
+TechZone 環境内に新しいプロジェクトを作成する場合:
 
 ```bash
 cd /path/to/vector-search-handson
@@ -92,7 +92,7 @@ export CODE_ENGINE_PROJECT="mkdocs-handson-2024"
 
 ## 環境変数の設定
 
-デプロイスクリプトは以下の環境変数をサポートしています：
+デプロイスクリプトは以下の環境変数をサポートしています:
 
 ```bash
 # Code Engine プロジェクト名（デフォルト: vector-search-docs）
@@ -109,7 +109,7 @@ export REGISTRY_NAMESPACE="vector-search"
 
 ### 期限切れ前の対応
 
-TechZone 予約には期限があります（通常 7-14 日）。期限切れ前に以下を実施してください：
+TechZone 予約には期限があります（通常 7-14 日）。期限切れ前に以下を実施してください:
 
 #### 1. 新しい予約を作成
 
@@ -134,7 +134,7 @@ export CODE_ENGINE_PROJECT="<新しいプロジェクト名>"
 
 #### 4. 新しい URL を受講者に共有
 
-デプロイ完了後、新しい URL が表示されます：
+デプロイ完了後、新しい URL が表示されます:
 
 ```
 https://mkdocs-docs.xxxxxxxxxx.jp-tok.codeengine.appdomain.cloud
@@ -226,7 +226,7 @@ ibmcloud cr namespace-add vector-search
 
 ## まとめ
 
-TechZone 予約環境を使用することで：
+TechZone 予約環境を使用することで:
 
 - ✅ 無料で Code Engine を利用可能
 - ✅ 課金リスクなし

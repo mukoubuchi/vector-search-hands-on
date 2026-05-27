@@ -69,7 +69,7 @@ cd setup/instructor
 ```text
 【ハンズオン資料 URL】
 
-以下の URL からハンズオン資料にアクセスできます：
+以下の URL からハンズオン資料にアクセスできます:
 https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 
 ※ インターネット接続があればどこからでもアクセス可能
@@ -89,7 +89,7 @@ https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 
 ### ローカル環境の自動更新
 
-`docker-compose.yml`の設定により自動更新されます：
+`docker-compose.yml`の設定により自動更新されます:
 
 ```yaml
 volumes:
@@ -103,7 +103,7 @@ command: serve --dev-addr=0.0.0.0:8000  # 開発サーバーモード
 
 ### Code Engine の手動更新
 
-`docs/Dockerfile`でファイルがイメージに焼き込まれます：
+`docs/Dockerfile`でファイルがイメージに焼き込まれます:
 
 ```dockerfile
 COPY mkdocs.yml /docs/
@@ -116,7 +116,7 @@ COPY docs/ /docs/docs/
 
 ### 更新手順
 
-ドキュメントを更新した場合：
+ドキュメントを更新した場合:
 
 ```bash
 cd /path/to/vector-search-handson
@@ -136,7 +136,7 @@ cd /path/to/vector-search-handson
 
 ## 🧹 ハンズオン終了後
 
-リソースを削除してコストを節約：
+リソースを削除してコストを節約:
 
 ```bash
 # アプリケーション削除
@@ -152,7 +152,7 @@ ibmcloud ce project delete --name vector-search-docs
 
 ### Apple Silicon（M1/M2/M3）Mac
 
-Dockerfile に以下の設定が必要です：
+Dockerfile に以下の設定が必要です:
 
 ```dockerfile
 FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
@@ -255,7 +255,7 @@ ibmcloud ce app get --name mkdocs-docs
 
 ## 🔗 代替案
 
-Code Engine が使えない場合：
+Code Engine が使えない場合:
 
 ### オプション A: 静的 HTML 配布
 
@@ -269,7 +269,7 @@ zip -r mkdocs-site.zip site/
 
 ### オプション B: 各自がローカルで起動
 
-受講者に以下を実行してもらう：
+受講者に以下を実行してもらう:
 
 ```bash
 cd /path/to/vector-search-handson

@@ -76,7 +76,7 @@ Vector Search は「意味」を理解して検索します。
 
 ### **`setup/participant`** フォルダに移動
 
-ターミナルに以下を入力して Enter：
+ターミナルに以下を入力して Enter:
 
 ```bash
 cd setup/participant
@@ -84,7 +84,7 @@ cd setup/participant
 
 ### 接続テストを実行
 
-ターミナルに以下を入力して Enter：
+ターミナルに以下を入力して Enter:
 
 ```bash
 python test_connection.py
@@ -146,7 +146,7 @@ Milvus & 埋め込みモデル 接続テスト
 
 #### 方法 1: IBM Bob に依頼（推奨）
 
-IBM Bob のチャット画面で以下を入力：
+IBM Bob のチャット画面で以下を入力:
 
 ```text
 setup/participant フォルダでデモアプリケーションを起動して
@@ -154,7 +154,7 @@ setup/participant フォルダでデモアプリケーションを起動して
 
 #### 方法 2: 手動で起動
 
-ターミナルに以下を入力：
+ターミナルに以下を入力:
 
 ```bash
 python app.py
@@ -162,7 +162,7 @@ python app.py
 
 ### 起動を確認
 
-ターミナルに以下のような表示が出れば OK：
+ターミナルに以下のような表示が出れば OK:
 
 ```
 INFO:     Uvicorn running on http://localhost:8000
@@ -173,7 +173,7 @@ INFO:     Uvicorn running on http://localhost:8000
 ### Swagger UI を開く
 
 1. Web ブラウザを開く
-2. 以下の URL にアクセス：
+2. 以下の URL にアクセス:
 
    ```text
    http://localhost:8000/docs
@@ -194,7 +194,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 #### ステップ 3: 検索クエリを入力
 
-「Request body」の欄に以下を入力：
+「Request body」の欄に以下を入力:
 
 ```json
 {
@@ -208,7 +208,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 #### ステップ 5: 結果を確認
 
-以下のような結果が表示されます：
+以下のような結果が表示されます:
 
 ```json
 {
@@ -260,7 +260,7 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ### Vector Search の凄さを実感
 
-色々な検索を試すと、以下のことに気づくはずです：
+色々な検索を試すと、以下のことに気づくはずです:
 
 **気づき 1: 言い方が違っても見つかる**
 

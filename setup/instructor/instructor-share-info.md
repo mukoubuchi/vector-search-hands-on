@@ -9,7 +9,7 @@ cd setup/instructor
 ./start-all.sh
 ```
 
-これにより以下が起動します：
+これにより以下が起動します:
 
 - **Milvus 環境**（etcd, MinIO, Milvus）
 - **ローカルドキュメントサーバー**（<http://localhost:8001>）
@@ -80,7 +80,7 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 
 ### 3. ドキュメントをクラウドにデプロイ
 
-リモート参加者用に、ドキュメントを Code Engine にデプロイします：
+リモート参加者用に、ドキュメントを Code Engine にデプロイします:
 
 ```bash
 cd /path/to/vector-search-handson
@@ -151,9 +151,9 @@ https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
 > - その他の設定（PORT、USER、PASSWORD 等）は`.env.example`に設定済み
 > - TechZone 環境を再予約した場合、URL が変わるため再デプロイが必要
 
-### 補足：その他の設定値（共有不要）
+### 補足: その他の設定値（共有不要）
 
-以下の設定は`.env.example`に既に設定されているため、受講者に共有する必要はありません：
+以下の設定は`.env.example`に既に設定されているため、受講者に共有する必要はありません:
 
 ```env
 MILVUS_PORT=19530
