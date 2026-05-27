@@ -54,12 +54,12 @@ graph LR
 **所要時間**: 約60分
 
 - **Building Blocks**: Vector Search Builder モードで基盤を即座に構築
-- **IBM Bob**: 日本語の指示だけで機能追加・カスタマイズ
+- **IBM Bob**: 自然言語の指示だけで機能追加・カスタマイズ
 - **結果**: 本番レベルのコード品質を短時間で実現
 
 ## IBM Building Blocks とは？
 
-**IBM Building Blocks** は、IBM の技術スタックを活用した **事前構築済みの技術コンポーネント** です。Build Engineering チームが開発し、ソリューション開発を加速させます。
+**IBM Building Blocks** は、IBM の技術スタックを活用した **事前構築済みの技術コンポーネント** です。Building Blocks を活用することでソリューション開発を加速させることができます。
 
 ### Building Blocks の特徴
 
@@ -72,16 +72,18 @@ graph LR
 
 **Vector Search Builder** (Milvus ベース)
 
-- **提供内容**: ベクトルデータベース（Milvus）の構築・管理機能
-- **含まれる機能**:
-    - Milvus データベースのセットアップ
-    - コレクション（データの入れ物）の作成
-    - 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
-    - データ取り込みパイプライン
-    - ベクトル検索の最適化
-    - IBM Cloud Object Storage との連携
+**提供内容**: ベクトルデータベース（Milvus）の構築・管理機能
 
-- **IBM Bob との連携**: Vector Search Builder モードを使うことで、IBM Bob が Vector Search に特化した支援を提供
+**含まれる機能**:
+
+- Milvus データベースのセットアップ
+- コレクション（データの入れ物）の作成
+- 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
+- データ取り込みパイプライン
+- ベクトル検索の最適化
+- IBM Cloud Object Storage との連携
+
+**IBM Bob との連携**: Vector Search Builder モードを使うことで、IBM Bob が Vector Search に特化した支援を提供
 
 !!! example "Building Blocks の価値"
     **従来**: Milvus のドキュメントを読み、Python SDK を学習し、埋め込みモデルを選定・統合（数日）
@@ -90,11 +92,13 @@ graph LR
 
 ### このハンズオンの独自の工夫
 
-**オリジナルの Building Blocks が提供するもの**:
+**Building Blocks が提供するもの**:
+
 - **`.bob/modes/`**: Vector Search Builder モード定義（zipファイル）
-- 各自がローカル環境でMilvusを構築して使用
+- 各自がローカル環境で Milvus を構築して使用
 
 **このハンズオンで追加したもの**:
+
 - **`setup/instructor/`**: 講師用Milvus環境（Docker Compose）
 - **`setup/participant/`**: 受講者用接続テストスクリプト
 - **`docs/`**: ハンズオン用ドキュメント（MkDocs）
@@ -102,50 +106,58 @@ graph LR
 
 #### 1. **講師・受講者分離アーキテクチャ**
 
-**オリジナル Building Blocks**:
-- 各自がMilvus環境を構築（Docker/Podman/Colima）
+**Building Blocks**:
+
+- 各自が Milvus 環境を構築（Docker/Podman/Colima）
 - 個別に埋め込みモデルをダウンロード（約200MB）
 - 環境構築に30分程度必要
 
 **このハンズオンの工夫**:
-- **講師**: Milvus環境を一元管理（`setup/instructor/docker-compose.yml`）
-- **受講者**: IBM Bobのみで参加（`.bob/modes/` + 接続情報のみ）
+
+- **講師**: Milvus 環境を一元管理（`setup/instructor/docker-compose.yml`）
+- **受講者**: IBM Bob のみで参加（`.bob/modes/` + 接続情報のみ）
 - **メリット**: セットアップ時間を30分→5分に短縮
 
 #### 2. **ハイブリッド配信対応**
 
-**オリジナル Building Blocks**:
+**Building Blocks**:
+
 - ローカル環境での実行を想定
 
 **このハンズオンの工夫**:
+
 - **オンサイト**: ローカルネットワーク共有（`http://講師IP:8001`）
 - **リモート**: Code Engine へのドキュメントデプロイ
 - **メリット**: オンサイト/リモート/ハイブリッド開催に対応
 
 #### 3. **API キー不要の設計**
 
-**オリジナル Building Blocks**:
+**Building Blocks**:
+
 - watsonx.ai の API キーが必要
 - 受講者が個別に取得・設定
 
 **このハンズオンの工夫**:
+
 - **Hugging Face Transformers** を使用（API キー不要）
 - **ローカル実行**: インターネット接続のみで動作
 - **メリット**: 受講者の準備負担を削減、コスト削減
 
 #### 4. **段階的な学習パス**
 
-**オリジナル Building Blocks**:
+**Building Blocks**:
+
 - 技術的な実装に焦点
 
 **このハンズオンの工夫**:
+
 - **Part 1**: Vector Search の体験（理解）
 - **Part 2**: IBM Bob での機能追加（実践）
 - **Part 3**: コードレビューと改善（応用）
 - **メリット**: 初心者でも段階的に学習できる
 
-!!! success "このハンズオンの価値提案"
-    **Building Blocks（基盤）** + **ハンズオン独自の工夫（教育設計）** = **最短時間で最大の学習効果**
+!!! success "このハンズオンの価値"
+    **Building Blocks（基盤）** + **ハンズオン独自の工夫（教育設計）** = **短時間で高い学習効果**
     
     - 環境構築: 不要（講師が一元管理）
     - API キー: 不要（Hugging Face 使用）
@@ -181,7 +193,7 @@ graph LR
 
 ### IBM Bob でできること
 
-- **自然な日本語で指示**: 「検索結果に画像を表示して」と伝えるだけ
+- **自然言語で指示**: 「検索結果に画像を表示して」と伝えるだけ
 - **コードを自動生成**: IBM Bob がコードを書いてくれる
 - **コードレビュー**: 書いたコードの問題点を指摘してくれる
 - **Building Blocks との連携**: 専用モードで、技術に特化した支援を提供
@@ -189,23 +201,26 @@ graph LR
 ### Building Blocks との相乗効果
 
 **Building Blocks 単体**:
+
 - 基盤となる機能は提供されるが、カスタマイズには技術知識が必要
 
 **IBM Bob 単体**:
+
 - コード生成は可能だが、ゼロから構築するため時間がかかる
 
 **Building Blocks + IBM Bob**:
+
 - Building Blocks で基盤を即座に構築
-- IBM Bob で日本語指示だけでカスタマイズ
+- IBM Bob で自然言語指示だけでカスタマイズ
 - **結果**: 最短時間で本番レベルの品質を実現
 
 ### 従来の開発との違い
 
 | 開発方法 | 所要時間 | 必要なスキル | コード品質 |
 |:---|---:|:---|:---|
-| **従来の開発** | 数日〜数週間 | プログラミング、DB設計、API設計 | 開発者のスキルに依存 |
+| **従来の開発** | 数日〜数週間 | プログラミング、DB 設計、API 設計 | 開発者のスキルに依存 |
 | **IBM Bob のみ** | 数時間〜数日 | 基本的な技術理解 | 高品質だが構築に時間 |
-| **Building Blocks + IBM Bob** | 数分〜数時間 | 日本語で指示できればOK | 本番レベルの高品質 |
+| **Building Blocks + IBM Bob** | 数分〜数時間 | 自然言語で指示できれば OK | 本番レベルの高品質 |
 
 ## ハンズオンの流れ
 
@@ -250,7 +265,7 @@ IBM Bob を使って、アプリケーションに新しい機能を追加しま
 
 **やること**:
 
-1. IBM Bob に日本語で指示を出す
+1. IBM Bob に自然言語で指示を出す
 2. 検索結果に画像を表示する機能を追加
 3. 価格でフィルターする機能を追加
 

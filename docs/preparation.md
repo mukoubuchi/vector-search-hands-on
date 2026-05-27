@@ -18,6 +18,7 @@
 **提供元**: IBM Build Engineering Team
 
 **含まれる機能**:
+
 - Milvus データベースのセットアップと管理
 - 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
 - データ取り込みパイプラインの構築
@@ -25,6 +26,7 @@
 - IBM Cloud Object Storage との連携
 
 **IBM Bob との連携**:
+
 - Vector Search に特化した AI アシスタント
 - Building Blocks の機能を理解した上でコード生成
 - ベストプラクティスに基づいた実装支援
@@ -32,7 +34,7 @@
 !!! info "Building Blocks の利点"
     **通常の開発**: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）
     
-    **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に日本語で指示（数分）
+    **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に自然言語で指示（数分）
     
     **このハンズオンでの工夫**: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）
 
@@ -47,11 +49,13 @@
 
 **`vector-search-builder.zip`** には、以下が含まれています：
 
-**オリジナルの Building Blocks**:
-- **`.bob/modes/`**: Vector Search Builder モード定義（IBM提供）
+**Building Blocks**:
+
+- **`.bob/modes/`**: Vector Search Builder モード定義（IBM 提供）
 
 **このハンズオンで追加したもの**:
-- **`setup/instructor/`**: 講師用Milvus環境（Docker Compose）
+
+- **`setup/instructor/`**: 講師用 Milvus 環境（Docker Compose）
 - **`setup/participant/`**: 受講者用接続テストスクリプト
 - **`.env.example`**: 接続情報設定テンプレート
 - **`docs/`**: ハンズオン用ドキュメント
