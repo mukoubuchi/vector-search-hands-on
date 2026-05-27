@@ -1,3 +1,78 @@
+## 2026年5月27日 20:54 JST - ドキュメント表記統一とREADME更新
+
+### 作業内容
+
+1. **mkdocs関連ファイルの表記統一**
+   - 全角コロン「：」を半角コロン+半角スペース「: 」に統一
+   - 対象ファイル:
+     - `docs/index.md`
+     - `docs/preparation.md`
+     - `docs/part1.md`
+     - `docs/part2.md`
+     - `docs/part3.md`
+     - `docs/summary.md`
+     - `README.md`
+
+2. **README.mdの大幅改訂**
+   - Building Blocks + IBM Bobを主眼に置いた構成に変更
+   - 開発方法の比較表を追加（従来 vs IBM Bob単体 vs Building Blocks + IBM Bob）
+   - Vector Search Builder（Building Block）の詳細説明を追加
+   - IBM Bobとの連携による相乗効果を強調
+   - ハンズオンの独自の工夫セクションを追加（4つの工夫を詳細に説明）
+   - Building Blocksの他の機能リストを追加
+   - ディレクトリ階層図を追加
+
+### 変更の詳細
+
+#### 表記統一
+
+**変更前**: `**ラベル**：内容`
+**変更後**: `**ラベル**: 内容`
+
+日本語テキスト中の全角コロンを半角コロン+半角スペースに統一し、ドキュメント全体の表記を統一しました。
+
+#### README.md の主な追加内容
+
+1. **Building Blocks + IBM Bob の価値提案**
+   - 開発時間の比較: 数日〜数週間 → 約60分
+   - 必要なスキルレベルの比較
+   - コード品質の比較
+
+2. **Vector Search Builder の詳細**
+   - 提供機能の明確化
+   - IBM Bobとの連携内容
+   - ベストプラクティスの適用
+
+3. **ハンズオンの独自の工夫**
+   - 講師・受講者分離アーキテクチャ
+   - ハイブリッド配信対応
+   - APIキー不要の設計
+   - 段階的な学習パス
+
+4. **ディレクトリ構造図**
+   - プロジェクト全体の構成を視覚化
+   - 各ディレクトリの役割を明記
+   - Building Blocksの配置場所を明確化
+
+5. **Building Blocks の他の機能**
+   - Agent Builder
+   - Multi-Agent Orchestration
+   - Agent Ops
+   - Model Evaluation
+   - Text2SQL
+   - その他10種類以上のBuilding Blocks
+
+### 成果
+
+- ドキュメント全体の表記が統一され、可読性が向上
+- README.mdがBuilding Blocks + IBM Bobの価値を明確に伝える構成に
+- プロジェクト構造が一目で理解できるようになった
+- 学習者がBuilding Blocksの価値を理解しやすくなった
+
+**完了日時**: 2026年5月27日 20:54 JST
+
+---
+
 ## 2026年5月27日 12:43 JST - vector-search-builder.zip更新
 
 ### 作業内容
