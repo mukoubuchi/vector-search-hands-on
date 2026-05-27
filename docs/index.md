@@ -1,6 +1,6 @@
 # Vector Search ハンズオンへようこそ
 
-このハンズオンでは、**IBM Building Blocks** と **IBM Bob** を組み合わせて、「意味で検索する」機能（Vector Search）を短時間で構築・体験します。
+このハンズオンでは、**Building Blocks** と **IBM Bob** を組み合わせて、「意味で検索する」機能（Vector Search）を短時間で構築・体験します。
 
 !!! info "前提条件"
     IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン: IBM Internal Version）。
@@ -9,7 +9,7 @@
 
 ### Building Blocks + IBM Bob の価値
 
-このハンズオンでは、**IBM Building Blocks** という事前構築済みの技術コンポーネントと、**IBM Bob** という AI 開発アシスタントを組み合わせることで、数日〜数週間かかる開発を **約 60 分** で完了できることを体験します。
+このハンズオンでは、**Building Blocks** という事前構築済みの技術コンポーネントと、**IBM Bob** という AI 開発アシスタントを組み合わせることで、数日〜数週間かかる開発を **約 60 分** で完了できることを体験します。
 
 #### Building Blocks なしの場合
 
@@ -57,9 +57,9 @@ graph LR
 - **IBM Bob**: 自然言語の指示だけで機能追加・カスタマイズ
 - **結果**: 本番レベルのコード品質を短時間で実現
 
-## IBM Building Blocks とは？
+## Building Blocks とは？
 
-**IBM Building Blocks** は、IBM の技術スタックを活用した **事前構築済みの技術コンポーネント** です。Building Blocks を活用することでソリューション開発を加速させることができます。
+**Building Blocks** は、IBM の技術スタックを活用した **事前構築済みの技術コンポーネント** です。Building Blocks を活用することでソリューション開発を加速させることができます。
 
 ### Building Blocks の特徴
 

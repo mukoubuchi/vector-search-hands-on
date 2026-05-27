@@ -11,7 +11,7 @@
 
 ### 1. Vector Search Builder モード
 
-**Vector Search Builder** は、IBM Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。
+**Vector Search Builder** は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。
 
 #### Building Blocks としての Vector Search Builder
 
@@ -184,6 +184,8 @@
             ```
 
     3. **`.env`** ファイルを開き、**`MILVUS_HOST`** に講師から配布された IP アドレスを入力
+       
+        #### MILVUS_HOST の設定
        
         ```properties
         # Milvus 接続情報
