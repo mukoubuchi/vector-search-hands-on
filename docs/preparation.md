@@ -236,7 +236,7 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
 - [ ] 「Vector Search Builder」モードが表示される
 - [ ] **`setup/participant/.env`** ファイルに接続情報を入力した
 
-## 困ったときは
+## FAQ
 
 ??? question "Q1: Vector Search Builder モードが表示されない"
 
