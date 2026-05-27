@@ -1,3 +1,32 @@
+## 2026年5月27日 21:00 JST - test_connection.pyファイル統一
+
+### 作業内容
+
+1. **test_connection_simple.pyの削除**
+   - `setup/participant/test_connection_simple.py`を削除
+   - `test_connection.py`にシンプル版の内容を統合（IBM Cloud認証・SSL対応版）
+
+2. **ドキュメント更新**
+   - `docs/part1.md`: ファイル名参照を`test_connection.py`に更新
+   - `README.md`: ファイル構成から`test_connection_simple.py`を削除
+
+### 理由
+
+- mkdocs内では`test_connection_simple.py`のみが使用されていた
+- 詳細版の`test_connection.py`は未使用
+- シンプル版の方がIBM Cloud認証とSSL対応を含み高機能
+- ファイル名から"simple"を削除してシンプルに
+
+### 結果
+
+**現在のファイル構成**:
+- `test_connection.py` - Milvus接続テスト（IBM Cloud対応）
+- `test_embeddings_hf.py` - 埋め込みモデルテスト
+- `requirements.txt` - 依存パッケージ
+- `.env.example` - 設定テンプレート
+
+---
+
 ## 2026年5月27日 20:54 JST - ドキュメント表記統一とREADME更新
 
 ### 作業内容

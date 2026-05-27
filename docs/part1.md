@@ -87,7 +87,7 @@ cd setup/participant
 ターミナルに以下を入力して Enter：
 
 ```bash
-python test_connection_simple.py
+python test_connection.py
 ```
 
 ### 結果を確認

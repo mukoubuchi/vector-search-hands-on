@@ -269,8 +269,7 @@ vector-search-handson/
 │   └── participant/               # 受講者用セットアップ
 │       ├── .env.example           # 接続情報テンプレート
 │       ├── requirements.txt       # Python 依存関係
-│       ├── test_connection.py     # 接続テスト（詳細版）
-│       ├── test_connection_simple.py # 接続テスト（シンプル版）
+│       ├── test_connection.py     # 接続テスト
 │       └── test_embeddings_hf.py  # 埋め込みモデルテスト
 ├── lib/                           # 共通ライブラリ
 │   ├── common.sh                  # 共通シェル関数
