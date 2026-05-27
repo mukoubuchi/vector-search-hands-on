@@ -106,7 +106,7 @@ graph LR
 
 #### 1. **講師・受講者分離アーキテクチャ**
 
-**Building Blocks**:
+**Building Blocks 単体**:
 
 - 各自が Milvus 環境を構築（Docker/Podman/Colima）
 - 個別に埋め込みモデルをダウンロード（約 200 MB）
@@ -116,11 +116,10 @@ graph LR
 
 - **講師**: Milvus 環境を一元管理（`setup/instructor/docker-compose.yml`）
 - **受講者**: IBM Bob のみで参加（`.bob/modes/` + 接続情報のみ）
-- **メリット**: セットアップ時間を 30 分→ 5 分に短縮
 
 #### 2. **ハイブリッド配信対応**
 
-**Building Blocks**:
+**Building Blocks 単体**:
 
 - ローカル環境での実行を想定
 
@@ -128,11 +127,10 @@ graph LR
 
 - **オンサイト**: ローカルネットワーク共有（`http://講師IP:8001`）
 - **リモート**: Code Engine へのドキュメントデプロイ
-- **メリット**: オンサイト/リモート/ハイブリッド開催に対応
 
 #### 3. **API キー不要の設計**
 
-**Building Blocks**:
+**Building Blocks 単体**:
 
 - watsonx.ai の API キーが必要
 - 受講者が個別に取得・設定
@@ -141,11 +139,10 @@ graph LR
 
 - **Hugging Face Transformers** を使用（API キー不要）
 - **ローカル実行**: インターネット接続のみで動作
-- **メリット**: 受講者の準備負担を削減、コスト削減
 
 #### 4. **段階的な学習パス**
 
-**Building Blocks**:
+**Building Blocks 単体**:
 
 - 技術的な実装に焦点
 
@@ -154,15 +151,14 @@ graph LR
 - **Part 1**: Vector Search の体験（理解）
 - **Part 2**: IBM Bob での機能追加（実践）
 - **Part 3**: コードレビューと改善（応用）
-- **メリット**: 初心者でも段階的に学習できる
 
-!!! success "このハンズオンの価値"
+!!! success "このハンズオンのメリット"
     **Building Blocks（基盤）** + **ハンズオン独自の工夫（教育設計）** = **短時間で高い学習効果**
     
-    - 環境構築: 不要（講師が一元管理）
-    - API キー: 不要（Hugging Face 使用）
-    - 開催形式: 柔軟（オンサイト/リモート/ハイブリッド）
-    - 学習効果: 高い（段階的な学習パス）
+    - **セットアップ時間の短縮**: 30 分→ 5 分（講師が環境を一元管理）
+    - **API キー不要**: Hugging Face 使用で受講者の準備負担を削減
+    - **柔軟な開催形式**: オンサイト/リモート/ハイブリッド開催に対応
+    - **段階的な学習**: 初心者でも理解→実践→応用と進められる
 
 ## Vector Search とは？
 
@@ -322,47 +318,47 @@ IBM Bob を使って、アプリケーションに新しい機能を追加しま
 
 ## 使用する技術スタック
 
-このハンズオンでは、以下の技術を **Building Blocks** として統合して使用します：
+このハンズオンでは、以下の技術を使用します：
 
-### **IBM Building Blocks: Vector Search Builder**
+### **IBM Building Blocks: Vector Search Builder**（オリジナル提供）
 
 - **役割**: Vector Search 機能の統合基盤
 - **提供内容**:
     - Milvus データベースの構築・管理
-    - 埋め込みモデルの統合
+    - 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
     - データ取り込みパイプライン
     - 検索最適化機能
 - **特徴**: すぐに使える、ベストプラクティス実装済み
 
-### **Milvus（ミルバス）**
+### **Milvus（ミルバス）**（Building Blocks に含まれる）
 
-- **役割**: ベクトルデータベース（Building Blocks に含まれる）
+- **役割**: ベクトルデータベース
 - **機能**: ベクトルデータを保存・検索
 - **特徴**: 高速・大規模データに対応
-- **Building Blocks での提供**: セットアップ済み、最適化済み
+- **提供形態**: Building Blocks でセットアップ済み、最適化済み
 
-### **埋め込みモデル（Hugging Face Transformers）**
+### **埋め込みモデル（Hugging Face Transformers）**（このハンズオンで選択）
 
-- **役割**: テキストを数値に変換する AI（Building Blocks に統合済み）
+- **役割**: テキストを数値に変換する AI
 - **機能**: テキストの「意味」をベクトル（数値の配列）に変換
-- **特徴**: 日本語対応・高精度
-- **Building Blocks での提供**: 簡単に切り替え可能（watsonx、HuggingFace、ローカル）
+- **特徴**: 日本語対応・高精度、API キー不要
+- **選択理由**: Building Blocks は複数の埋め込みモデルに対応しており、このハンズオンでは Hugging Face を選択
 
-### **IBM Bob + Vector Search Builder Mode**
+### **IBM Bob + Vector Search Builder Mode**（Building Blocks に含まれる）
 
-- **役割**: AI 開発アシスタント（Building Blocks 専用モード付き）
+- **役割**: AI 開発アシスタント
 - **機能**:
     - Vector Search に特化したコード生成
     - Building Blocks の機能を活用したカスタマイズ
     - コードレビュー・サポート
 - **特徴**: 自然言語で指示できる、Vector Search の専門知識を持つ
 
-!!! tip "技術スタックの統合"
-    これらの技術は個別に使うこともできますが、**Building Blocks** として統合することで：
+!!! tip "Building Blocks の価値"
+    **IBM Building Blocks: Vector Search Builder** は、これらの技術を統合した事前構築済みのソリューションです：
     
-    - 複雑な設定が不要
-    - 相互連携が保証されている
-    - IBM Bob が全体を理解してサポート
+    - 複雑な設定が不要（すぐに使える）
+    - 相互連携が保証されている（動作確認済み）
+    - IBM Bob が全体を理解してサポート（専用モード）
 
 ## 次のステップ
 
