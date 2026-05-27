@@ -103,49 +103,49 @@ graph LR
     - **`docs/`**: ハンズオン用ドキュメント（MkDocs）
     - **`deploy-to-code-engine.sh`**: リモート配信用デプロイスクリプト
     
-    #### 1. **講師・受講者分離アーキテクチャ**
+    **1. 講師・受講者分離アーキテクチャ**
     
-    **Building Blocks 単体**:
+    Building Blocks 単体:
     
     - 各自が Milvus 環境を構築（Docker/Podman/Colima）
     - 個別に埋め込みモデルをダウンロード（約 200 MB）
     - 環境構築に 30 分程度必要
     
-    **このハンズオンの工夫**:
+    このハンズオンの工夫:
 
     - **講師**: Milvus 環境を一元管理（`setup/instructor/docker-compose.yml`）
     - **受講者**: IBM Bob のみで参加（`.bob/modes/` + 接続情報のみ）
     
-    #### 2. **ハイブリッド配信対応**
+    **2. ハイブリッド配信対応**
     
-    **Building Blocks 単体**:
+    Building Blocks 単体:
     
     - ローカル環境での実行を想定
     
-    **このハンズオンの工夫**:
+    このハンズオンの工夫:
 
     - **オンサイト**: ローカルネットワーク共有（`http://講師IP:8001`）
     - **リモート**: Code Engine へのドキュメントデプロイ
     
-    #### 3. **API キー不要の設計**
+    **3. API キー不要の設計**
     
-    **Building Blocks 単体**:
+    Building Blocks 単体:
     
     - watsonx.ai の API キーが必要
     - 受講者が個別に取得・設定
     
-    **このハンズオンの工夫**:
+    このハンズオンの工夫:
 
     - **Hugging Face Transformers** を使用（API キー不要）
     - **ローカル実行**: インターネット接続のみで動作
     
-    #### 4. **段階的な学習パス**
+    **4. 段階的な学習パス**
     
-    **Building Blocks 単体**:
+    Building Blocks 単体:
     
     - 技術的な実装に焦点
     
-    **このハンズオンの工夫**:
+    このハンズオンの工夫:
 
     - **Part 1**: Vector Search の体験（理解）
     - **Part 2**: IBM Bob での機能追加（実践）
