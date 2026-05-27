@@ -14,7 +14,7 @@
 
 **例: EC サイトで商品を探す場合**
 
-**あなたの検索**: 「赤いスニーカー」
+**あなたの検索**:「赤いスニーカー」
 
 **従来の検索結果**:
 
@@ -31,7 +31,7 @@
 
 Vector Search は「意味」を理解して検索します。
 
-**あなたの検索**: 「赤いスニーカー」
+**あなたの検索**:「赤いスニーカー」
 
 **Vector Search の結果**:
 
@@ -188,7 +188,7 @@ INFO:     Uvicorn running on http://localhost:8000
 1. Swagger UI 画面で **`/search`** を探す
 2. **`/search`** をクリック
 
-#### ステップ 2: 「Try it out」をクリック
+#### ステップ 2:「Try it out」をクリック
 
 右上の「Try it out」ボタンをクリック
 
@@ -202,7 +202,7 @@ INFO:     Uvicorn running on http://localhost:8000
 }
 ```
 
-#### ステップ 4: 「Execute」をクリック
+#### ステップ 4:「Execute」をクリック
 
 青い「Execute」ボタンをクリック
 
