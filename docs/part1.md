@@ -348,19 +348,12 @@ INFO:     Uvicorn running on http://localhost:8000
 
     **対処法**:
 
-    === ":fontawesome-brands-apple: Mac"
-        ```bash
-        cd setup/participant
-        ./fix_numpy_issue.sh
-        ```
-
-    === ":fontawesome-brands-windows: Windows"
-        ```bash
-        cd setup\participant
-        pip uninstall -y pymilvus numpy
-        pip cache purge
-        pip install -r requirements.txt
-        ```
+    ```bash
+    cd setup/participant
+    pip uninstall -y pymilvus numpy
+    pip cache purge
+    pip install -r requirements.txt
+    ```
 
     **確認**:
     ```bash

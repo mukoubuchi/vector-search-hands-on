@@ -1,3 +1,43 @@
+## 2026年5月28日 23:26 JST - fix_numpy_issue.shの削除とドキュメント更新
+
+### 作業内容
+
+requirements.txtで依存関係が十分解決されているため、fix_numpy_issue.shを削除し、関連するドキュメントを更新しました。
+
+### 実施した対応
+
+1. **ファイルの削除**
+   - `setup/participant/fix_numpy_issue.sh`を削除
+   - vector-search-builder.zipから除外
+
+2. **ドキュメントの更新**
+   - `docs/part1.md`: NumPyエラーの対処法を統一されたコマンドに変更
+   - `docs/faq.md`: トラブルシューティング手順を簡素化
+
+3. **zipファイルの再作成**
+   ```bash
+   zip -r vector-search-builder.zip \
+     .bob/custom_modes.yaml \
+     .bob/rules-vector-search-builder/ \
+     setup/participant/ \
+     -x "*.env" \
+     -x "*/__pycache__/*" \
+     -x "*/.DS_Store"
+   ```
+
+4. **変更内容の確認**
+   - ファイル数: 13 → 12（fix_numpy_issue.sh削除）
+   - .envファイルは引き続き除外されている
+
+### 成果
+
+- 不要なスクリプトを削除してシンプル化
+- requirements.txtによる依存関係管理に一本化
+- ドキュメントの一貫性を向上
+- 配布パッケージのクリーン化
+
+**完了日時**: 2026年5月28日 23:26 JST
+
 ## 2026年5月28日 23:23 JST - .envファイル除外の徹底とルール追記
 
 ### 作業内容

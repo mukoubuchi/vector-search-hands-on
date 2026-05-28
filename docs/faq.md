@@ -39,22 +39,15 @@ pip uninstall -r requirements.txt -y
 
 **A1.** 以下の順序で対処してください：
 
-1. **互換性エラーの場合**
+1. **パッケージの再インストール**
    ```bash
-   # 既存のパッケージをアンインストール
-   pip uninstall sentence-transformers transformers huggingface-hub -y
-   
-   # requirements.txtから再インストール
+   cd setup/participant
+   pip uninstall -y pymilvus numpy sentence-transformers transformers huggingface-hub
+   pip cache purge
    pip install -r requirements.txt
    ```
 
-2. **NumPyのバイナリ互換性エラーの場合**
-   ```bash
-   # fix_numpy_issue.shを実行
-   bash fix_numpy_issue.sh
-   ```
-
-3. **それでも解決しない場合**
+2. **それでも解決しない場合**
    ```bash
    # 仮想環境を作り直す
    deactivate
