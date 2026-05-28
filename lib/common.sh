@@ -147,37 +147,6 @@ detect_container_runtime() {
     return 0
 }
 
-# ビルドツール検出（Docker/Podman）
-detect_build_tool() {
-    local build_tool=""
-    
-    if command -v podman &> /dev/null; then
-        log_info "Podman（ビルド用）"
-        build_tool="podman"
-        
-        # Podman使用時はDockerも必要
-        if ! command -v docker &> /dev/null || ! docker info &> /dev/null 2>&1; then
-            log_warn "Podmanでビルドする場合、イメージプッシュにはDockerが必要です"
-            log_warn "Colimaを起動してください:"
-            log_warn "  colima start --arch x86_64 --vm-type=vz --vz-rosetta"
-        else
-            log_info "Docker CLI（プッシュ用）"
-        fi
-    elif command -v docker &> /dev/null && docker info &> /dev/null 2>&1; then
-        log_info "Docker CLI（Colima経由など）"
-        build_tool="docker"
-    else
-        log_error "DockerまたはPodmanが必要です"
-        echo "インストール方法:"
-        echo "  brew install podman"
-        echo "  colima start --arch x86_64 --vm-type=vz --vz-rosetta"
-        return 1
-    fi
-    
-    export BUILD_TOOL="$build_tool"
-    return 0
-}
-
 # JSONからフィールド抽出（複数の方法を試行）
 extract_json_field() {
     local json="$1"

@@ -1,3 +1,38 @@
+## 2026年5月28日 17:51 JST - Code Engine関連ファイルの削除
+
+### 作業内容
+
+Code Engineを使用しないため、関連するファイルとコードを削除しました。
+
+### 実施した対応
+
+1. **削除したファイル**
+   - `deploy-to-code-engine.sh`: Code Engineデプロイスクリプト
+   - `lib/deploy-helpers.sh`: Code Engineデプロイ専用ヘルパー関数
+   - `setup/instructor/check_docs_url.sh`: Code Engine URL確認スクリプト
+   - `setup/instructor/check-deploy-status.sh`: Code Engineデプロイ状態確認スクリプト
+   - `setup/instructor/techzone-code-engine-guide.md`: TechZone環境ガイド
+
+2. **更新したファイル**
+   - `setup/instructor/deploy-docs-to-cloud.md`:
+     - Code Engine関連のセクション（116-441行目）を削除
+     - GitHub Pagesとngrokのみをデプロイオプションとして残す
+   - `lib/common.sh`:
+     - `detect_build_tool()`関数を削除（Code Engineデプロイ専用）
+     - ローカル環境用のPodman対応コードは維持
+
+3. **Podman machineについて**
+   - Code Engineを使用しないため、Podman machineは不要
+   - ローカル環境（docker-compose）ではColimaのみを使用
+
+### 成果
+
+- Code Engine関連の不要なファイルとコードを削除
+- ドキュメントをGitHub Pagesとngrokに集約
+- プロジェクトの構成がシンプルになり、保守性が向上
+
+**完了日時**: 2026年5月28日 17:51 JST
+
 ## 2026年5月28日 17:28 JST - vector-search-builder.zipの更新
 
 ### 作業内容
