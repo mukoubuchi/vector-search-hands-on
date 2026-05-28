@@ -6709,3 +6709,53 @@ mkdocsドキュメント全体の品質改善を実施しました。
 - 不要な情報を削除し、必要な情報に集中
 
 **完了日時**: 2026年5月27日 22:17 JST
+
+
+---
+
+## 2026年5月28日 10:05 JST - vector-search-builder.zip 最新版更新
+
+### 作業内容
+
+vector-search-builderモードの配布用zipファイルを最新版に更新しました。
+
+### 変更点
+
+1. **不要ファイルの削除**
+   - `test_connection_simple.py`を削除（現在のプロジェクトに存在しないため）
+
+2. **最新ファイルの反映**
+   - `test_connection.py`を最新版（2026-05-27更新）に更新
+   - IBM Cloud認証対応版を含む
+
+3. **zipファイル構成**（全9ファイル）
+   - `.bob/custom_modes.yaml` - Vector Search Builderモード定義
+   - `.bob/rules-vector-search-builder/` - ルールファイル3つ
+     - `1_vector_search_workflow.xml`
+     - `2_best_practices.xml`
+     - `3_common_patterns.xml`
+   - `setup/participant/.env.example` - 環境変数テンプレート
+   - `setup/participant/requirements.txt` - Pythonパッケージ一覧
+   - `setup/participant/test_connection.py` - Milvus接続テスト
+   - `setup/participant/test_embeddings_hf.py` - 埋め込みモデルテスト
+
+### 実行コマンド
+
+```bash
+rm vector-search-builder.zip
+zip -r vector-search-builder.zip \
+  .bob/custom_modes.yaml \
+  .bob/rules-vector-search-builder/ \
+  setup/participant/.env.example \
+  setup/participant/requirements.txt \
+  setup/participant/test_connection.py \
+  setup/participant/test_embeddings_hf.py
+```
+
+### 成果
+
+- 最新のプロジェクト構成を反映したzipファイルを作成
+- 不要なファイルを削除し、配布パッケージをクリーンアップ
+- ファイルサイズ: 62,105バイト（9ファイル）
+
+**完了日時**: 2026年5月28日 10:05 JST
