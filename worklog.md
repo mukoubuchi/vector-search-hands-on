@@ -1,3 +1,84 @@
+## 2026年5月28日 17:28 JST - vector-search-builder.zipの更新
+
+### 作業内容
+
+Vector Search Builderモードの配布パッケージを最新の状態に更新しました。
+
+### 実施した対応
+
+1. **zipファイルの更新**
+   - 既存のvector-search-builder.zipを最新のファイルで更新
+   - 以下のファイルを含む:
+     - `.bob/custom_modes.yaml`: カスタムモード定義
+     - `.bob/rules-vector-search-builder/`: ルールファイル（3つのXMLファイル）
+     - `setup/participant/`: 参加者用セットアップファイル（4ファイル）
+
+2. **更新コマンド**
+   ```bash
+   zip -r vector-search-builder.zip \
+     .bob/custom_modes.yaml \
+     .bob/rules-vector-search-builder/ \
+     setup/participant/.env.example \
+     setup/participant/requirements.txt \
+     setup/participant/test_connection.py \
+     setup/participant/test_embeddings_hf.py
+   ```
+
+### 成果
+
+- 全9ファイルが最新の状態でzipに含まれる
+- 各ファイルが適切に圧縮され、配布準備完了
+
+**完了日時**: 2026年5月28日 17:28 JST
+
+## 2026年5月28日 17:20 JST - GitHub Pagesによるドキュメント配信を追加
+
+### 作業内容
+
+GitHub Pagesを使用したドキュメントサイトの自動デプロイを設定し、公開しました。
+
+### 実施した対応
+
+1. **初回確認**
+   - https://mukoubuchi.github.io/vector-search-hands-on/ にアクセス
+   - 404エラーを確認
+
+2. **原因調査**
+   - ワークフローは成功していたが、GitHub Pagesの設定に問題
+   - `mkdocs gh-deploy`を使用していたが、GitHub Pagesの公式アクションが必要と判明
+   - `gh-pages`ブランチは存在していたが、GitHub Pagesが正しく設定されていなかった
+
+3. **ワークフロー修正** (`.github/workflows/deploy-docs.yml`)
+   - GitHub Pages公式アクションを使用するように変更
+   - `actions/configure-pages@v4`: GitHub Pagesの設定
+   - `actions/upload-pages-artifact@v3`: ビルド成果物のアップロード
+   - `actions/deploy-pages@v4`: GitHub Pagesへのデプロイ
+   - `environment`設定を追加してデプロイ環境を明示
+
+4. **デプロイ成功**
+   - ワークフローが正常に完了（30秒で完了）
+   - サイトが正常に表示されることを確認
+
+### 公開URL
+
+https://mukoubuchi.github.io/vector-search-hands-on/
+
+### 表示内容
+
+- タイトル: 「Vector Search ハンズオンへようこそ」
+- Building BlocksとIBM Bobを使用したベクトル検索のハンズオンコンテンツ
+- ナビゲーション: 事前準備、Part 1-3、まとめ
+- 日本語で正しく表示
+
+### 技術的なポイント
+
+- MkDocsで生成したサイトをGitHub Pagesで公開
+- GitHub Actionsによる自動デプロイ
+- mainブランチへのプッシュ時に自動的にビルド・デプロイ
+- `docs/**`、`mkdocs.yml`、ワークフローファイルの変更時にトリガー
+
+**完了日時**: 2026年5月28日 17:20 JST
+
 ## 2026年5月28日 16:35 JST - リポジトリ名を「hands-on」に統一
 
 ### 作業内容
