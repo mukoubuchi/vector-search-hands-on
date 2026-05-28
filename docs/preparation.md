@@ -9,54 +9,6 @@
 
 ## 必要なもの
 
-### 0. Python環境
-
-このハンズオンでは、Python 3.8以上が必要です。
-
-#### Pythonのインストール確認
-
-ターミナルで以下を実行:
-
-```bash
-python --version
-```
-
-または
-
-```bash
-python3 --version
-```
-
-`Python 3.8.x`以上が表示されればOKです。
-
-#### Pythonがインストールされていない場合
-
-=== ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
-    **Mac**:
-    
-    1. [Python公式サイト](https://www.python.org/downloads/)からインストーラーをダウンロード
-    2. インストーラーを実行
-    
-    または、Homebrewを使用:
-    ```bash
-    brew install python3
-    ```
-    
-    **Linux**:
-    ```bash
-    sudo apt update
-    sudo apt install python3 python3-pip
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    1. [Python公式サイト](https://www.python.org/downloads/)からインストーラーをダウンロード
-    2. インストーラーを実行
-    3. **重要**: 「Add Python to PATH」にチェックを入れる
-
-!!! warning "ハンズオン後のクリーンアップ"
-    このハンズオンでインストールするPythonパッケージは、ハンズオン終了後にアンインストールできます。
-    詳細は[クリーンアップ手順](#cleanup)を参照してください。
-
 ### 1. Vector Search Builder モード
 
 **Vector Search Builder** は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。
@@ -163,50 +115,7 @@ python3 --version
     - 埋め込みモデルの統合方法
     - Building Blocks の機能と制約
 
-### 2. Pythonパッケージのインストール
-
-必要なPythonパッケージをインストールします。
-
-!!! example "パッケージのインストール"
-
-    1. ターミナルを開く
-        - メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>
-        - または <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）
-
-    2. **`setup/participant`** フォルダに移動
-
-        === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
-            ```bash
-            cd setup/participant
-            ```
-
-        === ":fontawesome-brands-windows: Windows"
-            ```bash
-            cd setup\participant
-            ```
-
-    3. パッケージをインストール
-
-        ```bash
-        pip install -r requirements.txt
-        ```
-
-        !!! info "インストールされるパッケージ"
-            - **pymilvus**: Milvusクライアント
-            - **sentence-transformers**: 埋め込みモデル
-            - **python-dotenv**: 環境変数管理
-            - **numpy**: 数値計算ライブラリ（バージョン管理済み）
-            - その他の依存パッケージ
-
-    4. インストール完了を確認
-
-        エラーなく完了すれば成功です。
-
-!!! warning "ハンズオン後のクリーンアップ"
-    インストールしたパッケージは、ハンズオン終了後にアンインストールできます。
-    詳細は[クリーンアップ手順](#cleanup)を参照してください。
-
-### 3. 接続情報
+### 2. 接続情報
 
 #### Milvus（ベクトルデータベース）
 

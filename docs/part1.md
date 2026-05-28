@@ -69,33 +69,24 @@ Vector Search は「意味」を理解して検索します。
 !!! example "実践: ここから手を動かします"
     実際に Vector Search を動かす前に、必要なサービスに接続できるか確認します。
 
-### ターミナルを開く
+### IBM Bob に接続テストを依頼
 
-メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>、または <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）で開きます。
+1. IBM Bob のチャット入力欄をクリック
 
-画面下部に黒い画面（ターミナル）が表示されます。
+2. 以下のメッセージを入力して Enter:
 
-### **`setup/participant`** フォルダに移動
-
-ターミナルに以下を入力して Enter:
-
-=== ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
-    ```bash
-    cd setup/participant
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    ```bash
-    cd setup\participant
-    ```
-
-### 接続テストを実行
-
-ターミナルに以下を入力して Enter:
-
-```bash
-python test_connection.py
 ```
+setup/participant/test_connection.py を実行して、Milvus接続をテストしてください
+```
+
+3. IBM Bob が自動的に以下を実行します:
+   - Pythonスクリプトの実行
+   - 接続テストの実施
+   - 結果の表示
+
+!!! tip "IBM Bob の便利な機能"
+    IBM Bob は、Pythonがインストールされていなくても、スクリプトを実行できます。
+    これにより、受講者は環境構築の手間なく、すぐにハンズオンを開始できます。
 
 ### 結果を確認
 

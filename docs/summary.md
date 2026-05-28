@@ -83,41 +83,6 @@
     
     この課題を通じて、RAG システムの設計における重要な意思決定ポイントを理解できます。
 
-## クリーンアップ {#cleanup}
-
-ハンズオン終了後、インストールしたPythonパッケージをアンインストールできます。
-
-### パッケージのアンインストール
-
-ターミナルで以下を実行:
-
-=== ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
-    ```bash
-    cd setup/participant
-    pip uninstall -y -r requirements.txt
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    ```bash
-    cd setup\participant
-    pip uninstall -y -r requirements.txt
-    ```
-
-### 確認
-
-```bash
-pip list | grep -E "pymilvus|sentence-transformers"
-```
-
-何も表示されなければ、アンインストール完了です。
-
-!!! tip "Pythonのアンインストール"
-    このハンズオンのためにPythonをインストールした場合、Pythonそのものもアンインストールできます。
-    
-    - **Mac**: アプリケーションフォルダから削除、またはHomebrewでインストールした場合は `brew uninstall python3`
-    - **Windows**: コントロールパネル → プログラムと機能 → Python をアンインストール
-    - **Linux**: `sudo apt remove python3 python3-pip`
-
 ## 参考資料
 
 - [Building Blocks ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
