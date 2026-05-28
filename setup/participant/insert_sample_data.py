@@ -220,6 +220,7 @@ def main():
     print(f"\nコレクション名: {COLLECTION_NAME}")
     print(f"エンティティ数: {collection.num_entities}")
     print(f"\nデモアプリケーションを起動できます:")
+    print("  cd setup/participant")
     print("  python app.py")
     print("=" * 50 + "\n")
     

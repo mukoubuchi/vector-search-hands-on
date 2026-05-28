@@ -173,6 +173,7 @@ python insert_sample_data.py
 エンティティ数: 12
 
 デモアプリケーションを起動できます:
+  cd setup/participant
   python app.py
 ==================================================
 ```
@@ -203,6 +204,7 @@ IBM Bob のチャット画面で以下を入力:
 ターミナルに以下を入力:
 
 ```bash
+cd setup/participant
 python app.py
 ```
 

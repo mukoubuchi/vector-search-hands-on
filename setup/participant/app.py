@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 import uvicorn
 
 # 環境変数の読み込み
-load_dotenv("setup/participant/.env")
+load_dotenv(".env")
 
 # 設定
 MILVUS_HOST = os.getenv("MILVUS_HOST", "localhost")
