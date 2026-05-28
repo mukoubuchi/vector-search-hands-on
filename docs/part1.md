@@ -76,7 +76,7 @@ Vector Search は「意味」を理解して検索します。
 2. 以下のメッセージを入力して Enter:
 
 ```
-setup/participant/test_connection.py を実行して、Milvus接続をテストして
+Milvusに接続して
 ```
 
 3. IBM Bob が自動的に以下を実行します:
