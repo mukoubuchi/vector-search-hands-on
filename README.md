@@ -58,12 +58,7 @@ git push -u origin main
 **代替: ローカル配信（同一ネットワーク内）**
 
 ```bash
-# 1. コンテナランタイムを起動
-# 前提条件: 初回起動時のみ `colima start --runtime docker` を実行（5〜10 分程度）
-# 2 回目以降は以下のコマンドのみで OK
-colima start
-
-# 2. Milvus 環境と MkDocs を起動
+# 1. Milvus 環境と MkDocs を起動
 cd setup/instructor
 ./start-all.sh
 
@@ -169,8 +164,7 @@ cd setup/instructor
 
 ### 講師向け
 
-- **Code Engine デプロイ**: [`setup/instructor/deploy-docs-to-cloud.md`](setup/instructor/deploy-docs-to-cloud.md)
-- **TechZone 環境ガイド**: [`setup/instructor/techzone-code-engine-guide.md`](setup/instructor/techzone-code-engine-guide.md)
+- **ドキュメント配信方法**: [`setup/instructor/deploy-docs-to-cloud.md`](setup/instructor/deploy-docs-to-cloud.md)
 - **講師向け情報共有**: [`setup/instructor/instructor-share-info.md`](setup/instructor/instructor-share-info.md)
 
 ### 受講者向け
@@ -183,7 +177,7 @@ cd setup/instructor
 
 ## 📦 必要なツール
 
-**講師**: Docker/Podman/Colima、IBM Cloud CLI
+**講師**: Docker/Podman/Colima
 
 **受講者**: IBM Bob IDE（Building Blocks 対応）
 
@@ -208,7 +202,7 @@ cd setup/instructor
 
 **このハンズオンの工夫**:
 - **オンサイト**: ローカルネットワーク共有（`http://講師IP:8001`）
-- **リモート**: Code Engine へのドキュメントデプロイ
+- **リモート**: GitHub Pages へのドキュメントデプロイ
 - **結果**: オンサイト/リモート/ハイブリッド開催に対応
 
 ### 3. API キー不要の設計
@@ -282,8 +276,7 @@ vector-search-hands-on/
 │   │   ├── docker-compose.yml     # Milvus 環境定義
 │   │   ├── start-all.sh           # 全サービス起動スクリプト
 │   │   ├── stop-all.sh            # 全サービス停止スクリプト
-│   │   ├── deploy-docs-to-cloud.md # Code Engine デプロイ手順
-│   │   ├── techzone-code-engine-guide.md # TechZone 環境ガイド
+│   │   ├── deploy-docs-to-cloud.md # ドキュメント配信方法
 │   │   └── instructor-share-info.md # 講師向け情報共有
 │   └── participant/               # 受講者用セットアップ
 │       ├── .env.example           # 接続情報テンプレート
@@ -291,10 +284,8 @@ vector-search-hands-on/
 │       ├── test_connection.py     # 接続テスト
 │       └── test_embeddings_hf.py  # 埋め込みモデルテスト
 ├── lib/                           # 共通ライブラリ
-│   ├── common.sh                  # 共通シェル関数
-│   └── deploy-helpers.sh          # デプロイヘルパー関数
+│   └── common.sh                  # 共通シェル関数
 ├── mkdocs.yml                     # MkDocs 設定ファイル
-├── deploy-to-code-engine.sh       # Code Engine デプロイスクリプト
 └── README.md                      # このファイル
 ```
 

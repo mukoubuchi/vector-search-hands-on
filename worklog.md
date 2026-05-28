@@ -1,3 +1,63 @@
+## 2026年5月28日 17:56 JST - GitHub Pages移行に伴うリファクタリング
+
+### 作業内容
+
+Code EngineからGitHub Pagesへの移行に伴い、プロジェクト全体をリファクタリングしました。
+
+### 実施した対応
+
+1. **lib/common.shの整理**
+   - IBM Cloud関連の関数を削除:
+     - `check_ibmcloud_login()`: IBM Cloudログイン確認
+     - `extract_json_field()`: JSON解析（Code Engine用）
+     - `extract_ce_ready_status()`: Code Engine状態確認
+     - `show_progress()`: プログレス表示（Code Engine用）
+     - `wait_with_timeout()`: タイムアウト待機（Code Engine用）
+     - `select_resource_group()`: リソースグループ選択
+     - `select_registry_namespace()`: Container Registryネームスペース選択
+   
+   - Podman Machine関連のコードを簡素化:
+     - `detect_container_runtime()`からPodman Machine特有の処理を削除
+     - Docker/Podmanの基本的な検出機能のみを維持
+     - macOS向けの複雑なPodman Machine設定コードを削除
+
+2. **setup/instructor/deploy-docs-to-cloud.mdの再構成**
+   - GitHub Pagesを最優先の配信方法として位置づけ
+   - ngrokを一時的な公開方法として整理
+   - ローカル配信を同一ネットワーク内の配信方法として明確化
+   - 配信方法の比較表を追加
+   - 推奨フローを追加（リモート/オンサイト/ハイブリッド）
+
+3. **setup/instructor/start-all.shの更新**
+   - Code Engineデプロイへの言及を削除
+   - GitHub Pagesとngrokを推奨配信方法として明記
+   - 出力メッセージをローカル配信とリモート配信に分けて整理
+
+4. **README.mdの更新**
+   - Code Engine関連の記述を削除:
+     - デプロイスクリプトへの参照
+     - TechZone環境ガイドへの参照
+     - IBM Cloud CLIの必要性
+   - GitHub Pagesを推奨配信方法として明記
+   - ディレクトリ構造からCode Engine関連ファイルを削除
+   - Colimaの初回起動に関する記述を削除（不要な詳細）
+
+### 成果
+
+- **コードベースの簡素化**: 約200行のCode Engine関連コードを削除
+- **依存関係の削減**: IBM Cloud CLIが不要に
+- **ドキュメントの明確化**: GitHub Pagesを中心とした配信方法に統一
+- **保守性の向上**: 使用しない機能のコードを削除し、メンテナンス負荷を軽減
+
+### 変更ファイル
+
+- `lib/common.sh`: 452行 → 約150行（約300行削減）
+- `setup/instructor/deploy-docs-to-cloud.md`: 全面的に再構成
+- `setup/instructor/start-all.sh`: 出力メッセージを更新
+- `README.md`: Code Engine関連の記述を削除
+
+**完了日時**: 2026年5月28日 17:56 JST
+
 ## 2026年5月28日 17:51 JST - Code Engine関連ファイルの削除
 
 ### 作業内容
