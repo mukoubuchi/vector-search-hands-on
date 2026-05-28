@@ -1,4 +1,4 @@
-## 2026年5月28日 23:39 JST - ポート競合問題の解決
+## 2026年5月28日 23:41 JST - ポート競合問題の解決（受講者向けドキュメント簡素化）
 
 ### 作業内容
 
@@ -10,31 +10,31 @@ Swagger UIが開けない問題を解決しました。ポート8000がMkDocsで
    - [`setup/participant/app.py`](setup/participant/app.py): FastAPIのポートを8000→8002に変更
    - 起動メッセージも更新（`http://localhost:8002/docs`）
 
-2. **ドキュメントの更新**
+2. **受講者向けドキュメントの更新**
    - [`docs/part1.md`](docs/part1.md): Swagger UIのURLを8002に更新
    - [`docs/part2.md`](docs/part2.md): Swagger UIのURLを8002に更新
    - [`docs/part3.md`](docs/part3.md): Swagger UIのURLを8002に更新
 
-3. **新規ドキュメントの作成**
-   - [`docs/ports.md`](docs/ports.md): ポート設定の一覧とトラブルシューティングガイドを作成
-   - [`mkdocs.yml`](mkdocs.yml): ナビゲーションに「ポート設定」を追加
+3. **講師向けドキュメントの更新**
+   - [`README.md`](README.md): ポート設定の一覧を追加（講師向け）
+   - 受講者向けドキュメントには技術的詳細を含めない方針
 
 ### ポート割り当て
 
 | サービス | ポート | 用途 |
 |---------|--------|------|
-| MkDocs（開発版） | 8000 | ドキュメント編集用 |
+| MkDocs（開発版） | 8000 | ドキュメント編集用（講師） |
 | MkDocs（コンテナ版） | 8001 | 受講者共有用 |
-| FastAPI（Swagger UI） | 8002 | Vector Search API |
+| FastAPI（Swagger UI） | 8002 | Vector Search API（受講者） |
 | Milvus | 19530 | ベクトルデータベース |
 
 ### 成果
 
 - ポート競合の解決
-- Swagger UIへの正しいアクセス方法の明確化
-- ポート設定の包括的なドキュメント化
+- 受講者向けドキュメントの簡素化（営業向けレベル）
+- 講師向けREADMEに技術情報を集約
 
-**完了日時**: 2026年5月28日 23:39 JST
+**完了日時**: 2026年5月28日 23:41 JST
 
 ## 2026年5月28日 23:27 JST - faq.mdの削除
 

@@ -37,6 +37,22 @@ Vector Search Builder モードにより、IBM Bob が以下を提供:
 
 ### 👨‍🏫 講師向け
 
+#### ポート設定
+
+このハンズオンでは、以下のポートを使用します：
+
+| サービス | ポート | URL | 用途 |
+|---------|--------|-----|------|
+| **MkDocs（開発版）** | 8000 | http://localhost:8000 | ドキュメント編集用（自動リロード対応） |
+| **MkDocs（コンテナ版）** | 8001 | http://localhost:8001 | 受講者共有用（安定配信） |
+| **FastAPI（Swagger UI）** | 8002 | http://localhost:8002/docs | Vector Search API（受講者用） |
+| **Milvus** | 19530 | localhost:19530 | ベクトルデータベース |
+
+**重要**:
+- ポート8000はMkDocs開発版専用（講師のドキュメント編集用）
+- ポート8002はFastAPIアプリ（受講者がSwagger UIにアクセス）
+- 受講者には「http://localhost:8002/docs」を案内してください
+
 #### ドキュメント配信方法
 
 **推奨: GitHub Pages（リモート参加者向け）**
