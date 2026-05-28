@@ -102,6 +102,11 @@ if ! push_docker_image "$FULL_IMAGE_NAME" "$BUILD_TOOL"; then
     exit 1
 fi
 
+# プッシュ後、イメージ名が変更された可能性があるため更新
+if [ -n "$FULL_IMAGE_NAME" ]; then
+    FULL_IMAGE_NAME="$FULL_IMAGE_NAME"
+fi
+
 # 9. Container Registryアクセス用のシークレットを作成
 REGISTRY_SECRET="icr-secret"
 if ! create_registry_secret "$REGISTRY_SECRET"; then

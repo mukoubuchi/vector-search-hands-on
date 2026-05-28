@@ -300,7 +300,6 @@ INFO:     Uvicorn running on http://localhost:8000
     
     1. **`.env`** ファイルの内容を確認
     2. インターネット接続を確認
-    3. 講師に相談
 
 ??? question "Q2: Swagger UI が開けない"
 
@@ -309,7 +308,6 @@ INFO:     Uvicorn running on http://localhost:8000
     1. アプリケーションが起動しているか確認
     2. URL が正しいか確認（**`http://localhost:8000/docs`**）
     3. ブラウザを変えてみる
-    4. 講師に相談
 
 ??? question "Q3: 検索結果が 0 件"
 
@@ -317,7 +315,6 @@ INFO:     Uvicorn running on http://localhost:8000
     
     1. サンプルデータが投入されているか確認
     2. 検索クエリを変えてみる
-    3. 講師に相談
 
 ## 次のステップ
 

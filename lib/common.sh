@@ -353,24 +353,41 @@ select_registry_namespace() {
     local existing_namespaces
     existing_namespaces=$(ibmcloud cr namespace-list 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g' | tail -n +4 | grep -v "^OK$" | grep -v "^$" | awk '{print $1}')
     
-    if [ -z "$existing_namespaces" ]; then
-        log_error "利用可能なContainer Registryネームスペースがありません" >&2
-        echo "TechZone環境では、既存のネームスペースを使用する必要があります" >&2
-        return 1
-    fi
-    
     if [ -z "$registry_namespace" ]; then
-        registry_namespace=$(echo "$existing_namespaces" | head -n 1)
-        log_warn "ネームスペース '$registry_namespace' を使用します" >&2
+        # TechZone環境（cr-itz-*ネームスペース）の場合
+        if echo "$existing_namespaces" | grep -q "^cr-itz-"; then
+            log_warn "TechZone環境を検出しました" >&2
+            
+            # まず既存のネームスペースを使用してみる
+            registry_namespace=$(echo "$existing_namespaces" | grep "^cr-itz-" | head -n 1)
+            log_warn "既存のネームスペース '$registry_namespace' を試します" >&2
+            log_warn "プッシュに失敗する場合は、環境変数REGISTRY_NAMESPACEで明示的に指定してください" >&2
+        elif [ -n "$existing_namespaces" ]; then
+            # TechZone以外の環境では既存のネームスペースを使用
+            registry_namespace=$(echo "$existing_namespaces" | head -n 1)
+            log_warn "ネームスペース '$registry_namespace' を使用します" >&2
+        else
+            # ネームスペースが存在しない場合は新規作成
+            log_warn "既存のネームスペースが見つかりません。新しいネームスペースを作成します..." >&2
+            local new_namespace="mkdocs-$(date +%Y%m%d-%H%M%S)"
+            
+            if ibmcloud cr namespace-add "$new_namespace"; then
+                registry_namespace="$new_namespace"
+                log_info "新しいネームスペース '$registry_namespace' を作成しました" >&2
+            else
+                log_error "新しいネームスペースの作成に失敗しました" >&2
+                return 1
+            fi
+        fi
     else
-        # 指定されたネームスペースが存在するか確認
-        if ! echo "$existing_namespaces" | grep -q "^${registry_namespace}$"; then
-            log_error "指定されたネームスペース '$registry_namespace' が見つかりません" >&2
+        # 環境変数で指定されたネームスペースを使用（優先）
+        if [ -n "$existing_namespaces" ] && ! echo "$existing_namespaces" | grep -q "^${registry_namespace}$"; then
+            log_warn "指定されたネームスペース '$registry_namespace' が見つかりません" >&2
             echo "利用可能なネームスペース:" >&2
             echo "$existing_namespaces" >&2
-            return 1
+            log_warn "それでも指定されたネームスペースを使用します" >&2
         fi
-        log_info "ネームスペース '$registry_namespace' を使用します" >&2
+        log_info "環境変数で指定されたネームスペース '$registry_namespace' を使用します" >&2
     fi
     
     echo "$registry_namespace"

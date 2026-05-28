@@ -38,32 +38,9 @@
 
     **このハンズオンでの工夫**: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）
 
-#### ステップ 1: プロジェクトフォルダを作成
+#### ステップ 1: Vector Search Builder（Building Block）をインストール
 
-新しいフォルダを作成します。
-
-- **フォルダ名**: **`vector-search-handson`**
-- **場所**: デスクトップ推奨
-
-=== ":fontawesome-brands-apple: Mac"
-    **GUI**: Finder でデスクトップを開き、右クリック →「新規フォルダ」
-    
-    **ターミナル**:
-    ```bash
-    mkdir ~/Desktop/vector-search-handson
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    **GUI**: エクスプローラーでデスクトップを開き、右クリック →「新規作成」→「フォルダー」
-    
-    **ターミナル**:
-    ```bash
-    mkdir %USERPROFILE%\Desktop\vector-search-handson
-    ```
-
-#### ステップ 2: Vector Search Builder（Building Block）をインストール
-
-1. 配布された **`vector-search-builder.zip`** をプロジェクトフォルダにコピー
+1. 配布された **`vector-search-builder.zip`** をデスクトップにコピー
 
 2. zip ファイルを解凍
 
@@ -72,7 +49,7 @@
         
         **ターミナル**:
         ```bash
-        cd ~/Desktop/vector-search-handson
+        cd ~/Desktop
         unzip vector-search-builder.zip
         ```
 
@@ -83,18 +60,21 @@
         
         **ターミナル**:
         ```bash
-        cd %USERPROFILE%\Desktop\vector-search-handson
+        cd %USERPROFILE%\Desktop
         tar -xf vector-search-builder.zip
         ```
 
-3. **`.bob`** フォルダが作成されていることを確認
+3. **`vector-search-builder`** フォルダが作成され、その中に **`.bob`** フォルダがあることを確認
+
+!!! warning "重要"
+    `.bob` フォルダはプロジェクトフォルダ（このハンズオンでは `vector-search-builder`）の直下に配置する必要があります。
 
 ??? info "vector-search-builder.zip の内容"
     **`vector-search-builder.zip`** には、以下が含まれています:
 
     **Building Blocks**:
 
-    - **`.bob/modes/`**: Vector Search Builder モード定義（IBM 提供）
+    - **`.bob/`**: Vector Search Builder モード定義
 
     **このハンズオンで追加したもの**:
 
@@ -106,45 +86,27 @@
 ??? tip "Building Blocks のインストール方法"
     通常、Building Blocks は以下の方法でインストールします:
 
-    - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/modes/`
-    - **プロジェクトローカル**: `.bob/modes/`（このハンズオンの方法）
+    - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/`
+    - **プロジェクトローカル**: `.bob/`（このハンズオンの方法）
 
     このハンズオンでは、プロジェクトローカルにインストールすることで、環境を汚さず、簡単にクリーンアップできます。
 
-#### ステップ 3: IBM Bob でプロジェクトを開く
+#### ステップ 2: IBM Bob で `vector-search-builder` フォルダを開く
 
 1. IBM Bob を起動
 
-2. プロジェクトフォルダを開く
+2. `vector-search-builder` フォルダを開く
 
     === ":fontawesome-brands-apple: Mac"
-        **GUI**: <kbd>File</kbd> → <kbd>Open Folder</kbd> でプロジェクトフォルダを選択
-        
-        **ターミナル**:
-        ```bash
-        code ~/Desktop/vector-search-handson
-        ```
+        **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder` フォルダを選択、または <kbd>⌘</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
 
     === ":fontawesome-brands-windows: Windows"
-        **GUI**: <kbd>File</kbd> → <kbd>Open Folder</kbd> でプロジェクトフォルダを選択
-        
-        **ターミナル**:
-        ```bash
-        code %USERPROFILE%\Desktop\vector-search-handson
-        ```
+        **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder` フォルダを選択、または <kbd>Ctrl</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
 
-3. IBM Bob をリロード
+3. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認し、選択
 
-    === ":fontawesome-brands-apple: Mac"
-        <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
-
-    === ":fontawesome-brands-windows: Windows"
-        <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
-
-4. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認
-
-!!! success "Building Blocks モードの認識"
-    IBM Bob が `.bob/modes/` フォルダを検出し、Vector Search Builder モードを自動的に読み込みます。
+!!! success "Building Blocks 専用カスタムモードの認識"
+    IBM Bob が `.bob/` フォルダを検出し、Building Blocks 専用カスタムモード（このハンズオンでは Vector Search Builder モード）を自動的に読み込みます。
 
     このモードにより、IBM Bob は以下を理解します:
 
@@ -243,9 +205,8 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
     対処法:
     
     1. **`.bob`** フォルダが存在するか確認
-    2. IBM Bob をリロード（**Cmd+Shift+P** / **Ctrl+Shift+P** →「Reload Window」）
+    2. IBM Bob をリロード（:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」）
     3. プロジェクトフォルダを開き直す
-    4. 講師に相談
 
 ??? question "Q2: 接続情報をどこに入力すればいいか分からない"
 
@@ -253,7 +214,6 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
     
     1. プロジェクトフォルダ内の **`setup/participant`** フォルダを開く
     2. **`.env`** ファイルを探す（見つからない場合は **`.env.example`** をコピー）
-    3. 講師に画面を見せて確認してもらう
 
 ## 次のステップ
 

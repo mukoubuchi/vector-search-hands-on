@@ -26,15 +26,26 @@ ibmcloud plugin install container-registry
 # SSO でログイン
 ibmcloud login --sso
 
-# リージョン選択（東京）
-ibmcloud target -r jp-tok
-
-# リソースグループ確認
-ibmcloud resource groups
-
-# リソースグループ設定（TechZone 環境の例）
-ibmcloud target -g itz-wxd-6a08d26e2b7a7a1e72c97a
+# アカウント選択（初回のみ）
+# 複数のアカウントがある場合、使用するアカウントを選択してください
+# 例: TechZone 環境の場合は該当する番号を入力
 ```
+
+> [!IMPORTANT]
+> **初回実行時の注意**
+>
+> `ibmcloud login --sso`実行後、複数のアカウントがある場合はアカウント選択を求められます:
+> ```
+> アカウントを選択:
+> 1. Personal Account
+> 2. IBM - ISE Cloud
+> 3. watsonx-events
+> 数値を入力してください>
+> ```
+> 使用するアカウントの番号を入力してください。
+>
+> ログイン後、デプロイスクリプトを実行してください。
+> リソースグループは自動的に選択されます（TechZone環境の場合は`itz-`で始まるリソースグループが優先されます）。
 
 ### 3. デプロイ実行
 
@@ -162,9 +173,46 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 
 ### TechZone 環境
 
-- Container Registry の既存ネームスペース（`cr-itz-*`）が自動検出されます
-- リソースグループ（`itz-*`）が優先的に選択されます
-- 環境を再予約すると新しいプロジェクトが作成され、**URL が変わります**
+TechZone環境では、Container Registryの既存ネームスペース（`cr-itz-*`）が提供されています。
+
+> [!IMPORTANT]
+> **TechZone 環境でのデプロイ**
+>
+> TechZone環境のContainer Registryポリシーにより、提供されたネームスペースへの書き込み権限が制限されている場合があります。
+>
+> **方法1: 既存ネームスペースを明示的に指定**
+>
+> 環境変数で既存のネームスペースを指定してデプロイを試みます：
+>
+> ```bash
+> # 既存のネームスペース名を確認
+> ibmcloud cr namespace-list
+> # 例: cr-itz-9erb9avb
+>
+> # ネームスペースを指定してデプロイ
+> export REGISTRY_NAMESPACE="cr-itz-9erb9avb"
+> ./deploy-to-code-engine.sh
+> ```
+>
+> **方法2: 個人のIBM Cloudアカウントを使用**
+>
+> 方法1が失敗する場合は、個人アカウントを使用します：
+>
+> ```bash
+> ibmcloud logout
+> ibmcloud login --sso  # 個人アカウントを選択
+> ./deploy-to-code-engine.sh
+> ```
+>
+> **方法3: ローカル配信のみ使用**
+>
+> Code Engineを使用せず、ローカルで配信します：
+>
+> ```bash
+> cd setup/instructor
+> ./start-all.sh
+> # http://localhost:8001 または http://<IP>:8001
+> ```
 
 > [!WARNING]
 > **TechZone 環境再予約時**

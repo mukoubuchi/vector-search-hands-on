@@ -1,3 +1,69 @@
+## 2026年5月28日 15:31 JST - TechZone環境のContainer Registry権限問題の対応
+
+### 作業内容
+
+TechZone環境を再予約した際に、Container Registryへの書き込み権限が制限される問題に対応しました。
+
+### 問題の原因
+
+TechZone環境のポリシー変更により、Container Registryへの書き込み権限が制限されるようになりました：
+- ポリシー: "Container Registry Policy Provided - You must create your own namespaces."
+- しかし、実際にはネームスペースの作成・書き込み権限もない
+- 以前は動作していたが、環境再予約後に制限が適用された
+
+### 主な変更
+
+1. **TechZone環境の自動検出と対応**
+   - `lib/common.sh`: `cr-itz-*`パターンでTechZone環境を検出
+   - 既存のネームスペースを自動的に使用（新規作成は試みない）
+   - 環境変数`REGISTRY_NAMESPACE`での明示的な指定をサポート
+
+2. **Podman/Colimaの自動起動**
+   - `lib/deploy-helpers.sh`: Podmanマシンの自動初期化・起動
+   - Podmanマシンが存在しない場合は`podman machine init`で初期化
+   - Colimaの起動状態を正確に判定し、必要に応じて自動起動
+
+3. **Container Registry設定の改善**
+   - `lib/deploy-helpers.sh`: リージョン確認と設定を追加
+   - ネームスペース一覧の表示（デバッグ用）
+   - 権限エラーの適切な処理（TechZone環境では正常）
+
+4. **Docker認証情報の再設定**
+   - `lib/deploy-helpers.sh`: 既存認証情報のクリアと再ログイン
+   - IBM Cloud OAuthトークンを使用した明示的な認証
+
+5. **詳細なエラーメッセージと解決方法**
+   - `lib/deploy-helpers.sh`: プッシュ失敗時の詳細なガイダンス
+   - 3つの解決方法を提示（個人アカウント、ローカル配信、権限依頼）
+
+6. **ドキュメントの更新**
+   - `setup/instructor/deploy-docs-to-cloud.md`: TechZone環境の制限を文書化
+   - 3つの方法を明確に記載（既存ネームスペース指定、個人アカウント、ローカル配信）
+   - `README.md`: クイックスタートガイドの更新
+
+### 変更ファイル
+
+- `lib/common.sh`: TechZone環境の自動検出とネームスペース選択ロジック
+- `lib/deploy-helpers.sh`: Podman/Colima自動起動、Container Registry設定改善、エラーメッセージ改善
+- `setup/instructor/deploy-docs-to-cloud.md`: TechZone環境の制限と解決方法を文書化
+- `README.md`: IBM Cloudログイン手順とPodman/Colima自動起動について明記
+- `deploy-to-code-engine.sh`: イメージ名更新処理の追加
+
+### 成果
+
+- TechZone環境を自動検出し、適切なネームスペースを使用
+- Podman/Colimaが起動していない場合でも自動的に起動
+- Container Registryへの書き込み権限がない場合、明確なエラーメッセージと解決方法を提示
+- ユーザーが迷わないよう、各ステップで必要な操作を明示
+
+### 結論
+
+TechZone環境では、Container Registryへの書き込み権限が制限されているため、Code Engineへのデプロイには個人のIBM Cloudアカウントを使用するか、ローカル配信のみを使用する必要があります。スクリプトは適切にエラーを検出し、解決方法を提示します。
+
+**完了日時**: 2026年5月28日 15:31 JST
+
+---
+
 ## 2026年5月28日 00:37 JST - ドキュメント全体の大幅改訂
 
 ### 作業内容

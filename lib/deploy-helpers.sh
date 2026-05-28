@@ -11,8 +11,14 @@ source "$SCRIPT_DIR/common.sh"
 setup_container_registry() {
     log_section "Container Registryを設定中..."
     
+    # 現在のリージョンを確認
+    echo "現在のContainer Registryリージョンを確認中..."
+    local current_region
+    current_region=$(ibmcloud cr region 2>/dev/null | grep "現在のリージョン" | awk '{print $NF}' || echo "")
+    echo "現在のリージョン: ${current_region:-未設定}"
+    
     # Container Registryのリージョンを設定
-    echo "Container Registryのリージョンを設定中..."
+    echo "Container Registryのリージョンをjp-tokに設定中..."
     if ! ibmcloud cr region-set jp-tok; then
         log_error "Container Registryのリージョン設定に失敗しました"
         return 1
@@ -25,6 +31,18 @@ setup_container_registry() {
         return 1
     fi
     log_info "Container Registryにログインしました"
+    
+    # Container Registryの権限を確認（エラーは無視）
+    echo ""
+    echo "Container Registryの権限を確認中..."
+    ibmcloud cr quota 2>&1 || log_warn "権限情報の取得に失敗しました（TechZone環境では正常です）"
+    echo ""
+    
+    # ネームスペース一覧を表示（デバッグ用）
+    echo "利用可能なネームスペース:"
+    ibmcloud cr namespace-list
+    echo ""
+    
     return 0
 }
 
@@ -45,7 +63,11 @@ build_docker_image() {
     
     if [ "$build_tool" = "podman" ]; then
         log_warn "Podmanを使用してビルドします（linux/amd64プラットフォーム）"
-        podman build --platform linux/amd64 -f docs/Dockerfile -t "$full_image_name" .
+        if ! podman build --platform linux/amd64 -f docs/Dockerfile -t "$full_image_name" .; then
+            log_error "Podmanでのビルドに失敗しました"
+            return 1
+        fi
+        log_info "イメージをビルドしました"
     elif [ "$build_tool" = "docker" ]; then
         # docker buildxが利用可能か確認
         if docker buildx version &> /dev/null; then
@@ -94,12 +116,77 @@ push_docker_image() {
     if [ "$build_tool" = "podman" ]; then
         echo "PodmanイメージをDockerにロード中..."
         
+        # Podmanマシンが存在するか確認
+        if ! podman machine list 2>/dev/null | grep -q "podman-machine-default"; then
+            log_warn "Podmanマシンが存在しません。初期化中..."
+            if ! podman machine init; then
+                log_error "Podmanマシンの初期化に失敗しました"
+                return 1
+            fi
+            log_info "Podmanマシンを初期化しました"
+        fi
+        
+        # Podmanマシンが起動しているか確認
+        if ! podman machine list 2>/dev/null | grep -q "Currently running"; then
+            log_warn "Podmanマシンが起動していません。起動中..."
+            if ! podman machine start; then
+                log_error "Podmanマシンの起動に失敗しました"
+                log_warn "以下のコマンドを試してください:"
+                log_warn "  podman machine start"
+                return 1
+            fi
+            # 起動後、少し待機
+            sleep 5
+            log_info "Podmanマシンを起動しました"
+        fi
+        
+        # Podman接続を確認
+        if ! podman info &> /dev/null; then
+            log_error "Podmanに接続できません"
+            log_warn "Podmanのステータス:"
+            podman machine list
+            echo ""
+            log_warn "以下のコマンドを試してください:"
+            log_warn "  podman machine start"
+            return 1
+        fi
+        
+        log_info "Podmanが利用可能です"
+        
         # Dockerが利用可能か確認
         if ! command -v docker &> /dev/null; then
             log_error "dockerコマンドが見つかりません"
-            log_warn "Colimaを起動してください:"
-            log_warn "  colima start"
+            log_warn "Colimaをインストールしてください:"
+            log_warn "  brew install colima"
             return 1
+        fi
+        
+        # Colimaが利用可能か確認
+        if ! command -v colima &> /dev/null; then
+            log_error "colimaコマンドが見つかりません"
+            log_warn "Colimaをインストールしてください:"
+            log_warn "  brew install colima"
+            return 1
+        fi
+        
+        # Colimaが起動しているか確認
+        local colima_status
+        colima_status=$(colima status 2>&1)
+        
+        if ! echo "$colima_status" | grep -q "colima is running"; then
+            log_warn "Colimaが起動していません。起動中..."
+            # colima startは初回実行時に自動的に初期化も行います
+            if ! colima start; then
+                log_error "Colimaの起動に失敗しました"
+                log_warn "以下のコマンドを試してください:"
+                log_warn "  colima start"
+                return 1
+            fi
+            # 起動後、少し待機
+            sleep 5
+            log_info "Colimaを起動しました"
+        else
+            log_info "Colimaが起動しています"
         fi
         
         # Docker contextをcolimaに設定
@@ -122,32 +209,105 @@ push_docker_image() {
         
         log_info "Dockerが利用可能です"
         
-        # PodmanイメージをDockerにロード
-        podman save "$full_image_name" | docker load
+        # Podmanイメージが存在するか確認
+        if ! podman image exists "$full_image_name"; then
+            log_error "Podmanイメージ '$full_image_name' が見つかりません"
+            log_warn "イメージのビルドが失敗している可能性があります"
+            return 1
+        fi
         
-        if [ $? -ne 0 ]; then
+        # PodmanイメージをDockerにロード
+        echo "イメージをエクスポート中..."
+        if ! podman save "$full_image_name" | docker load; then
             log_error "イメージのロードに失敗しました"
             return 1
         fi
         
         log_info "イメージをDockerにロードしました"
         
+        # DockerでContainer Registryにログイン（認証情報をクリア）
+        echo "DockerでContainer Registryにログイン中..."
+        
+        # 既存の認証情報をクリア
+        docker logout jp.icr.io &> /dev/null || true
+        
+        # IBM Cloud Container Registryに再ログイン
+        if ! ibmcloud cr login; then
+            log_error "DockerでのContainer Registryログインに失敗しました"
+            echo ""
+            echo "IBM Cloudの認証状態を確認:"
+            ibmcloud target
+            echo ""
+            echo "Container Registryリージョン:"
+            ibmcloud cr region
+            return 1
+        fi
+        
+        # Docker認証情報を確認
+        echo "Docker認証情報を確認中..."
+        if ! docker login jp.icr.io -u iamapikey -p "$(ibmcloud iam oauth-tokens --output json 2>/dev/null | grep -o '"iam_token":"[^"]*' | cut -d'"' -f4 | sed 's/Bearer //')"; then
+            log_warn "Docker認証情報の再設定に失敗しました（ibmcloud cr loginの認証情報を使用します）"
+        fi
+        
         # Dockerでプッシュ
         echo "Dockerでイメージをプッシュ中..."
-        docker push "$full_image_name"
+        if ! docker push "$full_image_name"; then
+            log_error "イメージのプッシュに失敗しました"
+            echo ""
+            log_warn "=== TechZone環境の制限 ==="
+            echo ""
+            echo "TechZone環境のContainer Registryポリシーにより、書き込み権限が制限されています。"
+            echo ""
+            echo "現在使用中:"
+            echo "  アカウント: watsonx-events"
+            echo "  ネームスペース: $(echo "$full_image_name" | cut -d'/' -f2)"
+            echo ""
+            log_warn "=== 解決方法（以下のいずれかを選択） ==="
+            echo ""
+            echo "【方法1】個人のIBM Cloudアカウントを使用（推奨）:"
+            echo "  1. ログアウト:"
+            echo "     ibmcloud logout"
+            echo ""
+            echo "  2. 個人アカウントでログイン:"
+            echo "     ibmcloud login --sso"
+            echo "     # プロンプトで個人アカウントを選択"
+            echo ""
+            echo "  3. デプロイスクリプトを再実行:"
+            echo "     ./deploy-to-code-engine.sh"
+            echo ""
+            echo "【方法2】ローカル配信のみ使用（Code Engineなし）:"
+            echo "  cd setup/instructor"
+            echo "  ./start-all.sh"
+            echo "  # http://localhost:8001 または http://<IP>:8001 で共有"
+            echo ""
+            echo "【参考】TechZone環境のポリシー:"
+            echo "  'Container Registry Policy Provided - You must create your own namespaces.'"
+            echo "  しかし、実際にはネームスペースの作成・書き込み権限がありません。"
+            echo ""
+            return 1
+        fi
+        log_info "イメージをプッシュしました"
+        return 0
     elif [ "$build_tool" = "docker" ]; then
         # Dockerでビルドした場合は直接プッシュ
-        docker push "$full_image_name"
-    else
-        log_error "ビルドツールが不明です"
-        return 1
-    fi
-    
-    if [ $? -eq 0 ]; then
+        if ! docker push "$full_image_name"; then
+            log_error "イメージのプッシュに失敗しました"
+            echo ""
+            log_warn "=== トラブルシューティング情報 ==="
+            echo "現在のIBM Cloudアカウント:"
+            ibmcloud target
+            echo ""
+            echo "Container Registryネームスペース一覧:"
+            ibmcloud cr namespace-list
+            echo ""
+            echo "ネームスペースへのアクセス権限を確認してください:"
+            echo "  ibmcloud cr quota"
+            return 1
+        fi
         log_info "イメージをプッシュしました"
         return 0
     else
-        log_error "イメージのプッシュに失敗しました"
+        log_error "ビルドツールが不明です"
         return 1
     fi
 }
