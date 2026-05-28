@@ -37,6 +37,24 @@ Vector Search Builder モードにより、IBM Bob が以下を提供:
 
 ### 👨‍🏫 講師向け
 
+#### ドキュメント配信方法
+
+**推奨: GitHub Pages（リモート参加者向け）**
+
+```bash
+# 1. GitHub.comにリポジトリを作成し、リモートを変更
+git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-handson.git
+git push -u origin main
+
+# 2. GitHubリポジトリの設定
+# Settings → Pages → Source: "GitHub Actions"を選択
+
+# 3. 自動デプロイ完了後、以下のURLでアクセス可能
+# https://YOUR_USERNAME.github.io/vector-search-handson/
+```
+
+**代替: ローカル配信（同一ネットワーク内）**
+
 ```bash
 # 1. コンテナランタイムを起動
 # 前提条件: 初回起動時のみ `colima start --runtime docker` を実行（5〜10 分程度）
@@ -62,6 +80,10 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 cd setup/instructor
 ./stop-all.sh
 ```
+
+**その他の配信方法:**
+- ngrok（一時的な公開）
+- Cloudflare Tunnel（無料、固定URL）
 
 詳細: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs-to-cloud.md)
 

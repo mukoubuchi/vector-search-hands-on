@@ -2,7 +2,108 @@
 
 ## 概要
 
-リモート参加者がドキュメントにアクセスできるよう、IBM Cloud Code Engine にデプロイします。
+リモート参加者がドキュメントにアクセスできるよう、クラウドにデプロイします。
+
+## 🌐 GitHub Pages（推奨）
+
+### メリット
+- 無料で利用可能
+- HTTPSで安全
+- 設定が簡単
+- 固定URLで安定
+
+### 前提条件
+
+1. GitHub.com（個人アカウント）にリポジトリを作成
+2. ローカルリポジトリのリモートをGitHub.comに変更
+
+```bash
+# 現在のリモートを確認
+git remote -v
+
+# GitHub.comのリポジトリに変更
+git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-handson.git
+
+# プッシュ
+git push -u origin main
+```
+
+### デプロイ手順
+
+#### 方法1: GitHub Actions（自動デプロイ）
+
+1. `.github/workflows/deploy-docs.yml`を作成（既に含まれています）
+
+2. GitHubリポジトリの設定:
+   - `Settings` → `Pages`
+   - `Source`: `GitHub Actions`を選択
+
+3. コミット＆プッシュで自動デプロイ:
+   ```bash
+   git add .
+   git commit -m "Update docs"
+   git push
+   ```
+
+4. デプロイ完了後、以下のURLでアクセス可能:
+   ```
+   https://YOUR_USERNAME.github.io/vector-search-handson/
+   ```
+
+#### 方法2: 手動デプロイ
+
+```bash
+# MkDocsでビルド
+mkdocs build
+
+# gh-pagesブランチにデプロイ
+mkdocs gh-deploy
+```
+
+### 受講者への共有
+
+```
+ハンズオン資料: https://YOUR_USERNAME.github.io/vector-search-handson/
+```
+
+---
+
+## 🔗 ngrok（一時的な公開）
+
+ローカルサーバーを即座に公開したい場合に使用します。
+
+### インストール
+
+```bash
+# macOS
+brew install ngrok
+
+# 認証（無料アカウント登録後）
+ngrok config add-authtoken YOUR_TOKEN
+```
+
+### 使用方法
+
+```bash
+# MkDocsを起動
+cd setup/instructor
+./start-all.sh
+
+# 別のターミナルでngrokを起動
+ngrok http 8001
+```
+
+出力されたURLを受講者に共有:
+```
+Forwarding: https://xxxx-xx-xx-xx-xx.ngrok-free.app -> http://localhost:8001
+```
+
+> [!WARNING]
+> 無料版のngrokはセッションごとにURLが変わります。
+
+---
+
+## ☁️ IBM Cloud Code Engine（非推奨）
 
 ## 🚀 クイックスタート（5 分）
 

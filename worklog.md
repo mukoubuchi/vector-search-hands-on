@@ -1,3 +1,54 @@
+## 2026年5月28日 15:50 JST - GitHub Pagesによるドキュメント配信を追加
+
+### 作業内容
+
+Code Engineの制限を回避するため、GitHub Pagesを使用したドキュメント配信方法を追加しました。
+
+### 追加した配信方法
+
+1. **GitHub Pages（推奨）**
+   - 無料、HTTPS、固定URL
+   - GitHub Actionsによる自動デプロイ
+   - URL: `https://username.github.io/vector-search-handson/`
+
+2. **ngrok（一時的な公開）**
+   - ローカルサーバーを即座に公開
+   - 無料版はURLが毎回変わる
+
+3. **ローカル配信（既存）**
+   - 同一ネットワーク内でのみアクセス可能
+   - URL: `http://<IP>:8001`
+
+### 主な変更
+
+1. **GitHub Actionsワークフロー**
+   - `.github/workflows/deploy-docs.yml`: MkDocsの自動ビルド＆デプロイ
+   - `docs/**`または`mkdocs.yml`の変更時に自動実行
+   - `gh-deploy`コマンドでgh-pagesブランチにデプロイ
+
+2. **ドキュメントの更新**
+   - `setup/instructor/deploy-docs-to-cloud.md`: GitHub Pagesの設定手順を追加
+   - ngrokの使用方法も追加
+   - Code Engineは「非推奨」セクションに移動
+
+3. **README.mdの更新**
+   - GitHub Pagesを推奨方法として明記
+   - ローカル配信を代替方法として記載
+   - その他の配信方法（ngrok、Cloudflare Tunnel）も言及
+
+### 前提条件
+
+GitHub Pagesを使用するには：
+1. GitHub.com（個人アカウント）にリポジトリを作成
+2. ローカルリポジトリのリモートをGitHub.comに変更
+3. GitHubリポジトリの設定で`Pages`→`Source: GitHub Actions`を選択
+
+### 変更ファイル
+
+- `.github/workflows/deploy-docs.yml`: GitHub Actionsワークフロー（新規作成）
+- `setup/instructor/deploy-docs-to-cloud.md`: GitHub Pagesとngrokの手順を追加
+- `README.md`: GitHub Pagesを推奨方法として追加
+
 ## 2026年5月28日 15:41 JST - Code Engineデプロイの制限を文書化
 
 ### 作業内容
