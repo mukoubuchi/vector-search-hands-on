@@ -1,3 +1,54 @@
+## 2026年5月28日 23:05 JST - vector-search-builder.zipから不要ファイルを完全除外
+
+### 作業内容
+
+受講者配布用のvector-search-builder.zipから、ハンズオンに不要なファイルを完全に除外しました。
+
+### 実施した対応
+
+1. **ハンズオン内容の精査**
+   - docs/preparation.md、part1.md、part2.md、part3.mdを確認
+   - 受講者が実際に使用するファイルを特定
+   - 不要なファイルをリストアップ
+
+2. **除外したファイル**
+   - `.bob/rules/rules.md`: worklog記載ルール（受講者に不要）
+   - `setup/participant/.env`: 機密情報を含む可能性（配布すべきでない）
+
+3. **含まれるファイル（13ファイル）**
+   
+   **Building Blocks:**
+   - `.bob/custom_modes.yaml`: Vector Search Builderモード定義
+   - `.bob/rules-vector-search-builder/`: モード用ルール（3ファイル）
+   
+   **受講者用ファイル:**
+   - `setup/participant/app.py`: デモアプリケーション
+   - `setup/participant/insert_sample_data.py`: サンプルデータ投入
+   - `setup/participant/test_connection.py`: 接続テスト
+   - `setup/participant/test_embeddings_hf.py`: 埋め込みモデルテスト
+   - `setup/participant/requirements.txt`: Pythonパッケージリスト
+   - `setup/participant/.env.example`: 環境変数テンプレート
+   - `setup/participant/fix_numpy_issue.sh`: NumPy問題修正
+
+4. **zipファイルの再作成**
+   ```bash
+   zip -r vector-search-builder.zip \
+     .bob/custom_modes.yaml \
+     .bob/rules-vector-search-builder/ \
+     setup/participant/ \
+     -x "setup/participant/.env"
+   ```
+
+### 成果
+
+- 受講者に不要なファイルを完全除外
+- 配布パッケージのクリーン化
+- セキュリティリスクの低減（.envファイル除外）
+- ファイル数: 15 → 13（2ファイル削減）
+- ファイルサイズ: 82,842バイト → 79,630バイト
+
+**完了日時**: 2026年5月28日 23:05 JST
+
 ## 2026年5月28日 22:58 JST - requirements.txtを必要最小限に整理
 
 ### 作業内容
