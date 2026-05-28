@@ -1,3 +1,33 @@
+## 2026年5月28日 22:18 JST - app.pyの配置変更とzip構成の最適化
+
+### 作業内容
+
+配布用zipファイルの構成を最適化し、app.pyをsetup/participant/に移動しました。
+
+### 実施した対応
+
+1. **app.pyの移動**
+   - ルートディレクトリから`setup/participant/`に移動
+   - `.env`ファイルの読み込みパスを相対パスに変更
+
+2. **vector-search-builder.zipの再構成**
+   - 講師用ファイル（`setup/instructor/`）を除外
+   - 参加者用ファイル（`setup/participant/`）のみを含める
+   - `.env`ファイルを除外（`.env.example`のみ含める）
+   - セキュリティとプライバシーの向上
+
+3. **ドキュメントの更新**
+   - `docs/part1.md`: app.py起動コマンドを`cd setup/participant && python app.py`に変更
+   - `setup/participant/insert_sample_data.py`: 出力メッセージを更新
+
+### 成果
+
+- 配布用zipファイルが参加者に必要なファイルのみを含む
+- 講師の環境設定（`.env`）が配布されない
+- 参加者は`setup/participant/`ディレクトリで作業を完結できる
+
+**完了日時**: 2026年5月28日 22:18 JST
+
 ## 2026年5月28日 22:05 JST - app.pyとサンプルデータ投入スクリプトの追加
 
 ### 作業内容
