@@ -44,7 +44,7 @@
 
 2. zip ファイルを解凍
 
-    === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+    === ":fontawesome-brands-apple: Mac"
         **GUI**: ダブルクリック
         
         **ターミナル**:
@@ -97,7 +97,7 @@
 
 2. `vector-search-builder` フォルダを開く
 
-    === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+    === ":fontawesome-brands-apple: Mac"
         **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder` フォルダを選択、または <kbd>⌘</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
 
     === ":fontawesome-brands-windows: Windows"
@@ -127,7 +127,7 @@
     
     2. **`.env.example`** をコピーし、コピーしたファイル名を **`.env`** に変更
         
-        === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+        === ":fontawesome-brands-apple: Mac"
             **GUI**: Finder で `.env.example` を右クリック →「複製」→ ファイル名を `.env` に変更
             
             **ターミナル**:
@@ -164,7 +164,7 @@
 
     4. ファイルを保存
     
-        === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+        === ":fontawesome-brands-apple: Mac"
             <kbd>Cmd</kbd> + <kbd>S</kbd>
 
         === ":fontawesome-brands-windows: Windows"
