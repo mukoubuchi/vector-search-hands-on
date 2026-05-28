@@ -19,7 +19,7 @@ python-dotenv==1.0.0
 # === 依存関係（自動インストールされるが明示） ===
 
 # PyMilvus の依存関係
-grpcio>=1.60.0
+# grpcio>=1.60.0  # pymilvusが必要とするバージョンを自動インストール
 
 # Sentence Transformers の依存関係
 transformers>=4.41.0
