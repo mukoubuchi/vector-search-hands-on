@@ -48,7 +48,6 @@ nav:
   - Part 2 - 高度な検索機能: part2.md
   - Part 3 - 実践的な応用: part3.md
   - まとめ: summary.md
-  - よくある質問: faq.md
 
 # Markdown拡張機能
 markdown_extensions:
