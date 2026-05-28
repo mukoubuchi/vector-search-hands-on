@@ -1,3 +1,25 @@
+## 2026年5月28日 16:22 JST - GitHub Pagesの制限事項を文書化
+
+### 作業内容
+
+GitHub Pagesの利用制限（Publicリポジトリが必要）を文書化しました。
+
+### GitHub Pagesの制限
+
+- **無料アカウント**: リポジトリを**Public**にする必要がある
+- **GitHub Pro/Team/Enterprise**: Privateリポジトリでも利用可能
+
+### 対応
+
+ハンズオン資料を公開したくない場合の代替手段を明記：
+1. ngrok（一時的な公開）
+2. ローカル配信（同一ネットワーク内）
+
+### 変更ファイル
+
+- `setup/instructor/deploy-docs-to-cloud.md`: GitHub Pagesの制限事項を追加
+- `README.md`: Publicリポジトリが必要であることを明記
+
 ## 2026年5月28日 15:50 JST - GitHub Pagesによるドキュメント配信を追加
 
 ### 作業内容

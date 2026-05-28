@@ -41,8 +41,10 @@ Vector Search Builder モードにより、IBM Bob が以下を提供:
 
 **推奨: GitHub Pages（リモート参加者向け）**
 
+> **注意**: 無料アカウントではリポジトリを**Public**にする必要があります
+
 ```bash
-# 1. GitHub.comにリポジトリを作成し、リモートを変更
+# 1. GitHub.comにPublicリポジトリを作成し、リモートを変更
 git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-handson.git
 git push -u origin main
 

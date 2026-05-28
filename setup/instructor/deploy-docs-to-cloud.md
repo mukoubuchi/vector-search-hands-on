@@ -12,9 +12,19 @@
 - 設定が簡単
 - 固定URLで安定
 
+### 制限事項
+
+> [!IMPORTANT]
+> **GitHub Pagesの制限**
+>
+> - **無料アカウント**: リポジトリを**Public**にする必要があります
+> - **GitHub Pro/Team/Enterprise**: Privateリポジトリでも利用可能
+>
+> ハンズオン資料を公開したくない場合は、ngrokまたはローカル配信を使用してください。
+
 ### 前提条件
 
-1. GitHub.com（個人アカウント）にリポジトリを作成
+1. GitHub.com（個人アカウント）にリポジトリを作成（**Public**）
 2. ローカルリポジトリのリモートをGitHub.comに変更
 
 ```bash
