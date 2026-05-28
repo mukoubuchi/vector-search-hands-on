@@ -1,3 +1,145 @@
+## 2026年5月28日 18:22 JST - NumPyバージョン不整合エラーの修正
+
+### 作業内容
+
+Milvus接続テスト実行時に発生した「numpy.dtype size changed, may indicate binary incompatibility」エラーを修正しました。
+
+### 問題の詳細
+
+**エラーメッセージ**:
+```
+numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject
+```
+
+**原因**:
+- `pymilvus==2.3.4`と現在インストールされているNumPyのバージョン間でバイナリ互換性の問題が発生
+- NumPyのバージョンが不適切な順序でインストールされた可能性
+
+### 実施した対応
+
+1. **requirements.txtの更新**
+   - NumPyを明示的に先頭に追加し、バージョン範囲を指定
+   - `numpy>=1.24.0,<2.0.0`を追加
+   - これによりNumPyが他のパッケージより先にインストールされ、互換性が保証される
+
+2. **修正スクリプトの作成**
+   - [`setup/participant/fix_numpy_issue.sh`](setup/participant/fix_numpy_issue.sh)を作成
+   - 以下の処理を自動化:
+     - 既存のpymilvusとnumpyのアンインストール
+     - pipキャッシュのクリア
+     - requirements.txtからの再インストール
+     - インストール確認
+
+3. **実行権限の付与**
+   - スクリプトに実行権限を付与
+
+### 修正内容
+
+**setup/participant/requirements.txt**:
+```python
+# NumPy (バイナリ互換性のため先にインストール)
+numpy>=1.24.0,<2.0.0
+
+# Milvus クライアント
+pymilvus==2.3.4
+```
+
+**修正スクリプト**:
+```bash
+cd setup/participant
+./fix_numpy_issue.sh
+```
+
+### 使用方法
+
+参加者は以下のコマンドで問題を修正できます:
+
+```bash
+cd setup/participant
+./fix_numpy_issue.sh
+python test_connection.py
+```
+
+### 成果
+
+- NumPyバージョン不整合エラーの根本原因を特定
+- [`requirements.txt`](setup/participant/requirements.txt)を更新してNumPyを明示的に管理
+- 自動修正スクリプト[`fix_numpy_issue.sh`](setup/participant/fix_numpy_issue.sh)を作成
+- 参加者が簡単に問題を解決できる手順を提供
+
+**完了日時**: 2026年5月28日 18:22 JST
+
+## 2026年5月28日 18:06 JST - Code EngineとPodman machine記述の徹底調査
+
+### 作業内容
+
+プロジェクト全体を徹底的に調査し、Code EngineとPodman machineに関する記述が完全に削除されていることを確認しました。
+
+### 実施した対応
+
+1. **全ファイルタイプの検索**
+   - Markdownファイル（*.md）
+   - シェルスクリプト（*.sh）
+   - YAML/JSON設定ファイル（*.yml, *.yaml, *.json）
+   - Pythonファイル（*.py）
+   - テキストファイル（*.txt）
+   - .bobディレクトリ内のファイル
+   - .gitignoreファイル
+
+2. **検索パターン**
+   - `(?i)(code.?engine|podman.?machine)`: Code EngineとPodman machineの全バリエーション
+   - `(?i)(ibm.?cloud|container.?registry|icr\.io)`: 関連する可能性のある用語
+
+### 調査結果
+
+**worklogを除外した場合**:
+- ✅ Code Engineへの言及: 0件
+- ✅ Podman machineへの言及: 0件
+- ✅ IBM Cloud/Container Registryへの言及: 3件（将来の拡張機能「IBM Cloud Object Storage との連携」のみ）
+
+**確認したファイル**:
+- `README.md`: IBM Cloud Object Storageへの言及のみ（将来の拡張機能）
+- `docs/preparation.md`: IBM Cloud Object Storageへの言及のみ（将来の拡張機能）
+- `docs/index.md`: IBM Cloud Object Storageへの言及のみ（将来の拡張機能）
+- その他すべてのファイル: Code Engine/Podman machine関連の記述なし
+
+### 成果
+
+- Code EngineとPodman machineに関する記述が完全に削除されていることを確認
+- IBM Cloud Object Storageへの言及は将来の拡張機能として適切に残されている
+- プロジェクトがローカル環境とGitHub Pages/ngrokに完全に移行完了
+
+**完了日時**: 2026年5月28日 18:06 JST
+
+## 2026年5月28日 18:03 JST - instructor-shareからCode Engine記述を削除
+
+### 作業内容
+
+instructor-share関連ファイルに残っていたCode Engineへの言及を削除しました。
+
+### 実施した対応
+
+1. **setup/instructor/instructor-share-info.mdの更新**
+   - 82-90行目: Code Engineデプロイ手順のセクションを削除
+   - 101-152行目: ドキュメントURL配信方法の説明を簡素化
+     - 「オプション1/2」の構造を削除
+     - ローカルネットワーク共有のみに集約
+   - 196-223行目: リモート/ハイブリッド開催用の案内文を削除
+   - 234行目: 講師チェックリストからCode Engineデプロイ項目を削除
+   - 432-435行目: 環境依存情報からCode Engine URLの記述を削除
+
+2. **docs/index.mdの更新**
+   - 104行目: `deploy-to-code-engine.sh`への言及を削除
+   - 128行目: Code Engineデプロイの記述をGitHub Pages/ngrokに変更
+
+### 成果
+
+- instructor-share関連ファイルからCode Engine記述を完全に削除
+- ドキュメント配信方法をローカルネットワーク共有とGitHub Pages/ngrokに統一
+- 講師用ガイドがよりシンプルで分かりやすくなった
+
+**完了日時**: 2026年5月28日 18:03 JST
+
 ## 2026年5月28日 17:56 JST - GitHub Pages移行に伴うリファクタリング
 
 ### 作業内容

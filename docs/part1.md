@@ -79,7 +79,7 @@ Vector Search は「意味」を理解して検索します。
 
 ターミナルに以下を入力して Enter:
 
-=== ":fontawesome-brands-apple: Mac"
+=== ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
     ```bash
     cd setup/participant
     ```
@@ -143,6 +143,7 @@ Milvus & 埋め込みモデル 接続テスト
 1. **`.env`** ファイルを確認
     - `MILVUS_HOST` に講師から配布された IP アドレスが正しく入力されているか確認（[:material-cog: 設定方法](preparation.md#milvus_host)）
 2. インターネット接続を確認
+3. その他のエラーについては、[FAQ](#faq)を参照してください
 
 ## ステップ 3: Vector Search を体験
 
@@ -294,12 +295,40 @@ INFO:     Uvicorn running on http://localhost:8000
 
 ## FAQ
 
-??? question "Q1: 接続テストが失敗する"
+??? question "Q1: 「numpy.dtype size changed」エラーが発生する"
 
-    対処法:
-    
-    1. **`.env`** ファイルの内容を確認
-    2. インターネット接続を確認
+    **エラーメッセージ**:
+    ```
+    numpy.dtype size changed, may indicate binary incompatibility.
+    Expected 96 from C header, got 88 from PyObject
+    ```
+
+    **原因**: NumPyとpymilvusのバージョン不整合によるバイナリ互換性の問題です。
+
+    **対処法**:
+
+    === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+        ```bash
+        cd setup/participant
+        ./fix_numpy_issue.sh
+        ```
+
+    === ":fontawesome-brands-windows: Windows"
+        ```bash
+        cd setup\participant
+        pip uninstall -y pymilvus numpy
+        pip cache purge
+        pip install -r requirements.txt
+        ```
+
+    **確認**:
+    ```bash
+    python test_connection.py
+    ```
+
+    !!! tip "新規インストールの場合"
+        最初から `pip install -r requirements.txt` を実行する場合は、このエラーは発生しません。
+        修正スクリプトは、既にパッケージをインストール済みでエラーが発生した場合のトラブルシューティング用です。
 
 ??? question "Q2: Swagger UI が開けない"
 

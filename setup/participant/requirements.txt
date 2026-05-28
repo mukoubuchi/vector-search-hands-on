@@ -1,5 +1,8 @@
 # Vector Search ハンズオン 必要パッケージ
 
+# NumPy (バイナリ互換性のため先にインストール)
+numpy>=1.24.0,<2.0.0
+
 # Milvus クライアント
 pymilvus==2.3.4
 

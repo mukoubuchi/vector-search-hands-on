@@ -9,6 +9,54 @@
 
 ## 必要なもの
 
+### 0. Python環境
+
+このハンズオンでは、Python 3.8以上が必要です。
+
+#### Pythonのインストール確認
+
+ターミナルで以下を実行:
+
+```bash
+python --version
+```
+
+または
+
+```bash
+python3 --version
+```
+
+`Python 3.8.x`以上が表示されればOKです。
+
+#### Pythonがインストールされていない場合
+
+=== ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+    **Mac**:
+    
+    1. [Python公式サイト](https://www.python.org/downloads/)からインストーラーをダウンロード
+    2. インストーラーを実行
+    
+    または、Homebrewを使用:
+    ```bash
+    brew install python3
+    ```
+    
+    **Linux**:
+    ```bash
+    sudo apt update
+    sudo apt install python3 python3-pip
+    ```
+
+=== ":fontawesome-brands-windows: Windows"
+    1. [Python公式サイト](https://www.python.org/downloads/)からインストーラーをダウンロード
+    2. インストーラーを実行
+    3. **重要**: 「Add Python to PATH」にチェックを入れる
+
+!!! warning "ハンズオン後のクリーンアップ"
+    このハンズオンでインストールするPythonパッケージは、ハンズオン終了後にアンインストールできます。
+    詳細は[クリーンアップ手順](#cleanup)を参照してください。
+
 ### 1. Vector Search Builder モード
 
 **Vector Search Builder** は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。
@@ -44,7 +92,7 @@
 
 2. zip ファイルを解凍
 
-    === ":fontawesome-brands-apple: Mac"
+    === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
         **GUI**: ダブルクリック
         
         **ターミナル**:
@@ -97,7 +145,7 @@
 
 2. `vector-search-builder` フォルダを開く
 
-    === ":fontawesome-brands-apple: Mac"
+    === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
         **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder` フォルダを選択、または <kbd>⌘</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
 
     === ":fontawesome-brands-windows: Windows"
@@ -115,7 +163,50 @@
     - 埋め込みモデルの統合方法
     - Building Blocks の機能と制約
 
-### 2. 接続情報
+### 2. Pythonパッケージのインストール
+
+必要なPythonパッケージをインストールします。
+
+!!! example "パッケージのインストール"
+
+    1. ターミナルを開く
+        - メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>
+        - または <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）
+
+    2. **`setup/participant`** フォルダに移動
+
+        === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
+            ```bash
+            cd setup/participant
+            ```
+
+        === ":fontawesome-brands-windows: Windows"
+            ```bash
+            cd setup\participant
+            ```
+
+    3. パッケージをインストール
+
+        ```bash
+        pip install -r requirements.txt
+        ```
+
+        !!! info "インストールされるパッケージ"
+            - **pymilvus**: Milvusクライアント
+            - **sentence-transformers**: 埋め込みモデル
+            - **python-dotenv**: 環境変数管理
+            - **numpy**: 数値計算ライブラリ（バージョン管理済み）
+            - その他の依存パッケージ
+
+    4. インストール完了を確認
+
+        エラーなく完了すれば成功です。
+
+!!! warning "ハンズオン後のクリーンアップ"
+    インストールしたパッケージは、ハンズオン終了後にアンインストールできます。
+    詳細は[クリーンアップ手順](#cleanup)を参照してください。
+
+### 3. 接続情報
 
 #### Milvus（ベクトルデータベース）
 
@@ -127,7 +218,7 @@
     
     2. **`.env.example`** をコピーし、コピーしたファイル名を **`.env`** に変更
         
-        === ":fontawesome-brands-apple: Mac"
+        === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
             **GUI**: Finder で `.env.example` を右クリック →「複製」→ ファイル名を `.env` に変更
             
             **ターミナル**:
@@ -164,19 +255,12 @@
 
     4. ファイルを保存
     
-        === ":fontawesome-brands-apple: Mac"
+        === ":fontawesome-brands-apple: Mac / :fontawesome-brands-linux: Linux"
             <kbd>Cmd</kbd> + <kbd>S</kbd>
 
         === ":fontawesome-brands-windows: Windows"
             <kbd>Ctrl</kbd> + <kbd>S</kbd>
-    
-    5. IBM Bob をリロード
-    
-        === ":fontawesome-brands-apple: Mac"
-            <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
 
-        === ":fontawesome-brands-windows: Windows"
-            <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」
 
 #### 埋め込みモデル（テキストを数値に変換する AI）
 
@@ -191,11 +275,13 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
 ## 準備完了チェックリスト
 
 - [ ] IBM Bob がインストールされ、使用できる
+- [ ] Python 3.8以上がインストールされている
 - [ ] プロジェクトフォルダを作成した
 - [ ] **`vector-search-builder.zip`** を解凍した
 - [ ] **`.bob`** フォルダが存在する
 - [ ] IBM Bob でプロジェクトフォルダを開いた
 - [ ] 「Vector Search Builder」モードが表示される
+- [ ] Python パッケージをインストールした（`pip install -r requirements.txt`）
 - [ ] **`setup/participant/.env`** ファイルに接続情報を入力した
 
 ## FAQ
@@ -214,6 +300,7 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
     
     1. プロジェクトフォルダ内の **`setup/participant`** フォルダを開く
     2. **`.env`** ファイルを探す（見つからない場合は **`.env.example`** をコピー）
+
 
 ## 次のステップ
 

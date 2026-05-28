@@ -101,7 +101,6 @@ graph LR
     - **`setup/instructor/`**: 講師用Milvus環境（Docker Compose）
     - **`setup/participant/`**: 受講者用接続テストスクリプト
     - **`docs/`**: ハンズオン用ドキュメント（MkDocs）
-    - **`deploy-to-code-engine.sh`**: リモート配信用デプロイスクリプト
     
     **1. 講師・受講者分離アーキテクチャ**
     
@@ -125,7 +124,7 @@ graph LR
     このハンズオンの工夫:
 
     - **オンサイト**: ローカルネットワーク共有（`http://講師IP:8001`）
-    - **リモート**: Code Engine へのドキュメントデプロイ
+    - **リモート**: GitHub Pages または ngrok によるドキュメント配信
     
     **3. API キー不要の設計**
     

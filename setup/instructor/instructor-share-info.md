@@ -78,17 +78,6 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 # 最初に表示される IP アドレスを使用（例: 10.0.1.5）
 ```
 
-### 3. ドキュメントをクラウドにデプロイ
-
-リモート参加者用に、ドキュメントを Code Engine にデプロイします:
-
-```bash
-cd /path/to/vector-search-hands-on
-./deploy-to-code-engine.sh
-```
-
-詳細は[deploy-docs-to-cloud.md](./deploy-docs-to-cloud.md)を参照。
-
 ---
 
 ## 📋 受講者に共有する情報
@@ -99,11 +88,7 @@ cd /path/to/vector-search-hands-on
 MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 ```
 
-### ドキュメント URL（開催形式により選択）
-
-#### オプション 1: ローカルネットワーク共有（オンサイト開催向け）
-
-##### 適用シーン
+### ドキュメント URL
 
 同じ WiFi/ネットワーク内で開催（オフィス、会議室など）
 
@@ -111,45 +96,20 @@ MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 http://【講師の IP アドレス】:8001  # 例: http://10.0.1.5:8001
 ```
 
-##### メリット
+#### メリット
 
-- Code Engine のデプロイ不要
 - セットアップが簡単（`./start-all.sh`のみ）
 - ネットワーク内で高速アクセス
 
-##### 制約
+#### 制約
 
 - 同じネットワーク内の受講者のみアクセス可能
-
-#### オプション 2: Code Engine（リモート/ハイブリッド開催向け）
-
-##### 適用シーン
-
-リモート参加者がいる、または異なるネットワークからの参加
-
-```
-https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
-```
-
-> [!IMPORTANT]
-> `xxxxx`は環境により異なります。デプロイ後の実際の URL を共有してください。
-
-##### メリット
-
-- インターネット経由でどこからでもアクセス可能（万能）
-- ネットワーク環境に依存しない
-- 複数の開催場所に対応可能
-
-##### 制約
-
-- 事前に Code Engine へのデプロイが必要（[deploy-docs-to-cloud.md](./deploy-docs-to-cloud.md)参照）
 
 > [!IMPORTANT]
 > **重要**
 >
 > - 受講者に共有するのは**IP アドレスとドキュメント URL**のみ
 > - その他の設定（PORT、USER、PASSWORD 等）は`.env.example`に設定済み
-> - TechZone 環境を再予約した場合、URL が変わるため再デプロイが必要
 
 ### 補足: その他の設定値（共有不要）
 
@@ -195,33 +155,6 @@ http://【講師の IP アドレス】:8001  # 例: http://10.0.1.5:8001
 - その他の設定は変更不要（既に正しい値が設定済み）
 ```
 
-### リモート/ハイブリッド開催の場合
-
-以下をコピーして、**【講師の IP アドレス】**と**【Code Engine URL】**を実際の値に置き換えて送信してください。
-
-```text
-【ベクトル検索ハンズオン 接続情報】
-
-■ Milvus 接続情報
-MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
-
-■ ドキュメント URL
-【Code Engine URL】  # 例: https://mkdocs-docs.xxxxx.us-south.codeengine.appdomain.cloud
-
-【セットアップ手順】
-1. vector-search-builder.zip を解凍
-2. IBM Bob IDE でプロジェクトフォルダを開く
-3. setup/participant/.env.example を setup/participant/.env にコピー
-4. setup/participant/.env を開き、MILVUS_HOST だけを上記の IP アドレスに変更
-5. IBM Bob をリロード（Cmd+Shift+P → Developer: Reload Window）
-6. 依存関係をインストール: pip install -r setup/participant/requirements.txt
-7. 接続テスト実行: python setup/participant/test_embeddings_hf.py
-
-【重要】
-- 変更が必要なのは MILVUS_HOST のみ
-- その他の設定は変更不要（既に正しい値が設定済み）
-```
-
 ---
 
 ## ✅ 講師チェックリスト
@@ -231,7 +164,6 @@ MILVUS_HOST=【講師の IP アドレス】  # 例: 10.0.1.5
 - [ ] コンテナランタイム起動（Docker Desktop または `colima start`）
 - [ ] Milvus 環境起動（`./start-all.sh`）
 - [ ] IP アドレス確認
-- [ ] ドキュメントを Code Engine にデプロイ
 - [ ] 接続テスト成功
 
 ### 受講者サポート
@@ -432,7 +364,6 @@ python -m mkdocs serve
 ### 環境依存（毎回確認が必要）
 
 - **講師の IP アドレス**（WiFi 切り替え、有線/無線切り替え、VPN 接続時に変わる）
-- **Code Engine URL**（TechZone 環境再予約時に変わる）
 
 ### ローカル環境（講師側のみ）
 
