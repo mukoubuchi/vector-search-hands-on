@@ -336,35 +336,7 @@ INFO:     Uvicorn running on http://0.0.0.0:8002
 
 ## FAQ
 
-??? question "Q1: 「numpy.dtype size changed」エラーが発生する"
-
-    **エラーメッセージ**:
-    ```
-    numpy.dtype size changed, may indicate binary incompatibility.
-    Expected 96 from C header, got 88 from PyObject
-    ```
-
-    **原因**: NumPyとpymilvusのバージョン不整合によるバイナリ互換性の問題です。
-
-    **対処法**:
-
-    ```bash
-    cd setup/participant
-    pip uninstall -y pymilvus numpy
-    pip cache purge
-    pip install -r requirements.txt
-    ```
-
-    **確認**:
-    ```bash
-    python test_connection.py
-    ```
-
-    !!! tip "新規インストールの場合"
-        最初から `pip install -r requirements.txt` を実行する場合は、このエラーは発生しません。
-        修正スクリプトは、既にパッケージをインストール済みでエラーが発生した場合のトラブルシューティング用です。
-
-??? question "Q2: Swagger UI が開けない"
+??? question "Q1: Swagger UI が開けない"
 
     対処法:
     
@@ -372,7 +344,7 @@ INFO:     Uvicorn running on http://0.0.0.0:8002
     2. URL が正しいか確認（**`http://localhost:8002/docs`**）
     3. ブラウザを変えてみる
 
-??? question "Q3: 検索結果が 0 件"
+??? question "Q2: 検索結果が 0 件"
 
     対処法:
     
