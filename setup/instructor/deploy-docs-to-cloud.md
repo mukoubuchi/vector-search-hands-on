@@ -32,7 +32,7 @@
 git remote -v
 
 # GitHub.comのリポジトリに変更
-git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-handson.git
+git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-hands-on.git
 
 # プッシュ
 git push -u origin main
@@ -57,7 +57,7 @@ git push -u origin main
 
 4. デプロイ完了後、以下のURLでアクセス可能:
    ```
-   https://YOUR_USERNAME.github.io/vector-search-handson/
+   https://YOUR_USERNAME.github.io/vector-search-hands-on/
    ```
 
 #### 方法2: 手動デプロイ
@@ -73,7 +73,7 @@ mkdocs gh-deploy
 ### 受講者への共有
 
 ```
-ハンズオン資料: https://YOUR_USERNAME.github.io/vector-search-handson/
+ハンズオン資料: https://YOUR_USERNAME.github.io/vector-search-hands-on/
 ```
 
 ---
@@ -168,7 +168,7 @@ ibmcloud target -r jp-tok
 ### 3. デプロイ実行
 
 ```bash
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 ./deploy-to-code-engine.sh
 ```
 
@@ -248,7 +248,7 @@ COPY docs/ /docs/docs/
 ドキュメントを更新した場合:
 
 ```bash
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 ./deploy-to-code-engine.sh
 ```
 
@@ -414,7 +414,7 @@ Code Engine が使えない場合:
 ### オプション A: 静的 HTML 配布
 
 ```bash
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 mkdocs build
 zip -r mkdocs-site.zip site/
 ```
@@ -426,7 +426,7 @@ zip -r mkdocs-site.zip site/
 受講者に以下を実行してもらう:
 
 ```bash
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 ./start-docs.sh
 ```
 

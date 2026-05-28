@@ -75,7 +75,7 @@ ibmcloud login --sso
 数値を入力してください> 3
 
 # 3. 既存プロジェクトを指定してデプロイ
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 export CODE_ENGINE_PROJECT="ce-itz-wxd-6a08d26e2b7a7a1e72c97a"
 ./deploy-to-code-engine.sh
 ```
@@ -85,7 +85,7 @@ export CODE_ENGINE_PROJECT="ce-itz-wxd-6a08d26e2b7a7a1e72c97a"
 TechZone 環境内に新しいプロジェクトを作成する場合:
 
 ```bash
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 export CODE_ENGINE_PROJECT="mkdocs-handson-2024"
 ./deploy-to-code-engine.sh
 ```
@@ -127,7 +127,7 @@ ibmcloud ce project list
 #### 3. 再デプロイ
 
 ```bash
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 export CODE_ENGINE_PROJECT="<新しいプロジェクト名>"
 ./deploy-to-code-engine.sh
 ```

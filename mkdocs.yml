@@ -37,8 +37,8 @@ theme:
     code: Roboto Mono
 
 # リポジトリ情報（必要に応じてコメント解除）
-# repo_name: vector-search-handson
-# repo_url: https://github.com/your-org/vector-search-handson
+# repo_name: vector-search-hands-on
+# repo_url: https://github.com/your-org/vector-search-hands-on
 
 # ナビゲーション構造
 nav:

@@ -83,7 +83,7 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 リモート参加者用に、ドキュメントを Code Engine にデプロイします:
 
 ```bash
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 ./deploy-to-code-engine.sh
 ```
 
@@ -315,7 +315,7 @@ docker ps
 
 ```bash
 # プロジェクトルート（mkdocs.yml がある場所）に移動
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 
 # フォアグラウンド実行（ターミナルを占有）
 python -m mkdocs serve
@@ -361,7 +361,7 @@ kill $(lsof -ti:8000)
 pwd
 
 # プロジェクトルートに移動
-cd /path/to/vector-search-handson
+cd /path/to/vector-search-hands-on
 
 # mkdocs.yml の存在を確認
 ls mkdocs.yml

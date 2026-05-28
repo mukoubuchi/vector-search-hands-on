@@ -1,3 +1,47 @@
+## 2026年5月28日 16:35 JST - リポジトリ名を「hands-on」に統一
+
+### 作業内容
+
+リポジトリ名とドキュメント内の参照を「vector-search-handson」から「vector-search-hands-on」に変更しました。
+
+### 変更理由
+
+英語表記として正しい「hands-on」（ハイフン付き）に統一するため。
+
+### 変更ファイル
+
+1. **README.md**
+   - GitHubリポジトリURL: `vector-search-handson` → `vector-search-hands-on`
+   - GitHub Pages URL: `vector-search-handson` → `vector-search-hands-on`
+   - ディレクトリ構造の例: `vector-search-handson/` → `vector-search-hands-on/`
+
+2. **setup/instructor/deploy-docs-to-cloud.md**
+   - GitHubリポジトリURL（7箇所）
+   - パス参照（4箇所）
+
+3. **setup/instructor/techzone-code-engine-guide.md**
+   - パス参照（3箇所）
+
+4. **setup/instructor/instructor-share-info.md**
+   - パス参照（4箇所）
+
+5. **worklog.md**
+   - 最新エントリのGitHub Pages URL
+
+6. **mkdocs.yml**
+   - コメント内のリポジトリ名参照
+
+### 次のステップ
+
+1. 変更をコミット＆プッシュ
+2. GitHub.comでリポジトリ名を変更:
+   - `Settings` → `General` → `Repository name`
+   - `vector-search-handson` → `vector-search-hands-on`
+3. ローカルのリモートURLを更新:
+   ```bash
+   git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-hands-on.git
+   ```
+
 ## 2026年5月28日 16:22 JST - GitHub Pagesの制限事項を文書化
 
 ### 作業内容
@@ -31,7 +75,7 @@ Code Engineの制限を回避するため、GitHub Pagesを使用したドキュ
 1. **GitHub Pages（推奨）**
    - 無料、HTTPS、固定URL
    - GitHub Actionsによる自動デプロイ
-   - URL: `https://username.github.io/vector-search-handson/`
+   - URL: `https://username.github.io/vector-search-hands-on/`
 
 2. **ngrok（一時的な公開）**
    - ローカルサーバーを即座に公開

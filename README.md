@@ -45,14 +45,14 @@ Vector Search Builder モードにより、IBM Bob が以下を提供:
 
 ```bash
 # 1. GitHub.comにPublicリポジトリを作成し、リモートを変更
-git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-handson.git
+git remote set-url origin https://github.com/YOUR_USERNAME/vector-search-hands-on.git
 git push -u origin main
 
 # 2. GitHubリポジトリの設定
 # Settings → Pages → Source: "GitHub Actions"を選択
 
 # 3. 自動デプロイ完了後、以下のURLでアクセス可能
-# https://YOUR_USERNAME.github.io/vector-search-handson/
+# https://YOUR_USERNAME.github.io/vector-search-hands-on/
 ```
 
 **代替: ローカル配信（同一ネットワーク内）**
@@ -263,7 +263,7 @@ Vector Search Builder 以外にも、専用の Bob Mode を持つ Building Block
 ## 📁 ディレクトリ構造
 
 ```
-vector-search-handson/
+vector-search-hands-on/
 ├── .bob/                           # Building Block (Vector Search Builder モード)
 │   └── modes/
 │       └── vector-search-builder/ # IBM Bob カスタムモード定義
