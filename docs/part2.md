@@ -1,4 +1,4 @@
-v# Part 2: IBM Bob で機能を追加しよう
+# Part 2: IBM Bob で機能を追加しよう
 
 このパートでは、IBM Bob を使って、Vector Search アプリケーションに新しい機能を追加します。
 

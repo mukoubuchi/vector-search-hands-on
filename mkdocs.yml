@@ -105,3 +105,5 @@ extra_javascript:
   - javascripts/navigation.js
   - javascripts/tasks.js
   - javascripts/syntax-highlight.js
+
+# Made with Bob

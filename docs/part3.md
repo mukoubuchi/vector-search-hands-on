@@ -241,6 +241,74 @@ IBM Bob が指摘した改善点を確認します。
     2. ファイル名が正しいか確認
     3. IBM Bob を再起動
 
+## ステップ 3: 環境のクリーンアップ
+
+!!! example "実践: インストールしたパッケージをクリーンアップしよう"
+    ハンズオンで使用した Python パッケージをアンインストールして、環境をクリーンアップします。
+
+### クリーンアップの目的
+
+このハンズオンでは、`pip` を使用して複数のパッケージをインストールしました。ハンズオン終了後、これらのパッケージが不要な場合は、環境をクリーンに保つためにアンインストールすることをお勧めします。
+
+### IBM Bob にクリーンアップを依頼
+
+IBM Bob のチャット入力欄に以下を入力:
+
+```text
+setup/participant/requirements.txt に記載されているパッケージをすべてアンインストールして
+```
+
+IBM Bob が以下のコマンドを実行します:
+
+=== ":fontawesome-brands-apple: Mac"
+    ```bash
+    pip3 uninstall -y -r setup/participant/requirements.txt
+    ```
+
+=== ":fontawesome-brands-windows: Windows"
+    ```bash
+    pip uninstall -y -r setup/participant/requirements.txt
+    ```
+
+!!! info "アンインストールされるパッケージ"
+    以下のパッケージがアンインストールされます:
+    
+    - pymilvus
+    - sentence-transformers
+    - torch
+    - python-dotenv
+    - pandas
+    - scikit-learn
+    - langchain
+    - langchain-community
+    - tqdm
+    - その他の依存パッケージ
+
+??? tip "手動でアンインストールする場合"
+    IBM Bob を使わずに手動でアンインストールする場合は、ターミナルで以下を実行:
+    
+    === ":fontawesome-brands-apple: Mac"
+        ```bash
+        cd ~/Desktop/vector-search-builder
+        pip3 uninstall -y -r setup/participant/requirements.txt
+        ```
+    
+    === ":fontawesome-brands-windows: Windows"
+        ```bash
+        cd %USERPROFILE%\Desktop\vector-search-builder
+        pip uninstall -y -r setup\participant\requirements.txt
+        ```
+
+??? question "Q: パッケージを残しておきたい場合は？"
+    
+    このハンズオンで学んだ技術を今後も使用する予定がある場合は、パッケージをアンインストールする必要はありません。そのまま残しておいて、次回のプロジェクトで再利用できます。
+
+### クリーンアップ完了チェック
+
+- [ ] IBM Bob にパッケージのアンインストールを依頼した
+- [ ] アンインストールが正常に完了した
+- [ ] 環境がクリーンになった
+
 ## 次のステップ
 
 Part 3 が完了したら、[まとめ](summary.md)に進みましょう！
