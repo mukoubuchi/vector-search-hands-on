@@ -38,40 +38,27 @@ Vector Search Builder モードにより、IBM Bob が以下を提供:
 ### 👨‍🏫 講師向け
 
 ```bash
-# 1. IBM Cloud にログイン（Code Engine デプロイ時のみ必要）
-ibmcloud login --sso
-# ※ 複数アカウントがある場合は使用するアカウントを選択
-# ※ リソースグループは自動的に選択されます
-
-# 2. コンテナランタイムを起動
+# 1. コンテナランタイムを起動
 # 前提条件: 初回起動時のみ `colima start --runtime docker` を実行（5〜10 分程度）
 # 2 回目以降は以下のコマンドのみで OK
 colima start
 
-# 3. Milvus 環境と MkDocs を起動
+# 2. Milvus 環境と MkDocs を起動
 cd setup/instructor
 ./start-all.sh
 
-# 4. アクセス確認
+# 3. アクセス確認
 # - MkDocs: http://localhost:8001 (ローカル修正作業用)
 # - 同一ネットワーク共有: http://<IP アドレス>:8001
 
-# 5. IP アドレス確認
+# 4. IP アドレス確認
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
-# 6. ドキュメントを Code Engine にデプロイ（リモート参加者向け）
-cd ../..
-./deploy-to-code-engine.sh
-# ※ 初回実行時は IBM Cloud ログインが必要です（アカウント選択後に再度実行）
-# ※ Colima が起動していない場合は自動的に起動されます
-# ※ Podman マシンが存在しない場合は自動的に初期化・起動されます
-
-# 7. 受講者に共有
+# 5. 受講者に共有
 # - Milvus: <IP アドレス>:19530 (root/Milvus)
-# - ドキュメント (同一ネットワーク): http://<IP アドレス>:8001
-# - ドキュメント (リモート): Code Engine URL
+# - ドキュメント: http://<IP アドレス>:8001
 
-# 8. ハンズオン終了後、環境を停止
+# 6. ハンズオン終了後、環境を停止
 cd setup/instructor
 ./stop-all.sh
 ```

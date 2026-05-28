@@ -29,6 +29,9 @@ ibmcloud login --sso
 # アカウント選択（初回のみ）
 # 複数のアカウントがある場合、使用するアカウントを選択してください
 # 例: TechZone 環境の場合は該当する番号を入力
+
+# リージョンを東京に設定（重要）
+ibmcloud target -r jp-tok
 ```
 
 > [!IMPORTANT]
@@ -44,7 +47,11 @@ ibmcloud login --sso
 > ```
 > 使用するアカウントの番号を入力してください。
 >
-> ログイン後、デプロイスクリプトを実行してください。
+> **リージョン設定が必須:**
+> - ログイン後、必ず`ibmcloud target -r jp-tok`でリージョンを東京に設定してください
+> - デフォルトの`us-south`のままでは、Code Engineが正しく動作しません
+> - Container RegistryとCode Engineの両方が`jp-tok`リージョンを使用します
+>
 > リソースグループは自動的に選択されます（TechZone環境の場合は`itz-`で始まるリソースグループが優先されます）。
 
 ### 3. デプロイ実行
@@ -171,48 +178,36 @@ FROM --platform=linux/amd64 squidfunk/mkdocs-material:latest
 
 これにより、Code Engine（AMD64）で正しく動作するイメージが作成されます。
 
-### TechZone 環境
+### Code Engine デプロイの制限
 
-TechZone環境では、Container Registryの既存ネームスペース（`cr-itz-*`）が提供されています。
-
-> [!IMPORTANT]
-> **TechZone 環境でのデプロイ**
+> [!WARNING]
+> **Code Engineへのデプロイには制限があります**
 >
-> TechZone環境のContainer Registryポリシーにより、提供されたネームスペースへの書き込み権限が制限されている場合があります。
+> 以下の理由により、Code Engineへのデプロイが困難な場合があります：
 >
-> **方法1: 既存ネームスペースを明示的に指定**
+> 1. **TechZone環境**: Container Registryへの書き込み権限が制限されている
+> 2. **個人アカウント**: Code Engineの利用には有料アカウント（クレジットカード登録）が必要
 >
-> 環境変数で既存のネームスペースを指定してデプロイを試みます：
+> **推奨: ローカル配信を使用**
 >
-> ```bash
-> # 既存のネームスペース名を確認
-> ibmcloud cr namespace-list
-> # 例: cr-itz-9erb9avb
->
-> # ネームスペースを指定してデプロイ
-> export REGISTRY_NAMESPACE="cr-itz-9erb9avb"
-> ./deploy-to-code-engine.sh
-> ```
->
-> **方法2: 個人のIBM Cloudアカウントを使用**
->
-> 方法1が失敗する場合は、個人アカウントを使用します：
->
-> ```bash
-> ibmcloud logout
-> ibmcloud login --sso  # 個人アカウントを選択
-> ./deploy-to-code-engine.sh
-> ```
->
-> **方法3: ローカル配信のみ使用**
->
-> Code Engineを使用せず、ローカルで配信します：
+> Code Engineを使用せず、ローカルで配信することを推奨します：
 >
 > ```bash
 > cd setup/instructor
 > ./start-all.sh
-> # http://localhost:8001 または http://<IP>:8001
 > ```
+>
+> **アクセス方法:**
+> - ローカル: http://localhost:8001
+> - 同一ネットワーク: http://<IP>:8001
+>
+> **IP アドレス確認:**
+> ```bash
+> ifconfig | grep "inet " | grep -v 127.0.0.1
+> ```
+>
+> この方法では、同一ネットワーク内の受講者がアクセスできます。
+> リモート参加者がいる場合は、画面共有などの代替手段を検討してください。
 
 > [!WARNING]
 > **TechZone 環境再予約時**
