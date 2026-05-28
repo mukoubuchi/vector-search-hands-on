@@ -1,11 +1,42 @@
 # 事前準備
 
-ハンズオンをスムーズに進めるために、以下の準備を完了してください。
+それでは、ハンズオンの準備から行っていきます。
 
-## 前提条件
+まずは、ターミナル / コマンドプロンプトの開き方を確認してください。
 
-!!! info "前提条件"
-    IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン: IBM Internal Version）。
+!!! tip "ターミナル / コマンドプロンプトの開き方"
+    
+    **IBM Bob でターミナル / コマンドプロンプトを開く**:
+    
+    次のいずれかの方法で開くことができます:
+    
+    - メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>
+    - <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）
+    - 右上のアイコンをクリック、または <kbd>Cmd</kbd> + <kbd>J</kbd>（パネルの切り替え）
+    
+    画面下部に黒い画面（ターミナル / コマンドプロンプト）が表示されます。
+    
+    ---
+    
+    **システムのターミナル / コマンドプロンプトを開く**:
+    
+    === ":fontawesome-brands-apple: Mac"
+        1. <kbd>Cmd</kbd> + <kbd>Space</kbd> で Spotlight を開く
+        2. 「ターミナル」と入力
+        3. <kbd>Enter</kbd> を押す
+        
+        **または**:
+        
+        - アプリケーション → ユーティリティ → ターミナル
+    
+    === ":fontawesome-brands-windows: Windows"
+        1. <kbd>Win</kbd> + <kbd>R</kbd> を押す
+        2. 「cmd」と入力
+        3. <kbd>Enter</kbd> を押す
+        
+        **または**:
+        
+        - スタートメニュー → 「コマンドプロンプト」を検索
 
 ## 必要なもの
 
@@ -47,7 +78,7 @@
     === ":fontawesome-brands-apple: Mac"
         **GUI**: ダブルクリック
         
-        **ターミナル**:
+        **ターミナル / コマンドプロンプト**:
         ```bash
         cd ~/Desktop
         unzip vector-search-builder.zip
@@ -58,7 +89,7 @@
 
         ※ ダブルクリックで開いただけでは展開されないため、「すべて展開」を実行してください
         
-        **ターミナル**:
+        **ターミナル / コマンドプロンプト**:
         ```bash
         cd %USERPROFILE%\Desktop
         tar -xf vector-search-builder.zip
@@ -130,7 +161,7 @@
         === ":fontawesome-brands-apple: Mac"
             **GUI**: Finder で `.env.example` を右クリック →「複製」→ ファイル名を `.env` に変更
             
-            **ターミナル**:
+            **ターミナル / コマンドプロンプト**:
             ```bash
             cd setup/participant
             cp .env.example .env
@@ -139,7 +170,7 @@
         === ":fontawesome-brands-windows: Windows"
             **GUI**: エクスプローラーで `.env.example` を右クリック →「コピー」→「貼り付け」→ ファイル名を `.env` に変更
             
-            **ターミナル**:
+            **ターミナル / コマンドプロンプト**:
             ```bash
             cd setup\participant
             copy .env.example .env
@@ -181,17 +212,92 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
 - 次元数: **384**（384 個の数値で意味を表現）
 - 特徴: 多言語対応
 
+### 3. Python 環境のセットアップ
+
+#### ステップ 1: Python のインストール確認
+
+まず、Python がインストールされているか確認します。
+
+=== ":fontawesome-brands-apple: Mac"
+    **ターミナル / コマンドプロンプト**:
+    ```bash
+    python3 --version
+    ```
+
+=== ":fontawesome-brands-windows: Windows"
+    **ターミナル / コマンドプロンプト**:
+    ```bash
+    python --version
+    ```
+
+**期待される出力**:
+
+```
+Python 3.8.x 以上
+```
+
+!!! warning "Python がインストールされていない場合"
+    Python 3.8 以上がインストールされていない場合は、以下からインストールしてください:
+    
+    **公式サイト**: [https://www.python.org/downloads/](https://www.python.org/downloads/)
+    
+    === ":fontawesome-brands-apple: Mac"
+        Homebrew を使用する場合:
+        ```bash
+        brew install python3
+        ```
+    
+    === ":fontawesome-brands-windows: Windows"
+        Microsoft Store からインストールすることも可能です。
+
+#### ステップ 2: 必要なパッケージのインストール
+
+Python パッケージのインストールは、IBM Bob に依頼して実行します。
+
+!!! example "IBM Bob にパッケージインストールを依頼"
+    
+    1. IBM Bob のチャット入力欄に以下を入力:
+    
+        ```text
+        requirements.txt に記載されているパッケージをインストールして
+        ```
+    
+    2. インストールが完了するまで待ちます（数分かかる場合があります）
+
+??? info "インストールされるパッケージ"
+    以下のパッケージがインストールされます:
+    
+    - **pymilvus**: Milvus データベースクライアント
+    - **sentence-transformers**: 埋め込みモデル
+    - **torch**: 機械学習フレームワーク
+    - **python-dotenv**: 環境変数管理
+    - その他の依存パッケージ
+
+??? tip "手動でインストールする場合"
+    IBM Bob を使わずに手動でインストールする場合は、ターミナルで以下を実行:
+    
+    === ":fontawesome-brands-apple: Mac"
+        ```bash
+        cd ~/Desktop/vector-search-builder
+        pip3 install -r setup/participant/requirements.txt
+        ```
+    
+    === ":fontawesome-brands-windows: Windows"
+        ```bash
+        cd %USERPROFILE%\Desktop\vector-search-builder
+        pip install -r setup\participant\requirements.txt
+        ```
+
 ## 準備完了チェックリスト
 
 - [ ] IBM Bob がインストールされ、使用できる
-- [ ] Python 3.8以上がインストールされている
-- [ ] プロジェクトフォルダを作成した
+- [ ] Python 3.8 以上がインストールされている
 - [ ] **`vector-search-builder.zip`** を解凍した
 - [ ] **`.bob`** フォルダが存在する
-- [ ] IBM Bob でプロジェクトフォルダを開いた
+- [ ] IBM Bob で `vector-search-builder` フォルダを開いた
 - [ ] 「Vector Search Builder」モードが表示される
-- [ ] Python パッケージをインストールした（`pip install -r requirements.txt`）
 - [ ] **`setup/participant/.env`** ファイルに接続情報を入力した
+- [ ] IBM Bob に依頼して Python パッケージをインストールした
 
 ## FAQ
 
