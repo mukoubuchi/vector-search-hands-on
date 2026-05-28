@@ -213,7 +213,7 @@ python app.py
 ターミナルに以下のような表示が出れば OK:
 
 ```
-INFO:     Uvicorn running on http://localhost:8000
+INFO:     Uvicorn running on http://0.0.0.0:8002
 ```
 
 **重要**: この画面は閉じないでください
@@ -224,7 +224,7 @@ INFO:     Uvicorn running on http://localhost:8000
 2. 以下の URL にアクセス:
 
    ```text
-   http://localhost:8000/docs
+   http://localhost:8002/docs
    ```
 
 **Swagger UI** = API を視覚的にテストできるツール
@@ -369,7 +369,7 @@ INFO:     Uvicorn running on http://localhost:8000
     対処法:
     
     1. アプリケーションが起動しているか確認
-    2. URL が正しいか確認（**`http://localhost:8000/docs`**）
+    2. URL が正しいか確認（**`http://localhost:8002/docs`**）
     3. ブラウザを変えてみる
 
 ??? question "Q3: 検索結果が 0 件"

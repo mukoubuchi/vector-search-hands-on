@@ -17,7 +17,7 @@
 
 #### 手順
 
-1. Swagger UI を開く（**`http://localhost:8000/docs`**）
+1. Swagger UI を開く（**`http://localhost:8002/docs`**）
 2. **`/search`** エンドポイントを開く
 3. 「Try it out」をクリック
 4. 以下を入力:

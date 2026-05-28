@@ -99,7 +99,7 @@ IBM Bob が以下のような提案をします:
 
 ### ステップ 7: 動作確認
 
-1. Swagger UI を開く（**`http://localhost:8000/docs`**）
+1. Swagger UI を開く（**`http://localhost:8002/docs`**）
 2. アプリケーションを再起動
     1. ターミナルで ++ctrl+c++ （停止）
     2. IBM Bob に「デモアプリケーションを起動して」と依頼、または **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
