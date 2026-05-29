@@ -1,3 +1,29 @@
+## 2026年5月29日 19:00 JST - 図のスタイル変更（BBを緑、Bobを青に）
+
+### 作業内容
+
+docs/index.mdの2つのMermaid図で、WFの工程と完成を白黒にし、Building Blocksを緑、IBM Bobを青にしました。
+
+### 実施した対応
+
+1. **Building Blocks なしの場合の図**
+   - 全ての工程（要件定義、技術選定、環境構築、コーディング、テスト、デバッグ、完成）を白背景・黒枠に統一
+   - `classDef defaultBox fill:#fff,stroke:#333,stroke-width:2px,color:#000`
+
+2. **Building Blocks + IBM Bob の場合の図**
+   - 要件定義と完成を白背景・黒枠に変更
+   - Building Blocksを緑色（#ccffcc）に変更: `fill:#ccffcc,stroke:#00cc00,stroke-width:3px,color:#000,font-weight:bold`
+   - IBM Bobを青色（#cce5ff）に変更: `fill:#cce5ff,stroke:#0066cc,stroke-width:3px,color:#000,font-weight:bold`
+   - 枠線を太く（3px）、フォントを太字にして強調
+
+### 成果
+
+- WFの工程と完成は白黒で統一され、シンプルに
+- Building Blocks（緑）とIBM Bob（青）が明確に際立つ
+- 色の組み合わせが視覚的に分かりやすい
+
+**完了日時**: 2026年5月29日 19:00 JST
+
 ## 2026年5月29日 18:51 JST - mkdocsドキュメントの構成改善
 
 ### 作業内容
