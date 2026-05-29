@@ -11,40 +11,54 @@
 
 このハンズオンでは、**Building Blocks** という事前構築済みの技術コンポーネントと、**IBM Bob** という AI 開発アシスタントを組み合わせることで、数日〜数週間かかる開発を **約 60 分** で完了できることを体験します。
 
+**Building Blocks なしの場合（所要時間: 数日〜数週間）**
+
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'fontSize':'14px'}}}%%
-graph TB
-    subgraph trad["<b>Building Blocks なしの場合</b><br/><span style='color:#cc0000;font-weight:bold'>所要時間: 数日〜数週間</span>"]
-        direction LR
-        t1["<b>要件定義</b>"]:::tradBox
-        t2["<b>技術選定</b>"]:::tradBox
-        t3["<b>環境構築</b>"]:::tradBox
-        t4["<b>コーディング</b>"]:::tradBox
-        t5["<b>テスト</b>"]:::tradBox
-        t6["<b>デバッグ</b>"]:::tradBox
-        t7["<b>完成</b>"]:::completeBox
-        
-        t1 --> t2 --> t3 --> t4 --> t5 --> t6 --> t7
-    end
+graph LR
+    t1["<b>要件定義</b>"]:::tradBox
+    t2["<b>技術選定</b>"]:::tradBox
+    t3["<b>環境構築</b>"]:::tradBox
+    t4["<b>コーディング</b>"]:::tradBox
+    t5["<b>テスト</b>"]:::tradBox
+    t6["<b>デバッグ</b>"]:::tradBox
+    t7["<b>完成</b>"]:::completeBox
     
-    subgraph modern["<b>Building Blocks + IBM Bob の場合（このハンズオン）</b><br/><span style='color:#0066cc;font-weight:bold'>所要時間: 約 60 分</span>"]
-        direction LR
-        m1["<b>要件定義</b>"]:::bobBox
-        m2["<b>Building Blocks<br/>インストール</b>"]:::bbBox
-        m3["<b>IBM Bob で<br/>カスタマイズ</b>"]:::bobBox
-        m4["<b>完成</b>"]:::completeBox
-        
-        m1 --> m2 --> m3 --> m4
-    end
+    t1 --> t2 --> t3 --> t4 --> t5 --> t6 --> t7
     
     classDef tradBox fill:#ffcccc,stroke:#cc0000,stroke-width:2px,color:#000
+    classDef completeBox fill:#ccffcc,stroke:#00cc00,stroke-width:3px,color:#000,font-weight:bold
+```
+
+- ベクトルデータベースの選定・学習
+- 埋め込みモデルの選定・統合
+- APIの設計・実装
+- エラーハンドリング
+- パフォーマンスチューニング
+
+**Building Blocks + IBM Bob の場合（このハンズオン）（所要時間: 約 60 分）**
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'fontSize':'14px'}}}%%
+graph LR
+    m1["<b>要件定義</b>"]:::bobBox
+    m2["<b>Building Blocks<br/>インストール</b>"]:::bbBox
+    m3["<b>IBM Bob で<br/>カスタマイズ</b>"]:::bobBox
+    m4["<b>完成</b>"]:::completeBox
+    
+    m1 --> m2 --> m3 --> m4
+    
     classDef bbBox fill:#cce5ff,stroke:#0066cc,stroke-width:2px,color:#000
     classDef bobBox fill:#ffe6cc,stroke:#ff9900,stroke-width:2px,color:#000
     classDef completeBox fill:#ccffcc,stroke:#00cc00,stroke-width:3px,color:#000,font-weight:bold
-    
-    style trad fill:#ffe6e6,stroke:#cc0000,stroke-width:2px
-    style modern fill:#e6f3ff,stroke:#0066cc,stroke-width:2px
 ```
+
+**各工程の担当:**
+
+- **Building Blocks**: 技術選定・環境構築（ベクトルDB選定、埋め込みモデル選定）
+- **IBM Bob**: 要件定義・コーディング・テスト・デバッグ（API設計・実装、エラーハンドリング、パフォーマンスチューニング）
+
+※ IBM BobはSDLC全体（要件定義〜デバッグ）をカバー可能
 
 **所要時間**: 約 60 分
 
