@@ -101,8 +101,15 @@ IBM Bob が以下のような提案をします:
 
 1. Swagger UI を開く（**`http://localhost:8002/docs`**）
 2. アプリケーションを再起動
+
+    **方法 1: IBM Bob に依頼（推奨）**
+    
+    IBM Bob に「デモアプリケーションを再起動して」と依頼
+    
+    **方法 2: 手動で再起動**
+    
     1. ターミナルで ++ctrl+c++ （停止）
-    2. IBM Bob に「デモアプリケーションを起動して」と依頼、または **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
+    2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
 3. 検索を実行:
 
    ```json
@@ -170,8 +177,15 @@ IBM Bob が以下のような提案をします:
 ### ステップ 4: 動作確認
 
 1. アプリケーションを再起動
+
+    **方法 1: IBM Bob に依頼（推奨）**
+    
+    IBM Bob に「デモアプリケーションを再起動して」と依頼
+    
+    **方法 2: 手動で再起動**
+    
     1. ターミナルで ++ctrl+c++ （停止）
-    2. IBM Bob に「デモアプリケーションを起動して」と依頼、または **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
+    2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
 2. 検索を実行:
 
    ```json
@@ -225,8 +239,15 @@ IBM Bob が以下のような提案をします:
 ### ステップ 4: 動作確認
 
 1. アプリケーションを再起動
+
+    **方法 1: IBM Bob に依頼（推奨）**
+    
+    IBM Bob に「デモアプリケーションを再起動して」と依頼
+    
+    **方法 2: 手動で再起動**
+    
     1. ターミナルで ++ctrl+c++ （停止）
-    2. IBM Bob に「デモアプリケーションを起動して」と依頼、または **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
+    2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
 2. 検索を実行:
 
    ```json
@@ -277,8 +298,15 @@ IBM Bob が以下のような提案をします:
     
     1. ファイルが保存されているか確認
     2. アプリケーションを再起動
+    
+        **方法 1: IBM Bob に依頼（推奨）**
+        
+        IBM Bob に「デモアプリケーションを再起動して」と依頼
+        
+        **方法 2: 手動で再起動**
+        
         1. ターミナルで ++ctrl+c++ （停止）
-        2. IBM Bob に「デモアプリケーションを起動して」と依頼、または **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
+        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
     3. ブラウザをリロード
 
 ??? question "Q3: エラーが表示される"
