@@ -1,3 +1,59 @@
+## 2026年5月29日 22:55 JST - MkDocsドキュメントの改善
+
+### 作業内容
+
+Building Blocks + IBM Bob のハンズオンとして、ドキュメント全体を改善しました。
+
+### 実施した対応
+
+1. **方法1/方法2の表記を改善**
+   - IBM Bob への依頼をメインの方法として記載（付番削除）
+   - 手動実行は折り畳み（`??? tip`）で表示
+   - [`docs/part1.md`](docs/part1.md): 3箇所
+   - [`docs/part2.md`](docs/part2.md): 4箇所
+   - [`docs/part3.md`](docs/part3.md): 1箇所
+
+2. **重複テキストの削除**
+   - 「IBM Bob が以下のコマンドを実行します:」セクションを削除
+   - [`docs/part3.md`](docs/part3.md): 268-278行目
+
+3. **IBM Bob 提案の表示改善**
+   - 「IBM Bob が以下のような提案をします:」の「:」を「。」に変更
+   - コードブロックで囲まれた提案内容を削除（重複のため）
+   - [`docs/part2.md`](docs/part2.md): 3箇所
+
+4. **チャット入力内容の表示改善**
+   - 「」で囲む形式からコードブロック形式に変更
+   - ユーザーがコピー&ペーストしやすい形式に統一
+   - [`docs/part2.md`](docs/part2.md): 5箇所
+   - [`docs/part3.md`](docs/part3.md): 1箇所
+
+5. **起動確認方法の改善**
+   - IBM Bob 起動時はターミナルが見えないため、Swagger UI での確認をメインに
+   - 手動起動時のターミナル確認は折り畳みで表示
+   - [`docs/part1.md`](docs/part1.md): 202-221行目
+
+6. **手動再起動の注意書き追加**
+   - 「Ctrl+C で停止」は手動起動時のみ有効であることを明記
+   - IBM Bob が操作するターミナルにはアクセスできないことを説明
+   - [`docs/part2.md`](docs/part2.md): 4箇所
+   - [`docs/part3.md`](docs/part3.md): 1箇所
+
+7. **和欧文間のスペース追加**
+   - 「Milvus に接続して」「IBM Bob に依頼して」など
+   - [`docs/part1.md`](docs/part1.md): 2箇所
+   - [`docs/part2.md`](docs/part2.md): 4箇所
+   - [`docs/part3.md`](docs/part3.md): 1箇所
+   - [`docs/index.md`](docs/index.md): 3箇所
+
+### 成果
+
+- Building Blocks + IBM Bob のハンズオンであることが明確に
+- IBM Bob を使った方法が主流であることを強調
+- ユーザーが混乱しない、より実用的なドキュメントに改善
+
+**完了日時**: 2026年5月29日 22:55 JST
+
 ## 2026年5月29日 00:25 JST - アプリケーション再起動手順の改善
 
 ### 作業内容

@@ -69,24 +69,21 @@ Vector Search は「意味」を理解して検索します。
 !!! example "実践: ここから手を動かします"
     実際に Vector Search を動かす前に、必要なサービスに接続できるか確認します。
 
-#### 方法 1: IBM Bob に依頼（推奨）
-
 IBM Bob のチャット画面で以下を入力:
 
 ```text
-Milvusに接続して
+Milvus に接続して
 ```
 
 IBM Bob が自動的にスクリプトを実行し、接続テストを実施します。
 
-#### 方法 2: 手動で実行
-
-ターミナルに以下を入力:
-
-```bash
-cd setup/participant
-python test_connection.py
-```
+??? tip "手動で実行する場合"
+    ターミナルに以下を入力:
+    
+    ```bash
+    cd setup/participant
+    python test_connection.py
+    ```
 
 ### 結果を確認
 
@@ -138,10 +135,8 @@ Milvus & 埋め込みモデル 接続テスト
 
 ## ステップ 3: サンプルデータを投入
 
-!!! example "実践: Milvusにサンプルデータを投入"
+!!! example "実践: Milvus にサンプルデータを投入"
     Vector Search を体験するために、まずサンプル商品データを投入します。
-
-#### 方法 1: IBM Bob に依頼（推奨）
 
 IBM Bob のチャット画面で以下を入力:
 
@@ -151,14 +146,13 @@ IBM Bob のチャット画面で以下を入力:
 
 IBM Bob が自動的にスクリプトを実行し、サンプルデータを投入します。
 
-#### 方法 2: 手動で実行
-
-ターミナルに以下を入力:
-
-```bash
-cd setup/participant
-python insert_sample_data.py
-```
+??? tip "手動で実行する場合"
+    ターミナルに以下を入力:
+    
+    ```bash
+    cd setup/participant
+    python insert_sample_data.py
+    ```
 
 ### 投入結果を確認
 
@@ -191,43 +185,41 @@ python insert_sample_data.py
 
 ### デモアプリケーションを起動 {#app-restart}
 
-#### 方法 1: IBM Bob に依頼（推奨）
-
 IBM Bob のチャット画面で以下を入力:
 
 ```text
 デモアプリケーションを起動して
 ```
 
-#### 方法 2: 手動で起動
-
-ターミナルに以下を入力:
-
-```bash
-cd setup/participant
-python app.py
-```
+??? tip "手動で起動する場合"
+    ターミナルに以下を入力:
+    
+    ```bash
+    cd setup/participant
+    python app.py
+    ```
 
 ### 起動を確認
 
-ターミナルに以下のような表示が出れば OK:
+Web ブラウザで以下の URL にアクセスして、Swagger UI が表示されることを確認:
 
+```text
+http://localhost:8002/docs
 ```
-INFO:     Uvicorn running on http://0.0.0.0:8002
-```
-
-**重要**: この画面は閉じないでください
-
-### Swagger UI を開く
-
-1. Web ブラウザを開く
-2. 以下の URL にアクセス:
-
-   ```text
-   http://localhost:8002/docs
-   ```
 
 **Swagger UI** = API を視覚的にテストできるツール
+
+!!! success "起動成功"
+    Swagger UI が表示されれば、アプリケーションは正常に起動しています。
+
+??? tip "手動起動時のターミナル確認"
+    手動で起動した場合は、ターミナルに以下のような表示が出ます:
+    
+    ```
+    INFO:     Uvicorn running on http://0.0.0.0:8002
+    ```
+    
+    **重要**: ターミナルは閉じないでください（アプリケーションが停止します）
 
 ### 検索を試してみる
 

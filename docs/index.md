@@ -93,12 +93,12 @@ graph LR
 ??? info "このハンズオンの独自の工夫"
     **Building Blocks が提供するもの**:
 
-    - **`.bob/modes/`**: Vector Search Builder モード定義（zipファイル）
+    - **`.bob/modes/`**: Vector Search Builder モード定義（zip ファイル）
     - 各自がローカル環境で Milvus を構築して使用
     
     **このハンズオンで追加したもの**:
     
-    - **`setup/instructor/`**: 講師用Milvus環境（Docker Compose）
+    - **`setup/instructor/`**: 講師用 Milvus 環境（Docker Compose）
     - **`setup/participant/`**: 受講者用接続テストスクリプト
     - **`docs/`**: ハンズオン用ドキュメント（MkDocs）
     
@@ -123,7 +123,7 @@ graph LR
     
     このハンズオンの工夫:
 
-    - **オンサイト**: ローカルネットワーク共有（`http://講師IP:8001`）
+    - **オンサイト**: ローカルネットワーク共有（`http://講師 IP:8001`）
     - **リモート**: GitHub Pages または ngrok によるドキュメント配信
     
     **3. API キー不要の設計**

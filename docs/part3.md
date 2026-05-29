@@ -231,14 +231,18 @@ IBM Bob が指摘した改善点を確認します。
     2. 変更が保存されているか確認
     3. アプリケーションを再起動
     
-        **方法 1: IBM Bob に依頼（推奨）**
+        IBM Bob のチャット画面で以下を入力:
         
-        IBM Bob に「デモアプリケーションを再起動して」と依頼
+        ```text
+        デモアプリケーションを再起動して
+        ```
         
-        **方法 2: 手動で再起動**
-        
-        1. ターミナルで ++ctrl+c++ （停止）
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
+        ??? tip "手動で再起動する場合"
+            1. ターミナルで ++ctrl+c++ （停止）
+                
+                **注意**: IBM Bob に依頼して起動した場合、Bob が操作するターミナルにはアクセスできないため、この停止操作はできません。
+            
+            2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
 
 ??? question "Q2: レビュー結果が表示されない"
 
@@ -264,18 +268,6 @@ IBM Bob のチャット入力欄に以下を入力:
 ```text
 setup/participant/requirements.txt に記載されているパッケージをすべてアンインストールして
 ```
-
-IBM Bob が以下のコマンドを実行します:
-
-=== ":fontawesome-brands-apple: Mac"
-    ```bash
-    pip3 uninstall -y -r setup/participant/requirements.txt
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    ```bash
-    pip uninstall -y -r setup/participant/requirements.txt
-    ```
 
 !!! info "アンインストールされるパッケージ"
     以下のパッケージがアンインストールされます:

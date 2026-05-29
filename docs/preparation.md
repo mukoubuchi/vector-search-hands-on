@@ -296,7 +296,7 @@ Python 3.8.x 以上
     2. IBM Bob のチャット入力欄に以下を入力:
     
         ```text
-        仮想環境を有効化した状態で、requirements.txt に記載されているパッケージをインストールして
+        setup/participant/requirements.txt に記載されているパッケージをすべてインストールして
         ```
     
     3. インストールが完了するまで待ちます（数分かかる場合があります）
