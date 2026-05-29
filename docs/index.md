@@ -11,9 +11,7 @@
 
 このハンズオンでは、**Building Blocks** という事前構築済みの技術コンポーネントと、**IBM Bob** という AI 開発アシスタントを組み合わせることで、数日〜数週間かかる開発を **約 60 分** で完了できることを体験します。
 
-**Building Blocks なしの場合:**
-
-- 所要時間: 数日〜数週間
+**Building Blocks なしの場合（所要時間: 数日〜数週間）:**
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'fontSize':'14px'}}}%%
@@ -32,9 +30,15 @@ graph LR
     classDef completeBox fill:#ccffcc,stroke:#00cc00,stroke-width:3px,color:#000,font-weight:bold
 ```
 
-**Building Blocks + IBM Bob の場合（このハンズオン）:**
+Building Blocks なしの場合、以下のような作業が必要になります:
 
-- 所要時間: 約 60 分
+- ベクトルデータベースの選定・学習
+- 埋め込みモデルの選定・統合
+- APIの設計・実装
+- エラーハンドリング
+- パフォーマンスチューニング
+
+**Building Blocks + IBM Bob の場合（このハンズオン、所要時間: 約 60 分）:**
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'fontSize':'14px'}}}%%
@@ -54,19 +58,17 @@ graph LR
 
 各工程の担当:
 
-- **Building Blocks**: 技術選定（Milvus、埋め込みモデル）・環境構築支援（Bob モード、API サンプル）
-- **IBM Bob**: 要件定義・コーディング・テスト・デバッグ
+- **Building Blocks**:
+    - 技術選定（Milvus、埋め込みモデル）
+    - 環境構築支援（Bob モード、API サンプル）
+- **IBM Bob**:
+    - 要件定義
+    - コーディング
+    - テスト
+    - デバッグ
 
-!!! note "IBM Bob の対応範囲について"
+??? note "IBM Bob の対応範囲について"
     IBM Bob は AI SDLC（Software Development Lifecycle）パートナーとして、要件定義からデバッグまでのソフトウェア開発ライフサイクル全体をサポートできます。このハンズオンでは、Building Blocks が技術選定（Milvus、埋め込みモデル）と環境構築の支援（Milvus セットアップ、Bob モード）を提供し、講師が Docker Compose で Milvus 環境を事前準備するため、IBM Bob は主にコーディング・テスト・デバッグに焦点を当てていますが、Plan モードを使用すれば要件定義や設計段階でも活用できます。
-
-**Building Blocks なしの場合の詳細:**
-
-- ベクトルデータベースの選定・学習
-- 埋め込みモデルの選定・統合
-- APIの設計・実装
-- エラーハンドリング
-- パフォーマンスチューニング
 
 ## Building Blocks とは？
 
