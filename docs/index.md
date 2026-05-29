@@ -11,40 +11,54 @@
 
 このハンズオンでは、**Building Blocks** という事前構築済みの技術コンポーネントと、**IBM Bob** という AI 開発アシスタントを組み合わせることで、数日〜数週間かかる開発を **約 60 分** で完了できることを体験します。
 
+**Building Blocks なしの場合:**
+
+- 所要時間: 数日〜数週間
+
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'fontSize':'14px'}}}%%
-graph TB
-    subgraph trad["Building Blocks なしの場合<br/><i>所要時間: 数日〜数週間</i>"]
-        direction LR
-        t1["<b>要件定義</b>"]:::tradBox
-        t2["<b>技術選定</b>"]:::tradBox
-        t3["<b>環境構築</b>"]:::tradBox
-        t4["<b>コーディング</b>"]:::tradBox
-        t5["<b>テスト</b>"]:::tradBox
-        t6["<b>デバッグ</b>"]:::tradBox
-        t7["<b>完成</b>"]:::completeBox
-        
-        t1 --> t2 --> t3 --> t4 --> t5 --> t6 --> t7
-    end
+graph LR
+    t1["<b>要件定義</b>"]:::tradBox
+    t2["<b>技術選定</b>"]:::tradBox
+    t3["<b>環境構築</b>"]:::tradBox
+    t4["<b>コーディング</b>"]:::tradBox
+    t5["<b>テスト</b>"]:::tradBox
+    t6["<b>デバッグ</b>"]:::tradBox
+    t7["<b>完成</b>"]:::completeBox
     
-    subgraph modern["Building Blocks + IBM Bob の場合（このハンズオン）<br/><i>所要時間: 約 60 分</i>"]
-        direction LR
-        m1["<b>要件定義</b>"]:::bobBox
-        m2["<b>Building Blocks<br/>インストール</b>"]:::bbBox
-        m3["<b>IBM Bob で<br/>カスタマイズ</b>"]:::bobBox
-        m4["<b>完成</b>"]:::completeBox
-        
-        m1 --> m2 --> m3 --> m4
-    end
+    t1 --> t2 --> t3 --> t4 --> t5 --> t6 --> t7
+    
+    classDef tradBox fill:#ffcccc,stroke:#cc0000,stroke-width:2px,color:#000
+    classDef completeBox fill:#ccffcc,stroke:#00cc00,stroke-width:3px,color:#000,font-weight:bold
+```
+
+**Building Blocks + IBM Bob の場合（このハンズオン）:**
+
+- 所要時間: 約 60 分
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'fontSize':'14px'}}}%%
+graph LR
+    m1["<b>要件定義</b>"]:::tradBox
+    m2["<b>Building Blocks<br/>インストール</b>"]:::bbBox
+    m3["<b>IBM Bob で<br/>カスタマイズ</b>"]:::bobBox
+    m4["<b>完成</b>"]:::completeBox
+    
+    m1 --> m2 --> m3 --> m4
     
     classDef tradBox fill:#ffcccc,stroke:#cc0000,stroke-width:2px,color:#000
     classDef bbBox fill:#cce5ff,stroke:#0066cc,stroke-width:2px,color:#000
     classDef bobBox fill:#ffe6cc,stroke:#ff9900,stroke-width:2px,color:#000
     classDef completeBox fill:#ccffcc,stroke:#00cc00,stroke-width:3px,color:#000,font-weight:bold
-    
-    style trad fill:#ffe6e6,stroke:#cc0000,stroke-width:2px
-    style modern fill:#e6f3ff,stroke:#0066cc,stroke-width:2px
 ```
+
+各工程の担当:
+
+- **Building Blocks**: 技術選定（Milvus、埋め込みモデル）・環境構築支援（Bob モード、API サンプル）
+- **IBM Bob**: 要件定義・コーディング・テスト・デバッグ
+
+!!! note "IBM Bob の対応範囲について"
+    IBM Bob は AI SDLC（Software Development Lifecycle）パートナーとして、要件定義からデバッグまでのソフトウェア開発ライフサイクル全体をサポートできます。このハンズオンでは、Building Blocks が技術選定（Milvus、埋め込みモデル）と環境構築の支援（Milvus セットアップ、Bob モード）を提供し、講師が Docker Compose で Milvus 環境を事前準備するため、IBM Bob は主にコーディング・テスト・デバッグに焦点を当てていますが、Plan モードを使用すれば要件定義や設計段階でも活用できます。
 
 **Building Blocks なしの場合の詳細:**
 
@@ -53,28 +67,6 @@ graph TB
 - APIの設計・実装
 - エラーハンドリング
 - パフォーマンスチューニング
-
-**Building Blocks + IBM Bob の場合の各工程の担当:**
-
-- **Building Blocks**: 技術選定・環境構築（ベクトルDB選定、埋め込みモデル選定）
-- **IBM Bob**: 要件定義・コーディング・テスト・デバッグ（API設計・実装、エラーハンドリング、パフォーマンスチューニング）
-
-※ IBM BobはSDLC全体（要件定義〜デバッグ）をカバー可能
-
-**所要時間**: 約 60 分
-
-**各工程の担当**:
-
-| ウォーターフォール工程 | Building Blocks | IBM Bob |
-|:---|:---:|:---:|
-| 要件定義 | - | ✅ Plan mode |
-| 技術選定 | ✅ | - |
-| 環境構築 | ✅ | - |
-| コーディング | - | ✅ Code mode |
-| テスト | - | ✅ Code mode |
-| デバッグ | - | ✅ Code mode |
-
-**結果**: Building Blocksが技術選定・環境構築を担当し、IBM BobがSDLC全体（要件定義・コーディング・テスト・デバッグ）を支援
 
 ## Building Blocks とは？
 
@@ -110,18 +102,46 @@ graph TB
     **Building Blocks あり**: Vector Search Builder をインストールし、IBM Bob に指示（数分）
 
 ??? info "このハンズオンの独自の工夫"
-    **Building Blocks が提供するもの**:
-
-    - **`.bob/modes/`**: Vector Search Builder モード定義（zip ファイル）
-    - 各自がローカル環境で Milvus を構築して使用
+    ### Building Blocks が提供するもの
     
-    **このハンズオンで追加したもの**:
+    Building Blocks は以下の技術コンポーネントを提供します:
+    
+    1. **Vector Search Builder モード**
+        - **ファイル**: `bob-modes/base-modes/vector-search-builder.zip`
+        - **内容**:
+            - IBM Bob のカスタムモード設定
+            - Vector Search に特化した AI アシスタント機能
+            - Milvus 操作のベストプラクティス
+            - ルールファイル、プロンプトテンプレート
+    
+    2. **Data Ingestion Asset（FastAPI）**
+        - **ファイル**: `assets/data-ingestion-asset/`
+        - **内容**:
+            - `main.py`: FastAPI アプリケーション本体
+            - `app/`: API エンドポイント実装
+            - `Dockerfile`: コンテナ化設定
+            - `requirements.txt`: Python 依存パッケージ
+            - `.env.example`: 環境変数テンプレート
+        - **機能**:
+            - IBM COS からのドキュメント取り込み
+            - Docling ベースの文書解析
+            - IBM Watsonx による埋め込み生成
+            - Milvus へのベクトル保存・インデックス作成
+            - Swagger UI による API テスト
+    
+    3. **セットアップガイド**
+        - **ファイル**: `README.md`
+        - **内容**: watsonx.data + Milvus 環境の構築手順
+    
+    ### このハンズオンで追加したもの
+    
+    Building Blocks の基盤に加えて、教育目的で以下を追加しています:
     
     - **`setup/instructor/`**: 講師用 Milvus 環境（Docker Compose）
     - **`setup/participant/`**: 受講者用接続テストスクリプト
     - **`docs/`**: ハンズオン用ドキュメント（MkDocs）
     
-    **1. 講師・受講者分離アーキテクチャ**
+    ### 1. 講師・受講者分離アーキテクチャ
     
     Building Blocks 単体:
     
@@ -169,8 +189,15 @@ graph TB
     - **Part 2**: IBM Bob での機能追加（実践）
     - **Part 3**: コードレビューと改善（応用）
     
+    ### 役割分担のまとめ
+    
+    | 提供元 | 提供内容 | 目的 |
+    |:---|:---|:---|
+    | **Building Blocks** | Vector Search Builder モード<br/>FastAPI サンプル<br/>Milvus セットアップガイド | 技術基盤の提供<br/>開発の加速 |
+    | **このハンズオン** | 講師用環境（Docker Compose）<br/>受講者用スクリプト<br/>教育用ドキュメント | 教育設計<br/>学習体験の最適化 |
+    
     !!! success "このハンズオンのメリット"
-        **Building Blocks（基盤）** + **ハンズオン独自の工夫（教育設計）** = **短時間で高い学習効果**
+        **Building Blocks（技術基盤）** + **ハンズオン独自の工夫（教育設計）** = **短時間で高い学習効果**
         
         - **セットアップ時間の短縮**: 30 分→ 5 分（講師が環境を一元管理）
         - **API キー不要**: Hugging Face 使用で受講者の準備負担を削減

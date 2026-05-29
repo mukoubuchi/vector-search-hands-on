@@ -1,3 +1,47 @@
+## 2026年5月30日 03:33 JST - Building Blocksが提供するファイルの明確化
+
+### 作業内容
+
+Building Blocksが提供する具体的なファイル名とその内容を明確に記載し、このハンズオンで追加したものとの役割分担を整理しました。
+
+### 実施した対応
+
+1. **Building Blocksのファイル構造を確認**
+   - Building Blocksリポジトリの構造を調査
+   - `/Users/shinichisato/github_work/ibm-bob/build-team-enablement/assets/references/building-blocks/data/retrieval/vector-search/milvus/`
+   - 提供されるファイルとその内容を特定
+
+2. **docs/index.mdの更新**
+   - Building Blocksが提供する3つのコンポーネントを明確化:
+     1. **Vector Search Builder モード**
+        - ファイル: `bob-modes/base-modes/vector-search-builder.zip`
+        - 内容: カスタムモード設定、ルールファイル、プロンプトテンプレート
+     2. **Data Ingestion Asset（FastAPI）**
+        - ファイル: `assets/data-ingestion-asset/`
+        - 具体的なファイル: `main.py`, `app/`, `Dockerfile`, `requirements.txt`, `.env.example`
+        - 機能: IBM COS取り込み、Docling解析、Watsonx埋め込み、Milvus保存
+     3. **セットアップガイド**
+        - ファイル: `README.md`
+        - 内容: watsonx.data + Milvus環境の構築手順
+
+3. **役割分担の表を追加**
+   - Building Blocks（技術基盤）とこのハンズオン（教育設計）の違いを表形式で整理
+   - 各提供元の目的を明確化
+
+4. **各工程の担当を詳細化**
+   - Building Blocksの担当: 「技術選定（Milvus、埋め込みモデル）・環境構築支援（Bob モード、API サンプル）」
+
+### 成果
+
+- Building Blocksが提供する技術基盤の内容が具体的に明示された
+- ファイル名とその内容の対応関係が明確になった
+- このハンズオンで追加した教育用コンテンツとの違いが分かりやすくなった
+- Data Ingestion Asset（FastAPI）の詳細な機能説明を追加
+
+**完了日時**: 2026年5月30日 03:33 JST
+
+---
+
 ## 2026年5月29日 16:22 JST - draw.io図のXMLエラー修正
 
 ### 作業内容
