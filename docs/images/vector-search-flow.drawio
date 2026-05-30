@@ -1,0 +1,81 @@
+<mxfile host="65bd71144e">
+    <diagram name="Vector Search Flow" id="flow">
+        <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="650" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                
+                <!-- Title -->
+                <mxCell id="title" value="<b>Vector Search の処理フロー</b>" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontColor=#1976D2;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="400" y="30" width="400" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- Step 1 Container -->
+                <mxCell id="step1-box" value="<b>ステップ 1: テキスト入力</b>" style="swimlane;startSize=30;fillColor=#E3F2FD;strokeColor=#1976D2;html=1;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="100" width="280" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="user-input" value="<b>ユーザー入力</b><br>「赤いスニーカー」" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;strokeWidth=2;" vertex="1" parent="step1-box">
+                    <mxGeometry x="30" y="45" width="220" height="55" as="geometry"/>
+                </mxCell>
+
+                <!-- Step 2 Container -->
+                <mxCell id="step2-box" value="<b>ステップ 2: ベクトル変換</b>" style="swimlane;startSize=30;fillColor=#FFF3E0;strokeColor=#F57C00;html=1;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="100" width="280" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="embedding" value="<b>埋め込みモデル</b><br>テキスト → ベクトル" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#F57C00;strokeWidth=2;" vertex="1" parent="step2-box">
+                    <mxGeometry x="30" y="45" width="220" height="55" as="geometry"/>
+                </mxCell>
+
+                <!-- Step 3 Container -->
+                <mxCell id="step3-box" value="<b>ステップ 3: ベクトル表現</b>" style="swimlane;startSize=30;fillColor=#F3E5F5;strokeColor=#7B1FA2;html=1;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="100" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="vector" value="<b>ベクトル（384次元）</b><br>[0.2, 0.8, 0.1, 0.5, ...]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;strokeWidth=2;" vertex="1" parent="step3-box">
+                    <mxGeometry x="30" y="45" width="300" height="55" as="geometry"/>
+                </mxCell>
+
+                <!-- Step 4 Container -->
+                <mxCell id="step4-box" value="<b>ステップ 4: 類似検索</b>" style="swimlane;startSize=30;fillColor=#E8F5E9;strokeColor=#388E3C;html=1;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="280" width="360" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="milvus" value="<b>Milvus</b><br>ベクトルデータベース" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;strokeWidth=2;size=15;" vertex="1" parent="step4-box">
+                    <mxGeometry x="120" y="45" width="120" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="data-note" value="<b>保存済み</b><br>商品データ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#388E3C;dashed=1;strokeWidth=2;" vertex="1" parent="step4-box">
+                    <mxGeometry x="260" y="70" width="80" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- Step 5 Container -->
+                <mxCell id="step5-box" value="<b>ステップ 5: 検索結果</b>" style="swimlane;startSize=30;fillColor=#FCE4EC;strokeColor=#C2185B;html=1;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="280" width="620" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="results" value="<b>類似商品リスト（類似度スコア付き）</b><br>・赤いランニングシューズ (0.92)<br>・レッドスポーツシューズ (0.88)<br>・赤色スニーカー (0.85)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8BBD0;strokeColor=#C2185B;strokeWidth=2;align=left;" vertex="1" parent="step5-box">
+                    <mxGeometry x="30" y="45" width="560" height="90" as="geometry"/>
+                </mxCell>
+
+                <!-- Arrows -->
+                <mxCell id="arrow1" value="テキスト" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#1976D2;fontColor=#1976D2;fontStyle=1;fontSize=12;" edge="1" parent="1" source="user-input" target="embedding">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                
+                <mxCell id="arrow2" value="変換" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#F57C00;fontColor=#F57C00;fontStyle=1;fontSize=12;" edge="1" parent="1" source="embedding" target="vector">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                
+                <mxCell id="arrow3" value="検索クエリ" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#7B1FA2;fontColor=#7B1FA2;fontStyle=1;fontSize=12;" edge="1" parent="1" source="vector" target="milvus">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                
+                <mxCell id="arrow4" value="類似ベクトル" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#388E3C;fontColor=#388E3C;fontStyle=1;fontSize=12;" edge="1" parent="1" source="milvus" target="results">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Key Point -->
+                <mxCell id="keypoint" value="<b>ポイント</b><br>・意味が似ていると、ベクトルも似る<br>・コンピュータは数値の類似度を高速計算" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;strokeWidth=2;align=left;verticalAlign=top;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="480" width="1040" height="70" as="geometry"/>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

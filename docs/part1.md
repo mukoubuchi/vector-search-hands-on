@@ -31,6 +31,50 @@
 
 Vector Search は「意味」を理解して検索します。
 
+```mermaid
+graph LR
+    subgraph step1["ステップ 1: テキスト入力"]
+        A["<b>ユーザー入力</b><br/>「赤いスニーカー」"]
+    end
+    
+    subgraph step2["ステップ 2: ベクトル変換"]
+        B["<b>埋め込みモデル</b><br/>テキスト → ベクトル"]
+    end
+    
+    subgraph step3["ステップ 3: ベクトル表現"]
+        C["<b>ベクトル (384次元)</b><br/>[0.2, 0.8, 0.1, 0.5, ...]"]
+    end
+    
+    subgraph step4["ステップ 4: 類似検索"]
+        D[("<b>Milvus</b><br/>ベクトルDB")]
+    end
+    
+    subgraph step5["ステップ 5: 検索結果"]
+        E["<b>類似商品リスト</b><br/>・赤いランニングシューズ (0.92)<br/>・レッドスポーツシューズ (0.88)<br/>・赤色スニーカー (0.85)"]
+    end
+    
+    A -->|テキスト| B
+    B -->|変換| C
+    C -->|検索クエリ| D
+    D -->|類似ベクトル| E
+    
+    style step1 fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style step2 fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style step3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+    style step4 fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style step5 fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+    
+    style A fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    style B fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+    style C fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px
+    style D fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    style E fill:#F8BBD0,stroke:#C2185B,stroke-width:2px
+```
+
+!!! info "ポイント"
+    - 意味が似ていると、ベクトルも似る
+    - コンピュータは数値の類似度を高速計算
+
 **あなたの検索**:「赤いスニーカー」
 
 **Vector Search の結果**:
