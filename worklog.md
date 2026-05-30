@@ -1,3 +1,47 @@
+## 2026年5月31日 04:01 JST - GitHub Actionsワークフローの権限エラー修正
+
+### 作業内容
+
+GitHub Actionsワークフローで発生していた「HttpError: Resource not accessible by integration」エラーを修正しました。
+
+### 問題の詳細
+
+**エラー内容**:
+- ワークフロー実行時に「Unhandled error: HttpError: Resource not accessible by integration」が発生
+- `Create Issue for Translation Sync`ステップが失敗
+- Issueの作成・更新ができない状態
+
+**原因**:
+- ワークフローの`permissions`セクションに`issues: write`権限が含まれていなかった
+- GitHub Actionsがデフォルトで持つ権限では、Issueへの書き込みができない
+
+### 実施した対応
+
+1. **sync-translations.ymlの修正**
+   - `permissions`セクションに`issues: write`を追加
+   - これによりワークフローがIssueを作成・更新できるようになる
+
+2. **sync-translations-ja-to-en.ymlの修正**
+   - 同様に`permissions`セクションに`issues: write`を追加
+   - 両方のワークフローで一貫した権限設定
+
+### 修正内容
+
+```yaml
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write  # 追加
+```
+
+### 成果
+
+- ワークフローがIssueを正常に作成・更新できるようになった
+- 翻訳同期チェック機能が完全に動作するようになった
+- エラーが解決され、自動化システムが正常稼働
+
+**完了日時**: 2026年5月31日 04:01 JST
+
 ## 2026年5月30日 03:20 JST - EN-JA翻訳自動同期システムの実装
 
 ### 作業内容
