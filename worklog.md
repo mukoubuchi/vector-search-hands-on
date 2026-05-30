@@ -1,3 +1,49 @@
+## 2026年5月30日 15:06 JST - MkDocsのMermaid図をdraw.io SVGに置き換え
+
+### 作業内容
+
+MkDocsドキュメントで使用していたMermaid図を、元のdraw.io SVGファイルに戻しました。図の記述やmdファイルの周囲の記述は現在の内容に合わせて調整しました。
+
+### 実施した対応
+
+1. **draw.ioソースファイルの作成**
+   - `docs/images/without-building-blocks.drawio`: Building Blocksなしの開発フロー（7ステップ）
+   - `docs/images/with-building-blocks.drawio`: Building Blocks + IBM Bobの開発フロー（4ステップ）
+   - 統一されたデザイン仕様:
+     - フレームサイズ: 1090×200ピクセル
+     - ボックスサイズ: 140×60（標準）、60×60（完成）
+     - 矢印の色: すべてグレー (#666666)
+     - ボックス間隔: 20px（統一）
+
+2. **配色の調整**
+   - 要件定義: 赤 (#ffcccc, #cc0000)
+   - Building Blocksインストール: 紫 (#e1d5e7, #9673a6) ※枠の青色、完成の緑色と被らないように調整
+   - IBM Bobでコード生成: オレンジ (#ffe6cc, #ff9900)
+   - 完成: 緑 (#ccffcc, #00cc00)
+
+3. **SVGファイルのエクスポート**
+   - draw.ioエディタで両方の図をSVGとしてエクスポート
+   - `docs/images/without-building-blocks.svg`
+   - `docs/images/with-building-blocks.svg`
+
+4. **ドキュメントの更新**
+   - `docs/index.md`: Mermaidコードブロックを削除し、SVG画像参照に置き換え
+   - `mkdocs.yml`: Mermaid関連の設定を削除
+     - `pymdownx.superfences`のカスタムフェンス設定を削除
+     - `extra_javascript`から`mermaid-fix.js`を削除
+   - `docs/javascripts/mermaid-fix.js`: 削除（不要になったため）
+
+### 成果
+
+- Mermaid図から元のdraw.io SVGファイルへの移行が完了
+- 統一されたデザイン仕様で2つの図を作成
+- 色の衝突を回避した配色設計
+- ドキュメントの表示が改善
+
+**完了日時**: 2026年5月30日 15:06 JST
+
+---
+
 ## 2026年5月30日 14:37 JST - Mermaid図のブロックサイズ統一
 
 ### 作業内容
