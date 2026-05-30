@@ -126,7 +126,6 @@ extra:
 # カスタムCSS（モジュール化済み）
 extra_css:
   - stylesheets/extra.css
-  - stylesheets/language-switcher.css
 
 # カスタムJavaScript（モジュール化済み）
 extra_javascript:

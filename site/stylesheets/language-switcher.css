@@ -5,17 +5,19 @@
     display: none !important;
 }
 
-.custom-language-switcher {
-    position: fixed !important;
-    top: 3.2rem !important;
-    left: 0.8rem !important;
-    z-index: 10 !important;
-    background: var(--md-primary-fg-color) !important;
-    padding: 0.3rem !important;
-    border-radius: 0.2rem !important;
+/* ヘッダー内の言語スイッチャー */
+.custom-language-switcher--header {
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    margin-left: 0.4rem !important;
+    margin-right: 0.4rem !important;
+    background: transparent !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
 }
 
-.custom-language-switcher__toggle {
+.custom-language-switcher--header .custom-language-switcher__toggle {
     color: var(--md-primary-bg-color) !important;
 }
 
@@ -51,6 +53,25 @@
     background: var(--md-default-bg-color);
     box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.18);
     border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 12%, transparent);
+    z-index: 100;
+}
+
+/* ヘッダー内版のメニューは右寄せ */
+.custom-language-switcher--header .custom-language-switcher__menu {
+    left: auto;
+    right: 0;
+}
+
+/* タブリスト内版のメニューは右寄せ */
+.custom-language-switcher--tabs .custom-language-switcher__menu {
+    left: auto;
+    right: 0;
+}
+
+/* ヘッダー内版のメニューは右寄せ */
+.custom-language-switcher--header .custom-language-switcher__menu {
+    left: auto;
+    right: 0;
 }
 
 .custom-language-switcher__menu[hidden] {
@@ -78,17 +99,6 @@
     color: var(--md-accent-fg-color);
 }
 
-@media screen and (max-width: 76.1875em) {
-    .custom-language-switcher {
-        left: 3.5rem !important;
-    }
-}
 
-@media screen and (max-width: 59.9375em) {
-    .custom-language-switcher {
-        top: 3rem !important;
-        left: 3rem !important;
-    }
-}
 
 /* Made with Bob */

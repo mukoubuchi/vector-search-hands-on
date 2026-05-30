@@ -1,3 +1,32 @@
+## 2026年5月31日 02:15 JST - 既存の言語スイッチャーを使用するように変更
+
+### 作業内容
+
+カスタム言語スイッチャーの実装を削除し、MkDocsのデフォルト言語スイッチャーを使用するように変更しました。
+
+### 実施した対応
+
+1. **CSSの簡素化 ([`docs/stylesheets/language-switcher.css`](docs/stylesheets/language-switcher.css))**
+   - カスタムスイッチャーのスタイルをすべて削除
+   - `.md-header__option { display: flex !important; }` のみを残して既存のスイッチャーを表示
+
+2. **設定ファイルの修正 ([`mkdocs.yml`](mkdocs.yml))**
+   - `extra_css`から`stylesheets/language-switcher.css`を削除
+   - `extra_javascript`から`javascripts/language-switcher.js`を削除
+
+3. **結果**
+   - MkDocsのデフォルト言語スイッチャー（地球儀アイコン）がヘッダー左上に表示
+   - 検索アイコンの左側に配置
+   - シンプルで保守性の高い実装に変更
+
+### 成果
+
+- ✅ 既存のMkDocs言語スイッチャーが正常に表示
+- ✅ カスタム実装を削除してコードを簡素化
+- ✅ MkDocsの標準機能を活用することで保守性が向上
+
+**完了日時**: 2026年5月31日 02:15 JST
+
 ## 2026年5月31日 02:06 JST - 言語切り替えボタンの配置変更（未完了）
 
 ### 作業内容

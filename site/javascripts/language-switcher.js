@@ -1,6 +1,60 @@
 (function() {
+    function createSwitcherHTML(englishUrl, japaneseUrl, isJapanese, menuId) {
+        return `
+            <button class="custom-language-switcher__toggle" type="button" aria-label="Switch language" aria-expanded="false" aria-controls="${menuId}">
+                <i class="fa-solid fa-language" aria-hidden="true"></i>
+            </button>
+            <ul class="custom-language-switcher__menu" id="${menuId}" hidden>
+                <li><a class="custom-language-switcher__link" href="${englishUrl}" data-md-component="skip" ${isJapanese ? '' : 'aria-current="true"'}>English</a></li>
+                <li><a class="custom-language-switcher__link" href="${japaneseUrl}" data-md-component="skip" ${isJapanese ? 'aria-current="true"' : ''}>日本語</a></li>
+            </ul>
+        `;
+    }
+
+    function setupSwitcherEvents(switcher) {
+        const toggle = switcher.querySelector('.custom-language-switcher__toggle');
+        const menu = switcher.querySelector('.custom-language-switcher__menu');
+        const links = switcher.querySelectorAll('.custom-language-switcher__link');
+
+        const closeMenu = () => {
+            menu.hidden = true;
+            toggle.setAttribute('aria-expanded', 'false');
+        };
+
+        toggle.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isHidden = menu.hidden;
+            menu.hidden = !isHidden;
+            toggle.setAttribute('aria-expanded', String(isHidden));
+        });
+
+        // 言語リンクのクリックイベントをインターセプトして強制的にページ遷移
+        links.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                const targetUrl = link.getAttribute('href');
+                // 完全なページリロードを強制
+                window.location.assign(targetUrl);
+            }, true); // キャプチャフェーズで実行
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!switcher.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
+    }
+
     function initLanguageSwitcher() {
         const header = document.querySelector('.md-header__inner');
+        
         if (!header || document.querySelector('.custom-language-switcher')) {
             return;
         }
@@ -29,68 +83,23 @@
             }
         }
         
-        // デバッグ用ログ
-        console.log('Language Switcher Debug:', {
-            currentPath,
-            isJapanese,
-            englishUrl,
-            japaneseUrl
-        });
+        // 言語スイッチャーを作成（検索ボタンの後に配置）
+        const languageSwitcher = document.createElement('div');
+        languageSwitcher.className = 'custom-language-switcher custom-language-switcher--header';
+        languageSwitcher.innerHTML = createSwitcherHTML(englishUrl, japaneseUrl, isJapanese, 'custom-language-switcher-menu');
         
-        const switcher = document.createElement('div');
-        switcher.className = 'custom-language-switcher';
-
-        switcher.innerHTML = `
-            <button class="custom-language-switcher__toggle" type="button" aria-label="Switch language" aria-expanded="false" aria-controls="custom-language-switcher-menu">
-                <i class="fa-solid fa-language" aria-hidden="true"></i>
-            </button>
-            <ul class="custom-language-switcher__menu" id="custom-language-switcher-menu" hidden>
-                <li><a class="custom-language-switcher__link" href="${englishUrl}" data-md-component="skip" ${isJapanese ? '' : 'aria-current="true"'}>English</a></li>
-                <li><a class="custom-language-switcher__link" href="${japaneseUrl}" data-md-component="skip" ${isJapanese ? 'aria-current="true"' : ''}>日本語</a></li>
-            </ul>
-        `;
-
-        header.prepend(switcher);
-
-        const toggle = switcher.querySelector('.custom-language-switcher__toggle');
-        const menu = switcher.querySelector('.custom-language-switcher__menu');
-        const links = switcher.querySelectorAll('.custom-language-switcher__link');
-
-        const closeMenu = () => {
-            menu.hidden = true;
-            toggle.setAttribute('aria-expanded', 'false');
-        };
-
-        toggle.addEventListener('click', (event) => {
-            event.stopPropagation();
-            const isHidden = menu.hidden;
-            menu.hidden = !isHidden;
-            toggle.setAttribute('aria-expanded', String(isHidden));
-        });
-
-        // 言語リンクのクリックイベントをインターセプトして強制的にページ遷移
-        links.forEach(link => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                const targetUrl = link.getAttribute('href');
-                console.log('Language link clicked, navigating to:', targetUrl);
-                // 完全なページリロードを強制
-                window.location.assign(targetUrl);
-            }, true); // キャプチャフェーズで実行
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!switcher.contains(event.target)) {
-                closeMenu();
+        const searchButton = header.querySelector('label.md-header__button[for="__search"]');
+        if (searchButton) {
+            // 検索ボタンの次の要素の前に挿入（検索ボタンの直後）
+            if (searchButton.nextElementSibling) {
+                header.insertBefore(languageSwitcher, searchButton.nextElementSibling);
+            } else {
+                header.appendChild(languageSwitcher);
             }
-        });
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                closeMenu();
-            }
-        });
+        } else {
+            header.appendChild(languageSwitcher);
+        }
+        setupSwitcherEvents(languageSwitcher);
     }
 
     if (document.readyState === 'loading') {
