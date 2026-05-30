@@ -1,3 +1,32 @@
+## 2026年5月31日 00:24 JST - 言語スイッチャーの動作修正
+
+### 作業内容
+
+言語スイッチャーが表示されない問題を修正しました。JavaScriptの読み込みタイミングとコード構造を改善し、正常に動作するようになりました。
+
+### 実施した対応
+
+1. **JavaScriptの読み込み位置変更 ([`docs/overrides/main.html`](docs/overrides/main.html:9))**
+   - `{% block header %}`から`{% block scripts %}`へ移動
+   - `defer`属性を追加してDOM読み込み後の実行を保証
+
+2. **重複読み込みの削除 ([`mkdocs.yml`](mkdocs.yml:131))**
+   - `extra_javascript`から`language-switcher.js`を削除
+   - `main.html`での読み込みに一本化
+
+3. **JavaScriptコードの改善 ([`docs/javascripts/language-switcher.js`](docs/javascripts/language-switcher.js:1))**
+   - IIFEパターンに変更して即座実行を保証
+   - `document.readyState`チェックを追加
+   - `loading`状態なら`DOMContentLoaded`を待機、それ以外は即座実行
+
+### 成果
+
+- 言語スイッチャーが正常に表示され、クリックでメニューが開く
+- 英語（`/`）と日本語（`/ja/`）の切り替えが正常に機能
+- ページ遷移後もスイッチャーが正しく表示される
+
+**完了日時**: 2026年5月31日 00:24 JST
+
 ## 2026年5月31日 00:18 JST - 言語スイッチャー修正とヘッダーレイアウト調整
 
 ### 作業内容
