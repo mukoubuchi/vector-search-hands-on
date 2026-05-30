@@ -6,10 +6,17 @@
 }
 
 .custom-language-switcher {
-    position: absolute;
-    top: 0.35rem;
-    left: 0.75rem;
-    z-index: 4;
+    position: fixed !important;
+    top: 3.2rem !important;
+    left: 0.8rem !important;
+    z-index: 10 !important;
+    background: var(--md-primary-fg-color) !important;
+    padding: 0.3rem !important;
+    border-radius: 0.2rem !important;
+}
+
+.custom-language-switcher__toggle {
+    color: var(--md-primary-bg-color) !important;
 }
 
 .custom-language-switcher__toggle {
@@ -71,22 +78,16 @@
     color: var(--md-accent-fg-color);
 }
 
-@media screen and (min-width: 60em) {
-    .md-header__inner {
-        padding-left: 3.25rem !important;
-    }
-}
-
 @media screen and (max-width: 76.1875em) {
     .custom-language-switcher {
-        left: 3rem;
+        left: 3.5rem !important;
     }
 }
 
 @media screen and (max-width: 59.9375em) {
     .custom-language-switcher {
-        top: 0.25rem;
-        left: 2.75rem;
+        top: 3rem !important;
+        left: 3rem !important;
     }
 }
 
