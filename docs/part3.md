@@ -1,42 +1,42 @@
-# Part 3: 動作確認とレビュー
+# Part 3: Verification and Review
 
-このパートでは、Part 2 で追加した 3 つの機能が正しく動作するか確認し、IBM Bob のコードレビュー機能を使います。
+In this part, you'll verify that the 3 features added in Part 2 work correctly and use IBM Bob's code review feature.
 
-## このパートのゴール
+## Goals of This Part
 
-- 追加した機能をテストする
-- IBM Bob のコードレビュー機能を使う
-- コードの品質を確認する
+- Test the added features
+- Use IBM Bob's code review feature
+- Verify code quality
 
-## ステップ 1: 追加した機能をテストする
+## Step 1: Test the Added Features
 
-!!! example "実践: 追加した機能をテストしよう"
+!!! example "Practice: Let's test the added features"
     
-    Part 2 で追加した 3 つの機能をテストします。
+    Test the 3 features added in Part 2.
 
-### テスト 1: 商品画像の表示
+### Test 1: Product Image Display
 
-#### 手順
+#### Procedure
 
-1. Swagger UI を開く（**`http://localhost:8002/docs`**）
-2. **`/search`** エンドポイントを開く
-3. 「Try it out」をクリック
-4. 以下を入力:
+1. Open Swagger UI (**`http://localhost:8002/docs`**)
+2. Open the **`/search`** endpoint
+3. Click "Try it out"
+4. Enter the following:
 
    ```json
    {
-     "query": "赤いスニーカー"
+     "query": "red sneakers"
    }
    ```
 
-5. 「Execute」をクリック
-6. 結果を確認:
+5. Click "Execute"
+6. Verify results:
 
    ```json
    {
      "results": [
        {
-         "product_name": "赤いランニングシューズ",
+         "product_name": "Red Running Shoes",
          "image_url": "https://example.com/images/red-shoes.jpg",
          "similarity_score": 0.92,
          "price": 8900
@@ -45,23 +45,23 @@
    }
    ```
 
-#### 確認ポイント
+#### Verification Points
 
-- **`image_url`** フィールドが存在する
-- URL が正しい形式（**`https://`** で始まる）
-- すべての検索結果に画像 URL が含まれる
+- **`image_url`** field exists
+- URL is in correct format (starts with **`https://`**)
+- All search results include image URL
 
-### テスト 2: 価格フィルター
+### Test 2: Price Filter
 
-#### 手順
+#### Procedure
 
-1. Swagger UI で **`/search`** を開く
-2. 「Try it out」をクリック
-3. 以下を入力:
+1. Open **`/search`** in Swagger UI
+2. Click "Try it out"
+3. Enter the following:
 
    ```json
    {
-     "query": "スニーカー",
+     "query": "sneakers",
      "filters": {
        "price_range": {
          "min": 5000,
@@ -71,20 +71,20 @@
    }
    ```
 
-4. 「Execute」をクリック
-5. 結果を確認: すべての商品の価格が 5000〜10000 円の範囲内
+4. Click "Execute"
+5. Verify results: All product prices are within the 5000-10000 yen range
 
-#### 確認ポイント
+#### Verification Points
 
-- 指定した価格範囲の商品のみ表示される
-- 範囲外の商品は表示されない
+- Only products within the specified price range are displayed
+- Products outside the range are not displayed
 
-#### 色々な価格帯を試す
+#### Try Various Price Ranges
 
 ```json
-// 高価格帯
+// High price range
 {
-  "query": "カメラ",
+  "query": "camera",
   "filters": {
     "price_range": {
       "min": 50000,
@@ -93,9 +93,9 @@
   }
 }
 
-// 低価格帯
+// Low price range
 {
-  "query": "カメラ",
+  "query": "camera",
   "filters": {
     "price_range": {
       "min": 0,
@@ -105,177 +105,177 @@
 }
 ```
 
-### テスト 3: レコメンド理由の表示
+### Test 3: Recommendation Reason Display
 
-#### 手順
+#### Procedure
 
-1. Swagger UI で **`/search`** を開く
-2. 「Try it out」をクリック
-3. 以下を入力:
+1. Open **`/search`** in Swagger UI
+2. Click "Try it out"
+3. Enter the following:
 
    ```json
    {
-     "query": "初心者向けのカメラ"
+     "query": "beginner camera"
    }
    ```
 
-4. 「Execute」をクリック
-5. 結果を確認:
+4. Click "Execute"
+5. Verify results:
 
    ```json
    {
      "results": [
        {
-         "product_name": "入門用デジタルカメラ",
+         "product_name": "Entry-level Digital Camera",
          "similarity_score": 0.95,
-         "recommendation_reason": "検索内容と非常に高い類似性があります（95%）"
+         "recommendation_reason": "Very high similarity with search content (95%)"
        }
      ]
    }
    ```
 
-#### 確認ポイント
+#### Verification Points
 
-- **`recommendation_reason`** フィールドが存在する
-- 理由が分かりやすい日本語で表示される
-- 類似度スコアに基づいた説明になっている
+- **`recommendation_reason`** field exists
+- Reason is displayed in clear language
+- Explanation is based on similarity score
 
-### テスト完了チェック
+### Test Completion Check
 
-- [ ] 商品画像が表示される
-- [ ] 価格フィルターが動作する
-- [ ] レコメンド理由が表示される
-- [ ] すべての機能が正しく動作する
+- [ ] Product images are displayed
+- [ ] Price filter works
+- [ ] Recommendation reason is displayed
+- [ ] All features work correctly
 
-## ステップ 2: IBM Bob のコードレビュー機能を使う
+## Step 2: Use IBM Bob's Code Review Feature
 
-!!! example "実践: コードレビューを依頼しよう"
+!!! example "Practice: Request a code review"
     
-    IBM Bob にコードの品質をチェックしてもらいます。
+    Have IBM Bob check the code quality.
 
-### コードレビューとは？
+### What is Code Review?
 
-**コードレビュー** = コードの品質を確認すること
+**Code review** = Verifying code quality
 
-**目的**:
+**Purpose**:
 
-- バグを見つける
-- 改善点を発見する
-- ベストプラクティスを学ぶ
+- Find bugs
+- Discover improvement points
+- Learn best practices
 
-### ステップ 1: レビューを依頼
+### Step 1: Request Review
 
-チャット入力欄に以下を入力して Enter:
+Enter the following in the chat input field and press Enter:
 
 ```text
 /review app.py
 ```
 
-!!! tip "コマンドの使い方"
+!!! tip "How to Use the Command"
     
-    `/review` コマンドを使用すると、IBM Bob がコードレビューを実行します。
+    Using the `/review` command, IBM Bob will execute a code review.
 
-### ステップ 2: IBM Bob のレビュー結果を確認
+### Step 2: Review IBM Bob's Review Results
 
-IBM Bob が以下のような分析をします:
+IBM Bob will perform analysis like the following:
 
 ```
-コードレビュー結果:
+Code Review Results:
 
-良い点:
-✓ コードが読みやすい
-✓ 適切なエラーハンドリング
-✓ 関数が適切に分割されている
+Good points:
+✓ Code is readable
+✓ Appropriate error handling
+✓ Functions are properly divided
 
-改善点:
-⚠ ログ出力を追加すると良い
-⚠ テストコードがあると良い
-⚠ ドキュメントコメントを追加すると良い
+Improvement points:
+⚠ Adding log output would be good
+⚠ Having test code would be good
+⚠ Adding documentation comments would be good
 
-セキュリティ:
-✓ 特に問題なし
+Security:
+✓ No particular issues
 
-パフォーマンス:
-✓ 効率的な実装
+Performance:
+✓ Efficient implementation
 ```
 
-### ステップ 4: 改善点を確認
+### Step 4: Review Improvement Points
 
-IBM Bob が指摘した改善点を確認します。
+Review the improvement points IBM Bob pointed out.
 
-**よくある改善点**:
+**Common improvement points**:
 
-- ログ出力の追加
-- エラーハンドリングの強化
-- ドキュメントコメントの追加
-- テストコードの作成
+- Adding log output
+- Strengthening error handling
+- Adding documentation comments
+- Creating test code
 
-### ステップ 5: 改善を依頼（オプション）
+### Step 5: Request Improvements (Optional)
 
-改善したい点があれば、IBM Bob に依頼します:
+If there are points you want to improve, request IBM Bob:
 
 ```text
-ログ出力を追加して
+Add log output
 ```
 
-## Part 3 完了チェック
+## Part 3 Completion Check
 
-- [ ] Part 2 で追加した 3 つの機能をすべてテストした
-- [ ] `/review` コマンドを使って、IBM Bob にコードレビューを依頼した
-- [ ] レビュー結果を確認し、改善点を把握した。
+- [ ] Tested all 3 features added in Part 2
+- [ ] Used the `/review` command to request code review from IBM Bob
+- [ ] Reviewed review results and understood improvement points
 
 ## FAQ
 
-??? question "Q1: テストが失敗する"
+??? question "Q1: Test fails"
 
-    対処法:
+    Solution:
     
-    1. アプリケーションが起動しているか確認
-    2. 変更が保存されているか確認
-    3. アプリケーションを再起動
+    1. Verify application is running
+    2. Verify changes are saved
+    3. Restart the application
     
-        IBM Bob のチャット画面で以下を入力:
+        Enter the following in IBM Bob's chat screen:
         
         ```text
-        デモアプリケーションを再起動して
+        Restart the demo application
         ```
         
-        ??? tip "手動で再起動する場合"
-            1. ターミナルで ++ctrl+c++ （停止）
+        ??? tip "If restarting manually"
+            1. Press ++ctrl+c++ in the terminal (stop)
                 
-                **注意**: IBM Bob に依頼して起動した場合、Bob が操作するターミナルにはアクセスできないため、この停止操作はできません。
+                **Note**: If you started via IBM Bob, you cannot access the terminal that Bob operates, so this stop operation is not possible.
             
-            2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
+            2. Execute **`python app.py`** ([:material-play-circle: How to start](../part1/#app-restart))
 
-??? question "Q2: レビュー結果が表示されない"
+??? question "Q2: Review results are not displayed"
 
-    対処法:
+    Solution:
     
-    1. `/review` コマンドを正しく入力したか確認
-    2. ファイル名が正しいか確認
-    3. IBM Bob を再起動
+    1. Verify `/review` command was entered correctly
+    2. Verify file name is correct
+    3. Restart IBM Bob
 
-## ステップ 3: 環境のクリーンアップ
+## Step 3: Environment Cleanup
 
-!!! example "実践: インストールしたパッケージをクリーンアップしよう"
+!!! example "Practice: Clean up installed packages"
     
-    ハンズオンで使用した Python パッケージをアンインストールして、環境をクリーンアップします。
+    Uninstall Python packages used in the hands-on to clean up the environment.
 
-### クリーンアップの目的
+### Purpose of Cleanup
 
-このハンズオンでは、`pip` を使用して複数のパッケージをインストールしました。ハンズオン終了後、これらのパッケージが不要な場合は、環境をクリーンに保つためにアンインストールすることをお勧めします。
+In this hands-on, we installed multiple packages using `pip`. After the hands-on, if these packages are no longer needed, we recommend uninstalling them to keep the environment clean.
 
-### IBM Bob にクリーンアップを依頼
+### Request IBM Bob to Clean Up
 
-IBM Bob のチャット入力欄に以下を入力:
+Enter the following in IBM Bob's chat input field:
 
 ```text
-setup/participant/requirements.txt に記載されているパッケージをすべてアンインストールして
+Uninstall all packages listed in setup/participant/requirements.txt
 ```
 
-!!! info "アンインストールされるパッケージ"
+!!! info "Packages to be Uninstalled"
     
-    以下のパッケージがアンインストールされます:
+    The following packages will be uninstalled:
     
     - pymilvus
     - sentence-transformers
@@ -286,10 +286,10 @@ setup/participant/requirements.txt に記載されているパッケージをす
     - langchain
     - langchain-community
     - tqdm
-    - その他の依存パッケージ
+    - Other dependency packages
 
-??? tip "手動でアンインストールする場合"
-    IBM Bob を使わずに手動でアンインストールする場合は、ターミナルで以下を実行:
+??? tip "If uninstalling manually"
+    If uninstalling manually without using IBM Bob, execute the following in the terminal:
     
     === ":fontawesome-brands-apple: Mac"
         ```bash
@@ -303,16 +303,16 @@ setup/participant/requirements.txt に記載されているパッケージをす
         pip uninstall -y -r setup\participant\requirements.txt
         ```
 
-??? question "Q: パッケージを残しておきたい場合は？"
+??? question "Q: What if I want to keep the packages?"
     
-    このハンズオンで学んだ技術を今後も使用する予定がある場合は、パッケージをアンインストールする必要はありません。そのまま残しておいて、次回のプロジェクトで再利用できます。
+    If you plan to use the technologies learned in this hands-on in the future, you don't need to uninstall the packages. You can leave them as is and reuse them in your next project.
 
-### クリーンアップ完了チェック
+### Cleanup Completion Check
 
-- [ ] IBM Bob にパッケージのアンインストールを依頼した
-- [ ] アンインストールが正常に完了した
-- [ ] 環境がクリーンになった
+- [ ] Requested IBM Bob to uninstall packages
+- [ ] Uninstallation completed successfully
+- [ ] Environment is clean
 
-## 次のステップ
+## Next Steps
 
-Part 3 が完了したら、[まとめ](summary.md)に進みましょう！
+Once Part 3 is complete, proceed to [Summary](summary.md)!

@@ -1,62 +1,62 @@
-# Part 1: Vector Search を体験しよう
+# Part 1: Experience Vector Search
 
-このパートでは、Vector Search（ベクトル検索）がどのように動作するかを実際に体験します。
+In this part, you'll experience how Vector Search works in practice.
 
-## このパートのゴール
+## Goals of This Part
 
-- Vector Search とは何かを理解する
-- 実際に Vector Search を動かしてみる
-- 「意味で検索」の便利さを体感する
+- Understand what Vector Search is
+- Actually run Vector Search
+- Experience the convenience of "semantic search"
 
-## ステップ 1: Vector Search とは？
+## Step 1: What is Vector Search?
 
-### 従来の検索の問題点
+### Problems with Traditional Search
 
-**例: EC サイトで商品を探す場合**
+**Example: Searching for products on an e-commerce site**
 
-**あなたの検索**:「赤いスニーカー」
+**Your search**: "red sneakers"
 
-**従来の検索結果**:
+**Traditional search results**:
 
-- 「赤いスニーカー」→ 見つかる
-- 「赤色のランニングシューズ」→ 見つからない
-- 「レッドのスポーツシューズ」→ 見つからない
+- "red sneakers" → Found
+- "red running shoes" → Not found
+- "red sports shoes" → Not found
 
-**なぜ見つからない？**
+**Why not found?**
 
-- 従来の検索は「文字」を探すだけ
-- 「赤い」と「赤色」は違う文字として扱われる
+- Traditional search only looks for "characters"
+- "red" and "red" (in different forms) are treated as different characters
 
-### Vector Search の仕組み
+### How Vector Search Works
 
-Vector Search は「意味」を理解して検索します。
+Vector Search searches by understanding "meaning".
 
 ```mermaid
 graph LR
-    subgraph step1["ステップ 1: テキスト入力"]
-        A["<b>ユーザー入力</b><br/>「赤いスニーカー」"]
+    subgraph step1["Step 1: Text Input"]
+        A["<b>User Input</b><br/>'red sneakers'"]
     end
     
-    subgraph step2["ステップ 2: ベクトル変換"]
-        B["<b>埋め込みモデル</b><br/>テキスト → ベクトル"]
+    subgraph step2["Step 2: Vector Conversion"]
+        B["<b>Embedding Model</b><br/>Text → Vector"]
     end
     
-    subgraph step3["ステップ 3: ベクトル表現"]
-        C["<b>ベクトル (384次元)</b><br/>[0.2, 0.8, 0.1, 0.5, ...]"]
+    subgraph step3["Step 3: Vector Representation"]
+        C["<b>Vector (384 dimensions)</b><br/>[0.2, 0.8, 0.1, 0.5, ...]"]
     end
     
-    subgraph step4["ステップ 4: 類似検索"]
-        D[("<b>Milvus</b><br/>ベクトルDB")]
+    subgraph step4["Step 4: Similarity Search"]
+        D[("<b>Milvus</b><br/>Vector DB")]
     end
     
-    subgraph step5["ステップ 5: 検索結果"]
-        E["<b>類似商品リスト</b><br/>・赤いランニングシューズ (0.92)<br/>・レッドスポーツシューズ (0.88)<br/>・赤色スニーカー (0.85)"]
+    subgraph step5["Step 5: Search Results"]
+        E["<b>Similar Products List</b><br/>・Red running shoes (0.92)<br/>・Red sports shoes (0.88)<br/>・Red sneakers (0.85)"]
     end
     
-    A -->|テキスト| B
-    B -->|変換| C
-    C -->|検索クエリ| D
-    D -->|類似ベクトル| E
+    A -->|Text| B
+    B -->|Convert| C
+    C -->|Search Query| D
+    D -->|Similar Vectors| E
     
     style step1 fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
     style step2 fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
@@ -71,326 +71,326 @@ graph LR
     style E fill:#F8BBD0,stroke:#C2185B,stroke-width:2px
 ```
 
-!!! info "ポイント"
-    - 意味が似ていると、ベクトルも似る
-    - コンピュータは数値の類似度を高速計算
+!!! info "Key Point"
+    - Similar meanings result in similar vectors
+    - Computers can quickly calculate numerical similarity
 
-**あなたの検索**:「赤いスニーカー」
+**Your search**: "red sneakers"
 
-**Vector Search の結果**:
+**Vector Search results**:
 
-- 「赤いスニーカー」→ 見つかる
-- 「赤色のランニングシューズ」→ 見つかる（意味が似ている）
-- 「レッドのスポーツシューズ」→ 見つかる（意味が似ている）
+- "red sneakers" → Found
+- "red running shoes" → Found (similar meaning)
+- "red sports shoes" → Found (similar meaning)
 
-**なぜ見つかる？**
+**Why found?**
 
-- Vector Search は「意味」を理解する
-- 「赤い」「赤色」「レッド」→ 同じ意味と理解
-- 「スニーカー」「ランニングシューズ」「スポーツシューズ」→ 似た意味と理解
+- Vector Search understands "meaning"
+- "red" "red" "red" (in various forms) → Understood as the same meaning
+- "sneakers" "running shoes" "sports shoes" → Understood as similar meanings
 
-### Vector Search の動作
+### How Vector Search Operates
 
 ```
-ステップ 1: テキストを数値に変換
-「赤いスニーカー」→ [0.2, 0.8, 0.1, 0.5, ...] （ベクトル）
+Step 1: Convert text to numbers
+"red sneakers" → [0.2, 0.8, 0.1, 0.5, ...] (vector)
 
-ステップ 2: 似た数値を探す
-データベースから似た数値のパターンを検索
+Step 2: Find similar numbers
+Search for similar numerical patterns from the database
 
-ステップ 3: 結果を返す
-似た意味の商品を返す
+Step 3: Return results
+Return products with similar meanings
 ```
 
-**ポイント**:
+**Key points**:
 
-- 「ベクトル」= 数値の配列
-- 意味が似ていると、数値のパターンも似る
-- コンピュータは数値の類似度を高速に計算できる
+- "Vector" = array of numbers
+- Similar meanings result in similar numerical patterns
+- Computers can quickly calculate numerical similarity
 
-## ステップ 2: 接続テストを実行
+## Step 2: Run Connection Test
 
-!!! example "実践: ここから手を動かします"
+!!! example "Practice: Let's get hands-on"
     
-    実際に Vector Search を動かす前に、必要なサービスに接続できるか確認します。
+    Before running Vector Search, verify that you can connect to the required services.
 
-IBM Bob のチャット画面で以下を入力:
+Enter the following in IBM Bob's chat screen:
 
 ```text
-Milvus に接続して
+Connect to Milvus
 ```
 
-IBM Bob が自動的にスクリプトを実行し、接続テストを実施します。
+IBM Bob will automatically run the script and perform the connection test.
 
-??? tip "手動で実行する場合"
-    ターミナルに以下を入力:
+??? tip "If Running Manually"
+    Enter the following in the terminal:
     
     ```bash
     cd setup/participant
     python test_connection.py
     ```
 
-### 結果を確認
+### Verify Results
 
-#### 成功の場合
+#### If Successful
 
 ```
 ==================================================
-Milvus & 埋め込みモデル 接続テスト
+Milvus & Embedding Model Connection Test
 ==================================================
 
-=== 環境変数確認 ===
+=== Environment Variable Check ===
 ✓ MILVUS_HOST: 192.168.1.100
 ✓ MILVUS_PORT: 19530
 ✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
 ✓ EMBEDDING_DIMENSION: 384
 
-=== Milvus 接続テスト ===
-接続先: 192.168.1.100:19530
-✓ Milvus に接続成功
-✓ 既存コレクション数: 0
+=== Milvus Connection Test ===
+Connection: 192.168.1.100:19530
+✓ Successfully connected to Milvus
+✓ Existing collections: 0
 
-=== 埋め込みモデル テスト ===
-モデル: paraphrase-multilingual-MiniLM-L12-v2
-✓ モデルのロードに成功しました
-✓ 埋め込みベクトル生成成功
-  次元数: 384
+=== Embedding Model Test ===
+Model: paraphrase-multilingual-MiniLM-L12-v2
+✓ Model loaded successfully
+✓ Embedding vector generation successful
+  Dimensions: 384
 
-✓ すべての接続テストが成功しました！
+✓ All connection tests passed!
 ```
 
-**これは何？**:
+**What is this?**:
 
-- **Milvus**: ベクトルデータベース（データを保存する場所）
-- **埋め込みモデル**: テキストをベクトルに変換
-- **次元数 384**: 384 個の数値で意味を表現
+- **Milvus**: Vector database (where data is stored)
+- **Embedding model**: Converts text to vectors
+- **384 dimensions**: Represents meaning with 384 numbers
 
-#### 失敗の場合
+#### If Failed
 
 ```
-✗ Milvus 接続エラー: Connection refused
+✗ Milvus connection error: Connection refused
 ```
 
-**対処法**:
+**Solution**:
 
-1. **`.env`** ファイルを確認
-    - `MILVUS_HOST` に講師から配布された IP アドレスが正しく入力されているか確認（[:material-cog: 設定方法](preparation.md#milvus_host)）
-2. インターネット接続を確認
-3. その他のエラーについては、[FAQ](#faq)を参照してください
+1. Check the **`.env`** file
+    - Verify that the IP address distributed by the instructor is correctly entered in `MILVUS_HOST` ([:material-cog: Configuration method](preparation.md#milvus_host))
+2. Check internet connection
+3. For other errors, refer to [FAQ](#faq)
 
-## ステップ 3: サンプルデータを投入
+## Step 3: Insert Sample Data
 
-!!! example "実践: Milvus にサンプルデータを投入"
+!!! example "Practice: Insert Sample Data into Milvus"
     
-    Vector Search を体験するために、まずサンプル商品データを投入します。
+    To experience Vector Search, first insert sample product data.
 
-IBM Bob のチャット画面で以下を入力:
+Enter the following in IBM Bob's chat screen:
 
 ```text
-サンプルデータを投入して
+Insert sample data
 ```
 
-IBM Bob が自動的にスクリプトを実行し、サンプルデータを投入します。
+IBM Bob will automatically run the script and insert sample data.
 
-??? tip "手動で実行する場合"
-    ターミナルに以下を入力:
+??? tip "If Running Manually"
+    Enter the following in the terminal:
     
     ```bash
     cd setup/participant
     python insert_sample_data.py
     ```
 
-### 投入結果を確認
+### Verify Insertion Results
 
-以下のような表示が出れば成功:
+If you see the following display, it's successful:
 
 ```
 ==================================================
-✓ サンプルデータの投入が完了しました
+✓ Sample data insertion completed
 ==================================================
 
-コレクション名: knowledge_base
-エンティティ数: 12
+Collection name: knowledge_base
+Entity count: 12
 
-デモアプリケーションを起動できます:
+You can start the demo application:
   cd setup/participant
   python app.py
 ==================================================
 ```
 
-**投入されたデータ**:
+**Inserted data**:
 
-- 商品数: 12件
-- カテゴリ: スニーカー、カメラ、パソコン、バッグ
-- 各商品に商品名、価格、説明、埋め込みベクトルが含まれる
+- Number of products: 12
+- Categories: Sneakers, Cameras, Computers, Bags
+- Each product includes product name, price, description, and embedding vector
 
-## ステップ 4: Vector Search を体験
+## Step 4: Experience Vector Search
 
-!!! example "実践: Vector Search を動かしてみよう"
+!!! example "Practice: Let's run Vector Search"
     
-    サンプルデータの投入が成功したら、実際に Vector Search を体験しましょう。
+    Once sample data insertion is successful, let's experience Vector Search.
 
-### デモアプリケーションを起動 {#app-restart}
+### Launch Demo Application {#app-restart}
 
-IBM Bob のチャット画面で以下を入力:
+Enter the following in IBM Bob's chat screen:
 
 ```text
-デモアプリケーションを起動して
+Start the demo application
 ```
 
-??? tip "手動で起動する場合"
-    ターミナルに以下を入力:
+??? tip "If Starting Manually"
+    Enter the following in the terminal:
     
     ```bash
     cd setup/participant
     python app.py
     ```
 
-### 起動を確認
+### Verify Launch
 
-Web ブラウザで以下の URL にアクセスして、Swagger UI が表示されることを確認:
+Access the following URL in your web browser and verify that Swagger UI is displayed:
 
 ```text
 http://localhost:8002/docs
 ```
 
-**Swagger UI** = API を視覚的にテストできるツール
+**Swagger UI** = A tool to visually test APIs
 
-!!! success "起動成功"
+!!! success "Launch Successful"
     
-    Swagger UI が表示されれば、アプリケーションは正常に起動しています。
+    If Swagger UI is displayed, the application has started successfully.
 
-??? tip "手動起動時のターミナル確認"
-    手動で起動した場合は、ターミナルに以下のような表示が出ます:
+??? tip "Terminal Verification for Manual Launch"
+    If you started manually, the following will be displayed in the terminal:
     
     ```
     INFO:     Uvicorn running on http://0.0.0.0:8002
     ```
     
-    **重要**: ターミナルは閉じないでください（アプリケーションが停止します）
+    **Important**: Do not close the terminal (the application will stop)
 
-### 検索を試してみる
+### Try Searching
 
-#### ステップ 1: **`/search`** エンドポイントを開く
+#### Step 1: Open the **`/search`** endpoint
 
-1. Swagger UI 画面で **`/search`** を探す
-2. **`/search`** をクリック
+1. Find **`/search`** in the Swagger UI screen
+2. Click **`/search`**
 
-#### ステップ 2:「Try it out」をクリック
+#### Step 2: Click "Try it out"
 
-右上の「Try it out」ボタンをクリック
+Click the "Try it out" button in the upper right
 
-#### ステップ 3: 検索クエリを入力
+#### Step 3: Enter Search Query
 
-「Request body」の欄に以下を入力:
+Enter the following in the "Request body" field:
 
 ```json
 {
-  "query": "赤いスニーカー"
+  "query": "red sneakers"
 }
 ```
 
-#### ステップ 4:「Execute」をクリック
+#### Step 4: Click "Execute"
 
-青い「Execute」ボタンをクリック
+Click the blue "Execute" button
 
-#### ステップ 5: 結果を確認
+#### Step 5: Verify Results
 
-以下のような結果が表示されます:
+Results like the following will be displayed:
 
 ```json
 {
   "results": [
     {
-      "product_name": "赤いランニングシューズ",
+      "product_name": "Red Running Shoes",
       "similarity_score": 0.92,
       "price": 8900,
-      "category": "スニーカー",
-      "description": "軽量で通気性の良いランニングシューズ"
+      "category": "Sneakers",
+      "description": "Lightweight and breathable running shoes"
     }
   ]
 }
 ```
 
-**結果の見方**:
+**How to read results**:
 
-- **`product_name`**: 商品名
-- **`similarity_score`**: 類似度（0.0〜1.0、高いほど似ている）
-- **`price`**: 価格
-- **`category`**: カテゴリ
-- **`description`**: 説明
+- **`product_name`**: Product name
+- **`similarity_score`**: Similarity (0.0-1.0, higher is more similar)
+- **`price`**: Price
+- **`category`**: Category
+- **`description`**: Description
 
-### 色々な検索を試してみる
+### Try Various Searches
 
-#### 例 1: 初心者向けの商品を探す
-
-```json
-{
-  "query": "初心者向けのカメラ"
-}
-```
-
-#### 例 2: ビジネス向けの商品を探す
+#### Example 1: Search for beginner-friendly products
 
 ```json
 {
-  "query": "ビジネス向けのノートパソコン"
+  "query": "beginner camera"
 }
 ```
 
-#### 例 3: 高性能な商品を探す
+#### Example 2: Search for business-oriented products
 
 ```json
 {
-  "query": "高性能なゲーミング PC"
+  "query": "business laptop"
 }
 ```
 
-### Vector Search の凄さを実感
+#### Example 3: Search for high-performance products
 
-色々な検索を試すと、以下のことに気づくはずです:
+```json
+{
+  "query": "high-performance gaming PC"
+}
+```
 
-**気づき 1: 言い方が違っても見つかる**
+### Experience the Power of Vector Search
 
-- 「初心者向け」→「入門用」「ビギナー向け」も見つかる
+As you try various searches, you should notice the following:
 
-**気づき 2: 類似度スコアが便利**
+**Observation 1: Found even with different phrasing**
 
-- スコアが高い = より似ている
-- 結果の信頼度が分かる
+- "beginner" → "entry-level" "for beginners" are also found
 
-**気づき 3: 説明文も考慮される**
+**Observation 2: Similarity scores are useful**
 
-- 商品名だけでなく、説明文の意味も理解
+- Higher score = more similar
+- You can see the reliability of results
 
-## Part 1 完了チェック
+**Observation 3: Descriptions are also considered**
 
-- [ ] Vector Search とは何かを理解した
-- [ ] 従来の検索との違いを理解した
-- [ ] 接続テストが成功した
-- [ ] サンプルデータを投入できた
-- [ ] デモアプリケーションを起動できた
-- [ ] Swagger UI を開けた
-- [ ] 検索を実行できた
-- [ ] 色々な検索を試した
+- Understands not just product names but also the meaning of descriptions
+
+## Part 1 Completion Check
+
+- [ ] Understood what Vector Search is
+- [ ] Understood the difference from traditional search
+- [ ] Connection test was successful
+- [ ] Inserted sample data
+- [ ] Launched demo application
+- [ ] Opened Swagger UI
+- [ ] Executed search
+- [ ] Tried various searches
 
 ## FAQ
 
-??? question "Q1: Swagger UI が開けない"
+??? question "Q1: Cannot open Swagger UI"
 
-    対処法:
+    Solution:
     
-    1. アプリケーションが起動しているか確認
-    2. URL が正しいか確認（**`http://localhost:8002/docs`**）
-    3. ブラウザを変えてみる
+    1. Verify the application is running
+    2. Verify the URL is correct (**`http://localhost:8002/docs`**)
+    3. Try a different browser
 
-??? question "Q2: 検索結果が 0 件"
+??? question "Q2: Search results are 0"
 
-    対処法:
+    Solution:
     
-    1. サンプルデータが投入されているか確認
-    2. 検索クエリを変えてみる
+    1. Verify sample data has been inserted
+    2. Try changing the search query
 
-## 次のステップ
+## Next Steps
 
-Part 1 が完了したら、[Part 2: IBM Bob で機能を追加](part2.md)に進みましょう！
+Once Part 1 is complete, proceed to [Part 2: Add Features with IBM Bob](part2.md)!

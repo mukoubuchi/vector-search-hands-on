@@ -1,6 +1,6 @@
 # サイト基本情報
-site_name: Vector Search ハンズオン
-site_description: IBM Bob × Milvus × watsonx.ai を使ったベクトル検索ハンズオン
+site_name: Vector Search Hands-on
+site_description: Vector Search hands-on using IBM Bob × Milvus × watsonx.ai
 site_author: IBM Build Team
 site_url: http://localhost:8000/
 docs_dir: docs
@@ -11,7 +11,7 @@ exclude_docs: |
 # テーマ設定
 theme:
   name: material
-  language: ja
+  language: en
   custom_dir: docs/overrides
   palette:
     scheme: default
@@ -42,12 +42,12 @@ theme:
 
 # ナビゲーション構造
 nav:
-  - ホーム: index.md
-  - 事前準備: preparation.md
+  - Home: index.md
+  - Preparation: preparation.md
   - Part 1: part1.md
   - Part 2: part2.md
   - Part 3: part3.md
-  - まとめ: summary.md
+  - Summary: summary.md
 
 # Markdown拡張機能
 markdown_extensions:
@@ -88,15 +88,47 @@ markdown_extensions:
 # プラグイン設定
 plugins:
   - search:
-      lang: ja
+      lang:
+        - en
+        - ja
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      default_language: en
+      languages:
+        en:
+          name: English
+          build: true
+          site_name: Vector Search Hands-on
+        ja:
+          name: 日本語
+          build: true
+          site_name: Vector Search ハンズオン
+          nav_translations:
+            Home: ホーム
+            Preparation: 事前準備
+            Part 1: Part 1
+            Part 2: Part 2
+            Part 3: Part 3
+            Summary: まとめ
 
 # 追加設定
 extra:
   generator: false
+  alternate:
+    - name: English
+      link: /
+      lang: en
+    - name: 日本語
+      link: /ja/
+      lang: ja
 
 # カスタムCSS（モジュール化済み）
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/language-switcher.css
 
 # カスタムJavaScript（モジュール化済み）
 extra_javascript:
@@ -107,5 +139,6 @@ extra_javascript:
   - javascripts/tasks.js
   - javascripts/syntax-highlight.js
   - javascripts/drawio.js
+  - javascripts/language-switcher.js
 
 # Made with Bob

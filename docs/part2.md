@@ -1,131 +1,131 @@
-# Part 2: IBM Bob で機能を追加しよう
+# Part 2: Add Features with IBM Bob
 
-このパートでは、IBM Bob を使って、Vector Search アプリケーションに新しい機能を追加します。
+In this part, you'll use IBM Bob to add new features to the Vector Search application.
 
-## このパートのゴール
+## Goals of This Part
 
-- IBM Bob の使い方を学ぶ
-- 自然言語で指示を出してコードを生成する
-- 3 つの新機能を追加する
+- Learn how to use IBM Bob
+- Give instructions in natural language to generate code
+- Add 3 new features
 
-## IBM Bob とは？（復習）
+## What is IBM Bob? (Review)
 
-**IBM Bob** = AI がコーディングをサポートしてくれる開発ツール
+**IBM Bob** = A development tool where AI assists with coding
 
-**できること**:
+**What it can do**:
 
-- 自然言語で「こういう機能が欲しい」と伝える
-- IBM Bob が自動的にコードを書いてくれる
-- コードの説明もしてくれる
+- Tell it in natural language "I want this feature"
+- IBM Bob automatically writes the code
+- It also explains the code
 
-**メリット**:
+**Benefits**:
 
-- コーディングの手間を削減
-- 開発時間が大幅に短縮
-- 高品質なコードが生成される
+- Reduces coding effort
+- Significantly shortens development time
+- Generates high-quality code
 
-## 追加する機能
+## Features to Add
 
-このパートでは、以下の 3 つの機能を追加します:
+In this part, you'll add the following 3 features:
 
-1. **商品画像の表示**
-2. **価格フィルター**
-3. **レコメンド理由の表示**
+1. **Product image display**
+2. **Price filter**
+3. **Recommendation reason display**
 
-## 機能 1: 商品画像の表示
+## Feature 1: Product Image Display
 
-!!! info "なぜこの機能が必要？"
+!!! info "Why is this feature needed?"
     
-    現在の検索結果は文字だけです。商品画像があると視覚的に分かりやすく、ユーザー体験が向上します。
+    Current search results are text only. Having product images makes it visually clearer and improves user experience.
 
-### ステップ 1: IBM Bob を開く
+### Step 1: Open IBM Bob
 
-IBM Bob の画面下部のチャット入力欄をクリック
+Click the chat input field at the bottom of the IBM Bob screen
 
-### ステップ 2: Code モードに切り替え
+### Step 2: Switch to Code Mode
 
-1. 画面右下の「Mode」セレクターをクリック
-2. 「Code」を選択
+1. Click the "Mode" selector at the bottom right of the screen
+2. Select "Code"
 
-**Code モード** = コードを書くための専用モード
+**Code mode** = Dedicated mode for writing code
 
-??? note "他のモードでも実行可能"
-    このタスクは以下のモードでも実行できます:
+??? note "Can also be executed in other modes"
+    This task can also be executed in the following modes:
     
-    - **Advanced モード**: コード編集 + 追加ツール（MCP、Browser）
-    - **Vector Search Builder モード**: Vector Search 特化（このハンズオンで使用中）
+    - **Advanced mode**: Code editing + additional tools (MCP, Browser)
+    - **Vector Search Builder mode**: Vector Search specialized (used in this hands-on)
     
-    Code モードを選択することで、モード切り替えの基本操作を学べます。
+    By selecting Code mode, you can learn the basic operation of mode switching.
 
-### ステップ 3: IBM Bob に指示を出す
+### Step 3: Give Instructions to IBM Bob
 
-チャット入力欄に以下を入力して Enter:
+Enter the following in the chat input field and press Enter:
 
 ```
-検索結果に商品画像を表示して
+Display product images in search results
 ```
 
-**ポイント**:
+**Key point**:
 
-- 具体的に何をしたいか伝える
+- Clearly communicate what you want to do
 
-### ステップ 4: IBM Bob の応答を待つ
+### Step 4: Wait for IBM Bob's Response
 
-IBM Bob が自動的に以下を行います:
+IBM Bob will automatically:
 
-1. 指示を理解
-2. 関連ファイルを探す
-3. コードを生成
-4. 説明を表示
+1. Understand the instruction
+2. Find related files
+3. Generate code
+4. Display explanation
 
-### ステップ 5: IBM Bob の提案を確認
+### Step 5: Review IBM Bob's Proposal
 
-IBM Bob が以下のような提案をします。
+IBM Bob will make a proposal like the following.
 
-変更内容:
+Changes:
 
-- **`app.py`**: レスポンスに **`image_url`** フィールドを追加
-- 商品データから画像 URL を取得
-- 検索結果に画像 URL を含める
+- **`app.py`**: Add **`image_url`** field to response
+- Retrieve image URL from product data
+- Include image URL in search results
 
-### ステップ 6: 変更を承認
+### Step 6: Approve Changes
 
-1. IBM Bob の提案を読む
-2. 「承認」ボタンをクリック
-3. ファイルに変更が適用される
+1. Read IBM Bob's proposal
+2. Click the "Approve" button
+3. Changes are applied to the file
 
-### ステップ 7: 動作確認
+### Step 7: Verify Operation
 
-1. Swagger UI を開く（**`http://localhost:8002/docs`**）
-2. アプリケーションを再起動
+1. Open Swagger UI (**`http://localhost:8002/docs`**)
+2. Restart the application
 
-    IBM Bob のチャット画面で以下を入力:
+    Enter the following in IBM Bob's chat screen:
     
     ```text
-    デモアプリケーションを再起動して
+    Restart the demo application
     ```
     
-    ??? tip "手動で再起動する場合"
-        1. ターミナルで ++ctrl+c++ （停止）
+    ??? tip "If restarting manually"
+        1. Press ++ctrl+c++ in the terminal (stop)
             
-            **注意**: IBM Bob に依頼して起動した場合、Bob が操作するターミナルにはアクセスできないため、この停止操作はできません。
+            **Note**: If you started via IBM Bob, you cannot access the terminal that Bob operates, so this stop operation is not possible.
         
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
-3. 検索を実行:
+        2. Execute **`python app.py`** ([:material-play-circle: How to start](../part1/#app-restart))
+3. Execute search:
 
    ```json
    {
-     "query": "赤いスニーカー"
+     "query": "red sneakers"
    }
    ```
 
-4. 結果を確認:
+4. Verify results:
 
    ```json
    {
      "results": [
        {
-         "product_name": "赤いランニングシューズ",
+         "product_name": "Red Running Shoes",
          "image_url": "https://example.com/images/red-shoes.jpg",
          "similarity_score": 0.92,
          "price": 8900
@@ -134,197 +134,197 @@ IBM Bob が以下のような提案をします。
    }
    ```
 
-**確認ポイント**: **`image_url`** フィールドが追加されている
+**Verification point**: **`image_url`** field has been added
 
-### 機能 1 完了チェック
+### Feature 1 Completion Check
 
-- [ ] IBM Bob に指示を出せた
-- [ ] IBM Bob がコードを生成した
-- [ ] 変更を承認した
-- [ ] 検索結果に **`image_url`** が表示される
+- [ ] Gave instructions to IBM Bob
+- [ ] IBM Bob generated code
+- [ ] Approved changes
+- [ ] **`image_url`** is displayed in search results
 
-## 機能 2: 価格フィルター
+## Feature 2: Price Filter
 
-### なぜこの機能が必要？
+### Why is this feature needed?
 
-価格帯で絞り込めると、予算に合った商品を探せます。
+Being able to filter by price range allows finding products within budget.
 
-### ステップ 1: IBM Bob に指示を出す
+### Step 1: Give Instructions to IBM Bob
 
-チャット入力欄に以下を入力して Enter:
+Enter the following in the chat input field and press Enter:
 
 ```text
-価格帯でフィルターできる機能を追加して。
-最小価格と最大価格を指定できるようにして。
+Add a feature to filter by price range.
+Allow specifying minimum and maximum prices.
 ```
 
-### ステップ 2: IBM Bob の提案を確認
+### Step 2: Review IBM Bob's Proposal
 
-IBM Bob が以下のような提案をします。
+IBM Bob will make a proposal like the following.
 
-変更内容:
+Changes:
 
-- **`app.py`**: **`min_price`** と **`max_price`** パラメータを追加
-- 検索結果を価格帯でフィルタリング
+- **`app.py`**: Add **`min_price`** and **`max_price`** parameters
+- Filter search results by price range
 
-### ステップ 3: 変更を承認
+### Step 3: Approve Changes
 
-「承認」ボタンをクリック
+Click the "Approve" button
 
-### ステップ 4: 動作確認
+### Step 4: Verify Operation
 
-1. アプリケーションを再起動
+1. Restart the application
 
-    IBM Bob のチャット画面で以下を入力:
+    Enter the following in IBM Bob's chat screen:
     
     ```text
-    デモアプリケーションを再起動して
+    Restart the demo application
     ```
     
-    ??? tip "手動で再起動する場合"
-        1. ターミナルで ++ctrl+c++ （停止）
+    ??? tip "If restarting manually"
+        1. Press ++ctrl+c++ in the terminal (stop)
             
-            **注意**: IBM Bob に依頼して起動した場合、Bob が操作するターミナルにはアクセスできないため、この停止操作はできません。
+            **Note**: If you started via IBM Bob, you cannot access the terminal that Bob operates, so this stop operation is not possible.
         
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
-2. 検索を実行:
+        2. Execute **`python app.py`** ([:material-play-circle: How to start](../part1/#app-restart))
+2. Execute search:
 
    ```json
    {
-     "query": "スニーカー",
+     "query": "sneakers",
      "min_price": 5000,
      "max_price": 10000
    }
    ```
 
-3. 結果を確認: 5000 円〜10000 円の商品のみ表示される
+3. Verify results: Only products between 5000 and 10000 yen are displayed
 
-### 機能 2 完了チェック
+### Feature 2 Completion Check
 
-- [ ] IBM Bob に指示を出せた
-- [ ] 変更を承認した
-- [ ] 価格フィルターが動作する
+- [ ] Gave instructions to IBM Bob
+- [ ] Approved changes
+- [ ] Price filter works
 
-## 機能 3: レコメンド理由の表示
+## Feature 3: Recommendation Reason Display
 
-### なぜこの機能が必要？
+### Why is this feature needed?
 
-なぜその商品がおすすめなのかを表示すると、ユーザーの納得感が高まります。
+Displaying why a product is recommended increases user confidence.
 
-### ステップ 1: IBM Bob に指示を出す
+### Step 1: Give Instructions to IBM Bob
 
-チャット入力欄に以下を入力して Enter:
+Enter the following in the chat input field and press Enter:
 
 ```text
-検索結果に「なぜこの商品がおすすめなのか」という理由を表示して。
-類似度スコアに基づいて理由を生成して。
+Display "why this product is recommended" in search results.
+Generate reasons based on similarity scores.
 ```
 
-### ステップ 2: IBM Bob の提案を確認
+### Step 2: Review IBM Bob's Proposal
 
-IBM Bob が以下のような提案をします。
+IBM Bob will make a proposal like the following.
 
-変更内容:
+Changes:
 
-- **`app.py`**: **`recommendation_reason`** フィールドを追加
-- 類似度スコアに基づいて理由を生成
+- **`app.py`**: Add **`recommendation_reason`** field
+- Generate reasons based on similarity scores
 
-### ステップ 3: 変更を承認
+### Step 3: Approve Changes
 
-「承認」ボタンをクリック
+Click the "Approve" button
 
-### ステップ 4: 動作確認
+### Step 4: Verify Operation
 
-1. アプリケーションを再起動
+1. Restart the application
 
-    IBM Bob のチャット画面で以下を入力:
+    Enter the following in IBM Bob's chat screen:
     
     ```text
-    デモアプリケーションを再起動して
+    Restart the demo application
     ```
     
-    ??? tip "手動で再起動する場合"
-        1. ターミナルで ++ctrl+c++ （停止）
+    ??? tip "If restarting manually"
+        1. Press ++ctrl+c++ in the terminal (stop)
             
-            **注意**: IBM Bob に依頼して起動した場合、Bob が操作するターミナルにはアクセスできないため、この停止操作はできません。
+            **Note**: If you started via IBM Bob, you cannot access the terminal that Bob operates, so this stop operation is not possible.
         
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
-2. 検索を実行:
+        2. Execute **`python app.py`** ([:material-play-circle: How to start](../part1/#app-restart))
+2. Execute search:
 
    ```json
    {
-     "query": "初心者向けのカメラ"
+     "query": "beginner camera"
    }
    ```
 
-3. 結果を確認:
+3. Verify results:
 
    ```json
    {
      "results": [
        {
-         "product_name": "入門用デジタルカメラ",
+         "product_name": "Entry-level Digital Camera",
          "similarity_score": 0.95,
-         "recommendation_reason": "検索内容と非常に高い類似性があります（95%）"
+         "recommendation_reason": "Very high similarity with search content (95%)"
        }
      ]
    }
    ```
 
-### 機能 3 完了チェック
+### Feature 3 Completion Check
 
-- [ ] IBM Bob に指示を出せた
-- [ ] 変更を承認した
-- [ ] レコメンド理由が表示される
+- [ ] Gave instructions to IBM Bob
+- [ ] Approved changes
+- [ ] Recommendation reason is displayed
 
-## Part 2 完了チェック
+## Part 2 Completion Check
 
-- [ ] 商品画像表示機能を追加した
-- [ ] 価格フィルター機能を追加した
-- [ ] レコメンド理由表示機能を追加した
-- [ ] すべての機能が正しく動作する
+- [ ] Added product image display feature
+- [ ] Added price filter feature
+- [ ] Added recommendation reason display feature
+- [ ] All features work correctly
 
 ## FAQ
 
-??? question "Q1: IBM Bob が応答しない"
+??? question "Q1: IBM Bob is not responding"
 
-    対処法:
+    Solution:
     
-    1. インターネット接続を確認
-    2. IBM Bob を再起動
+    1. Check internet connection
+    2. Restart IBM Bob
 
-??? question "Q2: 変更が反映されない"
+??? question "Q2: Changes are not reflected"
 
-    対処法:
+    Solution:
     
-    1. ファイルが保存されているか確認
-    2. アプリケーションを再起動
+    1. Verify file is saved
+    2. Restart the application
     
-        IBM Bob のチャット画面で以下を入力:
+        Enter the following in IBM Bob's chat screen:
         
         ```text
-        デモアプリケーションを再起動して
+        Restart the demo application
         ```
         
-        ??? tip "手動で再起動する場合"
-            1. ターミナルで ++ctrl+c++ （停止）
+        ??? tip "If restarting manually"
+            1. Press ++ctrl+c++ in the terminal (stop)
                 
-                **注意**: IBM Bob に依頼して起動した場合、Bob が操作するターミナルにはアクセスできないため、この停止操作はできません。
+                **Note**: If you started via IBM Bob, you cannot access the terminal that Bob operates, so this stop operation is not possible.
             
-            2. **`python app.py`** を実行（[:material-play-circle: 起動方法](../part1/#app-restart)）
-    3. ブラウザをリロード
+            2. Execute **`python app.py`** ([:material-play-circle: How to start](../part1/#app-restart))
+    3. Reload browser
 
-??? question "Q3: エラーが表示される"
+??? question "Q3: Error is displayed"
 
-    対処法:
+    Solution:
     
-    1. エラーメッセージをコピー
-    2. IBM Bob のチャット画面で以下を入力:
+    1. Copy error message
+    2. Enter the following in IBM Bob's chat screen:
         
         ```text
-        このエラーを解決して
+        Fix this error
         ```
 
-## 次のステップ
+## Next Steps
 
-Part 2 が完了したら、[Part 3: 動作確認](part3.md)に進みましょう！
+Once Part 2 is complete, proceed to [Part 3: Verification](part3.md)!

@@ -1,326 +1,326 @@
-# Vector Search ハンズオンへようこそ
+# Welcome to Vector Search Hands-on
 
-このハンズオンでは、**Building Blocks** と **IBM Bob** を組み合わせて、「意味で検索する」機能（Vector Search）を短時間で構築・体験します。
+This hands-on workshop demonstrates how to build a "semantic search" feature (Vector Search) in a short time by combining **Building Blocks** and **IBM Bob**.
 
-!!! info "前提条件"
+!!! info "Prerequisites"
     
-    IBM Bob が既にインストールされ、使用できる状況を前提としています（プラン: IBM Internal Version）。
+    IBM Bob is already installed and available for use (Plan: IBM Internal Version).
 
-## このハンズオンで体験できること
+## What You'll Experience in This Hands-on
 
-### Building Blocks + IBM Bob の価値
+### Value of Building Blocks + IBM Bob
 
-このハンズオンでは、**Building Blocks** という事前構築済みの技術コンポーネントと、**IBM Bob** という AI 開発アシスタントを組み合わせることで、数日〜数週間かかる開発を **約 60 分** で完了できることを体験します。
+This hands-on workshop demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 60 minutes**.
 
-**Building Blocks なしの場合（所要時間: 数日〜数週間）:**
+**Without Building Blocks (Time required: days to weeks):**
 
-![Building Blocksなしの開発フロー](images/without-building-blocks.svg)
+![Development flow without Building Blocks](images/without-building-blocks.svg)
 
-Building Blocks なしの場合、以下のような作業が必要になります:
+Without Building Blocks, the following work is required:
 
-- ベクトルデータベースの選定・学習
-- 埋め込みモデルの選定・統合
-- APIの設計・実装
-- エラーハンドリング
-- パフォーマンスチューニング
+- Vector database selection and learning
+- Embedding model selection and integration
+- API design and implementation
+- Error handling
+- Performance tuning
 
-**Building Blocks + IBM Bob の場合（このハンズオン、所要時間: 約 60 分）:**
+**With Building Blocks + IBM Bob (This hands-on, Time required: approximately 60 minutes):**
 
-![Building Blocks + IBM Bobの開発フロー](images/with-building-blocks.svg)
+![Development flow with Building Blocks + IBM Bob](images/with-building-blocks.svg)
 
-各工程の担当:
+Responsibilities for each process:
 
 - **Building Blocks**:
-    - 技術選定（Milvus、埋め込みモデル）
-    - 環境構築支援（Bob モード、API サンプル）
+    - Technology selection (Milvus, embedding models)
+    - Environment setup support (Bob mode, API samples)
 - **IBM Bob**:
-    - 要件定義
-    - コーディング
-    - テスト
-    - デバッグ
+    - Requirements definition
+    - Coding
+    - Testing
+    - Debugging
 
-??? note "IBM Bob の対応範囲について"
-    IBM Bob は AI SDLC（Software Development Lifecycle）パートナーとして、要件定義からデバッグまでのソフトウェア開発ライフサイクル全体をサポートできます。このハンズオンでは、Building Blocks が技術選定（Milvus、埋め込みモデル）と環境構築の支援（Milvus セットアップ、Bob モード）を提供し、講師が Docker Compose で Milvus 環境を事前準備するため、IBM Bob は主にコーディング・テスト・デバッグに焦点を当てていますが、Plan モードを使用すれば要件定義や設計段階でも活用できます。
+??? note "About IBM Bob's Coverage"
+    IBM Bob can support the entire Software Development Lifecycle (SDLC) as an AI SDLC partner, from requirements definition to debugging. In this hands-on, Building Blocks provides technology selection (Milvus, embedding models) and environment setup support (Milvus setup, Bob mode), and the instructor prepares the Milvus environment in advance with Docker Compose, so IBM Bob focuses mainly on coding, testing, and debugging. However, if you use Plan mode, you can also utilize it in the requirements definition and design stages.
 
-## Building Blocks とは？
+## What are Building Blocks?
 
-**Building Blocks** は、IBM の技術スタックを活用した **事前構築済みの技術コンポーネント** です。Building Blocks を活用することでソリューション開発を加速させることができます。
+**Building Blocks** are **pre-built technical components** leveraging IBM's technology stack. Using Building Blocks accelerates solution development.
 
-### Building Blocks の特徴
+### Features of Building Blocks
 
-- **即座に使える**: 複雑な設定や学習なしに、すぐに使い始められる
-- **ベストプラクティス**: IBM のエンジニアリングチームが設計した最適な実装パターン
-- **統合済み**: watsonx.ai、watsonx.data などの IBM サービスとシームレスに連携
-- **カスタマイズ可能**: IBM Bob を使って、ビジネス要件に合わせて柔軟に拡張
+- **Ready to use**: Start using immediately without complex configuration or learning
+- **Best practices**: Optimal implementation patterns designed by IBM's engineering team
+- **Integrated**: Seamlessly integrates with IBM services like watsonx.ai and watsonx.data
+- **Customizable**: Flexibly extend to meet business requirements using IBM Bob
 
-### このハンズオンで使用する Building Block
+### Building Block Used in This Hands-on
 
-**Vector Search Builder** (Milvus ベース)
+**Vector Search Builder** (Milvus-based)
 
-**提供内容**: ベクトルデータベース（Milvus）の構築・管理機能
+**What it provides**: Vector database (Milvus) construction and management capabilities
 
-**含まれる機能**:
+**Included features**:
 
-- Milvus データベースのセットアップ
-- コレクション（データの入れ物）の作成
-- 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
-- データ取り込みパイプライン
-- ベクトル検索の最適化
-- IBM Cloud Object Storage との連携
+- Milvus database setup
+- Collection (data container) creation
+- Embedding model integration (watsonx, HuggingFace, local)
+- Data ingestion pipeline
+- Vector search optimization
+- IBM Cloud Object Storage integration
 
-**IBM Bob との連携**: Vector Search Builder モードを使うことで、IBM Bob が Vector Search に特化した支援を提供
+**Integration with IBM Bob**: Using Vector Search Builder mode, IBM Bob provides specialized support for Vector Search
 
-!!! example "Building Blocks の価値"
+!!! example "Value of Building Blocks"
     
-    **Building Blocks なし**: Milvus のドキュメントを読み、Python SDK を学習し、埋め込みモデルを選定・統合（数日）
+    **Without Building Blocks**: Read Milvus documentation, learn Python SDK, select and integrate embedding models (days)
 
-    **Building Blocks あり**: Vector Search Builder をインストールし、IBM Bob に指示（数分）
+    **With Building Blocks**: Install Vector Search Builder and instruct IBM Bob (minutes)
 
-??? info "このハンズオンの独自の工夫"
-    ### Building Blocks が提供するもの
+??? info "Unique Innovations in This Hands-on"
+    ### What Building Blocks Provide
     
-    Building Blocks は以下の技術コンポーネントを提供します:
+    Building Blocks provide the following technical components:
     
-    1. **Vector Search Builder モード**
-        - **ファイル**: `bob-modes/base-modes/vector-search-builder.zip`
-        - **内容**:
-            - IBM Bob のカスタムモード設定
-            - Vector Search に特化した AI アシスタント機能
-            - Milvus 操作のベストプラクティス
-            - ルールファイル、プロンプトテンプレート
+    1. **Vector Search Builder Mode**
+        - **File**: `bob-modes/base-modes/vector-search-builder.zip`
+        - **Contents**:
+            - IBM Bob custom mode configuration
+            - AI assistant functionality specialized for Vector Search
+            - Milvus operation best practices
+            - Rule files, prompt templates
     
-    2. **Data Ingestion Asset（FastAPI）**
-        - **ファイル**: `assets/data-ingestion-asset/`
-        - **内容**:
-            - `main.py`: FastAPI アプリケーション本体
-            - `app/`: API エンドポイント実装
-            - `Dockerfile`: コンテナ化設定
-            - `requirements.txt`: Python 依存パッケージ
-            - `.env.example`: 環境変数テンプレート
-        - **機能**:
-            - IBM COS からのドキュメント取り込み
-            - Docling ベースの文書解析
-            - IBM Watsonx による埋め込み生成
-            - Milvus へのベクトル保存・インデックス作成
-            - Swagger UI による API テスト
+    2. **Data Ingestion Asset (FastAPI)**
+        - **File**: `assets/data-ingestion-asset/`
+        - **Contents**:
+            - `main.py`: FastAPI application main body
+            - `app/`: API endpoint implementation
+            - `Dockerfile`: Containerization configuration
+            - `requirements.txt`: Python dependency packages
+            - `.env.example`: Environment variable template
+        - **Features**:
+            - Document ingestion from IBM COS
+            - Document analysis based on Docling
+            - Embedding generation by IBM Watsonx
+            - Vector storage and index creation in Milvus
+            - API testing with Swagger UI
     
-    3. **セットアップガイド**
-        - **ファイル**: `README.md`
-        - **内容**: watsonx.data + Milvus 環境の構築手順
+    3. **Setup Guide**
+        - **File**: `README.md`
+        - **Contents**: watsonx.data + Milvus environment setup procedures
     
-    ### このハンズオンで追加したもの
+    ### What This Hands-on Adds
     
-    Building Blocks の基盤に加えて、教育目的で以下を追加しています:
+    In addition to the Building Blocks foundation, the following have been added for educational purposes:
     
-    - **`setup/instructor/`**: 講師用 Milvus 環境（Docker Compose）
-    - **`setup/participant/`**: 受講者用接続テストスクリプト
-    - **`docs/`**: ハンズオン用ドキュメント（MkDocs）
+    - **`setup/instructor/`**: Instructor Milvus environment (Docker Compose)
+    - **`setup/participant/`**: Participant connection test scripts
+    - **`docs/`**: Hands-on documentation (MkDocs)
     
-    ### 1. 講師・受講者分離アーキテクチャ
+    ### 1. Instructor-Participant Separation Architecture
     
-    Building Blocks 単体:
+    Building Blocks alone:
     
-    - 各自が Milvus 環境を構築（Docker/Podman/Colima）
-    - 個別に埋め込みモデルをダウンロード（約 200 MB）
-    - 環境構築に 30 分程度必要
+    - Each person builds their own Milvus environment (Docker/Podman/Colima)
+    - Individually download embedding models (approximately 200 MB)
+    - Environment setup takes about 30 minutes
     
-    このハンズオンの工夫:
+    This hands-on's innovation:
 
-    - **講師**: Milvus 環境を一元管理（`setup/instructor/docker-compose.yml`）
-    - **受講者**: IBM Bob のみで参加（`.bob/modes/` + 接続情報のみ）
+    - **Instructor**: Centrally manages Milvus environment (`setup/instructor/docker-compose.yml`)
+    - **Participants**: Participate with only IBM Bob (`.bob/modes/` + connection information only)
     
-    **2. ハイブリッド配信対応**
+    **2. Hybrid Delivery Support**
     
-    Building Blocks 単体:
+    Building Blocks alone:
     
-    - ローカル環境での実行を想定
+    - Assumes local environment execution
     
-    このハンズオンの工夫:
+    This hands-on's innovation:
 
-    - **オンサイト**: ローカルネットワーク共有（`http://講師 IP:8001`）
-    - **リモート**: GitHub Pages または ngrok によるドキュメント配信
+    - **On-site**: Local network sharing (`http://instructor IP:8001`)
+    - **Remote**: Document delivery via GitHub Pages or ngrok
     
-    **3. API キー不要の設計**
+    **3. API Key-Free Design**
     
-    Building Blocks 単体:
+    Building Blocks alone:
     
-    - watsonx.ai の API キーが必要
-    - 受講者が個別に取得・設定
+    - watsonx.ai API key required
+    - Participants obtain and configure individually
     
-    このハンズオンの工夫:
+    This hands-on's innovation:
 
-    - **Hugging Face Transformers** を使用（API キー不要）
-    - **ローカル実行**: インターネット接続のみで動作
+    - **Hugging Face Transformers** used (no API key required)
+    - **Local execution**: Works with internet connection only
     
-    **4. 段階的な学習パス**
+    **4. Progressive Learning Path**
     
-    Building Blocks 単体:
+    Building Blocks alone:
     
-    - 技術的な実装に焦点
+    - Focuses on technical implementation
     
-    このハンズオンの工夫:
+    This hands-on's innovation:
 
-    - **Part 1**: Vector Search の体験（理解）
-    - **Part 2**: IBM Bob での機能追加（実践）
-    - **Part 3**: コードレビューと改善（応用）
+    - **Part 1**: Experience Vector Search (understanding)
+    - **Part 2**: Add features with IBM Bob (practice)
+    - **Part 3**: Code review and improvement (application)
     
-    ### 役割分担のまとめ
+    ### Summary of Role Division
     
-    | 提供元 | 提供内容 | 目的 |
+    | Provider | What's Provided | Purpose |
     |:---|:---|:---|
-    | **Building Blocks** | Vector Search Builder モード<br/>FastAPI サンプル<br/>Milvus セットアップガイド | 技術基盤の提供<br/>開発の加速 |
-    | **このハンズオン** | 講師用環境（Docker Compose）<br/>受講者用スクリプト<br/>教育用ドキュメント | 教育設計<br/>学習体験の最適化 |
+    | **Building Blocks** | Vector Search Builder mode<br/>FastAPI sample<br/>Milvus setup guide | Technology foundation provision<br/>Development acceleration |
+    | **This Hands-on** | Instructor environment (Docker Compose)<br/>Participant scripts<br/>Educational documentation | Educational design<br/>Learning experience optimization |
     
-    !!! success "このハンズオンのメリット"
-        **Building Blocks（技術基盤）** + **ハンズオン独自の工夫（教育設計）** = **短時間で高い学習効果**
+    !!! success "Benefits of This Hands-on"
+        **Building Blocks (technology foundation)** + **Hands-on unique innovations (educational design)** = **High learning effectiveness in a short time**
         
-        - **セットアップ時間の短縮**: 30 分→ 5 分（講師が環境を一元管理）
-        - **API キー不要**: Hugging Face 使用で受講者の準備負担を削減
-        - **柔軟な開催形式**: オンサイト/リモート/ハイブリッド開催に対応
-        - **段階的な学習**: 初心者でも理解→実践→応用と進められる
+        - **Setup time reduction**: 30 minutes → 5 minutes (instructor centrally manages environment)
+        - **No API key required**: Using Hugging Face reduces participant preparation burden
+        - **Flexible delivery format**: Supports on-site/remote/hybrid delivery
+        - **Progressive learning**: Even beginners can progress from understanding → practice → application
 
-## IBM Bob とは？
+## What is IBM Bob?
 
-**IBM Bob** は、AI がコーディングをサポートしてくれる開発ツールです。
+**IBM Bob** is a development tool where AI assists with coding.
 
-### IBM Bob でできること
+### What IBM Bob Can Do
 
-- **自然言語で指示**: やりたいことを言葉で伝えられる
-- **コードを自動生成**: 高品質なコードを自動的に書いてくれる
-- **コードレビュー**: コードの問題点を指摘してくれる
-- **Building Blocks との連携**: カスタムモードで、技術に特化した支援を提供
+- **Natural language instructions**: Communicate what you want to do in words
+- **Automatic code generation**: Automatically writes high-quality code
+- **Code review**: Points out code issues
+- **Integration with Building Blocks**: Provides technology-specific support through custom modes
 
-### Building Blocks との相乗効果
+### Synergy with Building Blocks
 
-**Building Blocks 単体**:
+**Building Blocks alone**:
 
-- 基盤となる機能は提供されるが、カスタマイズには技術知識が必要
+- Basic functionality is provided, but customization requires technical knowledge
 
-**IBM Bob 単体**:
+**IBM Bob alone**:
 
-- コード生成は可能だが、ゼロから構築するため時間がかかる
+- Code generation is possible, but building from scratch takes time
 
 **Building Blocks + IBM Bob**:
 
-- Building Blocks で基盤を即座に構築
-- IBM Bob で自然言語指示だけでカスタマイズ
-- **結果**: 最短時間で本番レベルの品質を実現
+- Building Blocks instantly builds the foundation
+- IBM Bob customizes with natural language instructions only
+- **Result**: Achieve production-level quality in the shortest time
 
-### 開発方法の比較
+### Comparison of Development Methods
 
-| 開発方法 | 所要時間 | 必要なスキル | コード品質 |
+| Development Method | Time Required | Required Skills | Code Quality |
 |:---|---:|:---|:---|
-| **Building Blocks なし** | 数日〜数週間 | プログラミング、DB 設計、API 設計 | 開発者のスキルに依存 |
-| **IBM Bob のみ** | 数時間〜数日 | 基本的な技術理解 | 高品質だが構築に時間 |
-| **Building Blocks + IBM Bob** | 数分〜数時間 | 自然言語で指示できれば OK | 本番レベルの高品質 |
+| **Without Building Blocks** | Days to weeks | Programming, DB design, API design | Depends on developer skills |
+| **IBM Bob only** | Hours to days | Basic technical understanding | High quality but time-consuming to build |
+| **Building Blocks + IBM Bob** | Minutes to hours | Just need to instruct in natural language | Production-level high quality |
 
-## Vector Search とは？
+## What is Vector Search?
 
-**Vector Search（ベクトル検索）** は、言葉の「意味」を理解して検索する技術です。
+**Vector Search** is a technology that searches by understanding the "meaning" of words.
 
-### 従来の検索との違い
+### Difference from Traditional Search
 
-**従来のキーワード検索**:
+**Traditional keyword search**:
 
-- 「赤いスニーカー」→「赤い」と「スニーカー」という**文字**が含まれる商品を探す
-- 「赤色のランニングシューズ」は見つからない（文字が違うため）
+- "red sneakers" → Searches for products containing the **characters** "red" and "sneakers"
+- "red running shoes" won't be found (different characters)
 
-**Vector Search（意味で検索）**:
+**Vector Search (semantic search)**:
 
-- 「赤いスニーカー」→「赤い」「スニーカー」の**意味**を理解
-- 「赤色のランニングシューズ」も見つかる（意味が似ているため）
-- 「初心者向けカメラ」→「入門用デジタルカメラ」も見つかる
+- "red sneakers" → Understands the **meaning** of "red" and "sneakers"
+- "red running shoes" will be found (similar meaning)
+- "beginner camera" → "entry-level digital camera" will be found
 
-### 実際の活用例
+### Real-world Use Cases
 
-- **EC サイト**:「似た商品を探す」機能
-- **社内検索**:「この資料に似た文書を探す」
-- **カスタマーサポート**:「似た質問を探す」
+- **E-commerce sites**: "Find similar products" feature
+- **Internal search**: "Find documents similar to this document"
+- **Customer support**: "Find similar questions"
 
-## ハンズオンの流れ
+## Hands-on Flow
 
-**合計**: 約 60 分
+**Total**: Approximately 60 minutes
 
-| パート | 内容 | 所要時間 |
+| Part | Content | Time Required |
 |:---|:---|---:|
-| [事前準備](preparation.md) | Vector Search Builder のセットアップ | 10 分 |
-| [Part 1](part1.md) | Vector Search を体験 | 15 分 |
-| [Part 2](part2.md) | IBM Bob で機能を追加 | 20 分 |
-| [Part 3](part3.md) | 動作確認 | 15 分 |
+| [Preparation](preparation.md) | Vector Search Builder setup | 10 minutes |
+| [Part 1](part1.md) | Experience Vector Search | 15 minutes |
+| [Part 2](part2.md) | Add features with IBM Bob | 20 minutes |
+| [Part 3](part3.md) | Verification | 15 minutes |
 
-??? info "このハンズオンのドキュメント設計について"
+??? info "About This Hands-on's Documentation Design"
     
-    ### 前半と後半で手動方法の記載が異なる理由
+    ### Why Manual Methods Differ Between First and Second Half
     
-    このハンズオンでは、**前半（準備・Part 1）では IBM Bob に依頼する方法と手動で実行する方法を併記**していますが、**後半（Part 2-3）では IBM Bob に依頼する方法のみ**を記載しています。これには以下の理由があります：
+    In this hands-on, **the first half (preparation, Part 1) describes both IBM Bob delegation and manual execution methods**, but **the second half (Part 2-3) describes only IBM Bob delegation methods**. This is for the following reasons:
     
-    **1. 手動作業の複雑さと長大さ**
+    **1. Complexity and Length of Manual Work**
     
-    - **前半の作業**: 単純なコマンド実行（`pip install -r requirements.txt`、`python test_connection.py`）で、手動でも1行で完結
-    - **後半の作業**: 複数ファイルの編集、データモデル・レスポンス構造・エラーハンドリングの変更など、数十行〜数百行のコード変更が必要。手動で記載すると非常に長く複雑になり、ドキュメントが膨大になる
+    - **First half work**: Simple command execution (`pip install -r requirements.txt`, `python test_connection.py`), can be completed in one line manually
+    - **Second half work**: Editing multiple files, changing data models, response structures, error handling, etc., requiring dozens to hundreds of lines of code changes. Manual description would be very long and complex, making the documentation enormous
     
-    **2. 教育的な意図**
+    **2. Educational Intent**
     
-    - **前半**: 「IBM Bob でもできるし、手動でもできる」という**選択肢を示す**
-    - **後半**: 「手動では困難なことが IBM Bob なら簡単」という**価値を体感させる**
+    - **First half**: Show **options** that "can be done with IBM Bob or manually"
+    - **Second half**: Let users **experience the value** that "what's difficult manually is easy with IBM Bob"
     
-    ??? example "Building Blocks + IBM Bob の価値を体感"
-        特に、[**「検索結果に商品画像を表示して」という1行の指示**](part2.md#3-ibm-bob)で複雑なコード変更が完了する体験は、**Building Blocks + IBM Bob の価値を最も効果的に伝える**設計になっています。
+    ??? example "Experience the Value of Building Blocks + IBM Bob"
+        In particular, the experience of [**completing complex code changes with a single instruction "Display product images in search results"**](part2.md#3-ibm-bob) is designed to **most effectively convey the value of Building Blocks + IBM Bob**.
         
-        **なぜこの指示が最も効果的なのか**:
+        **Why This Instruction is Most Effective**:
         
-        **Building Blocks の効果**:
+        **Building Blocks Effect**:
         
-        - **Vector Search の知識**: IBM Bob が Vector Search Builder モードにより、Milvus、埋め込みモデル、ベクトル検索のベストプラクティスを理解している
-        - **既存の基盤**: サンプルデータ、API構造、データモデルが既に整備されており、IBM Bob はそれを活用して機能追加できる
-        - **技術選定不要**: Milvus、埋め込みモデル、API設計などの技術選定が完了しており、IBM Bob は実装に集中できる
+        - **Vector Search knowledge**: IBM Bob understands Milvus, embedding models, and vector search best practices through Vector Search Builder mode
+        - **Existing foundation**: Sample data, API structure, and data models are already prepared, and IBM Bob can add features using them
+        - **No technology selection needed**: Technology selection for Milvus, embedding models, API design, etc. is complete, and IBM Bob can focus on implementation
         
-        **IBM Bob の効果**:
+        **IBM Bob Effect**:
         
-        - **自然言語での指示**: たった1行、日本語の自然な表現で、技術的な詳細を一切含まない
-        - **自動コード生成**: 複数ファイルの編集、データモデルの変更、レスポンス構造の変更を自動実行
-        - **即座の成果**: 指示後すぐに動作確認でき、「本当に動いた」という実感を得られる
+        - **Natural language instructions**: Just one line, natural Japanese expression, without any technical details
+        - **Automatic code generation**: Automatically executes editing of multiple files, data model changes, response structure changes
+        - **Immediate results**: Can verify operation immediately after instruction, getting the feeling that "it really worked"
         
-        **IBM Bob と Building Blocks の相乗効果**:
+        **Synergy of IBM Bob and Building Blocks**:
         
-        - **Part 2の最初の体験**: 受講者が初めて「自分で機能を追加する」瞬間であり、印象に残りやすい
-        - **他の指示との対比**: 価格フィルターやレコメンド理由も同様に簡単だが、この最初の体験が最も衝撃的
-        - **複雑さとのギャップ**: Building Blocks なしでは数日かかる作業が、IBM Bob の1行の指示で完了する
+        - **First experience in Part 2**: The moment participants "add a feature themselves" for the first time, making it memorable
+        - **Contrast with other instructions**: Price filters and recommendation reasons are similarly easy, but this first experience is most impactful
+        - **Gap with complexity**: Work that would take days without Building Blocks is completed with one IBM Bob instruction
     
-    **3. Building Blocks の価値訴求**
+    **3. Building Blocks Value Proposition**
     
-    - 「数日〜数週間 → 約60分」という時間短縮効果を実感させる
-    - 後半で手動方法を省略することで、この効果を強調
+    - Let users experience the time reduction effect of "days to weeks → approximately 60 minutes"
+    - Emphasize this effect by omitting manual methods in the second half
     
-    **4. 時間制約への配慮**
+    **4. Consideration for Time Constraints**
     
-    - 全体で約60分の設計
-    - 手動方法を詳細に説明すると、読むだけで時間切れ
-    - IBM Bob 依頼に絞ることで、**実際に手を動かす時間を確保**
+    - Designed for approximately 60 minutes total
+    - Just reading detailed manual methods would run out of time
+    - Focusing on IBM Bob delegation **secures time for actual hands-on work**
     
-    **5. エラーハンドリングの複雑さ**
+    **5. Complexity of Error Handling**
     
-    手動でコード変更する場合、構文エラー、インデントエラー、型エラー、ロジックエラーなどのトラブルシューティングが必要。これらを全て記載すると、ドキュメントが数倍の長さになる
+    When manually changing code, troubleshooting for syntax errors, indentation errors, type errors, logic errors, etc. is necessary. Describing all of these would make the documentation several times longer
     
-    **6. 段階的な学習設計**
+    **6. Progressive Learning Design**
     
-    - **前半**: 簡単な作業で IBM Bob の使い方に慣れる
-    - **後半**: 複雑な作業で IBM Bob の真価を体験する
+    - **First half**: Get familiar with using IBM Bob through simple tasks
+    - **Second half**: Experience IBM Bob's true value through complex tasks
     
-    この設計により、受講者は自然に IBM Bob の価値を理解し、実践的なスキルを習得できます。
+    This design allows participants to naturally understand IBM Bob's value and acquire practical skills.
 
-## 必要なもの
+## Requirements
 
-- **パソコン**（Mac、Windows）とインターネット接続
-- **IBM Bob**（既にインストール済み）
-- **Web ブラウザ**（Chrome、Firefox、Safari、Edge など）
+- **Computer** (Mac, Windows) and internet connection
+- **IBM Bob** (already installed)
+- **Web browser** (Chrome, Firefox, Safari, Edge, etc.)
 
-**講師から配布**:
+**Distributed by instructor**:
 
-- ハンズオン手順書の URL
-- Vector Search Builder（zip ファイル）
-- 接続情報（Milvus 接続情報）
+- Hands-on procedure URL
+- Vector Search Builder (zip file)
+- Connection information (Milvus connection information)
 
-## 次のステップ
+## Next Steps
 
-それでは、[事前準備](preparation.md) のページに進みましょう！
+Let's proceed to the [Preparation](preparation.md) page!

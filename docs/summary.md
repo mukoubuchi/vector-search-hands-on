@@ -1,91 +1,91 @@
-# まとめ
+# Summary
 
-これで Vector Search ハンズオンは完了です。お疲れ様でした 🍺
+This completes the Vector Search hands-on. Great work! 🍺
 
-## 学んだこと
+## What You Learned
 
-### Building Blocks + IBM Bob の価値
+### Value of Building Blocks + IBM Bob
 
-- **開発時間の大幅短縮**: 数日〜数週間かかる開発を約 60 分で完了
-- **高品質な実装**: ベストプラクティスに基づいたコード生成
-- **自然言語での指示**: プログラミング知識がなくても機能追加が可能
+- **Significant development time reduction**: Completed in approximately 60 minutes what would take days to weeks
+- **High-quality implementation**: Code generation based on best practices
+- **Natural language instructions**: Feature addition possible without programming knowledge
 
-### 実装した機能
+### Implemented Features
 
-1. **商品画像の表示**: 検索結果に画像を追加
-2. **価格フィルター**: 価格帯で絞り込み
-3. **レコメンド理由**: なぜその商品がおすすめなのかを表示
+1. **Product image display**: Added images to search results
+2. **Price filter**: Filter by price range
+3. **Recommendation reason**: Display why a product is recommended
 
-### Vector Search の概要
+### Vector Search Overview
 
-- 言葉の「意味」を理解して検索する
-- 従来の文字検索と違い、言い方が違っても似た意味なら見つかる
+- Searches by understanding the "meaning" of words
+- Unlike traditional character search, finds similar meanings even with different phrasing
 
-??? example "IBM 製品における活用例"
-    - **watsonx Discovery**: 大量の文書から関連情報を自動抽出し、ユーザーの質問に対して最適な回答を提示（商品画像の表示）
-    - **watsonx Assistant**: 顧客からの問い合わせ内容を理解し、過去の類似事例から最適な回答を自動生成（価格フィルター）
-    - **watsonx Orchestrate**: 業務プロセス全体を理解し、ユーザーの意図に応じて適切なワークフローを自動実行（レコメンド理由）
+??? example "Use Cases in IBM Products"
+    - **watsonx Discovery**: Automatically extracts relevant information from large volumes of documents and presents optimal answers to user questions (product image display)
+    - **watsonx Assistant**: Understands customer inquiries and automatically generates optimal responses from similar past cases (price filter)
+    - **watsonx Orchestrate**: Understands entire business processes and automatically executes appropriate workflows according to user intent (recommendation reason)
 
-## 本番環境への展開
+## Deployment to Production Environment
 
-### 現在の構成（学習用）
+### Current Configuration (For Learning)
 
-- **Hugging Face + Milvus**: 完全無料、オフライン対応、学習に最適
+- **Hugging Face + Milvus**: Completely free, offline support, optimal for learning
 
-### IBM 製品への移行
+### Migration to IBM Products
 
-- **watsonx.ai**: エンタープライズグレード、高度なモデル、商用サポート
-- **watsonx.data**: 大規模データ統合、ガバナンス機能、ペタバイト対応
+- **watsonx.ai**: Enterprise-grade, advanced models, commercial support
+- **watsonx.data**: Large-scale data integration, governance features, petabyte support
 
-### 選択ガイド
+### Selection Guide
 
-| 規模 | 推奨構成 |
+| Scale | Recommended Configuration |
 |------|---------|
-| 学習・PoC | Hugging Face + Milvus |
-| 小規模本番 | Hugging Face + Milvus |
-| 中規模本番 | watsonx.ai + Milvus |
-| 大規模本番 | watsonx.ai + watsonx.data |
+| Learning/PoC | Hugging Face + Milvus |
+| Small-scale production | Hugging Face + Milvus |
+| Medium-scale production | watsonx.ai + Milvus |
+| Large-scale production | watsonx.ai + watsonx.data |
 
-## 課題
+## Challenge
 
-??? challenge "発展課題: Agentic RAG における検索手法の比較"
+??? challenge "Advanced Challenge: Comparison of Search Methods in Agentic RAG"
 
-    **テーマ**: Agentic RAG における Lexical Search と Vector Search の Harness Engineering による差異について調査してみましょう！
+    **Theme**: Investigate the differences in Harness Engineering between Lexical Search and Vector Search in Agentic RAG!
 
-    **調査のポイント**
+    **Investigation Points**
     
-    1. **Lexical Search（語彙検索）**
-        - キーワードマッチング、BM25 などの従来型検索
-        - 完全一致や部分一致による検索精度
-        - Agentic RAG での活用シーン
+    1. **Lexical Search**
+        - Traditional search like keyword matching, BM25
+        - Search accuracy through exact or partial matching
+        - Use cases in Agentic RAG
     
-    2. **Vector Search（ベクトル検索）**
-        - 意味的類似性に基づく検索
-        - 埋め込みモデルによる表現学習
-        - Agentic RAG での活用シーン
+    2. **Vector Search**
+        - Search based on semantic similarity
+        - Representation learning through embedding models
+        - Use cases in Agentic RAG
     
-    3. **Harness Engineering（ハーネスエンジニアリング）**
-        - 両手法の組み合わせ方
-        - ハイブリッド検索の実装パターン
-        - スコアリングと再ランキング戦略
+    3. **Harness Engineering**
+        - How to combine both methods
+        - Hybrid search implementation patterns
+        - Scoring and re-ranking strategies
     
-    4. **Agentic RAG における差異**
-        - エージェントの意思決定への影響
-        - 検索精度と応答品質の関係
-        - コストとパフォーマンスのトレードオフ
+    4. **Differences in Agentic RAG**
+        - Impact on agent decision-making
+        - Relationship between search accuracy and response quality
+        - Cost and performance trade-offs
     
-    **推奨アプローチ**
+    **Recommended Approach**
     
-    - 実際のユースケースで両手法を比較実装
-    - 検索精度、応答時間、コストを定量評価
-    - Building Blocks の Agent Builder モードを活用
-    - 評価結果をドキュメント化して共有
+    - Implement and compare both methods in actual use cases
+    - Quantitatively evaluate search accuracy, response time, and cost
+    - Utilize Building Blocks' Agent Builder mode
+    - Document and share evaluation results
     
-    この課題を通じて、RAG システムの設計における重要な意思決定ポイントを理解できます。
+    Through this challenge, you can understand important decision points in RAG system design.
 
-## 参考資料
+## Reference Materials
 
-- [Building Blocks ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
-- [IBM Bob ドキュメント](https://bob.ibm.com/docs)
+- [Building Blocks Documentation](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
+- [IBM Bob Documentation](https://bob.ibm.com/docs)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [Sentence Transformers](https://www.sbert.net/)

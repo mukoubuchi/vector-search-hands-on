@@ -1,193 +1,193 @@
-# 事前準備
+# Preparation
 
-それでは、ハンズオンの準備から行っていきます。
+Let's start with the preparation for the hands-on.
 
-まずは、ターミナル / コマンドプロンプトの開き方を確認してください。
+First, please check how to open the terminal/command prompt.
 
-!!! tip "ターミナル / コマンドプロンプトの開き方"
+!!! tip "How to Open Terminal/Command Prompt"
     
-    **IBM Bob でターミナル / コマンドプロンプトを開く**:
+    **Open Terminal/Command Prompt in IBM Bob**:
     
-    次のいずれかの方法で開くことができます:
+    You can open it using one of the following methods:
     
-    - メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>
-    - <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）
-    - 右上のアイコンをクリック、または <kbd>Cmd</kbd> + <kbd>J</kbd>（パネルの切り替え）
+    - From the menu bar: <kbd>Terminal</kbd> → <kbd>New Terminal</kbd>
+    - <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick)
+    - Click the icon in the upper right, or <kbd>Cmd</kbd> + <kbd>J</kbd> (toggle panel)
     
-    画面下部に黒い画面（ターミナル / コマンドプロンプト）が表示されます。
+    A black screen (terminal/command prompt) will appear at the bottom of the screen.
     
     ---
     
-    **システムのターミナル / コマンドプロンプトを開く**:
+    **Open System Terminal/Command Prompt**:
     
     === ":fontawesome-brands-apple: Mac"
-        1. <kbd>Cmd</kbd> + <kbd>Space</kbd> で Spotlight を開く
-        2. 「ターミナル」と入力
-        3. <kbd>Enter</kbd> を押す
+        1. Open Spotlight with <kbd>Cmd</kbd> + <kbd>Space</kbd>
+        2. Type "Terminal"
+        3. Press <kbd>Enter</kbd>
         
-        **または**:
+        **Or**:
         
-        - アプリケーション → ユーティリティ → ターミナル
+        - Applications → Utilities → Terminal
     
     === ":fontawesome-brands-windows: Windows"
-        1. <kbd>Win</kbd> + <kbd>R</kbd> を押す
-        2. 「cmd」と入力
-        3. <kbd>Enter</kbd> を押す
+        1. Press <kbd>Win</kbd> + <kbd>R</kbd>
+        2. Type "cmd"
+        3. Press <kbd>Enter</kbd>
         
-        **または**:
+        **Or**:
         
-        - スタートメニュー → 「コマンドプロンプト」を検索
+        - Start menu → Search for "Command Prompt"
 
-## 必要なもの
+## Requirements
 
-### 1. Vector Search Builder モード
+### 1. Vector Search Builder Mode
 
-**Vector Search Builder** は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。
+**Vector Search Builder** is a custom mode for IBM Bob provided as part of Building Blocks, making it easy to build vector search functionality.
 
-#### Building Blocks としての Vector Search Builder
+#### Vector Search Builder as a Building Block
 
-**提供元**: IBM Build Engineering Team
+**Provider**: IBM Build Engineering Team
 
-**含まれる機能**:
+**Included features**:
 
-- Milvus データベースのセットアップと管理
-- 埋め込みモデルの統合（watsonx、HuggingFace、ローカル）
-- データ取り込みパイプラインの構築
-- ベクトル検索の最適化
-- IBM Cloud Object Storage との連携
+- Milvus database setup and management
+- Embedding model integration (watsonx, HuggingFace, local)
+- Data ingestion pipeline construction
+- Vector search optimization
+- IBM Cloud Object Storage integration
 
-**IBM Bob との連携**:
+**Integration with IBM Bob**:
 
-- Vector Search に特化した AI アシスタント
-- Building Blocks の機能を理解した上でコード生成
-- ベストプラクティスに基づいた実装支援
+- AI assistant specialized for Vector Search
+- Code generation with understanding of Building Blocks features
+- Implementation support based on best practices
 
-!!! info "Building Blocks の利点"
+!!! info "Benefits of Building Blocks"
     
-    **通常の開発**: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）
+    **Normal development**: Read Milvus documentation, learn SDK, write code from scratch (days)
 
-    **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に自然言語で指示（数分）
+    **Using Building Blocks**: Install Vector Search Builder and instruct IBM Bob in natural language (minutes)
 
-    **このハンズオンでの工夫**: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）
+    **Innovation in this hands-on**: Instructor provides Milvus environment, participants join with only IBM Bob (no environment setup required)
 
-#### ステップ 1: Vector Search Builder（Building Block）をインストール
+#### Step 1: Install Vector Search Builder (Building Block)
 
-1. 配布された **`vector-search-builder.zip`** をデスクトップにコピー
+1. Copy the distributed **`vector-search-builder.zip`** to your desktop
 
-2. zip ファイルを解凍
+2. Extract the zip file
 
     === ":fontawesome-brands-apple: Mac"
-        **GUI**: ダブルクリック
+        **GUI**: Double-click
         
-        **ターミナル / コマンドプロンプト**:
+        **Terminal/Command Prompt**:
         ```bash
         cd ~/Desktop
         unzip vector-search-builder.zip
         ```
 
     === ":fontawesome-brands-windows: Windows"
-        **GUI**: 右クリック →「すべて展開」
+        **GUI**: Right-click → "Extract All"
 
-        ※ ダブルクリックで開いただけでは展開されないため、「すべて展開」を実行してください
+        ※ Simply opening by double-clicking does not extract, so please execute "Extract All"
         
-        **ターミナル / コマンドプロンプト**:
+        **Terminal/Command Prompt**:
         ```bash
         cd %USERPROFILE%\Desktop
         tar -xf vector-search-builder.zip
         ```
 
-3. **`vector-search-builder`** フォルダが作成され、その中に **`.bob`** フォルダがあることを確認
+3. Confirm that a **`vector-search-builder`** folder is created with a **`.bob`** folder inside
 
-!!! warning "重要"
+!!! warning "Important"
     
-    `.bob` フォルダはプロジェクトフォルダ（このハンズオンでは `vector-search-builder`）の直下に配置する必要があります。
+    The `.bob` folder must be placed directly under the project folder (in this hands-on, `vector-search-builder`).
 
-??? info "vector-search-builder.zip の内容"
-    **`vector-search-builder.zip`** には、以下が含まれています:
+??? info "Contents of vector-search-builder.zip"
+    **`vector-search-builder.zip`** contains:
 
     **Building Blocks**:
 
-    - **`.bob/`**: Vector Search Builder モード定義
+    - **`.bob/`**: Vector Search Builder mode definition
 
-    **このハンズオンで追加したもの**:
+    **Added in this hands-on**:
 
-    - **`setup/instructor/`**: 講師用 Milvus 環境（Docker Compose）
-    - **`setup/participant/`**: 受講者用接続テストスクリプト
-    - **`.env.example`**: 接続情報設定テンプレート
-    - **`docs/`**: ハンズオン用ドキュメント
+    - **`setup/instructor/`**: Instructor Milvus environment (Docker Compose)
+    - **`setup/participant/`**: Participant connection test scripts
+    - **`.env.example`**: Connection information configuration template
+    - **`docs/`**: Hands-on documentation
 
-??? tip "Building Blocks のインストール方法"
-    通常、Building Blocks は以下の方法でインストールします:
+??? tip "Building Blocks Installation Methods"
+    Normally, Building Blocks are installed using the following methods:
 
-    - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/`
-    - **プロジェクトローカル**: `.bob/`（このハンズオンの方法）
+    - **Global installation**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/`
+    - **Project local**: `.bob/` (this hands-on's method)
 
-    このハンズオンでは、プロジェクトローカルにインストールすることで、環境を汚さず、簡単にクリーンアップできます。
+    In this hands-on, installing locally to the project keeps the environment clean and allows easy cleanup.
 
-#### ステップ 2: IBM Bob で `vector-search-builder` フォルダを開く
+#### Step 2: Open the `vector-search-builder` Folder in IBM Bob
 
-1. IBM Bob を起動
+1. Launch IBM Bob
 
-2. `vector-search-builder` フォルダを開く
+2. Open the `vector-search-builder` folder
 
     === ":fontawesome-brands-apple: Mac"
-        **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder` フォルダを選択、または <kbd>⌘</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
+        **GUI**: <kbd>File</kbd> → <kbd>Open...</kbd> and select the `vector-search-builder` folder, or press <kbd>⌘</kbd> + <kbd>O</kbd> to open the folder selection dialog.
 
     === ":fontawesome-brands-windows: Windows"
-        **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder` フォルダを選択、または <kbd>Ctrl</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
+        **GUI**: <kbd>File</kbd> → <kbd>Open...</kbd> and select the `vector-search-builder` folder, or press <kbd>Ctrl</kbd> + <kbd>O</kbd> to open the folder selection dialog.
 
-3. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認し、選択
+3. Confirm that "Vector Search Builder" appears in the "Mode" selector at the bottom right of the screen and select it
 
-!!! success "Building Blocks 専用カスタムモードの認識"
+!!! success "Recognition of Building Blocks Dedicated Custom Mode"
     
-    IBM Bob が `.bob/` フォルダを検出し、Building Blocks 専用カスタムモード（このハンズオンでは Vector Search Builder モード）を自動的に読み込みます。
+    IBM Bob detects the `.bob/` folder and automatically loads the Building Blocks dedicated custom mode (Vector Search Builder mode in this hands-on).
 
-    このモードにより、IBM Bob は以下を理解します:
+    This mode enables IBM Bob to understand:
 
-    - Milvus データベースの操作方法
-    - ベクトル検索のベストプラクティス
-    - 埋め込みモデルの統合方法
-    - Building Blocks の機能と制約
+    - How to operate Milvus database
+    - Vector search best practices
+    - Embedding model integration methods
+    - Building Blocks features and constraints
 
-### 2. 接続情報
+### 2. Connection Information
 
-#### Milvus（ベクトルデータベース）
+#### Milvus (Vector Database)
 
-講師から配布された IP アドレスを設定します。
+Configure the IP address distributed by the instructor.
 
-!!! example "接続情報の設定"
+!!! example "Configuring Connection Information"
     
-    1. **`setup/participant`** フォルダを開く
+    1. Open the **`setup/participant`** folder
     
-    2. **`.env.example`** をコピーし、コピーしたファイル名を **`.env`** に変更
+    2. Copy **`.env.example`** and rename the copied file to **`.env`**
         
         === ":fontawesome-brands-apple: Mac"
-            **GUI**: Finder で `.env.example` を右クリック →「複製」→ ファイル名を `.env` に変更
+            **GUI**: Right-click `.env.example` in Finder → "Duplicate" → Rename to `.env`
             
-            **ターミナル / コマンドプロンプト**:
+            **Terminal/Command Prompt**:
             ```bash
             cd setup/participant
             cp .env.example .env
             ```
 
         === ":fontawesome-brands-windows: Windows"
-            **GUI**: エクスプローラーで `.env.example` を右クリック →「コピー」→「貼り付け」→ ファイル名を `.env` に変更
+            **GUI**: Right-click `.env.example` in Explorer → "Copy" → "Paste" → Rename to `.env`
             
-            **ターミナル / コマンドプロンプト**:
+            **Terminal/Command Prompt**:
             ```bash
             cd setup\participant
             copy .env.example .env
             ```
 
-    3. **`.env`** ファイルを開き、**`MILVUS_HOST`** に講師から配布された IP アドレスを入力
+    3. Open the **`.env`** file and enter the IP address distributed by the instructor in **`MILVUS_HOST`**
        
-        #### MILVUS_HOST の設定
+        #### MILVUS_HOST Configuration {#milvus_host}
        
         ```properties
-        # Milvus 接続情報
-        MILVUS_HOST=192.168.1.100  # ← 講師から配布された IP アドレスに変更
+        # Milvus connection information
+        MILVUS_HOST=192.168.1.100  # ← Change to IP address distributed by instructor
         
-        # 以下は変更不要
+        # No changes needed below
         MILVUS_PORT=19530
         MILVUS_USER=root
         MILVUS_PASSWORD=Milvus
@@ -196,7 +196,7 @@
         COLLECTION_NAME=knowledge_base
         ```
 
-    4. ファイルを保存
+    4. Save the file
     
         === ":fontawesome-brands-apple: Mac"
             <kbd>Cmd</kbd> + <kbd>S</kbd>
@@ -205,65 +205,65 @@
             <kbd>Ctrl</kbd> + <kbd>S</kbd>
 
 
-#### 埋め込みモデル（テキストを数値に変換する AI）
+#### Embedding Model (AI that Converts Text to Numbers)
 
-Hugging Face Transformers を使用します（API キー不要、無料）。
+Uses Hugging Face Transformers (no API key required, free).
 
-**埋め込みモデルとは**: テキストの「意味」を数値（ベクトル）に変換する AI モデルです。
+**What is an embedding model**: An AI model that converts the "meaning" of text into numbers (vectors).
 
-- モデル: **`paraphrase-multilingual-MiniLM-L12-v2`**
-- 次元数: **384**（384 個の数値で意味を表現）
-- 特徴: 多言語対応
+- Model: **`paraphrase-multilingual-MiniLM-L12-v2`**
+- Dimensions: **384** (represents meaning with 384 numbers)
+- Features: Multilingual support
 
-### 3. Python 環境のセットアップ
+### 3. Python Environment Setup
 
-#### ステップ 1: Python のインストール確認
+#### Step 1: Verify Python Installation
 
-まず、Python がインストールされているか確認します。
+First, verify that Python is installed.
 
 === ":fontawesome-brands-apple: Mac"
-    **ターミナル / コマンドプロンプト**:
+    **Terminal/Command Prompt**:
     ```bash
     python3 --version
     ```
 
 === ":fontawesome-brands-windows: Windows"
-    **ターミナル / コマンドプロンプト**:
+    **Terminal/Command Prompt**:
     ```bash
     python --version
     ```
 
-**期待される出力**:
+**Expected output**:
 
 ```
-Python 3.8.x 以上
+Python 3.8.x or higher
 ```
 
-!!! warning "Python がインストールされていない場合"
+!!! warning "If Python is Not Installed"
     
-    Python 3.8 以上がインストールされていない場合は、以下からインストールしてください:
+    If Python 3.8 or higher is not installed, please install from:
     
-    **公式サイト**: [https://www.python.org/downloads/](https://www.python.org/downloads/)
+    **Official site**: [https://www.python.org/downloads/](https://www.python.org/downloads/)
     
     === ":fontawesome-brands-apple: Mac"
-        Homebrew を使用する場合:
+        If using Homebrew:
         ```bash
         brew install python3
         ```
     
     === ":fontawesome-brands-windows: Windows"
-        Microsoft Store からインストールすることも可能です。
+        You can also install from the Microsoft Store.
 
-#### ステップ 2: 仮想環境の作成（重要）
+#### Step 2: Create Virtual Environment (Important)
 
-!!! danger "グローバル環境を破壊しないために"
+!!! danger "To Avoid Breaking the Global Environment"
     
-    **必ず仮想環境を使用してください**。グローバル環境に直接インストールすると、他のプロジェクトに影響を与える可能性があります。
+    **Always use a virtual environment**. Installing directly in the global environment may affect other projects.
 
-仮想環境を作成し、その中でパッケージをインストールします。
+Create a virtual environment and install packages within it.
 
 === ":fontawesome-brands-apple: Mac"
-    **ターミナル / コマンドプロンプト**:
+    **Terminal/Command Prompt**:
     ```bash
     cd ~/Desktop/vector-search-builder/setup/participant
     python3 -m venv venv
@@ -271,62 +271,62 @@ Python 3.8.x 以上
     ```
 
 === ":fontawesome-brands-windows: Windows"
-    **ターミナル / コマンドプロンプト**:
+    **Terminal/Command Prompt**:
     ```bash
     cd %USERPROFILE%\Desktop\vector-search-builder\setup\participant
     python -m venv venv
     venv\Scripts\activate
     ```
 
-**仮想環境が有効化されると**、プロンプトの先頭に `(venv)` が表示されます:
+**When the virtual environment is activated**, `(venv)` will appear at the beginning of the prompt:
 
 ```bash
 (venv) user@computer:~/Desktop/vector-search-builder/setup/participant$
 ```
 
-!!! success "仮想環境の利点"
+!!! success "Benefits of Virtual Environment"
     
-    - **隔離**: このプロジェクト専用の環境
-    - **安全**: グローバル環境を破壊しない
-    - **クリーンアップ**: `venv` フォルダを削除するだけで完全に削除可能
-    - **再現性**: 他の環境でも同じ構成を再現可能
+    - **Isolation**: Environment dedicated to this project
+    - **Safety**: Does not break the global environment
+    - **Cleanup**: Can be completely removed by just deleting the `venv` folder
+    - **Reproducibility**: Can reproduce the same configuration in other environments
 
-#### ステップ 3: 必要なパッケージのインストール
+#### Step 3: Install Required Packages
 
-仮想環境を有効化した状態で、Python パッケージをインストールします。
+With the virtual environment activated, install Python packages.
 
-!!! example "IBM Bob にパッケージインストールを依頼"
+!!! example "Request IBM Bob to Install Packages"
     
-    1. **仮想環境が有効化されていることを確認**（プロンプトに `(venv)` が表示されている）
+    1. **Verify the virtual environment is activated** (`(venv)` is displayed in the prompt)
     
-    2. IBM Bob のチャット入力欄に以下を入力:
+    2. Enter the following in IBM Bob's chat input:
     
         ```text
-        setup/participant/requirements.txt に記載されているパッケージをすべてインストールして
+        Install all packages listed in setup/participant/requirements.txt
         ```
     
-    3. インストールが完了するまで待ちます（数分かかる場合があります）
+    3. Wait for installation to complete (may take several minutes)
 
-??? info "インストールされるパッケージ"
-    以下のパッケージがインストールされます（70+パッケージ、すべてバージョン固定）:
+??? info "Packages to be Installed"
+    The following packages will be installed (70+ packages, all version-locked):
     
-    **主要パッケージ**:
-    - **pymilvus**: Milvus データベースクライアント
-    - **sentence-transformers**: 埋め込みモデル
-    - **torch**: 機械学習フレームワーク
-    - **fastapi**: Web フレームワーク
-    - **pandas**: データ処理
-    - **langchain**: テキスト処理
-    - **python-dotenv**: 環境変数管理
+    **Main packages**:
+    - **pymilvus**: Milvus database client
+    - **sentence-transformers**: Embedding models
+    - **torch**: Machine learning framework
+    - **fastapi**: Web framework
+    - **pandas**: Data processing
+    - **langchain**: Text processing
+    - **python-dotenv**: Environment variable management
     
-    **すべての依存関係も固定**:
+    **All dependencies are also locked**:
     - transformers, huggingface-hub, tokenizers
     - pydantic, uvicorn, starlette
     - numpy, scipy, scikit-learn
-    - その他多数
+    - Many others
 
-??? tip "手動でインストールする場合"
-    IBM Bob を使わずに手動でインストールする場合は、ターミナルで以下を実行:
+??? tip "If Installing Manually"
+    If installing manually without using IBM Bob, execute the following in the terminal:
     
     === ":fontawesome-brands-apple: Mac"
         ```bash
@@ -344,14 +344,14 @@ Python 3.8.x 以上
         pip install -r requirements.txt
         ```
 
-??? warning "仮想環境の無効化"
-    作業が終わったら、仮想環境を無効化できます:
+??? warning "Deactivating Virtual Environment"
+    When finished working, you can deactivate the virtual environment:
     
     ```bash
     deactivate
     ```
     
-    次回作業時は、再度有効化してください:
+    Next time you work, activate it again:
     
     === ":fontawesome-brands-apple: Mac"
         ```bash
@@ -365,36 +365,36 @@ Python 3.8.x 以上
         venv\Scripts\activate
         ```
 
-## 準備完了チェックリスト
+## Preparation Completion Checklist
 
-- [ ] IBM Bob がインストールされ、使用できる
-- [ ] Python 3.8 以上がインストールされている
-- [ ] **`vector-search-builder.zip`** を解凍した
-- [ ] **`.bob`** フォルダが存在する
-- [ ] IBM Bob で `vector-search-builder` フォルダを開いた
-- [ ] 「Vector Search Builder」モードが表示される
-- [ ] **`setup/participant/.env`** ファイルに接続情報を入力した
-- [ ] **仮想環境を作成し、有効化した**（プロンプトに `(venv)` が表示される）
-- [ ] 仮想環境内で Python パッケージをインストールした
+- [ ] IBM Bob is installed and available
+- [ ] Python 3.8 or higher is installed
+- [ ] Extracted **`vector-search-builder.zip`**
+- [ ] **`.bob`** folder exists
+- [ ] Opened `vector-search-builder` folder in IBM Bob
+- [ ] "Vector Search Builder" mode is displayed
+- [ ] Entered connection information in **`setup/participant/.env`** file
+- [ ] **Created and activated virtual environment** (`(venv)` is displayed in prompt)
+- [ ] Installed Python packages in virtual environment
 
 ## FAQ
 
-??? question "Q1: Vector Search Builder モードが表示されない"
+??? question "Q1: Vector Search Builder mode is not displayed"
 
-    対処法:
+    Solution:
     
-    1. **`.bob`** フォルダが存在するか確認
-    2. IBM Bob をリロード（:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」）
-    3. プロジェクトフォルダを開き直す
+    1. Verify **`.bob`** folder exists
+    2. Reload IBM Bob (:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> → "Reload Window")
+    3. Reopen the project folder
 
-??? question "Q2: 接続情報をどこに入力すればいいか分からない"
+??? question "Q2: Don't know where to enter connection information"
 
-    対処法:
+    Solution:
     
-    1. プロジェクトフォルダ内の **`setup/participant`** フォルダを開く
-    2. **`.env`** ファイルを探す（見つからない場合は **`.env.example`** をコピー）
+    1. Open the **`setup/participant`** folder in the project folder
+    2. Look for the **`.env`** file (if not found, copy **`.env.example`**)
 
 
-## 次のステップ
+## Next Steps
 
-準備が完了したら、[Part 1: 環境確認とデモ](part1.md)に進みましょう！
+Once preparation is complete, proceed to [Part 1: Environment Verification and Demo](part1.md)!
