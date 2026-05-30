@@ -1,0 +1,55 @@
+<mxfile host="65bd71144e">
+    <diagram name="Building Blocksなし" id="without">
+        <mxGraphModel dx="1182" dy="1160" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1170" pageHeight="300" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="trad-container" value="<b>Building Blocks なしの場合</b>" style="swimlane;startSize=40;fillColor=#ffe6e6;strokeColor=#cc0000;html=1;fontSize=16;fontStyle=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="1090" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-time" value="<b>所要時間: 数日〜数週間</b>" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontColor=#cc0000;fontStyle=1" parent="trad-container" vertex="1">
+                    <mxGeometry x="20" y="50" width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-1" value="<b>要件定義</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#cc0000;strokeWidth=2;fontSize=13;" parent="trad-container" vertex="1">
+                    <mxGeometry x="40" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-2" value="<b>技術選定</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#cc0000;strokeWidth=2;fontSize=13;" parent="trad-container" vertex="1">
+                    <mxGeometry x="200" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-3" value="<b>環境構築</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#cc0000;strokeWidth=2;fontSize=13;" parent="trad-container" vertex="1">
+                    <mxGeometry x="360" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-4" value="<b>コーディング</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#cc0000;strokeWidth=2;fontSize=13;" parent="trad-container" vertex="1">
+                    <mxGeometry x="520" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-5" value="<b>テスト</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#cc0000;strokeWidth=2;fontSize=13;" parent="trad-container" vertex="1">
+                    <mxGeometry x="680" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-6" value="<b>デバッグ</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#cc0000;strokeWidth=2;fontSize=13;" parent="trad-container" vertex="1">
+                    <mxGeometry x="840" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-7" value="<b>完成</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccffcc;strokeColor=#00cc00;strokeWidth=3;fontSize=13;fontStyle=1" parent="trad-container" vertex="1">
+                    <mxGeometry x="1000" y="100" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-arrow1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="trad-container" source="trad-1" target="trad-2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-arrow2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="trad-container" source="trad-2" target="trad-3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-arrow3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="trad-container" source="trad-3" target="trad-4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-arrow4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="trad-container" source="trad-4" target="trad-5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-arrow5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="trad-container" source="trad-5" target="trad-6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="trad-arrow6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="trad-container" source="trad-6" target="trad-7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

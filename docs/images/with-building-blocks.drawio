@@ -1,0 +1,37 @@
+<mxfile host="65bd71144e">
+    <diagram name="Building Blocksあり" id="with">
+        <mxGraphModel dx="1182" dy="1160" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1170" pageHeight="300" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="bb-container" value="<b>Building Blocks + IBM Bob の場合</b>" style="swimlane;startSize=40;fillColor=#e6f2ff;strokeColor=#0066cc;html=1;fontSize=16;fontStyle=1;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="1090" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-time" value="<b>所要時間: 数時間〜1日</b>" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontColor=#0066cc;fontStyle=1" parent="bb-container" vertex="1">
+                    <mxGeometry x="20" y="50" width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-1" value="<b>要件定義</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#cc0000;strokeWidth=2;fontSize=13;" parent="bb-container" vertex="1">
+                    <mxGeometry x="40" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-2" value="<b>Building Blocks<br>インストール</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=13;" parent="bb-container" vertex="1">
+                    <mxGeometry x="200" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-3" value="<b>IBM Bob で<br>コード生成</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#ff9900;strokeWidth=2;fontSize=13;" parent="bb-container" vertex="1">
+                    <mxGeometry x="360" y="100" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-4" value="<b>完成</b>" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccffcc;strokeColor=#00cc00;strokeWidth=3;fontSize=13;fontStyle=1" parent="bb-container" vertex="1">
+                    <mxGeometry x="520" y="100" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-arrow1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="bb-container" source="bb-1" target="bb-2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-arrow2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="bb-container" source="bb-2" target="bb-3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="bb-arrow3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;" parent="bb-container" source="bb-3" target="bb-4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
