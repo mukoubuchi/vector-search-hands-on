@@ -125,17 +125,6 @@
     }
 }
 
-/* Hide the left sidebar on desktop, but keep it for mobile hamburger menu */
-@media screen and (min-width: 76.25em) {
-    .md-sidebar--primary {
-        display: none;
-    }
-    
-    .md-content {
-        margin-left: 0;
-    }
-}
-
 /* Table of contents (TOC) links */
 .md-nav__link {
     position: relative;
