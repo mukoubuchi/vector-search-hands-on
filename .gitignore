@@ -45,7 +45,8 @@ venv/
 env/
 ENV/
 
-# MkDocs cache
+# MkDocs
+site/
 docs/.cache/
 
 # Backup files
