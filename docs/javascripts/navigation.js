@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             lastScrollTop = scrollTop;
         });
     }
+    
 });
 
 // Made with Bob
