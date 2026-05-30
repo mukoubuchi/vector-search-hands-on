@@ -1,3 +1,34 @@
+## 2026年5月30日 15:09 JST - 図の配色を最終調整
+
+### 作業内容
+
+Building BlocksとIBM Bobのブロックを両方とも青色に統一し、枠線の色と合わせました。
+
+### 実施した対応
+
+1. **配色の最終調整**
+   - Building Blocksインストール: 青 (#cce5ff, #0066cc)
+   - IBM Bobでコード生成: 青 (#cce5ff, #0066cc)
+   - 枠線の青色と統一されたデザイン
+
+2. **最終的な配色**
+   - 要件定義: 赤 (#ffcccc, #cc0000)
+   - Building Blocks: 青 (#cce5ff, #0066cc)
+   - IBM Bob: 青 (#cce5ff, #0066cc)
+   - 完成: 緑 (#ccffcc, #00cc00)
+
+3. **SVGファイルの再エクスポート**
+   - `docs/images/with-building-blocks.svg`を更新
+
+### 成果
+
+- 枠線と調和した統一感のある配色
+- Building BlocksとIBM Bobが同じ青色で視覚的に関連性を表現
+
+**完了日時**: 2026年5月30日 15:09 JST
+
+---
+
 ## 2026年5月30日 15:06 JST - MkDocsのMermaid図をdraw.io SVGに置き換え
 
 ### 作業内容
