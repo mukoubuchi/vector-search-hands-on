@@ -1,0 +1,137 @@
+name: Sync EN-JA Translations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**/*.md'
+      - '!docs/ja/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Check for translation sync
+        id: check
+        run: |
+          # 変更されたENファイルを取得
+          CHANGED_EN_FILES=$(git diff --name-only HEAD~1 HEAD | grep '^docs/[^/]*\.md$' || true)
+          
+          if [ -z "$CHANGED_EN_FILES" ]; then
+            echo "No EN files changed"
+            echo "needs_sync=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "Changed EN files:"
+          echo "$CHANGED_EN_FILES"
+          
+          # 対応するJAファイルが同時に更新されているかチェック
+          NEEDS_SYNC=false
+          MISSING_JA_FILES=""
+          
+          for EN_FILE in $CHANGED_EN_FILES; do
+            # docs/file.md -> docs/ja/file.md
+            JA_FILE="docs/ja/$(basename $EN_FILE)"
+            
+            # JAファイルが同じコミットで更新されているかチェック
+            if ! git diff --name-only HEAD~1 HEAD | grep -q "^$JA_FILE$"; then
+              NEEDS_SYNC=true
+              MISSING_JA_FILES="$MISSING_JA_FILES\n- $JA_FILE (対応するEN: $EN_FILE)"
+            fi
+          done
+          
+          if [ "$NEEDS_SYNC" = true ]; then
+            echo "needs_sync=true" >> $GITHUB_OUTPUT
+            echo "missing_files<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$MISSING_JA_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "needs_sync=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Issue for Translation Sync
+        if: steps.check.outputs.needs_sync == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const missingFiles = `${{ steps.check.outputs.missing_files }}`;
+            
+            const issueBody = `## 🌐 翻訳同期が必要です / Translation Sync Required
+            
+            英語版ドキュメントが更新されましたが、対応する日本語版が更新されていません。
+            
+            English documentation has been updated, but the corresponding Japanese version has not been updated.
+            
+            ### 更新が必要なファイル / Files that need updating:
+            ${missingFiles}
+            
+            ### 対応方法 / How to fix:
+            
+            1. 英語版の変更内容を確認
+            2. 対応する日本語版ファイルを更新
+            3. 両方のファイルをコミット
+            
+            ---
+            
+            1. Review the changes in the English version
+            2. Update the corresponding Japanese version files
+            3. Commit both files together
+            
+            ### 関連コミット / Related Commit:
+            ${{ github.sha }}
+            `;
+            
+            // 既存の同期Issueを検索
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'translation-sync'
+            });
+            
+            // 同じ内容のIssueがなければ作成
+            if (issues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🌐 EN-JA Translation Sync Required',
+                body: issueBody,
+                labels: ['translation-sync', 'documentation']
+              });
+            } else {
+              // 既存のIssueにコメント追加
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                body: `### 新しい同期が必要です / New sync required\n\n${issueBody}`
+              });
+            }
+
+      - name: Post summary
+        if: steps.check.outputs.needs_sync == 'true'
+        run: |
+          echo "## ⚠️ Translation Sync Required" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "English documentation has been updated without corresponding Japanese updates." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "An issue has been created to track this." >> $GITHUB_STEP_SUMMARY
+
+# Made with Bob

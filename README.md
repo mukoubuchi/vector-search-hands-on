@@ -182,6 +182,7 @@ cd setup/instructor
 
 - **ドキュメント配信方法**: [`setup/instructor/deploy-docs-to-cloud.md`](setup/instructor/deploy-docs-to-cloud.md)
 - **講師向け情報共有**: [`setup/instructor/instructor-share-info.md`](setup/instructor/instructor-share-info.md)
+- **翻訳同期ガイド**: [docs/TRANSLATION_SYNC.md](docs/TRANSLATION_SYNC.md)
 
 ### 受講者向け
 
@@ -190,6 +191,10 @@ cd setup/instructor
 - **Part 2 - IBM Bob で機能を追加**: [docs/part2.md](docs/part2.md)
 - **Part 3 - 動作確認とレビュー**: [docs/part3.md](docs/part3.md)
 - **まとめ**: [docs/summary.md](docs/summary.md)
+
+### 開発者向け
+
+- **翻訳同期**: 英語版と日本語版のドキュメントは、GitHub Actionsで自動的に同期チェックされます。詳細は[翻訳同期ガイド](docs/TRANSLATION_SYNC.md)を参照してください。
 
 ## 📦 必要なツール
 
