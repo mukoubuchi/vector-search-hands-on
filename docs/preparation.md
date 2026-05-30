@@ -63,6 +63,7 @@
 - ベストプラクティスに基づいた実装支援
 
 !!! info "Building Blocks の利点"
+    
     **通常の開発**: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）
 
     **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に自然言語で指示（数分）
@@ -98,6 +99,7 @@
 3. **`vector-search-builder`** フォルダが作成され、その中に **`.bob`** フォルダがあることを確認
 
 !!! warning "重要"
+    
     `.bob` フォルダはプロジェクトフォルダ（このハンズオンでは `vector-search-builder`）の直下に配置する必要があります。
 
 ??? info "vector-search-builder.zip の内容"
@@ -137,6 +139,7 @@
 3. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認し、選択
 
 !!! success "Building Blocks 専用カスタムモードの認識"
+    
     IBM Bob が `.bob/` フォルダを検出し、Building Blocks 専用カスタムモード（このハンズオンでは Vector Search Builder モード）を自動的に読み込みます。
 
     このモードにより、IBM Bob は以下を理解します:
@@ -153,7 +156,7 @@
 講師から配布された IP アドレスを設定します。
 
 !!! example "接続情報の設定"
-
+    
     1. **`setup/participant`** フォルダを開く
     
     2. **`.env.example`** をコピーし、コピーしたファイル名を **`.env`** に変更
@@ -237,6 +240,7 @@ Python 3.8.x 以上
 ```
 
 !!! warning "Python がインストールされていない場合"
+    
     Python 3.8 以上がインストールされていない場合は、以下からインストールしてください:
     
     **公式サイト**: [https://www.python.org/downloads/](https://www.python.org/downloads/)
@@ -253,6 +257,7 @@ Python 3.8.x 以上
 #### ステップ 2: 仮想環境の作成（重要）
 
 !!! danger "グローバル環境を破壊しないために"
+    
     **必ず仮想環境を使用してください**。グローバル環境に直接インストールすると、他のプロジェクトに影響を与える可能性があります。
 
 仮想環境を作成し、その中でパッケージをインストールします。
@@ -280,6 +285,7 @@ Python 3.8.x 以上
 ```
 
 !!! success "仮想環境の利点"
+    
     - **隔離**: このプロジェクト専用の環境
     - **安全**: グローバル環境を破壊しない
     - **クリーンアップ**: `venv` フォルダを削除するだけで完全に削除可能
@@ -392,5 +398,3 @@ Python 3.8.x 以上
 ## 次のステップ
 
 準備が完了したら、[Part 1: 環境確認とデモ](part1.md)に進みましょう！
-
-Part 1 では、実際に Vector Search がどのように動作するかを体験します。
