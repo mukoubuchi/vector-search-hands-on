@@ -27,31 +27,9 @@
     display: none;
 }
 
-/* Hide language selector icon (文A) - multiple selectors for compatibility */
-.md-header__button.md-icon[for="__lang"],
-.md-header__button[for="__lang"],
-label[for="__lang"],
-.md-select[name="__lang"],
-.md-header__option[data-md-component="palette"],
-.md-header__source,
-[data-md-component="announce"],
-.md-header .md-header__button[title*="言語"],
-.md-header .md-header__button[title*="Language"],
-.md-header .md-header__button[aria-label*="言語"],
-.md-header .md-header__button[aria-label*="Language"],
-.md-header__inner > .md-header__button:not([for="__drawer"]):not([for="__search"]),
-.md-header__inner > label.md-header__button {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-}
-
-/* Hide language selector dropdown only */
-.md-header .md-select[name="__lang"] {
-    display: none !important;
+/* Style the default language selector */
+.md-header__button[for="__lang"] {
+    margin-right: 0.5rem;
 }
 
 /* Hide social/support icons */

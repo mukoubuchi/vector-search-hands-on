@@ -1,3 +1,32 @@
+## 2026年5月31日 00:10 JST - MkDocsデフォルト言語セレクターへの変更
+
+### 作業内容
+
+カスタム言語スイッチャーを削除し、MkDocsデフォルトの言語セレクターを使用するように変更しました。
+
+### 実施した対応
+
+1. **カスタム言語スイッチャーの削除**
+   - `docs/stylesheets/language-switcher.css`を削除
+   - `docs/javascripts/language-switcher.js`を削除
+   - [`mkdocs.yml`](mkdocs.yml:128-142)から関連する読み込みを削除
+
+2. **デフォルト言語セレクターの有効化 ([`docs/stylesheets/navigation.css`](docs/stylesheets/navigation.css:30-33))**
+   - 言語セレクターを非表示にしていたCSSルールを削除
+   - デフォルトの言語セレクターボタンに適切なマージンを追加（`margin-right: 0.5rem`）
+
+3. **MkDocsの言語設定を維持**
+   - [`mkdocs.yml`](mkdocs.yml:120-126)の`extra.alternate`設定はそのまま維持
+   - English（`/`）と日本語（`/ja/`）の2言語をサポート
+
+### 成果
+
+- MkDocsの標準機能を使用することで、メンテナンス性が向上
+- カスタムコードが不要になり、コードベースがシンプルに
+- デフォルトの言語セレクターが適切に表示され、動作
+
+**完了日時**: 2026年5月31日 00:10 JST
+
 ## 2026年5月31日 00:08 JST - ナビゲーションUIの改善
 
 ### 作業内容

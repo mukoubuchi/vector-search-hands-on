@@ -128,7 +128,6 @@ extra:
 # カスタムCSS（モジュール化済み）
 extra_css:
   - stylesheets/extra.css
-  - stylesheets/language-switcher.css
 
 # カスタムJavaScript（モジュール化済み）
 extra_javascript:
@@ -139,6 +138,5 @@ extra_javascript:
   - javascripts/tasks.js
   - javascripts/syntax-highlight.js
   - javascripts/drawio.js
-  - javascripts/language-switcher.js
 
 # Made with Bob
