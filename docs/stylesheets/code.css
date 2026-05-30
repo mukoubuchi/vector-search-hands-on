@@ -8,6 +8,8 @@
     margin: 1.5em 0 !important;
     padding: 16px !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
 }
 
 /* Inline code styling */
@@ -34,6 +36,9 @@
     font-size: 0.875em !important;
     line-height: 1.6 !important;
     color: var(--md-code-fg-color) !important;
+    white-space: pre !important;
+    word-wrap: normal !important;
+    word-break: normal !important;
 }
 
 .md-typeset pre strong,
@@ -92,9 +97,11 @@
 .md-clipboard {
     color: color-mix(in srgb, var(--md-default-fg-color) 55%, transparent) !important;
     opacity: 0.8;
+    -webkit-tap-highlight-color: transparent !important;
 }
 
-.md-clipboard:hover {
+.md-clipboard:hover,
+.md-clipboard:active {
     color: var(--md-default-fg-color) !important;
     opacity: 1;
 }
@@ -225,6 +232,73 @@
     color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)) !important;
     font-style: italic !important;
     font-weight: normal !important;
+}
+
+/* Mobile-specific code block improvements */
+@media screen and (max-width: 76.1875em) {
+    .md-typeset pre {
+        padding: 12px !important;
+        margin: 1em -0.8rem !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+    
+    .md-typeset pre code {
+        font-size: 0.8125em !important;
+        line-height: 1.5 !important;
+    }
+    
+    /* Improve copy button on mobile */
+    .md-clipboard {
+        top: 0.5rem !important;
+        right: 0.5rem !important;
+        padding: 0.4rem !important;
+    }
+    
+    /* Ensure horizontal scrolling works */
+    .highlight {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 480px) {
+    .md-typeset pre {
+        padding: 10px !important;
+        margin: 0.8em -0.8rem !important;
+    }
+    
+    .md-typeset pre code {
+        font-size: 0.75em !important;
+    }
+    
+    .md-typeset code {
+        font-size: 0.85em !important;
+        padding: 0.15em 0.35em !important;
+    }
+}
+
+/* Improve scrollbar for code blocks on mobile */
+@media screen and (max-width: 76.1875em) {
+    .md-typeset pre::-webkit-scrollbar {
+        height: 6px !important;
+    }
+    
+    .md-typeset pre::-webkit-scrollbar-track {
+        background: color-mix(in srgb, var(--md-default-fg-color) 5%, transparent) !important;
+        border-radius: 3px !important;
+    }
+    
+    .md-typeset pre::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--md-default-fg-color) 20%, transparent) !important;
+        border-radius: 3px !important;
+    }
+    
+    .md-typeset pre::-webkit-scrollbar-thumb:hover {
+        background: color-mix(in srgb, var(--md-default-fg-color) 30%, transparent) !important;
+    }
 }
 
 /* Made with Bob */

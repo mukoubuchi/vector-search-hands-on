@@ -61,6 +61,14 @@
         height: 2.4rem !important;
         background-color: transparent !important;
         z-index: 2 !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+    }
+    
+    .md-tabs::-webkit-scrollbar {
+        display: none !important;
     }
     
     .md-tabs__list {
@@ -72,6 +80,8 @@
         max-width: 61rem !important;
         width: 100% !important;
         box-sizing: border-box !important;
+        flex-wrap: nowrap !important;
+        min-width: min-content !important;
     }
     
     .md-tabs__item {
@@ -79,6 +89,8 @@
         align-items: center !important;
         height: 2.4rem !important;
         padding: 0 !important;
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
     }
     
     .md-tabs__link {
@@ -90,6 +102,8 @@
         transition: all 0.3s ease !important;
         color: color-mix(in srgb, var(--md-primary-bg-color) 70%, transparent) !important;
         box-sizing: border-box !important;
+        white-space: nowrap !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
     
     .md-tabs__link:hover {
@@ -134,6 +148,43 @@
     
     .md-header__inner {
         height: 2.4rem !important;
+    }
+}
+
+/* Mobile-specific navigation improvements */
+@media screen and (max-width: 76.1875em) {
+    /* Ensure tabs are scrollable on mobile */
+    .md-tabs {
+        padding: 0 0.8rem !important;
+    }
+    
+    .md-tabs__list {
+        padding: 0 !important;
+        justify-content: flex-start !important;
+    }
+    
+    .md-tabs__link {
+        padding: 0 0.8rem 0.5rem 0.8rem !important;
+        font-size: 0.9rem !important;
+        min-width: auto !important;
+    }
+    
+    /* Improve touch targets on mobile */
+    .md-tabs__item {
+        min-width: auto !important;
+    }
+    
+    /* Hide hamburger menu button if not needed */
+    .md-header__button.md-icon {
+        -webkit-tap-highlight-color: transparent !important;
+    }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 480px) {
+    .md-tabs__link {
+        padding: 0 0.6rem 0.5rem 0.6rem !important;
+        font-size: 0.85rem !important;
     }
 }
 
