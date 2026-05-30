@@ -1,3 +1,42 @@
+## 2026年5月30日 23:05 JST - docs/images/.backupのdrawioファイルエラー修正
+
+### 作業内容
+
+`docs/images/.backup`ディレクトリ内のdrawioファイルがVSCodeのDraw.io拡張機能でエラーを起こしていた問題を修正しました。
+
+### 問題の原因
+
+VSCodeのDraw.io拡張機能が、`value`属性内のHTMLタグ（`<b>`、`<br>`など）をXMLの一部として解釈しようとしてエラーが発生していました。
+
+### 実施した対応
+
+1. **HTMLタグの削除**
+   - `value="<b>テキスト</b>"` → `value="テキスト"` + `fontStyle=1`属性で太字を表現
+   - `value="<b>行1<br>行2</b>"` → `value="行1&#xa;行2"` + `fontStyle=1`
+   - 改行は`&#xa;`（XMLエンティティ）を使用
+
+2. **修正したファイル**
+   - `docs/images/.backup/with-building-blocks.drawio`
+   - `docs/images/.backup/without-building-blocks.drawio`
+
+3. **テストファイルの作成**
+   - `docs/images/.backup/test-simple.drawio`を作成して動作確認
+   - シンプルな図（Hello → World）で正常動作を確認
+
+### 技術的な詳細
+
+- **`fontStyle=1`**: 太字（Bold）を表現
+- **`&#xa;`**: 改行文字（XMLエンティティ）
+- **HTMLタグなし**: VSCodeのDraw.io拡張機能はHTMLタグをサポートしていないため、スタイル属性で表現
+
+### 成果
+
+- 両方のdrawioファイルがVSCodeで正しく表示されるようになった
+- エラーメッセージ「Cannot read properties of null (reading 'getAttribute')」が解消
+- 図の内容や見た目は変更なし（太字表現は維持）
+
+**完了日時**: 2026年5月30日 23:05 JST
+
 ## 2026年5月30日 22:22 JST - Part 1にVector Searchの処理フロー図を追加
 
 ### 作業内容
