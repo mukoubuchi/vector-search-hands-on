@@ -1,3 +1,42 @@
+## 2026年5月30日 14:37 JST - Mermaid図のブロックサイズ統一
+
+### 作業内容
+
+docs/index.mdのMermaid図で、全てのブロックのサイズとフォントサイズを統一しました。
+
+### 問題
+
+- 最初の図（7つのブロック）と2つ目の図（4つのブロック）でブロックのサイズが異なっていた
+- 2つ目の図の改行を含むブロック（`<br/>`タグ使用）が大きく表示されていた
+- CSSだけではMermaidが生成する`foreignObject`要素のサイズを完全に制御できなかった
+
+### 実施した対応
+
+1. **CSSによる基本制御（`docs/stylesheets/components.css`）**
+   - 全てのノード要素（`g.node rect`、`g[class*="node"] rect`）に160px × 60pxを強制
+   - `foreignObject`要素とその内部`div`のサイズを固定
+   - フォントサイズを14pxに統一
+   - `min-width`、`max-width`、`min-height`、`max-height`で完全に固定
+
+2. **JavaScriptによる動的修正（`docs/javascripts/mermaid-fix.js`）** - 新規作成
+   - Mermaidレンダリング後（500ms後）にDOM要素を直接操作
+   - 全ての`rect`要素の`width`と`height`属性を160×60に設定
+   - 全ての`foreignObject`要素とその内部`div`のサイズを強制
+   - 全てのテキスト要素のフォントサイズを14pxに統一
+   - flexboxで中央揃えを実現
+
+3. **mkdocs.ymlの更新**
+   - `extra_javascript`に`javascripts/mermaid-fix.js`を追加
+
+### 成果
+
+- 最初の図（7つのブロック）と2つ目の図（4つのブロック）の全てのブロックが完全に同じサイズ（160px × 60px）で表示
+- フォントサイズが全て14pxで統一
+- 改行があるブロック（`<br/>`タグ使用）も同じサイズで表示
+- CSSとJavaScriptの両方でサイズを制御することで確実に統一
+
+**完了日時**: 2026年5月30日 14:37 JST
+
 ## 2026年5月29日 19:00 JST - 図のスタイル変更（BBを緑、Bobを青に）
 
 ### 作業内容

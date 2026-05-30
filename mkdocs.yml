@@ -105,5 +105,6 @@ extra_javascript:
   - javascripts/navigation.js
   - javascripts/tasks.js
   - javascripts/syntax-highlight.js
+  - javascripts/mermaid-fix.js
 
 # Made with Bob
