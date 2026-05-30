@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "drawio": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@drawio/mcp"
+      ],
+      "disabled": false,
+      "alwaysAllow": []
+    }
+  }
+}
