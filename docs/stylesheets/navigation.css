@@ -61,9 +61,16 @@
     font-weight: 600;
 }
 
-/* Keep tabs on their own row and allow horizontal scrolling when needed */
+/* Make header single row - merge tabs into header */
 @media screen and (min-width: 1px) {
     .md-tabs {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 2.4rem !important;
+        background-color: transparent !important;
+        z-index: 2 !important;
         overflow-x: auto !important;
         overflow-y: hidden !important;
         -webkit-overflow-scrolling: touch !important;
@@ -77,18 +84,34 @@
     .md-tabs__list {
         display: flex !important;
         align-items: center !important;
+        height: 2.4rem !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        max-width: 61rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
         flex-wrap: nowrap !important;
-        min-width: max-content !important;
+        min-width: min-content !important;
     }
     
     .md-tabs__item {
+        display: inline-flex !important;
+        align-items: center !important;
+        height: 2.4rem !important;
+        padding: 0 !important;
         flex-shrink: 0 !important;
         white-space: nowrap !important;
     }
     
     .md-tabs__link {
+        padding: 0 1rem 0.5rem 1rem !important;
+        height: 2.4rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
         position: relative !important;
         transition: all 0.3s ease !important;
+        color: color-mix(in srgb, var(--md-primary-bg-color) 70%, transparent) !important;
+        box-sizing: border-box !important;
         white-space: nowrap !important;
         -webkit-tap-highlight-color: transparent !important;
     }
@@ -126,6 +149,15 @@
     
     .md-tabs .md-tabs__link[aria-current="page"]::after {
         transform: scaleX(1) !important;
+    }
+    
+    /* Adjust header to accommodate tabs */
+    .md-header {
+        height: 2.4rem !important;
+    }
+    
+    .md-header__inner {
+        height: 2.4rem !important;
     }
 }
 

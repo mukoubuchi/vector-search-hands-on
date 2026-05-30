@@ -53,8 +53,7 @@
     .md-search {
         position: absolute;
         right: 0;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 0;
         flex-shrink: 0;
         width: 12.1rem;
         display: flex;
