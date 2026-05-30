@@ -1,3 +1,38 @@
+## 2026年5月31日 00:18 JST - 言語スイッチャー修正とヘッダーレイアウト調整
+
+### 作業内容
+
+言語スイッチャーが正常に機能しない問題を修正し、大画面表示時にホームタブとヘッダー要素が重なるレイアウト崩れを解消しました。
+
+### 実施した対応
+
+1. **i18n設定と依存関係の修正 ([`mkdocs.yml`](mkdocs.yml:89))**
+   - [`mkdocs-static-i18n`](mkdocs.yml:94) をローカル環境へ導入
+   - [`plugins.i18n`](mkdocs.yml:94) の設定形式を現行プラグイン仕様に合わせて修正
+   - [`extra_css`](mkdocs.yml:129) と [`extra_javascript`](mkdocs.yml:134) に言語スイッチャー用アセットを追加
+
+2. **ヘッダーレイアウトの修正 ([`docs/stylesheets/navigation.css`](docs/stylesheets/navigation.css:59))**
+   - タブをヘッダー1行へ強制的に重ねる実装を撤去
+   - タブを独立行に戻し、横スクロール可能な標準寄りレイアウトへ変更
+   - 大画面時に [`Home`](mkdocs.yml:45) と検索欄・言語UIが重ならないよう調整
+
+3. **独自言語スイッチャーの再実装 ([`docs/stylesheets/language-switcher.css`](docs/stylesheets/language-switcher.css:1), [`docs/javascripts/language-switcher.js`](docs/javascripts/language-switcher.js:1))**
+   - 壊れた標準言語メニュー表示を回避するため、独自の切替UIを追加
+   - 英語（`/`）と日本語（`/ja/`）へ直接遷移するメニューを実装
+   - 既存の壊れたヘッダー言語UIはCSSで非表示化
+
+4. **テンプレートの読み込み調整 ([`docs/overrides/main.html`](docs/overrides/main.html:1))**
+   - Font Awesome 読み込みを維持
+   - 追加アセットは [`mkdocs.yml`](mkdocs.yml:129) 側から読み込む構成へ整理
+
+### 成果
+
+- 言語スイッチャーの不正表示を解消し、英語・日本語ページへ切り替え可能な状態に修正
+- 大画面表示でホームタブとヘッダー要素が重なる問題を解消
+- [`mkdocs serve`](mkdocs.yml) が i18n プラグイン有効状態でビルド可能になった
+
+**完了日時**: 2026年5月31日 00:18 JST
+
 ## 2026年5月31日 00:10 JST - MkDocsデフォルト言語セレクターへの変更
 
 ### 作業内容

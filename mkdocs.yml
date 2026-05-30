@@ -30,6 +30,7 @@ theme:
     - content.code.copy
     - content.action.edit
     - content.action.view
+    - i18n
   icon:
     repo: fontawesome/brands/github
   font:
@@ -92,17 +93,14 @@ plugins:
         - en
         - ja
   - i18n:
-      docs_structure: folder
-      fallback_to_default: true
-      reconfigure_material: true
-      reconfigure_search: true
-      default_language: en
+      docs_structure: suffix
       languages:
-        en:
+        - locale: en
           name: English
           build: true
+          default: true
           site_name: Vector Search Hands-on
-        ja:
+        - locale: ja
           name: 日本語
           build: true
           site_name: Vector Search ハンズオン
@@ -128,6 +126,7 @@ extra:
 # カスタムCSS（モジュール化済み）
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/language-switcher.css
 
 # カスタムJavaScript（モジュール化済み）
 extra_javascript:
