@@ -1,5 +1,17 @@
 /* Navigation Styles */
 
+/* Hide left sidebar (primary navigation) on desktop */
+@media screen and (min-width: 76.25em) {
+    .md-sidebar--primary {
+        display: none;
+    }
+    
+    /* Adjust main content to use full width */
+    .md-content {
+        margin-left: 0;
+    }
+}
+
 /* Hide previous/next navigation links */
 .md-footer__link {
     display: none;
