@@ -58,11 +58,6 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - admonition
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.arithmatex:
       generic: true
   - footnotes
@@ -105,6 +100,5 @@ extra_javascript:
   - javascripts/navigation.js
   - javascripts/tasks.js
   - javascripts/syntax-highlight.js
-  - javascripts/mermaid-fix.js
 
 # Made with Bob
