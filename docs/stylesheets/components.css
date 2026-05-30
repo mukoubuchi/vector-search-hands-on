@@ -52,12 +52,12 @@
     
     .md-search {
         position: absolute;
-        right: 0;
+        right: 3rem;
         top: 0;
         flex-shrink: 0;
-        width: 12.1rem;
+        width: 9rem;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         z-index: 3;
     }
     
@@ -77,8 +77,8 @@
         transition: all 0.3s ease;
         border: 1px solid color-mix(in srgb, var(--md-primary-bg-color) 18%, transparent);
         backdrop-filter: blur(10px);
-        width: 11rem;
-        max-width: 11rem;
+        width: 8rem;
+        max-width: 8rem;
     }
     
     .md-search__input {

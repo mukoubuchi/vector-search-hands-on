@@ -29,8 +29,14 @@
 
 /* Style the default language selector */
 .md-header__option {
-    margin-left: 0.25rem;
+    position: absolute;
+    right: 0.5rem;
+    top: 0;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
     flex-shrink: 0;
+    z-index: 10;
 }
 
 .md-header__button[for="__lang"] {
@@ -87,6 +93,7 @@
         height: 2.4rem !important;
         margin: 0 auto !important;
         padding: 0 !important;
+        padding-right: 3.5rem !important;
         max-width: 61rem !important;
         width: 100% !important;
         box-sizing: border-box !important;
