@@ -14,7 +14,7 @@
     margin-bottom: 0.8em;
     font-weight: 700;
     color: var(--md-primary-fg-color);
-    border-bottom: solid 2px #5a6c7d;
+    border-bottom: solid 2px #546e7a;
     padding-bottom: 5px;
     transition: transform 0.3s ease;
     cursor: pointer;
@@ -37,7 +37,7 @@
     margin-bottom: 0.8em;
     font-weight: 700;
     color: var(--md-primary-fg-color);
-    border-bottom: 1px dotted #7f8c8d;
+    border-bottom: 1px dotted #78909c;
     padding-bottom: 5px;
     transition: transform 0.3s ease;
     cursor: pointer;
@@ -60,7 +60,7 @@
     margin-bottom: 0.8em;
     font-weight: 700;
     color: var(--md-primary-fg-color);
-    border-bottom: 1px dotted #bdc3c7;
+    border-bottom: 1px dotted #b0bec5;
     padding-bottom: 3px;
     transition: transform 0.3s ease;
     cursor: pointer;

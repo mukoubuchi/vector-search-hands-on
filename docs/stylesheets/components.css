@@ -73,10 +73,10 @@
     }
     
     .md-search__form {
-        background-color: color-mix(in srgb, var(--md-primary-bg-color) 15%, transparent);
+        background-color: color-mix(in srgb, var(--md-primary-bg-color) 12%, transparent);
         border-radius: 4px;
         transition: all 0.3s ease;
-        border: 1px solid color-mix(in srgb, var(--md-primary-bg-color) 20%, transparent);
+        border: 1px solid color-mix(in srgb, var(--md-primary-bg-color) 18%, transparent);
         backdrop-filter: blur(10px);
         width: 11rem;
         max-width: 11rem;
@@ -98,8 +98,8 @@
     }
     
     .md-search__form:hover {
-        background-color: color-mix(in srgb, var(--md-primary-bg-color) 25%, transparent);
-        border-color: color-mix(in srgb, var(--md-primary-bg-color) 40%, transparent);
+        background-color: color-mix(in srgb, var(--md-primary-bg-color) 20%, transparent);
+        border-color: color-mix(in srgb, var(--md-primary-bg-color) 35%, transparent);
     }
     
     .md-search__form:focus-within {
