@@ -1,0 +1,1577 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Vector Search hands-on using IBM Bob × Milvus × watsonx.ai">
+      
+      
+        <meta name="author" content="IBM Build Team">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/ja/">
+      
+      
+      
+        <link rel="next" href="preparation/">
+      
+      
+        
+          <link rel="alternate" href="/" hreflang="en">
+        
+          <link rel="alternate" href="/ja/" hreflang="ja">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ホーム - Vector Search ハンズオン</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../stylesheets/language-switcher.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  <link rel="stylesheet" href="../stylesheets/language-switcher.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#welcome-to-vector-search-hands-on" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="./" title="Vector Search ハンズオン" class="md-header__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vector Search ハンズオン
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ホーム
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="言語切り替え">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/ja/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="preparation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  事前準備
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="part1/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="part2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 2
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="part3/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 3
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="summary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  まとめ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./" title="Vector Search ハンズオン" class="md-nav__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vector Search ハンズオン
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-experience-in-this-hands-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What You'll Experience in This Hands-on
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What You&#39;ll Experience in This Hands-on">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#value-of-building-blocks-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value of Building Blocks + IBM Bob
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What are Building Blocks?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What are Building Blocks?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features-of-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features of Building Blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-block-used-in-this-hands-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Block Used in This Hands-on
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-building-blocks-provide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Building Blocks Provide
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-hands-on-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Hands-on Adds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-instructor-participant-separation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instructor-Participant Separation Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-role-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of Role Division
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is IBM Bob?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is IBM Bob?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-ibm-bob-can-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What IBM Bob Can Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synergy-with-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synergy with Building Blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-development-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of Development Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Vector Search?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is Vector Search?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#difference-from-traditional-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Difference from Traditional Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-world-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-world Use Cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hands-on-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hands-on Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hands-on Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-manual-methods-differ-between-first-and-second-half" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Manual Methods Differ Between First and Second Half
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="part1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="part2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="part3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    まとめ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-experience-in-this-hands-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What You'll Experience in This Hands-on
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What You&#39;ll Experience in This Hands-on">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#value-of-building-blocks-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value of Building Blocks + IBM Bob
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What are Building Blocks?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What are Building Blocks?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features-of-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features of Building Blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-block-used-in-this-hands-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Block Used in This Hands-on
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-building-blocks-provide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Building Blocks Provide
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-hands-on-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Hands-on Adds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-instructor-participant-separation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instructor-Participant Separation Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-role-division" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of Role Division
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-ibm-bob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is IBM Bob?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is IBM Bob?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-ibm-bob-can-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What IBM Bob Can Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synergy-with-building-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synergy with Building Blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-development-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of Development Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Vector Search?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is Vector Search?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#difference-from-traditional-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Difference from Traditional Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-world-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-world Use Cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hands-on-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hands-on Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hands-on Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-manual-methods-differ-between-first-and-second-half" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Manual Methods Differ Between First and Second Half
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="welcome-to-vector-search-hands-on">Welcome to Vector Search Hands-on<a class="headerlink" href="#welcome-to-vector-search-hands-on" title="Anchor link to this section for reference">&para;</a></h1>
+<p>This hands-on workshop demonstrates how to build a "semantic search" feature (Vector Search) in a short time by combining <strong>Building Blocks</strong> and <strong>IBM Bob</strong>.</p>
+<div class="admonition info">
+<p class="admonition-title">Prerequisites</p>
+<p>IBM Bob is already installed and available for use (Plan: IBM Internal Version).</p>
+</div>
+<h2 id="what-youll-experience-in-this-hands-on">What You'll Experience in This Hands-on<a class="headerlink" href="#what-youll-experience-in-this-hands-on" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="value-of-building-blocks-ibm-bob">Value of Building Blocks + IBM Bob<a class="headerlink" href="#value-of-building-blocks-ibm-bob" title="Anchor link to this section for reference">&para;</a></h3>
+<p>This hands-on workshop demonstrates how combining <strong>Building Blocks</strong> (pre-built technical components) with <strong>IBM Bob</strong> (an AI development assistant) can complete development that would typically take days to weeks in <strong>approximately 60 minutes</strong>.</p>
+<p><strong>Without Building Blocks (Time required: days to weeks):</strong></p>
+<p><img alt="Development flow without Building Blocks" src="../images/without-building-blocks.svg" /></p>
+<p>Without Building Blocks, the following work is required:</p>
+<ul>
+<li>Vector database selection and learning</li>
+<li>Embedding model selection and integration</li>
+<li>API design and implementation</li>
+<li>Error handling</li>
+<li>Performance tuning</li>
+</ul>
+<p><strong>With Building Blocks + IBM Bob (This hands-on, Time required: approximately 60 minutes):</strong></p>
+<p><img alt="Development flow with Building Blocks + IBM Bob" src="../images/with-building-blocks.svg" /></p>
+<p>Responsibilities for each process:</p>
+<ul>
+<li><strong>Building Blocks</strong>:<ul>
+<li>Technology selection (Milvus, embedding models)</li>
+<li>Environment setup support (Bob mode, API samples)</li>
+</ul>
+</li>
+<li><strong>IBM Bob</strong>:<ul>
+<li>Requirements definition</li>
+<li>Coding</li>
+<li>Testing</li>
+<li>Debugging</li>
+</ul>
+</li>
+</ul>
+<details class="note">
+<summary>About IBM Bob's Coverage</summary>
+<p>IBM Bob can support the entire Software Development Lifecycle (SDLC) as an AI SDLC partner, from requirements definition to debugging. In this hands-on, Building Blocks provides technology selection (Milvus, embedding models) and environment setup support (Milvus setup, Bob mode), and the instructor prepares the Milvus environment in advance with Docker Compose, so IBM Bob focuses mainly on coding, testing, and debugging. However, if you use Plan mode, you can also utilize it in the requirements definition and design stages.</p>
+</details>
+<h2 id="what-are-building-blocks">What are Building Blocks?<a class="headerlink" href="#what-are-building-blocks" title="Anchor link to this section for reference">&para;</a></h2>
+<p><strong>Building Blocks</strong> are <strong>pre-built technical components</strong> leveraging IBM's technology stack. Using Building Blocks accelerates solution development.</p>
+<h3 id="features-of-building-blocks">Features of Building Blocks<a class="headerlink" href="#features-of-building-blocks" title="Anchor link to this section for reference">&para;</a></h3>
+<ul>
+<li><strong>Ready to use</strong>: Start using immediately without complex configuration or learning</li>
+<li><strong>Best practices</strong>: Optimal implementation patterns designed by IBM's engineering team</li>
+<li><strong>Integrated</strong>: Seamlessly integrates with IBM services like watsonx.ai and watsonx.data</li>
+<li><strong>Customizable</strong>: Flexibly extend to meet business requirements using IBM Bob</li>
+</ul>
+<h3 id="building-block-used-in-this-hands-on">Building Block Used in This Hands-on<a class="headerlink" href="#building-block-used-in-this-hands-on" title="Anchor link to this section for reference">&para;</a></h3>
+<p><strong>Vector Search Builder</strong> (Milvus-based)</p>
+<p><strong>What it provides</strong>: Vector database (Milvus) construction and management capabilities</p>
+<p><strong>Included features</strong>:</p>
+<ul>
+<li>Milvus database setup</li>
+<li>Collection (data container) creation</li>
+<li>Embedding model integration (watsonx, HuggingFace, local)</li>
+<li>Data ingestion pipeline</li>
+<li>Vector search optimization</li>
+<li>IBM Cloud Object Storage integration</li>
+</ul>
+<p><strong>Integration with IBM Bob</strong>: Using Vector Search Builder mode, IBM Bob provides specialized support for Vector Search</p>
+<div class="admonition example">
+<p class="admonition-title">Value of Building Blocks</p>
+<p><strong>Without Building Blocks</strong>: Read Milvus documentation, learn Python SDK, select and integrate embedding models (days)</p>
+<p><strong>With Building Blocks</strong>: Install Vector Search Builder and instruct IBM Bob (minutes)</p>
+</div>
+<details class="info">
+<summary>Unique Innovations in This Hands-on</summary>
+<h3 id="what-building-blocks-provide">What Building Blocks Provide<a class="headerlink" href="#what-building-blocks-provide" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Building Blocks provide the following technical components:</p>
+<ol>
+<li>
+<p><strong>Vector Search Builder Mode</strong></p>
+<ul>
+<li><strong>File</strong>: <code>bob-modes/base-modes/vector-search-builder.zip</code></li>
+<li><strong>Contents</strong>:<ul>
+<li>IBM Bob custom mode configuration</li>
+<li>AI assistant functionality specialized for Vector Search</li>
+<li>Milvus operation best practices</li>
+<li>Rule files, prompt templates</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Ingestion Asset (FastAPI)</strong></p>
+<ul>
+<li><strong>File</strong>: <code>assets/data-ingestion-asset/</code></li>
+<li><strong>Contents</strong>:<ul>
+<li><code>main.py</code>: FastAPI application main body</li>
+<li><code>app/</code>: API endpoint implementation</li>
+<li><code>Dockerfile</code>: Containerization configuration</li>
+<li><code>requirements.txt</code>: Python dependency packages</li>
+<li><code>.env.example</code>: Environment variable template</li>
+</ul>
+</li>
+<li><strong>Features</strong>:<ul>
+<li>Document ingestion from IBM COS</li>
+<li>Document analysis based on Docling</li>
+<li>Embedding generation by IBM Watsonx</li>
+<li>Vector storage and index creation in Milvus</li>
+<li>API testing with Swagger UI</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Setup Guide</strong></p>
+<ul>
+<li><strong>File</strong>: <code>README.md</code></li>
+<li><strong>Contents</strong>: watsonx.data + Milvus environment setup procedures</li>
+</ul>
+</li>
+</ol>
+<h3 id="what-this-hands-on-adds">What This Hands-on Adds<a class="headerlink" href="#what-this-hands-on-adds" title="Anchor link to this section for reference">&para;</a></h3>
+<p>In addition to the Building Blocks foundation, the following have been added for educational purposes:</p>
+<ul>
+<li><strong><code>setup/instructor/</code></strong>: Instructor Milvus environment (Docker Compose)</li>
+<li><strong><code>setup/participant/</code></strong>: Participant connection test scripts</li>
+<li><strong><code>docs/</code></strong>: Hands-on documentation (MkDocs)</li>
+</ul>
+<h3 id="1-instructor-participant-separation-architecture">1. Instructor-Participant Separation Architecture<a class="headerlink" href="#1-instructor-participant-separation-architecture" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Building Blocks alone:</p>
+<ul>
+<li>Each person builds their own Milvus environment (Docker/Podman/Colima)</li>
+<li>Individually download embedding models (approximately 200 MB)</li>
+<li>Environment setup takes about 30 minutes</li>
+</ul>
+<p>This hands-on's innovation:</p>
+<ul>
+<li><strong>Instructor</strong>: Centrally manages Milvus environment (<code>setup/instructor/docker-compose.yml</code>)</li>
+<li><strong>Participants</strong>: Participate with only IBM Bob (<code>.bob/modes/</code> + connection information only)</li>
+</ul>
+<p><strong>2. Hybrid Delivery Support</strong></p>
+<p>Building Blocks alone:</p>
+<ul>
+<li>Assumes local environment execution</li>
+</ul>
+<p>This hands-on's innovation:</p>
+<ul>
+<li><strong>On-site</strong>: Local network sharing (<code>http://instructor IP:8001</code>)</li>
+<li><strong>Remote</strong>: Document delivery via GitHub Pages or ngrok</li>
+</ul>
+<p><strong>3. API Key-Free Design</strong></p>
+<p>Building Blocks alone:</p>
+<ul>
+<li>watsonx.ai API key required</li>
+<li>Participants obtain and configure individually</li>
+</ul>
+<p>This hands-on's innovation:</p>
+<ul>
+<li><strong>Hugging Face Transformers</strong> used (no API key required)</li>
+<li><strong>Local execution</strong>: Works with internet connection only</li>
+</ul>
+<p><strong>4. Progressive Learning Path</strong></p>
+<p>Building Blocks alone:</p>
+<ul>
+<li>Focuses on technical implementation</li>
+</ul>
+<p>This hands-on's innovation:</p>
+<ul>
+<li><strong>Part 1</strong>: Experience Vector Search (understanding)</li>
+<li><strong>Part 2</strong>: Add features with IBM Bob (practice)</li>
+<li><strong>Part 3</strong>: Code review and improvement (application)</li>
+</ul>
+<h3 id="summary-of-role-division">Summary of Role Division<a class="headerlink" href="#summary-of-role-division" title="Anchor link to this section for reference">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Provider</th>
+<th style="text-align: left;">What's Provided</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Building Blocks</strong></td>
+<td style="text-align: left;">Vector Search Builder mode<br/>FastAPI sample<br/>Milvus setup guide</td>
+<td style="text-align: left;">Technology foundation provision<br/>Development acceleration</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>This Hands-on</strong></td>
+<td style="text-align: left;">Instructor environment (Docker Compose)<br/>Participant scripts<br/>Educational documentation</td>
+<td style="text-align: left;">Educational design<br/>Learning experience optimization</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition success">
+<p class="admonition-title">Benefits of This Hands-on</p>
+<p><strong>Building Blocks (technology foundation)</strong> + <strong>Hands-on unique innovations (educational design)</strong> = <strong>High learning effectiveness in a short time</strong></p>
+<ul>
+<li><strong>Setup time reduction</strong>: 30 minutes → 5 minutes (instructor centrally manages environment)</li>
+<li><strong>No API key required</strong>: Using Hugging Face reduces participant preparation burden</li>
+<li><strong>Flexible delivery format</strong>: Supports on-site/remote/hybrid delivery</li>
+<li><strong>Progressive learning</strong>: Even beginners can progress from understanding → practice → application</li>
+</ul>
+</div>
+</details>
+<h2 id="what-is-ibm-bob">What is IBM Bob?<a class="headerlink" href="#what-is-ibm-bob" title="Anchor link to this section for reference">&para;</a></h2>
+<p><strong>IBM Bob</strong> is a development tool where AI assists with coding.</p>
+<h3 id="what-ibm-bob-can-do">What IBM Bob Can Do<a class="headerlink" href="#what-ibm-bob-can-do" title="Anchor link to this section for reference">&para;</a></h3>
+<ul>
+<li><strong>Natural language instructions</strong>: Communicate what you want to do in words</li>
+<li><strong>Automatic code generation</strong>: Automatically writes high-quality code</li>
+<li><strong>Code review</strong>: Points out code issues</li>
+<li><strong>Integration with Building Blocks</strong>: Provides technology-specific support through custom modes</li>
+</ul>
+<h3 id="synergy-with-building-blocks">Synergy with Building Blocks<a class="headerlink" href="#synergy-with-building-blocks" title="Anchor link to this section for reference">&para;</a></h3>
+<p><strong>Building Blocks alone</strong>:</p>
+<ul>
+<li>Basic functionality is provided, but customization requires technical knowledge</li>
+</ul>
+<p><strong>IBM Bob alone</strong>:</p>
+<ul>
+<li>Code generation is possible, but building from scratch takes time</li>
+</ul>
+<p><strong>Building Blocks + IBM Bob</strong>:</p>
+<ul>
+<li>Building Blocks instantly builds the foundation</li>
+<li>IBM Bob customizes with natural language instructions only</li>
+<li><strong>Result</strong>: Achieve production-level quality in the shortest time</li>
+</ul>
+<h3 id="comparison-of-development-methods">Comparison of Development Methods<a class="headerlink" href="#comparison-of-development-methods" title="Anchor link to this section for reference">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Development Method</th>
+<th style="text-align: right;">Time Required</th>
+<th style="text-align: left;">Required Skills</th>
+<th style="text-align: left;">Code Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Without Building Blocks</strong></td>
+<td style="text-align: right;">Days to weeks</td>
+<td style="text-align: left;">Programming, DB design, API design</td>
+<td style="text-align: left;">Depends on developer skills</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IBM Bob only</strong></td>
+<td style="text-align: right;">Hours to days</td>
+<td style="text-align: left;">Basic technical understanding</td>
+<td style="text-align: left;">High quality but time-consuming to build</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Building Blocks + IBM Bob</strong></td>
+<td style="text-align: right;">Minutes to hours</td>
+<td style="text-align: left;">Just need to instruct in natural language</td>
+<td style="text-align: left;">Production-level high quality</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-is-vector-search">What is Vector Search?<a class="headerlink" href="#what-is-vector-search" title="Anchor link to this section for reference">&para;</a></h2>
+<p><strong>Vector Search</strong> is a technology that searches by understanding the "meaning" of words.</p>
+<h3 id="difference-from-traditional-search">Difference from Traditional Search<a class="headerlink" href="#difference-from-traditional-search" title="Anchor link to this section for reference">&para;</a></h3>
+<p><strong>Traditional keyword search</strong>:</p>
+<ul>
+<li>"red sneakers" → Searches for products containing the <strong>characters</strong> "red" and "sneakers"</li>
+<li>"red running shoes" won't be found (different characters)</li>
+</ul>
+<p><strong>Vector Search (semantic search)</strong>:</p>
+<ul>
+<li>"red sneakers" → Understands the <strong>meaning</strong> of "red" and "sneakers"</li>
+<li>"red running shoes" will be found (similar meaning)</li>
+<li>"beginner camera" → "entry-level digital camera" will be found</li>
+</ul>
+<h3 id="real-world-use-cases">Real-world Use Cases<a class="headerlink" href="#real-world-use-cases" title="Anchor link to this section for reference">&para;</a></h3>
+<ul>
+<li><strong>E-commerce sites</strong>: "Find similar products" feature</li>
+<li><strong>Internal search</strong>: "Find documents similar to this document"</li>
+<li><strong>Customer support</strong>: "Find similar questions"</li>
+</ul>
+<h2 id="hands-on-flow">Hands-on Flow<a class="headerlink" href="#hands-on-flow" title="Anchor link to this section for reference">&para;</a></h2>
+<p><strong>Total</strong>: Approximately 60 minutes</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Part</th>
+<th style="text-align: left;">Content</th>
+<th style="text-align: right;">Time Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="preparation/">Preparation</a></td>
+<td style="text-align: left;">Vector Search Builder setup</td>
+<td style="text-align: right;">10 minutes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="part1/">Part 1</a></td>
+<td style="text-align: left;">Experience Vector Search</td>
+<td style="text-align: right;">15 minutes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="part2/">Part 2</a></td>
+<td style="text-align: left;">Add features with IBM Bob</td>
+<td style="text-align: right;">20 minutes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="part3/">Part 3</a></td>
+<td style="text-align: left;">Verification</td>
+<td style="text-align: right;">15 minutes</td>
+</tr>
+</tbody>
+</table>
+<details class="info">
+<summary>About This Hands-on's Documentation Design</summary>
+<h3 id="why-manual-methods-differ-between-first-and-second-half">Why Manual Methods Differ Between First and Second Half<a class="headerlink" href="#why-manual-methods-differ-between-first-and-second-half" title="Anchor link to this section for reference">&para;</a></h3>
+<p>In this hands-on, <strong>the first half (preparation, Part 1) describes both IBM Bob delegation and manual execution methods</strong>, but <strong>the second half (Part 2-3) describes only IBM Bob delegation methods</strong>. This is for the following reasons:</p>
+<p><strong>1. Complexity and Length of Manual Work</strong></p>
+<ul>
+<li><strong>First half work</strong>: Simple command execution (<code>pip install -r requirements.txt</code>, <code>python test_connection.py</code>), can be completed in one line manually</li>
+<li><strong>Second half work</strong>: Editing multiple files, changing data models, response structures, error handling, etc., requiring dozens to hundreds of lines of code changes. Manual description would be very long and complex, making the documentation enormous</li>
+</ul>
+<p><strong>2. Educational Intent</strong></p>
+<ul>
+<li><strong>First half</strong>: Show <strong>options</strong> that "can be done with IBM Bob or manually"</li>
+<li><strong>Second half</strong>: Let users <strong>experience the value</strong> that "what's difficult manually is easy with IBM Bob"</li>
+</ul>
+<details class="example">
+<summary>Experience the Value of Building Blocks + IBM Bob</summary>
+<p>In particular, the experience of <a href="part2/#3-ibm-bob"><strong>completing complex code changes with a single instruction "Display product images in search results"</strong></a> is designed to <strong>most effectively convey the value of Building Blocks + IBM Bob</strong>.</p>
+<p><strong>Why This Instruction is Most Effective</strong>:</p>
+<p><strong>Building Blocks Effect</strong>:</p>
+<ul>
+<li><strong>Vector Search knowledge</strong>: IBM Bob understands Milvus, embedding models, and vector search best practices through Vector Search Builder mode</li>
+<li><strong>Existing foundation</strong>: Sample data, API structure, and data models are already prepared, and IBM Bob can add features using them</li>
+<li><strong>No technology selection needed</strong>: Technology selection for Milvus, embedding models, API design, etc. is complete, and IBM Bob can focus on implementation</li>
+</ul>
+<p><strong>IBM Bob Effect</strong>:</p>
+<ul>
+<li><strong>Natural language instructions</strong>: Just one line, natural Japanese expression, without any technical details</li>
+<li><strong>Automatic code generation</strong>: Automatically executes editing of multiple files, data model changes, response structure changes</li>
+<li><strong>Immediate results</strong>: Can verify operation immediately after instruction, getting the feeling that "it really worked"</li>
+</ul>
+<p><strong>Synergy of IBM Bob and Building Blocks</strong>:</p>
+<ul>
+<li><strong>First experience in Part 2</strong>: The moment participants "add a feature themselves" for the first time, making it memorable</li>
+<li><strong>Contrast with other instructions</strong>: Price filters and recommendation reasons are similarly easy, but this first experience is most impactful</li>
+<li><strong>Gap with complexity</strong>: Work that would take days without Building Blocks is completed with one IBM Bob instruction</li>
+</ul>
+</details>
+<p><strong>3. Building Blocks Value Proposition</strong></p>
+<ul>
+<li>Let users experience the time reduction effect of "days to weeks → approximately 60 minutes"</li>
+<li>Emphasize this effect by omitting manual methods in the second half</li>
+</ul>
+<p><strong>4. Consideration for Time Constraints</strong></p>
+<ul>
+<li>Designed for approximately 60 minutes total</li>
+<li>Just reading detailed manual methods would run out of time</li>
+<li>Focusing on IBM Bob delegation <strong>secures time for actual hands-on work</strong></li>
+</ul>
+<p><strong>5. Complexity of Error Handling</strong></p>
+<p>When manually changing code, troubleshooting for syntax errors, indentation errors, type errors, logic errors, etc. is necessary. Describing all of these would make the documentation several times longer</p>
+<p><strong>6. Progressive Learning Design</strong></p>
+<ul>
+<li><strong>First half</strong>: Get familiar with using IBM Bob through simple tasks</li>
+<li><strong>Second half</strong>: Experience IBM Bob's true value through complex tasks</li>
+</ul>
+<p>This design allows participants to naturally understand IBM Bob's value and acquire practical skills.</p>
+</details>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Anchor link to this section for reference">&para;</a></h2>
+<ul>
+<li><strong>Computer</strong> (Mac, Windows) and internet connection</li>
+<li><strong>IBM Bob</strong> (already installed)</li>
+<li><strong>Web browser</strong> (Chrome, Firefox, Safari, Edge, etc.)</li>
+</ul>
+<p><strong>Distributed by instructor</strong>:</p>
+<ul>
+<li>Hands-on procedure URL</li>
+<li>Vector Search Builder (zip file)</li>
+<li>Connection information (Milvus connection information)</li>
+</ul>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Anchor link to this section for reference">&para;</a></h2>
+<p>Let's proceed to the <a href="preparation/">Preparation</a> page!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.action.edit", "content.action.view", "i18n"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+  
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/search.js"></script>
+      
+        <script src="../javascripts/navigation.js"></script>
+      
+        <script src="../javascripts/tasks.js"></script>
+      
+        <script src="../javascripts/syntax-highlight.js"></script>
+      
+        <script src="../javascripts/drawio.js"></script>
+      
+    
+  <script defer src="../javascripts/language-switcher.js"></script>
+
+  </body>
+</html>

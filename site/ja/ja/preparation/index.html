@@ -1,0 +1,1258 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Vector Search hands-on using IBM Bob × Milvus × watsonx.ai">
+      
+      
+        <meta name="author" content="IBM Build Team">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/ja/ja/preparation/">
+      
+      
+      
+      
+        
+          <link rel="alternate" href="../../preparation/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="ja">
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>事前準備 - Vector Search ハンズオン</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/language-switcher.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  <link rel="stylesheet" href="../../../stylesheets/language-switcher.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../../" title="Vector Search ハンズオン" class="md-header__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vector Search ハンズオン
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              事前準備
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="言語切り替え">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../preparation/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../preparation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  事前準備
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../part1/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../part2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 2
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../part3/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 3
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../summary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  まとめ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../" title="Vector Search ハンズオン" class="md-nav__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vector Search ハンズオン
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    まとめ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        必要なもの
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="必要なもの">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-vector-search-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Vector Search Builder モード
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Vector Search Builder モード">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-blocks-vector-search-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Blocks としての Vector Search Builder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-vector-search-builderbuilding-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: Vector Search Builder（Building Block）をインストール
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ibm-bob-vector-search-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: IBM Bob で vector-search-builder フォルダを開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 接続情報
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 接続情報">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#milvus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Milvus（ベクトルデータベース）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#milvus_host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MILVUS_HOST の設定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        埋め込みモデル（テキストを数値に変換する AI）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Python 環境のセットアップ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Python 環境のセットアップ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 1: Python のインストール確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 2: 仮想環境の作成（重要）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ステップ 3: 必要なパッケージのインストール
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        準備完了チェックリスト
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        次のステップ
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">事前準備<a class="headerlink" href="#_1" title="Anchor link to this section for reference">&para;</a></h1>
+<p>それでは、ハンズオンの準備から行っていきます。</p>
+<p>まずは、ターミナル / コマンドプロンプトの開き方を確認してください。</p>
+<div class="admonition tip">
+<p class="admonition-title">ターミナル / コマンドプロンプトの開き方</p>
+<p><strong>IBM Bob でターミナル / コマンドプロンプトを開く</strong>:</p>
+<p>次のいずれかの方法で開くことができます:</p>
+<ul>
+<li>メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd></li>
+<li><kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）</li>
+<li>右上のアイコンをクリック、または <kbd>Cmd</kbd> + <kbd>J</kbd>（パネルの切り替え）</li>
+</ul>
+<p>画面下部に黒い画面（ターミナル / コマンドプロンプト）が表示されます。</p>
+<hr />
+<p><strong>システムのターミナル / コマンドプロンプトを開く</strong>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li><kbd>Cmd</kbd> + <kbd>Space</kbd> で Spotlight を開く</li>
+<li>「ターミナル」と入力</li>
+<li><kbd>Enter</kbd> を押す</li>
+</ol>
+<p><strong>または</strong>:</p>
+<ul>
+<li>アプリケーション → ユーティリティ → ターミナル</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ol>
+<li><kbd>Win</kbd> + <kbd>R</kbd> を押す</li>
+<li>「cmd」と入力</li>
+<li><kbd>Enter</kbd> を押す</li>
+</ol>
+<p><strong>または</strong>:</p>
+<ul>
+<li>スタートメニュー → 「コマンドプロンプト」を検索</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<h2 id="_2">必要なもの<a class="headerlink" href="#_2" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="1-vector-search-builder">1. Vector Search Builder モード<a class="headerlink" href="#1-vector-search-builder" title="Anchor link to this section for reference">&para;</a></h3>
+<p><strong>Vector Search Builder</strong> は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。</p>
+<h4 id="building-blocks-vector-search-builder">Building Blocks としての Vector Search Builder<a class="headerlink" href="#building-blocks-vector-search-builder" title="Anchor link to this section for reference">&para;</a></h4>
+<p><strong>提供元</strong>: IBM Build Engineering Team</p>
+<p><strong>含まれる機能</strong>:</p>
+<ul>
+<li>Milvus データベースのセットアップと管理</li>
+<li>埋め込みモデルの統合（watsonx、HuggingFace、ローカル）</li>
+<li>データ取り込みパイプラインの構築</li>
+<li>ベクトル検索の最適化</li>
+<li>IBM Cloud Object Storage との連携</li>
+</ul>
+<p><strong>IBM Bob との連携</strong>:</p>
+<ul>
+<li>Vector Search に特化した AI アシスタント</li>
+<li>Building Blocks の機能を理解した上でコード生成</li>
+<li>ベストプラクティスに基づいた実装支援</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Building Blocks の利点</p>
+<p><strong>通常の開発</strong>: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）</p>
+<p><strong>Building Blocks 使用</strong>: Vector Search Builder をインストールし、IBM Bob に自然言語で指示（数分）</p>
+<p><strong>このハンズオンでの工夫</strong>: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）</p>
+</div>
+<h4 id="1-vector-search-builderbuilding-block">ステップ 1: Vector Search Builder（Building Block）をインストール<a class="headerlink" href="#1-vector-search-builderbuilding-block" title="Anchor link to this section for reference">&para;</a></h4>
+<ol>
+<li>
+<p>配布された <strong><code>vector-search-builder.zip</code></strong> をデスクトップにコピー</p>
+</li>
+<li>
+<p>zip ファイルを解凍</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_2_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>GUI</strong>: ダブルクリック</p>
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/Desktop
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>unzip<span class="w"> </span>vector-search-builder.zip
+</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<p><strong>GUI</strong>: 右クリック →「すべて展開」</p>
+<p>※ ダブルクリックで開いただけでは展開されないため、「すべて展開」を実行してください</p>
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>%USERPROFILE%<span class="se">\D</span>esktop
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>tar<span class="w"> </span>-xf<span class="w"> </span>vector-search-builder.zip
+</span></code></pre></div></p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><strong><code>vector-search-builder</code></strong> フォルダが作成され、その中に <strong><code>.bob</code></strong> フォルダがあることを確認</p>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">重要</p>
+<p><code>.bob</code> フォルダはプロジェクトフォルダ（このハンズオンでは <code>vector-search-builder</code>）の直下に配置する必要があります。</p>
+</div>
+<details class="info">
+<summary>vector-search-builder.zip の内容</summary>
+<p><strong><code>vector-search-builder.zip</code></strong> には、以下が含まれています:</p>
+<p><strong>Building Blocks</strong>:</p>
+<ul>
+<li><strong><code>.bob/</code></strong>: Vector Search Builder モード定義</li>
+</ul>
+<p><strong>このハンズオンで追加したもの</strong>:</p>
+<ul>
+<li><strong><code>setup/instructor/</code></strong>: 講師用 Milvus 環境（Docker Compose）</li>
+<li><strong><code>setup/participant/</code></strong>: 受講者用接続テストスクリプト</li>
+<li><strong><code>.env.example</code></strong>: 接続情報設定テンプレート</li>
+<li><strong><code>docs/</code></strong>: ハンズオン用ドキュメント</li>
+</ul>
+</details>
+<details class="tip">
+<summary>Building Blocks のインストール方法</summary>
+<p>通常、Building Blocks は以下の方法でインストールします:</p>
+<ul>
+<li><strong>グローバルインストール</strong>: <code>~/.config/IBM Bob/User/globalStorage/ibm.bob-code/</code></li>
+<li><strong>プロジェクトローカル</strong>: <code>.bob/</code>（このハンズオンの方法）</li>
+</ul>
+<p>このハンズオンでは、プロジェクトローカルにインストールすることで、環境を汚さず、簡単にクリーンアップできます。</p>
+</details>
+<h4 id="2-ibm-bob-vector-search-builder">ステップ 2: IBM Bob で <code>vector-search-builder</code> フォルダを開く<a class="headerlink" href="#2-ibm-bob-vector-search-builder" title="Anchor link to this section for reference">&para;</a></h4>
+<ol>
+<li>
+<p>IBM Bob を起動</p>
+</li>
+<li>
+<p><code>vector-search-builder</code> フォルダを開く</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_3_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>GUI</strong>: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で <code>vector-search-builder</code> フォルダを選択、または <kbd>⌘</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>GUI</strong>: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で <code>vector-search-builder</code> フォルダを選択、または <kbd>Ctrl</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認し、選択</p>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Building Blocks 専用カスタムモードの認識</p>
+<p>IBM Bob が <code>.bob/</code> フォルダを検出し、Building Blocks 専用カスタムモード（このハンズオンでは Vector Search Builder モード）を自動的に読み込みます。</p>
+<p>このモードにより、IBM Bob は以下を理解します:</p>
+<ul>
+<li>Milvus データベースの操作方法</li>
+<li>ベクトル検索のベストプラクティス</li>
+<li>埋め込みモデルの統合方法</li>
+<li>Building Blocks の機能と制約</li>
+</ul>
+</div>
+<h3 id="2">2. 接続情報<a class="headerlink" href="#2" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="milvus">Milvus（ベクトルデータベース）<a class="headerlink" href="#milvus" title="Anchor link to this section for reference">&para;</a></h4>
+<p>講師から配布された IP アドレスを設定します。</p>
+<div class="admonition example">
+<p class="admonition-title">接続情報の設定</p>
+<ol>
+<li>
+<p><strong><code>setup/participant</code></strong> フォルダを開く</p>
+</li>
+<li>
+<p><strong><code>.env.example</code></strong> をコピーし、コピーしたファイル名を <strong><code>.env</code></strong> に変更</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_4_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>GUI</strong>: Finder で <code>.env.example</code> を右クリック →「複製」→ ファイル名を <code>.env</code> に変更</p>
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>setup/participant
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<p><strong>GUI</strong>: エクスプローラーで <code>.env.example</code> を右クリック →「コピー」→「貼り付け」→ ファイル名を <code>.env</code> に変更</p>
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>setup<span class="se">\p</span>articipant
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>copy<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span></code></pre></div></p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><strong><code>.env</code></strong> ファイルを開き、<strong><code>MILVUS_HOST</code></strong> に講師から配布された IP アドレスを入力</p>
+<h4 id="milvus_host">MILVUS_HOST の設定<a class="headerlink" href="#milvus_host" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-properties highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Milvus 接続情報</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">MILVUS_HOST</span><span class="o">=</span><span class="s">192.168.1.100  # ← 講師から配布された IP アドレスに変更</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 以下は変更不要</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="na">MILVUS_PORT</span><span class="o">=</span><span class="s">19530</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="na">MILVUS_USER</span><span class="o">=</span><span class="s">root</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="na">MILVUS_PASSWORD</span><span class="o">=</span><span class="s">Milvus</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="na">EMBEDDING_MODEL</span><span class="o">=</span><span class="s">paraphrase-multilingual-MiniLM-L12-v2</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="na">EMBEDDING_DIMENSION</span><span class="o">=</span><span class="s">384</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="na">COLLECTION_NAME</span><span class="o">=</span><span class="s">knowledge_base</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>ファイルを保存</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_5_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><kbd>Cmd</kbd> + <kbd>S</kbd></p>
+</div>
+<div class="tabbed-block">
+<p><kbd>Ctrl</kbd> + <kbd>S</kbd></p>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<h4 id="ai">埋め込みモデル（テキストを数値に変換する AI）<a class="headerlink" href="#ai" title="Anchor link to this section for reference">&para;</a></h4>
+<p>Hugging Face Transformers を使用します（API キー不要、無料）。</p>
+<p><strong>埋め込みモデルとは</strong>: テキストの「意味」を数値（ベクトル）に変換する AI モデルです。</p>
+<ul>
+<li>モデル: <strong><code>paraphrase-multilingual-MiniLM-L12-v2</code></strong></li>
+<li>次元数: <strong>384</strong>（384 個の数値で意味を表現）</li>
+<li>特徴: 多言語対応</li>
+</ul>
+<h3 id="3-python">3. Python 環境のセットアップ<a class="headerlink" href="#3-python" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="1-python">ステップ 1: Python のインストール確認<a class="headerlink" href="#1-python" title="Anchor link to this section for reference">&para;</a></h4>
+<p>まず、Python がインストールされているか確認します。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_6_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python3<span class="w"> </span>--version
+</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python<span class="w"> </span>--version
+</span></code></pre></div></p>
+</div>
+</div>
+</div>
+<p><strong>期待される出力</strong>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Python 3.8.x 以上
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Python がインストールされていない場合</p>
+<p>Python 3.8 以上がインストールされていない場合は、以下からインストールしてください:</p>
+<p><strong>公式サイト</strong>: <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_7_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Homebrew を使用する場合:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>brew<span class="w"> </span>install<span class="w"> </span>python3
+</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<p>Microsoft Store からインストールすることも可能です。</p>
+</div>
+</div>
+</div>
+</div>
+<h4 id="2_1">ステップ 2: 仮想環境の作成（重要）<a class="headerlink" href="#2_1" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="admonition danger">
+<p class="admonition-title">グローバル環境を破壊しないために</p>
+<p><strong>必ず仮想環境を使用してください</strong>。グローバル環境に直接インストールすると、他のプロジェクトに影響を与える可能性があります。</p>
+</div>
+<p>仮想環境を作成し、その中でパッケージをインストールします。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_8_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>~/Desktop/vector-search-builder/setup/participant
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<p><strong>ターミナル / コマンドプロンプト</strong>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">cd</span><span class="w"> </span>%USERPROFILE%<span class="se">\D</span>esktop<span class="se">\v</span>ector-search-builder<span class="se">\s</span>etup<span class="se">\p</span>articipant
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</span></code></pre></div></p>
+</div>
+</div>
+</div>
+<p><strong>仮想環境が有効化されると</strong>、プロンプトの先頭に <code>(venv)</code> が表示されます:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="o">(</span>venv<span class="o">)</span><span class="w"> </span>user@computer:~/Desktop/vector-search-builder/setup/participant$
+</span></code></pre></div>
+<div class="admonition success">
+<p class="admonition-title">仮想環境の利点</p>
+<ul>
+<li><strong>隔離</strong>: このプロジェクト専用の環境</li>
+<li><strong>安全</strong>: グローバル環境を破壊しない</li>
+<li><strong>クリーンアップ</strong>: <code>venv</code> フォルダを削除するだけで完全に削除可能</li>
+<li><strong>再現性</strong>: 他の環境でも同じ構成を再現可能</li>
+</ul>
+</div>
+<h4 id="3">ステップ 3: 必要なパッケージのインストール<a class="headerlink" href="#3" title="Anchor link to this section for reference">&para;</a></h4>
+<p>仮想環境を有効化した状態で、Python パッケージをインストールします。</p>
+<div class="admonition example">
+<p class="admonition-title">IBM Bob にパッケージインストールを依頼</p>
+<ol>
+<li>
+<p><strong>仮想環境が有効化されていることを確認</strong>（プロンプトに <code>(venv)</code> が表示されている）</p>
+</li>
+<li>
+<p>IBM Bob のチャット入力欄に以下を入力:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>setup/participant/requirements.txt に記載されているパッケージをすべてインストールして
+</span></code></pre></div>
+</li>
+<li>
+<p>インストールが完了するまで待ちます（数分かかる場合があります）</p>
+</li>
+</ol>
+</div>
+<details class="info">
+<summary>インストールされるパッケージ</summary>
+<p>以下のパッケージがインストールされます（70+パッケージ、すべてバージョン固定）:</p>
+<p><strong>主要パッケージ</strong>:
+- <strong>pymilvus</strong>: Milvus データベースクライアント
+- <strong>sentence-transformers</strong>: 埋め込みモデル
+- <strong>torch</strong>: 機械学習フレームワーク
+- <strong>fastapi</strong>: Web フレームワーク
+- <strong>pandas</strong>: データ処理
+- <strong>langchain</strong>: テキスト処理
+- <strong>python-dotenv</strong>: 環境変数管理</p>
+<p><strong>すべての依存関係も固定</strong>:
+- transformers, huggingface-hub, tokenizers
+- pydantic, uvicorn, starlette
+- numpy, scipy, scikit-learn
+- その他多数</p>
+</details>
+<details class="tip">
+<summary>手動でインストールする場合</summary>
+<p>IBM Bob を使わずに手動でインストールする場合は、ターミナルで以下を実行:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_9_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>~/Desktop/vector-search-builder/setup/participant
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">cd</span><span class="w"> </span>%USERPROFILE%<span class="se">\D</span>esktop<span class="se">\v</span>ector-search-builder<span class="se">\s</span>etup<span class="se">\p</span>articipant
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</details>
+<details class="warning">
+<summary>仮想環境の無効化</summary>
+<p>作業が終わったら、仮想環境を無効化できます:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>deactivate
+</span></code></pre></div>
+<p>次回作業時は、再度有効化してください:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_10_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">cd</span><span class="w"> </span>~/Desktop/vector-search-builder/setup/participant
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>%USERPROFILE%<span class="se">\D</span>esktop<span class="se">\v</span>ector-search-builder<span class="se">\s</span>etup<span class="se">\p</span>articipant
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</details>
+<h2 id="_3">準備完了チェックリスト<a class="headerlink" href="#_3" title="Anchor link to this section for reference">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> IBM Bob がインストールされ、使用できる</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Python 3.8 以上がインストールされている</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <strong><code>vector-search-builder.zip</code></strong> を解凍した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <strong><code>.bob</code></strong> フォルダが存在する</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> IBM Bob で <code>vector-search-builder</code> フォルダを開いた</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> 「Vector Search Builder」モードが表示される</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <strong><code>setup/participant/.env</code></strong> ファイルに接続情報を入力した</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <strong>仮想環境を作成し、有効化した</strong>（プロンプトに <code>(venv)</code> が表示される）</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> 仮想環境内で Python パッケージをインストールした</li>
+</ul>
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Anchor link to this section for reference">&para;</a></h2>
+<details class="question">
+<summary>Q1: Vector Search Builder モードが表示されない</summary>
+<p>対処法:</p>
+<ol>
+<li><strong><code>.bob</code></strong> フォルダが存在するか確認</li>
+<li>IBM Bob をリロード（<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」）</li>
+<li>プロジェクトフォルダを開き直す</li>
+</ol>
+</details>
+<details class="question">
+<summary>Q2: 接続情報をどこに入力すればいいか分からない</summary>
+<p>対処法:</p>
+<ol>
+<li>プロジェクトフォルダ内の <strong><code>setup/participant</code></strong> フォルダを開く</li>
+<li><strong><code>.env</code></strong> ファイルを探す（見つからない場合は <strong><code>.env.example</code></strong> をコピー）</li>
+</ol>
+</details>
+<h2 id="_4">次のステップ<a class="headerlink" href="#_4" title="Anchor link to this section for reference">&para;</a></h2>
+<p>準備が完了したら、<a href="../part1/">Part 1: 環境確認とデモ</a>に進みましょう！</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.action.edit", "content.action.view", "i18n"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+  
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../../javascripts/search.js"></script>
+      
+        <script src="../../../javascripts/navigation.js"></script>
+      
+        <script src="../../../javascripts/tasks.js"></script>
+      
+        <script src="../../../javascripts/syntax-highlight.js"></script>
+      
+        <script src="../../../javascripts/drawio.js"></script>
+      
+    
+  <script defer src="../../../javascripts/language-switcher.js"></script>
+
+  </body>
+</html>

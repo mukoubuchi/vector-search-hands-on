@@ -1,0 +1,1631 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Vector Search hands-on using IBM Bob × Milvus × watsonx.ai">
+      
+      
+        <meta name="author" content="IBM Build Team">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/ja/part3/">
+      
+      
+        <link rel="prev" href="../part2/">
+      
+      
+        <link rel="next" href="../summary/">
+      
+      
+        
+          <link rel="alternate" href="../../part3/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="ja">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Part 3 - Vector Search ハンズオン</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/language-switcher.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  <link rel="stylesheet" href="../../stylesheets/language-switcher.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#part-3-verification-and-review" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../" title="Vector Search ハンズオン" class="md-header__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vector Search ハンズオン
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Part 3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="言語切り替え">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../part3/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../preparation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  事前準備
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part1/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 2
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 3
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../summary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  まとめ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Vector Search ハンズオン" class="md-nav__button md-logo" aria-label="Vector Search ハンズオン" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vector Search ハンズオン
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals-of-this-part" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goals of This Part
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-test-the-added-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Test the Added Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Test the Added Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-1-product-image-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test 1: Product Image Display
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test 1: Product Image Display">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-2-price-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test 2: Price Filter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test 2: Price Filter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-points_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-various-price-ranges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try Various Price Ranges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-3-recommendation-reason-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test 3: Recommendation Reason Display
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test 3: Recommendation Reason Display">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-points_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-use-ibm-bobs-code-review-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Use IBM Bob's Code Review Feature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Use IBM Bob&#39;s Code Review Feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Code Review?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-request-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Request Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-review-ibm-bobs-review-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Review IBM Bob's Review Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-review-improvement-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Review Improvement Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-request-improvements-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Request Improvements (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-environment-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Environment Cleanup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Environment Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose-of-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose of Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request-ibm-bob-to-clean-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request IBM Bob to Clean Up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleanup-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    まとめ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals-of-this-part" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goals of This Part
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-test-the-added-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Test the Added Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Test the Added Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-1-product-image-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test 1: Product Image Display
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test 1: Product Image Display">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-2-price-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test 2: Price Filter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test 2: Price Filter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-points_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-various-price-ranges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try Various Price Ranges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-3-recommendation-reason-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test 3: Recommendation Reason Display
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test 3: Recommendation Reason Display">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-points_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-use-ibm-bobs-code-review-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Use IBM Bob's Code Review Feature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Use IBM Bob&#39;s Code Review Feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Code Review?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-request-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Request Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-review-ibm-bobs-review-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Review IBM Bob's Review Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-review-improvement-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Review Improvement Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-request-improvements-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Request Improvements (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-environment-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Environment Cleanup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Environment Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose-of-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose of Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request-ibm-bob-to-clean-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request IBM Bob to Clean Up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleanup-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="part-3-verification-and-review">Part 3: Verification and Review<a class="headerlink" href="#part-3-verification-and-review" title="Anchor link to this section for reference">&para;</a></h1>
+<p>In this part, you'll verify that the 3 features added in Part 2 work correctly and use IBM Bob's code review feature.</p>
+<h2 id="goals-of-this-part">Goals of This Part<a class="headerlink" href="#goals-of-this-part" title="Anchor link to this section for reference">&para;</a></h2>
+<ul>
+<li>Test the added features</li>
+<li>Use IBM Bob's code review feature</li>
+<li>Verify code quality</li>
+</ul>
+<h2 id="step-1-test-the-added-features">Step 1: Test the Added Features<a class="headerlink" href="#step-1-test-the-added-features" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Practice: Let's test the added features</p>
+<p>Test the 3 features added in Part 2.</p>
+</div>
+<h3 id="test-1-product-image-display">Test 1: Product Image Display<a class="headerlink" href="#test-1-product-image-display" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="procedure">Procedure<a class="headerlink" href="#procedure" title="Anchor link to this section for reference">&para;</a></h4>
+<ol>
+<li>Open Swagger UI (<strong><code>http://localhost:8002/docs</code></strong>)</li>
+<li>Open the <strong><code>/search</code></strong> endpoint</li>
+<li>Click "Try it out"</li>
+<li>Enter the following:</li>
+</ol>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;red sneakers&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Click "Execute"</li>
+<li>Verify results:</li>
+</ol>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Red Running Shoes&quot;</span><span class="p">,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">&quot;image_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/images/red-shoes.jpg&quot;</span><span class="p">,</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">&quot;similarity_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.92</span><span class="p">,</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8900</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="verification-points">Verification Points<a class="headerlink" href="#verification-points" title="Anchor link to this section for reference">&para;</a></h4>
+<ul>
+<li><strong><code>image_url</code></strong> field exists</li>
+<li>URL is in correct format (starts with <strong><code>https://</code></strong>)</li>
+<li>All search results include image URL</li>
+</ul>
+<h3 id="test-2-price-filter">Test 2: Price Filter<a class="headerlink" href="#test-2-price-filter" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="procedure_1">Procedure<a class="headerlink" href="#procedure_1" title="Anchor link to this section for reference">&para;</a></h4>
+<ol>
+<li>Open <strong><code>/search</code></strong> in Swagger UI</li>
+<li>Click "Try it out"</li>
+<li>Enter the following:</li>
+</ol>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sneakers&quot;</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">&quot;price_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Click "Execute"</li>
+<li>Verify results: All product prices are within the 5000-10000 yen range</li>
+</ol>
+<h4 id="verification-points_1">Verification Points<a class="headerlink" href="#verification-points_1" title="Anchor link to this section for reference">&para;</a></h4>
+<ul>
+<li>Only products within the specified price range are displayed</li>
+<li>Products outside the range are not displayed</li>
+</ul>
+<h4 id="try-various-price-ranges">Try Various Price Ranges<a class="headerlink" href="#try-various-price-ranges" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// High price range</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera&quot;</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">&quot;price_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100000</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1">// Low price range</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">{</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;camera&quot;</span><span class="p">,</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="nt">&quot;price_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">      </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">      </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="test-3-recommendation-reason-display">Test 3: Recommendation Reason Display<a class="headerlink" href="#test-3-recommendation-reason-display" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="procedure_2">Procedure<a class="headerlink" href="#procedure_2" title="Anchor link to this section for reference">&para;</a></h4>
+<ol>
+<li>Open <strong><code>/search</code></strong> in Swagger UI</li>
+<li>Click "Try it out"</li>
+<li>Enter the following:</li>
+</ol>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;beginner camera&quot;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Click "Execute"</li>
+<li>Verify results:</li>
+</ol>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Entry-level Digital Camera&quot;</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span><span class="nt">&quot;similarity_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">      </span><span class="nt">&quot;recommendation_reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Very high similarity with search content (95%)&quot;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="verification-points_2">Verification Points<a class="headerlink" href="#verification-points_2" title="Anchor link to this section for reference">&para;</a></h4>
+<ul>
+<li><strong><code>recommendation_reason</code></strong> field exists</li>
+<li>Reason is displayed in clear language</li>
+<li>Explanation is based on similarity score</li>
+</ul>
+<h3 id="test-completion-check">Test Completion Check<a class="headerlink" href="#test-completion-check" title="Anchor link to this section for reference">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Product images are displayed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Price filter works</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Recommendation reason is displayed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> All features work correctly</li>
+</ul>
+<h2 id="step-2-use-ibm-bobs-code-review-feature">Step 2: Use IBM Bob's Code Review Feature<a class="headerlink" href="#step-2-use-ibm-bobs-code-review-feature" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Practice: Request a code review</p>
+<p>Have IBM Bob check the code quality.</p>
+</div>
+<h3 id="what-is-code-review">What is Code Review?<a class="headerlink" href="#what-is-code-review" title="Anchor link to this section for reference">&para;</a></h3>
+<p><strong>Code review</strong> = Verifying code quality</p>
+<p><strong>Purpose</strong>:</p>
+<ul>
+<li>Find bugs</li>
+<li>Discover improvement points</li>
+<li>Learn best practices</li>
+</ul>
+<h3 id="step-1-request-review">Step 1: Request Review<a class="headerlink" href="#step-1-request-review" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Enter the following in the chat input field and press Enter:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>/review app.py
+</span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">How to Use the Command</p>
+<p>Using the <code>/review</code> command, IBM Bob will execute a code review.</p>
+</div>
+<h3 id="step-2-review-ibm-bobs-review-results">Step 2: Review IBM Bob's Review Results<a class="headerlink" href="#step-2-review-ibm-bobs-review-results" title="Anchor link to this section for reference">&para;</a></h3>
+<p>IBM Bob will perform analysis like the following:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Code Review Results:
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Good points:
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>✓ Code is readable
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>✓ Appropriate error handling
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>✓ Functions are properly divided
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>Improvement points:
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>⚠ Adding log output would be good
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>⚠ Having test code would be good
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>⚠ Adding documentation comments would be good
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>Security:
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>✓ No particular issues
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>Performance:
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>✓ Efficient implementation
+</span></code></pre></div>
+<h3 id="step-4-review-improvement-points">Step 4: Review Improvement Points<a class="headerlink" href="#step-4-review-improvement-points" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Review the improvement points IBM Bob pointed out.</p>
+<p><strong>Common improvement points</strong>:</p>
+<ul>
+<li>Adding log output</li>
+<li>Strengthening error handling</li>
+<li>Adding documentation comments</li>
+<li>Creating test code</li>
+</ul>
+<h3 id="step-5-request-improvements-optional">Step 5: Request Improvements (Optional)<a class="headerlink" href="#step-5-request-improvements-optional" title="Anchor link to this section for reference">&para;</a></h3>
+<p>If there are points you want to improve, request IBM Bob:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Add log output
+</span></code></pre></div>
+<h2 id="part-3-completion-check">Part 3 Completion Check<a class="headerlink" href="#part-3-completion-check" title="Anchor link to this section for reference">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Tested all 3 features added in Part 2</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Used the <code>/review</code> command to request code review from IBM Bob</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Reviewed review results and understood improvement points</li>
+</ul>
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Anchor link to this section for reference">&para;</a></h2>
+<details class="question">
+<summary>Q1: Test fails</summary>
+<p>Solution:</p>
+<ol>
+<li>Verify application is running</li>
+<li>Verify changes are saved</li>
+<li>
+<p>Restart the application</p>
+<p>Enter the following in IBM Bob's chat screen:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Restart the demo application
+</span></code></pre></div>
+<details class="tip">
+<summary>If restarting manually</summary>
+<ol>
+<li>
+<p>Press <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd class="key-c">C</kbd></span> in the terminal (stop)</p>
+<p><strong>Note</strong>: If you started via IBM Bob, you cannot access the terminal that Bob operates, so this stop operation is not possible.</p>
+</li>
+<li>
+<p>Execute <strong><code>python app.py</code></strong> (<a href="../part1/#app-restart"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 16.5v-9l6 4.5M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg></span> How to start</a>)</p>
+</li>
+</ol>
+</details>
+</li>
+</ol>
+</details>
+<details class="question">
+<summary>Q2: Review results are not displayed</summary>
+<p>Solution:</p>
+<ol>
+<li>Verify <code>/review</code> command was entered correctly</li>
+<li>Verify file name is correct</li>
+<li>Restart IBM Bob</li>
+</ol>
+</details>
+<h2 id="step-3-environment-cleanup">Step 3: Environment Cleanup<a class="headerlink" href="#step-3-environment-cleanup" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Practice: Clean up installed packages</p>
+<p>Uninstall Python packages used in the hands-on to clean up the environment.</p>
+</div>
+<h3 id="purpose-of-cleanup">Purpose of Cleanup<a class="headerlink" href="#purpose-of-cleanup" title="Anchor link to this section for reference">&para;</a></h3>
+<p>In this hands-on, we installed multiple packages using <code>pip</code>. After the hands-on, if these packages are no longer needed, we recommend uninstalling them to keep the environment clean.</p>
+<h3 id="request-ibm-bob-to-clean-up">Request IBM Bob to Clean Up<a class="headerlink" href="#request-ibm-bob-to-clean-up" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Enter the following in IBM Bob's chat input field:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Uninstall all packages listed in setup/participant/requirements.txt
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Packages to be Uninstalled</p>
+<p>The following packages will be uninstalled:</p>
+<ul>
+<li>pymilvus</li>
+<li>sentence-transformers</li>
+<li>torch</li>
+<li>python-dotenv</li>
+<li>pandas</li>
+<li>scikit-learn</li>
+<li>langchain</li>
+<li>langchain-community</li>
+<li>tqdm</li>
+<li>Other dependency packages</li>
+</ul>
+</div>
+<details class="tip">
+<summary>If uninstalling manually</summary>
+<p>If uninstalling manually without using IBM Bob, execute the following in the terminal:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8.9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3"/></svg></span> Mac</label><label for="__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">cd</span><span class="w"> </span>~/Desktop/vector-search-builder
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>pip3<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>-r<span class="w"> </span>setup/participant/requirements.txt
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">cd</span><span class="w"> </span>%USERPROFILE%<span class="se">\D</span>esktop<span class="se">\v</span>ector-search-builder
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>pip<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>-r<span class="w"> </span>setup<span class="se">\p</span>articipant<span class="se">\r</span>equirements.txt
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</details>
+<details class="question">
+<summary>Q: What if I want to keep the packages?</summary>
+<p>If you plan to use the technologies learned in this hands-on in the future, you don't need to uninstall the packages. You can leave them as is and reuse them in your next project.</p>
+</details>
+<h3 id="cleanup-completion-check">Cleanup Completion Check<a class="headerlink" href="#cleanup-completion-check" title="Anchor link to this section for reference">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Requested IBM Bob to uninstall packages</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Uninstallation completed successfully</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Environment is clean</li>
+</ul>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Anchor link to this section for reference">&para;</a></h2>
+<p>Once Part 3 is complete, proceed to <a href="../summary/">Summary</a>!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.action.edit", "content.action.view", "i18n"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/search.js"></script>
+      
+        <script src="../../javascripts/navigation.js"></script>
+      
+        <script src="../../javascripts/tasks.js"></script>
+      
+        <script src="../../javascripts/syntax-highlight.js"></script>
+      
+        <script src="../../javascripts/drawio.js"></script>
+      
+    
+  <script defer src="../../javascripts/language-switcher.js"></script>
+
+  </body>
+</html>

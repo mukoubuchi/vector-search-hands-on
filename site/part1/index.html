@@ -1,0 +1,1726 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Vector Search hands-on using IBM Bob × Milvus × watsonx.ai">
+      
+      
+        <meta name="author" content="IBM Build Team">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/part1/">
+      
+      
+        <link rel="prev" href="../preparation/">
+      
+      
+        <link rel="next" href="../part2/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+          <link rel="alternate" href="../ja/part1/" hreflang="ja">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Part 1 - Vector Search Hands-on</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../stylesheets/language-switcher.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  <link rel="stylesheet" href="../stylesheets/language-switcher.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#part-1-experience-vector-search" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Vector Search Hands-on" class="md-header__button md-logo" aria-label="Vector Search Hands-on" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vector Search Hands-on
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Part 1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../ja/part1/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../preparation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Preparation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 2
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../part3/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Part 3
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../summary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Summary
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vector Search Hands-on" class="md-nav__button md-logo" aria-label="Vector Search Hands-on" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vector Search Hands-on
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals-of-this-part" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goals of This Part
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-what-is-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: What is Vector Search?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: What is Vector Search?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problems-with-traditional-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problems with Traditional Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-vector-search-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Vector Search Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-vector-search-operates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Vector Search Operates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-run-connection-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Run Connection Test
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Run Connection Test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verify Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-successful" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If Successful
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If Failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-insert-sample-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Insert Sample Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Insert Sample Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-insertion-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Insertion Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-experience-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Experience Vector Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Experience Vector Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#app-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Launch Demo Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Launch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-searching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try Searching
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Try Searching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-the-search-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Open the /search endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-click-try-it-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Click "Try it out"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-enter-search-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Enter Search Query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-click-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Click "Execute"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-verify-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Verify Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-various-searches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try Various Searches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Try Various Searches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-search-for-beginner-friendly-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Search for beginner-friendly products
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-search-for-business-oriented-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Search for business-oriented products
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-search-for-high-performance-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Search for high-performance products
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experience-the-power-of-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experience the Power of Vector Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals-of-this-part" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goals of This Part
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-what-is-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: What is Vector Search?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: What is Vector Search?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problems-with-traditional-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problems with Traditional Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-vector-search-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Vector Search Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-vector-search-operates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Vector Search Operates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-run-connection-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Run Connection Test
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Run Connection Test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verify Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-successful" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If Successful
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If Failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-insert-sample-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Insert Sample Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Insert Sample Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-insertion-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Insertion Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-experience-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Experience Vector Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Experience Vector Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#app-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Launch Demo Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Launch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-searching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try Searching
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Try Searching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-the-search-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Open the /search endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-click-try-it-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Click "Try it out"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-enter-search-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Enter Search Query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-click-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Click "Execute"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-verify-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Verify Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-various-searches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try Various Searches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Try Various Searches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-search-for-beginner-friendly-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Search for beginner-friendly products
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-search-for-business-oriented-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Search for business-oriented products
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-search-for-high-performance-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Search for high-performance products
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experience-the-power-of-vector-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experience the Power of Vector Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-completion-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 Completion Check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="part-1-experience-vector-search">Part 1: Experience Vector Search<a class="headerlink" href="#part-1-experience-vector-search" title="Anchor link to this section for reference">&para;</a></h1>
+<p>In this part, you'll experience how Vector Search works in practice.</p>
+<h2 id="goals-of-this-part">Goals of This Part<a class="headerlink" href="#goals-of-this-part" title="Anchor link to this section for reference">&para;</a></h2>
+<ul>
+<li>Understand what Vector Search is</li>
+<li>Actually run Vector Search</li>
+<li>Experience the convenience of "semantic search"</li>
+</ul>
+<h2 id="step-1-what-is-vector-search">Step 1: What is Vector Search?<a class="headerlink" href="#step-1-what-is-vector-search" title="Anchor link to this section for reference">&para;</a></h2>
+<h3 id="problems-with-traditional-search">Problems with Traditional Search<a class="headerlink" href="#problems-with-traditional-search" title="Anchor link to this section for reference">&para;</a></h3>
+<p><strong>Example: Searching for products on an e-commerce site</strong></p>
+<p><strong>Your search</strong>: "red sneakers"</p>
+<p><strong>Traditional search results</strong>:</p>
+<ul>
+<li>"red sneakers" → Found</li>
+<li>"red running shoes" → Not found</li>
+<li>"red sports shoes" → Not found</li>
+</ul>
+<p><strong>Why not found?</strong></p>
+<ul>
+<li>Traditional search only looks for "characters"</li>
+<li>"red" and "red" (in different forms) are treated as different characters</li>
+</ul>
+<h3 id="how-vector-search-works">How Vector Search Works<a class="headerlink" href="#how-vector-search-works" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Vector Search searches by understanding "meaning".</p>
+<pre class="mermaid"><code>graph LR
+    subgraph step1["Step 1: Text Input"]
+        A["&lt;b&gt;User Input&lt;/b&gt;&lt;br/&gt;'red sneakers'"]
+    end
+
+    subgraph step2["Step 2: Vector Conversion"]
+        B["&lt;b&gt;Embedding Model&lt;/b&gt;&lt;br/&gt;Text → Vector"]
+    end
+
+    subgraph step3["Step 3: Vector Representation"]
+        C["&lt;b&gt;Vector (384 dimensions)&lt;/b&gt;&lt;br/&gt;[0.2, 0.8, 0.1, 0.5, ...]"]
+    end
+
+    subgraph step4["Step 4: Similarity Search"]
+        D[("&lt;b&gt;Milvus&lt;/b&gt;&lt;br/&gt;Vector DB")]
+    end
+
+    subgraph step5["Step 5: Search Results"]
+        E["&lt;b&gt;Similar Products List&lt;/b&gt;&lt;br/&gt;・Red running shoes (0.92)&lt;br/&gt;・Red sports shoes (0.88)&lt;br/&gt;・Red sneakers (0.85)"]
+    end
+
+    A --&gt;|Text| B
+    B --&gt;|Convert| C
+    C --&gt;|Search Query| D
+    D --&gt;|Similar Vectors| E
+
+    style step1 fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style step2 fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style step3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+    style step4 fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style step5 fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+
+    style A fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    style B fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+    style C fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px
+    style D fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    style E fill:#F8BBD0,stroke:#C2185B,stroke-width:2px</code></pre>
+<div class="admonition info">
+<p class="admonition-title">Key Point</p>
+<ul>
+<li>Similar meanings result in similar vectors</li>
+<li>Computers can quickly calculate numerical similarity</li>
+</ul>
+</div>
+<p><strong>Your search</strong>: "red sneakers"</p>
+<p><strong>Vector Search results</strong>:</p>
+<ul>
+<li>"red sneakers" → Found</li>
+<li>"red running shoes" → Found (similar meaning)</li>
+<li>"red sports shoes" → Found (similar meaning)</li>
+</ul>
+<p><strong>Why found?</strong></p>
+<ul>
+<li>Vector Search understands "meaning"</li>
+<li>"red" "red" "red" (in various forms) → Understood as the same meaning</li>
+<li>"sneakers" "running shoes" "sports shoes" → Understood as similar meanings</li>
+</ul>
+<h3 id="how-vector-search-operates">How Vector Search Operates<a class="headerlink" href="#how-vector-search-operates" title="Anchor link to this section for reference">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Step 1: Convert text to numbers
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>&quot;red sneakers&quot; → [0.2, 0.8, 0.1, 0.5, ...] (vector)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Step 2: Find similar numbers
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Search for similar numerical patterns from the database
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Step 3: Return results
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Return products with similar meanings
+</span></code></pre></div>
+<p><strong>Key points</strong>:</p>
+<ul>
+<li>"Vector" = array of numbers</li>
+<li>Similar meanings result in similar numerical patterns</li>
+<li>Computers can quickly calculate numerical similarity</li>
+</ul>
+<h2 id="step-2-run-connection-test">Step 2: Run Connection Test<a class="headerlink" href="#step-2-run-connection-test" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Practice: Let's get hands-on</p>
+<p>Before running Vector Search, verify that you can connect to the required services.</p>
+</div>
+<p>Enter the following in IBM Bob's chat screen:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Connect to Milvus
+</span></code></pre></div>
+<p>IBM Bob will automatically run the script and perform the connection test.</p>
+<details class="tip">
+<summary>If Running Manually</summary>
+<p>Enter the following in the terminal:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>setup/participant
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>test_connection.py
+</span></code></pre></div>
+</details>
+<h3 id="verify-results">Verify Results<a class="headerlink" href="#verify-results" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="if-successful">If Successful<a class="headerlink" href="#if-successful" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>==================================================
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Milvus &amp; Embedding Model Connection Test
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>==================================================
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>=== Environment Variable Check ===
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>✓ MILVUS_HOST: 192.168.1.100
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>✓ MILVUS_PORT: 19530
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>✓ EMBEDDING_MODEL: paraphrase-multilingual-MiniLM-L12-v2
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>✓ EMBEDDING_DIMENSION: 384
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>=== Milvus Connection Test ===
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>Connection: 192.168.1.100:19530
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>✓ Successfully connected to Milvus
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>✓ Existing collections: 0
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>=== Embedding Model Test ===
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>Model: paraphrase-multilingual-MiniLM-L12-v2
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>✓ Model loaded successfully
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>✓ Embedding vector generation successful
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>  Dimensions: 384
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>✓ All connection tests passed!
+</span></code></pre></div>
+<p><strong>What is this?</strong>:</p>
+<ul>
+<li><strong>Milvus</strong>: Vector database (where data is stored)</li>
+<li><strong>Embedding model</strong>: Converts text to vectors</li>
+<li><strong>384 dimensions</strong>: Represents meaning with 384 numbers</li>
+</ul>
+<h4 id="if-failed">If Failed<a class="headerlink" href="#if-failed" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>✗ Milvus connection error: Connection refused
+</span></code></pre></div>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li>Check the <strong><code>.env</code></strong> file<ul>
+<li>Verify that the IP address distributed by the instructor is correctly entered in <code>MILVUS_HOST</code> (<a href="../preparation/#milvus_host"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1s.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64z"/></svg></span> Configuration method</a>)</li>
+</ul>
+</li>
+<li>Check internet connection</li>
+<li>For other errors, refer to <a href="#faq">FAQ</a></li>
+</ol>
+<h2 id="step-3-insert-sample-data">Step 3: Insert Sample Data<a class="headerlink" href="#step-3-insert-sample-data" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Practice: Insert Sample Data into Milvus</p>
+<p>To experience Vector Search, first insert sample product data.</p>
+</div>
+<p>Enter the following in IBM Bob's chat screen:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Insert sample data
+</span></code></pre></div>
+<p>IBM Bob will automatically run the script and insert sample data.</p>
+<details class="tip">
+<summary>If Running Manually</summary>
+<p>Enter the following in the terminal:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span>setup/participant
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>python<span class="w"> </span>insert_sample_data.py
+</span></code></pre></div>
+</details>
+<h3 id="verify-insertion-results">Verify Insertion Results<a class="headerlink" href="#verify-insertion-results" title="Anchor link to this section for reference">&para;</a></h3>
+<p>If you see the following display, it's successful:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>==================================================
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>✓ Sample data insertion completed
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>==================================================
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Collection name: knowledge_base
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Entity count: 12
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>You can start the demo application:
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>  cd setup/participant
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>  python app.py
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>==================================================
+</span></code></pre></div>
+<p><strong>Inserted data</strong>:</p>
+<ul>
+<li>Number of products: 12</li>
+<li>Categories: Sneakers, Cameras, Computers, Bags</li>
+<li>Each product includes product name, price, description, and embedding vector</li>
+</ul>
+<h2 id="step-4-experience-vector-search">Step 4: Experience Vector Search<a class="headerlink" href="#step-4-experience-vector-search" title="Anchor link to this section for reference">&para;</a></h2>
+<div class="admonition example">
+<p class="admonition-title">Practice: Let's run Vector Search</p>
+<p>Once sample data insertion is successful, let's experience Vector Search.</p>
+</div>
+<h3 id="app-restart">Launch Demo Application<a class="headerlink" href="#app-restart" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Enter the following in IBM Bob's chat screen:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Start the demo application
+</span></code></pre></div>
+<details class="tip">
+<summary>If Starting Manually</summary>
+<p>Enter the following in the terminal:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>setup/participant
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>python<span class="w"> </span>app.py
+</span></code></pre></div>
+</details>
+<h3 id="verify-launch">Verify Launch<a class="headerlink" href="#verify-launch" title="Anchor link to this section for reference">&para;</a></h3>
+<p>Access the following URL in your web browser and verify that Swagger UI is displayed:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>http://localhost:8002/docs
+</span></code></pre></div>
+<p><strong>Swagger UI</strong> = A tool to visually test APIs</p>
+<div class="admonition success">
+<p class="admonition-title">Launch Successful</p>
+<p>If Swagger UI is displayed, the application has started successfully.</p>
+</div>
+<details class="tip">
+<summary>Terminal Verification for Manual Launch</summary>
+<p>If you started manually, the following will be displayed in the terminal:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>INFO:     Uvicorn running on http://0.0.0.0:8002
+</span></code></pre></div>
+<p><strong>Important</strong>: Do not close the terminal (the application will stop)</p>
+</details>
+<h3 id="try-searching">Try Searching<a class="headerlink" href="#try-searching" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="step-1-open-the-search-endpoint">Step 1: Open the <strong><code>/search</code></strong> endpoint<a class="headerlink" href="#step-1-open-the-search-endpoint" title="Anchor link to this section for reference">&para;</a></h4>
+<ol>
+<li>Find <strong><code>/search</code></strong> in the Swagger UI screen</li>
+<li>Click <strong><code>/search</code></strong></li>
+</ol>
+<h4 id="step-2-click-try-it-out">Step 2: Click "Try it out"<a class="headerlink" href="#step-2-click-try-it-out" title="Anchor link to this section for reference">&para;</a></h4>
+<p>Click the "Try it out" button in the upper right</p>
+<h4 id="step-3-enter-search-query">Step 3: Enter Search Query<a class="headerlink" href="#step-3-enter-search-query" title="Anchor link to this section for reference">&para;</a></h4>
+<p>Enter the following in the "Request body" field:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;red sneakers&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="step-4-click-execute">Step 4: Click "Execute"<a class="headerlink" href="#step-4-click-execute" title="Anchor link to this section for reference">&para;</a></h4>
+<p>Click the blue "Execute" button</p>
+<h4 id="step-5-verify-results">Step 5: Verify Results<a class="headerlink" href="#step-5-verify-results" title="Anchor link to this section for reference">&para;</a></h4>
+<p>Results like the following will be displayed:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">      </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Red Running Shoes&quot;</span><span class="p">,</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">      </span><span class="nt">&quot;similarity_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.92</span><span class="p">,</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">      </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8900</span><span class="p">,</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sneakers&quot;</span><span class="p">,</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lightweight and breathable running shoes&quot;</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>How to read results</strong>:</p>
+<ul>
+<li><strong><code>product_name</code></strong>: Product name</li>
+<li><strong><code>similarity_score</code></strong>: Similarity (0.0-1.0, higher is more similar)</li>
+<li><strong><code>price</code></strong>: Price</li>
+<li><strong><code>category</code></strong>: Category</li>
+<li><strong><code>description</code></strong>: Description</li>
+</ul>
+<h3 id="try-various-searches">Try Various Searches<a class="headerlink" href="#try-various-searches" title="Anchor link to this section for reference">&para;</a></h3>
+<h4 id="example-1-search-for-beginner-friendly-products">Example 1: Search for beginner-friendly products<a class="headerlink" href="#example-1-search-for-beginner-friendly-products" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;beginner camera&quot;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="example-2-search-for-business-oriented-products">Example 2: Search for business-oriented products<a class="headerlink" href="#example-2-search-for-business-oriented-products" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;business laptop&quot;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="example-3-search-for-high-performance-products">Example 3: Search for high-performance products<a class="headerlink" href="#example-3-search-for-high-performance-products" title="Anchor link to this section for reference">&para;</a></h4>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high-performance gaming PC&quot;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="experience-the-power-of-vector-search">Experience the Power of Vector Search<a class="headerlink" href="#experience-the-power-of-vector-search" title="Anchor link to this section for reference">&para;</a></h3>
+<p>As you try various searches, you should notice the following:</p>
+<p><strong>Observation 1: Found even with different phrasing</strong></p>
+<ul>
+<li>"beginner" → "entry-level" "for beginners" are also found</li>
+</ul>
+<p><strong>Observation 2: Similarity scores are useful</strong></p>
+<ul>
+<li>Higher score = more similar</li>
+<li>You can see the reliability of results</li>
+</ul>
+<p><strong>Observation 3: Descriptions are also considered</strong></p>
+<ul>
+<li>Understands not just product names but also the meaning of descriptions</li>
+</ul>
+<h2 id="part-1-completion-check">Part 1 Completion Check<a class="headerlink" href="#part-1-completion-check" title="Anchor link to this section for reference">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Understood what Vector Search is</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Understood the difference from traditional search</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Connection test was successful</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Inserted sample data</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Launched demo application</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Opened Swagger UI</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Executed search</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Tried various searches</li>
+</ul>
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Anchor link to this section for reference">&para;</a></h2>
+<details class="question">
+<summary>Q1: Cannot open Swagger UI</summary>
+<p>Solution:</p>
+<ol>
+<li>Verify the application is running</li>
+<li>Verify the URL is correct (<strong><code>http://localhost:8002/docs</code></strong>)</li>
+<li>Try a different browser</li>
+</ol>
+</details>
+<details class="question">
+<summary>Q2: Search results are 0</summary>
+<p>Solution:</p>
+<ol>
+<li>Verify sample data has been inserted</li>
+<li>Try changing the search query</li>
+</ol>
+</details>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Anchor link to this section for reference">&para;</a></h2>
+<p>Once Part 1 is complete, proceed to <a href="../part2/">Part 2: Add Features with IBM Bob</a>!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.action.edit", "content.action.view", "i18n"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+  
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/search.js"></script>
+      
+        <script src="../javascripts/navigation.js"></script>
+      
+        <script src="../javascripts/tasks.js"></script>
+      
+        <script src="../javascripts/syntax-highlight.js"></script>
+      
+        <script src="../javascripts/drawio.js"></script>
+      
+    
+  <script defer src="../javascripts/language-switcher.js"></script>
+
+  </body>
+</html>

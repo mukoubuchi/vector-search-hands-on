@@ -29,6 +29,14 @@
             }
         }
         
+        // デバッグ用ログ
+        console.log('Language Switcher Debug:', {
+            currentPath,
+            isJapanese,
+            englishUrl,
+            japaneseUrl
+        });
+        
         const switcher = document.createElement('div');
         switcher.className = 'custom-language-switcher';
 
@@ -66,6 +74,7 @@
                 event.preventDefault();
                 event.stopPropagation();
                 const targetUrl = link.getAttribute('href');
+                console.log('Language link clicked, navigating to:', targetUrl);
                 // 完全なページリロードを強制
                 window.location.assign(targetUrl);
             }, true); // キャプチャフェーズで実行

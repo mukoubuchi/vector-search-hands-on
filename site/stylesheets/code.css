@@ -1,0 +1,304 @@
+/* Code Block Styles */
+
+/* Code block styling */
+.md-typeset pre {
+    background: var(--md-code-bg-color) !important;
+    border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 12%, transparent) !important;
+    border-radius: 6px !important;
+    margin: 1.5em 0 !important;
+    padding: 16px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* Inline code styling */
+.md-typeset code {
+    background-color: var(--md-code-bg-color) !important;
+    color: var(--md-code-fg-color) !important;
+    padding: 0.2em 0.4em !important;
+    border-radius: 3px !important;
+    border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 12%, transparent) !important;
+    font-size: 0.9em !important;
+    font-weight: 600 !important;
+}
+
+.md-typeset strong code,
+.md-typeset code strong {
+    font-weight: 900 !important;
+    color: inherit !important;
+}
+
+.md-typeset pre code {
+    background-color: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    font-size: 0.875em !important;
+    line-height: 1.6 !important;
+    color: var(--md-code-fg-color) !important;
+    white-space: pre !important;
+    word-wrap: normal !important;
+    word-break: normal !important;
+}
+
+.md-typeset pre strong,
+.md-typeset pre b {
+    font-weight: 700 !important;
+    color: inherit !important;
+}
+
+/* Language-specific code block styling */
+.md-typeset .language-bash.highlight pre,
+.md-typeset .language-bash.highlight code,
+.md-typeset .language-sh.highlight pre,
+.md-typeset .language-sh.highlight code,
+.md-typeset .language-shell.highlight pre,
+.md-typeset .language-shell.highlight code {
+    color: var(--md-code-fg-color) !important;
+    font-weight: 400 !important;
+}
+
+.md-typeset .language-python.highlight pre,
+.md-typeset .language-python.highlight code {
+    color: var(--md-primary-fg-color) !important;
+    font-weight: 700 !important;
+}
+
+.md-typeset .language-text.highlight pre,
+.md-typeset .language-text.highlight code {
+    color: var(--md-code-fg-color) !important;
+    font-weight: 400 !important;
+}
+
+/* Properties/env files styling */
+.md-typeset .language-properties.highlight .na {
+    font-weight: 700 !important;
+}
+
+.md-typeset .language-properties.highlight .s {
+    font-weight: 400 !important;
+}
+
+.md-typeset .language-properties.highlight .m,
+.md-typeset .language-properties.highlight .mi,
+.md-typeset .language-properties.highlight .mf {
+    color: inherit !important;
+    font-weight: 700 !important;
+}
+
+.md-typeset .language-properties.highlight .c,
+.md-typeset .language-properties.highlight .c1 {
+    color: inherit !important;
+    font-weight: 700 !important;
+    font-style: normal !important;
+}
+
+/* Copy button styling */
+.md-clipboard {
+    color: color-mix(in srgb, var(--md-default-fg-color) 55%, transparent) !important;
+    opacity: 0.8;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.md-clipboard:hover,
+.md-clipboard:active {
+    color: var(--md-default-fg-color) !important;
+    opacity: 1;
+}
+
+/* Syntax highlighting - light theme style */
+.highlight .hll { background-color: color-mix(in srgb, var(--md-accent-fg-color) 18%, var(--md-code-bg-color)) }
+.highlight .c { color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)); font-style: italic }
+.highlight .k { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .l { color: var(--md-code-fg-color) }
+.highlight .n { color: var(--md-code-fg-color) }
+.highlight .o { color: var(--md-default-fg-color) }
+.highlight .p { color: var(--md-code-fg-color) }
+.highlight .cm { color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)); font-style: italic }
+.highlight .cp { color: var(--md-primary-fg-color) }
+.highlight .c1 { color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)); font-style: italic }
+.highlight .cs { color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)); font-style: italic }
+.highlight .ge { font-style: italic }
+.highlight .gs { font-weight: bold }
+.highlight .kc { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .kd { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .kn { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .kp { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .kr { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .kt { color: var(--md-accent-fg-color); font-weight: 600 }
+.highlight .ld { color: color-mix(in srgb, var(--md-accent-fg-color) 70%, var(--md-default-fg-color)) }
+.highlight .m { color: color-mix(in srgb, var(--md-accent-fg-color) 75%, var(--md-code-fg-color)) }
+.highlight .s { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .na { color: var(--md-accent-fg-color) }
+.highlight .nb { color: var(--md-primary-fg-color) }
+.highlight .nc { color: var(--md-accent-fg-color); font-weight: 600 }
+.highlight .no { color: var(--md-accent-fg-color) }
+.highlight .nd { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .ni { color: var(--md-code-fg-color) }
+.highlight .ne { color: var(--md-accent-fg-color); font-weight: 600 }
+.highlight .nf { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .nl { color: var(--md-code-fg-color) }
+.highlight .nn { color: var(--md-accent-fg-color) }
+.highlight .nx { color: var(--md-code-fg-color) }
+.highlight .py { color: var(--md-accent-fg-color) }
+.highlight .nt { color: var(--md-primary-fg-color); font-weight: 600 }
+.highlight .nv { color: var(--md-accent-fg-color) }
+.highlight .ow { color: var(--md-primary-fg-color) }
+.highlight .w { color: color-mix(in srgb, var(--md-default-fg-color) 25%, transparent) }
+.highlight .mf { color: color-mix(in srgb, var(--md-accent-fg-color) 75%, var(--md-code-fg-color)) }
+.highlight .mh { color: color-mix(in srgb, var(--md-accent-fg-color) 75%, var(--md-code-fg-color)) }
+.highlight .mi { color: color-mix(in srgb, var(--md-accent-fg-color) 75%, var(--md-code-fg-color)) }
+.highlight .mo { color: color-mix(in srgb, var(--md-accent-fg-color) 75%, var(--md-code-fg-color)) }
+.highlight .sb { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .sc { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .sd { color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)); font-style: italic }
+.highlight .s2 { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .se { color: var(--md-accent-fg-color) }
+.highlight .sh { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .si { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .sx { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .sr { color: color-mix(in srgb, var(--md-accent-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .s1 { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .ss { color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) }
+.highlight .bp { color: var(--md-primary-fg-color) }
+.highlight .vc { color: var(--md-accent-fg-color) }
+.highlight .vg { color: var(--md-accent-fg-color) }
+.highlight .vi { color: var(--md-accent-fg-color) }
+.highlight .il { color: color-mix(in srgb, var(--md-accent-fg-color) 75%, var(--md-code-fg-color)) }
+
+/* Shell/Bash syntax highlighting */
+.md-typeset .language-bash.highlight .nb,
+.md-typeset .language-sh.highlight .nb,
+.md-typeset .language-shell.highlight .nb,
+.md-typeset .language-bash.highlight .n,
+.md-typeset .language-sh.highlight .n,
+.md-typeset .language-shell.highlight .n,
+.md-typeset .language-bash.highlight .nn,
+.md-typeset .language-sh.highlight .nn,
+.md-typeset .language-shell.highlight .nn,
+.md-typeset .language-bash .highlight .nb,
+.md-typeset .language-sh .highlight .nb,
+.md-typeset .language-shell .highlight .nb,
+.md-typeset .language-bash .highlight .n,
+.md-typeset .language-sh .highlight .n,
+.md-typeset .language-shell .highlight .n,
+.md-typeset .language-bash .highlight .nn,
+.md-typeset .language-sh .highlight .nn,
+.md-typeset .language-shell .highlight .nn {
+    color: var(--md-primary-fg-color) !important;
+    font-weight: 700 !important;
+}
+
+.md-typeset .language-bash .highlight .c,
+.md-typeset .language-bash .highlight .c1,
+.md-typeset .language-bash .highlight .s,
+.md-typeset .language-bash .highlight .s1,
+.md-typeset .language-bash .highlight .s2,
+.md-typeset .language-sh .highlight .c,
+.md-typeset .language-sh .highlight .c1,
+.md-typeset .language-sh .highlight .s,
+.md-typeset .language-sh .highlight .s1,
+.md-typeset .language-sh .highlight .s2 {
+    color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)) !important;
+    font-weight: normal !important;
+}
+
+.md-typeset .language-bash .highlight .nv,
+.md-typeset .language-sh .highlight .nv,
+.md-typeset .language-shell .highlight .nv {
+    color: var(--md-accent-fg-color) !important;
+    font-weight: normal !important;
+}
+
+.md-typeset .language-bash .highlight .s,
+.md-typeset .language-bash .highlight .s1,
+.md-typeset .language-bash .highlight .s2,
+.md-typeset .language-sh .highlight .s,
+.md-typeset .language-sh .highlight .s1,
+.md-typeset .language-sh .highlight .s2,
+.md-typeset .language-shell .highlight .s,
+.md-typeset .language-shell .highlight .s1,
+.md-typeset .language-shell .highlight .s2 {
+    color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) !important;
+    font-weight: normal !important;
+}
+
+.md-typeset .language-bash .highlight .c,
+.md-typeset .language-bash .highlight .c1,
+.md-typeset .language-sh .highlight .c,
+.md-typeset .language-sh .highlight .c1,
+.md-typeset .language-shell .highlight .c,
+.md-typeset .language-shell .highlight .c1 {
+    color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)) !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+
+/* Mobile-specific code block improvements */
+@media screen and (max-width: 76.1875em) {
+    .md-typeset pre {
+        padding: 12px !important;
+        margin: 1em -0.8rem !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+    
+    .md-typeset pre code {
+        font-size: 0.8125em !important;
+        line-height: 1.5 !important;
+    }
+    
+    /* Improve copy button on mobile */
+    .md-clipboard {
+        top: 0.5rem !important;
+        right: 0.5rem !important;
+        padding: 0.4rem !important;
+    }
+    
+    /* Ensure horizontal scrolling works */
+    .highlight {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 480px) {
+    .md-typeset pre {
+        padding: 10px !important;
+        margin: 0.8em -0.8rem !important;
+    }
+    
+    .md-typeset pre code {
+        font-size: 0.75em !important;
+    }
+    
+    .md-typeset code {
+        font-size: 0.85em !important;
+        padding: 0.15em 0.35em !important;
+    }
+}
+
+/* Improve scrollbar for code blocks on mobile */
+@media screen and (max-width: 76.1875em) {
+    .md-typeset pre::-webkit-scrollbar {
+        height: 6px !important;
+    }
+    
+    .md-typeset pre::-webkit-scrollbar-track {
+        background: color-mix(in srgb, var(--md-default-fg-color) 5%, transparent) !important;
+        border-radius: 3px !important;
+    }
+    
+    .md-typeset pre::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--md-default-fg-color) 20%, transparent) !important;
+        border-radius: 3px !important;
+    }
+    
+    .md-typeset pre::-webkit-scrollbar-thumb:hover {
+        background: color-mix(in srgb, var(--md-default-fg-color) 30%, transparent) !important;
+    }
+}
+
+/* Made with Bob */

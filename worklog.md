@@ -1,3 +1,36 @@
+## 2026年5月31日 01:07 JST - 言語スイッチャーの完全動作修正
+
+### 作業内容
+
+言語スイッチャーでナビゲーションのみが切り替わり、ドキュメント本体と右サイドバーが切り替わらない問題を修正しました。
+
+### 実施した対応
+
+1. **MkDocsのi18nプラグイン設定修正 ([`mkdocs.yml`](mkdocs.yml:96))**
+   - `docs_structure: suffix`から`docs_structure: folder`に変更
+   - これにより、`docs/ja/`ディレクトリ内の日本語ファイルが正しく読み込まれるようになった
+
+2. **言語スイッチャーJavaScriptの改善 ([`docs/javascripts/language-switcher.js`](docs/javascripts/language-switcher.js:8))**
+   - 現在のページパスに基づいて、英語版と日本語版のURLを動的に生成
+   - リンクのクリックイベントをキャプチャフェーズでインターセプト
+   - `window.location.assign()`で完全なページリロードを強制
+   - `data-md-component="skip"`属性を追加してMaterial for MkDocsのinstant loading機能をバイパス
+
+### 問題の原因
+
+- `docs_structure: suffix`設定では、ファイル名に言語サフィックスを付ける必要がある（例：`index.ja.md`）
+- しかし、プロジェクトではファイルがディレクトリで分けられている（`docs/ja/index.md`）
+- そのため、MkDocsが日本語ファイルを読み込まず、英語版のコンテンツが表示されていた
+
+### 成果
+
+- ✅ 英語版（`/`）から日本語版（`/ja/`）への完全な切り替え
+- ✅ 日本語版（`/ja/`）から英語版（`/`）への完全な切り替え
+- ✅ ナビゲーション、ドキュメント本体、右サイドバーのすべてが正しく切り替わる
+- ✅ 各ページ（Home, Preparation, Part 1-3, Summary）で言語スイッチャーが正しく動作
+
+**完了日時**: 2026年5月31日 01:07 JST
+
 ## 2026年5月31日 00:24 JST - 言語スイッチャーの動作修正
 
 ### 作業内容
