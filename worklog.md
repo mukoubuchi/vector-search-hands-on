@@ -1,3 +1,38 @@
+## 2026年5月31日 02:49 JST - 言語スイッチャーのドロップダウンリストにホバー時の下線を追加
+
+### 作業内容
+
+言語スイッチャーのドロップダウンリスト（English、日本語）にマウスホバー時の下線が表示されない問題を修正しました。右サイドバーのTOCリンクと同じ仕様の下線アニメーションを実装しました。
+
+### 実施した対応
+
+1. **CSSセレクタの修正 ([`docs/stylesheets/language-switcher.css`](docs/stylesheets/language-switcher.css:8))**
+   - 当初は`<a>`タグをターゲットにしていたが、MkDocs Materialテーマでは`.md-select__link`クラスを使用
+   - `.md-select__link`に直接スタイルを適用することで解決
+   - `position: relative`と`display: block`を設定
+
+2. **下線アニメーションの実装 ([`docs/stylesheets/language-switcher.css`](docs/stylesheets/language-switcher.css:16))**
+   - `::before`疑似要素で下線を実装
+   - 初期状態: `width: 0`（非表示）
+   - ホバー時: `width: 100%`（全幅表示）
+   - `transition: width 0.3s ease`で滑らかなアニメーション
+   - `pointer-events: none`で疑似要素がホバーイベントを妨げないように設定
+
+3. **右サイドバーと同じスタイル**
+   - [`docs/stylesheets/navigation.css`](docs/stylesheets/navigation.css:209)の`.md-nav__link`と同じパターンを適用
+   - 下線の色: `var(--md-accent-fg-color)`（アクセントカラー）
+   - 下線の高さ: `2px`
+   - 一貫性のあるユーザー体験を提供
+
+### 成果
+
+- ✅ 言語スイッチャーのドロップダウンリスト（English、日本語）にホバーすると下線が表示される
+- ✅ 右サイドバーのTOCリンクと同じ視覚的フィードバック
+- ✅ 左から右へ滑らかにアニメーションする下線
+- ✅ ブラウザで動作確認済み（両方の言語オプションで確認）
+
+**完了日時**: 2026年5月31日 02:49 JST
+
 ## 2026年5月31日 02:30 JST - 言語スイッチャーのドロップダウンにホバーエフェクトを追加
 
 ### 作業内容
