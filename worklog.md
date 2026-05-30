@@ -1,3 +1,50 @@
+## 2026年5月31日 03:16 JST - 英語版SVGファイルの作成とファイル名規則の変更
+
+### 作業内容
+
+Building Blocksありとなしのダイアグラムについて、英語版SVGファイルを作成し、英語版をデフォルト、日本語版に`-ja`サフィックスを付けるようにファイル名規則を変更しました。
+
+### 実施した対応
+
+1. **英語版draw.ioファイルの作成**
+   - `docs/images/.backup/with-building-blocks-en.drawio`を作成
+   - `docs/images/.backup/without-building-blocks-en.drawio`を作成
+   - 既存の日本語版と同じ構造で、テキストのみ英語化
+
+2. **英語版SVGファイルの生成**
+   - draw.ioから英語版SVGをエクスポート
+   - `docs/images/with-building-blocks-en.svg`
+   - `docs/images/without-building-blocks-en.svg`
+
+3. **ファイル名規則の変更**
+   - **SVGファイル**:
+     - `with-building-blocks.svg` → `with-building-blocks-ja.svg` (日本語版)
+     - `without-building-blocks.svg` → `without-building-blocks-ja.svg` (日本語版)
+     - `with-building-blocks-en.svg` → `with-building-blocks.svg` (英語版・デフォルト)
+     - `without-building-blocks-en.svg` → `without-building-blocks.svg` (英語版・デフォルト)
+   
+   - **draw.ioファイル**:
+     - `with-building-blocks.drawio` → `with-building-blocks-ja.drawio` (日本語版)
+     - `without-building-blocks.drawio` → `without-building-blocks-ja.drawio` (日本語版)
+     - `with-building-blocks-en.drawio` → `with-building-blocks.drawio` (英語版・デフォルト)
+     - `without-building-blocks-en.drawio` → `without-building-blocks.drawio` (英語版・デフォルト)
+
+4. **ドキュメントの更新**
+   - [`docs/ja/index.md`](docs/ja/index.md:17): 日本語版SVGファイル（`-ja.svg`）を参照するように変更
+   - [`docs/index.md`](docs/index.md:17): デフォルトSVGファイル（`.svg`）を参照（変更不要）
+
+5. **統合ファイルの作成**
+   - [`docs/images/building-blocks-comparison.drawio`](docs/images/building-blocks-comparison.drawio:1): 4つのダイアグラム（日本語版2つ + 英語版2つ）を含む統合ファイル
+
+### 成果
+
+- ✅ 英語版と日本語版のSVGファイルが正しく配置された
+- ✅ 英語版がデフォルト、日本語版には`-ja`サフィックスが付いている
+- ✅ mkdocsのビルドが正常に完了（エラーなし）
+- ✅ 英語版ドキュメントは英語版SVGを、日本語版ドキュメントは日本語版SVGを表示
+
+**完了日時**: 2026年5月31日 03:16 JST
+
 ## 2026年5月31日 02:49 JST - 言語スイッチャーのドロップダウンリストにホバー時の下線を追加
 
 ### 作業内容
