@@ -44,9 +44,10 @@ theme:
 nav:
   - ホーム: index.md
   - 事前準備: preparation.md
-  - Part 1 - 基本的なベクトル検索: part1.md
-  - Part 2 - 高度な検索機能: part2.md
-  - Part 3 - 実践的な応用: part3.md
+  - ハンズオン:
+    - Part 1: part1.md
+    - Part 2: part2.md
+    - Part 3: part3.md
   - まとめ: summary.md
 
 # Markdown拡張機能
