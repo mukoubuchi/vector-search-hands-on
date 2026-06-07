@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      - name: Install actionlint
+        run: |
+          bash <(curl -sSL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) 1.7.12 /usr/local/bin
+
+      - name: Install documentation dependencies
+        run: |
+          pip install \
+            "mkdocs==1.6.1" \
+            "mkdocs-material==9.7.6" \
+            "mkdocs-material-extensions" \
+            "mkdocs-static-i18n" \
+            "mkdocs-glightbox" \
+            "babel"
+
+      - name: Lint GitHub Actions workflows
+        run: actionlint
+
+      - name: Check shell syntax
+        run: bash -n lib/*.sh setup/instructor/*.sh
+
+      - name: Check participant Python syntax
+        run: python -m compileall setup/participant
+
+      - name: Build MkDocs site
+        run: mkdocs build --strict
+        env:
+          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/

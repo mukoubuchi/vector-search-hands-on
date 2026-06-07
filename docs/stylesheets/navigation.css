@@ -1,0 +1,297 @@
+/* Navigation Styles */
+
+/* Hide left sidebar (primary navigation) on desktop */
+@media screen and (min-width: 76.25em) {
+    .md-sidebar--primary {
+        display: none;
+    }
+    
+    /* Adjust main content to use full width */
+    .md-content {
+        margin-left: 0;
+    }
+}
+
+/* Hide previous/next navigation links */
+.md-footer__link {
+    display: none;
+}
+
+/* Hide home breadcrumb */
+.md-header__title {
+    display: none;
+}
+
+/* Hide header logo icon */
+.md-header__button.md-logo {
+    display: none;
+}
+
+/* Style the default language selector */
+.md-header__option {
+    position: absolute;
+    right: 0.5rem;
+    top: 0;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.md-header__button[for="__lang"] {
+    margin: 0;
+}
+
+/* Hide social/support icons */
+.md-social {
+    display: none !important;
+}
+
+.md-footer__link--next,
+.md-footer__link--prev {
+    display: none !important;
+}
+
+/* Improve navigation tabs */
+.md-tabs__item {
+    opacity: 0.7;
+}
+
+.md-tabs__item:hover {
+    opacity: 1;
+}
+
+.md-tabs__item--active {
+    opacity: 1;
+    font-weight: 600;
+}
+
+/* Make header single row - merge tabs into header */
+@media screen and (min-width: 1px) {
+    .md-tabs {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 2.4rem !important;
+        background-color: transparent !important;
+        z-index: 2 !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+    }
+    
+    .md-tabs::-webkit-scrollbar {
+        display: none !important;
+    }
+    
+    .md-tabs__list {
+        display: flex !important;
+        align-items: center !important;
+        height: 2.4rem !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        padding-right: 3.5rem !important;
+        max-width: 61rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        flex-wrap: nowrap !important;
+        min-width: min-content !important;
+    }
+    
+    .md-tabs__item {
+        display: inline-flex !important;
+        align-items: center !important;
+        height: 2.4rem !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+    }
+    
+    .md-tabs__link {
+        padding: 0 1rem 0.5rem 1rem !important;
+        height: 2.4rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        position: relative !important;
+        transition: all 0.3s ease !important;
+        color: color-mix(in srgb, var(--md-primary-bg-color) 70%, transparent) !important;
+        box-sizing: border-box !important;
+        white-space: nowrap !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    .md-tabs__link:hover {
+        color: var(--md-primary-bg-color) !important;
+    }
+    
+    .md-tabs__item--active .md-tabs__link {
+        color: var(--md-primary-bg-color) !important;
+    }
+    
+    /* Tab underline using ::after pseudo-element */
+    .md-tabs__link::after {
+        content: '' !important;
+        position: absolute !important;
+        left: 1rem !important;
+        right: 1rem !important;
+        bottom: 0.4rem !important;
+        height: 2px !important;
+        background-color: currentColor !important;
+        transform: scaleX(0) !important;
+        transform-origin: center !important;
+        transition: transform 0.3s ease !important;
+        display: block !important;
+    }
+    
+    .md-tabs__link:hover::after {
+        transform: scaleX(1) !important;
+    }
+    
+    .md-tabs__item--active .md-tabs__link::after {
+        transform: scaleX(1) !important;
+    }
+    
+    .md-tabs .md-tabs__link[aria-current="page"]::after {
+        transform: scaleX(1) !important;
+    }
+    
+    /* Adjust header to accommodate tabs */
+    .md-header {
+        height: 2.4rem !important;
+    }
+    
+    .md-header__inner {
+        height: 2.4rem !important;
+    }
+}
+
+/* Mobile-specific navigation improvements */
+@media screen and (max-width: 76.1875em) {
+    /* Ensure tabs are scrollable on mobile */
+    .md-tabs {
+        padding: 0 0.8rem !important;
+    }
+    
+    .md-tabs__list {
+        padding: 0 !important;
+        justify-content: flex-start !important;
+    }
+    
+    .md-tabs__link {
+        padding: 0 0.8rem 0.5rem 0.8rem !important;
+        font-size: 0.9rem !important;
+        min-width: auto !important;
+    }
+    
+    /* Improve touch targets on mobile */
+    .md-tabs__item {
+        min-width: auto !important;
+    }
+    
+    /* Hide hamburger menu button if not needed */
+    .md-header__button.md-icon {
+        -webkit-tap-highlight-color: transparent !important;
+    }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 480px) {
+    .md-tabs__link {
+        padding: 0 0.6rem 0.5rem 0.6rem !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+/* Table of contents (TOC) links */
+.md-nav__link {
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.md-nav__link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--md-accent-fg-color);
+    transition: width 0.3s ease;
+}
+
+.md-nav__link:hover::before {
+    width: 100%;
+}
+
+.md-nav__link--active {
+    font-weight: 600;
+}
+
+/* Neutral TOC scrollbar */
+.md-sidebar--secondary {
+    scrollbar-color: rgba(120, 120, 120, 0.3) transparent;
+    scrollbar-width: thin;
+}
+
+.md-sidebar--secondary:hover {
+    scrollbar-color: rgba(120, 120, 120, 0.6) transparent;
+}
+
+.md-sidebar--secondary::-webkit-scrollbar,
+.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar,
+.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar,
+.md-sidebar--secondary .md-nav::-webkit-scrollbar {
+    width: 8px;
+}
+
+.md-sidebar--secondary::-webkit-scrollbar-track,
+.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar-track,
+.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar-track,
+.md-sidebar--secondary .md-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.md-sidebar--secondary::-webkit-scrollbar-thumb,
+.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar-thumb,
+.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar-thumb,
+.md-sidebar--secondary .md-nav::-webkit-scrollbar-thumb {
+    background-color: rgba(120, 120, 120, 0.3) !important;
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+}
+
+.md-sidebar--secondary:hover::-webkit-scrollbar-thumb,
+.md-sidebar--secondary .md-sidebar__scrollwrap:hover::-webkit-scrollbar-thumb,
+.md-sidebar--secondary .md-sidebar__inner:hover::-webkit-scrollbar-thumb,
+.md-sidebar--secondary .md-nav:hover::-webkit-scrollbar-thumb,
+.md-sidebar--secondary::-webkit-scrollbar-thumb:hover,
+.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar-thumb:hover,
+.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar-thumb:hover,
+.md-sidebar--secondary .md-nav::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(120, 120, 120, 0.6) !important;
+}
+
+/* Back to top button */
+.md-top {
+    position: fixed !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    margin-left: -1.4rem !important;
+    z-index: 100 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.md-top:not([hidden]) {
+    opacity: 1 !important;
+}
+
+.md-top:hover {
+    background-color: var(--md-primary-fg-color) !important;
+}

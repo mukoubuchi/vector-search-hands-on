@@ -1,0 +1,117 @@
+name: Sync JA-EN Translations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/ja/**/*.md'
+      - 'docs/images/*-ja.svg'
+      - '.github/workflows/sync-translations-ja-to-en.yml'
+      - 'lib/check_translation_sync.sh'
+  pull_request:
+    paths:
+      - 'docs/ja/**/*.md'
+      - 'docs/images/*-ja.svg'
+      - '.github/workflows/sync-translations-ja-to-en.yml'
+      - 'lib/check_translation_sync.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  check-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check for translation sync
+        id: check
+        env:
+          SOURCE_LOCALE: ja
+          PR_LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: lib/check_translation_sync.sh
+
+      - name: Fail pull request if translation is not synced
+        if: github.event_name == 'pull_request' && steps.check.outputs.needs_sync == 'true'
+        run: |
+          echo "Translation sync is required before merging this pull request."
+          echo ""
+          echo "${{ steps.check.outputs.missing_files }}"
+          echo ""
+          echo "If this is intentional, add the translation-sync-skip label and include [skip translation-sync] in the merge commit message."
+          exit 1
+
+      - name: Create Issue for Translation Sync
+        if: github.event_name == 'push' && steps.check.outputs.needs_sync == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const missingFiles = `${{ steps.check.outputs.missing_files }}`;
+            
+            const issueBody = [
+              '## Translation Sync Required',
+              '',
+              'Japanese documentation has been updated, but the corresponding English version has not been updated.',
+              '',
+              '### Files that need updating:',
+              missingFiles,
+              '',
+              '### How to fix:',
+              '',
+              '1. Review the changes in the Japanese version',
+              '2. Update the corresponding English version files',
+              '3. Commit both files together',
+              '',
+              '### Related Commit:',
+              '${{ github.sha }}',
+              '',
+              'If this mismatch is intentional, add the `translation-sync-skip` label on the related PR and include `[skip translation-sync]` in the merge commit message.',
+            ].join('\n');
+
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'translation-sync'
+            });
+
+            if (issues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'JA-EN Translation Sync Required',
+                body: issueBody,
+                labels: ['translation-sync', 'documentation']
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                body: '### New sync required\n\n' + issueBody
+              });
+            }
+
+      - name: Post summary
+        if: steps.check.outputs.needs_sync == 'true'
+        run: |
+          {
+            echo "## ⚠️ Translation Sync Required"
+            echo ""
+            echo "Japanese documentation has been updated without corresponding English updates."
+            echo ""
+            echo "Files that need updating:"
+            echo ""
+            echo "${{ steps.check.outputs.missing_files }}"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,136 @@
+# Site settings
+site_name: Vector Search Hands-on
+site_description: Milvus-based vector search hands-on using IBM Bob, Building Blocks, FastAPI, and Hugging Face embeddings
+site_author: IBM Build Team
+site_url: !ENV [SITE_URL, 'http://localhost:8000/']
+docs_dir: docs
+site_dir: site
+exclude_docs: |
+  readme.md
+  translation-sync.md
+
+# Theme settings
+theme:
+  name: material
+  language: en
+  custom_dir: docs/overrides
+  palette:
+    scheme: default
+    primary: blue-grey
+    accent: blue-grey
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+    - i18n
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+# Repository info (kept out of the header; the source URL is listed in the home page)
+# repo_name: vector-search-hands-on
+# repo_url: https://github.com/mukoubuchi/vector-search-hands-on
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Preparation: preparation.md
+  - Part 1: part1.md
+  - Part 2: part2.md
+  - Part 3: part3.md
+  - Summary: summary.md
+  - Feedback: feedback.md
+
+# Markdown extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.mark
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.keys
+  - toc:
+      permalink: true
+      permalink_title: Anchor link to this section for reference
+
+# Plugin settings
+plugins:
+  - search:
+      lang:
+        - en
+        - ja
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: en
+          name: English
+          build: true
+          default: true
+          site_name: Vector Search Hands-on
+        - locale: ja
+          name: 日本語
+          build: true
+          site_name: Vector Search ハンズオン
+          nav_translations:
+            Home: ホーム
+            Preparation: 事前準備
+            Part 1: Part 1
+            Part 2: Part 2
+            Part 3: Part 3
+            Summary: まとめ
+            Feedback: フィードバック
+
+# Extra settings
+extra:
+  generator: false
+
+# Custom CSS (modularized)
+extra_css:
+  - stylesheets/extra.css
+
+# Custom JavaScript (modularized)
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js
+  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+  - javascripts/site-config.js
+  - javascripts/search.js
+  - javascripts/navigation.js
+  - javascripts/tasks.js
+  - javascripts/feedback.js
+  - javascripts/syntax-highlight.js
+  - javascripts/language-switcher.js

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="260" viewBox="0 0 1280 260" role="img" aria-labelledby="title desc">
+  <title id="title">Vector Search Builder なしで顧客システムに組み込む場合</title>
+  <desc id="desc">顧客システムへの組み込みで必要な工程を個別に積み上げる長い開発フロー</desc>
+  <defs>
+    <marker id="arrow-red" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666666" />
+    </marker>
+    <style>
+      .label{font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;fill:#111827}
+      .small{font-family:Helvetica,Arial,sans-serif;font-size:14px;fill:#4b5563}
+      .time{font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:700;fill:#cc0000}
+      .boxtext{font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;fill:#111827;text-anchor:middle}
+      .phase{font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;fill:#cc0000;text-anchor:middle}
+    </style>
+  </defs>
+  <rect x="10" y="10" width="1260" height="240" fill="#ffffff" stroke="#cc0000" stroke-width="2" />
+  <rect x="10" y="10" width="1260" height="42" fill="#ffe6e6" stroke="#cc0000" stroke-width="2" />
+  <text x="640" y="37" class="label" text-anchor="middle">Vector Search Builder なしで顧客システムに組み込む場合</text>
+  <text x="35" y="82" class="time">所要時間: 数日〜数週間</text>
+  <text x="1240" y="82" class="small" text-anchor="end">各工程を個別に設計・実装・調整</text>
+
+  <g fill="#ffcccc" stroke="#cc0000" stroke-width="2">
+    <rect x="35" y="122" width="120" height="64" rx="8" />
+    <rect x="177" y="122" width="120" height="64" rx="8" />
+    <rect x="319" y="122" width="120" height="64" rx="8" />
+    <rect x="461" y="122" width="120" height="64" rx="8" />
+    <rect x="603" y="122" width="120" height="64" rx="8" />
+    <rect x="745" y="122" width="120" height="64" rx="8" />
+    <rect x="887" y="122" width="120" height="64" rx="8" />
+    <rect x="1029" y="122" width="120" height="64" rx="8" />
+  </g>
+  <rect x="1171" y="122" width="70" height="64" rx="8" fill="#ccffcc" stroke="#00aa00" stroke-width="3" />
+
+  <g stroke="#666666" stroke-width="2.5" marker-end="url(#arrow-red)">
+    <line x1="155" y1="154" x2="170" y2="154" />
+    <line x1="297" y1="154" x2="312" y2="154" />
+    <line x1="439" y1="154" x2="454" y2="154" />
+    <line x1="581" y1="154" x2="596" y2="154" />
+    <line x1="723" y1="154" x2="738" y2="154" />
+    <line x1="865" y1="154" x2="880" y2="154" />
+    <line x1="1007" y1="154" x2="1022" y2="154" />
+    <line x1="1149" y1="154" x2="1164" y2="154" />
+  </g>
+
+  <text x="95" y="113" class="phase">① 要件</text>
+  <text x="237" y="113" class="phase">② 基盤設計</text>
+  <text x="379" y="113" class="phase">③ データ</text>
+  <text x="521" y="113" class="phase">④ API</text>
+  <text x="663" y="113" class="phase">⑤ 連携</text>
+  <text x="805" y="113" class="phase">⑥ 品質</text>
+  <text x="947" y="113" class="phase">⑦ 運用</text>
+  <text x="1089" y="113" class="phase">⑧ 改善</text>
+
+  <text x="95" y="148" class="boxtext"><tspan x="95" dy="0">顧客要件</tspan><tspan x="95" dy="18">整理</tspan></text>
+  <text x="237" y="148" class="boxtext"><tspan x="237" dy="0">技術選定</tspan><tspan x="237" dy="18">基盤設計・構築</tspan></text>
+  <text x="379" y="148" class="boxtext"><tspan x="379" dy="0">データ連携</tspan><tspan x="379" dy="18">実装</tspan></text>
+  <text x="521" y="148" class="boxtext"><tspan x="521" dy="0">検索 API</tspan><tspan x="521" dy="18">実装</tspan></text>
+  <text x="663" y="148" class="boxtext"><tspan x="663" dy="0">システム・業務</tspan><tspan x="663" dy="18">連携</tspan></text>
+  <text x="805" y="148" class="boxtext"><tspan x="805" dy="0">テスト・性能</tspan><tspan x="805" dy="18">調整・レビュー</tspan></text>
+  <text x="947" y="148" class="boxtext"><tspan x="947" dy="0">運用設計</tspan><tspan x="947" dy="18">監視</tspan></text>
+  <text x="1089" y="148" class="boxtext"><tspan x="1089" dy="0">個別改善</tspan><tspan x="1089" dy="18">反復</tspan></text>
+  <text x="1206" y="159" class="boxtext">完成</text>
+
+  <text x="640" y="220" class="small" text-anchor="middle">検索基盤の選定から運用までを個別に作るため、工程が長くなりやすい</text>
+</svg>

@@ -1,0 +1,21 @@
+/* Main Stylesheet - Imports all modular CSS files */
+
+/* Import modular stylesheets */
+@import url('typography.css');
+@import url('navigation.css');
+@import url('code.css');
+@import url('components.css');
+@import url('feedback.css');
+@import url('language-switcher.css');
+
+/* 
+ * This file serves as the main entry point for all custom styles.
+ * Individual style modules are organized by functionality:
+ * 
+ * - typography.css: Headings, paragraphs, lists, links, and text formatting
+ * - navigation.css: Header, tabs, sidebar, TOC, and navigation elements
+ * - code.css: Code blocks, syntax highlighting, and inline code
+ * - components.css: Search, task lists, admonitions, and other UI components
+ * - feedback.css: Feedback form layout and copy panel styles
+ * - language-switcher.css: Language switcher styles
+ */
