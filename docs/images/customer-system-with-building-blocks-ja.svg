@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="260" viewBox="0 0 1280 260" role="img" aria-labelledby="title desc">
+  <title id="title">Vector Search Builder + IBM Bob で顧客システムに組み込む場合</title>
+  <desc id="desc">Vector Search Builder と IBM Bob により基盤設計から改善までを短縮し、顧客要件と組み込みに集中する開発フロー</desc>
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666666" />
+    </marker>
+    <style>
+      .label{font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;fill:#111827}
+      .small{font-family:Helvetica,Arial,sans-serif;font-size:14px;fill:#4b5563}
+      .time{font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:700;fill:#0066cc}
+      .boxtext{font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;fill:#111827;text-anchor:middle}
+      .phase{font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;fill:#0066cc;text-anchor:middle}
+      .skip{font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;fill:#0066cc;text-anchor:middle}
+    </style>
+  </defs>
+  <rect x="10" y="10" width="1260" height="240" fill="#ffffff" stroke="#0066cc" stroke-width="2" />
+  <rect x="10" y="10" width="1260" height="42" fill="#e6f2ff" stroke="#0066cc" stroke-width="2" />
+  <text x="640" y="37" class="label" text-anchor="middle">Vector Search Builder + IBM Bob で顧客システムに組み込む場合</text>
+  <text x="35" y="82" class="time">所要時間: 数時間〜数日</text>
+  <text x="1240" y="82" class="small" text-anchor="end">基盤工程を再利用し、顧客固有の組み込みに集中</text>
+
+  <rect x="55" y="122" width="130" height="64" rx="8" fill="#ffcccc" stroke="#cc0000" stroke-width="2" />
+  <rect x="240" y="122" width="170" height="64" rx="8" fill="#cce5ff" stroke="#0066cc" stroke-width="2" />
+  <rect x="465" y="122" width="170" height="64" rx="8" fill="#cce5ff" stroke="#0066cc" stroke-width="2" />
+  <rect x="690" y="122" width="170" height="64" rx="8" fill="#cce5ff" stroke="#0066cc" stroke-width="2" />
+  <rect x="915" y="122" width="170" height="64" rx="8" fill="#cce5ff" stroke="#0066cc" stroke-width="2" />
+  <rect x="1140" y="122" width="70" height="64" rx="8" fill="#ccffcc" stroke="#00aa00" stroke-width="3" />
+
+  <g stroke="#666666" stroke-width="2.5" marker-end="url(#arrow-blue)">
+    <line x1="185" y1="154" x2="231" y2="154" />
+    <line x1="410" y1="154" x2="456" y2="154" />
+    <line x1="635" y1="154" x2="681" y2="154" />
+    <line x1="860" y1="154" x2="906" y2="154" />
+    <line x1="1085" y1="154" x2="1131" y2="154" />
+  </g>
+
+  <text x="120" y="113" class="phase">① 要件</text>
+  <text x="325" y="113" class="phase">② 基盤設計を短縮</text>
+  <text x="550" y="113" class="phase">③〜⑤ 実装を集約</text>
+  <text x="775" y="113" class="phase">⑤ 連携</text>
+  <text x="1000" y="113" class="phase">⑥〜⑧ 改善を高速化</text>
+
+  <text x="120" y="148" class="boxtext"><tspan x="120" dy="0">顧客要件</tspan><tspan x="120" dy="18">整理</tspan></text>
+  <text x="325" y="148" class="boxtext"><tspan x="325" dy="0">Vector Search Builder</tspan><tspan x="325" dy="18">検索基盤を再利用</tspan></text>
+  <text x="550" y="148" class="boxtext"><tspan x="550" dy="0">IBM Bob で</tspan><tspan x="550" dy="18">データ・API・UI拡張</tspan></text>
+  <text x="775" y="148" class="boxtext"><tspan x="775" dy="0">システム・業務</tspan><tspan x="775" dy="18">連携</tspan></text>
+  <text x="1000" y="148" class="boxtext"><tspan x="1000" dy="0">テスト・レビュー</tspan><tspan x="1000" dy="18">運用改善</tspan></text>
+  <text x="1175" y="159" class="boxtext">完成</text>
+
+  <text x="640" y="220" class="small" text-anchor="middle">②〜④の基盤作りを Vector Search Builder が、③〜⑧の拡張・改善を IBM Bob が支援</text>
+</svg>

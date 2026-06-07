@@ -1,0 +1,86 @@
+services:
+  # Milvus environment (3 services)
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.5
+    profiles: ["milvus", "all"]
+    environment:
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+      - ETCD_SNAPSHOT_COUNT=50000
+    volumes:
+      - etcd_data:/etcd
+    command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio:
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    profiles: ["milvus", "all"]
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    volumes:
+      - minio_data:/minio_data
+    command: minio server /minio_data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  milvus:
+    image: milvusdb/milvus:v2.3.3
+    profiles: ["milvus", "all"]
+    command: ["milvus", "run", "standalone"]
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+    volumes:
+      - milvus_data:/var/lib/milvus
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    depends_on:
+      - "etcd"
+      - "minio"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 30s
+      start_period: 90s
+      timeout: 20s
+      retries: 3
+
+  # MkDocs documentation server (for sharing)
+  # Note: On macOS Docker Desktop, automatic file change detection does not work
+  # Use `python -m mkdocs serve` (port 8000) for development
+  # This container is for sharing with participants (port 8001)
+  mkdocs:
+    image: squidfunk/mkdocs-material:latest
+    profiles: ["docs", "all"]
+    container_name: vector-search-docs
+    ports:
+      - "8001:8000"
+    volumes:
+      - ../../:/docs
+    entrypoint: >
+      sh -c "pip install mkdocs-static-i18n --quiet &&
+             mkdocs serve --dev-addr=0.0.0.0:8000"
+    restart: unless-stopped
+
+volumes:
+  etcd_data:
+  minio_data:
+  milvus_data:
+
+# Profile usage examples:
+# - Start all services:    docker compose --profile all up -d
+# - Milvus only:           docker compose --profile milvus up -d
+# - Documentation only:    docker compose --profile docs up -d
+# - Stop all services:     docker compose --profile all down

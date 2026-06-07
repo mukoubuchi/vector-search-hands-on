@@ -1,0 +1,202 @@
+/* Typography Styles */
+
+/* Heading customization with FontAwesome icons */
+.md-typeset h1::before {
+    content: "\f35a";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.5em;
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset h1 {
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+    font-weight: 700;
+    color: var(--md-primary-fg-color);
+    border-bottom: solid 2px #546e7a;
+    padding-bottom: 5px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h1:hover {
+    transform: translateX(8px);
+}
+
+.md-typeset h2::before {
+    content: "\e521";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.5em;
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset h2 {
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+    font-weight: 700;
+    color: var(--md-primary-fg-color);
+    border-bottom: 1px dotted #78909c;
+    padding-bottom: 5px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h2:hover {
+    transform: translateX(6px);
+}
+
+.md-typeset h3::before {
+    content: "\f138";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.3em;
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+    font-weight: 700;
+    color: var(--md-primary-fg-color);
+    border-bottom: 1px dotted #b0bec5;
+    padding-bottom: 3px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h3:hover {
+    transform: translateX(4px);
+}
+
+.md-typeset h4::before {
+    content: "\f0da";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.3em;
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset h4 {
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--md-primary-fg-color);
+    background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.08) 0%, transparent 100%);
+    padding: 0.4em 0.6em;
+    border-left: 4px solid var(--md-primary-fg-color);
+    border-radius: 0 4px 4px 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.md-typeset h4:hover {
+    transform: translateX(4px);
+    background: linear-gradient(90deg, rgba(var(--md-primary-fg-color--rgb), 0.12) 0%, transparent 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Paragraph and list spacing */
+.md-typeset p {
+    margin-bottom: 0.8em;
+}
+
+.md-typeset ul,
+.md-typeset ol {
+    margin-bottom: 0.8em;
+}
+
+.md-typeset ul > li,
+.md-typeset ol > li {
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.md-typeset ul > li:hover,
+.md-typeset ol > li:hover {
+    transform: translateX(4px);
+}
+
+/* Remove excessive spacing in lists */
+.md-typeset li > p {
+    margin-bottom: 0.5em;
+}
+
+.md-typeset li > ul,
+.md-typeset li > ol {
+    margin-top: 0.5em;
+}
+
+/* Bold text styling */
+.md-typeset strong {
+    font-weight: 700 !important;
+}
+
+/* Definition list styling */
+.md-typeset dl dt {
+    font-weight: 700;
+    margin-top: 1em;
+}
+
+.md-typeset dl dd {
+    margin-left: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+/* Link colors with slide-in effect */
+.md-typeset a {
+    color: var(--md-typeset-a-color) !important;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.md-typeset a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+}
+
+.md-typeset a:hover {
+    color: var(--md-accent-fg-color) !important;
+}
+
+.md-typeset a:hover::before {
+    width: 100%;
+}
+
+/* Keyboard key styling */
+.md-typeset kbd {
+    display: inline-block;
+    padding: 0.15em 0.5em;
+    font-size: 0.85em;
+    font-family: var(--md-code-font-family);
+    line-height: 1.4;
+    color: var(--md-code-fg-color);
+    background-color: var(--md-code-bg-color);
+    border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 18%, transparent);
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--md-default-fg-color) 18%, transparent);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.md-typeset kbd:hover {
+    background-color: color-mix(in srgb, var(--md-code-bg-color) 85%, var(--md-default-fg-color) 15%);
+    border-color: color-mix(in srgb, var(--md-default-fg-color) 28%, transparent);
+}
+
+.md-typeset kbd kbd {
+    padding: 0;
+    font-size: 1em;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+}

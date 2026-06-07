@@ -1,0 +1,61 @@
+# Environment variables
+.env
+*.env
+!.env.example
+!.env.example.en
+!.env.example.ja
+
+# Docker volumes
+milvus-data/
+etcd-data/
+minio-data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local Bob rules
+.bob/rules/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test outputs
+tests/*.log
+tests/coverage/
+.coverage
+htmlcov/
+
+# Config overrides
+config/*.local.conf
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# MkDocs
+site/
+docs/.cache/
+
+# Diagram source files
+*.drawio
+
+# Backup files
+docs/images/.backup/
