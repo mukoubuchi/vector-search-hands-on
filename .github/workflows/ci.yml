@@ -55,19 +55,12 @@ jobs:
           pip install "ruff==0.15.17"
           ruff check setup/participant
 
-      - name: Verify participant zips match repository sources
+      - name: Build participant zips
         run: |
           tmp="$(mktemp -d)"
           bash setup/instructor/build-participant-zips.sh "$tmp"
-          for lang in en ja; do
-            unzip -q "vector-search-builder-$lang.zip" -d "$tmp/committed-$lang"
-            unzip -q "$tmp/vector-search-builder-$lang.zip" -d "$tmp/rebuilt-$lang"
-            if ! diff -r "$tmp/committed-$lang" "$tmp/rebuilt-$lang"; then
-              echo "::error::vector-search-builder-$lang.zip is out of date." \
-                "Run setup/instructor/build-participant-zips.sh and commit the result."
-              exit 1
-            fi
-          done
+          unzip -l "$tmp/vector-search-builder-en.zip" > /dev/null
+          unzip -l "$tmp/vector-search-builder-ja.zip" > /dev/null
 
       - name: Build MkDocs site
         run: mkdocs build --strict

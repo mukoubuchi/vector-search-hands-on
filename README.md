@@ -162,7 +162,7 @@ Details: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs
 
 ### For Participants
 
-**Distributed files**:
+**Distributed files** (instructors download them from the [latest release assets](https://github.com/mukoubuchi/vector-search-hands-on/releases/latest), or build them with `./setup/instructor/build-participant-zips.sh`):
 
 - `vector-search-builder-en.zip` — Minimal participant package with English rules and scripts
 - `vector-search-builder-ja.zip` — Minimal participant package with Japanese rules and scripts (日本語版)
@@ -442,22 +442,21 @@ vector-search-hands-on/
 │   ├── common.sh                          # Common shell functions
 │   └── check_translation_sync.sh          # Shared translation sync checker
 ├── mkdocs.yml                             # MkDocs configuration
-├── vector-search-builder-en.zip           # Distribution zip for participants (English)
-├── vector-search-builder-ja.zip           # Distribution zip for participants (Japanese / 日本語版)
 └── README.md                              # This file
 ```
+
+The participant distribution zips (`vector-search-builder-en.zip` / `vector-search-builder-ja.zip`) are **not committed**: they are built from the sources by the release workflow and attached to every GitHub release.
 
 ### Distribution Zip Contents
 
 The participant zip files are intentionally minimal and contain only the files needed by participants.
 
-The packages are generated from the source files in this repository with:
+How the packages are distributed:
 
-```bash
-./setup/instructor/build-participant-zips.sh
-```
+- **Releases (canonical)**: on every `v*` tag push, the release workflow builds the zips from the repository sources and attaches them to the GitHub release — download them from the [release page](https://github.com/mukoubuchi/vector-search-hands-on/releases)
+- **Local build**: to package the current working tree (e.g. between releases), run `./setup/instructor/build-participant-zips.sh`; the zips are written to the repository root and are gitignored
 
-Run this script and commit the regenerated zips whenever a participant-facing file changes. CI fails when the committed zips do not match the repository sources. On every `v*` tag push, the release workflow also builds the zips and attaches them to the GitHub release, so participants can download them from the release page without cloning the repository.
+CI builds the zips on every push to ensure the packaging script keeps working.
 
 - `vector-search-builder-en.zip`
 - `vector-search-builder-ja.zip`
