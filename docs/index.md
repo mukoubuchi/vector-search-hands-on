@@ -110,7 +110,7 @@ Responsibilities for each process:
     Building Blocks alone:
     
     - Each person builds their own Milvus environment (Docker/Podman/Colima)
-    - Individually download embedding models (approximately 200 MB)
+    - Individually download embedding models (approximately 460 MB)
     - Environment setup takes about 30 minutes
     
     This hands-on's innovation:
