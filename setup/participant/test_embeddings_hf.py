@@ -1,6 +1,8 @@
 """
 Hugging Face Transformers embedding model test script
 """
+import sys
+
 from common import IS_JA, load_embedding_model, msg
 
 
@@ -49,4 +51,4 @@ def test_embeddings():
 
 
 if __name__ == "__main__":
-    test_embeddings()
+    sys.exit(0 if test_embeddings() else 1)

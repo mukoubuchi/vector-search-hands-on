@@ -2,7 +2,7 @@
 
 from pymilvus import CollectionSchema, DataType, FieldSchema
 
-from common import DEFAULT_COLLECTION_NAME, DEFAULT_EMBEDDING_DIMENSION, get_int_env, msg
+from common import DEFAULT_COLLECTION_NAME, get_env, msg, reject_placeholder
 
 
 VECTOR_FIELD = "embedding"
@@ -22,25 +22,19 @@ SEARCH_PARAMS = {
 
 def get_collection_name() -> str:
     """Return the configured collection name."""
-    from common import get_env
-
-    return get_env("COLLECTION_NAME", DEFAULT_COLLECTION_NAME) or DEFAULT_COLLECTION_NAME
-
-
-def get_embedding_dimension() -> int:
-    """Return the configured embedding dimension."""
-    return get_int_env("EMBEDDING_DIMENSION", DEFAULT_EMBEDDING_DIMENSION)
+    name = get_env("COLLECTION_NAME", DEFAULT_COLLECTION_NAME) or DEFAULT_COLLECTION_NAME
+    return reject_placeholder("COLLECTION_NAME", name.strip())
 
 
-def build_collection_schema() -> CollectionSchema:
-    """Build the product collection schema."""
+def build_collection_schema(embedding_dimension: int) -> CollectionSchema:
+    """Build the product collection schema for the given embedding dimension."""
     fields = [
         FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
         FieldSchema(name="product_name", dtype=DataType.VARCHAR, max_length=200),
         FieldSchema(name="price", dtype=DataType.INT64),
         FieldSchema(name="category", dtype=DataType.VARCHAR, max_length=100),
         FieldSchema(name="description", dtype=DataType.VARCHAR, max_length=500),
-        FieldSchema(name=VECTOR_FIELD, dtype=DataType.FLOAT_VECTOR, dim=get_embedding_dimension()),
+        FieldSchema(name=VECTOR_FIELD, dtype=DataType.FLOAT_VECTOR, dim=embedding_dimension),
     ]
 
     return CollectionSchema(fields=fields, description=msg("Product database", "商品データベース"))

@@ -216,7 +216,7 @@ If you see the following display, it's successful:
 ✓ Sample data insertion completed
 ==================================================
 
-Collection name: knowledge_base
+Collection name: products_taro  # the unique name you set in .env
 Entity count: 12
 
 You can start the demo application:
