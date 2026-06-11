@@ -177,6 +177,8 @@ IBM Bob will perform analysis like the following:
 - Appropriate HTTP status codes (503, 500)
 - Exception handling with try-except blocks
 - User-friendly error messages
+- Modern startup/shutdown handling with a `lifespan` handler
+- Input validation for `query` and `top_k` with Pydantic `Field` constraints
 
 ###### 4. **Feature Completeness**
 
@@ -191,32 +193,7 @@ IBM Bob will perform analysis like the following:
 
 ##### ⚠️ Improvement Suggestions
 
-###### 1. **Use of deprecated `on_event` (lines 137, 171)**
-
-```python
-# Current (deprecated)
-@app.on_event("startup")
-async def startup_event():
-    ...
-
-# Recommended: use a lifespan event handler
-from contextlib import asynccontextmanager
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    global embedding_model, collection
-    embedding_model = load_embedding_model()
-    connect_to_milvus()
-    collection = load_collection()
-    yield
-    # Shutdown
-    connections.disconnect("default")
-
-app = FastAPI(lifespan=lifespan, ...)
-```
-
-###### 2. **Use of global variables (lines 38-39)**
+###### 1. **Use of global variables (lines 24-25)**
 
 ```python
 # Current
@@ -228,31 +205,27 @@ app.state.embedding_model = None
 app.state.collection = None
 ```
 
-###### 3. **Add validation**
+###### 2. **Add validation for the price range added in Part 2**
 
 ```python
+from pydantic import BaseModel, Field, model_validator
+
 class SearchRequest(BaseModel):
-    query: str
-    top_k: int = 5
+    query: str = Field(min_length=1)
+    top_k: int = Field(default=5, ge=1, le=100)
     min_price: Optional[int] = None
     max_price: Optional[int] = None
     
     # Recommended addition
-    @validator('top_k')
-    def validate_top_k(cls, v):
-        if v < 1 or v > 100:
-            raise ValueError('top_k must be between 1 and 100')
-        return v
-    
-    @validator('max_price')
-    def validate_price_range(cls, v, values):
-        if v is not None and 'min_price' in values and values['min_price'] is not None:
-            if v < values['min_price']:
-                raise ValueError('max_price must be greater than min_price')
-        return v
+    @model_validator(mode="after")
+    def validate_price_range(self):
+        if self.min_price is not None and self.max_price is not None:
+            if self.max_price < self.min_price:
+                raise ValueError("max_price must be greater than or equal to min_price")
+        return self
 ```
 
-###### 4. **Improve logging**
+###### 3. **Improve logging**
 
 ```python
 import logging
@@ -264,7 +237,7 @@ logger.info(f"Connecting to Milvus: {host}:{port}")
 logger.error(f"Failed to connect: {e}")
 ```
 
-###### 5. **Strengthen security**
+###### 4. **Strengthen security**
 
 ```python
 # Restrict CORS settings for production
@@ -277,7 +250,7 @@ app.add_middleware(
 )
 ```
 
-###### 6. **Optimize performance**
+###### 5. **Optimize performance**
 
 ```python
 # Add caching for frequently searched queries
@@ -288,7 +261,7 @@ def get_query_embedding(query: str):
     return embedding_model.encode([query], normalize_embeddings=True)[0].tolist()
 ```
 
-###### 7. **Add tests**
+###### 6. **Add tests**
 
 ```python
 # tests/test_app.py
@@ -316,10 +289,10 @@ def test_search_endpoint():
 
 ##### 🎯 High-Priority Improvements
 
-1. **High**: Migrate from `on_event` to `lifespan` (`on_event` is deprecated in FastAPI 0.93.0 and later)
-2. **Medium**: Add validation to prevent invalid input
-3. **Medium**: Implement logging for debugging and monitoring
-4. **Low**: Tighten CORS settings for production
+1. **Medium**: Add validation for the price range added in Part 2
+2. **Medium**: Implement logging for debugging and monitoring
+3. **Low**: Tighten CORS settings for production
+4. **Low**: Replace global variables with application state
 
 The current code is fully functional and works well as a demo application!
 
@@ -350,7 +323,7 @@ Add log output to the search processing in app.py
 - To add validation:
 
 ```text
-Add top_k and price range validation to SearchRequest in app.py
+Add min_price and max_price validation to SearchRequest in app.py
 ```
 
 - To review CORS settings:

@@ -28,11 +28,13 @@ jobs:
 
       - name: Install documentation dependencies
         run: |
+          # Keep mkdocs-material / mkdocs-static-i18n versions in sync with
+          # setup/instructor/docker-compose.yml (mkdocs service)
           pip install \
             "mkdocs==1.6.1" \
             "mkdocs-material==9.7.6" \
             "mkdocs-material-extensions" \
-            "mkdocs-static-i18n" \
+            "mkdocs-static-i18n==1.3.1" \
             "mkdocs-glightbox" \
             "babel"
 
@@ -44,6 +46,20 @@ jobs:
 
       - name: Check participant Python syntax
         run: python -m compileall setup/participant
+
+      - name: Verify participant zips match repository sources
+        run: |
+          tmp="$(mktemp -d)"
+          bash setup/instructor/build-participant-zips.sh "$tmp"
+          for lang in en ja; do
+            unzip -q "vector-search-builder-$lang.zip" -d "$tmp/committed-$lang"
+            unzip -q "$tmp/vector-search-builder-$lang.zip" -d "$tmp/rebuilt-$lang"
+            if ! diff -r "$tmp/committed-$lang" "$tmp/rebuilt-$lang"; then
+              echo "::error::vector-search-builder-$lang.zip is out of date." \
+                "Run setup/instructor/build-participant-zips.sh and commit the result."
+              exit 1
+            fi
+          done
 
       - name: Build MkDocs site
         run: mkdocs build --strict

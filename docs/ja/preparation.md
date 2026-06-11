@@ -198,13 +198,14 @@
         # Milvus 接続情報
         MILVUS_HOST=192.168.1.100  # ← 講師から配布された IP アドレスに変更
         
+        # コレクション名（Milvus は全参加者で共有されています）
+        COLLECTION_NAME=products_taro  # ← 自分専用の一意な名前に変更
+        
         # 以下は変更不要
         MILVUS_PORT=19530
         MILVUS_USER=root
         MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-        EMBEDDING_DIMENSION=384
-        COLLECTION_NAME=knowledge_base
         PARTICIPANT_LANGUAGE=ja
         ```
 
@@ -215,14 +216,21 @@
         MILVUS_HOST=0.tcp.jp.ngrok.io  # ← 講師から配布されたホスト名に変更
         MILVUS_PORT=24051              # ← 講師から配布されたポート番号に変更
         
+        # コレクション名（Milvus は全参加者で共有されています）
+        COLLECTION_NAME=products_taro  # ← 自分専用の一意な名前に変更
+        
         # 以下は変更不要
         MILVUS_USER=root
         MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-        EMBEDDING_DIMENSION=384
-        COLLECTION_NAME=knowledge_base
         PARTICIPANT_LANGUAGE=ja
         ```
+
+    !!! warning "一意なコレクション名を設定してください"
+        
+        全参加者が講師の管理する同じ Milvus サーバーに接続します。
+        **`COLLECTION_NAME`** には自分専用の一意な名前（例: **`products_taro`**、英数字とアンダースコア）を設定してください。
+        他の参加者と同じ名前を使うと、サンプルデータ投入時にお互いのコレクションを上書きしてしまいます。
 
     !!! warning "ngrok 接続時の注意"
         

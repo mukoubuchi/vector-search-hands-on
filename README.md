@@ -83,6 +83,14 @@ git push -u origin main
 
 > **Network note**: Corporate VPN or DNS security products such as Cisco Umbrella may block ngrok TCP tunnels or prevent the ngrok hostname from resolving correctly. Disconnecting the VPN may not be enough if Cisco Umbrella or a similar product remains active. If participants cannot connect through ngrok, use an organization-approved same-network, private-network, or cloud VM alternative.
 
+> **Security note**: Milvus user/password authentication is enforced (`COMMON_SECURITY_AUTHORIZATIONENABLED=true` in `setup/instructor/docker-compose.yml`). Before exposing Milvus on a public endpoint, change the default root password and share the new password with participants instead of `Milvus`:
+>
+> ```bash
+> python -c "from pymilvus import connections, utility; \
+>   connections.connect(host='localhost', port='19530', user='root', password='Milvus'); \
+>   utility.reset_password('root', 'Milvus', '<new-password>', using='default')"
+> ```
+
 ```bash
 # 1. Start Milvus environment
 cd setup/instructor
@@ -104,10 +112,10 @@ share these values with remote participants:
 MILVUS_HOST=0.tcp.jp.ngrok.io
 MILVUS_PORT=12345
 MILVUS_USER=root
-MILVUS_PASSWORD=Milvus
+MILVUS_PASSWORD=<the password you set above>
 ```
 
-Participants must update both `MILVUS_HOST` and `MILVUS_PORT` in `setup/participant/.env`. Do not include `tcp://` in `MILVUS_HOST`.
+Participants must update both `MILVUS_HOST` and `MILVUS_PORT` in `setup/participant/.env`, and set `COLLECTION_NAME` to a name unique to each participant (e.g. `products_taro`) because the Milvus instance is shared. Do not include `tcp://` in `MILVUS_HOST`.
 
 **3. Stop the environment after hands-on**
 
@@ -180,6 +188,7 @@ Instructor files, documentation files, local `.env` files, Python caches, and sy
    - Copy `setup/participant/.env.example` to create `setup/participant/.env`
    - For remote sessions, set both `MILVUS_HOST` and `MILVUS_PORT` to the values shared by the instructor
    - For same-network sessions, set the IP address shared by the instructor in `MILVUS_HOST`
+   - Set `COLLECTION_NAME` to a name unique to you (e.g. `products_taro`) — Milvus is shared by all participants
 
 4. Reload IBM Bob
 
@@ -399,6 +408,7 @@ vector-search-hands-on/
 │   │   ├── .env.example                   # Environment variables template
 │   │   ├── start-all.sh                   # Start all services script
 │   │   ├── stop-all.sh                    # Stop services and FastAPI demo on port 8002
+│   │   ├── build-participant-zips.sh      # Regenerate participant distribution zips
 │   │   ├── deploy-docs-to-cloud.md        # Document delivery methods
 │   │   └── instructor-share-info.md       # Instructor information sharing
 │   └── participant/                       # Participant setup
@@ -427,7 +437,13 @@ vector-search-hands-on/
 
 The participant zip files are intentionally minimal and contain only the files needed by participants.
 
-The current packages have been regenerated from the source files in this repository:
+The packages are generated from the source files in this repository with:
+
+```bash
+./setup/instructor/build-participant-zips.sh
+```
+
+Run this script and commit the regenerated zips whenever a participant-facing file changes. CI fails when the committed zips do not match the repository sources.
 
 - `vector-search-builder-en.zip`
 - `vector-search-builder-ja.zip`

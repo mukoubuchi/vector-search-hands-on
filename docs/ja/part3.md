@@ -176,6 +176,8 @@ IBM Bob が以下のような分析をします:
 - 適切な HTTP ステータスコード（503, 500）
 - try-except ブロックによる例外処理
 - ユーザーフレンドリーなエラーメッセージ
+- `lifespan` ハンドラーによるモダンな起動 / 終了処理
+- Pydantic の `Field` 制約による `query` と `top_k` の入力バリデーション
 
 ###### 4. **機能の充実**
 
@@ -190,32 +192,7 @@ IBM Bob が以下のような分析をします:
 
 ##### ⚠️ 改善提案
 
-###### 1. **非推奨の `on_event` の使用（行 137, 171）**
-
-```python
-# 現在（非推奨）
-@app.on_event("startup")
-async def startup_event():
-    ...
-
-# 推奨: lifespan イベントハンドラーを使用
-from contextlib import asynccontextmanager
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    global embedding_model, collection
-    embedding_model = load_embedding_model()
-    connect_to_milvus()
-    collection = load_collection()
-    yield
-    # Shutdown
-    connections.disconnect("default")
-
-app = FastAPI(lifespan=lifespan, ...)
-```
-
-###### 2. **グローバル変数の使用（行 38-39）**
+###### 1. **グローバル変数の使用（行 24-25）**
 
 ```python
 # 現在
@@ -227,31 +204,27 @@ app.state.embedding_model = None
 app.state.collection = None
 ```
 
-###### 3. **バリデーションの追加**
+###### 2. **Part 2 で追加した価格範囲のバリデーション追加**
 
 ```python
+from pydantic import BaseModel, Field, model_validator
+
 class SearchRequest(BaseModel):
-    query: str
-    top_k: int = 5
+    query: str = Field(min_length=1)
+    top_k: int = Field(default=5, ge=1, le=100)
     min_price: Optional[int] = None
     max_price: Optional[int] = None
     
     # 追加推奨
-    @validator('top_k')
-    def validate_top_k(cls, v):
-        if v < 1 or v > 100:
-            raise ValueError('top_k must be between 1 and 100')
-        return v
-    
-    @validator('max_price')
-    def validate_price_range(cls, v, values):
-        if v is not None and 'min_price' in values and values['min_price'] is not None:
-            if v < values['min_price']:
-                raise ValueError('max_price must be greater than min_price')
-        return v
+    @model_validator(mode="after")
+    def validate_price_range(self):
+        if self.min_price is not None and self.max_price is not None:
+            if self.max_price < self.min_price:
+                raise ValueError("max_price must be greater than or equal to min_price")
+        return self
 ```
 
-###### 4. **ロギングの改善**
+###### 3. **ロギングの改善**
 
 ```python
 import logging
@@ -263,7 +236,7 @@ logger.info(f"Connecting to Milvus: {host}:{port}")
 logger.error(f"Failed to connect: {e}")
 ```
 
-###### 5. **セキュリティ強化**
+###### 4. **セキュリティ強化**
 
 ```python
 # CORS 設定を本番環境用に制限
@@ -276,7 +249,7 @@ app.add_middleware(
 )
 ```
 
-###### 6. **パフォーマンス最適化**
+###### 5. **パフォーマンス最適化**
 
 ```python
 # キャッシュの追加（頻繁に検索されるクエリ用）
@@ -287,7 +260,7 @@ def get_query_embedding(query: str):
     return embedding_model.encode([query], normalize_embeddings=True)[0].tolist()
 ```
 
-###### 7. **テストの追加**
+###### 6. **テストの追加**
 
 ```python
 # tests/test_app.py
@@ -315,10 +288,10 @@ def test_search_endpoint():
 
 ##### 🎯 優先度の高い改善
 
-1. **高**: `on_event` を `lifespan` に移行（FastAPI 0.93.0 以降で非推奨）
-2. **中**: バリデーションの追加（不正な入力の防止）
-3. **中**: ロギングの実装（デバッグとモニタリング）
-4. **低**: CORS 設定の厳格化（本番環境用）
+1. **中**: Part 2 で追加した価格範囲のバリデーション追加
+2. **中**: ロギングの実装（デバッグとモニタリング）
+3. **低**: CORS 設定の厳格化（本番環境用）
+4. **低**: グローバル変数をアプリケーション状態に置き換え
 
 現在のコードは機能的には完全に動作しており、デモアプリケーションとしては優れています！
 
@@ -349,7 +322,7 @@ app.py の検索処理にログ出力を追加して
 - バリデーションを追加する場合:
 
 ```text
-app.py の SearchRequest に top_k と価格範囲のバリデーションを追加して
+app.py の SearchRequest に min_price と max_price のバリデーションを追加して
 ```
 
 - CORS 設定を見直す場合:

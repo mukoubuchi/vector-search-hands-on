@@ -199,13 +199,14 @@ Configure the IP address distributed by the instructor.
         # Milvus connection information
         MILVUS_HOST=192.168.1.100  # ← Change to IP address distributed by instructor
         
+        # Collection name (Milvus is shared by all participants)
+        COLLECTION_NAME=products_taro  # ← Change to a name unique to you
+        
         # No changes needed below
         MILVUS_PORT=19530
         MILVUS_USER=root
         MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-        EMBEDDING_DIMENSION=384
-        COLLECTION_NAME=knowledge_base
         PARTICIPANT_LANGUAGE=en
         ```
 
@@ -216,14 +217,21 @@ Configure the IP address distributed by the instructor.
         MILVUS_HOST=0.tcp.jp.ngrok.io  # ← Change to hostname distributed by instructor
         MILVUS_PORT=24051              # ← Change to port number distributed by instructor
         
+        # Collection name (Milvus is shared by all participants)
+        COLLECTION_NAME=products_taro  # ← Change to a name unique to you
+        
         # No need to change below
         MILVUS_USER=root
         MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-        EMBEDDING_DIMENSION=384
-        COLLECTION_NAME=knowledge_base
         PARTICIPANT_LANGUAGE=en
         ```
+
+    !!! warning "Set a unique collection name"
+        
+        All participants connect to the same Milvus server managed by the instructor.
+        Set **`COLLECTION_NAME`** to a name that is unique to you (e.g. **`products_taro`**, using letters, numbers, and underscores).
+        If two participants use the same name, inserting sample data will overwrite each other's collection.
 
     !!! warning "ngrok Connection Note"
         

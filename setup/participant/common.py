@@ -15,7 +15,6 @@ load_dotenv(PARTICIPANT_DIR / ".env")
 DEFAULT_MILVUS_HOST = "localhost"
 DEFAULT_MILVUS_PORT = "19530"
 DEFAULT_EMBEDDING_MODEL = "paraphrase-multilingual-MiniLM-L12-v2"
-DEFAULT_EMBEDDING_DIMENSION = 384
 DEFAULT_COLLECTION_NAME = "knowledge_base"
 DEFAULT_PARTICIPANT_LANGUAGE = "en"
 
@@ -33,19 +32,16 @@ def get_env(name: str, default: Optional[str] = None) -> Optional[str]:
     return os.getenv(name, default)
 
 
-def get_int_env(name: str, default: int) -> int:
-    """Return an integer environment variable."""
-    value = os.getenv(name)
-    if value is None or value == "":
-        return default
-
-    try:
-        return int(value)
-    except ValueError as exc:
+def reject_placeholder(name: str, value: str) -> str:
+    """Raise a clear error when a .env value still contains a template placeholder."""
+    if "<" in value or ">" in value:
         raise RuntimeError(msg(
-            f"{name} must be an integer. Current value: {value}",
-            f"{name} は整数で指定してください。現在の値: {value}"
-        )) from exc
+            f"{name} still contains the placeholder '{value}' from .env.example. "
+            "Replace it with the actual value in setup/participant/.env.",
+            f"{name} に .env.example のプレースホルダ '{value}' が残っています。"
+            "setup/participant/.env を実際の値に書き換えてください。"
+        ))
+    return value
 
 
 def require_env(name: str) -> str:
@@ -63,6 +59,7 @@ def get_milvus_connect_params() -> Dict[str, Any]:
     """Build Milvus connection parameters from environment variables."""
     host = (get_env("MILVUS_HOST", DEFAULT_MILVUS_HOST) or DEFAULT_MILVUS_HOST).strip()
     port = (get_env("MILVUS_PORT", DEFAULT_MILVUS_PORT) or DEFAULT_MILVUS_PORT).strip()
+    reject_placeholder("MILVUS_HOST", host)
 
     if host.startswith("tcp://"):
         host = host.replace("tcp://", "", 1)

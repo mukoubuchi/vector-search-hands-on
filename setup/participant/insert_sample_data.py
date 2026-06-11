@@ -4,7 +4,9 @@ Sample data insertion script
 Inserts sample product data into Milvus.
 """
 
+import argparse
 import os
+import sys
 from pathlib import Path
 from pymilvus import connections, Collection, utility
 
@@ -29,6 +31,22 @@ SAMPLE_PRODUCTS = get_sample_products(PARTICIPANT_LANGUAGE)
 COLLECTION_NAME = get_collection_name()
 
 
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description=msg("Insert sample product data into Milvus", "Milvus にサンプル商品データを挿入します")
+    )
+    parser.add_argument(
+        "-y", "--yes",
+        action="store_true",
+        help=msg(
+            "Drop an existing collection without asking for confirmation",
+            "既存コレクションを確認なしで削除する"
+        )
+    )
+    return parser.parse_args()
+
+
 def print_start_commands():
     """Show commands that work from the current directory."""
     participant_dir = Path(__file__).resolve().parent
@@ -44,21 +62,57 @@ def print_start_commands():
         print(f"  {python_command}")
 
 
-def drop_existing_collection():
-    """Drop existing collection"""
+def confirm_drop(assume_yes: bool) -> bool:
+    """Ask before dropping an existing collection (it may be shared with others)."""
+    entity_count = Collection(COLLECTION_NAME).num_entities
+    print(f"\n⚠ {msg('Collection already exists', 'コレクションは既に存在します')}: "
+          f"{COLLECTION_NAME} ({entity_count} {msg('entities', '件')})")
+    print(msg(
+        "  On a shared Milvus, dropping a collection also deletes other participants' data.",
+        "  共有 Milvus では、コレクションを削除すると他の参加者のデータも消えます。"
+    ))
+
+    if assume_yes:
+        return True
+
+    prompt = msg("Drop and recreate this collection? [y/N]: ",
+                 "このコレクションを削除して作り直しますか？ [y/N]: ")
+    try:
+        answer = input(prompt).strip().lower()
+    except EOFError:
+        answer = ""
+    return answer in ("y", "yes")
+
+
+def drop_existing_collection(assume_yes: bool) -> bool:
+    """Drop existing collection after confirmation. Return False when aborted."""
     if not utility.has_collection(COLLECTION_NAME):
-        return
+        return True
+
+    if not confirm_drop(assume_yes):
+        print(f"\n{msg('Aborted. No data was changed.', '中止しました。データは変更されていません。')}")
+        print(msg(
+            "  To use your own collection, set a unique COLLECTION_NAME in setup/participant/.env "
+            "(e.g. products_taro).",
+            "  自分専用のコレクションを使うには、setup/participant/.env の COLLECTION_NAME を"
+            "一意な名前（例: products_taro）に変更してください。"
+        ))
+        return False
 
     print(f"\n{msg('Dropping existing collection', '既存のコレクションを削除中')}: {COLLECTION_NAME}")
     utility.drop_collection(COLLECTION_NAME)
     print(f"✓ {msg('Collection dropped', 'コレクションを削除しました')}: {COLLECTION_NAME}")
+    return True
 
 
-def create_collection():
+def create_collection(embedding_dimension):
     """Create collection"""
     print(f"\n{msg('Creating collection', 'コレクションを作成中')}: {COLLECTION_NAME}")
 
-    collection = Collection(name=COLLECTION_NAME, schema=build_collection_schema())
+    collection = Collection(
+        name=COLLECTION_NAME,
+        schema=build_collection_schema(embedding_dimension)
+    )
 
     print(f"✓ {msg('Collection created', 'コレクションを作成しました')}: {COLLECTION_NAME}")
     return collection
@@ -103,8 +157,10 @@ def insert_data(collection, embedding_model):
     print(f"✓ {len(SAMPLE_PRODUCTS)} {msg('items inserted', '件のデータを挿入しました')}")
 
 
-def main():
+def main() -> int:
     """Main process"""
+    args = parse_args()
+
     print("=" * 50)
     print(msg("Sample Data Insertion Script", "サンプルデータ挿入スクリプト"))
     print("=" * 50)
@@ -113,18 +169,19 @@ def main():
         connect_to_milvus()
     except Exception as e:
         print(f"✗ {msg('Failed to connect to Milvus', 'Milvus への接続に失敗しました')}: {e}")
-        return
+        return 1
 
     try:
         embedding_model = load_embedding_model()
     except Exception as e:
         print(f"✗ {msg('Failed to load embedding model', '埋め込みモデルの読み込みに失敗しました')}: {e}")
-        return
+        return 1
 
-    drop_existing_collection()
+    if not drop_existing_collection(args.yes):
+        return 1
 
-    # Create collection
-    collection = create_collection()
+    # Create collection (vector dimension comes from the loaded model)
+    collection = create_collection(embedding_model.get_sentence_embedding_dimension())
 
     # Insert data
     insert_data(collection, embedding_model)
@@ -149,7 +206,8 @@ def main():
 
     # Disconnect
     connections.disconnect("default")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

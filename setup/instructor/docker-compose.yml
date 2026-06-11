@@ -23,9 +23,10 @@ services:
     environment:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
+    # MinIO is only used internally by Milvus; never expose it to the network
     ports:
-      - "9001:9001"
-      - "9000:9000"
+      - "127.0.0.1:9001:9001"
+      - "127.0.0.1:9000:9000"
     volumes:
       - minio_data:/minio_data
     command: minio server /minio_data --console-address ":9001"
@@ -42,11 +43,14 @@ services:
     environment:
       ETCD_ENDPOINTS: etcd:2379
       MINIO_ADDRESS: minio:9000
+      # Enforce user/password authentication (without this, any credentials are accepted)
+      COMMON_SECURITY_AUTHORIZATIONENABLED: "true"
     volumes:
       - milvus_data:/var/lib/milvus
     ports:
       - "19530:19530"
-      - "9091:9091"
+      # Metrics endpoint is for the instructor machine only
+      - "127.0.0.1:9091:9091"
     depends_on:
       - "etcd"
       - "minio"
@@ -62,7 +66,8 @@ services:
   # Use `python -m mkdocs serve` (port 8000) for development
   # This container is for sharing with participants (port 8001)
   mkdocs:
-    image: squidfunk/mkdocs-material:latest
+    # Keep the image tag and plugin version in sync with .github/workflows/ci.yml
+    image: squidfunk/mkdocs-material:9.7.6
     profiles: ["docs", "all"]
     container_name: vector-search-docs
     ports:
@@ -70,7 +75,7 @@ services:
     volumes:
       - ../../:/docs
     entrypoint: >
-      sh -c "pip install mkdocs-static-i18n --quiet &&
+      sh -c "pip install 'mkdocs-static-i18n==1.3.1' --quiet &&
              mkdocs serve --dev-addr=0.0.0.0:8000"
     restart: unless-stopped
 

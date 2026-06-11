@@ -103,6 +103,7 @@ http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
 > **Important**
 >
 > - Only share the **IP address and documentation URL** with participants
+> - Each participant must also set their own unique `COLLECTION_NAME` (e.g. `products_taro`) in `.env` — the Milvus instance is shared, and inserting sample data into the same collection overwrites other participants' data
 > - Other settings (PORT, USER, PASSWORD, etc.) are already configured in `.env.example`
 
 ### Additional: Other Configuration Values (No Need to Share)
@@ -114,10 +115,10 @@ MILVUS_PORT=19530
 MILVUS_USER=root
 MILVUS_PASSWORD=Milvus
 EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-EMBEDDING_DIMENSION=384
-COLLECTION_NAME=knowledge_base
 PARTICIPANT_LANGUAGE=en  # vector-search-builder-en.zip uses en, vector-search-builder-ja.zip uses ja
 ```
+
+`COLLECTION_NAME` is the exception: each participant replaces the `products_<your_name>` placeholder with their own unique name (the scripts refuse to run while the placeholder is unchanged).
 
 ---
 
@@ -140,14 +141,15 @@ http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
 1. Extract the zip file for your language: vector-search-builder-en.zip or vector-search-builder-ja.zip
 2. Open the project folder in IBM Bob IDE
 3. Copy setup/participant/.env.example to setup/participant/.env
-4. Open setup/participant/.env and change only MILVUS_HOST to the IP address above
-5. Reload IBM Bob (Cmd+Shift+P -> Developer: Reload Window)
-6. Confirm "Vector Search Builder" appears in the Mode selector and select it
-7. Install dependencies: pip install -r setup/participant/requirements.txt
-8. Run connection test: python setup/participant/test_connection.py
+4. Open setup/participant/.env and change MILVUS_HOST to the IP address above
+5. In the same file, change COLLECTION_NAME to a name unique to you (e.g. products_taro)
+6. Reload IBM Bob (Cmd+Shift+P -> Developer: Reload Window)
+7. Confirm "Vector Search Builder" appears in the Mode selector and select it
+8. Install dependencies: pip install -r setup/participant/requirements.txt
+9. Run connection test: python setup/participant/test_connection.py
 
 [Important]
-- Only MILVUS_HOST needs to be changed
+- Change MILVUS_HOST and COLLECTION_NAME (use a collection name unique to you; Milvus is shared)
 - Other settings do not need to be changed (already set to correct values)
 - `PARTICIPANT_LANGUAGE` is already set by the selected zip (`en` for English, `ja` for Japanese)
 ```
@@ -160,6 +162,17 @@ Use this when remote participants cannot access the instructor's local IP addres
 > Corporate VPN or DNS security products such as Cisco Umbrella may block ngrok TCP tunnels or prevent the ngrok hostname from resolving correctly.
 > Disconnecting the VPN may not be enough if Cisco Umbrella or a similar product remains active.
 > If participants cannot connect through ngrok, use an organization-approved same-network, private-network, or cloud VM alternative.
+
+Before starting the tunnel, secure the Milvus root account.
+
+> [!IMPORTANT]
+> Milvus user/password authentication is enforced. Before exposing Milvus on a public ngrok endpoint, change the default root password and share the new password instead of `Milvus`:
+>
+> ```bash
+> python -c "from pymilvus import connections, utility; \
+>   connections.connect(host='localhost', port='19530', user='root', password='Milvus'); \
+>   utility.reset_password('root', 'Milvus', '<new-password>', using='default')"
+> ```
 
 Start the Milvus TCP tunnel with:
 
@@ -182,7 +195,7 @@ share this message with participants:
 MILVUS_HOST=0.tcp.jp.ngrok.io
 MILVUS_PORT=12345
 MILVUS_USER=root
-MILVUS_PASSWORD=Milvus
+MILVUS_PASSWORD=<the password set by the instructor>
 
 ■ Documentation URL
 <GitHub Pages URL or ngrok documentation URL>
@@ -191,14 +204,16 @@ MILVUS_PASSWORD=Milvus
 1. Extract the zip file for your language: vector-search-builder-en.zip or vector-search-builder-ja.zip
 2. Open the project folder in IBM Bob IDE
 3. Copy setup/participant/.env.example to setup/participant/.env
-4. Open setup/participant/.env and update MILVUS_HOST and MILVUS_PORT to the values above
-5. Reload IBM Bob (Cmd+Shift+P -> Developer: Reload Window)
-6. Confirm "Vector Search Builder" appears in the Mode selector and select it
-7. Install dependencies: pip install -r setup/participant/requirements.txt
-8. Run connection test: python setup/participant/test_connection.py
+4. Open setup/participant/.env and update MILVUS_HOST, MILVUS_PORT, and MILVUS_PASSWORD to the values above
+5. In the same file, change COLLECTION_NAME to a name unique to you (e.g. products_taro)
+6. Reload IBM Bob (Cmd+Shift+P -> Developer: Reload Window)
+7. Confirm "Vector Search Builder" appears in the Mode selector and select it
+8. Install dependencies: pip install -r setup/participant/requirements.txt
+9. Run connection test: python setup/participant/test_connection.py
 
 [Important]
-- Remote participants must update both MILVUS_HOST and MILVUS_PORT
+- Remote participants must update MILVUS_HOST, MILVUS_PORT, MILVUS_PASSWORD, and COLLECTION_NAME
+- Use a collection name unique to you (Milvus is shared by all participants)
 - Do not include tcp:// in MILVUS_HOST
 - Stop the ngrok TCP tunnel after the hands-on
 ```
@@ -407,11 +422,12 @@ python -m mkdocs serve
 ### Fixed Settings (Already configured in `.env.example`)
 
 - Milvus port: `19530`
-- Credentials: `root/Milvus`
-- Embedding model: `paraphrase-multilingual-MiniLM-L12-v2` (384 dimensions)
+- Credentials: `root/Milvus` (authentication is enforced; change the root password before public ngrok delivery)
+- Embedding model: `paraphrase-multilingual-MiniLM-L12-v2` (the vector dimension is detected from the model)
+- Collection name: each participant sets their own unique `COLLECTION_NAME`
 - Participant language: set by zip package (`en` / `ja`)
-- Python: `3.8` or higher
-- sentence-transformers: `3.0.1`
+- Python: `3.9` or higher
+- sentence-transformers: `5.5.1`
 
 ### Environment-dependent (Verify each time)
 
