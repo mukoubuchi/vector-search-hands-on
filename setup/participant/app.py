@@ -49,6 +49,40 @@ def get_collection() -> Optional[Collection]:
     return collection
 
 
+def run_search(target_collection: Collection, query_vector: list, top_k: int) -> Any:
+    """Run a vector search against the given collection."""
+    return target_collection.search(
+        data=[query_vector],
+        anns_field=VECTOR_FIELD,
+        param=SEARCH_PARAMS,
+        limit=top_k,
+        output_fields=PRODUCT_OUTPUT_FIELDS
+    )
+
+
+def search_with_refresh(query_vector: list, top_k: int) -> Optional[Any]:
+    """Search, refreshing the cached collection once if the handle went stale.
+
+    Returns None when the collection does not exist (yet).
+    """
+    global collection
+
+    current_collection = get_collection()
+    if current_collection is None:
+        return None
+
+    try:
+        return run_search(current_collection, query_vector, top_k)
+    except Exception:
+        # The collection may have been dropped and recreated (e.g. sample data
+        # re-inserted); refresh the cached handle and retry once
+        collection = None
+        current_collection = get_collection()
+        if current_collection is None:
+            return None
+        return run_search(current_collection, query_vector, top_k)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application startup and shutdown handler"""
@@ -202,15 +236,6 @@ def health_check():
 )
 def search(request: SearchRequest):
     """Execute vector search."""
-    current_collection = get_collection()
-    if current_collection is None:
-        raise HTTPException(
-            status_code=503,
-            detail=msg(
-                "Collection does not exist. Please insert sample data.",
-                "コレクションが存在しません。サンプルデータを投入してください。"
-            )
-        )
     if embedding_model is None:
         raise HTTPException(
             status_code=503,
@@ -224,18 +249,21 @@ def search(request: SearchRequest):
             normalize_embeddings=True
         )[0].tolist()
 
-        results = current_collection.search(
-            data=[query_vector],
-            anns_field=VECTOR_FIELD,
-            param=SEARCH_PARAMS,
-            limit=request.top_k,
-            output_fields=PRODUCT_OUTPUT_FIELDS
-        )
-
-        return SearchResponse(results=format_search_results(results))
+        results = search_with_refresh(query_vector, request.top_k)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"{msg('Error during search', '検索中にエラーが発生しました')}: {str(e)}")
+
+    if results is None:
+        raise HTTPException(
+            status_code=503,
+            detail=msg(
+                "Collection does not exist. Please insert sample data.",
+                "コレクションが存在しません。サンプルデータを投入してください。"
+            )
+        )
+
+    return SearchResponse(results=format_search_results(results))
 
 
 if __name__ == "__main__":

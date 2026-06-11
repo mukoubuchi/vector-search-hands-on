@@ -159,15 +159,15 @@ Share the host and port separately:
 MILVUS_HOST=0.tcp.jp.ngrok.io
 MILVUS_PORT=12345
 MILVUS_USER=root
-MILVUS_PASSWORD=Milvus
+MILVUS_PASSWORD=<printed by start-all.sh>
 ```
 
-Participants must update both `MILVUS_HOST` and `MILVUS_PORT` in `setup/participant/.env`.
+Participants must update `MILVUS_HOST`, `MILVUS_PORT`, and `MILVUS_PASSWORD` in `setup/participant/.env`.
 
 ### Recommended Pairing
 
 - Documentation: GitHub Pages or `ngrok http 8001`
-- Milvus: `ngrok tcp 19530`
+- Milvus: a private network such as Tailscale/VPN (preferred), or `ngrok tcp 19530` as a fallback — Milvus gRPC traffic is not TLS-encrypted, so credentials and data transit an ngrok tunnel in cleartext
 
 ### If ngrok TCP Is Not Available
 
@@ -201,7 +201,7 @@ cd setup/instructor
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
 # 3. Share with participants
-# - Milvus: <IP address>:19530 (root/Milvus)
+# - Milvus: <IP address>:19530 (root / password printed by start-all.sh)
 # - Documentation: http://<IP address>:8001
 ```
 

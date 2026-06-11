@@ -181,7 +181,7 @@ def main() -> int:
         return 1
 
     # Create collection (vector dimension comes from the loaded model)
-    collection = create_collection(embedding_model.get_sentence_embedding_dimension())
+    collection = create_collection(embedding_model.get_embedding_dimension())
 
     # Insert data
     insert_data(collection, embedding_model)

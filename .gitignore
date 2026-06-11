@@ -30,6 +30,7 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+changed_files.txt
 
 # Test outputs
 tests/*.log

@@ -197,6 +197,7 @@
         ```properties
         # Milvus 接続情報
         MILVUS_HOST=192.168.1.100  # ← 講師から配布された IP アドレスに変更
+        MILVUS_PASSWORD=AbCd123XyZ # ← 講師から配布されたパスワードに変更
         
         # コレクション名（Milvus は全参加者で共有されています）
         COLLECTION_NAME=products_taro  # ← 自分専用の一意な名前に変更
@@ -204,7 +205,6 @@
         # 以下は変更不要
         MILVUS_PORT=19530
         MILVUS_USER=root
-        MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
         PARTICIPANT_LANGUAGE=ja
         ```
@@ -215,13 +215,13 @@
         # Milvus 接続情報
         MILVUS_HOST=0.tcp.jp.ngrok.io  # ← 講師から配布されたホスト名に変更
         MILVUS_PORT=24051              # ← 講師から配布されたポート番号に変更
+        MILVUS_PASSWORD=AbCd123XyZ     # ← 講師から配布されたパスワードに変更
         
         # コレクション名（Milvus は全参加者で共有されています）
         COLLECTION_NAME=products_taro  # ← 自分専用の一意な名前に変更
         
         # 以下は変更不要
         MILVUS_USER=root
-        MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
         PARTICIPANT_LANGUAGE=ja
         ```
@@ -356,6 +356,14 @@ Python 3.8 以上がインストールされていない場合は、インスト
         ```
 
 3. インストールが完了するまで待ちます（数分かかる場合があります）
+
+!!! tip "Linux の方: CPU 版 torch を先にインストール"
+
+    Linux ではデフォルトの `torch` ホイールに CUDA ライブラリが含まれるため数 GB になります。`pip install -r requirements.txt` の**前に**以下を実行すると、大幅に小さく高速にインストールできます:
+
+    ```bash
+    venv/bin/python -m pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
+    ```
 
 ??? note "venv 内の Python を直接指定する理由"
 

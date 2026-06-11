@@ -76,8 +76,8 @@ def get_milvus_connect_params() -> Dict[str, Any]:
         "alias": "default",
         "host": host,
         "port": port,
-        "user": require_env("MILVUS_USER"),
-        "password": require_env("MILVUS_PASSWORD"),
+        "user": reject_placeholder("MILVUS_USER", require_env("MILVUS_USER")),
+        "password": reject_placeholder("MILVUS_PASSWORD", require_env("MILVUS_PASSWORD")),
     }
 
     return connect_params
