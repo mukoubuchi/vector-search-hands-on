@@ -233,6 +233,7 @@ MILVUS_PASSWORD=<printed by start-all.sh>
 
 ### Participant Support
 
+- [ ] Downloaded the participant zips from the [latest release assets](https://github.com/mukoubuchi/vector-search-hands-on/releases/latest) (or built them with `./build-participant-zips.sh`)
 - [ ] Distributed the minimal participant zip for each language (`vector-search-builder-en.zip` or `vector-search-builder-ja.zip`)
 - [ ] Shared connection information (IP address + documentation URL)
 - [ ] Confirmed participants completed connection test

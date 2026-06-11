@@ -1,6 +1,7 @@
 #!/bin/bash
 # Build the participant distribution zips (vector-search-builder-en.zip / -ja.zip)
-# from the repository sources. Run this after changing any participant-facing file.
+# from the repository sources. The zips are not committed: the release workflow
+# attaches them to GitHub releases, and local builds are gitignored.
 #
 # Usage:
 #   ./build-participant-zips.sh [output-dir]   # default output: repository root
@@ -65,4 +66,4 @@ build_zip en
 build_zip ja
 
 echo ""
-log_info "Done. Commit the regenerated zips together with the source changes."
+log_info "Done. The zips are local build artifacts (gitignored); releases attach them automatically."

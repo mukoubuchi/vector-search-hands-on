@@ -32,6 +32,10 @@ logs/
 *.temp
 changed_files.txt
 
+# Participant distribution zips (built by setup/instructor/build-participant-zips.sh;
+# attached to GitHub releases by the release workflow — not committed)
+vector-search-builder-*.zip
+
 # Test outputs
 tests/*.log
 tests/coverage/
