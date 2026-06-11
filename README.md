@@ -296,7 +296,7 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 **Building Blocks alone**:
 
 - Each person builds their own Milvus environment (Docker/Podman/Colima)
-- Individually downloads embedding models (approximately 200 MB)
+- Individually downloads embedding models (approximately 460 MB)
 - Environment setup takes about 30 minutes
 
 **This hands-on's innovation**:
@@ -391,7 +391,6 @@ vector-search-hands-on/
 │       ├── sync-translations.yml          # Translation sync check (EN → JA, PR + main)
 │       └── sync-translations-ja-to-en.yml # Translation sync check (JA → EN, PR + main)
 ├── docs/                                  # Hands-on documentation (MkDocs)
-│   ├── .mkdocsignore                      # MkDocs exclude rules
 │   ├── index.md                           # Home
 │   ├── preparation.md                     # Preparation
 │   ├── part1.md                           # Part 1: Experience Vector Search

@@ -271,7 +271,7 @@ docker ps
 
 ### Model Download is Slow
 
-On first run, downloading the model from Hugging Face (approximately 200 MB) takes time.
+On first run, downloading the model from Hugging Face (approximately 460 MB) takes time.
 
 #### Workaround
 

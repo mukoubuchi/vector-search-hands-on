@@ -6,7 +6,6 @@
 
 ```
 docs/
-├── .mkdocsignore             # MkDocs 除外ルール
 ├── readme.md                 # 英語版の構成ガイド
 ├── index.md                  # ホームページ
 ├── preparation.md            # 準備
