@@ -3,8 +3,8 @@
 
 # === Core Packages ===
 
-# Milvus client (kept on 2.3.x to match the Milvus 2.3.3 server)
-pymilvus==2.3.4
+# Milvus client (2.6.x matches the Milvus v2.6 server)
+pymilvus==2.6.15
 
 # Embedding model (Sentence Transformers)
 sentence-transformers==5.5.1
@@ -16,16 +16,20 @@ uvicorn[standard]==0.49.0
 # Environment variable management
 python-dotenv==1.2.2
 
-# === Dependencies (auto-installed, listed for clarity) ===
+# === Pinned dependencies (auto-installed; pinned so every participant gets the same versions) ===
 
 # Sentence Transformers dependencies
-transformers>=4.41.0
-torch>=2.3.0
-huggingface-hub>=0.23.0
+transformers==5.11.0
+torch==2.12.0
+huggingface_hub==1.19.0
+numpy==2.4.6
 
 # FastAPI dependencies
-pydantic>=2.7.0
-marshmallow<4.0.0  # required by pymilvus/environs; 4.0.0+ has compatibility issues
+pydantic==2.13.4
 
 # scikit-learn (used in test_embeddings_hf.py)
-scikit-learn>=1.5.0
+scikit-learn==1.9.0
+
+# Note for Linux users: the default torch wheel bundles CUDA libraries (several GB).
+# For a much smaller CPU-only install, run this BEFORE `pip install -r requirements.txt`:
+#   pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu

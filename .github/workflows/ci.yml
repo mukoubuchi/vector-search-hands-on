@@ -44,8 +44,16 @@ jobs:
       - name: Check shell syntax
         run: bash -n lib/*.sh setup/instructor/*.sh
 
+      - name: Lint shell scripts
+        run: shellcheck lib/*.sh setup/instructor/*.sh
+
       - name: Check participant Python syntax
         run: python -m compileall setup/participant
+
+      - name: Lint participant Python
+        run: |
+          pip install "ruff==0.15.17"
+          ruff check setup/participant
 
       - name: Verify participant zips match repository sources
         run: |

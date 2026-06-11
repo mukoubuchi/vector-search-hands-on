@@ -198,6 +198,7 @@ Configure the IP address distributed by the instructor.
         ```properties
         # Milvus connection information
         MILVUS_HOST=192.168.1.100  # ← Change to IP address distributed by instructor
+        MILVUS_PASSWORD=AbCd123XyZ # ← Change to password distributed by instructor
         
         # Collection name (Milvus is shared by all participants)
         COLLECTION_NAME=products_taro  # ← Change to a name unique to you
@@ -205,7 +206,6 @@ Configure the IP address distributed by the instructor.
         # No changes needed below
         MILVUS_PORT=19530
         MILVUS_USER=root
-        MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
         PARTICIPANT_LANGUAGE=en
         ```
@@ -216,13 +216,13 @@ Configure the IP address distributed by the instructor.
         # Milvus connection information
         MILVUS_HOST=0.tcp.jp.ngrok.io  # ← Change to hostname distributed by instructor
         MILVUS_PORT=24051              # ← Change to port number distributed by instructor
+        MILVUS_PASSWORD=AbCd123XyZ     # ← Change to password distributed by instructor
         
         # Collection name (Milvus is shared by all participants)
         COLLECTION_NAME=products_taro  # ← Change to a name unique to you
         
         # No need to change below
         MILVUS_USER=root
-        MILVUS_PASSWORD=Milvus
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
         PARTICIPANT_LANGUAGE=en
         ```
@@ -359,6 +359,14 @@ Directly specify the Python executable inside `venv` to install Python packages.
         ```
 
 3. Wait for installation to complete (may take several minutes)
+
+!!! tip "Linux users: install the CPU-only torch first"
+
+    On Linux, the default `torch` wheel bundles CUDA libraries (several GB). Run the following **before** `pip install -r requirements.txt` for a much smaller, faster install:
+
+    ```bash
+    venv/bin/python -m pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
+    ```
 
 ??? note "Why directly specify Python inside venv"
 

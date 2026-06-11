@@ -38,7 +38,6 @@ def test_embeddings():
 
         # Similarity test
         from sklearn.metrics.pairwise import cosine_similarity
-        import numpy as np
 
         similarity = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
         print(f"\n✓ {msg('Similarity between texts', 'テキスト間の類似度')}: {similarity:.4f}")

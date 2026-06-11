@@ -1,0 +1,101 @@
+name: E2E Smoke Test
+
+# Manually triggered full-stack test: starts the instructor environment
+# (including credential generation), then runs the participant flow
+# (connection test, embedding test, data insertion, search) end to end.
+# Run this before a release or after changing dependencies or docker-compose.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: setup/participant/requirements.txt
+
+      - name: Install participant dependencies (CPU-only torch)
+        run: |
+          pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r setup/participant/requirements.txt
+
+      - name: Start hands-on environment (generates credentials)
+        working-directory: setup/instructor
+        run: ./start-all.sh
+
+      - name: Create participant .env from generated credentials
+        run: |
+          password="$(grep '^MILVUS_PASSWORD=' setup/instructor/.env | cut -d= -f2-)"
+          cat > setup/participant/.env <<EOF
+          MILVUS_HOST=localhost
+          MILVUS_PORT=19530
+          MILVUS_USER=root
+          MILVUS_PASSWORD=$password
+          EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
+          COLLECTION_NAME=products_ci
+          PARTICIPANT_LANGUAGE=en
+          EOF
+
+      - name: Connection test
+        working-directory: setup/participant
+        run: python test_connection.py
+
+      - name: Embedding model test
+        working-directory: setup/participant
+        run: python test_embeddings_hf.py
+
+      - name: Insert sample data
+        working-directory: setup/participant
+        run: python insert_sample_data.py --yes
+
+      - name: Re-insert sample data (drop confirmation bypass)
+        working-directory: setup/participant
+        run: python insert_sample_data.py --yes
+
+      - name: Start demo app and run a search
+        working-directory: setup/participant
+        run: |
+          nohup python app.py > app.log 2>&1 &
+          for _ in $(seq 1 60); do
+            curl -sf http://localhost:8002/health > /dev/null && break
+            sleep 2
+          done
+          echo "--- /health ---"
+          curl -sf http://localhost:8002/health
+          echo ""
+          echo "--- /search ---"
+          curl -sf -X POST http://localhost:8002/search \
+            -H 'Content-Type: application/json' \
+            -d '{"query": "red sneakers", "top_k": 3}' | tee search.json
+          echo ""
+          python - <<'PYEOF'
+          import json
+
+          with open("search.json") as f:
+              data = json.load(f)
+          assert data["results"], "search returned no results"
+          print("search OK:", data["results"][0]["product_name"])
+          PYEOF
+
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          cat setup/participant/app.log 2>/dev/null || true
+          cd setup/instructor && docker compose --profile all logs --tail 100
+
+      - name: Stop environment
+        if: always()
+        working-directory: setup/instructor
+        run: ./stop-all.sh

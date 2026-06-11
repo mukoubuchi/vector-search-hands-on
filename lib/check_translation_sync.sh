@@ -5,8 +5,19 @@ set -euo pipefail
 SKIP_LABEL="translation-sync-skip"
 SKIP_MARKER="[skip translation-sync]"
 ZERO_SHA="0000000000000000000000000000000000000000"
-CHANGED_FILES_FILE="${CHANGED_FILES_FILE:-changed_files.txt}"
 SOURCE_LOCALE="${SOURCE_LOCALE:?SOURCE_LOCALE must be set to en or ja}"
+
+# Working file for the changed-files list. In CI the workspace is ephemeral,
+# so a fixed name is fine; for local runs use a temp file and clean it up so
+# the repository is not littered with changed_files.txt.
+if [ -z "${CHANGED_FILES_FILE:-}" ]; then
+    if [ -n "${GITHUB_OUTPUT:-}" ]; then
+        CHANGED_FILES_FILE="changed_files.txt"
+    else
+        CHANGED_FILES_FILE="$(mktemp)"
+        trap 'rm -f "$CHANGED_FILES_FILE"' EXIT
+    fi
+fi
 
 case "$SOURCE_LOCALE" in
     en)
