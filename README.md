@@ -537,3 +537,7 @@ Do not include `docs/`, `setup/instructor/`, local `.env` files, `__pycache__/`,
 ## Support
 
 If you have questions or encounter issues, please ask the instructor.
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE).

@@ -29,11 +29,7 @@ theme:
     - content.tabs.link
     - content.code.annotation
     - content.code.copy
-    - content.action.edit
-    - content.action.view
     - i18n
-  icon:
-    repo: fontawesome/brands/github
   font:
     text: Roboto
     code: Roboto Mono

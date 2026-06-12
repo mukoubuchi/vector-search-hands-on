@@ -279,10 +279,10 @@ First, verify that Python is installed.
 **Expected output**:
 
 ```
-Python 3.8.x or higher
+Python 3.10.x or higher (3.11 recommended)
 ```
 
-If Python 3.8 or higher is not installed, install it before continuing.
+If Python 3.10 or higher is not installed, install it before continuing.
 
 === ":fontawesome-brands-apple: Mac"
     Download and install the installer from the official site.
@@ -415,7 +415,7 @@ Directly specify the Python executable inside `venv` to install Python packages.
 ## Preparation Completion Checklist
 
 - [ ] IBM Bob is installed and available
-- [ ] Python 3.8 or higher is installed
+- [ ] Python 3.10 or higher is installed
 - [ ] Extracted **`vector-search-builder-en.zip`**
 - [ ] **`.bob`** folder exists
 - [ ] Opened `vector-search-builder-en` folder in IBM Bob

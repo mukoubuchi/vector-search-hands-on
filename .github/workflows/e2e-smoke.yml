@@ -1,12 +1,33 @@
 name: E2E Smoke Test
 
-# Manually triggered full-stack test: starts the instructor environment
-# (including credential generation), then runs the participant flow
-# (connection test, embedding test, data insertion, search) end to end.
-# Run this before a release or after changing dependencies or docker-compose.
+# Full-stack test: starts the instructor environment (including credential
+# generation), then runs the participant flow (connection test, embedding
+# test, data insertion, search) end to end.
+# Runs automatically when the runtime stack changes; can also be triggered
+# manually before a release.
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'setup/participant/**'
+      - 'setup/instructor/docker-compose.yml'
+      - 'setup/instructor/mkdocs.Dockerfile'
+      - 'setup/instructor/start-all.sh'
+      - 'setup/instructor/stop-all.sh'
+      - 'lib/common.sh'
+      - '.github/workflows/e2e-smoke.yml'
+  pull_request:
+    paths:
+      - 'setup/participant/**'
+      - 'setup/instructor/docker-compose.yml'
+      - 'setup/instructor/mkdocs.Dockerfile'
+      - 'setup/instructor/start-all.sh'
+      - 'setup/instructor/stop-all.sh'
+      - 'lib/common.sh'
+      - '.github/workflows/e2e-smoke.yml'
 
 permissions:
   contents: read

@@ -429,7 +429,7 @@ python -m mkdocs serve
 - Embedding model: `paraphrase-multilingual-MiniLM-L12-v2` (the vector dimension is detected from the model)
 - Collection name: each participant sets their own unique `COLLECTION_NAME`
 - Participant language: set by zip package (`en` / `ja`)
-- Python: `3.9` or higher
+- Python: `3.10` or higher (`3.11` recommended)
 - Milvus: `2.6.18` / pymilvus: `2.6.15` / sentence-transformers: `5.5.1`
 
 ### Environment-dependent (Verify each time)
