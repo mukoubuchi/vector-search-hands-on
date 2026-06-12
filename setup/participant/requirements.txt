@@ -4,7 +4,7 @@
 # === Core Packages ===
 
 # Milvus client (2.6.x matches the Milvus v2.6 server)
-pymilvus==2.6.15
+pymilvus==3.0.0
 
 # Embedding model (Sentence Transformers)
 sentence-transformers==5.5.1
