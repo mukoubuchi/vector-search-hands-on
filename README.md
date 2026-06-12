@@ -1,5 +1,13 @@
 # Vector Search Hands-on
 
+[![CI](https://img.shields.io/github/actions/workflow/status/mukoubuchi/vector-search-hands-on/ci.yml?branch=main&label=CI)](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/ci.yml)
+[![E2E](https://img.shields.io/github/actions/workflow/status/mukoubuchi/vector-search-hands-on/e2e-smoke.yml?branch=main&label=E2E)](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/e2e-smoke.yml)
+[![Docs](https://img.shields.io/github/actions/workflow/status/mukoubuchi/vector-search-hands-on/deploy-docs.yml?branch=main&label=docs)](https://mukoubuchi.github.io/vector-search-hands-on/)
+[![Release](https://img.shields.io/github/v/release/mukoubuchi/vector-search-hands-on)](https://github.com/mukoubuchi/vector-search-hands-on/releases/latest)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)
+![Milvus](https://img.shields.io/badge/Milvus-2.6.18-00A1EA)
+
 Next-generation vector search in practice using **Building Blocks** and **IBM Bob**
 
 ## Features of This Hands-on
