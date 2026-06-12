@@ -173,6 +173,7 @@ Milvus 接続: ✓ 成功
 
 1. **`.env`** ファイルを確認
     - `MILVUS_HOST` に講師から配布された IP アドレスが正しく入力されているか確認（[:material-cog: 設定方法](preparation.md#milvus_host)）
+    - `MILVUS_PASSWORD` が講師から配布されたパスワードになっているか確認 — "auth check failure" などの認証エラーは、パスワードの誤りかテンプレートのままになっていることが原因です
 2. インターネット接続を確認
 3. その他のエラーについては、[FAQ](#faq) を参照してください
 
