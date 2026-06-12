@@ -262,11 +262,22 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
 lsof -i :19530
 ```
 
-#### 3. Check Docker
+#### 3. Check Containers
 
 ```bash
-docker ps
-# Verify milvus-standalone and vector-search-docs are Running
+cd setup/instructor
+docker compose --profile all ps   # or: podman compose --profile all ps
+# Verify the milvus, etcd, minio, and mkdocs services are Up/Running
+```
+
+### Lost `setup/instructor/.env` (generated passwords)
+
+The generated Milvus root password exists only in `setup/instructor/.env`. If the file is deleted after the password was rotated, `start-all.sh` cannot rotate again (the default password no longer works) and prints a warning. Reset the data volumes and start fresh — the sample data can simply be re-inserted:
+
+```bash
+cd setup/instructor
+docker compose --profile all down -v
+./start-all.sh
 ```
 
 ### Model Download is Slow

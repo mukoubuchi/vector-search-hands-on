@@ -1,6 +1,6 @@
 (function() {
     const siteConfig = window.VectorSearchHandsOn && window.VectorSearchHandsOn.site;
-    const projectBase = siteConfig ? siteConfig.projectBase : '/vector-search-hands-on';
+    const projectBase = siteConfig ? siteConfig.projectBase : '';
 
     function getProjectBase() {
         if (window.location.hostname.endsWith('.github.io')) {

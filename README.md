@@ -391,7 +391,8 @@ vector-search-hands-on/
 │       ├── 1_vector_search_workflow.xml
 │       ├── 2_best_practices.xml
 │       └── 3_common_patterns.xml
-├── .github/                               # GitHub Actions workflows
+├── .github/                               # GitHub Actions and Dependabot configuration
+│   ├── dependabot.yml                     # Automated dependency updates
 │   └── workflows/
 │       ├── ci.yml                         # CI checks (lint, build, zip verification)
 │       ├── deploy-docs.yml                # GitHub Pages auto-deploy
@@ -449,6 +450,7 @@ vector-search-hands-on/
 ├── lib/                                   # Common libraries
 │   ├── common.sh                          # Common shell functions
 │   └── check_translation_sync.sh          # Shared translation sync checker
+├── LICENSE                                # Apache-2.0 license
 ├── mkdocs.yml                             # MkDocs configuration
 └── README.md                              # This file
 ```
