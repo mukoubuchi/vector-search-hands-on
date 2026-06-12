@@ -1,12 +1,8 @@
 # Vector Search Hands-on
 
-[![CI](https://img.shields.io/github/actions/workflow/status/mukoubuchi/vector-search-hands-on/ci.yml?branch=main&label=CI)](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/ci.yml)
-[![E2E](https://img.shields.io/github/actions/workflow/status/mukoubuchi/vector-search-hands-on/e2e-smoke.yml?branch=main&label=E2E)](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/e2e-smoke.yml)
-[![Docs](https://img.shields.io/github/actions/workflow/status/mukoubuchi/vector-search-hands-on/deploy-docs.yml?branch=main&label=docs)](https://mukoubuchi.github.io/vector-search-hands-on/)
-[![Release](https://img.shields.io/github/v/release/mukoubuchi/vector-search-hands-on)](https://github.com/mukoubuchi/vector-search-hands-on/releases/latest)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
-![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Milvus](https://img.shields.io/badge/Milvus-2.6.18-00A1EA)
+[![CI](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/ci.yml/badge.svg)](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/ci.yml)
+[![Deploy MkDocs to GitHub Pages](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/deploy-docs.yml)
+[![E2E Smoke Test](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/e2e-smoke.yml/badge.svg)](https://github.com/mukoubuchi/vector-search-hands-on/actions/workflows/e2e-smoke.yml)
 
 Next-generation vector search in practice using **Building Blocks** and **IBM Bob**
 
@@ -289,12 +285,11 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 ### For Developers
 
 - **Translation sync**: English and Japanese participant-facing docs and paired SVG diagrams are sync-checked by GitHub Actions. Pull Requests fail when counterparts are missing; pushes to `main` create a tracking issue. See [Translation Sync Guide](docs/translation-sync.md) for details. This guide is kept in source control but excluded from the published MkDocs site.
-- **GitHub Actions**: Automated workflows for CI checks ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), GitHub Pages deployment ([`.github/workflows/deploy-docs.yml`](.github/workflows/deploy-docs.yml)), translation sync ([`.github/workflows/sync-translations.yml`](.github/workflows/sync-translations.yml), [`.github/workflows/sync-translations-ja-to-en.yml`](.github/workflows/sync-translations-ja-to-en.yml)), the E2E smoke test ([`.github/workflows/e2e-smoke.yml`](.github/workflows/e2e-smoke.yml)), and release packaging ([`.github/workflows/release.yml`](.github/workflows/release.yml)).
-- **Releasing**: run the E2E smoke test on `main` first, then create a GitHub release with a `vX.Y.Z` tag (e.g. `gh release create v1.3.0 --title v1.3.0 --notes "..."`). The release workflow builds the participant zips from the tagged sources and attaches them to the release automatically.
+- **GitHub Actions**: Automated workflows for CI checks ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), GitHub Pages deployment ([`.github/workflows/deploy-docs.yml`](.github/workflows/deploy-docs.yml)), and translation sync ([`.github/workflows/sync-translations.yml`](.github/workflows/sync-translations.yml), [`.github/workflows/sync-translations-ja-to-en.yml`](.github/workflows/sync-translations-ja-to-en.yml)).
 
 ## Required Tools
 
-**Instructors**: a container runtime — Colima or Podman recommended (Docker Desktop also works where your organization licenses it) — and Python 3 with `pymilvus` (used by `start-all.sh` to rotate the Milvus root password)
+**Instructors**: Docker/Podman/Colima, Python 3 with `pymilvus` (used by `start-all.sh` to rotate the Milvus root password)
 
 **Participants**: IBM Bob 1.0.3 (IDE with Building Blocks support)
 
@@ -377,7 +372,7 @@ Details: [Building Blocks Documentation](https://ibm-self-serve-assets.github.io
 - **Vector Database**: Milvus 2.6.18 (pymilvus 2.6.15)
 - **Embedding Model**: Hugging Face Transformers (`paraphrase-multilingual-MiniLM-L12-v2`, sentence-transformers 5.5)
 - **Web Framework**: FastAPI 0.136 / Uvicorn
-- **Programming Language**: Python 3.11
+- **Programming Language**: Python 3.11 (3.10+ required by the pinned dependencies)
 - **Documentation**: MkDocs Material (with i18n plugin — English / 日本語)
 - **CI/CD**: GitHub Actions (auto-deploy to GitHub Pages, translation sync check, lint, zip packaging, E2E smoke test)
 
@@ -546,7 +541,3 @@ Do not include `docs/`, `setup/instructor/`, local `.env` files, `__pycache__/`,
 ## Support
 
 If you have questions or encounter issues, please ask the instructor.
-
-## License
-
-This project is licensed under the [Apache License 2.0](LICENSE).

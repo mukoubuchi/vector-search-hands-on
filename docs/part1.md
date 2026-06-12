@@ -179,7 +179,6 @@ The connection test, sample data insertion script, and demo application all read
 
 1. Check the **`.env`** file
     - Verify that the IP address distributed by the instructor is correctly entered in `MILVUS_HOST` ([:material-cog: Configuration method](preparation.md#milvus_host))
-    - Verify that `MILVUS_PASSWORD` is the password distributed by the instructor — an authentication error such as "auth check failure" means the password is wrong or still the template placeholder
 2. Check internet connection
 3. For other errors, refer to [FAQ](#faq)
 

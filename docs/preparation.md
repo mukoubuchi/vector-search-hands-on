@@ -279,10 +279,10 @@ First, verify that Python is installed.
 **Expected output**:
 
 ```
-Python 3.10.x or higher (3.11 recommended)
+Python 3.10.x or higher (3.11 / 3.12 recommended)
 ```
 
-If Python 3.10 or higher is not installed, install it before continuing.
+If Python 3.10 or higher is not installed, install it before continuing. The hands-on packages (torch, sentence-transformers, FastAPI) require Python 3.10 or higher.
 
 === ":fontawesome-brands-apple: Mac"
     Download and install the installer from the official site.
