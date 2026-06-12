@@ -388,7 +388,7 @@ Directly specify the Python executable inside `venv` to install Python packages.
 
     - transformers, huggingface-hub
     - pydantic, starlette
-    - scikit-learn, marshmallow
+    - scikit-learn
     - And others
 
 ??? warning "Deactivating Virtual Environment"
