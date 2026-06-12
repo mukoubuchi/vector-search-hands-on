@@ -116,6 +116,9 @@ IBM Bob が以下のような提案をします。
     python insert_sample_data.py
     ```
 
+    !!! note "確認プロンプトについて"
+        Part 1 で作成したコレクションが既に存在するため、スクリプトが **`このコレクションを削除して作り直しますか？ [y/N]`** と確認してきます。**`y`** と答えてください — これは自分専用のコレクション（`.env` に設定した一意な `COLLECTION_NAME`）で、新しいスキーマで作り直されます。プロンプトを省略する場合は `python insert_sample_data.py --yes` を実行します。
+
 2. アプリケーションを起動（**`python app.py`** を実行。[:material-play-circle: 起動方法](part1.md#app-restart)）
 3. Swagger UI を開く（**`http://localhost:8002/docs`**）
 4. 検索を実行:
