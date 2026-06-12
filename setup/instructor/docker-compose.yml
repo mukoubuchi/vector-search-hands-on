@@ -69,7 +69,8 @@ services:
       retries: 3
 
   # MkDocs documentation server (for sharing)
-  # Note: On macOS Docker Desktop, automatic file change detection does not work
+  # Note: On macOS container VMs (Colima, Docker Desktop, etc.), automatic
+  # file change detection does not work
   # Use `python -m mkdocs serve` (port 8000) for development
   # This container is for sharing with participants (port 8001)
   mkdocs:

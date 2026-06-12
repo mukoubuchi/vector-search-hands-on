@@ -294,7 +294,7 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 
 ## Required Tools
 
-**Instructors**: Docker/Podman/Colima, Python 3 with `pymilvus` (used by `start-all.sh` to rotate the Milvus root password)
+**Instructors**: a container runtime — Colima or Podman recommended (Docker Desktop also works where your organization licenses it) — and Python 3 with `pymilvus` (used by `start-all.sh` to rotate the Milvus root password)
 
 **Participants**: IBM Bob 1.0.3 (IDE with Building Blocks support)
 
