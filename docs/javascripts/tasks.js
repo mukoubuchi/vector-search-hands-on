@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const taskListItems = document.querySelectorAll('.task-list-item');
         
         taskListItems.forEach(function(item) {
-            const checkbox = item.querySelector('.task-list-control');
+            // The checkbox input lives inside the .task-list-control label;
+            // the label itself has no usable "checked" property
+            const checkbox = item.querySelector('.task-list-control input[type="checkbox"]');
             
             if (checkbox) {
                 const key = getTaskKey(item);

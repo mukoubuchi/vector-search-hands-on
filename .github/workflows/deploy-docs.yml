@@ -43,10 +43,7 @@ jobs:
           pip install \
             "mkdocs==1.6.1" \
             "mkdocs-material==9.7.6" \
-            "mkdocs-material-extensions" \
-            "mkdocs-static-i18n==1.3.1" \
-            "mkdocs-glightbox" \
-            "babel"
+            "mkdocs-static-i18n==1.3.1"
 
       - name: Build site
         # --strict so that anything CI would reject is never deployed either
