@@ -78,9 +78,10 @@ def main():
     print(f"\n=== {msg('Environment Variable Check', '環境変数チェック')} ===")
     required_vars = [
         "MILVUS_HOST",
-        "MILVUS_PORT"
+        "MILVUS_PORT",
+        "MILVUS_USER",
+        "MILVUS_PASSWORD",
     ]
-    required_vars.extend(["MILVUS_USER", "MILVUS_PASSWORD"])
 
     missing_vars = print_env_status(required_vars)
 

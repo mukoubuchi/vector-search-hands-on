@@ -289,7 +289,8 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 ### For Developers
 
 - **Translation sync**: English and Japanese participant-facing docs and paired SVG diagrams are sync-checked by GitHub Actions. Pull Requests fail when counterparts are missing; pushes to `main` create a tracking issue. See [Translation Sync Guide](docs/translation-sync.md) for details. This guide is kept in source control but excluded from the published MkDocs site.
-- **GitHub Actions**: Automated workflows for CI checks ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), GitHub Pages deployment ([`.github/workflows/deploy-docs.yml`](.github/workflows/deploy-docs.yml)), and translation sync ([`.github/workflows/sync-translations.yml`](.github/workflows/sync-translations.yml), [`.github/workflows/sync-translations-ja-to-en.yml`](.github/workflows/sync-translations-ja-to-en.yml)).
+- **GitHub Actions**: Automated workflows for CI checks ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), GitHub Pages deployment ([`.github/workflows/deploy-docs.yml`](.github/workflows/deploy-docs.yml)), translation sync ([`.github/workflows/sync-translations.yml`](.github/workflows/sync-translations.yml), [`.github/workflows/sync-translations-ja-to-en.yml`](.github/workflows/sync-translations-ja-to-en.yml)), the E2E smoke test ([`.github/workflows/e2e-smoke.yml`](.github/workflows/e2e-smoke.yml)), and release packaging ([`.github/workflows/release.yml`](.github/workflows/release.yml)).
+- **Releasing**: run the E2E smoke test on `main` first, then create a GitHub release with a `vX.Y.Z` tag (e.g. `gh release create v1.3.0 --title v1.3.0 --notes "..."`). The release workflow builds the participant zips from the tagged sources and attaches them to the release automatically.
 
 ## Required Tools
 
