@@ -191,9 +191,9 @@ Choose one of these instead:
 
 A serverless container platform; useful when the organization standardizes on IBM Cloud and local container tooling is restricted (e.g. no Docker Desktop license).
 
-### Documentation hosting (practical)
+### Documentation hosting (proven)
 
-Deploy the built MkDocs site as a containerized static app:
+A predecessor of this hands-on served its MkDocs site from Code Engine in production, so this path is verified. Deploy the built site as a containerized static app:
 
 ```bash
 # 1. Build the site (set SITE_URL to the Code Engine app URL once known)
@@ -206,6 +206,11 @@ ibmcloud ce app create --name vector-search-docs \
 ```
 
 Benefits over GitHub Pages: works with private repositories, managed HTTPS, scale-to-zero pricing. Share the generated `https://...codeengine.appdomain.cloud` URL with participants.
+
+Lessons learned from the previous deployment, relevant when you build images **locally** instead of using `--build-source`:
+
+- **Build AMD64 images on Apple Silicon**: Code Engine runs AMD64; an ARM64 image fails at startup with `exec format error`. Build with `podman build --platform linux/amd64 ...`.
+- **Podman cannot push to IBM Cloud Container Registry directly**: ICR's identity-token authentication is incompatible with Podman. Either build with Podman, load the image into Docker, and push with the Docker CLI — or avoid local builds entirely with `--build-source` (Code Engine builds the image server-side, which also sidesteps the architecture issue).
 
 ### Milvus hosting (experimental — verify before the event)
 
