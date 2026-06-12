@@ -118,6 +118,9 @@ The exact proposal may vary, but for stored product fields, both the API respons
     python insert_sample_data.py
     ```
 
+    !!! note "Confirmation prompt"
+        Because your collection already exists from Part 1, the script asks **`Drop and recreate this collection? [y/N]`**. Answer **`y`** — it is your own collection (the unique `COLLECTION_NAME` you set in `.env`), and it is recreated with the new schema. To skip the prompt, run `python insert_sample_data.py --yes` instead.
+
 2. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
 3. Open Swagger UI (**`http://localhost:8002/docs`**)
 4. Execute search:

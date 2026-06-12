@@ -34,16 +34,14 @@ docs/
 │   ├── components.css        # UI コンポーネントスタイル
 │   ├── feedback.css          # フィードバックフォームスタイル
 │   └── language-switcher.css # 言語切り替えスタイル
-├── javascripts/              # カスタム JavaScript（モジュール化）
-│   ├── site-config.js        # 共通のページパス・言語設定
-│   ├── search.js             # 検索機能
-│   ├── navigation.js         # ナビゲーション機能
-│   ├── tasks.js              # タスクリスト機能
-│   ├── feedback.js           # フィードバックのコピー支援
-│   ├── syntax-highlight.js   # シンタックスハイライト強化
-│   └── language-switcher.js  # GitHub Pages の言語リンク補正
-└── overrides/                # テーマオーバーライド
-    └── main.html             # カスタム HTML テンプレート
+└── javascripts/              # カスタム JavaScript（モジュール化）
+    ├── site-config.js        # 共通のページパス・言語設定
+    ├── search.js             # 検索機能
+    ├── navigation.js         # ナビゲーション機能
+    ├── tasks.js              # タスクリスト機能
+    ├── feedback.js           # フィードバックのコピー支援
+    ├── syntax-highlight.js   # シンタックスハイライト強化
+    └── language-switcher.js  # GitHub Pages の言語リンク補正
 ```
 
 ## スタイルシート構成

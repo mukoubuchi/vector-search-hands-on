@@ -13,7 +13,6 @@ exclude_docs: |
 theme:
   name: material
   language: en
-  custom_dir: docs/overrides
   palette:
     scheme: default
     primary: blue-grey
@@ -121,7 +120,6 @@ extra_css:
 
 # Custom JavaScript (modularized)
 extra_javascript:
-  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js
   - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
   - javascripts/site-config.js
   - javascripts/search.js

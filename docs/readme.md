@@ -34,16 +34,14 @@ docs/
 │   ├── components.css        # UI component styles
 │   ├── feedback.css          # Feedback form styles
 │   └── language-switcher.css # Language switcher styles
-├── javascripts/              # Custom JavaScript (modularized)
-│   ├── site-config.js        # Shared site paths and language settings
-│   ├── search.js             # Search functionality
-│   ├── navigation.js         # Navigation functionality
-│   ├── tasks.js              # Task list functionality
-│   ├── feedback.js           # Feedback form copy support
-│   ├── syntax-highlight.js   # Enhanced syntax highlighting
-│   └── language-switcher.js  # GitHub Pages language-link fixes
-└── overrides/                # Theme overrides
-    └── main.html             # Custom HTML template
+└── javascripts/              # Custom JavaScript (modularized)
+    ├── site-config.js        # Shared site paths and language settings
+    ├── search.js             # Search functionality
+    ├── navigation.js         # Navigation functionality
+    ├── tasks.js              # Task list functionality
+    ├── feedback.js           # Feedback form copy support
+    ├── syntax-highlight.js   # Enhanced syntax highlighting
+    └── language-switcher.js  # GitHub Pages language-link fixes
 ```
 
 ## Stylesheet Structure

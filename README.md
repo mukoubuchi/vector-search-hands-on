@@ -422,8 +422,7 @@ vector-search-hands-on/
 │   │   └── translation-sync.md            # Internal translation sync guide (excluded from MkDocs nav)
 │   ├── images/                            # Diagrams and SVG images (EN/JA where needed)
 │   ├── javascripts/                       # Custom JavaScript
-│   ├── stylesheets/                       # Custom CSS
-│   └── overrides/                         # Theme customization
+│   └── stylesheets/                       # Custom CSS
 ├── setup/
 │   ├── instructor/                        # Instructor setup
 │   │   ├── docker-compose.yml             # Milvus environment definition
