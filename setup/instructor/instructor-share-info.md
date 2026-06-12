@@ -31,7 +31,7 @@ grep '^MILVUS_PASSWORD=' setup/instructor/.env
 > [!IMPORTANT]
 > **Note when editing documentation**
 >
-> **Due to macOS Docker Desktop limitations, automatic file change detection does not work in the Docker-based MkDocs (port 8001).**
+> **Due to file-sharing limitations of macOS container VMs (Colima, Docker Desktop, etc.), automatic file change detection does not work in the container-based MkDocs (port 8001).**
 >
 > ### Container version vs Development version comparison
 >
@@ -39,7 +39,7 @@ grep '^MILVUS_PASSWORD=' setup/instructor/.env
 > |------|------------------------|---------------------|
 > | **How to start** | Auto-start with `./start-all.sh` | Manual start with `python -m mkdocs serve` |
 > | **Purpose** | Sharing with participants, stable delivery | Document editing work |
-> | **Auto-reload** | Not available (macOS Docker Desktop limitation) | Available |
+> | **Auto-reload** | Not available (macOS container VM limitation) | Available |
 > | **Reflecting changes** | Requires container restart or manual browser reload | Reflected immediately |
 > | **Network sharing** | Available (instructor IP:8001) | Available (instructor IP:8000) |
 > | **Recommended use** | Sharing with participants during live hands-on | Pre-preparation, document editing |
@@ -226,7 +226,7 @@ MILVUS_PASSWORD=<printed by start-all.sh>
 
 ### Pre-preparation
 
-- [ ] Container runtime started (Docker Desktop or `colima start`)
+- [ ] Container runtime started (`colima start` or `podman machine start`; Docker Desktop only where your organization licenses it)
 - [ ] Milvus environment started (`./start-all.sh`)
 - [ ] IP address confirmed
 - [ ] Connection test successful
@@ -346,7 +346,7 @@ kill $(lsof -ti:8002)
 
 **A: No, automatic updates do not work in the container version (8001).**
 
-- **Container version (8001)**: Automatic file change detection does not work (macOS Docker Desktop limitation)
+- **Container version (8001)**: Automatic file change detection does not work (macOS container VM limitation)
   - Workaround: Restart container or ask participants to manually reload browser
 - **Development version (8000)**: Auto-reload works correctly
   - Changes are reflected immediately when files are saved
