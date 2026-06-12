@@ -1,12 +1,24 @@
 """Shared helpers for the participant hands-on scripts."""
 
 import os
+import sys
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from dotenv import load_dotenv
-from pymilvus import connections
-from sentence_transformers import SentenceTransformer
+# Checked before the third-party imports so that a too-old interpreter produces
+# this clear message instead of ModuleNotFoundError (the packages in
+# requirements.txt cannot be installed on Python < 3.10)
+if sys.version_info < (3, 10):
+    raise RuntimeError(
+        "Python 3.10 or higher is required for the hands-on scripts "
+        f"(current: {sys.version.split()[0]}). / "
+        "ハンズオンのスクリプトには Python 3.10 以上が必要です"
+        f"（現在: {sys.version.split()[0]}）。"
+    )
+
+from dotenv import load_dotenv  # noqa: E402
+from pymilvus import connections  # noqa: E402
+from sentence_transformers import SentenceTransformer  # noqa: E402
 
 
 PARTICIPANT_DIR = Path(__file__).resolve().parent

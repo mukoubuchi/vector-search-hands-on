@@ -1,42 +1,18 @@
 name: E2E Smoke Test
 
-# Full-stack test: starts the instructor environment (including credential
-# generation), then runs the participant flow (connection test, embedding
-# test, data insertion, search) end to end.
-# Runs automatically when the runtime stack changes; can also be triggered
-# manually before a release.
+# Manually triggered full-stack test: starts the instructor environment
+# (including credential generation), then runs the participant flow
+# (connection test, embedding test, data insertion, search) end to end.
+# Run this before a release or after changing dependencies or docker-compose.
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'setup/participant/**'
-      - 'setup/instructor/docker-compose.yml'
-      - 'setup/instructor/mkdocs.Dockerfile'
-      - 'setup/instructor/start-all.sh'
-      - 'setup/instructor/stop-all.sh'
-      - 'lib/common.sh'
-      - '.github/workflows/e2e-smoke.yml'
-  pull_request:
-    paths:
-      - 'setup/participant/**'
-      - 'setup/instructor/docker-compose.yml'
-      - 'setup/instructor/mkdocs.Dockerfile'
-      - 'setup/instructor/start-all.sh'
-      - 'setup/instructor/stop-all.sh'
-      - 'lib/common.sh'
-      - '.github/workflows/e2e-smoke.yml'
+  schedule:
+    # Monthly health check, aligned with the monthly Dependabot cycle
+    - cron: '0 3 1 * *'
 
 permissions:
   contents: read
-
-# A newer commit supersedes the ~15-minute run for the same ref;
-# cancel the outdated one to save Actions minutes
-concurrency:
-  group: e2e-smoke-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   e2e:

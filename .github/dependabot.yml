@@ -28,3 +28,10 @@ updates:
       # compose file; they are updated together with the Milvus image
       - dependency-name: quay.io/coreos/etcd
       - dependency-name: minio/minio
+
+  # Base image in mkdocs.Dockerfile (the compose service builds a local tag,
+  # so the docker-compose ecosystem cannot see this image)
+  - package-ecosystem: docker
+    directory: /setup/instructor
+    schedule:
+      interval: monthly
