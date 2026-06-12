@@ -276,10 +276,10 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
 **期待される出力**:
 
 ```
-Python 3.10.x 以上（3.11 / 3.12 推奨）
+Python 3.10.x 以上（3.11 推奨）
 ```
 
-Python 3.10 以上がインストールされていない場合は、インストールしてから次へ進んでください。ハンズオンで使用するパッケージ（torch、sentence-transformers、FastAPI）は Python 3.10 以上を必要とします。
+Python 3.10 以上がインストールされていない場合は、インストールしてから次へ進んでください。
 
 === ":fontawesome-brands-apple: Mac"
     公式サイトからインストーラーをダウンロードしてインストールします。

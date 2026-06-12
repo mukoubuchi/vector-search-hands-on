@@ -176,6 +176,7 @@ Choose one of these instead:
 - VPN or Tailscale: Participants connect to the instructor machine's private IP, such as `10.0.1.5:19530`.
 - Public cloud VM: Run Milvus on the VM, or forward TCP `19530` from the VM to the instructor machine.
 - Managed Milvus service: Use a managed endpoint with authentication and share its host/port.
+- IBM Cloud Code Engine: A good fit for hosting the documentation; experimental for Milvus (see the [IBM Cloud Code Engine](#ibm-cloud-code-engine) section).
 
 ### Security Notes
 
@@ -183,6 +184,43 @@ Choose one of these instead:
 - Prefer sharing it in the live chat after the session starts.
 - Stop ngrok immediately after the hands-on.
 - For a longer-running public endpoint, use a cloud VM or managed Milvus service with authentication, a non-default password, and firewall restrictions.
+
+---
+
+## IBM Cloud Code Engine
+
+A serverless container platform; useful when the organization standardizes on IBM Cloud and local container tooling is restricted (e.g. no Docker Desktop license).
+
+### Documentation hosting (proven)
+
+A predecessor of this hands-on served its MkDocs site from Code Engine in production, so this path is verified. Deploy the built site as a containerized static app:
+
+```bash
+# 1. Build the site (set SITE_URL to the Code Engine app URL once known)
+SITE_URL=https://<app-url>/ python -m mkdocs build
+
+# 2. Deploy as a Code Engine app serving the site/ directory
+ibmcloud ce project create --name vector-search-hands-on
+ibmcloud ce app create --name vector-search-docs \
+  --build-source . --port 8080 --min-scale 0
+```
+
+Benefits over GitHub Pages: works with private repositories, managed HTTPS, scale-to-zero pricing. Share the generated `https://...codeengine.appdomain.cloud` URL with participants.
+
+Lessons learned from the previous deployment, relevant when you build images **locally** instead of using `--build-source`:
+
+- **Build AMD64 images on Apple Silicon**: Code Engine runs AMD64; an ARM64 image fails at startup with `exec format error`. Build with `podman build --platform linux/amd64 ...`.
+- **Podman cannot push to IBM Cloud Container Registry directly**: ICR's identity-token authentication is incompatible with Podman. Either build with Podman, load the image into Docker, and push with the Docker CLI — or avoid local builds entirely with `--build-source` (Code Engine builds the image server-side, which also sidesteps the architecture issue).
+
+### Milvus hosting (experimental — verify before the event)
+
+Running Milvus itself on Code Engine has significant caveats:
+
+- Code Engine apps expose HTTPS/gRPC on port 443 only; participants would connect with a pymilvus `uri` (TLS) instead of the plain `host:port 19530` used in this hands-on, so the participant scripts and docs would need adjustments.
+- Apps are single-container: the 3-container compose stack does not map directly. Milvus standalone must be configured with embedded etcd and local storage.
+- Storage is ephemeral: a restart or scale-down wipes collections. Set min instances to 1 and treat all data as throwaway.
+
+For a cloud-hosted Milvus, an IBM Cloud VPC VM running the same `docker-compose` stack as the instructor setup is the lower-risk path; use Code Engine for the documentation and keep Milvus on a VM or private network.
 
 ---
 
