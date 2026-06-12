@@ -15,6 +15,12 @@ permissions:
   pages: write
   id-token: write
 
+# Allow only one Pages deployment at a time; let in-flight production
+# deployments finish (GitHub's recommended setting)
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

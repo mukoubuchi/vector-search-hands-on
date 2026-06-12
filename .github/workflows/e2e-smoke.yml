@@ -32,6 +32,12 @@ on:
 permissions:
   contents: read
 
+# A newer commit supersedes the ~15-minute run for the same ref;
+# cancel the outdated one to save Actions minutes
+concurrency:
+  group: e2e-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
