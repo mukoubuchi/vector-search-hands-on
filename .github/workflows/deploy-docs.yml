@@ -32,11 +32,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          # Keep versions in sync with .github/workflows/ci.yml and
+          # setup/instructor/mkdocs.Dockerfile
           pip install \
             "mkdocs==1.6.1" \
             "mkdocs-material==9.7.6" \
             "mkdocs-material-extensions" \
-            "mkdocs-static-i18n" \
+            "mkdocs-static-i18n==1.3.1" \
             "mkdocs-glightbox" \
             "babel"
 

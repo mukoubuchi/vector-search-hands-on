@@ -74,9 +74,12 @@ def search_with_refresh(query_vector: list, top_k: int) -> Optional[Any]:
     try:
         return run_search(current_collection, query_vector, top_k)
     except Exception:
-        # The collection may have been dropped and recreated (e.g. sample data
-        # re-inserted); refresh the cached handle and retry once
+        # The collection may have been dropped (report it as missing) or
+        # recreated (refresh the cached handle and retry once); other errors
+        # propagate from the retry
         collection = None
+        if not utility.has_collection(COLLECTION_NAME):
+            return None
         current_collection = get_collection()
         if current_collection is None:
             return None

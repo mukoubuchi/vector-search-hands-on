@@ -1,0 +1,20 @@
+version: 2
+updates:
+  # Participant Python dependencies (exact pins in requirements.txt)
+  - package-ecosystem: pip
+    directory: /setup/participant
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+
+  # GitHub Actions versions in workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+
+  # Container images in the instructor docker-compose stack
+  - package-ecosystem: docker-compose
+    directory: /setup/instructor
+    schedule:
+      interval: monthly
