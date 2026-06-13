@@ -243,21 +243,17 @@
     background-color: var(--md-default-fg-color--lightest);
 }
 
-/* The highlighted segment: the top-level section holding the active
-   heading, spanning that whole section on top of the rail */
-.md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-nav__item {
-    position: relative;
-}
-
-.md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-nav__item:has(.md-nav__link--active)::before {
-    content: '';
+/* The current-section segment on the rail, positioned by toc-indicator.js
+   over the section whose heading is currently on screen */
+.md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-toc-indicator {
     position: absolute;
-    left: -0.45rem;
-    top: 0;
-    bottom: 0;
+    left: 0.15rem;
     width: 0.15rem;
     border-radius: 0.15rem;
     background-color: var(--md-typeset-a-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: top 0.2s ease, height 0.2s ease, opacity 0.2s ease;
 }
 
 /* Neutral sidebar scrollbars (TOC and the mobile drawer), replacing the

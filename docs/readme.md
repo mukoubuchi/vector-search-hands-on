@@ -38,6 +38,7 @@ docs/
     ├── site-config.js        # Shared site paths and language settings
     ├── search.js             # Search functionality
     ├── navigation.js         # Navigation functionality
+    ├── toc-indicator.js      # TOC current-section reading indicator
     ├── tasks.js              # Task list functionality
     ├── feedback.js           # Feedback form copy support
     ├── syntax-highlight.js   # Enhanced syntax highlighting
@@ -107,6 +108,10 @@ Controls navigation functionality:
 
 - Show/hide back-to-top button
 - Behavior based on scroll position
+
+### toc-indicator.js
+
+Highlights the section currently on screen with a segment on the table-of-contents rail, positioned from live geometry as the page scrolls.
 
 ### tasks.js
 
