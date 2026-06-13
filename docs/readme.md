@@ -41,7 +41,9 @@ docs/
     ├── tasks.js              # Task list functionality
     ├── feedback.js           # Feedback form copy support
     ├── syntax-highlight.js   # Enhanced syntax highlighting
-    └── language-switcher.js  # GitHub Pages language-link fixes
+    ├── language-switcher.js  # GitHub Pages language-link fixes
+    └── vendor/               # Vendored third-party libraries
+        └── mermaid.min.js    # Mermaid (MIT) for the Part 1 diagrams
 ```
 
 ## Stylesheet Structure
@@ -127,6 +129,10 @@ Enhances code block syntax highlighting:
 ### language-switcher.js
 
 Normalizes language switcher links when the site is hosted under a GitHub Pages project path.
+
+### vendor/mermaid.min.js
+
+Vendored Mermaid build (MIT) that renders the Part 1 diagrams, bundled so the site works without internet access. The pinned version and update procedure are noted in `mkdocs.yml`.
 
 ## Benefits of Modularization
 

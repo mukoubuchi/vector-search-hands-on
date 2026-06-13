@@ -112,7 +112,11 @@ extra_css:
 
 # Custom JavaScript (modularized)
 extra_javascript:
-  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+  # Vendored Mermaid 10.9.6 (MIT) so the Part 1 diagrams render without
+  # internet access (e.g. on-site venue networks). To update, download
+  # https://cdn.jsdelivr.net/npm/mermaid@<version>/dist/mermaid.min.js
+  # over docs/javascripts/vendor/mermaid.min.js
+  - javascripts/vendor/mermaid.min.js
   - javascripts/site-config.js
   - javascripts/search.js
   - javascripts/navigation.js
