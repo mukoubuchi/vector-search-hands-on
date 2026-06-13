@@ -27,9 +27,9 @@ theme:
     - search.highlight
     - content.tabs.link
     - content.code.copy
-  font:
-    text: Roboto
-    code: Roboto Mono
+  # No web fonts: render with system fonts only, so no Google Fonts
+  # request is made (works identically on offline venue networks)
+  font: false
 
 # Repository info (kept out of the header; the source URL is listed in the home page)
 # repo_name: vector-search-hands-on
