@@ -1,10 +1,10 @@
 /**
  * TOC reading-position indicator
  *
- * Highlights every section whose heading is currently on screen — at all
- * heading levels — with a link-colored segment on the table-of-contents
- * rail (see navigation.css). The segment spans the contiguous range of
- * visible headings and follows the page as it scrolls.
+ * Marks the current section — the deepest heading on screen, tracked by
+ * the theme's scroll-spy as .md-nav__link--active — with a link-colored
+ * segment on the table-of-contents rail (see navigation.css). The theme's
+ * toc.follow feature keeps that active entry scrolled into view.
  */
 (function() {
     function getNav() {
@@ -13,25 +13,6 @@
 
     function getList(nav) {
         return nav && nav.querySelector(':scope > .md-nav__list');
-    }
-
-    // Every TOC entry (any level) paired with its content heading element.
-    function entries(nav) {
-        var out = [];
-        nav.querySelectorAll('.md-nav__link[href^="#"]').forEach(function(link) {
-            var id = decodeURIComponent(link.hash.slice(1));
-            var heading = id && document.getElementById(id);
-            if (heading) {
-                out.push({ link: link, heading: heading });
-            }
-        });
-        return out;
-    }
-
-    // Top of the readable area, below the sticky header.
-    function viewportTop() {
-        var header = document.querySelector('.md-header');
-        return header ? header.offsetHeight : 0;
     }
 
     // Vertical offset of an element within the (position: relative) list,
@@ -46,61 +27,13 @@
     }
 
     function update(nav, list, bar) {
-        var all = entries(nav);
-        if (!all.length) {
+        var active = nav.querySelector('.md-nav__link--active');
+        if (!active) {
             bar.style.opacity = '0';
             return;
         }
-
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var top = viewportTop();
-
-        var visible = all.filter(function(e) {
-            var r = e.heading.getBoundingClientRect();
-            return r.top < vh && r.bottom > top;
-        });
-
-        if (!visible.length) {
-            // In a long section with no heading on screen, mark the section
-            // currently being read (the last heading above the fold).
-            var current = null;
-            all.forEach(function(e) {
-                if (e.heading.getBoundingClientRect().top <= top) {
-                    current = e;
-                }
-            });
-            if (current) {
-                visible = [current];
-            }
-        }
-
-        nav.querySelectorAll('.md-toc-current').forEach(function(link) {
-            link.classList.remove('md-toc-current');
-        });
-
-        if (!visible.length) {
-            bar.style.opacity = '0';
-            return;
-        }
-
-        var minTop = Infinity;
-        var maxBottom = -Infinity;
-        visible.forEach(function(e) {
-            e.link.classList.add('md-toc-current');
-            // The link row, not the item: a parent item's height would
-            // include its whole subtree
-            var t = offsetWithin(e.link, list);
-            var b = t + e.link.offsetHeight;
-            if (t < minTop) {
-                minTop = t;
-            }
-            if (b > maxBottom) {
-                maxBottom = b;
-            }
-        });
-
-        bar.style.top = minTop + 'px';
-        bar.style.height = (maxBottom - minTop) + 'px';
+        bar.style.top = offsetWithin(active, list) + 'px';
+        bar.style.height = active.offsetHeight + 'px';
         bar.style.opacity = '1';
     }
 
@@ -121,21 +54,18 @@
             list.appendChild(bar);
         }
 
-        var ticking = false;
-        function schedule() {
-            if (ticking) {
-                return;
-            }
-            ticking = true;
-            requestAnimationFrame(function() {
-                ticking = false;
-                update(nav, list, bar);
-            });
+        function run() {
+            update(nav, list, bar);
         }
 
-        schedule();
-        window.addEventListener('scroll', schedule, { passive: true });
-        window.addEventListener('resize', schedule, { passive: true });
+        run();
+        // The scroll-spy toggles .md-nav__link--active as the page scrolls
+        new MutationObserver(run).observe(nav, {
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        window.addEventListener('resize', run, { passive: true });
     }
 
     if (document.readyState === 'loading') {
