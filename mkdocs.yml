@@ -23,6 +23,7 @@ theme:
     - navigation.sections
     - navigation.top
     - navigation.indexes
+    - toc.follow
     - search.suggest
     - search.highlight
     - content.tabs.link

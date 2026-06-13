@@ -206,17 +206,16 @@
 }
 
 /* Table of contents (TOC): a continuous vertical rail runs down the left
-   of the whole list, and every heading currently on screen (at any level)
-   is highlighted (text + a rail segment) by toc-indicator.js, like a
-   reading-position indicator. */
+   of the whole list, and the current section (the deepest heading on
+   screen, marked active by the theme's scroll-spy) is highlighted with a
+   link-colored rail segment positioned by toc-indicator.js. */
 .md-nav__link {
     transition: color 0.3s ease;
 }
 
 .md-nav__link:hover,
 .md-nav__link:focus,
-.md-nav__link.md-toc-current,
-.md-sidebar--primary .md-nav__link--active {
+.md-nav__link--active {
     color: var(--md-typeset-a-color);
 }
 
