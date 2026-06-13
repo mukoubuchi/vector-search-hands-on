@@ -175,8 +175,10 @@
     transition: width 0.3s ease;
 }
 
+/* Hover uses the primary slate instead of the accent blue, which was
+   nearly the same hue as the link color itself */
 .md-typeset a:hover {
-    color: var(--md-accent-fg-color) !important;
+    color: var(--md-primary-fg-color) !important;
 }
 
 .md-typeset a:hover::before {

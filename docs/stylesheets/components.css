@@ -28,10 +28,44 @@
     margin: 1em 0;
 }
 
-/* Tabbed content styling */
+/* Tabbed content styling (content tabs only, not the header navigation).
+   The selected tab is shown with a background highlight instead of the
+   sliding underline, which the tab strip's horizontal scrollbar used to
+   overlap as an ugly second line. */
+.md-typeset .tabbed-labels {
+    scrollbar-width: none;
+}
+
+.md-typeset .tabbed-labels::-webkit-scrollbar {
+    display: none;
+}
+
+.js .md-typeset .tabbed-labels::before {
+    display: none;
+}
+
+.md-typeset .tabbed-labels > label {
+    border-radius: 6px 6px 0 0;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.md-typeset .tabbed-labels > label:hover {
+    background-color: color-mix(in srgb, var(--md-primary-fg-color) 8%, transparent);
+}
+
 .md-typeset .tabbed-labels > label:hover::after,
 .md-typeset .tabbed-labels > label:hover::before {
     display: none !important;
+}
+
+/* Background highlight for the selected tab (covers up to five tabs per
+   set; this site uses at most three) */
+.md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1),
+.md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2),
+.md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3),
+.md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4),
+.md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5) {
+    background-color: color-mix(in srgb, var(--md-primary-fg-color) 14%, transparent);
 }
 
 .md-typeset .tabbed-content {
