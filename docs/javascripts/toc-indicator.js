@@ -1,10 +1,10 @@
 /**
  * TOC reading-position indicator
  *
- * Highlights the sections whose headings are currently on screen with a
- * link-colored segment on the table-of-contents rail (see navigation.css),
- * at the finest (leaf) heading granularity. The segment spans the
- * contiguous range of visible sections and follows the page as it scrolls.
+ * Highlights every section whose heading is currently on screen — at all
+ * heading levels — with a link-colored segment on the table-of-contents
+ * rail (see navigation.css). The segment spans the contiguous range of
+ * visible headings and follows the page as it scrolls.
  */
 (function() {
     function getNav() {
@@ -15,25 +15,17 @@
         return nav && nav.querySelector(':scope > .md-nav__list');
     }
 
-    // Leaf TOC entries: items with no nested sub-navigation (the finest
-    // granularity), paired with their content heading element.
-    function leafEntries(nav) {
-        var entries = [];
-        nav.querySelectorAll('.md-nav__item').forEach(function(item) {
-            if (item.querySelector(':scope > .md-nav')) {
-                return;
-            }
-            var link = item.querySelector(':scope > .md-nav__link[href^="#"]');
-            if (!link) {
-                return;
-            }
+    // Every TOC entry (any level) paired with its content heading element.
+    function entries(nav) {
+        var out = [];
+        nav.querySelectorAll('.md-nav__link[href^="#"]').forEach(function(link) {
             var id = decodeURIComponent(link.hash.slice(1));
             var heading = id && document.getElementById(id);
             if (heading) {
-                entries.push({ item: item, link: link, heading: heading });
+                out.push({ link: link, heading: heading });
             }
         });
-        return entries;
+        return out;
     }
 
     // Top of the readable area, below the sticky header.
@@ -54,8 +46,8 @@
     }
 
     function update(nav, list, bar) {
-        var entries = leafEntries(nav);
-        if (!entries.length) {
+        var all = entries(nav);
+        if (!all.length) {
             bar.style.opacity = '0';
             return;
         }
@@ -63,7 +55,7 @@
         var vh = window.innerHeight || document.documentElement.clientHeight;
         var top = viewportTop();
 
-        var visible = entries.filter(function(e) {
+        var visible = all.filter(function(e) {
             var r = e.heading.getBoundingClientRect();
             return r.top < vh && r.bottom > top;
         });
@@ -72,7 +64,7 @@
             // In a long section with no heading on screen, mark the section
             // currently being read (the last heading above the fold).
             var current = null;
-            entries.forEach(function(e) {
+            all.forEach(function(e) {
                 if (e.heading.getBoundingClientRect().top <= top) {
                     current = e;
                 }
@@ -95,8 +87,10 @@
         var maxBottom = -Infinity;
         visible.forEach(function(e) {
             e.link.classList.add('md-toc-current');
-            var t = offsetWithin(e.item, list);
-            var b = t + e.item.offsetHeight;
+            // The link row, not the item: a parent item's height would
+            // include its whole subtree
+            var t = offsetWithin(e.link, list);
+            var b = t + e.link.offsetHeight;
             if (t < minTop) {
                 minTop = t;
             }
