@@ -38,6 +38,7 @@ docs/
     ├── site-config.js        # 共通のページパス・言語設定
     ├── search.js             # 検索機能
     ├── navigation.js         # ナビゲーション機能
+    ├── toc-indicator.js      # 目次の現在セクション表示
     ├── tasks.js              # タスクリスト機能
     ├── feedback.js           # フィードバックのコピー支援
     ├── syntax-highlight.js   # シンタックスハイライト強化
@@ -107,6 +108,10 @@ docs/
 
 - トップへ戻るボタンの表示/非表示
 - スクロール位置に基づく動作
+
+### toc-indicator.js
+
+スクロールに合わせて、画面に表示中のセクションを目次のレール上にセグメントで強調表示します。位置は実際の要素座標から算出します。
 
 ### tasks.js
 

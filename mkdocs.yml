@@ -120,6 +120,7 @@ extra_javascript:
   - javascripts/site-config.js
   - javascripts/search.js
   - javascripts/navigation.js
+  - javascripts/toc-indicator.js
   - javascripts/tasks.js
   - javascripts/feedback.js
   - javascripts/syntax-highlight.js
