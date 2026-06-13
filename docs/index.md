@@ -85,7 +85,7 @@ Responsibilities for each process:
     
     Building Blocks provide the following technical components:
     
-    1. **Vector Search Builder Mode**
+    - **Vector Search Builder Mode**
         - **Participant package**: `vector-search-builder-en.zip`
         - **Contents**:
             - IBM Bob custom mode configuration
@@ -133,8 +133,8 @@ Responsibilities for each process:
     
     Building Blocks alone:
     
-- Cloud-based embedding options often require API keys
-- Participants configure credentials individually
+    - Cloud-based embedding options often require API keys
+    - Participants configure credentials individually
     
     This hands-on's innovation:
 
