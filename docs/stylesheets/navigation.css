@@ -206,23 +206,18 @@
 }
 
 /* Table of contents (TOC): a continuous vertical rail runs down the left
-   of the whole list, and the section that contains the current heading
-   is highlighted with a link-colored segment spanning its full height,
-   like a reading-position indicator. */
+   of the whole list, and every section whose heading is currently on
+   screen is highlighted (text + a rail segment) by toc-indicator.js, like
+   a reading-position indicator. */
 .md-nav__link {
     transition: color 0.3s ease;
 }
 
 .md-nav__link:hover,
 .md-nav__link:focus,
-.md-nav__link--active,
-.md-nav__link--active:hover,
-.md-nav__link--active:focus {
+.md-nav__link.md-toc-current,
+.md-sidebar--primary .md-nav__link--active {
     color: var(--md-typeset-a-color);
-}
-
-.md-nav__link--active {
-    font-weight: 600;
 }
 
 /* The faint full-height rail, drawn down the desktop TOC list. Scoped to

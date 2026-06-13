@@ -1,10 +1,10 @@
 /**
  * TOC reading-position indicator
  *
- * Highlights the section currently on screen with a link-colored segment
- * on the table-of-contents rail (see navigation.css). The segment spans
- * the section that holds the active heading, positioned from live
- * geometry so it lands on the rail at any nesting depth.
+ * Highlights the sections whose headings are currently on screen with a
+ * link-colored segment on the table-of-contents rail (see navigation.css),
+ * at the finest (leaf) heading granularity. The segment spans the
+ * contiguous range of visible sections and follows the page as it scrolls.
  */
 (function() {
     function getNav() {
@@ -12,34 +12,105 @@
     }
 
     function getList(nav) {
-        return nav.querySelector(':scope > .md-nav__list');
+        return nav && nav.querySelector(':scope > .md-nav__list');
     }
 
-    // The section to highlight: the active heading's own item when it is a
-    // section (has a nested sub-list), otherwise its parent section item.
-    function sectionItemFor(activeLink) {
-        var item = activeLink.closest('.md-nav__item');
-        if (!item) {
-            return null;
-        }
-        if (item.querySelector(':scope > .md-nav')) {
-            return item;
-        }
-        var parentItem = item.parentElement.closest('.md-nav__item');
-        return parentItem || item;
+    // Leaf TOC entries: items with no nested sub-navigation (the finest
+    // granularity), paired with their content heading element.
+    function leafEntries(nav) {
+        var entries = [];
+        nav.querySelectorAll('.md-nav__item').forEach(function(item) {
+            if (item.querySelector(':scope > .md-nav')) {
+                return;
+            }
+            var link = item.querySelector(':scope > .md-nav__link[href^="#"]');
+            if (!link) {
+                return;
+            }
+            var id = decodeURIComponent(link.hash.slice(1));
+            var heading = id && document.getElementById(id);
+            if (heading) {
+                entries.push({ item: item, link: link, heading: heading });
+            }
+        });
+        return entries;
     }
 
-    function ensureIndicator(list) {
-        var bar = list.querySelector(':scope > .md-toc-indicator');
-        if (!bar) {
-            bar = document.createElement('div');
-            bar.className = 'md-toc-indicator';
-            list.appendChild(bar);
-        }
-        return bar;
+    // Top of the readable area, below the sticky header.
+    function viewportTop() {
+        var header = document.querySelector('.md-header');
+        return header ? header.offsetHeight : 0;
     }
 
-    function update() {
+    // Vertical offset of an element within the (position: relative) list,
+    // independent of how the sidebar is scrolled.
+    function offsetWithin(el, ancestor) {
+        var top = 0;
+        while (el && el !== ancestor) {
+            top += el.offsetTop;
+            el = el.offsetParent;
+        }
+        return top;
+    }
+
+    function update(nav, list, bar) {
+        var entries = leafEntries(nav);
+        if (!entries.length) {
+            bar.style.opacity = '0';
+            return;
+        }
+
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var top = viewportTop();
+
+        var visible = entries.filter(function(e) {
+            var r = e.heading.getBoundingClientRect();
+            return r.top < vh && r.bottom > top;
+        });
+
+        if (!visible.length) {
+            // In a long section with no heading on screen, mark the section
+            // currently being read (the last heading above the fold).
+            var current = null;
+            entries.forEach(function(e) {
+                if (e.heading.getBoundingClientRect().top <= top) {
+                    current = e;
+                }
+            });
+            if (current) {
+                visible = [current];
+            }
+        }
+
+        nav.querySelectorAll('.md-toc-current').forEach(function(link) {
+            link.classList.remove('md-toc-current');
+        });
+
+        if (!visible.length) {
+            bar.style.opacity = '0';
+            return;
+        }
+
+        var minTop = Infinity;
+        var maxBottom = -Infinity;
+        visible.forEach(function(e) {
+            e.link.classList.add('md-toc-current');
+            var t = offsetWithin(e.item, list);
+            var b = t + e.item.offsetHeight;
+            if (t < minTop) {
+                minTop = t;
+            }
+            if (b > maxBottom) {
+                maxBottom = b;
+            }
+        });
+
+        bar.style.top = minTop + 'px';
+        bar.style.height = (maxBottom - minTop) + 'px';
+        bar.style.opacity = '1';
+    }
+
+    function init() {
         var nav = getNav();
         if (!nav) {
             return;
@@ -49,37 +120,28 @@
             return;
         }
 
-        var bar = ensureIndicator(list);
-        var active = nav.querySelector('.md-nav__link--active');
-        var section = active ? sectionItemFor(active) : null;
-
-        if (!section) {
-            bar.style.opacity = '0';
-            return;
+        var bar = list.querySelector(':scope > .md-toc-indicator');
+        if (!bar) {
+            bar = document.createElement('div');
+            bar.className = 'md-toc-indicator';
+            list.appendChild(bar);
         }
 
-        // section.offsetParent is the position: relative list, so offsetTop
-        // is measured from the rail's coordinate space regardless of depth
-        bar.style.top = section.offsetTop + 'px';
-        bar.style.height = section.offsetHeight + 'px';
-        bar.style.opacity = '1';
-    }
-
-    function init() {
-        var nav = getNav();
-        if (!nav) {
-            return;
+        var ticking = false;
+        function schedule() {
+            if (ticking) {
+                return;
+            }
+            ticking = true;
+            requestAnimationFrame(function() {
+                ticking = false;
+                update(nav, list, bar);
+            });
         }
 
-        update();
-
-        // Material toggles .md-nav__link--active as the page scrolls
-        new MutationObserver(update).observe(nav, {
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['class']
-        });
-        window.addEventListener('resize', update, { passive: true });
+        schedule();
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule, { passive: true });
     }
 
     if (document.readyState === 'loading') {
