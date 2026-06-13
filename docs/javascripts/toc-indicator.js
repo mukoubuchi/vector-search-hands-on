@@ -1,10 +1,12 @@
 /**
  * TOC reading-position indicator
  *
- * Marks the current section — the deepest heading on screen, tracked by
- * the theme's scroll-spy as .md-nav__link--active — with a link-colored
- * segment on the table-of-contents rail (see navigation.css). The theme's
- * toc.follow feature keeps that active entry scrolled into view.
+ * Highlights every section currently on screen — not just the single one
+ * the theme's scroll-spy marks active — with a link-colored segment on the
+ * table-of-contents rail (see navigation.css). A section counts as on
+ * screen when its content range (from its heading down to the next heading
+ * of the same or higher level) overlaps the viewport; the segment spans
+ * from the topmost to the bottommost such section's TOC entry.
  */
 (function() {
     function getNav() {
@@ -26,14 +28,78 @@
         return top;
     }
 
+    function getHeadings() {
+        return Array.prototype.slice.call(document.querySelectorAll(
+            '.md-content h1[id], .md-content h2[id], .md-content h3[id], ' +
+            '.md-content h4[id], .md-content h5[id], .md-content h6[id]'
+        ));
+    }
+
+    function level(h) {
+        return parseInt(h.tagName.charAt(1), 10);
+    }
+
+    // Headings whose section range overlaps the viewport. A section runs
+    // from its heading to the next heading of the same or higher level.
+    function visibleHeadings(headings, viewTop, viewBottom) {
+        var visible = [];
+        for (var i = 0; i < headings.length; i++) {
+            var top = headings[i].getBoundingClientRect().top;
+            var end = Infinity;
+            for (var j = i + 1; j < headings.length; j++) {
+                if (level(headings[j]) <= level(headings[i])) {
+                    end = headings[j].getBoundingClientRect().top;
+                    break;
+                }
+            }
+            if (top < viewBottom && end > viewTop) {
+                visible.push(headings[i]);
+            }
+        }
+        return visible;
+    }
+
     function update(nav, list, bar) {
-        var active = nav.querySelector('.md-nav__link--active');
-        if (!active) {
+        var header = document.querySelector('.md-header');
+        var viewTop = header ? header.offsetHeight : 0;
+        var viewBottom = window.innerHeight;
+
+        var visible = visibleHeadings(getHeadings(), viewTop, viewBottom);
+        var onScreen = {};
+        for (var i = 0; i < visible.length; i++) {
+            onScreen[visible[i].id] = true;
+        }
+
+        // Span the rail from the first to the last visible section's TOC entry
+        var top = Infinity;
+        var bottom = -Infinity;
+        var links = nav.querySelectorAll('.md-nav__link[href^="#"]');
+        for (var k = 0; k < links.length; k++) {
+            var id;
+            try {
+                id = decodeURIComponent(links[k].hash.slice(1));
+            } catch (e) {
+                id = links[k].hash.slice(1);
+            }
+            if (!onScreen[id]) {
+                continue;
+            }
+            var t = offsetWithin(links[k], list);
+            var b = t + links[k].offsetHeight;
+            if (t < top) {
+                top = t;
+            }
+            if (b > bottom) {
+                bottom = b;
+            }
+        }
+
+        if (bottom <= top) {
             bar.style.opacity = '0';
             return;
         }
-        bar.style.top = offsetWithin(active, list) + 'px';
-        bar.style.height = active.offsetHeight + 'px';
+        bar.style.top = top + 'px';
+        bar.style.height = (bottom - top) + 'px';
         bar.style.opacity = '1';
     }
 
@@ -54,18 +120,27 @@
             list.appendChild(bar);
         }
 
+        var scheduled = false;
         function run() {
-            update(nav, list, bar);
+            if (scheduled) {
+                return;
+            }
+            scheduled = true;
+            window.requestAnimationFrame(function() {
+                scheduled = false;
+                update(nav, list, bar);
+            });
         }
 
         run();
-        // The scroll-spy toggles .md-nav__link--active as the page scrolls
+        window.addEventListener('scroll', run, { passive: true });
+        window.addEventListener('resize', run, { passive: true });
+        // Catch late layout shifts (fonts, images, expanding admonitions)
         new MutationObserver(run).observe(nav, {
             subtree: true,
             attributes: true,
             attributeFilter: ['class']
         });
-        window.addEventListener('resize', run, { passive: true });
     }
 
     if (document.readyState === 'loading') {

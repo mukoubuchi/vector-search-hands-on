@@ -206,9 +206,9 @@
 }
 
 /* Table of contents (TOC): a continuous vertical rail runs down the left
-   of the whole list, and the current section (the deepest heading on
-   screen, marked active by the theme's scroll-spy) is highlighted with a
-   link-colored rail segment positioned by toc-indicator.js. */
+   of the whole list, and every section currently on screen is highlighted
+   with a link-colored rail segment spanning from the first to the last
+   visible section's entry, positioned by toc-indicator.js. */
 .md-nav__link {
     transition: color 0.3s ease;
 }
