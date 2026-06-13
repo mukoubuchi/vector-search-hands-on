@@ -215,7 +215,8 @@
 
 .md-nav__link:hover,
 .md-nav__link:focus,
-.md-nav__link--active {
+.md-nav__link--active,
+.md-nav__link.md-toc-onscreen {
     color: var(--md-typeset-a-color);
 }
 

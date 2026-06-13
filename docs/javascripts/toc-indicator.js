@@ -115,7 +115,10 @@
             } catch (e) {
                 id = links[k].hash.slice(1);
             }
-            if (!onScreen[id]) {
+            var on = !!onScreen[id];
+            // Tint every link the rail covers, so text and bar stay in sync
+            links[k].classList.toggle('md-toc-onscreen', on);
+            if (!on) {
                 continue;
             }
             var t = offsetWithin(links[k], list);
