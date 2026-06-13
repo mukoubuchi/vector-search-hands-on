@@ -205,9 +205,9 @@
     }
 }
 
-/* Table of contents (TOC) links, following the body-link conventions:
-   the text keeps its color on hover and the slide-in underline uses
-   currentColor; only the active item is shown in the link color */
+/* Table of contents (TOC) links. The current location is marked with a
+   vertical indicator on the left; the hover and active states share the
+   link color used for the active item's text. */
 .md-nav__link {
     position: relative;
     display: inline-block;
@@ -217,28 +217,37 @@
 .md-nav__link::before {
     content: '';
     position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background-color: currentColor;
-    transition: width 0.3s ease;
+    left: -0.7rem;
+    top: 50%;
+    height: 1.15em;
+    width: 0.15rem;
+    border-radius: 0.15rem;
+    background-color: var(--md-typeset-a-color);
+    transform: translateY(-50%) scaleY(0);
+    transition: transform 0.2s ease;
 }
 
-.md-nav__link:hover::before {
-    width: 100%;
+.md-nav__link:hover::before,
+.md-nav__link--active::before {
+    transform: translateY(-50%) scaleY(1);
 }
 
 .md-nav__link:hover,
-.md-nav__link:focus {
-    color: inherit;
-}
-
+.md-nav__link:focus,
 .md-nav__link--active,
 .md-nav__link--active:hover,
 .md-nav__link--active:focus {
     color: var(--md-typeset-a-color);
+}
+
+.md-nav__link--active {
     font-weight: 600;
+}
+
+/* Recolor the integrated-drawer section rail from the theme slate to the
+   link color, so the current-location indicator matches the active text */
+.md-nav--integrated > .md-nav__list > .md-nav__item--active .md-nav--secondary {
+    border-left-color: var(--md-typeset-a-color);
 }
 
 /* Neutral sidebar scrollbars (TOC and the mobile drawer), replacing the
