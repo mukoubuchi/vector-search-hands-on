@@ -4,9 +4,10 @@
  * Highlights every section currently on screen — not just the single one
  * the theme's scroll-spy marks active — with a link-colored segment on the
  * table-of-contents rail (see navigation.css). A section counts as on
- * screen when its content range (from its heading down to the next heading
- * of the same or higher level) overlaps the viewport; the segment spans
- * from the topmost to the bottommost such section's TOC entry.
+ * screen when its own content range (from its heading down to the next
+ * heading, of any level) overlaps the viewport, so a parent heading drops
+ * off once you scroll past its own text into a subsection. The segment
+ * spans from the topmost to the bottommost visible section's TOC entry.
  */
 (function() {
     function getNav() {
@@ -35,23 +36,16 @@
         ));
     }
 
-    function level(h) {
-        return parseInt(h.tagName.charAt(1), 10);
-    }
-
-    // Headings whose section range overlaps the viewport. A section runs
-    // from its heading to the next heading of the same or higher level.
+    // Headings whose own content overlaps the viewport. A heading owns the
+    // range from itself to the very next heading (of any level), so a parent
+    // stops counting once you scroll past its text into a subsection.
     function visibleHeadings(headings, viewTop, viewBottom) {
         var visible = [];
         for (var i = 0; i < headings.length; i++) {
             var top = headings[i].getBoundingClientRect().top;
-            var end = Infinity;
-            for (var j = i + 1; j < headings.length; j++) {
-                if (level(headings[j]) <= level(headings[i])) {
-                    end = headings[j].getBoundingClientRect().top;
-                    break;
-                }
-            }
+            var end = (i + 1 < headings.length)
+                ? headings[i + 1].getBoundingClientRect().top
+                : Infinity;
             if (top < viewBottom && end > viewTop) {
                 visible.push(headings[i]);
             }
