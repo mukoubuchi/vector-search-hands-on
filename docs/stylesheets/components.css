@@ -45,6 +45,7 @@
 }
 
 .md-typeset .tabbed-labels > label {
+    position: relative;
     border-radius: 6px 6px 0 0;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -53,9 +54,24 @@
     background-color: color-mix(in srgb, var(--md-primary-fg-color) 8%, transparent);
 }
 
-.md-typeset .tabbed-labels > label:hover::after,
-.md-typeset .tabbed-labels > label:hover::before {
-    display: none !important;
+/* Slide-in underline when hovering a tab, like the header navigation.
+   It fills the label's transparent border-bottom zone (the strip's
+   bottom edge), so it sits exactly on the separator line */
+.md-typeset .tabbed-labels > label::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.1rem;
+    width: 100%;
+    height: 0.1rem;
+    background-color: var(--md-primary-fg-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+}
+
+.md-typeset .tabbed-labels > label:hover::after {
+    transform: scaleX(1);
 }
 
 /* The link slide-in underline does not belong inside tab labels: it
@@ -66,15 +82,17 @@
 }
 
 /* Background highlight and a permanent bottom indicator for the selected
-   tab, drawn at the strip's bottom edge over the separator line (covers
-   up to five tabs per set; this site uses at most three) */
+   tab. The indicator colors the label's existing transparent
+   border-bottom, which sits at the strip's bottom edge in front of the
+   separator line (covers up to five tabs per set; this site uses at
+   most three) */
 .md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1),
 .md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2),
 .md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3),
 .md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4),
 .md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5) {
     background-color: color-mix(in srgb, var(--md-primary-fg-color) 14%, transparent);
-    box-shadow: inset 0 -0.15rem 0 var(--md-primary-fg-color);
+    border-bottom-color: var(--md-primary-fg-color);
 }
 
 .md-typeset .tabbed-content {
