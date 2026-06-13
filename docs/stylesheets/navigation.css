@@ -205,7 +205,9 @@
     }
 }
 
-/* Table of contents (TOC) links */
+/* Table of contents (TOC) links, following the body-link conventions:
+   the text keeps its color on hover and the slide-in underline uses
+   currentColor; only the active item is shown in the link color */
 .md-nav__link {
     position: relative;
     display: inline-block;
@@ -219,7 +221,7 @@
     bottom: 0;
     width: 0;
     height: 2px;
-    background-color: var(--md-accent-fg-color);
+    background-color: currentColor;
     transition: width 0.3s ease;
 }
 
@@ -227,51 +229,62 @@
     width: 100%;
 }
 
-.md-nav__link--active {
+.md-nav__link:hover,
+.md-nav__link:focus {
+    color: inherit;
+}
+
+.md-nav__link--active,
+.md-nav__link--active:hover,
+.md-nav__link--active:focus {
+    color: var(--md-typeset-a-color);
     font-weight: 600;
 }
 
-/* Neutral TOC scrollbar */
-.md-sidebar--secondary {
+/* Neutral sidebar scrollbars (TOC and the mobile drawer), replacing the
+   theme's accent-colored thumb */
+.md-sidebar,
+.md-sidebar .md-sidebar__scrollwrap {
     scrollbar-color: rgba(120, 120, 120, 0.3) transparent;
     scrollbar-width: thin;
 }
 
-.md-sidebar--secondary:hover {
+.md-sidebar:hover,
+.md-sidebar .md-sidebar__scrollwrap:hover {
     scrollbar-color: rgba(120, 120, 120, 0.6) transparent;
 }
 
-.md-sidebar--secondary::-webkit-scrollbar,
-.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar,
-.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar,
-.md-sidebar--secondary .md-nav::-webkit-scrollbar {
+.md-sidebar::-webkit-scrollbar,
+.md-sidebar .md-sidebar__scrollwrap::-webkit-scrollbar,
+.md-sidebar .md-sidebar__inner::-webkit-scrollbar,
+.md-sidebar .md-nav::-webkit-scrollbar {
     width: 8px;
 }
 
-.md-sidebar--secondary::-webkit-scrollbar-track,
-.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar-track,
-.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar-track,
-.md-sidebar--secondary .md-nav::-webkit-scrollbar-track {
+.md-sidebar::-webkit-scrollbar-track,
+.md-sidebar .md-sidebar__scrollwrap::-webkit-scrollbar-track,
+.md-sidebar .md-sidebar__inner::-webkit-scrollbar-track,
+.md-sidebar .md-nav::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.md-sidebar--secondary::-webkit-scrollbar-thumb,
-.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar-thumb,
-.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar-thumb,
-.md-sidebar--secondary .md-nav::-webkit-scrollbar-thumb {
+.md-sidebar::-webkit-scrollbar-thumb,
+.md-sidebar .md-sidebar__scrollwrap::-webkit-scrollbar-thumb,
+.md-sidebar .md-sidebar__inner::-webkit-scrollbar-thumb,
+.md-sidebar .md-nav::-webkit-scrollbar-thumb {
     background-color: rgba(120, 120, 120, 0.3) !important;
     border-radius: 999px;
     transition: background-color 0.2s ease;
 }
 
-.md-sidebar--secondary:hover::-webkit-scrollbar-thumb,
-.md-sidebar--secondary .md-sidebar__scrollwrap:hover::-webkit-scrollbar-thumb,
-.md-sidebar--secondary .md-sidebar__inner:hover::-webkit-scrollbar-thumb,
-.md-sidebar--secondary .md-nav:hover::-webkit-scrollbar-thumb,
-.md-sidebar--secondary::-webkit-scrollbar-thumb:hover,
-.md-sidebar--secondary .md-sidebar__scrollwrap::-webkit-scrollbar-thumb:hover,
-.md-sidebar--secondary .md-sidebar__inner::-webkit-scrollbar-thumb:hover,
-.md-sidebar--secondary .md-nav::-webkit-scrollbar-thumb:hover {
+.md-sidebar:hover::-webkit-scrollbar-thumb,
+.md-sidebar .md-sidebar__scrollwrap:hover::-webkit-scrollbar-thumb,
+.md-sidebar .md-sidebar__inner:hover::-webkit-scrollbar-thumb,
+.md-sidebar .md-nav:hover::-webkit-scrollbar-thumb,
+.md-sidebar::-webkit-scrollbar-thumb:hover,
+.md-sidebar .md-sidebar__scrollwrap::-webkit-scrollbar-thumb:hover,
+.md-sidebar .md-sidebar__inner::-webkit-scrollbar-thumb:hover,
+.md-sidebar .md-nav::-webkit-scrollbar-thumb:hover {
     background-color: rgba(120, 120, 120, 0.6) !important;
 }
 
