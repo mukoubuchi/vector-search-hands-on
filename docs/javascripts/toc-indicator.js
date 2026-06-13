@@ -8,6 +8,11 @@
  * heading, of any level) overlaps the viewport, so a parent heading drops
  * off once you scroll past its own text into a subsection. The segment
  * spans from the topmost to the bottommost visible section's TOC entry.
+ *
+ * Headings nested inside an admonition (??? / !!!) are collapsible aside
+ * content, not page structure, so their TOC entries are pruned and they
+ * are excluded from the on-screen calculation — the enclosing real section
+ * stays highlighted while you read through the admonition.
  */
 (function() {
     function getNav() {
@@ -16,6 +21,34 @@
 
     function getList(nav) {
         return nav && nav.querySelector(':scope > .md-nav__list');
+    }
+
+    function inAdmonition(el) {
+        // Block admonitions (!!!) render as .admonition; collapsible ones
+        // (??? / ???+) render as a <details> carrying only a type class
+        // (e.g. "info"), with no .admonition. This site uses <details>
+        // solely for admonitions, so either ancestor counts.
+        return !!el.closest('.admonition, details');
+    }
+
+    // Drop TOC entries for headings that live inside an admonition.
+    function pruneAdmonitionEntries(nav) {
+        var links = nav.querySelectorAll('.md-nav__link[href^="#"]');
+        for (var i = 0; i < links.length; i++) {
+            var id;
+            try {
+                id = decodeURIComponent(links[i].hash.slice(1));
+            } catch (e) {
+                id = links[i].hash.slice(1);
+            }
+            var heading = id && document.getElementById(id);
+            if (heading && inAdmonition(heading)) {
+                var item = links[i].closest('.md-nav__item');
+                if (item) {
+                    item.remove();
+                }
+            }
+        }
     }
 
     // Vertical offset of an element within the (position: relative) list,
@@ -30,10 +63,17 @@
     }
 
     function getHeadings() {
-        return Array.prototype.slice.call(document.querySelectorAll(
+        var all = document.querySelectorAll(
             '.md-content h1[id], .md-content h2[id], .md-content h3[id], ' +
             '.md-content h4[id], .md-content h5[id], .md-content h6[id]'
-        ));
+        );
+        var headings = [];
+        for (var i = 0; i < all.length; i++) {
+            if (!inAdmonition(all[i])) {
+                headings.push(all[i]);
+            }
+        }
+        return headings;
     }
 
     // Headings whose own content overlaps the viewport. A heading owns the
@@ -106,6 +146,8 @@
         if (!list) {
             return;
         }
+
+        pruneAdmonitionEntries(nav);
 
         var bar = list.querySelector(':scope > .md-toc-indicator');
         if (!bar) {
