@@ -206,9 +206,9 @@
 }
 
 /* Table of contents (TOC): a continuous vertical rail runs down the left
-   of the whole list, and every section whose heading is currently on
-   screen is highlighted (text + a rail segment) by toc-indicator.js, like
-   a reading-position indicator. */
+   of the whole list, and every heading currently on screen (at any level)
+   is highlighted (text + a rail segment) by toc-indicator.js, like a
+   reading-position indicator. */
 .md-nav__link {
     transition: color 0.3s ease;
 }
