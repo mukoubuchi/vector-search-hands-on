@@ -205,31 +205,12 @@
     }
 }
 
-/* Table of contents (TOC) links. The current location is marked with a
-   vertical indicator on the left; the hover and active states share the
-   link color used for the active item's text. */
+/* Table of contents (TOC): a continuous vertical rail runs down the left
+   of the whole list, and the section that contains the current heading
+   is highlighted with a link-colored segment spanning its full height,
+   like a reading-position indicator. */
 .md-nav__link {
-    position: relative;
-    display: inline-block;
     transition: color 0.3s ease;
-}
-
-.md-nav__link::before {
-    content: '';
-    position: absolute;
-    left: -0.7rem;
-    top: 50%;
-    height: 1.15em;
-    width: 0.15rem;
-    border-radius: 0.15rem;
-    background-color: var(--md-typeset-a-color);
-    transform: translateY(-50%) scaleY(0);
-    transition: transform 0.2s ease;
-}
-
-.md-nav__link:hover::before,
-.md-nav__link--active::before {
-    transform: translateY(-50%) scaleY(1);
 }
 
 .md-nav__link:hover,
@@ -244,10 +225,39 @@
     font-weight: 600;
 }
 
-/* Recolor the integrated-drawer section rail from the theme slate to the
-   link color, so the current-location indicator matches the active text */
-.md-nav--integrated > .md-nav__list > .md-nav__item--active .md-nav--secondary {
-    border-left-color: var(--md-typeset-a-color);
+/* The faint full-height rail, drawn down the desktop TOC list. Scoped to
+   the right sidebar; the narrow integrated drawer indents differently, so
+   it keeps only the active-text color above. */
+.md-sidebar--secondary .md-nav--secondary > .md-nav__list {
+    position: relative;
+}
+
+.md-sidebar--secondary .md-nav--secondary > .md-nav__list::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 0.2rem;
+    bottom: 0.2rem;
+    width: 0.15rem;
+    border-radius: 0.15rem;
+    background-color: var(--md-default-fg-color--lightest);
+}
+
+/* The highlighted segment: the top-level section holding the active
+   heading, spanning that whole section on top of the rail */
+.md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-nav__item {
+    position: relative;
+}
+
+.md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-nav__item:has(.md-nav__link--active)::before {
+    content: '';
+    position: absolute;
+    left: -0.45rem;
+    top: 0;
+    bottom: 0;
+    width: 0.15rem;
+    border-radius: 0.15rem;
+    background-color: var(--md-typeset-a-color);
 }
 
 /* Neutral sidebar scrollbars (TOC and the mobile drawer), replacing the
