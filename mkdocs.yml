@@ -122,6 +122,7 @@ extra_javascript:
   - javascripts/search.js
   - javascripts/navigation.js
   - javascripts/toc-indicator.js
+  - javascripts/steps.js
   - javascripts/tasks.js
   - javascripts/feedback.js
   - javascripts/syntax-highlight.js

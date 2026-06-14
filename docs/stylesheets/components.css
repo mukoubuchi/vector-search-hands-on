@@ -355,3 +355,96 @@
     align-items: center !important;
     justify-content: center !important;
 }
+
+/* ==========================================================================
+   Numbered step rail (markup built by javascripts/steps.js)
+
+   Runs of "Step N:" headings become a vertical timeline: a continuous line
+   down the left margin with a numbered circle at each step. The number comes
+   from the step's data-step attribute (set from the source heading), so it
+   stays correct even where a run is split or restarts per group.
+   ========================================================================== */
+.md-typeset .steps {
+    --step-size: 2rem;   /* circle diameter */
+    --step-gap: 1rem;    /* gap between circle and content */
+    --step-line: var(--md-default-fg-color--lighter);
+    --step-circle-bg: #eceff1;   /* opaque, so the rail does not show through */
+    --step-circle-fg: #607d8b;
+    margin: 1.5em 0;
+}
+
+/* Nesting is not expected (steps are the smallest unit), but if a step run
+   appears inside a step, shrink the circle as nesting deepens. */
+.md-typeset .step .steps {
+    --step-size: 1.55rem;
+}
+
+.md-typeset .step .step .steps {
+    --step-size: 1.2rem;
+}
+
+.md-typeset .step {
+    position: relative;
+    padding-left: calc(var(--step-size) + var(--step-gap));
+    padding-bottom: 1.5em;
+}
+
+.md-typeset .step:last-child {
+    padding-bottom: 0;
+}
+
+/* Connecting line: spans every step's full height — including the last one,
+   so the rail runs to the end of the final section — forming one continuous
+   line. Each opaque circle is painted on top, leaving a gap at its step. */
+.md-typeset .step::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--step-size) / 2 - 1px);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--step-line);
+}
+
+/* Strip the per-heading decorations (injected icon, underline, h4 box, hover
+   shift) from the step's own title only — non-step sub-headings inside a step
+   keep their normal styling. */
+.md-typeset .step > .step__title::before {
+    display: none;
+}
+
+.md-typeset .step > .step__title {
+    position: relative;
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    border-radius: 0;
+    transform: none;
+}
+
+/* Numbered circle, anchored to the title so its centre lines up with the
+   heading, and opaque so the rail is hidden behind it (no line through the
+   circle). */
+.md-typeset .step > .step__title::after {
+    content: attr(data-step);
+    position: absolute;
+    left: calc(-1 * (var(--step-size) + var(--step-gap)));
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--step-size);
+    height: var(--step-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--step-circle-bg);
+    color: var(--step-circle-fg);
+    font-weight: 700;
+    font-size: calc(var(--step-size) * 0.45);
+    line-height: 1;
+}
+
+.md-typeset .step > .step__title:hover {
+    transform: none;
+}
