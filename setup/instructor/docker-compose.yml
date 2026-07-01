@@ -39,7 +39,7 @@ services:
       retries: 3
 
   milvus:
-    image: milvusdb/milvus:v2.6.18
+    image: milvusdb/milvus:v2.6.19
     profiles: ["milvus", "all"]
     command: ["milvus", "run", "standalone"]
     security_opt:
