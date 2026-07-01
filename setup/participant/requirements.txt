@@ -7,7 +7,7 @@
 pymilvus==2.6.15
 
 # Embedding model (Sentence Transformers)
-sentence-transformers==5.5.1
+sentence-transformers==5.6.0
 
 # Web Framework (FastAPI)
 fastapi==0.136.3
