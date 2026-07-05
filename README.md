@@ -385,12 +385,6 @@ Details: [Building Blocks Documentation](https://ibm-self-serve-assets.github.io
 
 ```
 vector-search-hands-on/
-├── .bob/                                  # Building Block (Vector Search Builder mode)
-│   ├── custom_modes.yaml                  # IBM Bob custom mode definition
-│   └── rules-vector-search-builder/       # Vector Search Builder specific rules
-│       ├── 1_vector_search_workflow.xml
-│       ├── 2_best_practices.xml
-│       └── 3_common_patterns.xml
 ├── .github/                               # GitHub Actions and Dependabot configuration
 │   ├── dependabot.yml                     # Automated dependency updates
 │   └── workflows/
@@ -434,6 +428,12 @@ vector-search-hands-on/
 │   │   ├── deploy-docs-to-cloud.md        # Document delivery methods
 │   │   └── instructor-share-info.md       # Instructor information sharing
 │   └── participant/                       # Participant setup
+│       ├── .bob/                          # Building Block (Vector Search Builder mode)
+│       │   ├── custom_modes.yaml          # IBM Bob custom mode definition
+│       │   └── rules-vector-search-builder/ # Vector Search Builder specific rules
+│       │       ├── 1_vector_search_workflow.xml
+│       │       ├── 2_best_practices.xml
+│       │       └── 3_common_patterns.xml
 │       ├── .env.example.en                # English connection information template
 │       ├── .env.example.ja                # Japanese connection information template
 │       ├── requirements.txt               # Python dependencies
@@ -504,9 +504,9 @@ Do not include `docs/`, `setup/instructor/`, local `.env` files, `__pycache__/`,
 
 ### Key Directory Descriptions
 
-#### `.bob/` - Building Block
+#### `setup/participant/.bob/` - Building Block
 
-**Vector Search Builder mode definition** (provided by IBM)
+**Vector Search Builder mode definition** (provided by IBM). Packaged into the participant zips at their root as `.bob/`.
 
 - `custom_modes.yaml` — IBM Bob custom mode registration
 - `rules-vector-search-builder/` — Vector Search-specialized rules (workflow, best practices, common patterns)

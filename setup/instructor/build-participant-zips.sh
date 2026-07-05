@@ -40,8 +40,8 @@ build_zip() {
 
     mkdir -p "$staging/.bob" "$staging/setup/participant"
 
-    cp "$REPO_ROOT/.bob/custom_modes.yaml" "$staging/.bob/"
-    cp -R "$REPO_ROOT/.bob/rules-vector-search-builder" "$staging/.bob/"
+    cp "$REPO_ROOT/setup/participant/.bob/custom_modes.yaml" "$staging/.bob/"
+    cp -R "$REPO_ROOT/setup/participant/.bob/rules-vector-search-builder" "$staging/.bob/"
 
     local file
     for file in "${PARTICIPANT_FILES[@]}"; do
