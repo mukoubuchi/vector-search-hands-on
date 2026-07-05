@@ -406,9 +406,9 @@
     background: var(--step-line);
 }
 
-/* Strip the per-heading decorations (injected icon, underline, h4 box, hover
-   shift) from the step's own title only — non-step sub-headings inside a step
-   keep their normal styling. */
+/* Strip the per-heading decorations (injected icon, underline, h4 box) from
+   the step's own title only — non-step sub-headings inside a step keep their
+   normal styling. */
 .md-typeset .step > .step__title::before {
     display: none;
 }
@@ -421,6 +421,7 @@
     background: none;
     border-radius: 0;
     transform: none;
+    transition: transform 0.3s ease;
 }
 
 /* Numbered circle, anchored to the title so its centre lines up with the
@@ -443,8 +444,15 @@
     font-weight: 700;
     font-size: calc(var(--step-size) * 0.45);
     line-height: 1;
+    transition: transform 0.3s ease;
 }
 
+/* Same hover shift as every other heading. The circle counter-shifts by the
+   same amount so it stays put on the rail. */
 .md-typeset .step > .step__title:hover {
-    transform: none;
+    transform: translateX(4px);
+}
+
+.md-typeset .step > .step__title:hover::after {
+    transform: translateY(-50%) translateX(-4px);
 }
