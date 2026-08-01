@@ -19,7 +19,7 @@ python-dotenv==1.2.2
 # === Pinned dependencies (auto-installed; pinned so every participant gets the same versions) ===
 
 # Sentence Transformers dependencies
-transformers==5.11.0
+transformers==5.14.1
 torch==2.12.0
 huggingface_hub==1.19.0
 numpy==2.4.6
