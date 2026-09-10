@@ -8,22 +8,41 @@ document.addEventListener('DOMContentLoaded', function() {
     const navPaths = siteConfig ? siteConfig.navPaths : ['/', '/preparation/', '/part1/', '/part2/', '/part3/', '/summary/', '/feedback/'];
     const languages = siteConfig ? siteConfig.languages : ['en', 'ja'];
 
-    // Close search when clicking outside search area
-    setTimeout(function() {
-        document.addEventListener('mousedown', function(e) {
-            const searchToggle = document.querySelector('[data-md-toggle="search"]');
+    const searchToggle = document.querySelector('[data-md-toggle="search"]');
+    const searchContainer = document.querySelector('.md-search');
+    const searchInput = document.querySelector('[data-md-component="search-query"]');
 
-            if (!searchToggle || !searchToggle.checked) return;
+    function clearSearch() {
+        if (!searchInput || !searchInput.value) return;
+        searchInput.value = '';
+        // Notify the theme so suggestions and results also reset.
+        searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
 
-            const searchContainer = document.querySelector('.md-search');
-            const searchOutput = document.querySelector('.md-search__output');
-
-            if (searchContainer && searchContainer.contains(e.target)) return;
-            if (searchOutput && searchOutput.contains(e.target)) return;
-
+    function closeSearch() {
+        if (searchToggle && searchToggle.checked) {
             searchToggle.checked = false;
+            searchToggle.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        clearSearch();
+    }
+
+    if (searchToggle && searchContainer) {
+        searchToggle.addEventListener('change', function() {
+            if (!searchToggle.checked) clearSearch();
         });
-    }, 1000);
+
+        document.addEventListener('pointerdown', function(event) {
+            if (!searchContainer.contains(event.target)) closeSearch();
+        });
+
+        searchContainer.addEventListener('focusout', function(event) {
+            // Keep the query while moving to a result or a search control.
+            if (event.relatedTarget && !searchContainer.contains(event.relatedTarget)) {
+                closeSearch();
+            }
+        });
+    }
 
     // Filter search results to the current language only and to top-tab pages only
     const isJaLocale = /\/ja(\/|$)/.test(window.location.pathname);
