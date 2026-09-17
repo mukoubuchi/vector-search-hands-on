@@ -7,9 +7,9 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
 </style>
   </defs>
   <g>
-    <path d="M 1 41 V 7 Q 1 1 7 1 H 1085 Q 1091 1 1091 7 V 41" fill="#f2f4fa" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" />
-    <path d="M 1 41 V 195 Q 1 201 7 201 H 1085 Q 1091 201 1091 195 V 41" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 1 41 L 1091 41" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 1 41 V 7 Q 1 1 7 1 H 1085 Q 1091 1 1091 7 V 41" fill="#f2f4fa" stroke="#f0f1f9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" />
+    <path d="M 1 41 V 195 Q 1 201 7 201 H 1085 Q 1091 201 1091 195 V 41" fill="#f2f4fa" stroke="#f0f1f9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 1 41 L 1091 41" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
       <text x="546.0" y="26.6" font-size="16.0" fill="#000000" text-anchor="middle">
         <tspan x="546.0" dy="0">
@@ -24,7 +24,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </tspan>
       </text>
     </g>
-    <rect x="41" y="101" width="140" height="60" rx="6" ry="6" fill="#ece8e5" stroke="#7e7168" stroke-width="1.25" pointer-events="none" />
+    <rect x="41" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
       <text x="111.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
         <tspan x="111.0" dy="0">
@@ -32,7 +32,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </tspan>
       </text>
     </g>
-    <rect x="201" y="101" width="140" height="60" rx="6" ry="6" fill="#e4e8f5" stroke="#4051b5" stroke-width="1.25" pointer-events="none" />
+    <rect x="201" y="101" width="140" height="60" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
       <text x="271.0" y="127.75" font-size="13.0" fill="#000000" text-anchor="middle">
         <tspan x="271.0" dy="0">
@@ -43,7 +43,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </tspan>
       </text>
     </g>
-    <rect x="361" y="101" width="140" height="60" rx="6" ry="6" fill="#e4e8f5" stroke="#4051b5" stroke-width="1.25" pointer-events="none" />
+    <rect x="361" y="101" width="140" height="60" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
       <text x="431.0" y="127.75" font-size="13.0" fill="#000000" text-anchor="middle">
         <tspan x="431.0" dy="0">
@@ -54,7 +54,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </tspan>
       </text>
     </g>
-    <rect x="521" y="101" width="60" height="60" rx="6" ry="6" fill="#e3eee8" stroke="#85b09a" stroke-width="1.25" pointer-events="none" />
+    <rect x="521" y="101" width="60" height="60" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
       <text x="551.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
         <tspan x="551.0" dy="0">
