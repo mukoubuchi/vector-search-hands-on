@@ -72,17 +72,17 @@ graph LR
     C -->|検索クエリ| D
     D -->|類似ベクトル| E
     
-    style step1 fill:#f2f4fa,stroke:#4051b5,stroke-width:1.25px,rx:6,ry:6
-    style step2 fill:#faf7f0,stroke:#a48655,stroke-width:1.25px,rx:6,ry:6
-    style step3 fill:#f7f4f9,stroke:#8c789f,stroke-width:1.25px,rx:6,ry:6
-    style step4 fill:#f5f9f7,stroke:#85b09a,stroke-width:1.25px,rx:6,ry:6
-    style step5 fill:#faf6f8,stroke:#ad8193,stroke-width:1.25px,rx:6,ry:6
+    style step1 fill:#f2f4fa,stroke:#f0f1f9,stroke-width:1.25px,rx:6,ry:6
+    style step2 fill:#faf7f0,stroke:#f8f5f1,stroke-width:1.25px,rx:6,ry:6
+    style step3 fill:#f7f4f9,stroke:#f6f4f7,stroke-width:1.25px,rx:6,ry:6
+    style step4 fill:#f5f9f7,stroke:#f5f9f7,stroke-width:1.25px,rx:6,ry:6
+    style step5 fill:#faf6f8,stroke:#f8f5f6,stroke-width:1.25px,rx:6,ry:6
     
-    style A fill:#e4e8f5,stroke:#4051b5,stroke-width:1.25px,rx:6,ry:6
-    style B fill:#f3ecdf,stroke:#a48655,stroke-width:1.25px,rx:6,ry:6
-    style C fill:#eee8f3,stroke:#8c789f,stroke-width:1.25px,rx:6,ry:6
-    style D fill:#e3eee8,stroke:#85b09a,stroke-width:1.25px,rx:6,ry:6
-    style E fill:#f5edf1,stroke:#ad8193,stroke-width:1.25px,rx:6,ry:6
+    style A fill:#e4e8f5,stroke:#f0f1f9,stroke-width:1.25px,rx:6,ry:6
+    style B fill:#f3ecdf,stroke:#f8f5f1,stroke-width:1.25px,rx:6,ry:6
+    style C fill:#eee8f3,stroke:#f6f4f7,stroke-width:1.25px,rx:6,ry:6
+    style D fill:#e3eee8,stroke:#f5f9f7,stroke-width:1.25px,rx:6,ry:6
+    style E fill:#f5edf1,stroke:#f8f5f6,stroke-width:1.25px,rx:6,ry:6
 ```
 
 !!! info "ポイント"

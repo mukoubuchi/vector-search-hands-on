@@ -10,8 +10,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
     <g data-cell-id="0">
       <g data-cell-id="1">
         <g data-cell-id="title">
-          <g transform="translate(0.5,0.5)">
-            <rect x="241" y="0" width="760" height="38" fill="none" stroke="none" pointer-events="all" />
+          <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
+            <rect x="241" y="0" width="760" height="38" fill="none" stroke="none" pointer-events="all" stroke-width="0" />
           </g>
           <g>
             <g>
@@ -24,8 +24,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
         </g>
         <g data-cell-id="subtitle">
-          <g transform="translate(0.5,0.5)">
-            <rect x="211" y="38" width="820" height="30" fill="none" stroke="none" pointer-events="all" />
+          <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
+            <rect x="211" y="38" width="820" height="30" fill="none" stroke="none" pointer-events="all" stroke-width="0" />
           </g>
           <g>
             <g>
@@ -39,9 +39,9 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="instructor">
           <g>
-            <path d="M 1 116 V 86 Q 1 80 7 80 H 555 Q 561 80 561 86 V 116" fill="#f2f4fa" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #f2f4fa; stroke: #4051b5;" />
-            <path d="M 1 116 V 484 Q 1 490 7 490 H 555 Q 561 490 561 484 V 116" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" style="stroke: #4051b5;" />
-            <path d="M 1 116 L 561 116" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" style="stroke: #4051b5;" />
+            <path d="M 1 116 V 86 Q 1 80 7 80 H 555 Q 561 80 561 86 V 116" fill="#f2f4fa" stroke="#f0f1f9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #f2f4fa; stroke: #f0f1f9;" />
+            <path d="M 1 116 V 484 Q 1 490 7 490 H 555 Q 561 490 561 484 V 116" fill="#f2f4fa" stroke="#f0f1f9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" style="stroke: #f0f1f9;" />
+            <path d="M 1 116 L 561 116" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" style="stroke: none;" />
           </g>
           <g>
             <g>
@@ -53,8 +53,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="compose">
-            <g>
-              <rect x="43" y="143" width="270" height="62" rx="6" ry="6" fill="#e4e8f5" stroke="#4051b5" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #4051b5;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="43" y="143" width="270" height="62" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
             </g>
             <g>
               <g>
@@ -70,8 +70,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="etcd">
-            <g>
-              <rect x="41" y="264" width="130" height="62" rx="6" ry="6" fill="#ffffff" stroke="#7f8ac7" stroke-width="1.25" pointer-events="all" style="fill: #ffffff; stroke: #7f8ac7;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="41" y="264" width="130" height="62" rx="6" ry="6" fill="#e9ecf7" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e9ecf7; stroke: #f0f1f9;" />
             </g>
             <g>
               <g>
@@ -93,8 +93,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="minio">
-            <g>
-              <rect x="191" y="264" width="120" height="62" rx="6" ry="6" fill="#ffffff" stroke="#7f8ac7" stroke-width="1.25" pointer-events="all" style="fill: #ffffff; stroke: #7f8ac7;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="191" y="264" width="120" height="62" rx="6" ry="6" fill="#e9ecf7" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e9ecf7; stroke: #f0f1f9;" />
             </g>
             <g>
               <g>
@@ -110,8 +110,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="milvus">
-            <g transform="translate(0.5,0.5)">
-              <rect x="351" y="256" width="160" height="78" rx="6" ry="6" fill="#dce2f3" stroke="#4051b5" stroke-width="1.25" pointer-events="all" style="fill: #dce2f3; stroke: #4051b5;" />
+            <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
+              <rect x="351" y="256" width="160" height="78" rx="6" ry="6" fill="#dce2f3" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #dce2f3; stroke: #f0f1f9;" />
             </g>
             <g>
               <g>
@@ -130,8 +130,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="mkdocs">
-            <g>
-              <rect x="186" y="390" width="190" height="70" rx="6" ry="6" fill="#ececf5" stroke="#797da9" stroke-width="1.25" pointer-events="all" style="fill: #ececf5; stroke: #797da9;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="186" y="390" width="190" height="70" rx="6" ry="6" fill="#ececf5" stroke="#f4f5f8" stroke-width="1.25" pointer-events="all" style="fill: #ececf5; stroke: #f4f5f8;" />
             </g>
             <g>
               <g>
@@ -150,8 +150,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="delivery">
-            <g>
-              <rect x="351" y="143" width="160" height="62" rx="6" ry="6" fill="#f5edf1" stroke="#ad8193" stroke-width="1.25" pointer-events="all" style="fill: #f5edf1; stroke: #ad8193;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="351" y="143" width="160" height="62" rx="6" ry="6" fill="#f5edf1" stroke="#f8f5f6" stroke-width="1.25" pointer-events="all" style="fill: #f5edf1; stroke: #f8f5f6;" />
             </g>
             <g>
               <g>
@@ -217,9 +217,9 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="participant">
           <g>
-            <path d="M 681 116 V 86 Q 681 80 687 80 H 1235 Q 1241 80 1241 86 V 116" fill="#f5f9f7" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #f5f9f7; stroke: #85b09a;" />
-            <path d="M 681 116 V 484 Q 681 490 687 490 H 1235 Q 1241 490 1241 484 V 116" fill="none" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" style="stroke: #85b09a;" />
-            <path d="M 681 116 L 1241 116" fill="none" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" style="stroke: #85b09a;" />
+            <path d="M 681 116 V 86 Q 681 80 687 80 H 1235 Q 1241 80 1241 86 V 116" fill="#f5f9f7" stroke="#f5f9f7" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #f5f9f7; stroke: #f5f9f7;" />
+            <path d="M 681 116 V 484 Q 681 490 687 490 H 1235 Q 1241 490 1241 484 V 116" fill="#f5f9f7" stroke="#f5f9f7" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" style="stroke: #f5f9f7;" />
+            <path d="M 681 116 L 1241 116" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" style="stroke: none;" />
           </g>
           <g>
             <g>
@@ -231,8 +231,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="bob">
-            <g>
-              <rect x="1041" y="138" width="180" height="72" rx="6" ry="6" fill="#e3eee8" stroke="#85b09a" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #85b09a;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="1041" y="138" width="180" height="72" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #f5f9f7;" />
             </g>
             <g>
               <g>
@@ -248,8 +248,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="zip">
-            <g>
-              <rect x="707" y="138" width="184" height="72" rx="6" ry="6" fill="#f1f7f4" stroke="#85b09a" stroke-width="1.25" pointer-events="all" style="fill: #f1f7f4; stroke: #85b09a;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="707" y="138" width="184" height="72" rx="6" ry="6" fill="#f1f7f4" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #f1f7f4; stroke: #f5f9f7;" />
             </g>
             <g>
               <g>
@@ -268,8 +268,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="env">
-            <g>
-              <rect x="707" y="260" width="150" height="66" rx="6" ry="6" fill="#ffffff" stroke="#a8c6b7" stroke-width="1.25" pointer-events="all" style="fill: #ffffff; stroke: #a8c6b7;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="707" y="260" width="150" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
             </g>
             <g>
               <g>
@@ -288,8 +288,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="loader">
-            <g>
-              <rect x="886" y="260" width="155" height="66" rx="6" ry="6" fill="#ffffff" stroke="#a8c6b7" stroke-width="1.25" pointer-events="all" style="fill: #ffffff; stroke: #a8c6b7;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="886" y="260" width="155" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
             </g>
             <g>
               <g>
@@ -308,8 +308,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="api">
-            <g>
-              <rect x="1071" y="260" width="150" height="66" rx="6" ry="6" fill="#ffffff" stroke="#a8c6b7" stroke-width="1.25" pointer-events="all" style="fill: #ffffff; stroke: #a8c6b7;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="1071" y="260" width="150" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
             </g>
             <g>
               <g>
@@ -328,8 +328,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="embedding">
-            <g>
-              <rect x="886" y="386" width="155" height="70" rx="6" ry="6" fill="#f3ecdf" stroke="#a48655" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #a48655;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="886" y="386" width="155" height="70" rx="6" ry="6" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #f8f5f1;" />
             </g>
             <g>
               <g>
@@ -348,8 +348,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
           </g>
           <g data-cell-id="browser">
-            <g>
-              <rect x="1071" y="386" width="150" height="70" rx="6" ry="6" fill="#eee8f3" stroke="#8c789f" stroke-width="1.25" pointer-events="all" style="fill: #eee8f3; stroke: #8c789f;" />
+            <g stroke="none" stroke-width="0">
+              <rect x="1071" y="386" width="150" height="70" rx="6" ry="6" fill="#eee8f3" stroke="#f6f4f7" stroke-width="1.25" pointer-events="all" style="fill: #eee8f3; stroke: #f6f4f7;" />
             </g>
             <g>
               <g>
@@ -432,8 +432,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
         </g>
         <g data-cell-id="milvus-connection">
-          <g>
-            <rect x="581" y="268" width="80" height="54" rx="6" ry="6" fill="#edf0f8" stroke="#4051b5" stroke-width="1.25" pointer-events="all" style="fill: #edf0f8; stroke: #4051b5;" />
+          <g stroke="none" stroke-width="0">
+            <rect x="581" y="268" width="80" height="54" rx="6" ry="6" fill="#edf0f8" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #edf0f8; stroke: #f0f1f9;" />
           </g>
           <g>
             <g>
@@ -449,8 +449,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
         </g>
         <g data-cell-id="flow1">
-          <g>
-            <rect x="154" y="538" width="220" height="52" rx="6" ry="6" fill="#ffffff" stroke="#93857b" stroke-width="1.25" pointer-events="all" style="fill: #ffffff; stroke: #93857b;" />
+          <g stroke="none" stroke-width="0">
+            <rect x="154" y="538" width="220" height="52" rx="6" ry="6" fill="#f0efee" stroke="#f6f5f4" stroke-width="1.25" pointer-events="all" style="fill: #f0efee; stroke: #f6f5f4;" />
           </g>
           <g>
             <g>
@@ -463,8 +463,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
         </g>
         <g data-cell-id="flow2">
-          <g>
-            <rect x="419" y="538" width="170" height="52" rx="6" ry="6" fill="#f3ecdf" stroke="#a48655" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #a48655;" />
+          <g stroke="none" stroke-width="0">
+            <rect x="419" y="538" width="170" height="52" rx="6" ry="6" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #f8f5f1;" />
           </g>
           <g>
             <g>
@@ -477,8 +477,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
         </g>
         <g data-cell-id="flow3">
-          <g>
-            <rect x="634" y="538" width="220" height="52" rx="6" ry="6" fill="#e4e8f5" stroke="#4051b5" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #4051b5;" />
+          <g stroke="none" stroke-width="0">
+            <rect x="634" y="538" width="220" height="52" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
           </g>
           <g>
             <g>
@@ -494,8 +494,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
         </g>
         <g data-cell-id="flow4">
-          <g>
-            <rect x="899" y="538" width="190" height="52" rx="6" ry="6" fill="#e3eee8" stroke="#85b09a" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #85b09a;" />
+          <g stroke="none" stroke-width="0">
+            <rect x="899" y="538" width="190" height="52" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #f5f9f7;" />
           </g>
           <g>
             <g>
@@ -508,8 +508,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
         </g>
         <g data-cell-id="note">
-          <g transform="translate(0.5,0.5)">
-            <rect x="151" y="610" width="940" height="30" fill="none" stroke="none" pointer-events="all" />
+          <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
+            <rect x="151" y="610" width="940" height="30" fill="none" stroke="none" pointer-events="all" stroke-width="0" />
           </g>
           <g>
             <g>
