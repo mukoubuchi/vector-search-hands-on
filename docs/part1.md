@@ -32,6 +32,20 @@ In this part, you'll experience how Vector Search works in practice.
 Vector Search searches by understanding "meaning".
 
 ```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    fontFamily: IBM Plex Sans, IBM Plex Sans JP, sans-serif
+    fontSize: 14px
+    textColor: '#000000'
+    primaryTextColor: '#000000'
+    lineColor: '#8a8b8c'
+    edgeLabelBackground: '#ffffff'
+  flowchart:
+    curve: linear
+    useMaxWidth: false
+---
 graph LR
     subgraph step1["Step 1: Text Input"]
         A["<b>User Input</b><br/>'red sneakers'"]
@@ -58,17 +72,17 @@ graph LR
     C -->|Search Query| D
     D -->|Similar Vectors| E
     
-    style step1 fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
-    style step2 fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
-    style step3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
-    style step4 fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
-    style step5 fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+    style step1 fill:#f2f4fa,stroke:#4051b5,stroke-width:1.25px,rx:6,ry:6
+    style step2 fill:#faf7f0,stroke:#a48655,stroke-width:1.25px,rx:6,ry:6
+    style step3 fill:#f7f4f9,stroke:#8c789f,stroke-width:1.25px,rx:6,ry:6
+    style step4 fill:#f5f9f7,stroke:#85b09a,stroke-width:1.25px,rx:6,ry:6
+    style step5 fill:#faf6f8,stroke:#ad8193,stroke-width:1.25px,rx:6,ry:6
     
-    style A fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
-    style B fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
-    style C fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px
-    style D fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
-    style E fill:#F8BBD0,stroke:#C2185B,stroke-width:2px
+    style A fill:#e4e8f5,stroke:#4051b5,stroke-width:1.25px,rx:6,ry:6
+    style B fill:#f3ecdf,stroke:#a48655,stroke-width:1.25px,rx:6,ry:6
+    style C fill:#eee8f3,stroke:#8c789f,stroke-width:1.25px,rx:6,ry:6
+    style D fill:#e3eee8,stroke:#85b09a,stroke-width:1.25px,rx:6,ry:6
+    style E fill:#f5edf1,stroke:#ad8193,stroke-width:1.25px,rx:6,ry:6
 ```
 
 !!! info "Key Point"
