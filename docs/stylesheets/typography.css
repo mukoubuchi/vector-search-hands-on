@@ -30,13 +30,9 @@
     color: var(--md-primary-fg-color);
     border-bottom: solid 2px #546e7a;
     padding-bottom: 5px;
-    transition: transform 0.3s ease;
     cursor: pointer;
 }
 
-.md-typeset h1:hover {
-    transform: translateX(8px);
-}
 
 /* magnifying-glass-arrow-right */
 .md-typeset h2::before {
@@ -52,13 +48,9 @@
     color: var(--md-primary-fg-color);
     border-bottom: 1px dotted #78909c;
     padding-bottom: 5px;
-    transition: transform 0.3s ease;
     cursor: pointer;
 }
 
-.md-typeset h2:hover {
-    transform: translateX(6px);
-}
 
 /* circle-chevron-right */
 .md-typeset h3::before {
@@ -74,13 +66,9 @@
     color: var(--md-primary-fg-color);
     border-bottom: 1px dotted #b0bec5;
     padding-bottom: 3px;
-    transition: transform 0.3s ease;
     cursor: pointer;
 }
 
-.md-typeset h3:hover {
-    transform: translateX(4px);
-}
 
 /* caret-right */
 .md-typeset h4::before {
@@ -98,13 +86,9 @@
     padding: 0.4em 0.6em;
     border-left: 4px solid var(--md-primary-fg-color);
     border-radius: 0 4px 4px 0;
-    transition: all 0.3s ease;
     cursor: pointer;
 }
 
-.md-typeset h4:hover {
-    transform: translateX(4px);
-}
 
 /* Paragraph and list spacing */
 .md-typeset p {
@@ -118,14 +102,9 @@
 
 .md-typeset ul > li,
 .md-typeset ol > li {
-    transition: transform 0.2s ease;
     cursor: pointer;
 }
 
-.md-typeset ul > li:hover,
-.md-typeset ol > li:hover {
-    transform: translateX(4px);
-}
 
 /* Remove excessive spacing in lists */
 .md-typeset li > p {
@@ -153,12 +132,11 @@
     margin-bottom: 0.5em;
 }
 
-/* Link colors with slide-in effect */
+/* Link colors with an immediate hover underline */
 .md-typeset a {
     color: var(--md-typeset-a-color) !important;
     position: relative;
     display: inline-block;
-    transition: color 0.3s ease;
 }
 
 .md-typeset a::before {
@@ -169,11 +147,10 @@
     width: 0;
     height: 2px;
     background-color: currentColor;
-    transition: width 0.3s ease;
 }
 
 /* Links keep their color on hover (the base rule above is !important);
-   the slide-in underline below is the hover feedback */
+   the underline below is the hover feedback */
 .md-typeset a:hover::before {
     width: 100%;
 }

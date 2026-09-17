@@ -7,6 +7,8 @@
 @import url('components.css');
 @import url('feedback.css');
 @import url('language-switcher.css');
+@import url('palette.css');
+@import url('fonts.css');
 
 /* 
  * This file serves as the main entry point for all custom styles.

@@ -1,0 +1,304 @@
+/* MIT legacy grays with the original Material blue link accent. */
+body[data-md-color-scheme="default"] {
+    --workshop-accent: #4051b5;
+    --workshop-gray: #8a8b8c;
+    --workshop-gray-light: #c2c0bf;
+    --workshop-black: #000000;
+    /* Darken silver gray for readable text on white. */
+    --workshop-heading: color-mix(in srgb, var(--workshop-gray) 68%, black);
+    --workshop-surface: color-mix(in srgb, var(--workshop-gray-light) 24%, white);
+    --md-primary-fg-color: var(--workshop-heading);
+    --md-primary-fg-color--light: var(--workshop-gray);
+    --md-primary-fg-color--dark: var(--workshop-black);
+    --md-primary-bg-color: #ffffff;
+    --md-primary-bg-color--light: #ffffff;
+    --md-accent-fg-color: var(--workshop-accent);
+    --md-accent-fg-color--transparent: #4051b514;
+    --md-accent-bg-color: #ffffff;
+    --md-default-fg-color: var(--workshop-black);
+    --md-default-fg-color--light: var(--workshop-heading);
+    --md-default-fg-color--lighter: var(--workshop-gray);
+    --md-default-fg-color--lightest: var(--workshop-surface);
+    --md-typeset-a-color: var(--workshop-heading);
+    --md-code-fg-color: var(--workshop-black);
+    --md-code-bg-color: var(--workshop-surface);
+}
+
+.md-typeset h1 { border-color: var(--workshop-gray-light); }
+.md-typeset h2, .md-typeset h3 { border-color: var(--workshop-gray-light); }
+.md-typeset a:not(.workshop-next):hover, .md-nav__link--active,
+.md-nav__link:hover { color: var(--workshop-accent) !important; }
+.md-tabs__link { opacity: 1; }
+.md-tabs__link--active { border-bottom: 2px solid var(--workshop-gray); }
+
+/* Neutral callouts retain their labels and icons to convey their purpose. */
+.md-typeset .admonition, .md-typeset details {
+    border-color: var(--workshop-gray-light);
+}
+.md-typeset .admonition > .admonition-title,
+.md-typeset details > summary {
+    background-color: var(--workshop-surface);
+    color: var(--workshop-black);
+}
+.md-typeset .admonition > .admonition-title::before,
+.md-typeset details > summary::before {
+    background-color: var(--workshop-heading);
+}
+.md-typeset details > summary::after { color: var(--workshop-heading); }
+.md-typeset details:focus-within { box-shadow: 0 0 0 2px var(--workshop-gray); }
+.md-typeset .steps {
+    --step-line: var(--workshop-gray-light);
+    --step-circle-bg: var(--workshop-surface);
+    --step-circle-fg: var(--workshop-heading);
+}
+.md-typeset table:not([class]) th { background: var(--workshop-surface); }
+.md-typeset mark { background: #4051b514; color: var(--workshop-black); }
+.md-typeset .tabbed-labels > label:hover,
+.md-typeset .tabbed-labels > label.tabbed-label--active {
+    color: var(--workshop-accent);
+}
+
+/* Page scrolling stays gray; nested navigation uses blue. */
+html { scrollbar-color: #5e5f5f #f1f2f3; }
+body, .md-typeset pre > code {
+    scrollbar-color: var(--workshop-heading) var(--workshop-surface);
+}
+::-webkit-scrollbar-thumb { background-color: #5e5f5f !important; }
+.md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-toc-indicator {
+    background-color: var(--workshop-accent);
+}
+.md-sidebar .md-sidebar__scrollwrap,
+.md-sidebar .md-sidebar__scrollwrap:hover,
+.md-search__scrollwrap {
+    scrollbar-color: var(--workshop-accent) var(--workshop-surface);
+}
+.md-sidebar .md-sidebar__scrollwrap::-webkit-scrollbar-thumb,
+.md-sidebar .md-sidebar__scrollwrap:hover::-webkit-scrollbar-thumb,
+.md-sidebar .md-sidebar__scrollwrap::-webkit-scrollbar-thumb:hover,
+.md-search__scrollwrap::-webkit-scrollbar-thumb {
+    background-color: var(--workshop-accent) !important;
+}
+.md-typeset .admonition, .md-typeset details {
+    border-color: var(--workshop-gray-light) !important;
+}
+.md-typeset .workshop-next:hover,
+.md-typeset .workshop-next:focus {
+    color: var(--md-primary-bg-color) !important;
+}
+.md-top:hover { color: white !important; }
+
+/* Hide only the enclosing border, preserving spacing and focus behavior. */
+.md-typeset .admonition,
+.md-typeset details {
+    border-color: transparent !important;
+}
+
+/* A closed disclosure keeps a focus indicator only for keyboard navigation. */
+.md-typeset details:not([open]):not(:has(> summary:focus-visible)) {
+    box-shadow: none !important;
+}
+.md-typeset details:not([open]) > summary:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Separate boxed content with backgrounds rather than enclosing strokes. */
+.md-typeset pre,
+.md-typeset code,
+.md-typeset kbd {
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.md-typeset table:not([class]),
+.md-search__form,
+.md-search__output,
+.md-top {
+    border: 0 !important;
+}
+
+/* Grid the table body while keeping the shaded heading row uninterrupted. */
+.md-typeset table:not([class]) {
+    border-collapse: collapse;
+}
+.md-typeset table:not([class]) tbody td + td {
+    border-left: 1px solid var(--workshop-gray-light);
+}
+.md-typeset table:not([class]) thead th {
+    border-left: 0;
+    border-right: 0;
+}
+
+/* Color article links without changing navigation or filled buttons. */
+.md-typeset a:not(.workshop-next):not(.md-button) {
+    color: var(--workshop-accent) !important;
+}
+
+/* Disable theme and custom motion on headings, links, and their underlines. */
+.md-typeset :is(h1, h2, h3, h4, a),
+.md-typeset :is(h1, h2, h3, h4, a)::before,
+.md-typeset :is(h1, h2, h3, h4, a)::after,
+.md-tabs__link, .md-tabs__link::before, .md-tabs__link::after,
+.md-nav__link, .md-nav__link::before, .md-nav__link::after,
+.md-select__link, .md-select__link::before, .md-select__link::after,
+.md-typeset .tabbed-labels > label,
+.md-typeset .tabbed-labels > label::before,
+.md-typeset .tabbed-labels > label::after {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* Heritage Cambridge Blue for supporting callouts and completion controls. */
+body[data-md-color-scheme="default"] {
+    --workshop-support: #85b09a;
+    --workshop-support-focus: color-mix(in srgb, var(--workshop-support) 8%, white);
+}
+.md-typeset .admonition > .admonition-title,
+.md-typeset details > summary {
+    background-color: var(--workshop-support-focus) !important;
+}
+.md-typeset .admonition > .admonition-title::before,
+.md-typeset details > summary::before {
+    background-color: var(--workshop-support) !important;
+}
+.md-typeset details > summary::after { color: var(--workshop-support) !important; }
+.md-typeset details:focus-within {
+    box-shadow: 0 0 0 2px var(--workshop-support-focus);
+}
+.md-typeset .task-list-control input:checked + .task-list-indicator::before {
+    background-color: var(--workshop-support);
+}
+.md-typeset input[type="checkbox"] { accent-color: var(--workshop-support); }
+
+.md-typeset .admonition,
+.md-typeset details {
+    border-color: var(--workshop-support-focus) !important;
+}
+
+/* Highlight top navigation like the OS selector. */
+.md-tabs__link {
+    padding: 0.4em 0.8em;
+    border-radius: 6px 6px 0 0;
+}
+.md-tabs__link:hover {
+    background-color: color-mix(in srgb, white 8%, transparent);
+}
+.md-tabs__link--active,
+.md-tabs__item--active .md-tabs__link {
+    background-color: color-mix(in srgb, white 14%, transparent);
+}
+
+/* Keep each tab within the header so its bottom underline is not clipped. */
+.md-tabs__link {
+    margin-top: 0 !important;
+    padding: 0 1rem !important;
+}
+
+/* Use a compact tab background while keeping its underline inside the header. */
+.md-tabs__link {
+    height: 2rem !important;
+    align-self: flex-end;
+}
+
+/* Commands and prompts use regular weight, including highlighted tokens. */
+.md-typeset code,
+.md-typeset code *,
+.md-typeset pre code,
+.md-typeset pre code *,
+.md-typeset strong code,
+.md-typeset code strong {
+    font-weight: 400 !important;
+}
+
+/* Keep horizontal content scrollbars thin and consistently blue. */
+.md-typeset :is(pre, pre > code, .highlight) {
+    scrollbar-color: var(--workshop-accent) var(--workshop-surface);
+    scrollbar-width: thin;
+}
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar {
+    height: 4px;
+}
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar-thumb {
+    background-color: var(--workshop-accent) !important;
+}
+
+/* Unselected OS labels stay gray, including their generated anchors. */
+.md-typeset .tabbed-labels > label,
+.md-typeset .tabbed-set .tabbed-labels > label a {
+    color: var(--workshop-heading) !important;
+}
+.md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1),
+.md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1) a {
+    color: var(--workshop-accent) !important;
+}
+.md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2),
+.md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2) a {
+    color: var(--workshop-accent) !important;
+}
+.md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3),
+.md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3) a {
+    color: var(--workshop-accent) !important;
+}
+.md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4),
+.md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4) a {
+    color: var(--workshop-accent) !important;
+}
+.md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5),
+.md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5) a {
+    color: var(--workshop-accent) !important;
+}
+
+/* Match the TOC indicator's 0.15rem thickness without native faded thumbs. */
+.md-typeset :is(pre, pre > code, .highlight),
+.md-typeset :is(pre, pre > code, .highlight):hover {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+}
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar {
+    height: 0.15rem !important;
+}
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar-thumb,
+.md-typeset :is(pre, pre > code, .highlight):hover::-webkit-scrollbar-thumb,
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar-thumb:hover,
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar-thumb:active {
+    background: var(--workshop-accent) !important;
+    opacity: 1 !important;
+    border: 0 !important;
+    transition: none !important;
+}
+
+/* Show the horizontal thumb only while its content box is hovered. */
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar-thumb {
+    background: transparent !important;
+}
+.md-typeset :is(pre, pre > code, .highlight):hover::-webkit-scrollbar-thumb,
+.md-typeset .highlight:hover pre::-webkit-scrollbar-thumb,
+.md-typeset pre:hover > code::-webkit-scrollbar-thumb {
+    background: var(--workshop-accent) !important;
+}
+.md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+/* A single selection indicator slides on activation, never on hover. */
+.has-selector-indicator { position: relative; }
+.selector-indicator {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 1px;
+    transform-origin: left center;
+    background: var(--workshop-accent);
+    pointer-events: none;
+    z-index: 2;
+}
+.md-tabs__list > .selector-indicator { background: var(--md-primary-bg-color); }
+/* A selection must not change tab widths during the slide. */
+.md-tabs__link { font-weight: 600; }
+.md-tabs__link::after,
+.md-typeset .tabbed-labels > label::after {
+    display: none !important;
+}
+.md-typeset .tabbed-set > input:checked ~ .tabbed-labels.has-selector-indicator > label,
+.md-tabs__link--active {
+    border-bottom-color: transparent !important;
+}

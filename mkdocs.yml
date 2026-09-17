@@ -15,8 +15,8 @@ theme:
   language: en
   palette:
     scheme: default
-    primary: blue-grey
-    accent: blue-grey
+    primary: custom
+    accent: custom
   features:
     - navigation.tabs
     - navigation.tabs.sticky
@@ -28,8 +28,7 @@ theme:
     - search.highlight
     - content.tabs.link
     - content.code.copy
-  # No web fonts: render with system fonts only, so no Google Fonts
-  # request is made (works identically on offline venue networks)
+  # Load bundled IBM Plex fonts through local CSS; do not request Google Fonts.
   font: false
 
 # Repository info (kept out of the header; the source URL is listed in the home page)
@@ -121,6 +120,7 @@ extra_javascript:
   - javascripts/site-config.js
   - javascripts/search.js
   - javascripts/navigation.js
+  - javascripts/selector-indicator.js
   - javascripts/toc-indicator.js
   - javascripts/steps.js
   - javascripts/tasks.js

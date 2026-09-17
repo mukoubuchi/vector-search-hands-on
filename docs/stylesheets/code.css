@@ -300,3 +300,9 @@
         background: color-mix(in srgb, var(--md-default-fg-color) 30%, transparent) !important;
     }
 }
+
+/* Prompt paragraphs wrap to the viewport without adding copied line breaks. */
+.md-typeset .language-text.highlight pre code {
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere !important;
+}
