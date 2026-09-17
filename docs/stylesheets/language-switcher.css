@@ -20,11 +20,19 @@
     width: 0 !important;
     height: 2px !important;
     background-color: var(--md-accent-fg-color) !important;
-    transition: width 0.3s ease !important;
+    transition: none !important;
     display: block !important;
     pointer-events: none !important;
 }
 
 .md-select__link:hover::before {
     width: 100% !important;
+}
+
+/* Keep the language menu inside narrow viewports near the right edge. */
+@media screen and (max-width: 76.234375em) {
+    .md-header .md-select__inner {
+        left: auto;
+        right: 0;
+    }
 }

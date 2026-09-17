@@ -28,10 +28,7 @@
     margin: 1em 0;
 }
 
-/* Tabbed content styling (content tabs only, not the header navigation).
-   The selected tab is shown with a background highlight instead of the
-   sliding underline, which the tab strip's horizontal scrollbar used to
-   overlap as an ugly second line. */
+/* Content tab backgrounds; selector-indicator.js owns the moving underline. */
 .md-typeset .tabbed-labels {
     scrollbar-width: none;
 }
@@ -54,46 +51,19 @@
     background-color: color-mix(in srgb, var(--md-primary-fg-color) 8%, transparent);
 }
 
-/* Slide-in underline when hovering a tab, like the header navigation.
-   It fills the label's transparent border-bottom zone (the strip's
-   bottom edge), so it sits exactly on the separator line; its color
-   matches the label text (the link color) */
-.md-typeset .tabbed-labels > label::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -0.1rem;
-    width: 100%;
-    height: 0.1rem;
-    background-color: var(--md-typeset-a-color);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.25s ease;
-}
-
-.md-typeset .tabbed-labels > label:hover::after {
-    transform: scaleX(1);
-}
-
-/* The link slide-in underline does not belong inside tab labels: it
-   appeared on hover at the anchor's bottom edge, floating above the
-   strip's separator line */
+/* Text links inside labels must not add a second underline. */
 .md-typeset .tabbed-labels > label a::before {
     content: none;
 }
 
-/* Background highlight and a permanent bottom indicator for the selected
-   tab. The indicator colors the label's existing transparent
-   border-bottom, which sits at the strip's bottom edge in front of the
-   separator line (covers up to five tabs per set; this site uses at
-   most three) */
+/* Keep a selected background and a fallback underline without JavaScript. */
 .md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1),
 .md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2),
 .md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3),
 .md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4),
 .md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5) {
     background-color: color-mix(in srgb, var(--md-primary-fg-color) 14%, transparent);
-    border-bottom-color: var(--md-typeset-a-color);
+    border-bottom-color: var(--md-accent-fg-color);
 }
 
 .md-typeset .tabbed-content {
@@ -445,14 +415,4 @@
     font-size: calc(var(--step-size) * 0.45);
     line-height: 1;
     transition: transform 0.3s ease;
-}
-
-/* Same hover shift as every other heading. The circle counter-shifts by the
-   same amount so it stays put on the rail. */
-.md-typeset .step > .step__title:hover {
-    transform: translateX(4px);
-}
-
-.md-typeset .step > .step__title:hover::after {
-    transform: translateY(-50%) translateX(-4px);
 }

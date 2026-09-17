@@ -131,33 +131,6 @@
         color: var(--md-primary-bg-color) !important;
     }
     
-    /* Tab underline using ::after pseudo-element */
-    .md-tabs__link::after {
-        content: '' !important;
-        position: absolute !important;
-        left: 1rem !important;
-        right: 1rem !important;
-        bottom: 0.4rem !important;
-        height: 2px !important;
-        background-color: currentColor !important;
-        transform: scaleX(0) !important;
-        transform-origin: center !important;
-        transition: transform 0.3s ease !important;
-        display: block !important;
-    }
-    
-    .md-tabs__link:hover::after {
-        transform: scaleX(1) !important;
-    }
-    
-    .md-tabs__item--active .md-tabs__link::after {
-        transform: scaleX(1) !important;
-    }
-    
-    .md-tabs .md-tabs__link[aria-current="page"]::after {
-        transform: scaleX(1) !important;
-    }
-    
     /* Adjust header to accommodate tabs */
     .md-header {
         height: 2.4rem !important;
@@ -317,4 +290,31 @@
 
 .md-top:hover {
     background-color: var(--md-primary-fg-color) !important;
+}
+
+/* Match the former feedback action button; keep page navigation independent. */
+.md-typeset .workshop-next {
+    background: var(--md-primary-fg-color);
+    border: 0;
+    border-radius: 6px;
+    color: var(--md-primary-bg-color) !important;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    transition: none;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+
+.md-typeset .workshop-next:hover,
+.md-typeset .workshop-next:focus {
+    background: var(--md-accent-fg-color);
+    text-decoration: none;
+}
+
+/* Suppress the animated underline applied to ordinary text links. */
+.md-typeset .workshop-next::before {
+    content: none;
 }
