@@ -31,59 +31,32 @@
 
 Vector Search は「意味」を理解して検索します。以下の図は、このハンズオンで作成するデモアプリにおいて、ユーザー入力をベクトルに変換し、Milvus で類似商品を検索する流れを説明したものです。
 
-```mermaid
----
-config:
-  theme: base
-  themeVariables:
-    fontFamily: IBM Plex Sans, IBM Plex Sans JP, sans-serif
-    fontSize: 14px
-    textColor: '#000000'
-    primaryTextColor: '#000000'
-    lineColor: '#8a8b8c'
-    edgeLabelBackground: '#ffffff'
-  flowchart:
-    curve: linear
-    useMaxWidth: false
----
-graph LR
-    subgraph step1["ステップ 1: テキスト入力"]
-        A["<b>ユーザー入力</b><br/>「赤いスニーカー」"]
-    end
-    
-    subgraph step2["ステップ 2: ベクトル変換"]
-        B["<b>埋め込みモデル</b><br/>テキスト → ベクトル"]
-    end
-    
-    subgraph step3["ステップ 3: ベクトル表現"]
-        C["<b>ベクトル (384次元)</b><br/>[0.2, 0.8, 0.1, 0.5, ...]"]
-    end
-    
-    subgraph step4["ステップ 4: 類似検索"]
-        D[("<b>Milvus</b><br/>ベクトルDB")]
-    end
-    
-    subgraph step5["ステップ 5: 検索結果"]
-        E["<b>類似商品リスト</b><br/>・赤いスポーツシューズ (0.5474)<br/>・赤いランニングシューズ (0.4681)<br/>・赤いトレーニングシューズ (0.4517)"]
-    end
-    
-    A -->|テキスト| B
-    B -->|変換| C
-    C -->|検索クエリ| D
-    D -->|類似ベクトル| E
-    
-    style step1 fill:#f2f4fa,stroke:#f0f1f9,stroke-width:1.25px,rx:6,ry:6
-    style step2 fill:#faf7f0,stroke:#f8f5f1,stroke-width:1.25px,rx:6,ry:6
-    style step3 fill:#f7f4f9,stroke:#f6f4f7,stroke-width:1.25px,rx:6,ry:6
-    style step4 fill:#f5f9f7,stroke:#f5f9f7,stroke-width:1.25px,rx:6,ry:6
-    style step5 fill:#faf6f8,stroke:#f8f5f6,stroke-width:1.25px,rx:6,ry:6
-    
-    style A fill:#e4e8f5,stroke:#f0f1f9,stroke-width:1.25px,rx:6,ry:6
-    style B fill:#f3ecdf,stroke:#f8f5f1,stroke-width:1.25px,rx:6,ry:6
-    style C fill:#eee8f3,stroke:#f6f4f7,stroke-width:1.25px,rx:6,ry:6
-    style D fill:#e3eee8,stroke:#f5f9f7,stroke-width:1.25px,rx:6,ry:6
-    style E fill:#f5edf1,stroke:#f8f5f6,stroke-width:1.25px,rx:6,ry:6
-```
+<div class="vector-flow" role="group" aria-label="Vector Search の流れ" tabindex="0">
+  <div class="admonition vector-flow-step" style="--flow-tint: #f0f1f9">
+    <p class="admonition-title">ステップ 1: テキスト入力</p>
+    <p class="vector-flow-content"><strong>ユーザー入力</strong><br/>「赤いスニーカー」</p>
+  </div>
+  <div class="vector-flow-edge"><span>テキスト</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f1">
+    <p class="admonition-title">ステップ 2: ベクトル変換</p>
+    <p class="vector-flow-content"><strong>埋め込みモデル</strong><br/>テキスト → ベクトル</p>
+  </div>
+  <div class="vector-flow-edge"><span>変換</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f6f4f7">
+    <p class="admonition-title">ステップ 3: ベクトル表現</p>
+    <p class="vector-flow-content"><strong>ベクトル (384次元)</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
+  </div>
+  <div class="vector-flow-edge"><span>検索クエリ</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f5f9f7">
+    <p class="admonition-title">ステップ 4: 類似検索</p>
+    <p class="vector-flow-content"><strong>Milvus</strong><br/>ベクトルDB</p>
+  </div>
+  <div class="vector-flow-edge"><span>類似ベクトル</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
+    <p class="admonition-title">ステップ 5: 検索結果</p>
+    <p class="vector-flow-content"><strong>類似商品リスト</strong><br/>・赤いスポーツシューズ (0.5474)<br/>・赤いランニングシューズ (0.4681)<br/>・赤いトレーニングシューズ (0.4517)</p>
+  </div>
+</div>
 
 !!! info "ポイント"
     - 意味が似ていると、ベクトルも似る

@@ -31,59 +31,32 @@ In this part, you'll experience how Vector Search works in practice.
 
 Vector Search searches by understanding "meaning".
 
-```mermaid
----
-config:
-  theme: base
-  themeVariables:
-    fontFamily: IBM Plex Sans, IBM Plex Sans JP, sans-serif
-    fontSize: 14px
-    textColor: '#000000'
-    primaryTextColor: '#000000'
-    lineColor: '#8a8b8c'
-    edgeLabelBackground: '#ffffff'
-  flowchart:
-    curve: linear
-    useMaxWidth: false
----
-graph LR
-    subgraph step1["Step 1: Text Input"]
-        A["<b>User Input</b><br/>'red sneakers'"]
-    end
-    
-    subgraph step2["Step 2: Vector Conversion"]
-        B["<b>Embedding Model</b><br/>Text → Vector"]
-    end
-    
-    subgraph step3["Step 3: Vector Representation"]
-        C["<b>Vector (384 dimensions)</b><br/>[0.2, 0.8, 0.1, 0.5, ...]"]
-    end
-    
-    subgraph step4["Step 4: Similarity Search"]
-        D[("<b>Milvus</b><br/>Vector DB")]
-    end
-    
-    subgraph step5["Step 5: Search Results"]
-        E["<b>Similar Products List</b><br/>• Red Sports Shoes (0.5474)<br/>• Red Running Shoes (0.4681)<br/>• Red Training Shoes (0.4517)"]
-    end
-    
-    A -->|Text| B
-    B -->|Convert| C
-    C -->|Search Query| D
-    D -->|Similar Vectors| E
-    
-    style step1 fill:#f2f4fa,stroke:#f0f1f9,stroke-width:1.25px,rx:6,ry:6
-    style step2 fill:#faf7f0,stroke:#f8f5f1,stroke-width:1.25px,rx:6,ry:6
-    style step3 fill:#f7f4f9,stroke:#f6f4f7,stroke-width:1.25px,rx:6,ry:6
-    style step4 fill:#f5f9f7,stroke:#f5f9f7,stroke-width:1.25px,rx:6,ry:6
-    style step5 fill:#faf6f8,stroke:#f8f5f6,stroke-width:1.25px,rx:6,ry:6
-    
-    style A fill:#e4e8f5,stroke:#f0f1f9,stroke-width:1.25px,rx:6,ry:6
-    style B fill:#f3ecdf,stroke:#f8f5f1,stroke-width:1.25px,rx:6,ry:6
-    style C fill:#eee8f3,stroke:#f6f4f7,stroke-width:1.25px,rx:6,ry:6
-    style D fill:#e3eee8,stroke:#f5f9f7,stroke-width:1.25px,rx:6,ry:6
-    style E fill:#f5edf1,stroke:#f8f5f6,stroke-width:1.25px,rx:6,ry:6
-```
+<div class="vector-flow" role="group" aria-label="Vector Search flow" tabindex="0">
+  <div class="admonition vector-flow-step" style="--flow-tint: #f0f1f9">
+    <p class="admonition-title">Step 1: Text Input</p>
+    <p class="vector-flow-content"><strong>User Input</strong><br/>'red sneakers'</p>
+  </div>
+  <div class="vector-flow-edge"><span>Text</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f1">
+    <p class="admonition-title">Step 2: Vector Conversion</p>
+    <p class="vector-flow-content"><strong>Embedding Model</strong><br/>Text → Vector</p>
+  </div>
+  <div class="vector-flow-edge"><span>Convert</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f6f4f7">
+    <p class="admonition-title">Step 3: Vector Representation</p>
+    <p class="vector-flow-content"><strong>Vector (384 dimensions)</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
+  </div>
+  <div class="vector-flow-edge"><span>Search Query</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f5f9f7">
+    <p class="admonition-title">Step 4: Similarity Search</p>
+    <p class="vector-flow-content"><strong>Milvus</strong><br/>Vector DB</p>
+  </div>
+  <div class="vector-flow-edge"><span>Similar Vectors</span><span aria-hidden="true">⟶</span></div>
+  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
+    <p class="admonition-title">Step 5: Search Results</p>
+    <p class="vector-flow-content"><strong>Similar Products List</strong><br/>• Red Sports Shoes (0.5474)<br/>• Red Running Shoes (0.4681)<br/>• Red Training Shoes (0.4517)</p>
+  </div>
+</div>
 
 !!! info "Key Point"
     - Similar meanings result in similar vectors

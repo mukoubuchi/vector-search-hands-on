@@ -7,8 +7,8 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
 </style>
   </defs>
   <g>
-    <path d="M 1 41 V 7 Q 1 1 7 1 H 1085 Q 1091 1 1091 7 V 41" fill="#f2f4fa" stroke="#f0f1f9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" />
-    <path d="M 1 41 V 195 Q 1 201 7 201 H 1085 Q 1091 201 1091 195 V 41" fill="#f2f4fa" stroke="#f0f1f9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 1 41 V 5 Q 1 1 5 1 H 1087 Q 1091 1 1091 5 V 41" fill="#f0f1f9" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" />
+    <path d="M 1 41 V 197 Q 1 201 5 201 H 1087 Q 1091 201 1091 197 V 41" fill="#ffffff" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" />
     <path d="M 1 41 L 1091 41" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
       <text x="546.0" y="26.6" font-size="16.0" fill="#000000" text-anchor="middle">

@@ -276,14 +276,55 @@
     }
 }
 
-/* Mermaid renders in a shadow root; theme variables inherit into its labels. */
-.mermaid {
-    --md-mermaid-font-family: var(--workshop-text-font);
-    --md-mermaid-edge-color: var(--workshop-gray);
-    --md-mermaid-label-fg-color: var(--workshop-black);
-    --md-mermaid-label-bg-color: #ffffff;
+/* Flow stages use the same title/body structure as the site's Blocks. */
+.md-typeset .vector-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
     margin: 1.5em 0;
+    padding: 0.25rem 0.1rem;
     overflow-x: auto;
+}
+
+.md-typeset .vector-flow .vector-flow-step {
+    flex: 0 0 auto;
+    margin: 0;
+    background-color: #ffffff;
+    border-color: var(--flow-tint) !important;
+}
+
+.md-typeset .vector-flow .vector-flow-step > .admonition-title {
+    padding-inline: 0.6rem;
+    background-color: var(--flow-tint) !important;
+    white-space: nowrap;
+}
+
+.md-typeset .vector-flow .vector-flow-step > .admonition-title::before {
+    display: none;
+}
+
+.md-typeset .vector-flow-content {
+    padding: 0.5rem 0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.md-typeset .vector-flow-edge {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 4.5rem;
+    padding: 0 0.5rem;
+    font-size: 0.64rem;
+    white-space: nowrap;
+}
+
+.md-typeset .vector-flow-edge > span:last-child {
+    color: var(--workshop-gray);
+    font-size: 1.8rem;
+    line-height: 1;
 }
 
 /* ==========================================================================
