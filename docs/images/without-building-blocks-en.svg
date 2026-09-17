@@ -1,1 +1,194 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1092px" height="202px" viewBox="-0.5 -0.5 1092 202"><defs/><g><path d="M 1 41 L 1 1 L 1091 1 L 1091 41" fill="#ffe6e6" stroke="#cc0000" stroke-width="2" stroke-miterlimit="10" pointer-events="all"/><path d="M 1 41 L 1 201 L 1091 201 L 1091 41" fill="none" stroke="#cc0000" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 1 41 L 1091 41" fill="none" stroke="#cc0000" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 21px; margin-left: 546px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 16px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: nowrap;">Without Building Blocks</div></div></div></foreignObject><text x="546" y="26" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="16px" text-anchor="middle" font-weight="bold">Without Building Blocks</text></switch></g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 298px; height: 1px; padding-top: 66px; margin-left: 23px;"><div style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(204, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Time Required: Days to Weeks</div></div></div></foreignObject><text x="23" y="70" fill="#cc0000" font-family="Helvetica" font-size="14px" font-weight="bold">Time Required: Days to Weeks</text></switch></g><rect x="41" y="101" width="140" height="60" rx="9" ry="9" fill="#ffcccc" stroke="#cc0000" stroke-width="2" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 131px; margin-left: 42px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 13px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Requirements</div></div></div></foreignObject><text x="111" y="135" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="13px" text-anchor="middle" font-weight="bold">Requirements</text></switch></g><rect x="201" y="101" width="140" height="60" rx="9" ry="9" fill="#ffcccc" stroke="#cc0000" stroke-width="2" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 131px; margin-left: 202px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 13px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Tech Selection</div></div></div></foreignObject><text x="271" y="135" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="13px" text-anchor="middle" font-weight="bold">Tech Selection</text></switch></g><rect x="361" y="101" width="140" height="60" rx="9" ry="9" fill="#ffcccc" stroke="#cc0000" stroke-width="2" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 131px; margin-left: 362px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 13px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Environment<br />Setup</div></div></div></foreignObject><text x="431" y="135" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="13px" text-anchor="middle" font-weight="bold">Environment...</text></switch></g><rect x="521" y="101" width="140" height="60" rx="9" ry="9" fill="#ffcccc" stroke="#cc0000" stroke-width="2" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 131px; margin-left: 522px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 13px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Coding</div></div></div></foreignObject><text x="591" y="135" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="13px" text-anchor="middle" font-weight="bold">Coding</text></switch></g><rect x="681" y="101" width="140" height="60" rx="9" ry="9" fill="#ffcccc" stroke="#cc0000" stroke-width="2" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 131px; margin-left: 682px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 13px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Testing</div></div></div></foreignObject><text x="751" y="135" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="13px" text-anchor="middle" font-weight="bold">Testing</text></switch></g><rect x="841" y="101" width="140" height="60" rx="9" ry="9" fill="#ffcccc" stroke="#cc0000" stroke-width="2" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 131px; margin-left: 842px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 13px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Debugging</div></div></div></foreignObject><text x="911" y="135" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="13px" text-anchor="middle" font-weight="bold">Debugging</text></switch></g><rect x="1001" y="101" width="60" height="60" rx="9" ry="9" fill="#ccffcc" stroke="#00cc00" stroke-width="3" pointer-events="none"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 58px; height: 1px; padding-top: 131px; margin-left: 1002px;"><div style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 13px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; overflow-wrap: normal;">Done</div></div></div></foreignObject><text x="1031" y="135" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="13px" text-anchor="middle" font-weight="bold">Done</text></switch></g><path d="M 181 131 L 191 131 Q 201 131 191 131 L 186 131 Q 181 131 186.88 131 L 192.76 131" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 198.76 131 L 190.76 135 L 192.76 131 L 190.76 127 Z" fill="#666666" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 341 131 L 351 131 Q 361 131 351 131 L 346 131 Q 341 131 346.88 131 L 352.76 131" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 358.76 131 L 350.76 135 L 352.76 131 L 350.76 127 Z" fill="#666666" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 501 131 L 511 131 Q 521 131 511 131 L 506 131 Q 501 131 506.88 131 L 512.76 131" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 518.76 131 L 510.76 135 L 512.76 131 L 510.76 127 Z" fill="#666666" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 661 131 L 671 131 Q 681 131 671 131 L 666 131 Q 661 131 666.88 131 L 672.76 131" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 678.76 131 L 670.76 135 L 672.76 131 L 670.76 127 Z" fill="#666666" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 821 131 L 831 131 Q 841 131 831 131 L 826 131 Q 821 131 826.88 131 L 832.76 131" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 838.76 131 L 830.76 135 L 832.76 131 L 830.76 127 Z" fill="#666666" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 981 131 L 991 131 Q 1001 131 991 131 L 986 131 Q 981 131 986.88 131 L 992.76 131" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/><path d="M 998.76 131 L 990.76 135 L 992.76 131 L 990.76 127 Z" fill="#666666" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1092px" height="202px" viewBox="-0.5 -0.5 1092 202">
+  <defs>
+    <style>
+@font-face { font-family: 'Workshop Diagram Sans'; font-style: normal; font-weight: 400; src: url(data:font/woff2;base64,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) format('woff2'); }
+@font-face { font-family: 'Workshop Diagram Sans'; font-style: normal; font-weight: 700; src: url(data:font/woff2;base64,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) format('woff2'); }
+text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sans-serif !important; }
+</style>
+  </defs>
+  <g>
+    <path d="M 1 41 V 7 Q 1 1 7 1 H 1085 Q 1091 1 1091 7 V 41" fill="#f5f3f1" stroke="#7e7168" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" />
+    <path d="M 1 41 V 195 Q 1 201 7 201 H 1085 Q 1091 201 1091 195 V 41" fill="none" stroke="#7e7168" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 1 41 L 1091 41" fill="none" stroke="#7e7168" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="546.0" y="26.6" font-size="16.0" fill="#000000" text-anchor="middle">
+        <tspan x="546.0" dy="0">
+          <tspan font-weight="700">Without Building Blocks</tspan>
+        </tspan>
+      </text>
+    </g>
+    <g transform="translate(-0.5 -0.5)">
+      <text x="23.0" y="70.9" font-size="14.0" fill="#7e7168" text-anchor="start">
+        <tspan x="23.0" dy="0">
+          <tspan font-weight="700">Time Required: Days to Weeks</tspan>
+        </tspan>
+      </text>
+    </g>
+    <rect x="41" y="101" width="140" height="60" rx="6" ry="6" fill="#ece8e5" stroke="#7e7168" stroke-width="1.25" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="111.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+        <tspan x="111.0" dy="0">
+          <tspan font-weight="700">Requirements</tspan>
+        </tspan>
+      </text>
+    </g>
+    <rect x="201" y="101" width="140" height="60" rx="6" ry="6" fill="#ece8e5" stroke="#7e7168" stroke-width="1.25" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="271.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+        <tspan x="271.0" dy="0">
+          <tspan font-weight="700">Tech Selection</tspan>
+        </tspan>
+      </text>
+    </g>
+    <rect x="361" y="101" width="140" height="60" rx="6" ry="6" fill="#ece8e5" stroke="#7e7168" stroke-width="1.25" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="431.0" y="127.75" font-size="13.0" fill="#000000" text-anchor="middle">
+        <tspan x="431.0" dy="0">
+          <tspan font-weight="700">Environment</tspan>
+        </tspan>
+        <tspan x="431.0" dy="15.6">
+          <tspan font-weight="700">Setup</tspan>
+        </tspan>
+      </text>
+    </g>
+    <rect x="521" y="101" width="140" height="60" rx="6" ry="6" fill="#ece8e5" stroke="#7e7168" stroke-width="1.25" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="591.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+        <tspan x="591.0" dy="0">
+          <tspan font-weight="700">Coding</tspan>
+        </tspan>
+      </text>
+    </g>
+    <rect x="681" y="101" width="140" height="60" rx="6" ry="6" fill="#ece8e5" stroke="#7e7168" stroke-width="1.25" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="751.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+        <tspan x="751.0" dy="0">
+          <tspan font-weight="700">Testing</tspan>
+        </tspan>
+      </text>
+    </g>
+    <rect x="841" y="101" width="140" height="60" rx="6" ry="6" fill="#ece8e5" stroke="#7e7168" stroke-width="1.25" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="911.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+        <tspan x="911.0" dy="0">
+          <tspan font-weight="700">Debugging</tspan>
+        </tspan>
+      </text>
+    </g>
+    <rect x="1001" y="101" width="60" height="60" rx="6" ry="6" fill="#e3eee8" stroke="#85b09a" stroke-width="1.25" pointer-events="none" />
+    <g transform="translate(-0.5 -0.5)">
+      <text x="1031.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+        <tspan x="1031.0" dy="0">
+          <tspan font-weight="700">Done</tspan>
+        </tspan>
+      </text>
+    </g>
+    <path d="M 181 131 L 191 131 Q 201 131 191 131 L 186 131 Q 181 131 186.88 131 L 192.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 198.76 131 L 190.76 135 L 192.76 131 L 190.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 341 131 L 351 131 Q 361 131 351 131 L 346 131 Q 341 131 346.88 131 L 352.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 358.76 131 L 350.76 135 L 352.76 131 L 350.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 501 131 L 511 131 Q 521 131 511 131 L 506 131 Q 501 131 506.88 131 L 512.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 518.76 131 L 510.76 135 L 512.76 131 L 510.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 661 131 L 671 131 Q 681 131 671 131 L 666 131 Q 661 131 666.88 131 L 672.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 678.76 131 L 670.76 135 L 672.76 131 L 670.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 821 131 L 831 131 Q 841 131 831 131 L 826 131 Q 821 131 826.88 131 L 832.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 838.76 131 L 830.76 135 L 832.76 131 L 830.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 981 131 L 991 131 Q 1001 131 991 131 L 986 131 Q 981 131 986.88 131 L 992.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 998.76 131 L 990.76 135 L 992.76 131 L 990.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+  </g>
+  <metadata>Embedded font subsets derived from IBM Plex.
+Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+
+This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+</metadata>
+</svg>
