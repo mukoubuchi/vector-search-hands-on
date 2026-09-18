@@ -1,4 +1,4 @@
-/** Keep one selection underline for the header and linked content tabs. */
+/** Keep one continuous selection underline through clicks and page changes. */
 (function() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const header = document.querySelector('.md-tabs__list');
@@ -69,7 +69,7 @@
         });
     }
 
-    function init() {
+    document$.subscribe(() => {
         if (headerController) {
             const selected = selectedHeader();
             header.querySelectorAll('a').forEach(link => {
@@ -87,11 +87,5 @@
                 return input && [...strip.querySelectorAll('label')].find(label => label.htmlFor === input.id);
             })
         );
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    });
 })();

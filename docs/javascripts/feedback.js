@@ -99,7 +99,7 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  document$.subscribe(function () {
     document.querySelectorAll('[data-feedback-form]').forEach(function (form) {
       form.addEventListener('submit', handleFeedbackSubmit);
 

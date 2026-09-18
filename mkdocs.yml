@@ -12,12 +12,14 @@ exclude_docs: |
 # Theme settings
 theme:
   name: material
+  custom_dir: overrides
   language: en
   palette:
     scheme: default
     primary: custom
     accent: custom
   features:
+    - navigation.instant
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
@@ -83,15 +85,21 @@ plugins:
         - ja
   - i18n:
       docs_structure: folder
+      # Use stable language roots with Material instant navigation.
+      reconfigure_material: false
       languages:
         - locale: en
           name: English
           build: true
           default: true
+          theme:
+            language: en
           site_name: Vector Search Hands-on
         - locale: ja
           name: 日本語
           build: true
+          theme:
+            language: ja
           site_name: Vector Search ハンズオン
           nav_translations:
             Home: ホーム
@@ -105,6 +113,14 @@ plugins:
 # Extra settings
 extra:
   generator: false
+  # language-switcher.js rewrites these roots to the current page on each view.
+  alternate:
+    - name: English
+      link: /
+      lang: en
+    - name: 日本語
+      link: /ja/
+      lang: ja
 
 # Custom CSS (modularized)
 extra_css:

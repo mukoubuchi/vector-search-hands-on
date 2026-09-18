@@ -1,39 +1,32 @@
 /**
  * Task list functionality
- * Saves and restores task list checkbox states using localStorage
+ * Saves and restores task list checkbox states using localStorage.
+ *
+ * Material replaces the page body on every instant navigation, so the
+ * checkboxes are bound again for each page rather than once on first load.
  */
+document$.subscribe(function() {
+    document.querySelectorAll('.task-list-item').forEach(function(item) {
+        // The checkbox input lives inside the .task-list-control label;
+        // the label itself has no usable "checked" property
+        const checkbox = item.querySelector('.task-list-control input[type="checkbox"]');
 
-// Task list functionality - save state to localStorage
-document.addEventListener('DOMContentLoaded', function() {
-    function getTaskKey(item) {
-        return 'task-' + window.location.pathname + '-' + item.textContent.trim();
-    }
+        if (!checkbox) {
+            return;
+        }
 
-    // Wait for Material theme to initialize
-    setTimeout(function() {
-        // Get all task list items
-        const taskListItems = document.querySelectorAll('.task-list-item');
-        
-        taskListItems.forEach(function(item) {
-            // The checkbox input lives inside the .task-list-control label;
-            // the label itself has no usable "checked" property
-            const checkbox = item.querySelector('.task-list-control input[type="checkbox"]');
-            
-            if (checkbox) {
-                const key = getTaskKey(item);
+        const key = 'task-' + window.location.pathname + '-' + item.textContent.trim();
 
-                // Save state to localStorage on change
-                checkbox.addEventListener('change', function() {
-                    localStorage.setItem(key, checkbox.checked);
-                });
-                
-                // Restore state from localStorage
-                const savedState = localStorage.getItem(key);
-                
-                if (savedState !== null) {
-                    checkbox.checked = (savedState === 'true');
-                }
-            }
+        // Save state to localStorage on change
+        checkbox.addEventListener('change', function() {
+            localStorage.setItem(key, checkbox.checked);
         });
-    }, 500);
+
+        // Restore state from localStorage
+        const savedState = localStorage.getItem(key);
+
+        if (savedState !== null) {
+            checkbox.checked = savedState === 'true';
+        }
+    });
 });

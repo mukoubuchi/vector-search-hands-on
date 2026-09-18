@@ -105,9 +105,5 @@
         if (container) build(container);
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    document$.subscribe(init);
 })();
