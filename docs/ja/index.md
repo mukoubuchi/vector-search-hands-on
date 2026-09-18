@@ -311,8 +311,4 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 - Vector Search Builder の受講者用パッケージ（`vector-search-builder-ja.zip`）
 - 接続情報（Milvus 接続情報）
 
-## 次のステップ
-
-それでは、[事前準備](preparation.md) のページに進みましょう！
-
 [次へ →](preparation.md){ .workshop-next }

@@ -441,9 +441,4 @@ Directly specify the Python executable inside `venv` to install Python packages.
     1. Open the **`setup/participant`** folder in the project folder
     2. Look for the **`.env`** file (if not found, copy **`.env.example`**)
 
-
-## Next Steps
-
-Once preparation is complete, proceed to [Part 1: Environment Verification and Demo](part1.md)!
-
 [Next →](part1.md){ .workshop-next }
