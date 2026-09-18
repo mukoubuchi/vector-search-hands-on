@@ -99,9 +99,48 @@
     }
   }
 
+  // A native <select> does not report its open state to CSS everywhere, so the
+  // chevron follows a class as well. Browsers that support select:open turn it
+  // from the stylesheet; this keeps the rest in step and always settles closed,
+  // so a platform that opens a modal picker simply shows the closed chevron.
+  function trackOpenState(form) {
+    // Where CSS can read the open state, it is the only source of truth. Running
+    // this alongside it would strand the chevron open: re-picking the option that
+    // is already selected closes the list without firing change or blur, and the
+    // press that closes it lands on the list, not on the select.
+    if (CSS.supports('selector(select:open)')) {
+      return;
+    }
+
+    form.querySelectorAll('.feedback-select > select').forEach(function (select) {
+      var wrapper = select.parentElement;
+
+      function close() {
+        wrapper.classList.remove('feedback-select--open');
+      }
+
+      // The press that opens the native list is the same press that closes it.
+      select.addEventListener('mousedown', function () {
+        wrapper.classList.toggle('feedback-select--open');
+      });
+
+      select.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' || event.key === 'Tab' || event.key === 'Enter') {
+          close();
+        } else if (event.altKey && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+          wrapper.classList.add('feedback-select--open');
+        }
+      });
+
+      select.addEventListener('change', close);
+      select.addEventListener('blur', close);
+    });
+  }
+
   document$.subscribe(function () {
     document.querySelectorAll('[data-feedback-form]').forEach(function (form) {
       form.addEventListener('submit', handleFeedbackSubmit);
+      trackOpenState(form);
 
       var lang = form.getAttribute('data-feedback-lang');
       var messages = MESSAGES[lang] || MESSAGES.en;

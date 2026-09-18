@@ -11,24 +11,24 @@ Vector Search ハンズオンにご参加いただき、ありがとうござい
 ## 全体について { #feedback-overall }
 
 <label for="overall-ja">全体の満足度 <span class="feedback-required">必須</span></label>
-<select id="overall-ja" name="全体の満足度" required>
+<span class="feedback-select"><select id="overall-ja" name="全体の満足度" required>
       <option value="">選択してください</option>
       <option value="5 - とても満足">5 - とても満足</option>
       <option value="4 - 満足">4 - 満足</option>
       <option value="3 - 普通">3 - 普通</option>
       <option value="2 - やや不満">2 - やや不満</option>
       <option value="1 - 不満">1 - 不満</option>
-</select>
+</select></span>
 
 <label for="pace-ja">ハンズオンの進行スピード <span class="feedback-required">必須</span></label>
-<select id="pace-ja" name="ハンズオンの進行スピード" required>
+<span class="feedback-select"><select id="pace-ja" name="ハンズオンの進行スピード" required>
       <option value="">選択してください</option>
       <option value="ちょうどよい">ちょうどよい</option>
       <option value="少し速い">少し速い</option>
       <option value="速すぎる">速すぎる</option>
       <option value="少し遅い">少し遅い</option>
       <option value="遅すぎる">遅すぎる</option>
-</select>
+</select></span>
   </section>
 
   <section class="feedback-section" markdown="1">
@@ -36,53 +36,53 @@ Vector Search ハンズオンにご参加いただき、ありがとうござい
 ## ハンズオン内容について { #feedback-content }
 
 <label for="preparation-ja">事前準備の手順は、IBM Bob、Milvus、埋め込みモデル、Python 環境をセットアップするうえで分かりやすかったですか？ <span class="feedback-required">必須</span></label>
-<select id="preparation-ja" name="事前準備の分かりやすさ" required>
+<span class="feedback-select"><select id="preparation-ja" name="事前準備の分かりやすさ" required>
       <option value="">選択してください</option>
       <option value="5 - とても分かりやすい">5 - とても分かりやすい</option>
       <option value="4 - 分かりやすい">4 - 分かりやすい</option>
       <option value="3 - だいたい分かる">3 - だいたい分かる</option>
       <option value="2 - やや分かりにくい">2 - やや分かりにくい</option>
       <option value="1 - 分かりにくい">1 - 分かりにくい</option>
-</select>
+</select></span>
 
 <label for="vector-search-ja">Part 1 を通じて、従来のキーワード検索と比較した Vector Search の特徴を理解できましたか？ <span class="feedback-required">必須</span></label>
-<select id="vector-search-ja" name="Vector Search の理解度" required>
+<span class="feedback-select"><select id="vector-search-ja" name="Vector Search の理解度" required>
       <option value="">選択してください</option>
       <option value="5 - とても理解できた">5 - とても理解できた</option>
       <option value="4 - 理解できた">4 - 理解できた</option>
       <option value="3 - どちらともいえない">3 - どちらともいえない</option>
       <option value="2 - あまり理解できなかった">2 - あまり理解できなかった</option>
       <option value="1 - 理解できなかった">1 - 理解できなかった</option>
-</select>
+</select></span>
 
 <label for="bob-ja">Part 2 で、IBM Bob と Building Blocks を使う価値を体験できましたか？ <span class="feedback-required">必須</span></label>
-<select id="bob-ja" name="IBM Bob と Building Blocks の価値" required>
+<span class="feedback-select"><select id="bob-ja" name="IBM Bob と Building Blocks の価値" required>
       <option value="">選択してください</option>
       <option value="5 - とても体験できた">5 - とても体験できた</option>
       <option value="4 - 体験できた">4 - 体験できた</option>
       <option value="3 - どちらともいえない">3 - どちらともいえない</option>
       <option value="2 - あまり体験できなかった">2 - あまり体験できなかった</option>
       <option value="1 - 体験できなかった">1 - 体験できなかった</option>
-</select>
+</select></span>
 
 <label for="features-ja">追加した機能のうち、学びとして最も役立ったものはどれですか？ <span class="feedback-required">必須</span></label>
-<select id="features-ja" name="最も役立った追加機能" required>
+<span class="feedback-select"><select id="features-ja" name="最も役立った追加機能" required>
       <option value="">選択してください</option>
       <option value="商品画像の表示">商品画像の表示</option>
       <option value="価格フィルター">価格フィルター</option>
       <option value="レコメンド理由の表示">レコメンド理由の表示</option>
       <option value="すべて役立った">すべて役立った</option>
-</select>
+</select></span>
 
 <label for="review-ja">Part 3 の動作確認、コードレビュー、クリーンアップの流れは役に立ちましたか？ <span class="feedback-required">必須</span></label>
-<select id="review-ja" name="動作確認・レビュー・クリーンアップの有用性" required>
+<span class="feedback-select"><select id="review-ja" name="動作確認・レビュー・クリーンアップの有用性" required>
       <option value="">選択してください</option>
       <option value="5 - とても役立った">5 - とても役立った</option>
       <option value="4 - 役立った">4 - 役立った</option>
       <option value="3 - どちらともいえない">3 - どちらともいえない</option>
       <option value="2 - あまり役立たなかった">2 - あまり役立たなかった</option>
       <option value="1 - 役立たなかった">1 - 役立たなかった</option>
-</select>
+</select></span>
   </section>
 
   <section class="feedback-section" markdown="1">

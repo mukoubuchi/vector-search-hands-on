@@ -53,6 +53,54 @@
   width: 100%;
 }
 
+/* Drop the platform arrow and keep the text clear of the chevron below. */
+.feedback-form select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 2.2rem;
+}
+
+/* The chevron matches a collapsible block's: same icon, size, colour and
+   quarter-turn. A <select> is a replaced element and paints no pseudo-element
+   of its own, so it hangs on the wrapper instead. */
+.feedback-select {
+  display: block;
+  position: relative;
+}
+
+.feedback-select::after {
+  background-color: currentcolor;
+  color: var(--workshop-support);
+  content: "";
+  height: 1rem;
+  -webkit-mask-image: var(--md-details-icon);
+  mask-image: var(--md-details-icon);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  margin-top: -0.5rem;
+  pointer-events: none;
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: rotate(0deg);
+  transition: transform 0.25s;
+  width: 1rem;
+}
+
+/* Kept as two rules: a browser that does not know select:open drops only the
+   second one, and the scripted state still turns the chevron. */
+.feedback-select--open::after {
+  transform: rotate(90deg);
+}
+
+.feedback-select:has(select:open)::after {
+  transform: rotate(90deg);
+}
+
 .feedback-form textarea {
   resize: vertical;
 }
