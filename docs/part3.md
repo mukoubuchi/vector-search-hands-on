@@ -435,8 +435,4 @@ Deactivate the Python virtual environment and delete the vector-search-builder-e
 - [ ] Deactivated the virtual environment
 - [ ] Deleted the `vector-search-builder-en` folder
 
-## Next Steps
-
-Once Part 3 is complete, proceed to [Summary](summary.md)!
-
 [Next →](summary.md){ .workshop-next }

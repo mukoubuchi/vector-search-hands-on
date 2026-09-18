@@ -311,8 +311,4 @@ Responsibilities for each process:
 - Minimal Vector Search Builder participant package (`vector-search-builder-en.zip`)
 - Connection information (Milvus connection information)
 
-## Next Steps
-
-Let's proceed to the [Preparation](preparation.md) page!
-
 [Next →](preparation.md){ .workshop-next }

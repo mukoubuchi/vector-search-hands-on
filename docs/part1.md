@@ -431,8 +431,4 @@ As you try various searches, you should notice the following:
 
     If the existing collection was created with an older search metric, scores may appear very low, such as 0.06.
 
-## Next Steps
-
-Once Part 1 is complete, proceed to [Part 2: Add Features with IBM Bob](part2.md)!
-
 [Next →](part2.md){ .workshop-next }

@@ -430,8 +430,4 @@ Python の仮想環境を無効化して、デスクトップの vector-search-b
 - [ ] 仮想環境を無効化した
 - [ ] `vector-search-builder-ja` フォルダを削除した
 
-## 次のステップ
-
-Part 3 が完了したら、[まとめ](summary.md) に進みましょう！
-
 [次へ →](summary.md){ .workshop-next }
