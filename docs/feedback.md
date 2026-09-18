@@ -11,24 +11,24 @@ Thank you for joining the Vector Search hands-on. Please share what worked well 
 ## Overall Experience { #feedback-overall }
 
 <label for="overall">Overall satisfaction <span class="feedback-required">Required</span></label>
-<select id="overall" name="Overall satisfaction" required>
+<span class="feedback-select"><select id="overall" name="Overall satisfaction" required>
       <option value="">Select one</option>
       <option value="5 - Very satisfied">5 - Very satisfied</option>
       <option value="4 - Satisfied">4 - Satisfied</option>
       <option value="3 - Neutral">3 - Neutral</option>
       <option value="2 - Somewhat dissatisfied">2 - Somewhat dissatisfied</option>
       <option value="1 - Dissatisfied">1 - Dissatisfied</option>
-</select>
+</select></span>
 
 <label for="pace">Workshop pace <span class="feedback-required">Required</span></label>
-<select id="pace" name="Workshop pace" required>
+<span class="feedback-select"><select id="pace" name="Workshop pace" required>
       <option value="">Select one</option>
       <option value="Just right">Just right</option>
       <option value="A little fast">A little fast</option>
       <option value="Too fast">Too fast</option>
       <option value="A little slow">A little slow</option>
       <option value="Too slow">Too slow</option>
-</select>
+</select></span>
   </section>
 
   <section class="feedback-section" markdown="1">
@@ -36,53 +36,53 @@ Thank you for joining the Vector Search hands-on. Please share what worked well 
 ## Hands-on Content { #feedback-content }
 
 <label for="preparation">Was the preparation guide clear enough to set up IBM Bob, Milvus, the embedding model, and Python? <span class="feedback-required">Required</span></label>
-<select id="preparation" name="Preparation clarity" required>
+<span class="feedback-select"><select id="preparation" name="Preparation clarity" required>
       <option value="">Select one</option>
       <option value="5 - Very clear">5 - Very clear</option>
       <option value="4 - Clear">4 - Clear</option>
       <option value="3 - Mostly clear">3 - Mostly clear</option>
       <option value="2 - Somewhat unclear">2 - Somewhat unclear</option>
       <option value="1 - Unclear">1 - Unclear</option>
-</select>
+</select></span>
 
 <label for="vector-search">Did Part 1 help you understand semantic vector search compared with traditional keyword search? <span class="feedback-required">Required</span></label>
-<select id="vector-search" name="Vector Search understanding" required>
+<span class="feedback-select"><select id="vector-search" name="Vector Search understanding" required>
       <option value="">Select one</option>
       <option value="5 - Strongly agree">5 - Strongly agree</option>
       <option value="4 - Agree">4 - Agree</option>
       <option value="3 - Neutral">3 - Neutral</option>
       <option value="2 - Disagree">2 - Disagree</option>
       <option value="1 - Strongly disagree">1 - Strongly disagree</option>
-</select>
+</select></span>
 
 <label for="bob">Did Part 2 make the value of IBM Bob and Building Blocks easy to experience? <span class="feedback-required">Required</span></label>
-<select id="bob" name="IBM Bob and Building Blocks value" required>
+<span class="feedback-select"><select id="bob" name="IBM Bob and Building Blocks value" required>
       <option value="">Select one</option>
       <option value="5 - Strongly agree">5 - Strongly agree</option>
       <option value="4 - Agree">4 - Agree</option>
       <option value="3 - Neutral">3 - Neutral</option>
       <option value="2 - Disagree">2 - Disagree</option>
       <option value="1 - Strongly disagree">1 - Strongly disagree</option>
-</select>
+</select></span>
 
 <label for="features">Which added feature was most useful for learning? <span class="feedback-required">Required</span></label>
-<select id="features" name="Most useful added feature" required>
+<span class="feedback-select"><select id="features" name="Most useful added feature" required>
       <option value="">Select one</option>
       <option value="Product image display">Product image display</option>
       <option value="Price filter">Price filter</option>
       <option value="Recommendation reason display">Recommendation reason display</option>
       <option value="All were useful">All were useful</option>
-</select>
+</select></span>
 
 <label for="review">Were the verification, code review, and cleanup steps in Part 3 useful? <span class="feedback-required">Required</span></label>
-<select id="review" name="Verification review cleanup usefulness" required>
+<span class="feedback-select"><select id="review" name="Verification review cleanup usefulness" required>
       <option value="">Select one</option>
       <option value="5 - Very useful">5 - Very useful</option>
       <option value="4 - Useful">4 - Useful</option>
       <option value="3 - Neutral">3 - Neutral</option>
       <option value="2 - Not very useful">2 - Not very useful</option>
       <option value="1 - Not useful">1 - Not useful</option>
-</select>
+</select></span>
   </section>
 
   <section class="feedback-section" markdown="1">
