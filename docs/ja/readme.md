@@ -42,9 +42,7 @@ docs/
     ├── tasks.js              # タスクリスト機能
     ├── feedback.js           # フィードバックのコピー支援
     ├── syntax-highlight.js   # シンタックスハイライト強化
-    ├── language-switcher.js  # GitHub Pages の言語リンク補正
-    └── vendor/               # 同梱のサードパーティライブラリ
-        └── mermaid.min.js    # Part 1 の図解用 Mermaid（MIT）
+    └── language-switcher.js  # GitHub Pages の言語リンク補正
 ```
 
 ## スタイルシート構成
@@ -134,10 +132,6 @@ Slack に貼り付けやすいフィードバック文面を作成し、クリ�
 ### language-switcher.js
 
 GitHub Pages のプロジェクトパス配下で公開したときの言語切り替えリンクを補正します。
-
-### vendor/mermaid.min.js
-
-Part 1 の図解を描画する Mermaid の同梱ビルド（MIT）です。インターネット接続なしでもサイトが動作するように同梱しています。固定バージョンと更新手順は `mkdocs.yml` に記載しています。
 
 ## モジュール化のメリット
 
