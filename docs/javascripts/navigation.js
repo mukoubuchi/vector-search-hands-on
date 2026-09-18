@@ -65,8 +65,6 @@
                 return;
             }
 
-            block.classList.add('has-horizontal-scroll');
-
             // Show scroll hint on first interaction
             let scrollHintShown = false;
             block.addEventListener('touchstart', function() {
