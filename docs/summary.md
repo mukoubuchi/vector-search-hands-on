@@ -120,3 +120,5 @@ This difference makes it easier to deliver the following value in projects.
 - [IBM Bob IDE Documentation](https://bob.ibm.com/docs/ide)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [Sentence Transformers](https://www.sbert.net/)
+
+[Next →](feedback.md){ .workshop-next }

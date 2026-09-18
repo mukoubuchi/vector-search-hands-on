@@ -120,3 +120,5 @@ Vector Search を顧客の既存システムに組み込む場合、単に検索
 - [IBM Bob IDE ドキュメント](https://bob.ibm.com/docs/ide)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [Sentence Transformers](https://www.sbert.net/)
+
+[次へ →](feedback.md){ .workshop-next }

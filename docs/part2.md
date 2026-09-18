@@ -317,3 +317,5 @@ Click the "Approve" button
 ## Next Steps
 
 Once Part 2 is complete, proceed to [Part 3: Verification](part3.md)!
+
+[Next →](part3.md){ .workshop-next }

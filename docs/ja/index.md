@@ -314,3 +314,5 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 ## 次のステップ
 
 それでは、[事前準備](preparation.md) のページに進みましょう！
+
+[次へ →](preparation.md){ .workshop-next }
