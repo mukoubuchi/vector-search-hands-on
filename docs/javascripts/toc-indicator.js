@@ -32,8 +32,10 @@
     }
 
     // Drop TOC entries for headings that live inside an admonition.
+    // Instant navigation resolves fragment links to absolute URLs.
+    // Select all links and read their hash instead of matching href prefixes.
     function pruneAdmonitionEntries(nav) {
-        var links = nav.querySelectorAll('.md-nav__link[href^="#"]');
+        var links = nav.querySelectorAll('.md-nav__link[href]');
         for (var i = 0; i < links.length; i++) {
             var id;
             try {
@@ -107,7 +109,7 @@
         // Span the rail from the first to the last visible section's TOC entry
         var top = Infinity;
         var bottom = -Infinity;
-        var links = nav.querySelectorAll('.md-nav__link[href^="#"]');
+        var links = nav.querySelectorAll('.md-nav__link[href]');
         for (var k = 0; k < links.length; k++) {
             var id;
             try {
@@ -140,7 +142,10 @@
         bar.style.opacity = '1';
     }
 
+    var cleanup = function() {};
+
     function init() {
+        cleanup();
         var nav = getNav();
         if (!nav) {
             return;
@@ -175,16 +180,18 @@
         window.addEventListener('scroll', run, { passive: true });
         window.addEventListener('resize', run, { passive: true });
         // Catch late layout shifts (fonts, images, expanding admonitions)
-        new MutationObserver(run).observe(nav, {
+        var observer = new MutationObserver(run);
+        observer.observe(nav, {
             subtree: true,
             attributes: true,
             attributeFilter: ['class']
         });
+        cleanup = function() {
+            observer.disconnect();
+            window.removeEventListener('scroll', run);
+            window.removeEventListener('resize', run);
+        };
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    document$.subscribe(init);
 })();

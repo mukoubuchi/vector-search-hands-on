@@ -7,9 +7,9 @@
     'use strict';
 
     function runAfterThemeInit(callback) {
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(callback, 500);
-        });
+        // Material emits document$ once the page body is in place, both on the
+        // first load and after every instant navigation.
+        document$.subscribe(callback);
     }
 
     function createHighlightedSpan(className, text) {

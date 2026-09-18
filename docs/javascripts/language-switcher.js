@@ -33,14 +33,17 @@
     }
 
     function fixLanguageSwitcherLinks() {
-        document
-            .querySelectorAll('.md-select__link[hreflang], link[rel="alternate"][hreflang]')
-            .forEach(fixLinkElement);
+        const base = getProjectBase();
+        const pagePath = window.location.pathname.slice(base.length).replace(/^\/ja(?=\/|$)/, '') || '/';
+        document.querySelectorAll('.md-select__link[hreflang]').forEach(function(link) {
+            const locale = link.getAttribute('hreflang');
+            link.setAttribute('href', base + (locale === 'ja' ? '/ja' : '') + pagePath);
+            // A language change reloads the localized theme and search index.
+            // Ordinary page navigation stays within the mounted document.
+            link.setAttribute('target', '_self');
+        });
+        document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(fixLinkElement);
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fixLanguageSwitcherLinks);
-    } else {
-        fixLanguageSwitcherLinks();
-    }
+    document$.subscribe(fixLanguageSwitcherLinks);
 })();
