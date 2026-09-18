@@ -57,6 +57,12 @@
         }
 
         children.forEach(function (el) {
+            // Page navigation belongs outside every numbered step run.
+            if (el.matches('.workshop-next') || el.querySelector('.workshop-next')) {
+                stack.length = 0;
+                return;
+            }
+
             var lvl = headingLevel(el);
             var num = lvl ? stepNumber(el) : null;
 

@@ -434,3 +434,5 @@ As you try various searches, you should notice the following:
 ## Next Steps
 
 Once Part 1 is complete, proceed to [Part 2: Add Features with IBM Bob](part2.md)!
+
+[Next →](part2.md){ .workshop-next }

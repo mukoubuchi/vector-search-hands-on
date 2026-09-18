@@ -314,3 +314,5 @@ Responsibilities for each process:
 ## Next Steps
 
 Let's proceed to the [Preparation](preparation.md) page!
+
+[Next →](preparation.md){ .workshop-next }

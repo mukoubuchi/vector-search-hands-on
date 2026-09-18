@@ -315,3 +315,5 @@ IBM Bob が以下のような提案をします。
 ## 次のステップ
 
 Part 2 が完了したら、[Part 3: 動作確認](part3.md) に進みましょう！
+
+[次へ →](part3.md){ .workshop-next }

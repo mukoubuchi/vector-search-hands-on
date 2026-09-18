@@ -433,3 +433,5 @@ Python の仮想環境を無効化して、デスクトップの vector-search-b
 ## 次のステップ
 
 Part 3 が完了したら、[まとめ](summary.md) に進みましょう！
+
+[次へ →](summary.md){ .workshop-next }

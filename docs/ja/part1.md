@@ -424,3 +424,5 @@ http://localhost:8002/docs
 ## 次のステップ
 
 Part 1 が完了したら、[Part 2: IBM Bob で機能を追加](part2.md) に進みましょう！
+
+[次へ →](part2.md){ .workshop-next }
