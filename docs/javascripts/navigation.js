@@ -9,6 +9,7 @@
  */
 (function() {
     const MOBILE_BREAKPOINT = 1220;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const tabs = document.querySelector('.md-tabs');
     const tabsList = document.querySelector('.md-tabs__list');
 
@@ -29,7 +30,7 @@
 
         tabs.scrollTo({
             left: tabs.scrollLeft + scrollLeft,
-            behavior: 'smooth'
+            behavior: reducedMotion.matches ? 'instant' : 'smooth'
         });
     }
 
@@ -82,12 +83,8 @@
 
     window.addEventListener('scroll', updateBackToTop, { passive: true });
 
-    // Handle window resize: re-center the active tab on orientation change
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(centerActiveTab, 250);
-    });
+    // Re-center the active tab on resize and orientation change
+    window.addEventListener('resize', centerActiveTab, { passive: true });
 
     // Add touch feedback for tab links
     if (tabsList) {
