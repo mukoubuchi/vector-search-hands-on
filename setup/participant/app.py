@@ -30,6 +30,9 @@ INDEX_NAME = get_index_name()
 HYBRID_CANDIDATE_MULTIPLIER = 4
 HYBRID_MIN_CANDIDATES = 20
 
+# The baseline the Building Block's rules recommend: 0.7 vector, 0.3 BM25
+DEFAULT_VECTOR_WEIGHT = 0.7
+
 # Global variables
 embeddings = None
 client: Optional[OpenSearch] = None
@@ -181,8 +184,10 @@ class SearchRequest(BaseModel):
     query: str = Field(min_length=1)
     mode: Literal["keyword", "vector", "hybrid"] = "hybrid"
     top_k: int = Field(default=5, ge=1, le=100)
+    # The Building Block's best-practice rules open with "Start with
+    # hybrid_score_weight=0.7 (vector) + 0.3 (BM25) as baseline"
     vector_weight: float = Field(
-        default=0.5, ge=0.0, le=1.0,
+        default=DEFAULT_VECTOR_WEIGHT, ge=0.0, le=1.0,
         description="Weight of the vector side in hybrid mode (0 = keyword only, 1 = vector only)",
     )
 
@@ -266,11 +271,11 @@ def health_check():
         '- **query**: Search query (e.g. "red sneakers")\n'
         "- **mode**: keyword (BM25), vector (k-NN) or hybrid (both, default)\n"
         "- **top_k**: Number of results to return (default: 5, range: 1-100)\n"
-        "- **vector_weight**: Weight of the vector side in hybrid mode (default: 0.5)",
+        "- **vector_weight**: Weight of the vector side in hybrid mode (default: 0.7)",
         '- **query**: 検索クエリ（例: "赤いスニーカー"）\n'
         "- **mode**: keyword（BM25）、vector（k-NN）、hybrid（両方。既定）\n"
         "- **top_k**: 返す検索結果の件数（デフォルト: 5、範囲: 1-100）\n"
-        "- **vector_weight**: hybrid でのベクトル側の重み（デフォルト: 0.5）",
+        "- **vector_weight**: hybrid でのベクトル側の重み（デフォルト: 0.7）",
     ),
 )
 def search(request: SearchRequest):
