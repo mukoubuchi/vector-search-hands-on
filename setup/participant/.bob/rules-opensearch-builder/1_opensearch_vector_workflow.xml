@@ -1,0 +1,47 @@
+<opensearch_vector_workflow>
+  <overview>
+    This workflow guides you through building vector search and hybrid search on
+    IBM watsonx.data OpenSearch with IBM watsonx.ai embeddings.
+  </overview>
+
+  <initialization>
+    <step number="1">
+      <title>IBM watsonx.data OpenSearch Setup</title>
+      <actions>
+        <action>Obtain OpenSearch cluster host, port, username, and password from IBM Cloud</action>
+        <action>Verify k-NN plugin is enabled: GET /_cat/plugins?v</action>
+        <action>Test connectivity with opensearch-py OpenSearch client</action>
+        <action>Confirm knn_vector field type is available</action>
+      </actions>
+    </step>
+    <step number="2">
+      <title>k-NN Index Creation</title>
+      <actions>
+        <action>Create index with knn: true setting</action>
+        <action>Map vector field as knn_vector with dimension matching embedding model</action>
+        <action>Select engine: nmslib (default) for most workloads, faiss for billion-scale</action>
+        <action>Set HNSW parameters: ef_construction=128, m=24 for balanced performance</action>
+        <action>Map text field as text type for BM25 hybrid search</action>
+      </actions>
+    </step>
+    <step number="3">
+      <title>Document Ingestion</title>
+      <actions>
+        <action>Download documents from IBM COS using ibm-cos-sdk</action>
+        <action>Parse and chunk documents (512 tokens, 50 overlap)</action>
+        <action>Generate 768-dim embeddings with ibm/granite-embedding-278m-multilingual</action>
+        <action>Bulk index documents with text and vector fields</action>
+      </actions>
+    </step>
+    <step number="4">
+      <title>Hybrid Search Implementation</title>
+      <actions>
+        <action>Implement k-NN vector search query with knn clause</action>
+        <action>Implement BM25 keyword search with match query</action>
+        <action>Combine with bool/should query or hybrid search API</action>
+        <action>Apply score normalisation (min-max or L2) before combining scores</action>
+        <action>Tune hybrid_score_weight between 0 and 1 for optimal recall</action>
+      </actions>
+    </step>
+  </initialization>
+</opensearch_vector_workflow>

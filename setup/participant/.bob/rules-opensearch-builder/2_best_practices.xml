@@ -1,0 +1,25 @@
+<opensearch_vector_best_practices>
+  <index_design>
+    <practice>Set ef_construction=128 and m=24 for high-recall production search</practice>
+    <practice>Use nmslib engine for datasets under 10M vectors; faiss for larger scale</practice>
+    <practice>Always set index.knn=true at index creation â€” cannot be changed after</practice>
+    <practice>Use l2 space_type for cosine-normalised vectors; innerproduct for raw dot product</practice>
+  </index_design>
+  <ingestion>
+    <practice>Bulk index in batches of 100 documents to balance throughput and memory</practice>
+    <practice>Normalise embedding vectors to unit length before indexing for cosine similarity</practice>
+    <practice>Store source_document, chunk_index, and page_number as keyword fields</practice>
+    <practice>Refresh index after bulk ingestion: POST /index/_refresh</practice>
+  </ingestion>
+  <hybrid_search>
+    <practice>Normalise both vector and BM25 scores to [0,1] before combining</practice>
+    <practice>Start with hybrid_score_weight=0.7 (vector) + 0.3 (BM25) as baseline</practice>
+    <practice>Evaluate hybrid vs pure vector with NDCG@10 on your query set</practice>
+    <practice>Use ef_search=512 at query time for high-recall requirements</practice>
+  </hybrid_search>
+  <authentication>
+    <practice>Use HTTPS with certificate verification for IBM watsonx.data OpenSearch</practice>
+    <practice>Rotate OpenSearch passwords every 90 days</practice>
+    <practice>Store OPENSEARCH_PASSWORD in environment variables, never in source code</practice>
+  </authentication>
+</opensearch_vector_best_practices>
