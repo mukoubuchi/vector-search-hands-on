@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
 """
-Milvus connection test script
+OpenSearch and watsonx.ai connection test script
 """
 
 import os
 import sys
-from common import get_milvus_connect_params, msg
+
+from common import (
+    embed_query,
+    get_embedding_model_id,
+    get_embeddings,
+    get_opensearch_client,
+    get_opensearch_connect_params,
+    msg,
+)
 
 
-SECRET_VARS = {"MILVUS_PASSWORD"}
+SECRET_VARS = {"OPENSEARCH_PASSWORD", "IBM_API_KEY"}
+KNN_PLUGIN_NAME = "opensearch-knn"
+PROBE_TEXT = "vector search connection test"
 
 
 def display_env_value(var, value):
@@ -33,79 +43,122 @@ def print_env_status(required_vars):
     return missing_vars
 
 
-def test_milvus_connection():
-    """Milvus connection test"""
-    print(f"\n=== {msg('Milvus Connection Test', 'Milvus 接続テスト')} ===")
+def test_opensearch_connection():
+    """OpenSearch connection test"""
+    print(f"\n=== {msg('OpenSearch Connection Test', 'OpenSearch 接続テスト')} ===")
 
     try:
-        from pymilvus import connections, utility
+        endpoint = get_opensearch_connect_params()["hosts"][0]
+        print(f"{msg('Connecting to', '接続先')}: {endpoint['host']}:{endpoint['port']}")
 
-        connect_params = get_milvus_connect_params()
+        client = get_opensearch_client()
 
-        print(f"{msg('Connecting to', '接続先')}: {connect_params['host']}:{connect_params['port']}")
-        print(f"{msg('Auth', '認証')}: {msg('user/password auth', 'ユーザー名/パスワード認証')}")
+        # The k-NN plugin provides the knn_vector field type this hands-on needs
+        plugins = client.cat.plugins(format="json")
+        knn_installed = any(p.get("component") == KNN_PLUGIN_NAME for p in plugins)
+        if knn_installed:
+            print(f"✓ {msg('k-NN plugin is available', 'k-NN プラグインが利用できます')} "
+                  f"({KNN_PLUGIN_NAME})")
+        else:
+            print(f"✗ {msg('k-NN plugin is missing', 'k-NN プラグインがありません')} "
+                  f"({KNN_PLUGIN_NAME})")
+            return False
 
-        # Connect
-        connections.connect(**connect_params)
+        health = client.cluster.health()
+        print(f"✓ {msg('Cluster status', 'クラスターの状態')}: {health['status']}")
 
-        # Verify connection
-        print(msg("✓ Connected to Milvus successfully", "✓ Milvus に接続できました"))
-
-        # List collections
-        collections = utility.list_collections()
-        print(f"✓ {msg('Existing collections', '既存のコレクション数')}: {len(collections)}")
-        if collections:
-            print(f"  {msg('Collections', 'コレクション')}: {', '.join(collections)}")
+        indices = client.cat.indices(format="json", index="*", h="index")
+        visible = [i["index"] for i in indices if not i["index"].startswith(".")]
+        print(f"✓ {msg('Existing indexes', '既存のインデックス数')}: {len(visible)}")
+        if visible:
+            print(f"  {msg('Indexes', 'インデックス')}: {', '.join(sorted(visible))}")
 
         return True
 
     except ImportError:
-        print(msg("✗ pymilvus is not installed", "✗ pymilvus がインストールされていません"))
-        print(msg("  Install with: pip install pymilvus", "  インストールコマンド: pip install pymilvus"))
+        print(msg("✗ opensearch-py is not installed",
+                  "✗ opensearch-py がインストールされていません"))
+        print(msg("  Install with: pip install -r requirements.txt",
+                  "  インストールコマンド: pip install -r requirements.txt"))
         return False
     except Exception as e:
-        print(f"✗ {msg('Milvus connection error', 'Milvus 接続エラー')}: {e}")
+        print(f"✗ {msg('OpenSearch connection error', 'OpenSearch 接続エラー')}: {e}")
+        return False
+
+
+def test_watsonx_embeddings():
+    """watsonx.ai embeddings test"""
+    print(f"\n=== {msg('watsonx.ai Embeddings Test', 'watsonx.ai 埋め込みテスト')} ===")
+
+    try:
+        embeddings = get_embeddings()
+        vector = embed_query(embeddings, PROBE_TEXT)
+        print(f"✓ {msg('Embedding generated', '埋め込みベクトルを生成しました')}: "
+              f"{get_embedding_model_id()}")
+        print(f"✓ {msg('Vector dimension', 'ベクトルの次元数')}: {len(vector)}")
+        return True
+
+    except ImportError:
+        print(msg("✗ ibm-watsonx-ai is not installed",
+                  "✗ ibm-watsonx-ai がインストールされていません"))
+        print(msg("  Install with: pip install -r requirements.txt",
+                  "  インストールコマンド: pip install -r requirements.txt"))
+        return False
+    except Exception as e:
+        print(f"✗ {msg('watsonx.ai error', 'watsonx.ai エラー')}: {e}")
         return False
 
 
 def main():
     """Main process"""
     print("=" * 50)
-    print(msg("Milvus Connection Test", "Milvus 接続テスト"))
+    print(msg("OpenSearch and watsonx.ai Connection Test",
+              "OpenSearch と watsonx.ai の接続テスト"))
     print("=" * 50)
 
     # Check environment variables
     print(f"\n=== {msg('Environment Variable Check', '環境変数チェック')} ===")
     required_vars = [
-        "MILVUS_HOST",
-        "MILVUS_PORT",
-        "MILVUS_USER",
-        "MILVUS_PASSWORD",
+        "OPENSEARCH_HOST",
+        "OPENSEARCH_PORT",
+        "OPENSEARCH_USER",
+        "OPENSEARCH_PASSWORD",
+        "WATSONX_URL",
+        "WATSONX_PROJECT_ID",
+        "IBM_API_KEY",
     ]
 
     missing_vars = print_env_status(required_vars)
 
     if missing_vars:
-        print(f"\n{msg('Warning', '警告')}: {len(missing_vars)} {msg('environment variable(s) not set', '個の環境変数が未設定です')}")
-        print(msg("Please check the setup/participant/.env file", "setup/participant/.env ファイルを確認してください"))
+        print(f"\n{msg('Warning', '警告')}: {len(missing_vars)} "
+              f"{msg('environment variable(s) not set', '個の環境変数が未設定です')}")
+        print(msg("Please check the setup/participant/.env file",
+                  "setup/participant/.env ファイルを確認してください"))
 
-    # Run connection test
-    milvus_ok = test_milvus_connection()
+    # Run connection tests
+    opensearch_ok = test_opensearch_connection()
+    watsonx_ok = test_watsonx_embeddings()
 
     # Results summary
     print("\n" + "=" * 50)
     print(msg("Test Results", "テスト結果"))
     print("=" * 50)
-    print(f"{msg('Milvus connection', 'Milvus 接続')}: {msg('✓ success', '✓ 成功') if milvus_ok else msg('✗ failed', '✗ 失敗')}")
+    print(f"{msg('OpenSearch connection', 'OpenSearch 接続')}: "
+          f"{msg('✓ success', '✓ 成功') if opensearch_ok else msg('✗ failed', '✗ 失敗')}")
+    print(f"{msg('watsonx.ai embeddings', 'watsonx.ai 埋め込み')}: "
+          f"{msg('✓ success', '✓ 成功') if watsonx_ok else msg('✗ failed', '✗ 失敗')}")
 
-    if milvus_ok:
-        print(msg("\n✓ Milvus connection test passed!", "\n✓ Milvus 接続テストに成功しました"))
-        print(msg("  Next step: Create vector collection", "  次のステップ: ベクトル用コレクションを作成"))
+    if opensearch_ok and watsonx_ok:
+        print(msg("\n✓ All connection tests passed!", "\n✓ すべての接続テストに成功しました"))
+        print(msg("  Next step: Create the vector index and insert sample data",
+                  "  次のステップ: ベクトル用インデックスを作成してサンプルデータを投入"))
         return 0
-    else:
-        print(msg("\n✗ Milvus connection test failed", "\n✗ Milvus 接続テストに失敗しました"))
-        print(msg("  Check the error message and review your configuration", "  エラーメッセージと設定内容を確認してください"))
-        return 1
+
+    print(msg("\n✗ Connection test failed", "\n✗ 接続テストに失敗しました"))
+    print(msg("  Check the error message and review your configuration",
+              "  エラーメッセージと設定内容を確認してください"))
+    return 1
 
 
 if __name__ == "__main__":

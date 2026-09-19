@@ -1,47 +1,53 @@
 """
 Sample data insertion script
 
-Inserts sample product data into Milvus.
+Creates the k-NN index and inserts sample product data into OpenSearch,
+using IBM watsonx.ai to generate the embeddings.
 """
 
 import argparse
 import os
 import sys
 from pathlib import Path
-from pymilvus import connections, Collection, utility
+
+from opensearchpy import helpers
 
 from common import (
     IS_JA,
     PARTICIPANT_LANGUAGE,
-    connect_to_milvus,
-    load_embedding_model,
+    embed_documents,
+    embed_query,
+    get_embeddings,
+    get_opensearch_client,
     msg,
 )
-from sample_products import get_sample_products
-from schema import (
-    INDEX_PARAMS,
+from index_mapping import (
+    TEXT_ANALYZER,
     VECTOR_FIELD,
-    build_collection_schema,
-    get_collection_name,
+    build_index_body,
+    get_index_name,
     product_text,
 )
+from sample_products import get_sample_products
 
 
 SAMPLE_PRODUCTS = get_sample_products(PARTICIPANT_LANGUAGE)
-COLLECTION_NAME = get_collection_name()
+INDEX_NAME = get_index_name()
+DIMENSION_PROBE_TEXT = "dimension probe"
 
 
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description=msg("Insert sample product data into Milvus", "Milvus にサンプル商品データを挿入します")
+        description=msg("Insert sample product data into OpenSearch",
+                        "OpenSearch にサンプル商品データを挿入します")
     )
     parser.add_argument(
         "-y", "--yes",
         action="store_true",
         help=msg(
-            "Drop an existing collection without asking for confirmation",
-            "既存コレクションを確認なしで削除する"
+            "Delete an existing index without asking for confirmation",
+            "既存インデックスを確認なしで削除する"
         )
     )
     return parser.parse_args()
@@ -62,21 +68,21 @@ def print_start_commands():
         print(f"  {python_command}")
 
 
-def confirm_drop(assume_yes: bool) -> bool:
-    """Ask before dropping an existing collection (it may be shared with others)."""
-    entity_count = Collection(COLLECTION_NAME).num_entities
-    print(f"\n⚠ {msg('Collection already exists', 'コレクションは既に存在します')}: "
-          f"{COLLECTION_NAME} ({entity_count} {msg('entities', '件')})")
+def confirm_delete(client, assume_yes: bool) -> bool:
+    """Ask before deleting an existing index (it may belong to someone else)."""
+    document_count = client.count(index=INDEX_NAME)["count"]
+    print(f"\n⚠ {msg('Index already exists', 'インデックスは既に存在します')}: "
+          f"{INDEX_NAME} ({document_count} {msg('documents', '件')})")
     print(msg(
-        "  On a shared Milvus, dropping a collection also deletes other participants' data.",
-        "  共有 Milvus では、コレクションを削除すると他の参加者のデータも消えます。"
+        "  On a shared OpenSearch, deleting an index also deletes other participants' data.",
+        "  共有 OpenSearch では、インデックスを削除すると他の参加者のデータも消えます。"
     ))
 
     if assume_yes:
         return True
 
-    prompt = msg("Drop and recreate this collection? [y/N]: ",
-                 "このコレクションを削除して作り直しますか？ [y/N]: ")
+    prompt = msg("Delete and recreate this index? [y/N]: ",
+                 "このインデックスを削除して作り直しますか？ [y/N]: ")
     try:
         answer = input(prompt).strip().lower()
     except EOFError:
@@ -84,76 +90,65 @@ def confirm_drop(assume_yes: bool) -> bool:
     return answer in ("y", "yes")
 
 
-def drop_existing_collection(assume_yes: bool) -> bool:
-    """Drop existing collection after confirmation. Return False when aborted."""
-    if not utility.has_collection(COLLECTION_NAME):
+def delete_existing_index(client, assume_yes: bool) -> bool:
+    """Delete an existing index after confirmation. Return False when aborted."""
+    if not client.indices.exists(index=INDEX_NAME):
         return True
 
-    if not confirm_drop(assume_yes):
+    if not confirm_delete(client, assume_yes):
         print(f"\n{msg('Aborted. No data was changed.', '中止しました。データは変更されていません。')}")
         print(msg(
-            "  To use your own collection, set a unique COLLECTION_NAME in setup/participant/.env "
+            "  To use your own index, set a unique INDEX_NAME in setup/participant/.env "
             "(e.g. products_taro).",
-            "  自分専用のコレクションを使うには、setup/participant/.env の COLLECTION_NAME を"
+            "  自分専用のインデックスを使うには、setup/participant/.env の INDEX_NAME を"
             "一意な名前（例: products_taro）に変更してください。"
         ))
         return False
 
-    print(f"\n{msg('Dropping existing collection', '既存のコレクションを削除中')}: {COLLECTION_NAME}")
-    utility.drop_collection(COLLECTION_NAME)
-    print(f"✓ {msg('Collection dropped', 'コレクションを削除しました')}: {COLLECTION_NAME}")
+    print(f"\n{msg('Deleting existing index', '既存のインデックスを削除中')}: {INDEX_NAME}")
+    client.indices.delete(index=INDEX_NAME)
+    print(f"✓ {msg('Index deleted', 'インデックスを削除しました')}: {INDEX_NAME}")
     return True
 
 
-def create_collection(embedding_dimension):
-    """Create collection"""
-    print(f"\n{msg('Creating collection', 'コレクションを作成中')}: {COLLECTION_NAME}")
+def create_index(client, embedding_dimension: int) -> None:
+    """Create the k-NN index"""
+    print(f"\n{msg('Creating index', 'インデックスを作成中')}: {INDEX_NAME}")
+    print(f"  {msg('Vector dimension', 'ベクトルの次元数')}: {embedding_dimension}")
+    print(f"  {msg('Text analyzer', 'テキストアナライザー')}: {TEXT_ANALYZER}")
 
-    collection = Collection(
-        name=COLLECTION_NAME,
-        schema=build_collection_schema(embedding_dimension)
-    )
-
-    print(f"✓ {msg('Collection created', 'コレクションを作成しました')}: {COLLECTION_NAME}")
-    return collection
+    client.indices.create(index=INDEX_NAME, body=build_index_body(embedding_dimension))
+    print(f"✓ {msg('Index created', 'インデックスを作成しました')}: {INDEX_NAME}")
 
 
-def create_index(collection):
-    """Create index"""
-    print(f"\n{msg('Creating index...', 'インデックスを作成中...')}")
-
-    collection.create_index(field_name=VECTOR_FIELD, index_params=INDEX_PARAMS)
-    print(msg("✓ Index created", "✓ インデックスを作成しました"))
-
-
-def insert_data(collection, embedding_model):
-    """Insert data"""
+def insert_data(client, embeddings) -> None:
+    """Embed the sample products and bulk index them"""
     item_unit = "件" if IS_JA else "items"
-    print(f"\n{msg('Inserting sample data...', 'サンプルデータを挿入中...')} ({len(SAMPLE_PRODUCTS)} {item_unit})")
+    print(f"\n{msg('Inserting sample data...', 'サンプルデータを挿入中...')} "
+          f"({len(SAMPLE_PRODUCTS)} {item_unit})")
 
-    # Combine product name and description into text
-    texts = [
-        product_text(p)
-        for p in SAMPLE_PRODUCTS
+    # Combine product name and description into the text that gets embedded
+    texts = [product_text(p) for p in SAMPLE_PRODUCTS]
+
+    print(msg("  Generating embedding vectors with watsonx.ai...",
+              "  watsonx.ai で埋め込みベクトルを生成中..."))
+    vectors = embed_documents(embeddings, texts)
+
+    actions = [
+        {
+            "_index": INDEX_NAME,
+            "_source": {
+                "product_name": product["product_name"],
+                "price": product["price"],
+                "category": product["category"],
+                "description": product["description"],
+                VECTOR_FIELD: vector,
+            },
+        }
+        for product, vector in zip(SAMPLE_PRODUCTS, vectors)
     ]
 
-    # Convert text to vectors
-    print(msg("  Generating embedding vectors...", "  埋め込みベクトルを生成中..."))
-    embeddings = embedding_model.encode(texts, normalize_embeddings=True)
-
-    # Prepare data
-    data = [
-        [p["product_name"] for p in SAMPLE_PRODUCTS],
-        [p["price"] for p in SAMPLE_PRODUCTS],
-        [p["category"] for p in SAMPLE_PRODUCTS],
-        [p["description"] for p in SAMPLE_PRODUCTS],
-        embeddings.tolist()
-    ]
-
-    # Insert data
-    collection.insert(data)
-    collection.flush()
-
+    helpers.bulk(client, actions, refresh=True)
     print(f"✓ {len(SAMPLE_PRODUCTS)} {msg('items inserted', '件のデータを挿入しました')}")
 
 
@@ -166,46 +161,36 @@ def main() -> int:
     print("=" * 50)
 
     try:
-        connect_to_milvus()
+        client = get_opensearch_client()
     except Exception as e:
-        print(f"✗ {msg('Failed to connect to Milvus', 'Milvus への接続に失敗しました')}: {e}")
+        print(f"✗ {msg('Failed to connect to OpenSearch', 'OpenSearch への接続に失敗しました')}: {e}")
         return 1
 
     try:
-        embedding_model = load_embedding_model()
+        embeddings = get_embeddings()
+        # The index needs the vector dimension up front, so ask the model for one
+        embedding_dimension = len(embed_query(embeddings, DIMENSION_PROBE_TEXT))
     except Exception as e:
-        print(f"✗ {msg('Failed to load embedding model', '埋め込みモデルの読み込みに失敗しました')}: {e}")
+        print(f"✗ {msg('Failed to prepare watsonx.ai embeddings', 'watsonx.ai の埋め込み準備に失敗しました')}: {e}")
         return 1
 
-    if not drop_existing_collection(args.yes):
+    if not delete_existing_index(client, args.yes):
         return 1
 
-    # Create collection (vector dimension comes from the loaded model)
-    collection = create_collection(embedding_model.get_embedding_dimension())
-
-    # Insert data
-    insert_data(collection, embedding_model)
-
-    # Create index
-    create_index(collection)
-
-    # Load collection
-    print(f"\n{msg('Loading collection...', 'コレクションを読み込み中...')}")
-    collection.load()
-    print(msg("✓ Collection loaded", "✓ コレクションを読み込みました"))
+    create_index(client, embedding_dimension)
+    insert_data(client, embeddings)
 
     # Display results
+    document_count = client.count(index=INDEX_NAME)["count"]
     print("\n" + "=" * 50)
     print(msg("✓ Sample data insertion completed", "✓ サンプルデータの挿入が完了しました"))
     print("=" * 50)
-    print(f"\n{msg('Collection name', 'コレクション名')}: {COLLECTION_NAME}")
-    print(f"{msg('Entity count', 'エンティティ数')}: {collection.num_entities}")
+    print(f"\n{msg('Index name', 'インデックス名')}: {INDEX_NAME}")
+    print(f"{msg('Document count', 'ドキュメント数')}: {document_count}")
     print(f"\n{msg('You can start the demo application', 'デモアプリケーションを起動できます')}:")
     print_start_commands()
     print("=" * 50 + "\n")
 
-    # Disconnect
-    connections.disconnect("default")
     return 0
 
 
