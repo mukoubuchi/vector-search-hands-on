@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent; color-scheme: light;" version="1.1" width="1243px" height="641px" viewBox="0 0 1243 641">
-  <defs>
+<svg xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent; color-scheme: light;" version="1.1" width="1243px" height="660px" viewBox="0 0 1243 660">
+<defs>
     <style>
 @font-face { font-family: 'Workshop Diagram Sans'; font-style: normal; font-weight: 400; src: url(data:font/woff2;base64,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) format('woff2'); }
 @font-face { font-family: 'Workshop Diagram Sans'; font-style: normal; font-weight: 700; src: url(data:font/woff2;base64,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) format('woff2'); }
@@ -7,655 +7,122 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
 </style>
   </defs>
   <g>
-    <g data-cell-id="0">
-      <g data-cell-id="1">
-        <g data-cell-id="title">
-          <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
-            <rect x="241" y="0" width="760" height="38" fill="none" stroke="none" pointer-events="all" stroke-width="0" />
-          </g>
-          <g>
-            <g>
-              <text x="621.0" y="28.799999999999997" font-size="28.0" fill="#5e5f5f" text-anchor="middle">
-                <tspan x="621.0" dy="0">
-                  <tspan font-weight="700">Vector Search Hands-on Architecture</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="subtitle">
-          <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
-            <rect x="211" y="38" width="820" height="30" fill="none" stroke="none" pointer-events="all" stroke-width="0" />
-          </g>
-          <g>
-            <g>
-              <text x="621.0" y="57.9" font-size="14.0" fill="#5e5f5f" text-anchor="middle">
-                <tspan x="621.0" dy="0">
-                  <tspan font-weight="400">Instructor hosts the shared Milvus stack. Participants use IBM Bob and packaged scripts to build, load, and test vector search.</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="instructor">
-          <g>
-            <path d="M 1 116 V 84 Q 1 80 5 80 H 557 Q 561 80 561 84 V 116" fill="#f0f1f9" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #f0f1f9; stroke: #f0f1f9;" />
-            <path d="M 1 116 V 486 Q 1 490 5 490 H 557 Q 561 490 561 486 V 116" fill="#ffffff" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #f0f1f9;" />
-            <path d="M 1 116 L 561 116" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" style="stroke: none;" />
-          </g>
-          <g>
-            <g>
-              <text x="281.0" y="103.6" font-size="16.0" fill="#000000" text-anchor="middle">
-                <tspan x="281.0" dy="0">
-                  <tspan font-weight="700">Instructor / Shared Services</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-          <g data-cell-id="compose">
-            <g stroke="none" stroke-width="0">
-              <rect x="43" y="143" width="270" height="62" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
-            </g>
-            <g>
-              <g>
-                <text x="178.0" y="170.75" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="178.0" dy="0">
-                    <tspan font-weight="700">Docker Compose</tspan>
-                  </tspan>
-                  <tspan x="178.0" dy="15.6">
-                    <tspan font-weight="700">setup/instructor/docker-compose.yml</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="etcd">
-            <g stroke="none" stroke-width="0">
-              <rect x="41" y="264" width="130" height="62" rx="6" ry="6" fill="#e9ecf7" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e9ecf7; stroke: #f0f1f9;" />
-            </g>
-            <g>
-              <g>
-                <text x="106.0" y="291.75" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="106.0" dy="0">
-                    <tspan font-weight="700">etcd</tspan>
-                  </tspan>
-                  <tspan x="106.0" dy="15.6">
-                    <tspan font-weight="400">metadata</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="3">
-            <g transform="translate(0.5,0.5)">
-              <path d="M 311 295 L 344.63 295" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #000000;" />
-              <path d="M 349.88 295 L 342.88 298.5 L 344.63 295 L 342.88 291.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: #000000; stroke: #000000;" />
-            </g>
-          </g>
-          <g data-cell-id="minio">
-            <g stroke="none" stroke-width="0">
-              <rect x="191" y="264" width="120" height="62" rx="6" ry="6" fill="#e9ecf7" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e9ecf7; stroke: #f0f1f9;" />
-            </g>
-            <g>
-              <g>
-                <text x="251.0" y="291.75" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="251.0" dy="0">
-                    <tspan font-weight="700">MinIO</tspan>
-                  </tspan>
-                  <tspan x="251.0" dy="15.6">
-                    <tspan font-weight="400">object storage</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="milvus">
-            <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
-              <rect x="351" y="256" width="160" height="78" rx="6" ry="6" fill="#dce2f3" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #dce2f3; stroke: #f0f1f9;" />
-            </g>
-            <g>
-              <g>
-                <text x="431.0" y="283.95" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="431.0" dy="0">
-                    <tspan font-weight="700">Milvus Standalone</tspan>
-                  </tspan>
-                  <tspan x="431.0" dy="15.6">
-                    <tspan font-weight="700">Vector DB</tspan>
-                  </tspan>
-                  <tspan x="431.0" dy="15.6">
-                    <tspan font-weight="700">:19530</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="mkdocs">
-            <g stroke="none" stroke-width="0">
-              <rect x="186" y="390" width="190" height="70" rx="6" ry="6" fill="#ececf5" stroke="#f4f5f8" stroke-width="1.25" pointer-events="all" style="fill: #ececf5; stroke: #f4f5f8;" />
-            </g>
-            <g>
-              <g>
-                <text x="281.0" y="413.95" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="281.0" dy="0">
-                    <tspan font-weight="700">MkDocs</tspan>
-                  </tspan>
-                  <tspan x="281.0" dy="15.6">
-                    <tspan font-weight="400">docs server</tspan>
-                  </tspan>
-                  <tspan x="281.0" dy="15.6">
-                    <tspan font-weight="400">:8001</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="delivery">
-            <g stroke="none" stroke-width="0">
-              <rect x="351" y="143" width="160" height="62" rx="6" ry="6" fill="#f5edf1" stroke="#f8f5f6" stroke-width="1.25" pointer-events="all" style="fill: #f5edf1; stroke: #f8f5f6;" />
-            </g>
-            <g>
-              <g>
-                <text x="431.0" y="162.95000000000002" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="431.0" dy="0">
-                    <tspan font-weight="700">Delivery options</tspan>
-                  </tspan>
-                  <tspan x="431.0" dy="15.6">
-                    <tspan font-weight="400">LAN / GitHub Pages</tspan>
-                  </tspan>
-                  <tspan x="431.0" dy="15.6">
-                    <tspan font-weight="400">ngrok TCP</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="edge-compose-etcd">
-            <g>
-              <path d="M 178 205 L 178 224.5 Q 178 234.5 168 234.5 L 116 234.5 Q 106 234.5 106 244.5 L 106 255.76" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 106 261.76 L 102 253.76 L 106 255.76 L 110 253.76 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-compose-minio">
-            <g>
-              <path d="M 178 205 L 178 224.5 Q 178 234.5 188 234.5 L 241 234.5 Q 251 234.5 251 244.5 L 251 255.76" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 251 261.76 L 247 253.76 L 251 255.76 L 255 253.76 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-compose-mkdocs">
-            <g>
-              <path d="M 43 174 L 31 174 Q 21 174 21 184 L 21 415 Q 21 425 31 425 L 177.76 425" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 183.76 425 L 175.76 429 L 177.76 425 L 175.76 421 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-etcd-milvus">
-            <g>
-              <path d="M 106 326 L 106 350 Q 106 360 103.5 360 L 102.25 360 Q 101 360 111 360 L 421 360 Q 431 360 431 351.12 L 431 342.24" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #4051b5;" />
-              <path d="M 431 336.24 L 435 344.24 L 431 342.24 L 427 344.24 Z" fill="#4051b5" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #4051b5; stroke: #4051b5;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-minio-milvus">
-            <g>
-              <path d="M 311 295 L 342.76 295" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #4051b5;" />
-              <path d="M 348.76 295 L 340.76 299 L 342.76 295 L 340.76 291 Z" fill="#4051b5" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #4051b5; stroke: #4051b5;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-mkdocs-delivery">
-            <g>
-              <path d="M 376 425 L 531 425 Q 541 425 541 415 L 541 235 Q 541 225 531 225 L 441 225 Q 431 225 431 219.12 L 431 213.24" fill="none" stroke="#797da9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #797da9;" />
-              <path d="M 431 207.24 L 435 215.24 L 431 213.24 L 427 215.24 Z" fill="#797da9" stroke="#797da9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #797da9; stroke: #797da9;" />
-            </g>
-            <g>
-              <g>
-                <text x="541.0" y="345.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
-                  <tspan x="541.0" dy="0">
-                    <tspan font-weight="400">docs</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="participant">
-          <g>
-            <path d="M 681 116 V 84 Q 681 80 685 80 H 1237 Q 1241 80 1241 84 V 116" fill="#f5f9f7" stroke="#f5f9f7" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #f5f9f7; stroke: #f5f9f7;" />
-            <path d="M 681 116 V 486 Q 681 490 685 490 H 1237 Q 1241 490 1241 486 V 116" fill="#ffffff" stroke="#f5f9f7" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #f5f9f7;" />
-            <path d="M 681 116 L 1241 116" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" style="stroke: none;" />
-          </g>
-          <g>
-            <g>
-              <text x="961.0" y="103.6" font-size="16.0" fill="#000000" text-anchor="middle">
-                <tspan x="961.0" dy="0">
-                  <tspan font-weight="700">Participant / Local Workspace</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-          <g data-cell-id="bob">
-            <g stroke="none" stroke-width="0">
-              <rect x="1041" y="138" width="180" height="72" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #f5f9f7;" />
-            </g>
-            <g>
-              <g>
-                <text x="1131.0" y="170.75" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="1131.0" dy="0">
-                    <tspan font-weight="700">IBM Bob IDE</tspan>
-                  </tspan>
-                  <tspan x="1131.0" dy="15.6">
-                    <tspan font-weight="700">Vector Search Builder mode</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="zip">
-            <g stroke="none" stroke-width="0">
-              <rect x="707" y="138" width="184" height="72" rx="6" ry="6" fill="#f1f7f4" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #f1f7f4; stroke: #f5f9f7;" />
-            </g>
-            <g>
-              <g>
-                <text x="799.0" y="162.95000000000002" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="799.0" dy="0">
-                    <tspan font-weight="700">Participant zip</tspan>
-                  </tspan>
-                  <tspan x="799.0" dy="15.6">
-                    <tspan font-weight="400">.bob rules</tspan>
-                  </tspan>
-                  <tspan x="799.0" dy="15.6">
-                    <tspan font-weight="400">setup/participant</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="env">
-            <g stroke="none" stroke-width="0">
-              <rect x="707" y="260" width="150" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
-            </g>
-            <g>
-              <g>
-                <text x="782.0" y="282.8" font-size="12.0" fill="#000000" text-anchor="middle">
-                  <tspan x="782.0" dy="0">
-                    <tspan font-weight="700">.env</tspan>
-                  </tspan>
-                  <tspan x="782.0" dy="14.399999999999999">
-                    <tspan font-weight="400">Milvus host, port</tspan>
-                  </tspan>
-                  <tspan x="782.0" dy="14.399999999999999">
-                    <tspan font-weight="400">credentials</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="loader">
-            <g stroke="none" stroke-width="0">
-              <rect x="886" y="260" width="155" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
-            </g>
-            <g>
-              <g>
-                <text x="963.5" y="282.8" font-size="12.0" fill="#000000" text-anchor="middle">
-                  <tspan x="963.5" dy="0">
-                    <tspan font-weight="700">insert_sample_data.py</tspan>
-                  </tspan>
-                  <tspan x="963.5" dy="14.399999999999999">
-                    <tspan font-weight="400">products to vectors</tspan>
-                  </tspan>
-                  <tspan x="963.5" dy="14.399999999999999">
-                    <tspan font-weight="400">create index</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="api">
-            <g stroke="none" stroke-width="0">
-              <rect x="1071" y="260" width="150" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
-            </g>
-            <g>
-              <g>
-                <text x="1146.0" y="282.8" font-size="12.0" fill="#000000" text-anchor="middle">
-                  <tspan x="1146.0" dy="0">
-                    <tspan font-weight="700">app.py</tspan>
-                  </tspan>
-                  <tspan x="1146.0" dy="14.399999999999999">
-                    <tspan font-weight="400">FastAPI search API</tspan>
-                  </tspan>
-                  <tspan x="1146.0" dy="14.399999999999999">
-                    <tspan font-weight="400">Swagger UI :8002</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="embedding">
-            <g stroke="none" stroke-width="0">
-              <rect x="886" y="386" width="155" height="70" rx="6" ry="6" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #f8f5f1;" />
-            </g>
-            <g>
-              <g>
-                <text x="963.5" y="410.8" font-size="12.0" fill="#000000" text-anchor="middle">
-                  <tspan x="963.5" dy="0">
-                    <tspan font-weight="700">Hugging Face</tspan>
-                  </tspan>
-                  <tspan x="963.5" dy="14.399999999999999">
-                    <tspan font-weight="400">SentenceTransformer</tspan>
-                  </tspan>
-                  <tspan x="963.5" dy="14.399999999999999">
-                    <tspan font-weight="400">384-dim embeddings</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="browser">
-            <g stroke="none" stroke-width="0">
-              <rect x="1071" y="386" width="150" height="70" rx="6" ry="6" fill="#eee8f3" stroke="#f6f4f7" stroke-width="1.25" pointer-events="all" style="fill: #eee8f3; stroke: #f6f4f7;" />
-            </g>
-            <g>
-              <g>
-                <text x="1146.0" y="418.0" font-size="12.0" fill="#000000" text-anchor="middle">
-                  <tspan x="1146.0" dy="0">
-                    <tspan font-weight="700">Browser</tspan>
-                  </tspan>
-                  <tspan x="1146.0" dy="14.399999999999999">
-                    <tspan font-weight="400">/docs and /search</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="edge-zip-bob">
-            <g>
-              <path d="M 891 174 L 1032.76 174" fill="none" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #85b09a;" />
-              <path d="M 1038.76 174 L 1030.76 178 L 1032.76 174 L 1030.76 170 Z" fill="#85b09a" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #85b09a; stroke: #85b09a;" />
-            </g>
-            <g>
-              <g>
-                <text x="966.0" y="177.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
-                  <tspan x="966.0" dy="0">
-                    <tspan font-weight="400">custom mode</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="edge-bob-loader">
-            <g>
-              <path d="M 1131 210 L 1131 225 Q 1131 235 1121 235 L 973.5 235 Q 963.5 235 963.5 243.38 L 963.5 251.76" fill="none" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #85b09a;" />
-              <path d="M 963.5 257.76 L 959.5 249.76 L 963.5 251.76 L 967.5 249.76 Z" fill="#85b09a" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #85b09a; stroke: #85b09a;" />
-            </g>
-            <g>
-              <g>
-                <text x="1047.0" y="238.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
-                  <tspan x="1047.0" dy="0">
-                    <tspan font-weight="400">guides implementation</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="edge-env-loader">
-            <g>
-              <path d="M 857 293 L 867 293 Q 877 293 871.5 293 L 868.75 293 Q 866 293 871.88 293 L 877.76 293" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 883.76 293 L 875.76 297 L 877.76 293 L 875.76 289 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-loader-embedding">
-            <g>
-              <path d="M 961 330 L 961 327 Q 961 324 961 334 L 961 375.76" fill="none" stroke="#a48655" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #a48655;" />
-              <path d="M 961 381.76 L 957 373.76 L 961 375.76 L 965 373.76 Z" fill="#a48655" stroke="#a48655" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #a48655; stroke: #a48655;" />
-            </g>
-            <g>
-              <g>
-                <text x="961.0" y="350.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
-                  <tspan x="961.0" dy="0">
-                    <tspan font-weight="400">load model</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="edge-browser-api">
-            <g>
-              <path d="M 1146 386 L 1146 334.24" fill="none" stroke="#8c789f" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8c789f;" />
-              <path d="M 1146 328.24 L 1150 336.24 L 1146 334.24 L 1142 336.24 Z" fill="#8c789f" stroke="#8c789f" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8c789f; stroke: #8c789f;" />
-            </g>
-            <g>
-              <g>
-                <text x="1146.0" y="359.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
-                  <tspan x="1146.0" dy="0">
-                    <tspan font-weight="400">HTTP :8002</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="milvus-connection">
-          <g stroke="none" stroke-width="0">
-            <rect x="581" y="268" width="80" height="54" rx="6" ry="6" fill="#edf0f8" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #edf0f8; stroke: #f0f1f9;" />
-          </g>
-          <g>
-            <g>
-              <text x="621.0" y="291.75" font-size="13.0" fill="#000000" text-anchor="middle">
-                <tspan x="621.0" dy="0">
-                  <tspan font-weight="700">TCP</tspan>
-                </tspan>
-                <tspan x="621.0" dy="15.6">
-                  <tspan font-weight="700">:19530</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="flow1">
-          <g stroke="none" stroke-width="0">
-            <rect x="154" y="538" width="220" height="52" rx="6" ry="6" fill="#f0efee" stroke="#f6f5f4" stroke-width="1.25" pointer-events="all" style="fill: #f0efee; stroke: #f6f5f4;" />
-          </g>
-          <g>
-            <g>
-              <text x="264.0" y="568.2" font-size="12.0" fill="#000000" text-anchor="middle">
-                <tspan x="264.0" dy="0">
-                  <tspan font-weight="400">Sample products / search query</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="flow2">
-          <g stroke="none" stroke-width="0">
-            <rect x="419" y="538" width="170" height="52" rx="6" ry="6" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #f8f5f1;" />
-          </g>
-          <g>
-            <g>
-              <text x="504.0" y="568.2" font-size="12.0" fill="#000000" text-anchor="middle">
-                <tspan x="504.0" dy="0">
-                  <tspan font-weight="400">Embedding vector</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="flow3">
-          <g stroke="none" stroke-width="0">
-            <rect x="634" y="538" width="220" height="52" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
-          </g>
-          <g>
-            <g>
-              <text x="744.0" y="561.0" font-size="12.0" fill="#000000" text-anchor="middle">
-                <tspan x="744.0" dy="0">
-                  <tspan font-weight="700">Milvus collection</tspan>
-                </tspan>
-                <tspan x="744.0" dy="14.399999999999999">
-                  <tspan font-weight="400">knowledge_base</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="flow4">
-          <g stroke="none" stroke-width="0">
-            <rect x="899" y="538" width="190" height="52" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #f5f9f7;" />
-          </g>
-          <g>
-            <g>
-              <text x="994.0" y="568.2" font-size="12.0" fill="#000000" text-anchor="middle">
-                <tspan x="994.0" dy="0">
-                  <tspan font-weight="400">Ranked API results</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="note">
-          <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
-            <rect x="151" y="610" width="940" height="30" fill="none" stroke="none" pointer-events="all" stroke-width="0" />
-          </g>
-          <g>
-            <g>
-              <text x="621.0" y="629.2" font-size="12.0" fill="#5e5f5f" text-anchor="middle">
-                <tspan x="621.0" dy="0">
-                  <tspan font-weight="400">Participants do not need an individual watsonx.ai API key in this hands-on: embeddings are generated locally with Hugging Face Transformers.</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="edge-delivery-zip">
-          <g>
-            <path d="M 501 174 L 698.76 174" fill="none" stroke="#ad8193" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #ad8193;" />
-            <path d="M 704.76 174 L 696.76 178 L 698.76 174 L 696.76 170 Z" fill="#ad8193" stroke="#ad8193" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #ad8193; stroke: #ad8193;" />
-          </g>
-          <g>
-            <g>
-              <text x="621.0" y="177.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
-                <tspan x="621.0" dy="0">
-                  <tspan font-weight="400">docs + config</tspan>
-                </tspan>
-              </text>
-            </g>
-          </g>
-        </g>
-        <g data-cell-id="edge-connection-milvus">
-          <g transform="translate(0.5,0.5)">
-            <path d="M 581 295 L 521.1 295" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #4051b5;" />
-            <path d="M 514.35 295 L 523.35 290.5 L 521.1 295 L 523.35 299.5 Z" fill="#4051b5" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #4051b5; stroke: #4051b5;" />
-          </g>
-        </g>
-        <g data-cell-id="edge-flow1-flow2">
-          <g>
-            <path d="M 374 564 L 410.76 564" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-            <path d="M 416.76 564 L 408.76 568 L 410.76 564 L 408.76 560 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-          </g>
-        </g>
-        <g data-cell-id="edge-flow2-flow3">
-          <g>
-            <path d="M 589 564 L 625.76 564" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-            <path d="M 631.76 564 L 623.76 568 L 625.76 564 L 623.76 560 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-          </g>
-        </g>
-        <g data-cell-id="edge-flow3-flow4">
-          <g>
-            <path d="M 854 564 L 890.76 564" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-            <path d="M 896.76 564 L 888.76 568 L 890.76 564 L 888.76 560 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-          </g>
-        </g>
-      </g>
-    </g>
+    <text x="621.5" y="32" font-size="26" fill="#5e5f5f" text-anchor="middle" font-weight="700">Vector Search Hands-on Architecture</text>
+    <text x="621.5" y="58" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="400">The instructor hosts one OpenSearch node. Participants drive IBM Bob with the bundled Building Block to load products and query them three ways.</text>
+    <rect x="40" y="84" width="360" height="386" rx="4" ry="4" fill="#ffffff" stroke="#f4f5f8" stroke-width="1.2" />
+    <path d="M 44 84 h 352 a 4 4 0 0 1 4 4 v 26 h -360 v -26 a 4 4 0 0 1 4 -4 z" fill="#f4f5f8" stroke="none" />
+    <text x="54" y="104" font-size="13" fill="#5e5f5f" text-anchor="start" font-weight="700">Instructor / shared services</text>
+    <rect x="64" y="130" width="312" height="52" rx="4" ry="4" fill="#e4e8f5" stroke="#f4f5f8" stroke-width="1.2" />
+    <text x="220.0" y="152.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">Docker Compose</text>
+    <text x="220.0" y="170.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">setup/instructor/docker-compose.yml</text>
+    <rect x="226" y="222" width="150" height="96" rx="4" ry="4" fill="#dce2f3" stroke="#f4f5f8" stroke-width="1.2" />
+    <text x="301.0" y="251.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">OpenSearch 3.8.0</text>
+    <text x="301.0" y="269.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">k-NN plugin</text>
+    <text x="301.0" y="284.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">HNSW · faiss</text>
+    <text x="301.0" y="299.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">HTTPS :9200</text>
+    <rect x="64" y="222" width="150" height="96" rx="4" ry="4" fill="#ececf5" stroke="#f4f5f8" stroke-width="1.2" />
+    <text x="139.0" y="259.0" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">MkDocs</text>
+    <text x="139.0" y="277.0" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">docs server</text>
+    <text x="139.0" y="292.0" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">:8001</text>
+    <rect x="64" y="358" width="312" height="88" rx="4" ry="4" fill="#f5edf1" stroke="#f6f4f7" stroke-width="1.2" />
+    <text x="220.0" y="391.0" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">Delivery</text>
+    <text x="220.0" y="409.0" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">LAN · GitHub Pages · ngrok TCP</text>
+    <text x="220.0" y="424.0" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">participant package + connection info</text>
+    <path d="M 139 182 L 139 216" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 139 216 L 135 210 L 143 210 Z" fill="#93857b" stroke="none" />
+    <path d="M 301 182 L 301 216" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 301 216 L 297 210 L 305 210 Z" fill="#93857b" stroke="none" />
+    <path d="M 139 318 L 139 352" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 139 352 L 135 346 L 143 346 Z" fill="#93857b" stroke="none" />
+    <rect x="430" y="84" width="600" height="386" rx="4" ry="4" fill="#ffffff" stroke="#f5f9f7" stroke-width="1.2" />
+    <path d="M 434 84 h 592 a 4 4 0 0 1 4 4 v 26 h -600 v -26 a 4 4 0 0 1 4 -4 z" fill="#f5f9f7" stroke="none" />
+    <text x="444" y="104" font-size="13" fill="#5e5f5f" text-anchor="start" font-weight="700">Participant / local workspace</text>
+    <rect x="452" y="130" width="270" height="62" rx="4" ry="4" fill="#f1f7f4" stroke="#f5f9f7" stroke-width="1.2" />
+    <text x="587.0" y="157.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">Participant package</text>
+    <text x="587.0" y="175.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">.bob/ mode + skill  ·  setup/participant/</text>
+    <rect x="738" y="130" width="270" height="62" rx="4" ry="4" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.2" />
+    <text x="873.0" y="157.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">IBM Bob</text>
+    <text x="873.0" y="175.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">IDE 2.1.0 or shell 2.0.4  ·  OpenSearch mode</text>
+    <rect x="452" y="222" width="270" height="62" rx="4" ry="4" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.2" />
+    <text x="587.0" y="249.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">.env</text>
+    <text x="587.0" y="267.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">OpenSearch + watsonx.ai  ·  INDEX_NAME</text>
+    <rect x="738" y="222" width="270" height="62" rx="4" ry="4" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.2" />
+    <text x="873.0" y="249.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">insert_sample_data.py</text>
+    <text x="873.0" y="267.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">creates the k-NN index  ·  embeds 12 products</text>
+    <rect x="452" y="314" width="270" height="62" rx="4" ry="4" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.2" />
+    <text x="587.0" y="341.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">app.py</text>
+    <text x="587.0" y="359.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">FastAPI /search  ·  keyword · vector · hybrid</text>
+    <rect x="738" y="314" width="270" height="62" rx="4" ry="4" fill="#eee8f3" stroke="#f6f4f7" stroke-width="1.2" />
+    <text x="873.0" y="341.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">Browser</text>
+    <text x="873.0" y="359.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">Swagger UI :8002/docs</text>
+    <path d="M 722 161 L 732 161" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 732 161 L 726 157 L 726 165 Z" fill="#93857b" stroke="none" />
+    <rect x="710.6" y="141" width="32.8" height="15" rx="3" ry="3" fill="#ffffff" stroke="none" />
+    <text x="727" y="152" font-size="10" fill="#5e5f5f" text-anchor="middle" font-weight="400">mode</text>
+    <path d="M 873 192 L 873 216" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 873 216 L 869 210 L 877 210 Z" fill="#93857b" stroke="none" />
+    <rect x="850.4" y="197" width="45.2" height="15" rx="3" ry="3" fill="#ffffff" stroke="none" />
+    <text x="873" y="208" font-size="10" fill="#5e5f5f" text-anchor="middle" font-weight="400">writes</text>
+    <path d="M 587 284 L 587 308" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 587 308 L 583 302 L 591 302 Z" fill="#93857b" stroke="none" />
+    <path d="M 873 284 L 873 300 L 587 300 L 587 308" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 587 308 L 583 302 L 591 302 Z" fill="#93857b" stroke="none" />
+    <path d="M 738 345 L 728 345" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 728 345 L 734 341 L 734 349 Z" fill="#93857b" stroke="none" />
+    <rect x="716.6" y="325" width="32.8" height="15" rx="3" ry="3" fill="#ffffff" stroke="none" />
+    <text x="733" y="336" font-size="10" fill="#5e5f5f" text-anchor="middle" font-weight="400">HTTP</text>
+    <rect x="1060" y="84" width="150" height="386" rx="4" ry="4" fill="#ffffff" stroke="#f8f5f1" stroke-width="1.2" />
+    <path d="M 1064 84 h 142 a 4 4 0 0 1 4 4 v 26 h -150 v -26 a 4 4 0 0 1 4 -4 z" fill="#f8f5f1" stroke="none" />
+    <text x="1074" y="104" font-size="13" fill="#5e5f5f" text-anchor="start" font-weight="700">IBM Cloud</text>
+    <rect x="1076" y="130" width="118" height="154" rx="4" ry="4" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.2" />
+    <text x="1135.0" y="173.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">watsonx.ai</text>
+    <text x="1135.0" y="191.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">granite-</text>
+    <text x="1135.0" y="206.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">embedding-</text>
+    <text x="1135.0" y="221.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">278m-</text>
+    <text x="1135.0" y="236.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">multilingual</text>
+    <text x="1135.0" y="251.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">768 dimensions</text>
+    <path d="M 1008 253 L 1070 253" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 1070 253 L 1064 249 L 1064 257 Z" fill="#93857b" stroke="none" />
+    <rect x="1019.5" y="234" width="39.0" height="15" rx="3" ry="3" fill="#ffffff" stroke="none" />
+    <text x="1039" y="245" font-size="10" fill="#5e5f5f" text-anchor="middle" font-weight="400">embed</text>
+    <path d="M 587 376 L 587 430 L 1135 430 L 1135 290" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 1135 290 L 1131 296 L 1139 296 Z" fill="#93857b" stroke="none" />
+    <rect x="809.5" y="411" width="101.0" height="15" rx="3" ry="3" fill="#ffffff" stroke="none" />
+    <text x="860" y="422" font-size="10" fill="#5e5f5f" text-anchor="middle" font-weight="400">embed the query</text>
+    <path d="M 430 253 L 382 253" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 382 253 L 388 249 L 388 257 Z" fill="#93857b" stroke="none" />
+    <rect x="386.5" y="234" width="39.0" height="15" rx="3" ry="3" fill="#ffffff" stroke="none" />
+    <text x="406" y="245" font-size="10" fill="#5e5f5f" text-anchor="middle" font-weight="400">:9200</text>
+    <path d="M 376 402 L 444 402" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 444 402 L 438 398 L 438 406 Z" fill="#93857b" stroke="none" />
+    <rect x="384.3" y="383" width="51.4" height="15" rx="3" ry="3" fill="#ffffff" stroke="none" />
+    <text x="410" y="394" font-size="10" fill="#5e5f5f" text-anchor="middle" font-weight="400">package</text>
+    <rect x="40" y="500" width="1170" height="106" rx="4" ry="4" fill="#ffffff" stroke="#f4f5f8" stroke-width="1.2" />
+    <path d="M 44 500 h 1162 a 4 4 0 0 1 4 4 v 26 h -1170 v -26 a 4 4 0 0 1 4 -4 z" fill="#f4f5f8" stroke="none" />
+    <text x="54" y="520" font-size="13" fill="#5e5f5f" text-anchor="start" font-weight="700">One query, three rankings</text>
+    <rect x="64" y="542" width="182" height="52" rx="4" ry="4" fill="#f0efee" stroke="#f6f5f4" stroke-width="1.2" />
+    <text x="155.0" y="564.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">Query</text>
+    <text x="155.0" y="582.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">"footwear for working out"</text>
+    <rect x="300" y="542" width="182" height="52" rx="4" ry="4" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.2" />
+    <text x="391.0" y="564.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">watsonx.ai</text>
+    <text x="391.0" y="582.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">768-dim query vector</text>
+    <rect x="536" y="542" width="182" height="52" rx="4" ry="4" fill="#dce2f3" stroke="#f4f5f8" stroke-width="1.2" />
+    <text x="627.0" y="564.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">OpenSearch</text>
+    <text x="627.0" y="582.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">BM25  +  k-NN</text>
+    <rect x="772" y="542" width="182" height="52" rx="4" ry="4" fill="#e4e8f5" stroke="#f4f5f8" stroke-width="1.2" />
+    <text x="863.0" y="564.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">Normalise</text>
+    <text x="863.0" y="582.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">min-max, then blend</text>
+    <rect x="1008" y="542" width="182" height="52" rx="4" ry="4" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.2" />
+    <text x="1099.0" y="564.5" font-size="13" fill="#5e5f5f" text-anchor="middle" font-weight="700">Ranked results</text>
+    <text x="1099.0" y="582.5" font-size="11" fill="#5e5f5f" text-anchor="middle" font-weight="400">with both scores</text>
+    <path d="M 246 568 L 300 568" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 300 568 L 294 564 L 294 572 Z" fill="#93857b" stroke="none" />
+    <path d="M 482 568 L 536 568" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 536 568 L 530 564 L 530 572 Z" fill="#93857b" stroke="none" />
+    <path d="M 718 568 L 772 568" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 772 568 L 766 564 L 766 572 Z" fill="#93857b" stroke="none" />
+    <path d="M 954 568 L 1008 568" fill="none" stroke="#93857b" stroke-width="1.25" stroke-linejoin="round" />
+    <path d="M 1008 568 L 1002 564 L 1002 572 Z" fill="#93857b" stroke="none" />
+    <text x="621.5" y="634" font-size="12" fill="#5e5f5f" text-anchor="middle" font-weight="400">Each participant uses their own INDEX_NAME on the shared cluster and their own watsonx.ai credentials.</text>
   </g>
-  <metadata>Embedded font subsets derived from IBM Plex.
-Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
-
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
-
-This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
-
-
------------------------------------------------------------
-SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
------------------------------------------------------------
-
-PREAMBLE
-The goals of the Open Font License (OFL) are to stimulate worldwide
-development of collaborative font projects, to support the font creation
-efforts of academic and linguistic communities, and to provide a free and
-open framework in which fonts may be shared and improved in partnership
-with others.
-
-The OFL allows the licensed fonts to be used, studied, modified and
-redistributed freely as long as they are not sold by themselves. The
-fonts, including any derivative works, can be bundled, embedded,
-redistributed and/or sold with any software provided that any reserved
-names are not used by derivative works. The fonts and derivatives,
-however, cannot be released under any other type of license. The
-requirement for fonts to remain under this license does not apply
-to any document created using the fonts or their derivatives.
-
-DEFINITIONS
-"Font Software" refers to the set of files released by the Copyright
-Holder(s) under this license and clearly marked as such. This may
-include source files, build scripts and documentation.
-
-"Reserved Font Name" refers to any names specified as such after the
-copyright statement(s).
-
-"Original Version" refers to the collection of Font Software components as
-distributed by the Copyright Holder(s).
-
-"Modified Version" refers to any derivative made by adding to, deleting,
-or substituting -- in part or in whole -- any of the components of the
-Original Version, by changing formats or by porting the Font Software to a
-new environment.
-
-"Author" refers to any designer, engineer, programmer, technical
-writer or other person who contributed to the Font Software.
-
-PERMISSION &amp; CONDITIONS
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of the Font Software, to use, study, copy, merge, embed, modify,
-redistribute, and sell modified and unmodified copies of the Font
-Software, subject to the following conditions:
-
-1) Neither the Font Software nor any of its individual components,
-in Original or Modified Versions, may be sold by itself.
-
-2) Original or Modified Versions of the Font Software may be bundled,
-redistributed and/or sold with any software, provided that each copy
-contains the above copyright notice and this license. These can be
-included either as stand-alone text files, human-readable headers or
-in the appropriate machine-readable metadata fields within text or
-binary files as long as those fields can be easily viewed by the user.
-
-3) No Modified Version of the Font Software may use the Reserved Font
-Name(s) unless explicit written permission is granted by the corresponding
-Copyright Holder. This restriction only applies to the primary font name as
-presented to the users.
-
-4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
-Software shall not be used to promote, endorse or advertise any
-Modified Version, except to acknowledge the contribution(s) of the
-Copyright Holder(s) and the Author(s) or with their explicit written
-permission.
-
-5) The Font Software, modified or unmodified, in part or in whole,
-must be distributed entirely under this license, and must not be
-distributed under any other license. The requirement for fonts to
-remain under this license does not apply to any document created
-using the Font Software.
-
-TERMINATION
-This license becomes null and void if any of the above conditions are
-not met.
-
-DISCLAIMER
-THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
-COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
-DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
-OTHER DEALINGS IN THE FONT SOFTWARE.
-</metadata>
 </svg>
