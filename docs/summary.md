@@ -32,9 +32,9 @@ OPENSEARCH_VERIFY_CERTS=true
 
 !!! note "Not verified here"
 
-    This hands-on has not been run against a live watsonx.data OpenSearch cluster. The point above is about how the code is wired — nothing in it is specific to the container — not a tested migration path. Provision a cluster and try it before promising a customer a five-minute switch.
+    This hands-on has not been run against a live watsonx.data OpenSearch cluster. The point above is about how the code is wired (nothing in it is specific to the container), not a tested migration path. Provision a cluster and try it before promising a customer a five-minute switch.
 
-What a real deployment adds beyond this kit: document ingestion from IBM Cloud Object Storage, chunking, an authentication layer in front of the API, index lifecycle management, and — if you are building RAG — a generation step after retrieval. The Building Block's workflow covers those stages too.
+What a real deployment adds beyond this kit: document ingestion from IBM Cloud Object Storage, chunking, an authentication layer in front of the API, index lifecycle management, and, if you are building RAG, a generation step after retrieval. The Building Block's workflow covers those stages too.
 
 ## How This Differs from the Existing DSCE Assets
 

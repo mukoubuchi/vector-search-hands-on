@@ -1,6 +1,6 @@
 # Welcome to Vector Search Hands-on
 
-In this hands-on workshop you build a product search API that answers the same question three ways — keyword, vector and hybrid — on one **OpenSearch** index, with **IBM watsonx.ai** embeddings, and you let **IBM Bob** do the work from a **Building Block** that already knows how OpenSearch vector search is put together.
+In this hands-on workshop you build a product search API that answers the same question three ways (keyword, vector and hybrid) on one **OpenSearch** index, with **IBM watsonx.ai** embeddings, and you let **IBM Bob** do the work from a **Building Block** that already knows how OpenSearch vector search is put together.
 
 !!! info "Prerequisites"
 
@@ -15,7 +15,7 @@ A FastAPI service with one `/search` endpoint and a `mode` parameter:
 | Mode | How it ranks | Finds "red running shoes" when you ask for "red sneakers"? |
 |:---|:---|:---|
 | `keyword` | BM25 over the product text | Only if the words match |
-| `vector` | k-NN over watsonx.ai embeddings | Yes — it matches on meaning |
+| `vector` | k-NN over watsonx.ai embeddings | Yes, it matches on meaning |
 | `hybrid` | Both, normalised and blended | Yes, and exact wording still counts |
 
 The three modes share one index, so the difference you see comes from the query, not from different data.
@@ -35,7 +35,7 @@ The three modes share one index, so the difference you see comes from the query,
 
 **Building Blocks** are pre-built technical components from IBM's technology stack. This hands-on uses one of them, exactly as IBM publishes it:
 
-**OpenSearch Vector Search Builder** — an IBM Bob custom mode plus a skill, from [ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks).
+**OpenSearch Vector Search Builder** is an IBM Bob custom mode plus a skill, from [ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks).
 
 **What it provides**:
 
@@ -69,24 +69,24 @@ You unzip the mode, describe the feature you want, and review what IBM Bob propo
 
 Keyword search matches characters. Vector search matches meaning.
 
-Every product description is turned into a list of numbers — a **vector** — by an embedding model. Texts that mean similar things get similar vectors, so "footwear for working out" lands near "running shoes" even though they share no words. OpenSearch stores those vectors in a `knn_vector` field and finds the nearest ones.
+Every product description is turned into a list of numbers, a **vector**, by an embedding model. Texts that mean similar things get similar vectors, so "footwear for working out" lands near "running shoes" even though they share no words. OpenSearch stores those vectors in a `knn_vector` field and finds the nearest ones.
 
 Neither approach wins everywhere:
 
-- Keyword search is exact. A part number, a brand, a colour spelled the way the shopper spelled it — BM25 nails it and a vector search may drift.
-- Vector search is tolerant. A description of what someone wants, with none of the words the catalogue uses — only embeddings will find it.
+- Keyword search is exact. A part number, a brand, a colour spelled the way the shopper spelled it: BM25 nails it and a vector search may drift.
+- Vector search is tolerant. A description of what someone wants, with none of the words the catalogue uses: only embeddings will find it.
 - **Hybrid** runs both and merges the rankings, which is what production search usually does.
 
 Part 1 has you run all three against the same questions so you can see where each one fails.
 
 ## How This Differs from the Existing DSCE Assets
 
-The Digital Self-Serve Co-Create Experience (DSCE) catalogue already has vector search demonstrations — Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This hands-on is a different kind of artefact:
+The Digital Self-Serve Co-Create Experience (DSCE) catalogue already has vector search demonstrations: Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This hands-on is a different kind of artefact:
 
 - **It is a kit, not a demonstration.** Everything runs from this repository: one container, a handful of scripts, and credentials you already have. Anyone can reproduce the whole thing on their own machine.
 - **The Building Block is the subject.** The mode and skill are shipped unmodified, so what you experience is what IBM publishes, not a variant written for this workshop.
 - **The comparison is the lesson.** Keyword, vector and hybrid answer the same questions over the same index, side by side.
-- **It stops at the smallest useful system.** No object storage ingestion, no chunking, no generation step — only the retrieval layer, so the moving parts stay visible.
+- **It stops at the smallest useful system.** No object storage ingestion, no chunking, no generation step: only the retrieval layer, so the moving parts stay visible.
 
 ## Requirements
 

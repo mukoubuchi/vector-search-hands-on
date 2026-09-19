@@ -103,7 +103,7 @@ WATSONX_PROJECT_ID=...                 # watsonx.ai のプロジェクト → �
 EMBEDDING_MODEL_ID=ibm/granite-embedding-278m-multilingual
 ```
 
-講師から共有環境が提供される場合——予約の出力に API キーが含まれている場合など——は、自分で作らずに
+講師から共有環境が提供される場合（予約の出力に API キーが含まれている場合など）は、自分で作らずに
 その環境のキーとプロジェクトを使ってください。
 
 ### 自分のインデックス
@@ -173,10 +173,10 @@ k-NN プラグインの行とベクトルの次元数が出れば準備完了で
 | モードの zip | `data/pipelines/rag/bob-modes/base-modes/opensearch-builder.zip`（blob `efa9473d0146246c08a3ef9351f882b0b7a58e02`） |
 | スキルの zip | `data/pipelines/rag/bob-skills/opensearch-vector-search.zip`（blob `916e1f974f3a420006f76335bff14e5c3d64c9ae`） |
 
-- `.bob/custom_modes.yaml` — **OpenSearch Vector Search Builder** のペルソナ（slug は `opensearch-builder`）
-- `.bob/rules-opensearch-builder/1_opensearch_vector_workflow.xml` — クラスターの設定、インデックス作成、取り込み、ハイブリッド検索の手順
-- `.bob/rules-opensearch-builder/2_best_practices.xml` — ペルソナが従う実践
-- `.bob/skills/opensearch-vector-search/SKILL.md` — 埋め込みモデルと次元数を定め、存在しないエンドポイントを作り出さないことを求めるスキル
+- `.bob/custom_modes.yaml`: **OpenSearch Vector Search Builder** のペルソナ（slug は `opensearch-builder`）
+- `.bob/rules-opensearch-builder/1_opensearch_vector_workflow.xml`: クラスターの設定、インデックス作成、取り込み、ハイブリッド検索の手順
+- `.bob/rules-opensearch-builder/2_best_practices.xml`: ペルソナが従う実践
+- `.bob/skills/opensearch-vector-search/SKILL.md`: 埋め込みモデルと次元数を定め、存在しないエンドポイントを作り出さないことを求めるスキル
 
 ### 変更した 1 行
 

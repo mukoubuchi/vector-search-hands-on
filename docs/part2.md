@@ -1,6 +1,6 @@
 # Part 2: Add Features with IBM Bob
 
-Part 1 ran the search. This part changes it — without you writing the code.
+Part 1 ran the search. This part changes it, without you writing the code.
 
 ## Goals of This Part
 
@@ -10,10 +10,10 @@ Part 1 ran the search. This part changes it — without you writing the code.
 
 ## How the Loop Works
 
-1. **Instruct** — say what you want, not how to do it.
-2. **Watch it work** — Bob explores the project, explains the approach it is taking, and applies the edit.
-3. **Read what changed** — the panel reports how many files it touched. **Show all** opens the diff; **Undo all** puts the file back if the change is not what you meant.
-4. **Verify** — run the request yourself and check the result.
+1. **Instruct**: say what you want, not how to do it.
+2. **Watch it work**: Bob explores the project, explains the approach it is taking, and applies the edit.
+3. **Read what changed**: the panel reports how many files it touched. **Show all** opens the diff; **Undo all** puts the file back if the change is not what you meant.
+4. **Verify**: run the request yourself and check the result.
 
 Steps 3 and 4 are not optional. Bob edits the file first and shows you afterwards, so reviewing the diff is the review, and running the query is the proof. Commands are treated differently from edits: if Bob wants to run one it may stop and ask, offering **Approve once** or **Reject**.
 
@@ -38,7 +38,7 @@ When it finishes, the panel summarises the change and offers **Show all** and **
 
 ### What to Look For in the Answer
 
-This is the interesting part. A price filter sounds trivial, but in a hybrid search it is not — and the mode knows why:
+This is the interesting part. A price filter sounds trivial, but in a hybrid search it is not, and the mode knows why:
 
 - A filter on the **keyword** side is another clause in the `bool` query.
 - A filter on the **vector** side has to be applied as a **k-NN filter**, not afterwards. Filtering k-NN results after the fact silently returns fewer than `top_k` documents, because the graph walk already decided which vectors to look at.
@@ -64,7 +64,7 @@ curl -s -X POST http://localhost:8002/search \
   -d '{"query": "red sneakers", "mode": "hybrid", "max_price": 8000}'
 ```
 
-Everything returned should cost 8000 or less. Run the same query without `max_price` and confirm that something above the limit disappears — a filter that changes nothing has not been proven to work. Measured against the sample products:
+Everything returned should cost 8000 or less. Run the same query without `max_price` and confirm that something above the limit disappears. A filter that changes nothing has not been proven to work. Measured against the sample products:
 
 | `max_price` | `keyword` | `vector` | `hybrid` |
 |:---|:---|:---|:---|
@@ -105,7 +105,7 @@ Bob keeps the context of the file it just edited, so a correction is cheaper tha
 
 !!! tip "If it starts searching your whole machine"
 
-    Bob sometimes goes looking for tooling — in one of our runs it started a
+    Bob sometimes goes looking for tooling. In one of our runs it started a
     `find` across the entire filesystem hunting for a test runner. That is slow and
     buys you nothing here. Press ++esc++ to stop it; the edits it has already
     applied stay applied.

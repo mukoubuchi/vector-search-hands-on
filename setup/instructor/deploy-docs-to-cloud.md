@@ -167,7 +167,7 @@ Participants must update `OPENSEARCH_HOST`, `OPENSEARCH_PORT`, and `OPENSEARCH_P
 ### Recommended Pairing
 
 - Documentation: GitHub Pages or `ngrok http 8001`
-- OpenSearch: a private network such as Tailscale/VPN (preferred), or `ngrok tcp 9200` as a fallback — the traffic is TLS, but participants connect with certificate verification disabled, so the tunnel is encrypted without being authenticated
+- OpenSearch: a private network such as Tailscale/VPN (preferred), or `ngrok tcp 9200` as a fallback. The traffic is TLS, but participants connect with certificate verification disabled, so the tunnel is encrypted without being authenticated
 
 ### If ngrok TCP Is Not Available
 
@@ -210,7 +210,7 @@ Benefits over GitHub Pages: works with private repositories, managed HTTPS, scal
 Lessons learned from the previous deployment, relevant when you build images **locally** instead of using `--build-source`:
 
 - **Build AMD64 images on Apple Silicon**: Code Engine runs AMD64; an ARM64 image fails at startup with `exec format error`. Build with `podman build --platform linux/amd64 ...`.
-- **Podman cannot push to IBM Cloud Container Registry directly**: ICR's identity-token authentication is incompatible with Podman. Either build with Podman, load the image into Docker, and push with the Docker CLI — or avoid local builds entirely with `--build-source` (Code Engine builds the image server-side, which also sidesteps the architecture issue).
+- **Podman cannot push to IBM Cloud Container Registry directly**: ICR's identity-token authentication is incompatible with Podman. Either build with Podman, load the image into Docker, and push with the Docker CLI, or avoid local builds entirely with `--build-source` (Code Engine builds the image server-side, which also sidesteps the architecture issue).
 
 ### OpenSearch hosting
 

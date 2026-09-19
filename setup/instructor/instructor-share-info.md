@@ -110,7 +110,7 @@ http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
 > **Important**
 >
 > - Share the **IP address, OpenSearch password (printed by `start-all.sh`), and documentation URL** with participants
-> - Each participant must also set their own unique `INDEX_NAME` (e.g. `products_taro`) in `.env` — the cluster is shared, and inserting sample data into the same index overwrites other participants' data
+> - Each participant must also set their own unique `INDEX_NAME` (e.g. `products_taro`) in `.env`, because the cluster is shared and inserting sample data into the same index overwrites other participants' data
 > - Other settings (PORT, USER, etc.) are already configured in `.env.example`
 
 ### Additional: Other Configuration Values (No Need to Share)
@@ -272,7 +272,7 @@ docker compose --profile all ps   # or: podman compose --profile all ps
 
 ### Lost `setup/instructor/.env` (generated passwords)
 
-The generated admin password exists only in `setup/instructor/.env`. If the file is deleted, the running cluster keeps the old password and `start-all.sh` generates a different one, which the cluster will reject. Reset the data volume and start fresh — the sample data is simply re-inserted:
+The generated admin password exists only in `setup/instructor/.env`. If the file is deleted, the running cluster keeps the old password and `start-all.sh` generates a different one, which the cluster will reject. Reset the data volume and start fresh. The sample data is simply re-inserted:
 
 ```bash
 cd setup/instructor

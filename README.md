@@ -28,13 +28,13 @@ One index serves all three, so a participant can watch the same question produce
 - **A kit, not a demonstration.** One repository, one container, one set of credentials, reproducible by anyone.
 - **The Building Block is the subject.** The mode and the skill are shipped as IBM publishes them, not rewritten for the workshop.
 - **The comparison is the lesson.** Keyword, vector and hybrid answer the same questions over the same index.
-- **The smallest useful system.** Retrieval only — no object storage ingestion, no chunking, no generation — so the moving parts stay visible.
+- **The smallest useful system.** Retrieval only (no object storage ingestion, no chunking, no generation), so the moving parts stay visible.
 
-The Digital Self-Serve Co-Create Experience (DSCE) catalogue shows finished solutions to specific problems — Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This one shows the mechanism and hands it over.
+The Digital Self-Serve Co-Create Experience (DSCE) catalogue shows finished solutions to specific problems: Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This one shows the mechanism and hands it over.
 
 ## The Building Block
 
-**OpenSearch Vector Search Builder** — an IBM Bob custom mode plus a skill, taken from [ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks) at commit `4a2ee334bf0acb4a798dc197e6f63bde99b9a0d6`:
+**OpenSearch Vector Search Builder** is an IBM Bob custom mode plus a skill, taken from [ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks) at commit `4a2ee334bf0acb4a798dc197e6f63bde99b9a0d6`:
 
 | Shipped file | Upstream archive |
 |:---|:---|
@@ -47,7 +47,7 @@ Everything is byte-identical to upstream except one line of `custom_modes.yaml`.
     name: >- OpenSearch Vector Search Builder
 ```
 
-which is not valid YAML — a block scalar indicator must end its line — so PyYAML, Ruby's Psych, the npm `yaml` package and `js-yaml` all reject the file at line 3. We did not test the unmodified file in IBM Bob; the kit ships the corrected line so that the mode loads without depending on how Bob's parser treats the malformed one. The shipped copy reads
+which is not valid YAML (a block scalar indicator must end its line), so PyYAML, Ruby's Psych, the npm `yaml` package and `js-yaml` all reject the file at line 3. We did not test the unmodified file in IBM Bob; the kit ships the corrected line so that the mode loads without depending on how Bob's parser treats the malformed one. The shipped copy reads
 
 ```yaml
     name: OpenSearch Vector Search Builder
@@ -128,14 +128,14 @@ Details: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs
 
 Distributed packages (from the [latest release assets](https://github.com/mukoubuchi/vector-search-hands-on/releases/latest), or built with `./setup/instructor/build-participant-zips.sh`):
 
-- `opensearch-vector-search-en.zip` — English rules, sample data and scripts
-- `opensearch-vector-search-ja.zip` — Japanese rules, sample data and scripts（日本語版）
+- `opensearch-vector-search-en.zip`: English rules, sample data and scripts
+- `opensearch-vector-search-ja.zip`: Japanese rules, sample data and scripts（日本語版）
 
 Both contain the same scripts; each carries the sample data and `.env.example` for its language. Instructor files, documentation, local `.env` files and caches are excluded.
 
-1. Unzip into a working folder — this also installs the Building Block, since `.bob/` lands at the folder root.
-2. Open that folder in IBM Bob IDE and trust it when the Restricted Mode banner asks — Bob stays hidden until you do.
-3. Create `setup/participant/.env` from `.env.example` and fill in the OpenSearch connection details, your IBM Cloud API key and watsonx.ai project ID, and an `INDEX_NAME` unique to you — the cluster is shared.
+1. Unzip into a working folder. This also installs the Building Block, since `.bob/` lands at the folder root.
+2. Open that folder in IBM Bob IDE and trust it when the Restricted Mode banner asks. Bob stays hidden until you do.
+3. Create `setup/participant/.env` from `.env.example` and fill in the OpenSearch connection details, your IBM Cloud API key and watsonx.ai project ID, and an `INDEX_NAME` unique to you, because the cluster is shared.
 4. Select the **OpenSearch Vector Search Builder** mode.
 5. `pip install -r setup/participant/requirements.txt`, then `python test_connection.py`.
 
@@ -157,7 +157,7 @@ Japanese documentation: [docs/ja/](docs/ja/)
 - IBM Bob IDE 2.1.0
 - Python 3.11 – 3.14 (`ibm-watsonx-ai` declares `>=3.11,<3.15`)
 - An IBM Cloud API key and a watsonx.ai project ID
-- A container runtime (Colima or Podman) — instructors, and anyone running the cluster themselves
+- A container runtime (Colima or Podman), for instructors and anyone running the cluster themselves
 
 ## Tech Stack
 
@@ -167,7 +167,7 @@ Japanese documentation: [docs/ja/](docs/ja/)
 - **Embeddings**: IBM watsonx.ai, `ibm/granite-embedding-278m-multilingual` (768 dimensions, ibm-watsonx-ai 1.7)
 - **Web framework**: FastAPI 0.141 / Uvicorn
 - **Documentation**: MkDocs Material with the i18n plugin (English / 日本語)
-- **CI/CD**: GitHub Actions — lint, upstream provenance check, zip packaging, docs deploy, translation sync, E2E smoke test
+- **CI/CD**: GitHub Actions for lint, upstream provenance check, zip packaging, docs deploy, translation sync and the E2E smoke test
 
 ## Directory Structure
 

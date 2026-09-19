@@ -88,7 +88,7 @@ Two things are worth noticing:
 python app.py
 ```
 
-Open the interactive API documentation at [http://localhost:8002/docs](http://localhost:8002/docs) — you can run every query below from that page instead of the terminal, if you prefer.
+Open the interactive API documentation at [http://localhost:8002/docs](http://localhost:8002/docs). You can run every query below from that page instead of the terminal, if you prefer.
 
 ## Step 4: Ask the Same Question Three Ways
 
@@ -137,7 +137,7 @@ Fill this in as you go:
 
     Two of these are worth a second look. For **red sneakers** the keyword side wins the blend:
     "sneakers" appears in exactly one product name, and that product is blue. For
-    **footwear for working out** the keyword side returns a camera on a score of 0.26 — noise,
+    **footwear for working out** the keyword side returns a camera on a score of 0.26: noise,
     which normalisation still promotes to 1.0 before the blend.
 
 ### Reading the Response
@@ -159,13 +159,13 @@ Fill this in as you go:
 }
 ```
 
-In `hybrid` mode every result shows where it came from. `keyword_score` and `vector_score` are each ranking's score rescaled to 0–1, and `score` is the blend. A result with `keyword_score: 0.0` was found only by the vector side — the words never matched.
+In `hybrid` mode every result shows where it came from. `keyword_score` and `vector_score` are each ranking's score rescaled to 0–1, and `score` is the blend. A result with `keyword_score: 0.0` was found only by the vector side: the words never matched.
 
-!!! info "Why the scores are rescaled — and what it costs"
+!!! info "Why the scores are rescaled, and what it costs"
 
     BM25 scores have no upper bound and depend on the corpus; k-NN similarities sit in their own range. Adding them raw would let whichever number happens to be larger decide the ranking. Min-max normalising each list first puts both on 0–1, which is the step the Building Block's workflow calls "score normalisation".
 
-    It has a side effect worth knowing: normalising gives the best hit in each list a 1.0 **even when that list is weak**. Ask question 4 and look at the keyword column — BM25 matched on a common word and returned something confidently wrong, and after normalisation that wrong answer arrives at full strength. This is why the weight below matters.
+    It has a side effect worth knowing: normalising gives the best hit in each list a 1.0 **even when that list is weak**. Ask question 4 and look at the keyword column. BM25 matched on a common word and returned something confidently wrong, and after normalisation that wrong answer arrives at full strength. This is why the weight below matters.
 
 ### Try the Weighting
 
@@ -183,7 +183,7 @@ Run the same question at `0.3` and at `0.9`. At `0.3` the keyword side decides a
 
 - **Questions 1 and 2** use the catalogue's own words, which is the case keyword search was built for. Vector search usually finds the same products, sometimes in a different order.
 - **Questions 3 and 4** share no words with the catalogue. Keyword search either finds nothing or latches onto a common word and answers confidently wrong; the vector side carries the result.
-- **Question 1 is the one to read twice.** Keyword search ranks the blue sneakers first, because "sneakers" is in that product's name and "red" is not enough to outweigh it. Vector search ranks the red shoes first, because it is matching what the phrase means rather than which characters it contains. Neither is a bug — they are different questions about the same words.
+- **Question 1 is the one to read twice.** Keyword search ranks the blue sneakers first, because "sneakers" is in that product's name and "red" is not enough to outweigh it. Vector search ranks the red shoes first, because it is matching what the phrase means rather than which characters it contains. Neither is a bug: they are different questions about the same words.
 - **Hybrid is a dial, not a winner.** At the default weight of 0.7 it follows the vector side for questions 3 and 4 while keeping exact wording in play for 1 and 2. Turn the dial down and the keyword side takes over, wrong answers included.
 
 !!! success "Checkpoint"

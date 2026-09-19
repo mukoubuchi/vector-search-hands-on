@@ -73,7 +73,7 @@ Unpacking at the top of the folder is what installs the Building Block: IBM Bob 
     pip install -r requirements.txt
     ```
 
-The install pulls about 240 MB and takes a couple of minutes. Nothing is downloaded at run time — the embedding model runs in watsonx.ai, not on your machine.
+The install pulls about 240 MB and takes a couple of minutes. Nothing is downloaded at run time: the embedding model runs in watsonx.ai, not on your machine.
 
 ## Step 3: Fill In `.env`
 
@@ -103,9 +103,9 @@ WATSONX_PROJECT_ID=...                 # watsonx.ai project → Manage → Gener
 EMBEDDING_MODEL_ID=ibm/granite-embedding-278m-multilingual
 ```
 
-If the instructor provides a shared environment — a reservation whose output already
-includes an API key, for instance — use the key and project from that environment instead of
-creating your own.
+If the instructor provides a shared environment, such as a reservation whose output already
+includes an API key, use the key and project from that environment instead of creating your
+own.
 
 ### Your own index
 
@@ -124,7 +124,7 @@ PARTICIPANT_LANGUAGE=en
 
 ## Step 4: Select the Building Block Mode in IBM Bob
 
-Open the folder you unpacked into — the one containing `.bob/` — with **File → Open Folder…**.
+Open the folder you unpacked into, the one containing `.bob/`, with **File → Open Folder…**.
 
 ### Trust the folder first
 
@@ -139,12 +139,12 @@ The **Open Bob** button appears as soon as the folder is trusted.
 ### Choose the mode
 
 1. Click **Open Bob** to open the Bob panel.
-2. At the bottom of the chat input, open the mode selector — it reads **Agent** to begin with.
+2. At the bottom of the chat input, open the mode selector. It reads **Agent** to begin with.
 3. Choose **OpenSearch Vector Search Builder**.
 
 ![The Bob mode selector listing OpenSearch Vector Search Builder](images/preparation-mode-selector-en.png)
 
-The list varies from machine to machine, since it shows every mode installed on yours. All that matters is that **OpenSearch Vector Search Builder** is in it — that is the mode the kit brought. If it is missing, the folder you opened is not the one holding `.bob/`.
+The list varies from machine to machine, since it shows every mode installed on yours. All that matters is that **OpenSearch Vector Search Builder** is in it, since that is the mode the kit brought. If it is missing, the folder you opened is not the one holding `.bob/`.
 
 Once selected, the mode name replaces **Agent** under the chat input, and Bob answers from the Building Block's rules for the rest of the session.
 
@@ -174,10 +174,10 @@ Everything under `.bob/` comes from IBM's Building Blocks repository and is ship
 | Mode archive | `data/pipelines/rag/bob-modes/base-modes/opensearch-builder.zip` (blob `efa9473d0146246c08a3ef9351f882b0b7a58e02`) |
 | Skill archive | `data/pipelines/rag/bob-skills/opensearch-vector-search.zip` (blob `916e1f974f3a420006f76335bff14e5c3d64c9ae`) |
 
-- `.bob/custom_modes.yaml` — the **OpenSearch Vector Search Builder** persona (slug `opensearch-builder`)
-- `.bob/rules-opensearch-builder/1_opensearch_vector_workflow.xml` — cluster setup, index creation, ingestion, hybrid search
-- `.bob/rules-opensearch-builder/2_best_practices.xml` — the practices the persona applies
-- `.bob/skills/opensearch-vector-search/SKILL.md` — the skill, which fixes the embedding model and dimension and forbids inventing endpoints
+- `.bob/custom_modes.yaml`: the **OpenSearch Vector Search Builder** persona (slug `opensearch-builder`)
+- `.bob/rules-opensearch-builder/1_opensearch_vector_workflow.xml`: cluster setup, index creation, ingestion, hybrid search
+- `.bob/rules-opensearch-builder/2_best_practices.xml`: the practices the persona applies
+- `.bob/skills/opensearch-vector-search/SKILL.md`: the skill, which fixes the embedding model and dimension and forbids inventing endpoints
 
 ### The One Change
 
