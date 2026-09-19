@@ -179,7 +179,7 @@ Upstream writes the mode's name as a YAML block scalar with its content on the s
     name: >- OpenSearch Vector Search Builder
 ```
 
-A block scalar indicator has to be the last thing on its line, so the file is not valid YAML. PyYAML, Ruby's Psych, the npm `yaml` package and `js-yaml` all reject it at line 3 — which means IBM Bob cannot load the file either, and the mode would simply never appear. The shipped copy uses a plain scalar:
+A block scalar indicator has to be the last thing on its line, so the file is not valid YAML. PyYAML, Ruby's Psych, the npm `yaml` package and `js-yaml` all reject it at line 3. We did not test the unmodified file in IBM Bob, so we cannot say what its parser does with it; the kit ships the corrected line instead, so the mode loads without that question mattering. The shipped copy uses a plain scalar:
 
 ```yaml
     name: OpenSearch Vector Search Builder

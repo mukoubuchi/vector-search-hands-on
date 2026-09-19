@@ -292,11 +292,11 @@ Embeddings come from watsonx.ai, so every participant needs their own IBM Cloud 
 
 ---
 
-## FAQ
+## Notes
 
-### Q1: Can the container version (8001) and development version (8000) run simultaneously?
+### Running both documentation servers at once
 
-**A: Yes, they can run simultaneously. There is no conflict because the ports differ.**
+They run side by side: the ports differ, so nothing conflicts.
 
 #### Benefits of simultaneous operation
 
@@ -354,18 +354,18 @@ kill $(lsof -ti:8002)
 
 **Conclusion**: Technically simultaneous operation is possible, but **normally the container version (8001) alone is sufficient**.
 
-### Q2: Will participants see documentation updates automatically after I edit?
+### Documentation edits and the container version
 
-**A: No, automatic updates do not work in the container version (8001).**
+Edits do not reach participants automatically while they read the container version (8001).
 
 - **Container version (8001)**: Automatic file change detection does not work (macOS container VM limitation)
   - Workaround: Restart container or ask participants to manually reload browser
 - **Development version (8000)**: Auto-reload works correctly
   - Changes are reflected immediately when files are saved
 
-### Q3: I get "Config file 'mkdocs.yml' does not exist" error when running `python -m mkdocs serve`
+### "Config file 'mkdocs.yml' does not exist" from `python -m mkdocs serve`
 
-**A: Run from the directory containing `mkdocs.yml` (project root).**
+Run the command from the directory that holds `mkdocs.yml` (the project root).
 
 ```bash
 # Check current directory
@@ -388,9 +388,9 @@ cd ../..  # Move to project root
 python -m mkdocs serve
 ```
 
-### Q4: How do I stop the development version (8000) or FastAPI demo (8002) when started in the background?
+### Stopping a background documentation server (8000) or demo (8002)
 
-**A: There are 3 methods.**
+Three ways, most convenient first.
 
 1. **Run `./stop-all.sh` (recommended)**
 
@@ -422,9 +422,9 @@ python -m mkdocs serve
 
 **Note**: For foreground execution, stop with `Ctrl+C`.
 
-### Q5: What happens if a participant accidentally accesses port 8000?
+### If a participant opens port 8000 by mistake
 
-**A: A connection error will occur if the development version (8000) is not running.**
+They get a connection error whenever the development version (8000) is not running.
 
 - The development version only runs when started manually with `python -m mkdocs serve`
 - Always direct participants to **8001**

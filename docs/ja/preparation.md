@@ -179,7 +179,7 @@ k-NN プラグインの行とベクトルの次元数が出れば準備完了で
     name: >- OpenSearch Vector Search Builder
 ```
 
-ブロックスカラーの指示子は行末に置く必要があるため、このファイルは YAML として不正です。PyYAML、Ruby の Psych、npm の `yaml`、`js-yaml` の 4 実装がいずれも 3 行目で拒否します。つまり IBM Bob もこのファイルを読み込めず、モードはモードセレクターに現れません。同梱している版は素直なスカラーにしてあります。
+ブロックスカラーの指示子は行末に置く必要があるため、このファイルは YAML として不正です。PyYAML、Ruby の Psych、npm の `yaml`、`js-yaml` の 4 実装がいずれも 3 行目で拒否します。上流のままのファイルを IBM Bob で試してはいないので、Bob のパーサーがこれをどう扱うかは分かりません。そこで、その点に左右されずにモードが読み込まれるよう、同梱している版は素直なスカラーにしてあります。
 
 ```yaml
     name: OpenSearch Vector Search Builder

@@ -30,7 +30,7 @@ One index serves all three, so a participant can watch the same question produce
 - **The comparison is the lesson.** Keyword, vector and hybrid answer the same questions over the same index.
 - **The smallest useful system.** Retrieval only — no object storage ingestion, no chunking, no generation — so the moving parts stay visible.
 
-Catalogue assets such as Orbital Suppliers, NexusIQ and Maximo Knowledge Hub show finished solutions to specific problems. This one shows the mechanism and hands it over.
+The Digital Self-Serve Co-Create Experience (DSCE) catalogue shows finished solutions to specific problems — Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This one shows the mechanism and hands it over.
 
 ## The Building Block
 
@@ -47,7 +47,7 @@ Everything is byte-identical to upstream except one line of `custom_modes.yaml`.
     name: >- OpenSearch Vector Search Builder
 ```
 
-which is not valid YAML — a block scalar indicator must end its line — so PyYAML, Ruby's Psych, the npm `yaml` package and `js-yaml` all reject the file at line 3, and IBM Bob would never load the mode. The shipped copy reads
+which is not valid YAML — a block scalar indicator must end its line — so PyYAML, Ruby's Psych, the npm `yaml` package and `js-yaml` all reject the file at line 3. We did not test the unmodified file in IBM Bob; the kit ships the corrected line so that the mode loads without depending on how Bob's parser treats the malformed one. The shipped copy reads
 
 ```yaml
     name: OpenSearch Vector Search Builder

@@ -70,7 +70,7 @@ Part 1 has you run all three against the same questions so you can see where eac
 
 ## How This Differs from the Existing DSCE Assets
 
-The Data Science and Cloud Engineering catalogue already has vector search demonstrations — Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This hands-on is a different kind of artefact:
+The Digital Self-Serve Co-Create Experience (DSCE) catalogue already has vector search demonstrations — Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This hands-on is a different kind of artefact:
 
 - **It is a kit, not a demonstration.** Everything runs from this repository: one container, a handful of scripts, and credentials you already have. Anyone can reproduce the whole thing on their own machine.
 - **The Building Block is the subject.** The mode and skill are shipped unmodified, so what you experience is what IBM publishes, not a variant written for this workshop.
