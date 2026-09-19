@@ -78,7 +78,7 @@ curl -s -X POST http://localhost:8002/search \
 ```bash
 curl -s -X POST http://localhost:8002/search \
   -H 'Content-Type: application/json' \
-  -d '{"query": "旅行の思い出を残す機器", "mode": "hybrid"}'
+  -d '{"query": "景色をきれいに写す道具", "mode": "hybrid"}'
 ```
 
 キーワード検索では見つからなかった結果が、そのことを示しているはずです。

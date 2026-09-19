@@ -78,7 +78,7 @@ Everything returned should cost 9000 or less. Run the same query without `max_pr
 ```bash
 curl -s -X POST http://localhost:8002/search \
   -H 'Content-Type: application/json' \
-  -d '{"query": "a device for keeping memories from a trip", "mode": "hybrid"}'
+  -d '{"query": "a gadget for capturing scenery on a trip", "mode": "hybrid"}'
 ```
 
 The results that keyword search never found should say so.

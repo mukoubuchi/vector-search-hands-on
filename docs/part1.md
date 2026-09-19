@@ -111,7 +111,7 @@ The first two use the catalogue's own words. The last two do not.
 | 1 | `red sneakers` | Words that appear in the data |
 | 2 | `cheap running shoes` | Words that appear, plus a judgement ("cheap") |
 | 3 | `footwear for working out` | The idea of a training shoe, in none of its words |
-| 4 | `a device for keeping memories from a trip` | A camera, described the way a shopper might |
+| 4 | `a gadget for capturing scenery on a trip` | A camera, described the way a shopper might |
 
 Fill this in as you go:
 
@@ -120,7 +120,25 @@ Fill this in as you go:
 | red sneakers | | | |
 | cheap running shoes | | | |
 | footwear for working out | | | |
-| a device for keeping memories from a trip | | | |
+| a gadget for capturing scenery on a trip | | | |
+
+??? note "Check your results"
+
+    Measured on 2026-09-19 against the twelve sample products with
+    `ibm/granite-embedding-278m-multilingual` and the default weight, showing the top hit only.
+    Your ordering may differ slightly if the model is updated.
+
+    | Question | `keyword` | `vector` | `hybrid` |
+    |:---|:---|:---|:---|
+    | red sneakers | Blue Casual Sneakers | Red Sports Shoes | Blue Casual Sneakers |
+    | cheap running shoes | Red Running Shoes | Red Running Shoes | Red Running Shoes |
+    | footwear for working out | Beginner Mirrorless Camera | Red Training Shoes | Red Training Shoes |
+    | a gadget for capturing scenery on a trip | Lightweight Business Bag | Beginner Mirrorless Camera | Beginner Mirrorless Camera |
+
+    Two of these are worth a second look. For **red sneakers** the keyword side wins the blend:
+    "sneakers" appears in exactly one product name, and that product is blue. For
+    **footwear for working out** the keyword side returns a camera on a score of 0.26 — noise,
+    which normalisation still promotes to 1.0 before the blend.
 
 ### Reading the Response
 
@@ -143,27 +161,30 @@ Fill this in as you go:
 
 In `hybrid` mode every result shows where it came from. `keyword_score` and `vector_score` are each ranking's score rescaled to 0–1, and `score` is the blend. A result with `keyword_score: 0.0` was found only by the vector side — the words never matched.
 
-!!! info "Why the scores are rescaled"
+!!! info "Why the scores are rescaled — and what it costs"
 
     BM25 scores have no upper bound and depend on the corpus; k-NN similarities sit in their own range. Adding them raw would let whichever number happens to be larger decide the ranking. Min-max normalising each list first puts both on 0–1, which is the step the Building Block's workflow calls "score normalisation".
 
+    It has a side effect worth knowing: normalising gives the best hit in each list a 1.0 **even when that list is weak**. Ask question 4 and look at the keyword column — BM25 matched on a common word and returned something confidently wrong, and after normalisation that wrong answer arrives at full strength. This is why the weight below matters.
+
 ### Try the Weighting
 
-`vector_weight` decides how much the vector side counts in `hybrid` mode. The default is `0.5`.
+`vector_weight` decides how much the vector side counts in `hybrid` mode. The default is `0.7`, which is the baseline the Building Block's rules recommend: *"Start with hybrid_score_weight=0.7 (vector) + 0.3 (BM25) as baseline"*.
 
 ```bash
 curl -s -X POST http://localhost:8002/search \
   -H 'Content-Type: application/json' \
-  -d '{"query": "footwear for working out", "mode": "hybrid", "vector_weight": 0.9}'
+  -d '{"query": "a gadget for capturing scenery on a trip", "mode": "hybrid", "vector_weight": 0.3}'
 ```
 
-Run the same question at `0.1` and at `0.9`. At `0.1` you are close to keyword search; at `0.9` you are close to vector search.
+Run the same question at `0.3` and at `0.9`. At `0.3` the keyword side decides and the wrong answer comes back; at `0.9` you are close to pure vector search. The baseline is a starting point for tuning against your own queries, not a constant.
 
 ## Step 5: What You Just Saw
 
-- **Questions 1 and 2** are the case keyword search was built for. Vector search usually finds the same products, sometimes in a different order.
-- **Questions 3 and 4** have no words in common with the catalogue. Keyword search has nothing to match on; the vector side carries the result.
-- **Hybrid** keeps both behaviours. That is why production search engines rarely pick one.
+- **Questions 1 and 2** use the catalogue's own words, which is the case keyword search was built for. Vector search usually finds the same products, sometimes in a different order.
+- **Questions 3 and 4** share no words with the catalogue. Keyword search either finds nothing or latches onto a common word and answers confidently wrong; the vector side carries the result.
+- **Question 1 is the one to read twice.** Keyword search ranks the blue sneakers first, because "sneakers" is in that product's name and "red" is not enough to outweigh it. Vector search ranks the red shoes first, because it is matching what the phrase means rather than which characters it contains. Neither is a bug — they are different questions about the same words.
+- **Hybrid is a dial, not a winner.** At the default weight of 0.7 it follows the vector side for questions 3 and 4 while keeping exact wording in play for 1 and 2. Turn the dial down and the keyword side takes over, wrong answers included.
 
 !!! success "Checkpoint"
 
