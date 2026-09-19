@@ -11,13 +11,13 @@ cd setup/instructor
 
 This starts the following:
 
-- **Milvus environment** (etcd, MinIO, Milvus)
+- **OpenSearch** (single node, k-NN plugin included)
 - **Local documentation server** (<http://localhost:8001>)
 
-On first start the script also **generates random Milvus and MinIO passwords** (replacing the `root/Milvus` default), prints the Milvus password, and stores both in `setup/instructor/.env`. Share the printed Milvus password with participants. To look it up later:
+On first start the script also **generates the OpenSearch admin password** (the security plugin refuses to start without one), prints it, and stores it in `setup/instructor/.env`. Share the printed password with participants. To look it up later:
 
 ```bash
-grep '^MILVUS_PASSWORD=' setup/instructor/.env
+grep '^OPENSEARCH_PASSWORD=' setup/instructor/.env
 ```
 
 > [!NOTE]
@@ -85,8 +85,8 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 ### Required Information
 
 ```
-MILVUS_HOST=<instructor IP address>          # e.g. 10.0.1.5
-MILVUS_PASSWORD=<printed by start-all.sh>    # stored in setup/instructor/.env
+OPENSEARCH_HOST=<instructor IP address>          # e.g. 10.0.1.5
+OPENSEARCH_PASSWORD=<printed by start-all.sh>    # stored in setup/instructor/.env
 ```
 
 ### Documentation URL
@@ -109,8 +109,8 @@ http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
 > [!IMPORTANT]
 > **Important**
 >
-> - Share the **IP address, Milvus password (printed by `start-all.sh`), and documentation URL** with participants
-> - Each participant must also set their own unique `COLLECTION_NAME` (e.g. `products_taro`) in `.env` — the Milvus instance is shared, and inserting sample data into the same collection overwrites other participants' data
+> - Share the **IP address, OpenSearch password (printed by `start-all.sh`), and documentation URL** with participants
+> - Each participant must also set their own unique `INDEX_NAME` (e.g. `products_taro`) in `.env` — the cluster is shared, and inserting sample data into the same index overwrites other participants' data
 > - Other settings (PORT, USER, etc.) are already configured in `.env.example`
 
 ### Additional: Other Configuration Values (No Need to Share)
@@ -118,13 +118,13 @@ http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
 The following settings are already configured in `.env.example`, so there is no need to share them with participants:
 
 ```env
-MILVUS_PORT=19530
-MILVUS_USER=root
+OPENSEARCH_PORT=9200
+OPENSEARCH_USER=admin
 EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
 PARTICIPANT_LANGUAGE=en  # vector-search-builder-en.zip uses en, vector-search-builder-ja.zip uses ja
 ```
 
-`MILVUS_PASSWORD` and `COLLECTION_NAME` are the exceptions: participants replace the template placeholders with the distributed password and their own unique collection name (the scripts refuse to run while a placeholder is unchanged).
+`OPENSEARCH_PASSWORD` and `INDEX_NAME` are the exceptions: participants replace the template placeholders with the distributed password and their own unique index name (the scripts refuse to run while a placeholder is unchanged).
 
 ---
 
@@ -137,9 +137,9 @@ Copy the following and replace **\<instructor IP address\>** with the actual val
 ```text
 [Vector Search Hands-on Connection Information]
 
-■ Milvus Connection Information
-MILVUS_HOST=<instructor IP address>          # e.g. 10.0.1.5
-MILVUS_PASSWORD=<printed by start-all.sh>
+■ OpenSearch Connection Information
+OPENSEARCH_HOST=<instructor IP address>          # e.g. 10.0.1.5
+OPENSEARCH_PASSWORD=<printed by start-all.sh>
 
 ■ Documentation URL
 http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
@@ -148,15 +148,15 @@ http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
 1. Extract the zip file for your language: vector-search-builder-en.zip or vector-search-builder-ja.zip
 2. Open the project folder in IBM Bob IDE
 3. Copy setup/participant/.env.example to setup/participant/.env
-4. Open setup/participant/.env and change MILVUS_HOST and MILVUS_PASSWORD to the values above
-5. In the same file, change COLLECTION_NAME to a name unique to you (e.g. products_taro)
+4. Open setup/participant/.env and change OPENSEARCH_HOST and OPENSEARCH_PASSWORD to the values above
+5. In the same file, change INDEX_NAME to a name unique to you (e.g. products_taro)
 6. Reload IBM Bob (Cmd+Shift+P -> Developer: Reload Window)
 7. Confirm "Vector Search Builder" appears in the Mode selector and select it
 8. Install dependencies: pip install -r setup/participant/requirements.txt
 9. Run connection test: python setup/participant/test_connection.py
 
 [Important]
-- Change MILVUS_HOST, MILVUS_PASSWORD, and COLLECTION_NAME (use a collection name unique to you; Milvus is shared)
+- Change OPENSEARCH_HOST, OPENSEARCH_PASSWORD, and INDEX_NAME (use an index name unique to you; the cluster is shared)
 - Other settings do not need to be changed (already set to correct values)
 - `PARTICIPANT_LANGUAGE` is already set by the selected zip (`en` for English, `ja` for Japanese)
 ```
@@ -166,26 +166,26 @@ http://<instructor IP address>:8001  # e.g. http://10.0.1.5:8001
 Use this **only as a fallback** when remote participants cannot join a private network (Tailscale, VPN) and no organization-approved cloud endpoint is available.
 
 > [!WARNING]
-> Milvus gRPC traffic is **not TLS-encrypted**: the password and data transit the ngrok tunnel in cleartext on the public internet. Use this only for throwaway hands-on data and stop the tunnel immediately after the session. Prefer a private network whenever possible.
+> OpenSearch serves HTTPS, so the password does not cross the tunnel in cleartext. It is still a fallback: the cluster's certificate is self-signed and participants connect with verification disabled, so the connection is encrypted but not authenticated, and anyone with the hostname and password reaches the cluster. Use throwaway hands-on data only, stop the tunnel when the session ends, and prefer a private network.
 
 > [!NOTE]
-> Authentication itself is enforced. `start-all.sh` already replaced the default root password with a generated one (stored in `setup/instructor/.env`); share that password with participants.
+> Authentication is enforced by the OpenSearch security plugin, with the password `start-all.sh` generated (stored in `setup/instructor/.env`); share that password with participants.
 
 > [!WARNING]
 > Corporate VPN or DNS security products such as Cisco Umbrella may block ngrok TCP tunnels or prevent the ngrok hostname from resolving correctly.
 > Disconnecting the VPN may not be enough if Cisco Umbrella or a similar product remains active.
 > If participants cannot connect through ngrok, use an organization-approved same-network, private-network, or cloud VM alternative.
 
-Start the Milvus TCP tunnel with:
+Start the OpenSearch tunnel with:
 
 ```bash
-ngrok tcp 19530
+ngrok tcp 9200
 ```
 
 If ngrok shows the following:
 
 ```text
-Forwarding  tcp://0.tcp.jp.ngrok.io:12345 -> localhost:19530
+Forwarding  tcp://0.tcp.jp.ngrok.io:12345 -> localhost:9200
 ```
 
 share this message with participants:
@@ -193,11 +193,11 @@ share this message with participants:
 ```text
 [Vector Search Hands-on Connection Information]
 
-■ Milvus Connection Information
-MILVUS_HOST=0.tcp.jp.ngrok.io
-MILVUS_PORT=12345
-MILVUS_USER=root
-MILVUS_PASSWORD=<printed by start-all.sh>
+■ OpenSearch Connection Information
+OPENSEARCH_HOST=0.tcp.jp.ngrok.io
+OPENSEARCH_PORT=12345
+OPENSEARCH_USER=admin
+OPENSEARCH_PASSWORD=<printed by start-all.sh>
 
 ■ Documentation URL
 <GitHub Pages URL or ngrok documentation URL>
@@ -206,17 +206,17 @@ MILVUS_PASSWORD=<printed by start-all.sh>
 1. Extract the zip file for your language: vector-search-builder-en.zip or vector-search-builder-ja.zip
 2. Open the project folder in IBM Bob IDE
 3. Copy setup/participant/.env.example to setup/participant/.env
-4. Open setup/participant/.env and update MILVUS_HOST, MILVUS_PORT, and MILVUS_PASSWORD to the values above
-5. In the same file, change COLLECTION_NAME to a name unique to you (e.g. products_taro)
+4. Open setup/participant/.env and update OPENSEARCH_HOST, OPENSEARCH_PORT, and OPENSEARCH_PASSWORD to the values above
+5. In the same file, change INDEX_NAME to a name unique to you (e.g. products_taro)
 6. Reload IBM Bob (Cmd+Shift+P -> Developer: Reload Window)
 7. Confirm "Vector Search Builder" appears in the Mode selector and select it
 8. Install dependencies: pip install -r setup/participant/requirements.txt
 9. Run connection test: python setup/participant/test_connection.py
 
 [Important]
-- Remote participants must update MILVUS_HOST, MILVUS_PORT, MILVUS_PASSWORD, and COLLECTION_NAME
-- Use a collection name unique to you (Milvus is shared by all participants)
-- Do not include tcp:// in MILVUS_HOST
+- Remote participants must update OPENSEARCH_HOST, OPENSEARCH_PORT, OPENSEARCH_PASSWORD, and INDEX_NAME
+- Use a index name unique to you (OpenSearch is shared by all participants)
+- Do not include tcp:// in OPENSEARCH_HOST
 - Stop the ngrok TCP tunnel after the hands-on
 ```
 
@@ -227,7 +227,7 @@ MILVUS_PASSWORD=<printed by start-all.sh>
 ### Pre-preparation
 
 - [ ] Container runtime started (`colima start` or `podman machine start`; Docker Desktop only where your organization licenses it)
-- [ ] Milvus environment started (`./start-all.sh`)
+- [ ] OpenSearch started (`./start-all.sh`)
 - [ ] IP address confirmed
 - [ ] Connection test successful
 
@@ -240,7 +240,7 @@ MILVUS_PASSWORD=<printed by start-all.sh>
 
 ### Troubleshooting Preparation
 
-- [ ] Firewall settings checked (port 19530 open)
+- [ ] Firewall settings checked (port 9200 open)
 - [ ] Participant network connectivity confirmed
 
 ---
@@ -259,7 +259,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
 #### 2. Check Port
 
 ```bash
-lsof -i :19530
+lsof -i :9200
 ```
 
 #### 3. Check Containers
@@ -267,12 +267,12 @@ lsof -i :19530
 ```bash
 cd setup/instructor
 docker compose --profile all ps   # or: podman compose --profile all ps
-# Verify the milvus, etcd, minio, and mkdocs services are Up/Running
+# Verify the opensearch and mkdocs services are Up/Running
 ```
 
 ### Lost `setup/instructor/.env` (generated passwords)
 
-The generated Milvus root password exists only in `setup/instructor/.env`. If the file is deleted after the password was rotated, `start-all.sh` cannot rotate again (the default password no longer works) and prints a warning. Reset the data volumes and start fresh — the sample data can simply be re-inserted:
+The generated admin password exists only in `setup/instructor/.env`. If the file is deleted, the running cluster keeps the old password and `start-all.sh` generates a different one, which the cluster will reject. Reset the data volume and start fresh — the sample data is simply re-inserted:
 
 ```bash
 cd setup/instructor
@@ -280,14 +280,15 @@ docker compose --profile all down -v
 ./start-all.sh
 ```
 
-### Model Download is Slow
+### watsonx.ai Rejects the Credentials
 
-On first run, downloading the model from Hugging Face (approximately 460 MB) takes time.
+Embeddings come from watsonx.ai, so every participant needs their own IBM Cloud API key and watsonx.ai project ID.
 
 #### Workaround
 
-- Encourage participants to pre-download the model
-- Pre-download on the instructor's machine and share the cache
+- Check that the API key belongs to the same account as the project
+- Confirm `WATSONX_URL` matches the project's region (the default is `https://us-south.ml.cloud.ibm.com`)
+- Have participants run `python test_connection.py`, which reports the two services separately
 
 ---
 
@@ -435,13 +436,13 @@ python -m mkdocs serve
 
 ### Fixed Settings (Already configured in `.env.example`)
 
-- Milvus port: `19530`
-- Credentials: `root` / password generated by `start-all.sh` (authentication is enforced; the value is stored in `setup/instructor/.env`)
-- Embedding model: `paraphrase-multilingual-MiniLM-L12-v2` (the vector dimension is detected from the model)
-- Collection name: each participant sets their own unique `COLLECTION_NAME`
+- OpenSearch port: `9200` (HTTPS, self-signed certificate)
+- Credentials: `admin` / password generated by `start-all.sh` (authentication is enforced; the value is stored in `setup/instructor/.env`)
+- Embedding model: `ibm/granite-embedding-278m-multilingual` on watsonx.ai (768 dimensions, detected from the model)
+- Index name: each participant sets their own unique `INDEX_NAME`
 - Participant language: set by zip package (`en` / `ja`)
-- Python: `3.10` or higher (`3.11` recommended)
-- Milvus: `2.6.18` / pymilvus: `2.6.15` / sentence-transformers: `5.5.1`
+- Python: `3.11` to `3.14`
+- OpenSearch: `3.8.0` / opensearch-py: `3.2.0` / ibm-watsonx-ai: `1.7.2`
 
 ### Environment-dependent (Verify each time)
 
@@ -449,7 +450,7 @@ python -m mkdocs serve
 
 ### Local environment (Instructor side only)
 
-- Milvus: `localhost:19530`
+- OpenSearch: `https://localhost:9200`
 - Documentation: `http://localhost:8001` (docker-compose port mapping)
   - If participants start their own: `http://localhost:8000`
 

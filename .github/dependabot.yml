@@ -7,9 +7,9 @@ updates:
       interval: monthly
     open-pull-requests-limit: 5
     ignore:
-      # The pymilvus major version must match the Milvus server (2.6.x);
-      # bump it together with the docker-compose Milvus image instead
-      - dependency-name: pymilvus
+      # The opensearch-py major version must match the OpenSearch server;
+      # bump it together with the docker-compose OpenSearch image instead
+      - dependency-name: opensearch-py
         update-types: ["version-update:semver-major"]
 
   # GitHub Actions versions in workflows
@@ -23,11 +23,6 @@ updates:
     directory: /setup/instructor
     schedule:
       interval: monthly
-    ignore:
-      # etcd and MinIO versions follow the official Milvus standalone
-      # compose file; they are updated together with the Milvus image
-      - dependency-name: quay.io/coreos/etcd
-      - dependency-name: minio/minio
 
   # Base image in mkdocs.Dockerfile (the compose service builds a local tag,
   # so the docker-compose ecosystem cannot see this image)

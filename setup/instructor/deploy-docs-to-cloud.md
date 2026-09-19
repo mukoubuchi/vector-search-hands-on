@@ -118,10 +118,10 @@ Forwarding: https://xxxx-xx-xx-xx-xx.ngrok-free.app -> http://localhost:8001
 
 ---
 
-## ngrok TCP for Milvus (Remote Participants)
+## ngrok TCP for OpenSearch (Remote Participants)
 
-Use this only when remote participants need to connect to the instructor's local Milvus environment.
-Milvus uses TCP/gRPC on port `19530`, so expose it with a TCP tunnel, not an HTTP tunnel.
+Use this only when remote participants need to reach the instructor's local OpenSearch node.
+The node serves HTTPS on port `9200`; expose it with a TCP tunnel so the TLS session passes through untouched.
 
 > [!NOTE]
 > ngrok TCP endpoints may require account identity verification, such as adding a credit or debit card, even on a free account.
@@ -139,51 +139,51 @@ Milvus uses TCP/gRPC on port `19530`, so expose it with a TCP tunnel, not an HTT
 ### Usage
 
 ```bash
-# 1. Start Milvus
+# 1. Start OpenSearch
 cd setup/instructor
 ./start-all.sh
 
 # 2. Start a TCP tunnel in a separate terminal
-ngrok tcp 19530
+ngrok tcp 9200
 ```
 
 ngrok shows a forwarding address similar to this:
 
 ```text
-Forwarding  tcp://0.tcp.jp.ngrok.io:12345 -> localhost:19530
+Forwarding  tcp://0.tcp.jp.ngrok.io:12345 -> localhost:9200
 ```
 
 Share the host and port separately:
 
 ```env
-MILVUS_HOST=0.tcp.jp.ngrok.io
-MILVUS_PORT=12345
-MILVUS_USER=root
-MILVUS_PASSWORD=<printed by start-all.sh>
+OPENSEARCH_HOST=0.tcp.jp.ngrok.io
+OPENSEARCH_PORT=12345
+OPENSEARCH_USER=admin
+OPENSEARCH_PASSWORD=<printed by start-all.sh>
 ```
 
-Participants must update `MILVUS_HOST`, `MILVUS_PORT`, and `MILVUS_PASSWORD` in `setup/participant/.env`.
+Participants must update `OPENSEARCH_HOST`, `OPENSEARCH_PORT`, and `OPENSEARCH_PASSWORD` in `setup/participant/.env`.
 
 ### Recommended Pairing
 
 - Documentation: GitHub Pages or `ngrok http 8001`
-- Milvus: a private network such as Tailscale/VPN (preferred), or `ngrok tcp 19530` as a fallback — Milvus gRPC traffic is not TLS-encrypted, so credentials and data transit an ngrok tunnel in cleartext
+- OpenSearch: a private network such as Tailscale/VPN (preferred), or `ngrok tcp 9200` as a fallback — the traffic is TLS, but participants connect with certificate verification disabled, so the tunnel is encrypted without being authenticated
 
 ### If ngrok TCP Is Not Available
 
 Choose one of these instead:
 
-- VPN or Tailscale: Participants connect to the instructor machine's private IP, such as `10.0.1.5:19530`.
-- Public cloud VM: Run Milvus on the VM, or forward TCP `19530` from the VM to the instructor machine.
-- Managed Milvus service: Use a managed endpoint with authentication and share its host/port.
-- IBM Cloud Code Engine: A good fit for hosting the documentation; experimental for Milvus (see the [IBM Cloud Code Engine](#ibm-cloud-code-engine) section).
+- VPN or Tailscale: Participants connect to the instructor machine's private IP, such as `10.0.1.5:9200`.
+- Public cloud VM: Run OpenSearch on the VM, or forward TCP `9200` from the VM to the instructor machine.
+- Managed service: Use IBM watsonx.data's managed OpenSearch with authentication and share its host/port.
+- IBM Cloud Code Engine: A good fit for hosting the documentation; not a fit for the search node (see the [IBM Cloud Code Engine](#ibm-cloud-code-engine) section).
 
 ### Security Notes
 
 - Treat the TCP URL as workshop-only connection information.
 - Prefer sharing it in the live chat after the session starts.
 - Stop ngrok immediately after the hands-on.
-- For a longer-running public endpoint, use a cloud VM or managed Milvus service with authentication, a non-default password, and firewall restrictions.
+- For a longer-running public endpoint, use a cloud VM or a managed OpenSearch service with authentication, a generated password, and firewall restrictions.
 
 ---
 
@@ -212,15 +212,11 @@ Lessons learned from the previous deployment, relevant when you build images **l
 - **Build AMD64 images on Apple Silicon**: Code Engine runs AMD64; an ARM64 image fails at startup with `exec format error`. Build with `podman build --platform linux/amd64 ...`.
 - **Podman cannot push to IBM Cloud Container Registry directly**: ICR's identity-token authentication is incompatible with Podman. Either build with Podman, load the image into Docker, and push with the Docker CLI — or avoid local builds entirely with `--build-source` (Code Engine builds the image server-side, which also sidesteps the architecture issue).
 
-### Milvus hosting (experimental — verify before the event)
+### OpenSearch hosting
 
-Running Milvus itself on Code Engine has significant caveats:
+Hosting the search engine on Code Engine is not covered by this hands-on and has not been tried. Code Engine apps are single-container with ephemeral storage, which suits the documentation and not a stateful search node.
 
-- Code Engine apps expose HTTPS/gRPC on port 443 only; participants would connect with a pymilvus `uri` (TLS) instead of the plain `host:port 19530` used in this hands-on, so the participant scripts and docs would need adjustments.
-- Apps are single-container: the 3-container compose stack does not map directly. Milvus standalone must be configured with embedded etcd and local storage.
-- Storage is ephemeral: a restart or scale-down wipes collections. Set min instances to 1 and treat all data as throwaway.
-
-For a cloud-hosted Milvus, an IBM Cloud VPC VM running the same `docker-compose` stack as the instructor setup is the lower-risk path; use Code Engine for the documentation and keep Milvus on a VM or private network.
+Two paths that do fit: an IBM Cloud VPC VM running the same `docker-compose` stack as the instructor setup, or IBM watsonx.data's managed OpenSearch, which participants reach by changing the `OPENSEARCH_*` values in `setup/participant/.env`. Keep Code Engine for the documentation.
 
 ---
 
@@ -231,7 +227,7 @@ Use when delivering to participants on the same network.
 ### Usage
 
 ```bash
-# 1. Start Milvus environment and MkDocs
+# 1. Start OpenSearch and MkDocs
 cd setup/instructor
 ./start-all.sh
 
@@ -239,7 +235,7 @@ cd setup/instructor
 ifconfig | grep "inet " | grep -v 127.0.0.1
 
 # 3. Share with participants
-# - Milvus: <IP address>:19530 (root / password printed by start-all.sh)
+# - OpenSearch: <IP address>:9200 (admin / password printed by start-all.sh)
 # - Documentation: http://<IP address>:8001
 ```
 
@@ -298,16 +294,16 @@ Each accesses <http://localhost:8000> on their own machine.
 ### When Remote Participants Are Present
 
 1. Publish documentation via GitHub Pages
-2. Expose instructor's Milvus environment via `ngrok tcp 19530` only when the participant network allows it
-3. If ngrok TCP is blocked, use VPN/Tailscale/private network access, a public cloud VM, a managed Milvus service, or participant-local Milvus setup
+2. Expose the instructor's OpenSearch node via `ngrok tcp 9200` only when the participant network allows it
+3. If ngrok TCP is blocked, use VPN/Tailscale/private network access, a public cloud VM, a managed OpenSearch service, or have participants run the node locally
 
 ### On-site Only
 
-1. Share documentation and Milvus locally
+1. Share documentation and OpenSearch locally
 2. Access within the same network
 
 ### Hybrid
 
 1. Publish documentation via GitHub Pages
-2. On-site participants connect to instructor's Milvus
-3. Remote participants set up their own Milvus
+2. On-site participants connect to the instructor's OpenSearch
+3. Remote participants run their own OpenSearch
