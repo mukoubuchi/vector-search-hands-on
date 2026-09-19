@@ -48,11 +48,25 @@ The three modes share one index, so the difference you see comes from the query,
 
 **How it is shipped here**: the mode, its rules and the skill are the upstream files, byte for byte, apart from one line that upstream wrote as invalid YAML. [Preparation](preparation.md#what-the-building-block-contains) records the commit, the blob ids and the exact change, and a CI check re-downloads the upstream files on every build to prove nothing else drifted.
 
-!!! example "What the Building Block saves you"
+## Value of Building Blocks + IBM Bob
 
-    **Without it**: read the OpenSearch k-NN documentation, choose an engine and space type, work out how to blend BM25 and k-NN scores, discover which watsonx.ai models exist (hours to days)
+Building the retrieval layer of a semantic search feature is mostly decisions: which engine, which embedding model, how to blend two rankings. A Building Block arrives with those decisions already made.
 
-    **With it**: install the mode and describe what you want (minutes)
+**Without Building Blocks**
+
+![Development flow without Building Blocks](images/without-building-blocks-en.svg)
+
+You read the OpenSearch k-NN documentation, choose an engine and a space type, work out which watsonx.ai models exist and what dimension they return, and meet the score normalisation problem the first time a hybrid query ranks badly.
+
+**With Building Blocks + IBM Bob**
+
+![Development flow with Building Blocks + IBM Bob](images/with-building-blocks-en.svg)
+
+You unzip the mode, describe the feature you want, and review what IBM Bob proposes. The decisions come with the Building Block, so your attention goes to whether the result is right.
+
+!!! note "About the times in the diagrams"
+
+    They describe building a feature like this one, not this workshop. The hands-on itself takes about 60 minutes because the products, the questions and the cluster are ready for you.
 
 ## What is Vector Search?
 
