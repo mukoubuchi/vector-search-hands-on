@@ -1,35 +1,23 @@
 # Vector Search Hands-on Required Packages
-# Only packages actually used are listed
+# Only packages actually used are listed.
+# Python 3.11-3.14 is required (ibm-watsonx-ai declares >=3.11,<3.15).
 
 # === Core Packages ===
 
-# Milvus client (2.6.x matches the Milvus v2.6 server)
-pymilvus==2.6.15
+# IBM watsonx.ai client (embeddings)
+ibm-watsonx-ai==1.7.2
 
-# Embedding model (Sentence Transformers)
-sentence-transformers==5.5.1
+# OpenSearch client (k-NN vector search and BM25 keyword search)
+opensearch-py==3.2.0
 
 # Web Framework (FastAPI)
-fastapi==0.136.3
-uvicorn[standard]==0.49.0
+fastapi==0.141.1
+uvicorn[standard]==0.53.0
 
 # Environment variable management
-python-dotenv==1.2.2
+python-dotenv==1.2.3
 
 # === Pinned dependencies (auto-installed; pinned so every participant gets the same versions) ===
 
-# Sentence Transformers dependencies
-transformers==5.11.0
-torch==2.12.0
-huggingface_hub==1.19.0
-numpy==2.4.6
-
-# FastAPI dependencies
-pydantic==2.13.4
-
-# scikit-learn (used in test_embeddings_hf.py)
-scikit-learn==1.9.0
-
-# Note for Linux users: the default torch wheel bundles CUDA libraries (several GB).
-# For a much smaller CPU-only install, run this BEFORE `pip install -r requirements.txt`:
-#   pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
+# FastAPI dependency
+pydantic==2.13.5
