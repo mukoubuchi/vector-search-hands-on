@@ -163,6 +163,23 @@ body[data-md-color-scheme="default"] {
 .md-typeset details:focus-within {
     box-shadow: 0 0 0 2px var(--workshop-support-focus);
 }
+/* An opened block shows two blue marks from the theme: a soft halo around the
+   whole block, and, when it was opened from the keyboard, a ring around the
+   title band. Material scores both above a plain details:focus-within, so the
+   rule above never reaches a block carrying a type class, which every block
+   here does. Match that weight and keep the theme's shape, changing only the
+   colour to the one the title icon and chevron already use. Closed blocks keep
+   what they had. The two selectors below are separate rules so a browser that
+   cannot parse one still applies the other. */
+.md-typeset details[open]:focus-within {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--workshop-support) 10%, transparent);
+}
+.md-typeset details[open] > summary:focus-visible {
+    outline-color: var(--workshop-support);
+}
+.md-typeset details[open] > summary.focus-visible {
+    outline-color: var(--workshop-support);
+}
 .md-typeset .task-list-control input:checked + .task-list-indicator::before {
     background-color: var(--workshop-support);
 }
