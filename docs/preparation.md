@@ -103,6 +103,10 @@ WATSONX_PROJECT_ID=...                 # watsonx.ai project → Manage → Gener
 EMBEDDING_MODEL_ID=ibm/granite-embedding-278m-multilingual
 ```
 
+If the instructor provides a shared environment — a reservation whose output already
+includes an API key, for instance — use the key and project from that environment instead of
+creating your own.
+
 ### Your own index
 
 ```bash

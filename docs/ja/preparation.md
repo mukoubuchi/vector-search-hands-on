@@ -103,6 +103,9 @@ WATSONX_PROJECT_ID=...                 # watsonx.ai のプロジェクト → �
 EMBEDDING_MODEL_ID=ibm/granite-embedding-278m-multilingual
 ```
 
+講師から共有環境が提供される場合——予約の出力に API キーが含まれている場合など——は、自分で作らずに
+その環境のキーとプロジェクトを使ってください。
+
 ### 自分のインデックス
 
 ```bash
