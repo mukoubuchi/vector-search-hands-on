@@ -45,7 +45,6 @@ body[data-md-color-scheme="default"] {
     background-color: var(--workshop-heading);
 }
 .md-typeset details > summary::after { color: var(--workshop-heading); }
-.md-typeset details:focus-within { box-shadow: 0 0 0 2px var(--workshop-gray); }
 .md-typeset .steps {
     --step-line: var(--workshop-gray-light);
     --step-circle-bg: var(--workshop-surface);
