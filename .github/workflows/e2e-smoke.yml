@@ -1,8 +1,10 @@
 name: E2E Smoke Test
 
 # Full-stack test: starts the instructor environment (including credential
-# generation), then runs the participant flow (connection test, embedding
-# test, data insertion, search) end to end.
+# generation), then runs the participant flow (connection test, data insertion,
+# keyword/vector/hybrid search) end to end.
+# The participant flow needs IBM watsonx.ai credentials, so the run is skipped
+# when the repository has no watsonx.ai secrets configured.
 # Runs automatically when the runtime stack changes; can also be triggered
 # manually before a release.
 
@@ -43,7 +45,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # The secrets context cannot be read from a job-level `if`, so a tiny job
+  # turns "are the watsonx.ai secrets configured?" into an output
+  check-credentials:
+    runs-on: ubuntu-latest
+    outputs:
+      configured: ${{ steps.probe.outputs.configured }}
+    steps:
+      - name: Check whether watsonx.ai secrets are configured
+        id: probe
+        env:
+          WATSONX_APIKEY: ${{ secrets.WATSONX_APIKEY }}
+          WATSONX_PROJECT_ID: ${{ secrets.WATSONX_PROJECT_ID }}
+        run: |
+          if [ -n "$WATSONX_APIKEY" ] && [ -n "$WATSONX_PROJECT_ID" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::WATSONX_APIKEY / WATSONX_PROJECT_ID are not set; skipping the end-to-end run"
+          fi
+
   e2e:
+    needs: check-credentials
+    if: needs.check-credentials.outputs.configured == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -57,25 +81,32 @@ jobs:
           cache: pip
           cache-dependency-path: setup/participant/requirements.txt
 
-      - name: Install participant dependencies (CPU-only torch)
-        run: |
-          pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
-          pip install -r setup/participant/requirements.txt
+      - name: Install participant dependencies
+        run: pip install -r setup/participant/requirements.txt
 
       - name: Start hands-on environment (generates credentials)
         working-directory: setup/instructor
         run: ./start-all.sh
 
       - name: Create participant .env from generated credentials
+        env:
+          WATSONX_APIKEY: ${{ secrets.WATSONX_APIKEY }}
+          WATSONX_PROJECT_ID: ${{ secrets.WATSONX_PROJECT_ID }}
+          WATSONX_URL: ${{ secrets.WATSONX_URL }}
         run: |
-          password="$(grep '^MILVUS_PASSWORD=' setup/instructor/.env | cut -d= -f2-)"
+          password="$(grep '^OPENSEARCH_PASSWORD=' setup/instructor/.env | cut -d= -f2-)"
           cat > setup/participant/.env <<EOF
-          MILVUS_HOST=localhost
-          MILVUS_PORT=19530
-          MILVUS_USER=root
-          MILVUS_PASSWORD=$password
-          EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-          COLLECTION_NAME=products_ci
+          OPENSEARCH_HOST=localhost
+          OPENSEARCH_PORT=9200
+          OPENSEARCH_USER=admin
+          OPENSEARCH_PASSWORD=$password
+          OPENSEARCH_USE_SSL=true
+          OPENSEARCH_VERIFY_CERTS=false
+          IBM_API_KEY=$WATSONX_APIKEY
+          WATSONX_URL=${WATSONX_URL:-https://us-south.ml.cloud.ibm.com}
+          WATSONX_PROJECT_ID=$WATSONX_PROJECT_ID
+          EMBEDDING_MODEL_ID=ibm/granite-embedding-278m-multilingual
+          INDEX_NAME=products_ci
           PARTICIPANT_LANGUAGE=en
           EOF
 
@@ -83,19 +114,15 @@ jobs:
         working-directory: setup/participant
         run: python test_connection.py
 
-      - name: Embedding model test
-        working-directory: setup/participant
-        run: python test_embeddings_hf.py
-
       - name: Insert sample data
         working-directory: setup/participant
         run: python insert_sample_data.py --yes
 
-      - name: Re-insert sample data (drop confirmation bypass)
+      - name: Re-insert sample data (delete confirmation bypass)
         working-directory: setup/participant
         run: python insert_sample_data.py --yes
 
-      - name: Start demo app and run a search
+      - name: Start demo app and run all three search modes
         working-directory: setup/participant
         run: |
           nohup python app.py > app.log 2>&1 &
@@ -106,18 +133,22 @@ jobs:
           echo "--- /health ---"
           curl -sf http://localhost:8002/health
           echo ""
-          echo "--- /search ---"
-          curl -sf -X POST http://localhost:8002/search \
-            -H 'Content-Type: application/json' \
-            -d '{"query": "red sneakers", "top_k": 3}' | tee search.json
-          echo ""
+          for mode in keyword vector hybrid; do
+            echo "--- /search ($mode) ---"
+            curl -sf -X POST http://localhost:8002/search \
+              -H 'Content-Type: application/json' \
+              -d "{\"query\": \"red sneakers\", \"mode\": \"$mode\", \"top_k\": 3}" \
+              | tee "search-$mode.json"
+            echo ""
+          done
           python - <<'PYEOF'
           import json
 
-          with open("search.json") as f:
-              data = json.load(f)
-          assert data["results"], "search returned no results"
-          print("search OK:", data["results"][0]["product_name"])
+          for mode in ("keyword", "vector", "hybrid"):
+              with open(f"search-{mode}.json") as f:
+                  data = json.load(f)
+              assert data["results"], f"{mode} search returned no results"
+              print(f"{mode} OK:", data["results"][0]["product_name"])
           PYEOF
 
       - name: Show logs on failure

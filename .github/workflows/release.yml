@@ -29,6 +29,6 @@ jobs:
             gh release create "$tag" --repo "$GITHUB_REPOSITORY" --title "$tag" --generate-notes
           fi
           gh release upload "$tag" \
-            dist/vector-search-builder-en.zip \
-            dist/vector-search-builder-ja.zip \
+            dist/opensearch-vector-search-en.zip \
+            dist/opensearch-vector-search-ja.zip \
             --repo "$GITHUB_REPOSITORY" --clobber

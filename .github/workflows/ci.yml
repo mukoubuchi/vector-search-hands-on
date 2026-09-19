@@ -58,12 +58,15 @@ jobs:
           pip install "ruff==0.15.17"
           ruff check setup/participant
 
+      - name: Check bundled Building Blocks against upstream
+        run: ./lib/check_upstream_building_blocks.sh
+
       - name: Build participant zips
         run: |
           tmp="$(mktemp -d)"
           bash setup/instructor/build-participant-zips.sh "$tmp"
-          unzip -l "$tmp/vector-search-builder-en.zip" > /dev/null
-          unzip -l "$tmp/vector-search-builder-ja.zip" > /dev/null
+          unzip -l "$tmp/opensearch-vector-search-en.zip" > /dev/null
+          unzip -l "$tmp/opensearch-vector-search-ja.zip" > /dev/null
 
       - name: Build MkDocs site
         run: mkdocs build --strict

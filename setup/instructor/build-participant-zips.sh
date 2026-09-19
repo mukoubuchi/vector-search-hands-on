@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build the participant distribution zips (vector-search-builder-en.zip / -ja.zip)
+# Build the participant distribution zips (opensearch-vector-search-en.zip / -ja.zip)
 # from the repository sources. The zips are not committed: the release workflow
 # attaches them to GitHub releases, and local builds are gitignored.
 #
@@ -24,24 +24,24 @@ OUTPUT_DIR="$(cd "$OUTPUT_DIR" && pwd)"
 PARTICIPANT_FILES=(
     app.py
     common.py
+    index_mapping.py
     insert_sample_data.py
     requirements.txt
     sample_products.py
-    schema.py
     test_connection.py
-    test_embeddings_hf.py
 )
 
 build_zip() {
     local lang="$1"
-    local zip_name="vector-search-builder-$lang.zip"
+    local zip_name="opensearch-vector-search-$lang.zip"
     local staging
     staging="$(mktemp -d)"
 
     mkdir -p "$staging/.bob" "$staging/setup/participant"
 
     cp "$REPO_ROOT/setup/participant/.bob/custom_modes.yaml" "$staging/.bob/"
-    cp -R "$REPO_ROOT/setup/participant/.bob/rules-vector-search-builder" "$staging/.bob/"
+    cp -R "$REPO_ROOT/setup/participant/.bob/rules-opensearch-builder" "$staging/.bob/"
+    cp -R "$REPO_ROOT/setup/participant/.bob/skills" "$staging/.bob/"
 
     local file
     for file in "${PARTICIPANT_FILES[@]}"; do

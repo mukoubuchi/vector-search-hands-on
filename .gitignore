@@ -5,10 +5,8 @@
 !.env.example.en
 !.env.example.ja
 
-# Docker volumes
-milvus-data/
-etcd-data/
-minio-data/
+# Container volumes
+opensearch-data/
 
 # OS files
 .DS_Store
@@ -34,7 +32,7 @@ changed_files.txt
 
 # Participant distribution zips (built by setup/instructor/build-participant-zips.sh;
 # attached to GitHub releases by the release workflow — not committed)
-vector-search-builder-*.zip
+opensearch-vector-search-*.zip
 
 # Test outputs
 tests/*.log
