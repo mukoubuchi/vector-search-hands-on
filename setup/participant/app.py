@@ -165,11 +165,12 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS settings
+# CORS settings. The demo API carries no cookies or auth, and a browser
+# ignores Access-Control-Allow-Credentials when the allowed origin is "*",
+# so asking for credentials here would only be misleading.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
