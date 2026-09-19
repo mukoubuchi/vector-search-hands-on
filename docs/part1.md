@@ -19,7 +19,7 @@ python test_connection.py
 
 ### Verify Results
 
-```text
+```console
 ==================================================
 OpenSearch and watsonx.ai Connection Test
 ==================================================

@@ -40,7 +40,7 @@
 
 2 つのディレクトリができます。
 
-```text
+```console
 .bob/                                  ← Building Block: モード・ルール・スキル
   custom_modes.yaml
   rules-opensearch-builder/
@@ -155,7 +155,7 @@ python test_connection.py
 
 k-NN プラグインの行とベクトルの次元数が出れば準備完了です。
 
-```text
+```console
 ✓ OpenSearch に接続できました (バージョン 3.8.0)
 ✓ k-NN プラグインが利用できます (opensearch-knn)
 ✓ 埋め込みベクトルを生成しました: ibm/granite-embedding-278m-multilingual

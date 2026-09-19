@@ -40,7 +40,7 @@ Create a working folder, put the zip in it, and unpack it there.
 
 You get two directories:
 
-```text
+```console
 .bob/                                  ← the Building Block: mode, rules, skill
   custom_modes.yaml
   rules-opensearch-builder/
@@ -156,7 +156,7 @@ python test_connection.py
 
 You are ready when you see the k-NN plugin line and a vector dimension:
 
-```text
+```console
 ✓ Connected to OpenSearch successfully (version 3.8.0)
 ✓ k-NN plugin is available (opensearch-knn)
 ✓ Embedding generated: ibm/granite-embedding-278m-multilingual
