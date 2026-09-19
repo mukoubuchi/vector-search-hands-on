@@ -15,7 +15,7 @@ Part 1 ran the search. This part changes it — without you writing the code.
 3. **Read what changed** — the panel reports how many files it touched. **Show all** opens the diff; **Undo all** puts the file back if the change is not what you meant.
 4. **Verify** — run the request yourself and check the result.
 
-Steps 3 and 4 are not optional. Bob edits the file first and shows you afterwards, so reviewing the diff is the review, and running the query is the proof.
+Steps 3 and 4 are not optional. Bob edits the file first and shows you afterwards, so reviewing the diff is the review, and running the query is the proof. Commands are treated differently from edits: if Bob wants to run one it may stop and ask, offering **Approve once** or **Reject**.
 
 ## Feature 1: Filter by Price
 
