@@ -7,16 +7,40 @@ import os
 import sys
 
 from common import (
+    DEFAULT_EMBEDDING_MODEL_ID,
+    DEFAULT_INDEX_NAME,
+    DEFAULT_OPENSEARCH_PORT,
+    DEFAULT_OPENSEARCH_USER,
+    DEFAULT_WATSONX_URL,
     embed_query,
     get_embedding_model_id,
     get_embeddings,
     get_opensearch_client,
     get_opensearch_connect_params,
+    get_env,
     msg,
 )
 
 
 SECRET_VARS = {"OPENSEARCH_PASSWORD", "IBM_API_KEY"}
+
+# Only these have no fallback: without them the scripts cannot run at all
+REQUIRED_VARS = [
+    "OPENSEARCH_HOST",
+    "OPENSEARCH_PASSWORD",
+    "WATSONX_PROJECT_ID",
+    "IBM_API_KEY",
+]
+
+# These fall back to a default, so report the value that will actually be used
+# rather than calling an unset variable a problem
+DEFAULTED_VARS = {
+    "OPENSEARCH_PORT": DEFAULT_OPENSEARCH_PORT,
+    "OPENSEARCH_USER": DEFAULT_OPENSEARCH_USER,
+    "WATSONX_URL": DEFAULT_WATSONX_URL,
+    "EMBEDDING_MODEL_ID": DEFAULT_EMBEDDING_MODEL_ID,
+    "INDEX_NAME": DEFAULT_INDEX_NAME,
+}
 KNN_PLUGIN_NAME = "opensearch-knn"
 PROBE_TEXT = "vector search connection test"
 
@@ -41,6 +65,16 @@ def print_env_status(required_vars):
             missing_vars.append(var)
 
     return missing_vars
+
+
+def print_defaulted_env_status(defaulted_vars):
+    """Display the effective value of variables that have a default"""
+    for var, fallback in defaulted_vars.items():
+        value = get_env(var)
+        if value:
+            print(f"✓ {var}: {value}")
+        else:
+            print(f"· {var}: {fallback} ({msg('default', '既定値')})")
 
 
 def test_opensearch_connection():
@@ -118,17 +152,8 @@ def main():
 
     # Check environment variables
     print(f"\n=== {msg('Environment Variable Check', '環境変数チェック')} ===")
-    required_vars = [
-        "OPENSEARCH_HOST",
-        "OPENSEARCH_PORT",
-        "OPENSEARCH_USER",
-        "OPENSEARCH_PASSWORD",
-        "WATSONX_URL",
-        "WATSONX_PROJECT_ID",
-        "IBM_API_KEY",
-    ]
-
-    missing_vars = print_env_status(required_vars)
+    missing_vars = print_env_status(REQUIRED_VARS)
+    print_defaulted_env_status(DEFAULTED_VARS)
 
     if missing_vars:
         print(f"\n{msg('Warning', '警告')}: {len(missing_vars)} "
