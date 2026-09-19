@@ -4,7 +4,7 @@
 
 ## 必要なもの
 
-- [ ] **IBM Bob IDE 2.1.0** または **Bob shell 2.0.4** がインストールされていること
+- [ ] **IBM Bob IDE 2.1.0** がインストールされていること
 - [ ] **Python 3.11 〜 3.14**（`python --version` で確認）
 - [ ] 講師から配布された参加者パッケージ（`opensearch-vector-search-ja.zip`）
 - [ ] 講師から共有された OpenSearch の接続情報（ホスト、ポート、パスワード）
@@ -13,6 +13,10 @@
 !!! warning "Python のバージョン"
 
     watsonx.ai のクライアント（`ibm-watsonx-ai`）は Python 3.11 以上を必要とし、3.15 にはまだ対応していません。3.10 では、パッケージが見つからないというエラーではなく、バージョンが合わないというエラーで install に失敗します。
+
+!!! info "扱うのは 1 製品だけです"
+
+    以下の手順はすべて **IBM Bob IDE** のバージョン **2.1.0** に対するものです。IBM は **Bob shell** というコマンドライン版も出していますが、別製品でリリース系列もバージョン番号も異なり、このハンズオンでは扱いません。
 
 ## Step 1: 参加者パッケージを展開する
 
@@ -116,29 +120,29 @@ PARTICIPANT_LANGUAGE=ja
 
 ## Step 4: IBM Bob で Building Block のモードを選ぶ
 
-展開したフォルダー（`.bob/` がある方）を開き、一緒に入ってきたモードに切り替えます。
+展開したフォルダー（`.bob/` がある方）を **File → Open Folder…** で開きます。
 
-=== "IBM Bob IDE"
+### 先にフォルダーを信頼する
 
-    1. フォルダーを開きます。**File → Open Folder…** で `vector-search-hands-on` を選びます。
-    2. 新しい `.bob/` を Bob に読ませるためにウィンドウを再読み込みします。++cmd+shift+p++（Windows は ++ctrl+shift+p++）→ **Reload Window**。
-    3. Bob のパネルを開き、チャット入力欄の下にあるモードセレクターを開きます。
-    4. **OpenSearch Vector Search Builder** を選びます。
+フォルダーは「制限モード」で開き、その旨のバナーが出ます。信頼するまで拡張機能は制限された状態で、**Bob はそもそも現れません**。Bob の項目も、パネルを開く手段もありません。
 
-    モードセレクターには、組み込みのモードと、開いているフォルダーで見つかったカスタムモードが並びます。**OpenSearch Vector Search Builder** が無い場合は、開いているフォルダーが `.bob/` のある場所ではありません。
+1. バナーの **［管理］** を選びます。
+2. **［信頼済みフォルダー内］** の **［信頼する］** を選びます。
+3. 信頼の画面を閉じます。
 
-=== "Bob shell"
+フォルダーを信頼した時点で **［Open Bob］** のボタンが現れます。
 
-    <!-- TODO: Bob shell 2.0.4 での実機確認が済んでから記述する。
-         `bob chat --help` / `bob run --help` で確認済み:
-           --mode <mode>       Mode to use (built-in or custom mode slug)、既定は "agent"
-           -w, --workspace     ワークスペースのディレクトリ
-         未確認: Bob shell がワークスペースの .bob/custom_modes.yaml を読むか、
-         未知の slug を指定したときの表示。実行には BOB_API_KEY が必要。 -->
+### モードを選ぶ
 
-    !!! warning "確認中"
+1. **［Open Bob］** をクリックして Bob のパネルを開きます。
+2. チャット入力欄の下にあるモードセレクターを開きます。最初は **Agent** になっています。
+3. **OpenSearch Vector Search Builder** を選びます。
 
-        Bob shell の手順はバージョン 2.0.4 の実機で確認中です。確認でき次第ここに記載します。それまでは IBM Bob IDE のタブをご覧ください。
+![OpenSearch Vector Search Builder が並ぶ Bob のモードセレクター](images/preparation-mode-selector-ja.png)
+
+並ぶモードは環境によって異なります。その PC に入っているモードがすべて出るためです。**OpenSearch Vector Search Builder** が含まれていれば問題ありません。それがキットで入ってきたモードです。見当たらない場合は、開いているフォルダーが `.bob/` のある場所ではありません。
+
+選ぶと、チャット入力欄の下の表示が **Agent** からモード名に変わり、以降 Bob は Building Block のルールに沿って答えます。
 
 ## Step 5: すべてつながったことを確認する
 

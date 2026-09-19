@@ -4,7 +4,7 @@ Fifteen minutes of setup: unpack the kit, create a Python environment, fill in `
 
 ## What You Need
 
-- [ ] **IBM Bob IDE 2.1.0** or **Bob shell 2.0.4** installed
+- [ ] **IBM Bob IDE 2.1.0** installed
 - [ ] **Python 3.11 – 3.14** (`python --version`)
 - [ ] The participant package from the instructor (`opensearch-vector-search-en.zip`)
 - [ ] OpenSearch connection information from the instructor (host, port, password)
@@ -13,6 +13,10 @@ Fifteen minutes of setup: unpack the kit, create a Python environment, fill in `
 !!! warning "Python version"
 
     The watsonx.ai client (`ibm-watsonx-ai`) requires Python 3.11 or newer and does not yet support 3.15. On 3.10 the install fails with a version error rather than a missing-package error.
+
+!!! info "One product, not two"
+
+    Every step below is for the **IBM Bob IDE**, version **2.1.0**. IBM also ships **Bob shell**, a command-line product on its own release line with its own version number; this hands-on does not cover it.
 
 ## Step 1: Unpack the Participant Package
 
@@ -116,29 +120,29 @@ PARTICIPANT_LANGUAGE=en
 
 ## Step 4: Select the Building Block Mode in IBM Bob
 
-Open the folder you unpacked into (the one containing `.bob/`), then switch Bob into the mode that came with it.
+Open the folder you unpacked into — the one containing `.bob/` — with **File → Open Folder…**.
 
-=== "IBM Bob IDE"
+### Trust the folder first
 
-    1. Open the folder: **File → Open Folder…**, choose `vector-search-hands-on`.
-    2. Reload the window so Bob picks up the new `.bob/` directory: ++cmd+shift+p++ (++ctrl+shift+p++ on Windows) → **Reload Window**.
-    3. Open the Bob panel and use the mode selector at the bottom of the chat input.
-    4. Choose **OpenSearch Vector Search Builder**.
+A folder opens in **Restricted Mode**, and a banner says so. Until you trust it, extensions stay limited and **Bob does not appear at all**: no Bob entry, no way to open the panel.
 
-    The mode picker lists built-in modes and every custom mode found in the open folder. If **OpenSearch Vector Search Builder** is not there, the folder you opened is not the one holding `.bob/`.
+1. In the banner, choose **Manage**.
+2. Under **In a Trusted Folder**, choose **Trust**.
+3. Close the trust editor.
 
-=== "Bob shell"
+The **Open Bob** button appears as soon as the folder is trusted.
 
-    <!-- TODO: fill in once the mode-loading behaviour has been verified on Bob shell 2.0.4.
-         Verified so far from `bob chat --help` / `bob run --help`:
-           --mode <mode>       Mode to use (built-in or custom mode slug), default "agent"
-           -w, --workspace     Workspace directory
-         Not yet verified: that Bob shell loads .bob/custom_modes.yaml from the workspace,
-         and what it prints when the slug is unknown. Running it needs BOB_API_KEY. -->
+### Choose the mode
 
-    !!! warning "Being verified"
+1. Click **Open Bob** to open the Bob panel.
+2. At the bottom of the chat input, open the mode selector — it reads **Agent** to begin with.
+3. Choose **OpenSearch Vector Search Builder**.
 
-        The Bob shell steps are still being checked against version 2.0.4 and will be filled in here. Use the IBM Bob IDE tab in the meantime.
+![The Bob mode selector listing OpenSearch Vector Search Builder](images/preparation-mode-selector-en.png)
+
+The list varies from machine to machine, since it shows every mode installed on yours. All that matters is that **OpenSearch Vector Search Builder** is in it — that is the mode the kit brought. If it is missing, the folder you opened is not the one holding `.bob/`.
+
+Once selected, the mode name replaces **Agent** under the chat input, and Bob answers from the Building Block's rules for the rest of the session.
 
 ## Step 5: Confirm Everything Is Connected
 

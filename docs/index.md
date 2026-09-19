@@ -4,12 +4,9 @@ In this hands-on workshop you build a product search API that answers the same q
 
 !!! info "Prerequisites"
 
-    IBM Bob is already installed. This hands-on covers two separate IBM products, and every Bob step is written for both:
+    IBM Bob is already installed. This hands-on uses the **IBM Bob IDE** (desktop application), version **2.1.0**, and every step is written for it.
 
-    - **IBM Bob IDE** (desktop application) — version **2.1.0**
-    - **Bob shell** (command line) — version **2.0.4**
-
-    They are different products on different release lines, so their version numbers do not match. Use whichever one you have.
+    IBM also ships **Bob shell**, a command-line product on its own release line with its own version number. This hands-on does not cover it.
 
 ## What You'll Build
 
@@ -94,7 +91,7 @@ The Digital Self-Serve Co-Create Experience (DSCE) catalogue already has vector 
 ## Requirements
 
 - **Computer** (Mac, Windows) with an internet connection
-- **IBM Bob IDE 2.1.0** or **Bob shell 2.0.4** (already installed)
+- **IBM Bob IDE 2.1.0** (already installed)
 - **Python 3.11 – 3.14**
 - **IBM Cloud API key** and a **watsonx.ai project ID** (for the embeddings)
 - **Web browser** (Chrome, Firefox, Safari, Edge)
