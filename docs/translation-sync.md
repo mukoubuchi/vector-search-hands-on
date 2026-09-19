@@ -15,9 +15,7 @@ The check targets these participant-facing Markdown files:
 - `preparation.md`
 - `part1.md`
 - `part2.md`
-- `part3.md`
 - `summary.md`
-- `feedback.md`
 
 The check also covers paired diagram files that use `-en.svg` / `-ja.svg` suffixes under `docs/images/`.
 
@@ -144,10 +142,10 @@ A: Use the following script:
 
 ```bash
 # List participant-facing English files
-printf '%s\n' docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/part3.md docs/summary.md docs/feedback.md
+printf '%s\n' docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/summary.md
 
 # Check if corresponding Japanese version exists
-for file in docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/part3.md docs/summary.md docs/feedback.md; do
+for file in docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/summary.md; do
   ja_file="docs/ja/$(basename $file)"
   if [ ! -f "$ja_file" ]; then
     echo "Missing: $ja_file"

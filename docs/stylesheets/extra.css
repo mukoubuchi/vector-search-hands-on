@@ -5,7 +5,6 @@
 @import url('navigation.css');
 @import url('code.css');
 @import url('components.css');
-@import url('feedback.css');
 @import url('language-switcher.css');
 @import url('palette.css');
 @import url('fonts.css');
@@ -18,6 +17,5 @@
  * - navigation.css: Header, tabs, sidebar, TOC, and navigation elements
  * - code.css: Code blocks, syntax highlighting, and inline code
  * - components.css: Search, task lists, admonitions, and other UI components
- * - feedback.css: Feedback form layout and copy panel styles
  * - language-switcher.css: Language switcher styles
  */

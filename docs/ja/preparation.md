@@ -1,441 +1,190 @@
 # 事前準備
 
-それでは、ハンズオンの準備から行っていきます。まずは、ターミナル / コマンドプロンプトの開き方を確認してください。
-
-!!! tip "ターミナル / コマンドプロンプトの開き方"
-    
-    この後の手順では、IBM Bob 内蔵のターミナル、またはシステムのターミナル / コマンドプロンプトを使用します。
-
-**IBM Bob でターミナル / コマンドプロンプトを開く**:
-
-次のいずれかの方法で開くことができます:
-
-- メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>
-- <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）
-- 右上のアイコンをクリック、または <kbd>Cmd</kbd> + <kbd>J</kbd>（パネルの切り替え）
-
-画面下部に黒い画面（ターミナル / コマンドプロンプト）が表示されます。
-
-**システムのターミナル / コマンドプロンプトを開く**:
-
-=== ":fontawesome-brands-apple: Mac"
-    1. <kbd>Cmd</kbd> + <kbd>Space</kbd> で Spotlight を開く
-    2. 「ターミナル」と入力
-    3. <kbd>Enter</kbd> を押す
-    
-    **または**:
-    
-    - アプリケーション → ユーティリティ → ターミナル
-
-=== ":fontawesome-brands-windows: Windows"
-    1. <kbd>Win</kbd> + <kbd>R</kbd> を押す
-    2. 「cmd」と入力
-    3. <kbd>Enter</kbd> を押す
-    
-    **または**:
-    
-    - スタートメニュー → 「コマンドプロンプト」を検索
+準備は 15 分です。キットを展開し、Python 環境を作り、`.env` を埋め、IBM Bob に Building Block を読み込ませます。
 
 ## 必要なもの
 
-### 1. Vector Search Builder モード
+- [ ] **IBM Bob IDE 2.1.0** または **Bob shell 2.0.4** がインストールされていること
+- [ ] **Python 3.11 〜 3.14**（`python --version` で確認）
+- [ ] 講師から配布された参加者パッケージ（`opensearch-vector-search-ja.zip`）
+- [ ] 講師から共有された OpenSearch の接続情報（ホスト、ポート、パスワード）
+- [ ] **IBM Cloud の API キー**と **watsonx.ai のプロジェクト ID**
 
-**Vector Search Builder** は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob の Custom モードです。
+!!! warning "Python のバージョン"
 
-**Custom モード** = 特定の技術や用途に合わせてカスタマイズされた専用モード
+    watsonx.ai のクライアント（`ibm-watsonx-ai`）は Python 3.11 以上を必要とし、3.15 にはまだ対応していません。3.10 では、パッケージが見つからないというエラーではなく、バージョンが合わないというエラーで install に失敗します。
 
-#### Vector Search Builder の概要
+## Step 1: 参加者パッケージを展開する
 
-**提供元**: IBM Build Engineering Team
-
-**含まれる機能**:
-
-- Milvus データベースのセットアップと管理
-- Hugging Face Transformers によるローカル埋め込みモデルの統合
-- データ取り込みパイプラインの構築
-- ベクトル検索の最適化
-- サンプル商品データの投入ワークフロー
-
-**IBM Bob との連携**:
-
-- Vector Search に特化した AI アシスタント
-- Building Blocks の機能を理解した上でコード生成
-- ベストプラクティスに基づいた実装支援
-
-!!! info "Building Blocks の利点"
-    
-    **通常の開発**: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）
-
-    **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に自然言語で指示（数分）
-
-    **このハンズオンでの工夫**: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）
-
-#### ステップ 1: Vector Search Builder をインストール
-
-1. 配布された **`vector-search-builder-ja.zip`** をデスクトップにコピー
-
-2. zip ファイルを解凍
-
-    === ":fontawesome-brands-apple: Mac"
-        **GUI**: ダブルクリック
-        
-        **ターミナル / コマンドプロンプト**:
-        ```bash
-        cd ~/Desktop
-        mkdir -p vector-search-builder-ja
-        unzip vector-search-builder-ja.zip -d vector-search-builder-ja
-        ```
-
-    === ":fontawesome-brands-windows: Windows"
-        **GUI**: 右クリック →「すべて展開」
-
-        ※ ダブルクリックで開いただけでは展開されないため、「すべて展開」を実行してください
-        
-        **ターミナル / コマンドプロンプト**:
-        ```bash
-        cd %USERPROFILE%\Desktop
-        mkdir vector-search-builder-ja
-        tar -xf vector-search-builder-ja.zip -C vector-search-builder-ja
-        ```
-
-3. **`vector-search-builder-ja`** フォルダが作成され、その中に **`.bob`** フォルダがあることを確認
-
-!!! warning "重要"
-    
-    `.bob` フォルダはプロジェクトフォルダ（このハンズオンでは `vector-search-builder-ja`）の直下に配置する必要があります。
-
-??? info "vector-search-builder-ja.zip の内容"
-    **`vector-search-builder-ja.zip`** には、以下が含まれています:
-
-    **Building Blocks**:
-
-    - **`.bob/`**: Vector Search Builder モード定義
-
-    **受講者用セットアップファイル**:
-
-    - **`setup/participant/`**: 受講者用スクリプト、FastAPI デモアプリ、言語別サンプルデータ
-    - **`setup/participant/.env.example`**: 接続情報設定テンプレート
-    - **`setup/participant/sample_products.py`**: 使用するサンプル商品データの選択
-    - **`setup/participant/sample_products_ja.py`**: 日本語のサンプル商品データ
-    - **`PARTICIPANT_LANGUAGE=ja`**: 日本語の商品データと実行時メッセージが使用されます
-
-??? tip "Building Blocks のインストール方法"
-    通常、Building Blocks は以下の方法でインストールします:
-
-    - **グローバルインストール**: `~/.config/IBM Bob/User/globalStorage/ibm.bob-code/`
-    - **プロジェクトローカル**: `.bob/`（このハンズオンの方法）
-
-    このハンズオンでは、プロジェクトローカルにインストールすることで、環境を汚さず、簡単にクリーンアップできます。
-
-#### ステップ 2: IBM Bob で `vector-search-builder-ja` フォルダを開く
-
-!!! info "使用する IBM Bob のバージョン"
-    
-    このハンズオンでは **IBM Bob 1.0.3** を使用します。バージョンが異なる場合、画面表示やコマンドの挙動が一部異なることがあります。
-
-1. IBM Bob を起動
-
-2. `vector-search-builder-ja` フォルダを開く
-
-    === ":fontawesome-brands-apple: Mac"
-        **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder-ja` フォルダを選択、または <kbd>⌘</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
-
-    === ":fontawesome-brands-windows: Windows"
-        **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder-ja` フォルダを選択、または <kbd>Ctrl</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
-
-3. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認し、選択
-
-!!! success "Vector Search Builder モード"
-    
-    「Mode」セレクターで Vector Search Builder モードを選択すると、Building Blocks 専用 Custom モードが有効になります。
-
-    このモードにより、IBM Bob は以下を理解します:
-
-    - Milvus データベースの操作方法
-    - ベクトル検索のベストプラクティス
-    - 埋め込みモデルの統合方法
-    - Building Blocks の機能と制約
-
-### 2. 接続情報
-
-#### Milvus（ベクトルデータベース）
-
-講師から配布された IP アドレスを設定します。
-
-!!! example "実践: 接続情報を設定します"
-    
-    Milvus に接続するための設定ファイルを作成し、講師から配布された IP アドレスを入力します。
-
-1. **`setup/participant`** フォルダを開く
-
-2. **`.env.example`** をコピーし、コピーしたファイル名を **`.env`** に変更
-    
-    === ":fontawesome-brands-apple: Mac"
-        **GUI**: Finder で `.env.example` を右クリック →「複製」→ ファイル名を `.env` に変更
-        
-        **ターミナル / コマンドプロンプト**:
-        ```bash
-        cd setup/participant
-        cp .env.example .env
-        ```
-
-    === ":fontawesome-brands-windows: Windows"
-        **GUI**: エクスプローラーで `.env.example` を右クリック →「コピー」→「貼り付け」→ ファイル名を `.env` に変更
-        
-        **ターミナル / コマンドプロンプト**:
-        ```bash
-        cd setup\participant
-        copy .env.example .env
-        ```
-
-3. **`.env`** ファイルを開き、講師から配布された接続情報を入力
-   
-    #### Milvus 接続情報の設定 {#milvus_host}
-
-    === "同一ネットワーク（会場内）"
-
-        ```properties
-        # Milvus 接続情報
-        MILVUS_HOST=192.168.1.100  # ← 講師から配布された IP アドレスに変更
-        MILVUS_PASSWORD=AbCd123XyZ # ← 講師から配布されたパスワードに変更
-        
-        # コレクション名（Milvus は全参加者で共有されています）
-        COLLECTION_NAME=products_taro  # ← 自分専用の一意な名前に変更
-        
-        # 以下は変更不要
-        MILVUS_PORT=19530
-        MILVUS_USER=root
-        EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-        PARTICIPANT_LANGUAGE=ja
-        ```
-
-    === "リモート（ngrok）"
-
-        ```properties
-        # Milvus 接続情報
-        MILVUS_HOST=0.tcp.jp.ngrok.io  # ← 講師から配布されたホスト名に変更
-        MILVUS_PORT=24051              # ← 講師から配布されたポート番号に変更
-        MILVUS_PASSWORD=AbCd123XyZ     # ← 講師から配布されたパスワードに変更
-        
-        # コレクション名（Milvus は全参加者で共有されています）
-        COLLECTION_NAME=products_taro  # ← 自分専用の一意な名前に変更
-        
-        # 以下は変更不要
-        MILVUS_USER=root
-        EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
-        PARTICIPANT_LANGUAGE=ja
-        ```
-
-    !!! warning "一意なコレクション名を設定してください"
-        
-        全参加者が講師の管理する同じ Milvus サーバーに接続します。
-        **`COLLECTION_NAME`** には自分専用の一意な名前（例: **`products_taro`**、英数字とアンダースコア）を設定してください。
-        他の参加者と同じ名前を使うと、サンプルデータ投入時にお互いのコレクションを上書きしてしまいます。
-
-    !!! warning "ngrok 接続時の注意"
-        
-        ngrok を使用する場合、企業 VPN や Cisco Umbrella などの DNS セキュリティ製品により、ngrok の TCP トンネルへの接続がブロックされたり、ホスト名が正しく解決されなかったりすることがあります。VPN を切断しても Cisco Umbrella などが有効なままの場合は、接続できないことがあります。接続できない場合は、所属組織のルールに従い、同一ネットワークでの接続など講師から案内された代替方法を使用してください。
-
-4. ファイルを保存
-
-    === ":fontawesome-brands-apple: Mac"
-        <kbd>Cmd</kbd> + <kbd>S</kbd>
-
-    === ":fontawesome-brands-windows: Windows"
-        <kbd>Ctrl</kbd> + <kbd>S</kbd>
-
-
-#### 埋め込みモデル（テキストを数値に変換する AI）
-
-Hugging Face Transformers を使用します（API キー不要、無料）。
-
-**埋め込みモデルとは**: テキストの「意味」を数値（ベクトル）に変換する AI モデルです。
-
-- モデル: **`paraphrase-multilingual-MiniLM-L12-v2`**
-- 次元数: **384**（384 個の数値で意味を表現）
-- 特徴: 多言語対応
-
-### 3. Python 環境のセットアップ
-
-#### ステップ 1: Python のインストール確認
-
-まず、Python がインストールされているか確認します。
+作業用フォルダーを作り、その中に zip を置いて展開します。
 
 === ":fontawesome-brands-apple: Mac"
-    **ターミナル / コマンドプロンプト**:
+
     ```bash
-    python3 --version
+    mkdir -p ~/vector-search-hands-on
+    cd ~/vector-search-hands-on
+    unzip ~/Downloads/opensearch-vector-search-ja.zip
     ```
 
 === ":fontawesome-brands-windows: Windows"
-    **ターミナル / コマンドプロンプト**:
-    ```bash
-    python --version
+
+    ```powershell
+    mkdir $HOME\vector-search-hands-on
+    cd $HOME\vector-search-hands-on
+    Expand-Archive $HOME\Downloads\opensearch-vector-search-ja.zip -DestinationPath .
     ```
 
-**期待される出力**:
+2 つのディレクトリができます。
 
-```
-Python 3.10.x 以上（3.11 推奨）
+```text
+.bob/                                  ← Building Block: モード・ルール・スキル
+  custom_modes.yaml
+  rules-opensearch-builder/
+  skills/opensearch-vector-search/
+setup/participant/                     ← 実行するスクリプト
+  app.py  common.py  index_mapping.py  insert_sample_data.py
+  requirements.txt  sample_products*.py  test_connection.py
+  .env.example
 ```
 
-Python 3.10 以上がインストールされていない場合は、インストールしてから次へ進んでください。
+フォルダーの直下で展開することが、そのまま Building Block の導入になります。IBM Bob は開いているフォルダーの `.bob/custom_modes.yaml` を読むので、ファイルを置いた時点でモードが入ります。
+
+## Step 2: Python 環境を作る
 
 === ":fontawesome-brands-apple: Mac"
-    公式サイトからインストーラーをダウンロードしてインストールします。
-
-    **公式サイト**: [https://www.python.org/downloads/](https://www.python.org/downloads/)
-
-    Homebrew を使用している場合は、以下でもインストールできます。
 
     ```bash
-    brew install python3
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    公式サイトからインストーラーをダウンロードして実行します。
-
-    **公式サイト**: [https://www.python.org/downloads/](https://www.python.org/downloads/)
-
-    !!! warning "インストール時の注意"
-        インストーラー最初の画面で **Add python.exe to PATH** にチェックを入れてから、**Install Now** をクリックしてください。チェックを入れないと、コマンドプロンプトから `python` や `pip` を実行できない場合があります。
-
-#### ステップ 2: 仮想環境の作成（重要）
-
-!!! danger "グローバル環境を破壊しないために"
-    
-    **必ず仮想環境を使用してください**。グローバル環境に直接インストールすると、他のプロジェクトに影響を与える可能性があります。
-
-仮想環境を作成し、その中でパッケージをインストールします。
-
-=== ":fontawesome-brands-apple: Mac"
-    **ターミナル / コマンドプロンプト**:
-    ```bash
-    cd ~/Desktop/vector-search-builder-ja/setup/participant
+    cd setup/participant
     python3 -m venv venv
     source venv/bin/activate
+    pip install -r requirements.txt
     ```
 
 === ":fontawesome-brands-windows: Windows"
-    **ターミナル / コマンドプロンプト**:
-    ```bash
-    cd %USERPROFILE%\Desktop\vector-search-builder-ja\setup\participant
+
+    ```powershell
+    cd setup\participant
     python -m venv venv
     venv\Scripts\activate
+    pip install -r requirements.txt
     ```
 
-!!! note "プロンプト表示について"
+ダウンロード量は約 240 MB、所要時間は 2 分ほどです。実行時に追加のダウンロードは起きません。埋め込みモデルは手元ではなく watsonx.ai で動きます。
 
-    仮想環境を有効化すると、環境によってはプロンプトの先頭に `(venv)` が表示されることがあります。ただし、ターミナルやシェルの設定によって表示されない場合もあります。
+## Step 3: `.env` を埋める
 
-!!! success "仮想環境の利点"
-    
-    - **隔離**: このプロジェクト専用の環境
-    - **安全**: グローバル環境を破壊しない
-    - **クリーンアップ**: `venv` フォルダを削除するだけで完全に削除可能
-    - **再現性**: 他の環境でも同じ構成を再現可能
+```bash
+cp .env.example .env
+```
 
-#### ステップ 3: 必要なパッケージのインストール {#install-packages}
+`.env` を開き、プレースホルダーをすべて置き換えます。
 
-`venv` 内の Python を直接指定して、Python パッケージをインストールします。
+### OpenSearch（講師から）
 
-1. **`venv` フォルダが作成されていることを確認**
+```bash
+OPENSEARCH_HOST=192.168.1.100          # 講師から共有されたアドレス
+OPENSEARCH_PORT=9200
+OPENSEARCH_USER=admin
+OPENSEARCH_PASSWORD=...                # 講師から配布されたパスワード
+OPENSEARCH_USE_SSL=true
+OPENSEARCH_VERIFY_CERTS=false          # ハンズオン環境は自己署名証明書のため
+```
 
-2. ターミナルで以下を実行:
+### watsonx.ai（自分の資格情報）
 
-    === ":fontawesome-brands-apple: Mac"
-        ```bash
-        cd ~/Desktop/vector-search-builder-ja/setup/participant
-        venv/bin/python -m pip install -r requirements.txt
-        ```
+```bash
+IBM_API_KEY=...                        # IBM Cloud → 管理 → アクセス（IAM）→ API キー
+WATSONX_URL=https://us-south.ml.cloud.ibm.com
+WATSONX_PROJECT_ID=...                 # watsonx.ai のプロジェクト → 管理 → 一般 → プロジェクト ID
+EMBEDDING_MODEL_ID=ibm/granite-embedding-278m-multilingual
+```
 
-    === ":fontawesome-brands-windows: Windows"
-        ```cmd
-        cd %USERPROFILE%\Desktop\vector-search-builder-ja\setup\participant
-        venv\Scripts\python -m pip install -r requirements.txt
-        ```
+### 自分のインデックス
 
-3. インストールが完了するまで待ちます（数分かかる場合があります）
+```bash
+INDEX_NAME=products_taro               # 自分だけの名前なら何でも構いません
+PARTICIPANT_LANGUAGE=ja
+```
 
-!!! tip "Linux の方: CPU 版 torch を先にインストール"
+!!! danger "クラスターは共有です"
 
-    Linux ではデフォルトの `torch` ホイールに CUDA ライブラリが含まれるため数 GB になります。`pip install -r requirements.txt` の**前に**以下を実行すると、大幅に小さく高速にインストールできます:
+    参加者全員が同じ OpenSearch ノードに書き込みます。自分のドキュメントを他の人と分けているのは `INDEX_NAME` だけです。既存のインデックスを消す前にスクリプトは確認を求めますが、ほかの人と重ならない名前を選んでください。
 
-    ```bash
-    venv/bin/python -m pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
-    ```
+!!! info "`.env` はバージョン管理に入れない"
 
-??? note "venv 内の Python を直接指定する理由"
+    `.env` には API キーが入ります。リポジトリでは無視される設定になっています。コミットしないでください。IBM Bob とのチャットに貼り付けるのも避けてください。
 
-    仮想環境を有効化していても、別のターミナルや AI ツールが実行するコマンドにはその状態が引き継がれない場合があります。`venv/bin/python` または `venv\Scripts\python` を直接指定すると、確実に `venv` にインストールできます。
+## Step 4: IBM Bob で Building Block のモードを選ぶ
 
-??? info "インストールされるパッケージ"
-    以下のパッケージがインストールされます:
-    
-    **主要パッケージ**:
+展開したフォルダー（`.bob/` がある方）を開き、一緒に入ってきたモードに切り替えます。
 
-    - **pymilvus**: Milvus データベースクライアント
-    - **sentence-transformers**: 埋め込みモデル
-    - **torch**: 機械学習フレームワーク
-    - **fastapi**: Web フレームワーク
-    - **uvicorn**: ASGI サーバー
-    - **python-dotenv**: 環境変数管理
-    
-    **依存パッケージ（自動インストール）**:
+=== "IBM Bob IDE"
 
-    - transformers, huggingface-hub
-    - pydantic, starlette
-    - scikit-learn
-    - その他
+    1. フォルダーを開きます。**File → Open Folder…** で `vector-search-hands-on` を選びます。
+    2. 新しい `.bob/` を Bob に読ませるためにウィンドウを再読み込みします。++cmd+shift+p++（Windows は ++ctrl+shift+p++）→ **Reload Window**。
+    3. Bob のパネルを開き、チャット入力欄の下にあるモードセレクターを開きます。
+    4. **OpenSearch Vector Search Builder** を選びます。
 
-??? warning "仮想環境の無効化"
-    作業が終わったら、仮想環境を無効化できます:
-    
-    ```bash
-    deactivate
-    ```
-    
-    次回作業時は、再度有効化してください:
-    
-    === ":fontawesome-brands-apple: Mac"
-        ```bash
-        cd ~/Desktop/vector-search-builder-ja/setup/participant
-        source venv/bin/activate
-        ```
-    
-    === ":fontawesome-brands-windows: Windows"
-        ```bash
-        cd %USERPROFILE%\Desktop\vector-search-builder-ja\setup\participant
-        venv\Scripts\activate
-        ```
+    モードセレクターには、組み込みのモードと、開いているフォルダーで見つかったカスタムモードが並びます。**OpenSearch Vector Search Builder** が無い場合は、開いているフォルダーが `.bob/` のある場所ではありません。
 
-## 準備完了チェックリスト
+=== "Bob shell"
 
-- [ ] IBM Bob がインストールされ、使用できる
-- [ ] Python 3.10 以上がインストールされている
-- [ ] **`vector-search-builder-ja.zip`** を解凍した
-- [ ] **`.bob`** フォルダが存在する
-- [ ] IBM Bob で `vector-search-builder-ja` フォルダを開いた
-- [ ] 「Vector Search Builder」モードが表示される
-- [ ] **`setup/participant/.env`** ファイルに接続情報を入力した
-- [ ] **仮想環境を作成し、有効化した**（`venv` フォルダが作成されている）
-- [ ] 仮想環境内で Python パッケージをインストールした
+    <!-- TODO: Bob shell 2.0.4 での実機確認が済んでから記述する。
+         `bob chat --help` / `bob run --help` で確認済み:
+           --mode <mode>       Mode to use (built-in or custom mode slug)、既定は "agent"
+           -w, --workspace     ワークスペースのディレクトリ
+         未確認: Bob shell がワークスペースの .bob/custom_modes.yaml を読むか、
+         未知の slug を指定したときの表示。実行には BOB_API_KEY が必要。 -->
 
-## FAQ
+    !!! warning "確認中"
 
-??? question "Q1: Vector Search Builder モードが表示されない"
+        Bob shell の手順はバージョン 2.0.4 の実機で確認中です。確認でき次第ここに記載します。それまでは IBM Bob IDE のタブをご覧ください。
 
-    対処法:
-    
-    1. **`.bob`** フォルダが存在するか確認
-    2. IBM Bob をリロード（:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」）
-    3. プロジェクトフォルダを開き直す
+## Step 5: すべてつながったことを確認する
 
-??? question "Q2: 接続情報をどこに入力すればいいか分からない"
+```bash
+python test_connection.py
+```
 
-    対処法:
-    
-    1. プロジェクトフォルダ内の **`setup/participant`** フォルダを開く
-    2. **`.env`** ファイルを探す（見つからない場合は **`.env.example`** をコピー）
+k-NN プラグインの行とベクトルの次元数が出れば準備完了です。
+
+```text
+✓ OpenSearch に接続できました (バージョン 3.8.0)
+✓ k-NN プラグインが利用できます (opensearch-knn)
+✓ 埋め込みベクトルを生成しました: ibm/granite-embedding-278m-multilingual
+✓ ベクトルの次元数: 768
+```
+
+## Building Block の中身
+
+`.bob/` 配下はすべて IBM の Building Blocks リポジトリのもので、1 か所の例外を除いて無改変で同梱しています。
+
+| 項目 | 出典 |
+|:---|:---|
+| リポジトリ | [ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks) |
+| コミット | `4a2ee334bf0acb4a798dc197e6f63bde99b9a0d6` |
+| モードの zip | `data/pipelines/rag/bob-modes/base-modes/opensearch-builder.zip`（blob `efa9473d0146246c08a3ef9351f882b0b7a58e02`） |
+| スキルの zip | `data/pipelines/rag/bob-skills/opensearch-vector-search.zip`（blob `916e1f974f3a420006f76335bff14e5c3d64c9ae`） |
+
+- `.bob/custom_modes.yaml` — **OpenSearch Vector Search Builder** のペルソナ（slug は `opensearch-builder`）
+- `.bob/rules-opensearch-builder/1_opensearch_vector_workflow.xml` — クラスターの設定、インデックス作成、取り込み、ハイブリッド検索の手順
+- `.bob/rules-opensearch-builder/2_best_practices.xml` — ペルソナが従う実践
+- `.bob/skills/opensearch-vector-search/SKILL.md` — 埋め込みモデルと次元数を定め、存在しないエンドポイントを作り出さないことを求めるスキル
+
+### 変更した 1 行
+
+上流は、モードの名前を YAML のブロックスカラーとして書き、その指示子と同じ行に内容を続けています。
+
+```yaml
+    name: >- OpenSearch Vector Search Builder
+```
+
+ブロックスカラーの指示子は行末に置く必要があるため、このファイルは YAML として不正です。PyYAML、Ruby の Psych、npm の `yaml`、`js-yaml` の 4 実装がいずれも 3 行目で拒否します。つまり IBM Bob もこのファイルを読み込めず、モードはモードセレクターに現れません。同梱している版は素直なスカラーにしてあります。
+
+```yaml
+    name: OpenSearch Vector Search Builder
+```
+
+差分はこの 1 行だけです。`lib/check_upstream_building_blocks.sh` が、固定したコミットから 2 つの zip を取り直し、blob の SHA を照合し、この 1 行を当てたうえで、同梱物と diff します。CI がビルドのたびに実行します。
 
 [次へ →](part1.md){ .workshop-next }

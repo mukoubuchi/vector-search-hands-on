@@ -6,8 +6,7 @@
  * circle at each step (styled in components.css). A run is a sequence of step
  * headings at the same heading level with only sub-content between them; a
  * non-step heading at that level (or higher) ends the run, so each Part 2
- * Feature gets its own rail and Part 3's Step 3 — separated from Steps 1–2 by
- * the Completion Check and FAQ sections — starts a fresh one.
+ * Feature gets its own rail.
  *
  * Only the step's own heading is marked (.step__title) and gets a circle;
  * non-step sub-headings inside a step keep their normal styling. Steps are

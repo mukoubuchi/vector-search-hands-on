@@ -1,6 +1,6 @@
 # Site settings
 site_name: Vector Search Hands-on
-site_description: Milvus-based vector search hands-on using IBM Bob, Building Blocks, FastAPI, and Hugging Face embeddings
+site_description: OpenSearch keyword, vector and hybrid search hands-on using IBM Bob, Building Blocks, FastAPI, and IBM watsonx.ai embeddings
 site_author: IBM Build Team
 site_url: !ENV [SITE_URL, 'http://localhost:8000/']
 docs_dir: docs
@@ -43,9 +43,7 @@ nav:
   - Preparation: preparation.md
   - Part 1: part1.md
   - Part 2: part2.md
-  - Part 3: part3.md
   - Summary: summary.md
-  - Feedback: feedback.md
 
 # Markdown extensions
 markdown_extensions:
@@ -102,9 +100,7 @@ plugins:
             Preparation: 事前準備
             Part 1: Part 1
             Part 2: Part 2
-            Part 3: Part 3
             Summary: まとめ
-            Feedback: フィードバック
 
 # Extra settings
 extra:
@@ -131,6 +127,5 @@ extra_javascript:
   - javascripts/toc-indicator.js
   - javascripts/steps.js
   - javascripts/tasks.js
-  - javascripts/feedback.js
   - javascripts/syntax-highlight.js
   - javascripts/language-switcher.js

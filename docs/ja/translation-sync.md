@@ -12,9 +12,7 @@ GitHub Actions が Pull Request と `main` への push 後に自動的にチェ�
 - `preparation.md`
 - `part1.md`
 - `part2.md`
-- `part3.md`
 - `summary.md`
-- `feedback.md`
 
 また、`docs/images/` 配下で `-en.svg` / `-ja.svg` の接尾辞を持つ図のペアもチェック対象です。`translation-sync.md` や `readme.md` のような内部向けソースガイドは、同期チェック対象から意図的に除外しています。
 
@@ -139,10 +137,10 @@ A: 以下のスクリプトで確認できます。
 
 ```bash
 # 受講者向け英語版ファイルを一覧表示
-printf '%s\n' docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/part3.md docs/summary.md docs/feedback.md
+printf '%s\n' docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/summary.md
 
 # 対応する日本語版が存在するか確認
-for file in docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/part3.md docs/summary.md docs/feedback.md; do
+for file in docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/summary.md; do
   ja_file="docs/ja/$(basename $file)"
   if [ ! -f "$ja_file" ]; then
     echo "Missing: $ja_file"

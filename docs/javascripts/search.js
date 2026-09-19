@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const siteConfig = window.VectorSearchHandsOn && window.VectorSearchHandsOn.site;
-    const navPaths = siteConfig ? siteConfig.navPaths : ['/', '/preparation/', '/part1/', '/part2/', '/part3/', '/summary/', '/feedback/'];
+    const navPaths = siteConfig ? siteConfig.navPaths : ['/', '/preparation/', '/part1/', '/part2/', '/summary/'];
     const languages = siteConfig ? siteConfig.languages : ['en', 'ja'];
 
     const searchToggle = document.querySelector('[data-md-toggle="search"]');

@@ -11,9 +11,7 @@ docs/
 ├── preparation.md            # 準備
 ├── part1.md                  # Part 1: ベクトル検索を体験する
 ├── part2.md                  # Part 2: IBM Bob で機能を追加する
-├── part3.md                  # Part 3: 動作確認とレビュー
 ├── summary.md                # まとめ
-├── feedback.md               # 受講者フィードバックフォーム
 ├── translation-sync.md       # 内部向け翻訳同期ガイド
 ├── ja/                       # 日本語翻訳
 │   ├── readme.md             # このファイル
@@ -21,9 +19,7 @@ docs/
 │   ├── preparation.md        # 準備
 │   ├── part1.md              # Part 1: ベクトル検索を体験する
 │   ├── part2.md              # Part 2: IBM Bob で機能を追加する
-│   ├── part3.md              # Part 3: 動作確認とレビュー
 │   ├── summary.md            # まとめ
-│   ├── feedback.md           # 受講者フィードバックフォーム
 │   └── translation-sync.md   # 内部向け翻訳同期ガイド
 ├── images/                   # 図解と SVG 画像
 ├── stylesheets/              # カスタム CSS（モジュール化）
@@ -32,7 +28,6 @@ docs/
 │   ├── navigation.css        # ナビゲーションスタイル
 │   ├── code.css              # コードブロックスタイル
 │   ├── components.css        # UI コンポーネントスタイル
-│   ├── feedback.css          # フィードバックフォームスタイル
 │   └── language-switcher.css # 言語切り替えスタイル
 └── javascripts/              # カスタム JavaScript（モジュール化）
     ├── site-config.js        # 共通のページパス・言語設定
@@ -40,7 +35,6 @@ docs/
     ├── navigation.js         # ナビゲーション機能
     ├── toc-indicator.js      # 目次の現在セクション表示
     ├── tasks.js              # タスクリスト機能
-    ├── feedback.js           # フィードバックのコピー支援
     ├── syntax-highlight.js   # シンタックスハイライト強化
     └── language-switcher.js  # GitHub Pages の言語リンク補正
 ```
@@ -79,9 +73,6 @@ docs/
 - アドモニションスタイル
 - タブコンテンツスタイル
 
-### feedback.css
-
-- フィードバックフォームとコピー用パネルのスタイル
 
 ### language-switcher.css
 
@@ -118,9 +109,6 @@ docs/
 - チェックボックスの状態を localStorage に保存
 - ページリロード時に状態を復元
 
-### feedback.js
-
-Slack に貼り付けやすいフィードバック文面を作成し、クリップボードへコピーします。
 
 ### syntax-highlight.js
 
@@ -166,7 +154,6 @@ extra_javascript:
   - javascripts/search.js
   - javascripts/navigation.js
   - javascripts/tasks.js
-  - javascripts/feedback.js
   - javascripts/syntax-highlight.js
   - javascripts/language-switcher.js
   - javascripts/your-new-feature.js  # 新しいファイル

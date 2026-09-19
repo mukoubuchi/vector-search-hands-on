@@ -1,314 +1,98 @@
 # Welcome to Vector Search Hands-on
 
-In this hands-on workshop, you will combine **Building Blocks** and **IBM Bob** to experience AI-driven development for building a "semantic search" feature (Vector Search).
+In this hands-on workshop you build a product search API that answers the same question three ways — keyword, vector and hybrid — on one **OpenSearch** index, with **IBM watsonx.ai** embeddings, and you let **IBM Bob** do the work from a **Building Block** that already knows how OpenSearch vector search is put together.
 
 !!! info "Prerequisites"
-    
-    IBM Bob is already installed and available for use.
-    This hands-on uses **IBM Bob 1.0.3**.
 
-## What You'll Experience in This Hands-on
+    IBM Bob is already installed. This hands-on covers two separate IBM products, and every Bob step is written for both:
 
-### Value of Building Blocks + IBM Bob
+    - **IBM Bob IDE** (desktop application) — version **2.1.0**
+    - **Bob shell** (command line) — version **2.0.4**
 
-This hands-on workshop demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 90 minutes**.
+    They are different products on different release lines, so their version numbers do not match. Use whichever one you have.
 
-**Without Building Blocks (Time required: days to weeks):**
+## What You'll Build
 
-![Development flow without Building Blocks](images/without-building-blocks-en.svg)
+A FastAPI service with one `/search` endpoint and a `mode` parameter:
 
-Without Building Blocks, the following work is required:
+| Mode | How it ranks | Finds "red running shoes" when you ask for "red sneakers"? |
+|:---|:---|:---|
+| `keyword` | BM25 over the product text | Only if the words match |
+| `vector` | k-NN over watsonx.ai embeddings | Yes — it matches on meaning |
+| `hybrid` | Both, normalised and blended | Yes, and exact wording still counts |
 
-- Vector database selection and learning
-- Embedding model selection and integration
-- API design and implementation
-- Error handling
-- Performance tuning
-
-**With Building Blocks + IBM Bob (This hands-on, Time required: approximately 90 minutes):**
-
-![Development flow with Building Blocks + IBM Bob](images/with-building-blocks-en.svg)
-
-Responsibilities for each process:
-
-- **Building Blocks**:
-    - Technology selection (Milvus, embedding models)
-    - Environment setup support (Bob mode, API samples)
-- **IBM Bob**:
-    - Requirements definition
-    - Coding
-    - Testing
-    - Debugging
-
-??? note "About IBM Bob's Coverage"
-    IBM Bob can support the entire Software Development Lifecycle (SDLC) as an AI SDLC partner, from requirements definition to debugging. In this hands-on, Building Blocks provides technology selection (Milvus, embedding models) and environment setup support (Milvus setup, Bob mode), and the instructor prepares the Milvus environment in advance with Docker Compose, so IBM Bob focuses mainly on coding, testing, and debugging. However, if you use Plan mode, you can also utilize it in the requirements definition and design stages.
-
-## What are Building Blocks?
-
-**Building Blocks** are **pre-built technical components** leveraging IBM's technology stack. Using Building Blocks accelerates solution development.
-
-### Features of Building Blocks
-
-- **Ready to use**: Start using immediately without complex configuration or learning
-- **Best practices**: Optimal implementation patterns designed by IBM's engineering team
-- **Domain-specific**: Provides Vector Search-specific guidance and implementation patterns
-- **Customizable**: Flexibly extend to meet business requirements using IBM Bob
-
-### Building Block Used in This Hands-on
-
-**Vector Search Builder** (Milvus-based)
-
-**What it provides**: Vector database (Milvus) construction and management capabilities
-
-**Included features**:
-
-- Milvus database setup
-- Collection (data container) creation
-- Local embedding model integration with Hugging Face Transformers
-- Sample product data ingestion workflow
-- Vector search optimization
-
-**Integration with IBM Bob**: Using Vector Search Builder mode, IBM Bob provides specialized support for Vector Search
-
-!!! example "Value of Building Blocks"
-    
-    **Without Building Blocks**: Read Milvus documentation, learn Python SDK, select and integrate embedding models (days)
-
-    **With Building Blocks**: Install Vector Search Builder and instruct IBM Bob (minutes)
-
-??? info "Unique Innovations in This Hands-on"
-    File and directory paths in this section are relative to the following GitHub repository.
-
-    - **Repository**: [mukoubuchi/vector-search-hands-on](https://github.com/mukoubuchi/vector-search-hands-on)
-
-    ### What Building Blocks Provide
-    
-    Building Blocks provide the following technical components:
-    
-    - **Vector Search Builder Mode**
-        - **Participant package**: `vector-search-builder-en.zip`
-        - **Contents**:
-            - IBM Bob custom mode configuration
-            - 3 Vector Search Builder rule files
-            - AI assistant functionality specialized for Vector Search
-            - Milvus operation best practices
-            - Participant scripts and connection configuration template
-        - **Excluded**:
-            - Instructor files
-            - Documentation files
-            - Local `.env` files and generated caches
-    ### What This Hands-on Adds
-    
-    In addition to the Building Blocks foundation, the following have been added for educational purposes:
-    
-    - **`setup/instructor/`**: Instructor Milvus environment (Docker Compose)
-    - **`setup/participant/`**: Participant connection test scripts
-    - **`docs/`**: Hands-on documentation (MkDocs)
-    
-    ### 1. Instructor-Participant Separation Architecture
-    
-    Building Blocks alone:
-    
-    - Each person builds their own Milvus environment (Docker/Podman/Colima)
-    - Individually download embedding models (approximately 460 MB)
-    - Environment setup takes about 30 minutes
-    
-    This hands-on's innovation:
-
-    - **Instructor**: Centrally manages Milvus environment (`setup/instructor/docker-compose.yml`)
-    - **Participants**: Participate with IBM Bob, `.bob/custom_modes.yaml`, `.bob/rules-vector-search-builder/`, participant scripts, and connection information only
-    
-    **2. Hybrid Delivery Support**
-    
-    Building Blocks alone:
-    
-    - Assumes local environment execution
-    
-    This hands-on's innovation:
-
-    - **On-site**: Local network sharing (`http://instructor IP:8001`)
-    - **Remote**: Document delivery via GitHub Pages or ngrok
-    
-    **3. API Key-Free Design**
-    
-    Building Blocks alone:
-    
-    - Cloud-based embedding options often require API keys
-    - Participants configure credentials individually
-    
-    This hands-on's innovation:
-
-    - **Hugging Face Transformers** used (no API key required)
-    - **Local execution**: Works with internet connection only
-    
-    **4. Progressive Learning Path**
-    
-    Building Blocks alone:
-    
-    - Focuses on technical implementation
-    
-    This hands-on's innovation:
-
-    - **Part 1**: Experience Vector Search (understanding)
-    - **Part 2**: Add features with IBM Bob (practice)
-    - **Part 3**: Code review and improvement (application)
-    
-    ### Summary of Role Division
-    
-    | Provider | What's Provided | Purpose |
-    |:---|:---|:---|
-    | **Building Blocks** | Vector Search Builder mode<br/>FastAPI sample<br/>Milvus setup guide | Technology foundation provision<br/>Development acceleration |
-    | **This Hands-on** | Instructor environment (Docker Compose)<br/>Participant scripts<br/>Educational documentation | Educational design<br/>Learning experience optimization |
-    
-    !!! success "Benefits of This Hands-on"
-        **Building Blocks (technology foundation)** + **Hands-on unique innovations (educational design)** = **High learning effectiveness in a short time**
-        
-        - **Setup time reduction**: 30 minutes → 5 minutes (instructor centrally manages environment)
-        - **No API key required**: Using Hugging Face reduces participant preparation burden
-        - **Flexible delivery format**: Supports on-site/remote/hybrid delivery
-        - **Progressive learning**: Even beginners can progress from understanding → practice → application
-
-## What is IBM Bob?
-
-**IBM Bob** is a development tool where AI assists with coding.
-
-### What IBM Bob Can Do
-
-- **Natural language instructions**: Communicate what you want to do in words
-- **Automatic code generation**: Automatically writes high-quality code
-- **Code review**: Points out code issues
-- **Integration with Building Blocks**: Provides technology-specific support through custom modes
-
-### Synergy with Building Blocks
-
-**Building Blocks alone**:
-
-- Basic functionality is provided, but customization requires technical knowledge
-
-**IBM Bob alone**:
-
-- Code generation is possible, but building from scratch takes time
-
-**Building Blocks + IBM Bob**:
-
-- Building Blocks instantly builds the foundation
-- IBM Bob customizes with natural language instructions only
-- **Result**: Achieve production-level quality in the shortest time
-
-### Comparison of Development Methods
-
-| Development Method | Time Required | Required Skills | Code Quality |
-|:---|---:|:---|:---|
-| **Without Building Blocks** | Days to weeks | Programming, DB design, API design | Depends on developer skills |
-| **IBM Bob only** | Hours to days | Basic technical understanding | High quality but time-consuming to build |
-| **Building Blocks + IBM Bob** | Minutes to hours | Just need to instruct in natural language | Production-level high quality |
-
-## What is Vector Search?
-
-**Vector Search** is a technology that searches by understanding the "meaning" of words.
-
-### Difference from Traditional Search
-
-**Traditional keyword search**:
-
-- "red sneakers" → Searches for products containing the **characters** "red" and "sneakers"
-- "red running shoes" won't be found (different characters)
-
-**Vector Search (semantic search)**:
-
-- "red sneakers" → Understands the **meaning** of "red" and "sneakers"
-- "red running shoes" will be found (similar meaning)
-- "beginner camera" → "entry-level digital camera" will be found
-
-### Real-world Use Cases
-
-- **E-commerce sites**: "Find similar products" feature
-- **Internal search**: "Find documents similar to this document"
-- **Customer support**: "Find similar questions"
+The three modes share one index, so the difference you see comes from the query, not from different data.
 
 ## Hands-on Flow
 
-**Total**: Approximately 90 minutes
+**Total**: Approximately 60 minutes
 
 | Part | Content | Time Required |
 |:---|:---|---:|
-| [Preparation](preparation.md) | Vector Search Builder setup | 15 minutes |
-| [Part 1](part1.md) | Experience Vector Search | 20 minutes |
-| [Part 2](part2.md) | Add features with IBM Bob | 30 minutes |
-| [Part 3](part3.md) | Verification | 15 minutes |
-| [Summary](summary.md) | Review and Q&A | 10 minutes |
+| [Preparation](preparation.md) | Install the Building Block, configure credentials | 15 minutes |
+| [Part 1](part1.md) | Run keyword, vector and hybrid search | 20 minutes |
+| [Part 2](part2.md) | Add features by instructing IBM Bob | 20 minutes |
+| [Summary](summary.md) | Review, production path, clean-up | 5 minutes |
 
-??? info "About This Hands-on's Documentation Design"
-    
-    ### Why Manual Methods Differ Between First and Second Half
-    
-    In this hands-on, **the first half (preparation, Part 1) describes both IBM Bob delegation and manual execution methods**, but **the second half (Part 2-3) describes only IBM Bob delegation methods**. This is for the following reasons:
-    
-    **1. Complexity and Length of Manual Work**
-    
-    - **First half work**: Simple command execution (`pip install -r requirements.txt`, `python test_connection.py`), can be completed in one line manually
-    - **Second half work**: Editing multiple files such as `app.py`, `schema.py`, data insertion scripts, and sample product data; changing data models, response structures, error handling, etc.; requiring dozens to hundreds of lines of code changes. Manual description would be very long and complex, making the documentation enormous
-    
-    **2. Educational Intent**
-    
-    - **First half**: Show **options** that "can be done with IBM Bob or manually"
-    - **Second half**: Let users **experience the value** that "what's difficult manually is easy with IBM Bob"
-    
-    ??? example "Experience the Value of Building Blocks + IBM Bob"
-        In particular, the experience of [**completing complex code changes with a short instruction to add an `image_url` field to the `/search` API JSON response**](part2.md#feature-1-product-image-display) is designed to **most effectively convey the value of Building Blocks + IBM Bob**.
-        
-        **Why This Instruction is Most Effective**:
-        
-        **Building Blocks Effect**:
-        
-        - **Vector Search knowledge**: IBM Bob understands Milvus, embedding models, and vector search best practices through Vector Search Builder mode
-        - **Existing foundation**: Sample data, API structure, shared schema definitions, and data models are already prepared, and IBM Bob can add features using them
-        - **No technology selection needed**: Technology selection for Milvus, embedding models, API design, etc. is complete, and IBM Bob can focus on implementation
-        
-        **IBM Bob Effect**:
-        
-        - **Natural language instructions**: Just one line in natural language, without any technical details
-        - **Automatic code generation**: Automatically executes editing of multiple files, schema/data model changes, response structure changes
-        - **Immediate results**: Can verify operation immediately after instruction, getting the feeling that "it really worked"
-        
-        **Synergy of IBM Bob and Building Blocks**:
-        
-        - **First experience in Part 2**: The moment participants "add a feature themselves" for the first time, making it memorable
-        - **Contrast with other instructions**: Price filters and recommendation reasons are similarly easy, but this first experience is most impactful
-        - **Gap with complexity**: Work that would take days without Building Blocks is completed with one IBM Bob instruction
-    
-    **3. Building Blocks Value Proposition**
-    
-    - Let users experience the time reduction effect of "days to weeks → approximately 90 minutes"
-    - Emphasize this effect by omitting manual methods in the second half
-    
-    **4. Consideration for Time Constraints**
-    
-    - Designed for approximately 90 minutes total
-    - Just reading detailed manual methods would run out of time
-    - Focusing on IBM Bob delegation **secures time for actual hands-on work**
-    
-    **5. Complexity of Error Handling**
-    
-    When manually changing code, troubleshooting for syntax errors, indentation errors, type errors, logic errors, etc. is necessary. Describing all of these would make the documentation several times longer
-    
-    **6. Progressive Learning Design**
-    
-    - **First half**: Get familiar with using IBM Bob through simple tasks
-    - **Second half**: Experience IBM Bob's true value through complex tasks
-    
-    This design allows participants to naturally understand IBM Bob's value and acquire practical skills.
+## What are Building Blocks?
+
+**Building Blocks** are pre-built technical components from IBM's technology stack. This hands-on uses one of them, exactly as IBM publishes it:
+
+**OpenSearch Vector Search Builder** — an IBM Bob custom mode plus a skill, from [ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks).
+
+**What it provides**:
+
+- A Bob persona that knows k-NN index design, HNSW parameters, `knn_vector` mappings and hybrid score normalisation
+- A workflow for going from an empty cluster to a working hybrid search
+- Guidance to use IBM watsonx.ai for embeddings, and not to invent endpoints or model availability
+
+**How it is shipped here**: the mode, its rules and the skill are the upstream files, byte for byte, apart from one line that upstream wrote as invalid YAML. [Preparation](preparation.md#what-the-building-block-contains) records the commit, the blob ids and the exact change, and a CI check re-downloads the upstream files on every build to prove nothing else drifted.
+
+!!! example "What the Building Block saves you"
+
+    **Without it**: read the OpenSearch k-NN documentation, choose an engine and space type, work out how to blend BM25 and k-NN scores, discover which watsonx.ai models exist (hours to days)
+
+    **With it**: install the mode and describe what you want (minutes)
+
+## What is Vector Search?
+
+Keyword search matches characters. Vector search matches meaning.
+
+Every product description is turned into a list of numbers — a **vector** — by an embedding model. Texts that mean similar things get similar vectors, so "footwear for working out" lands near "running shoes" even though they share no words. OpenSearch stores those vectors in a `knn_vector` field and finds the nearest ones.
+
+Neither approach wins everywhere:
+
+- Keyword search is exact. A part number, a brand, a colour spelled the way the shopper spelled it — BM25 nails it and a vector search may drift.
+- Vector search is tolerant. A description of what someone wants, with none of the words the catalogue uses — only embeddings will find it.
+- **Hybrid** runs both and merges the rankings, which is what production search usually does.
+
+Part 1 has you run all three against the same questions so you can see where each one fails.
+
+## How This Differs from the Existing DSCE Assets
+
+The Data Science and Cloud Engineering catalogue already has vector search demonstrations — Orbital Suppliers, NexusIQ and Maximo Knowledge Hub among them. This hands-on is a different kind of artefact:
+
+- **It is a kit, not a demonstration.** Everything runs from this repository: one container, a handful of scripts, and credentials you already have. Anyone can reproduce the whole thing on their own machine.
+- **The Building Block is the subject.** The mode and skill are shipped unmodified, so what you experience is what IBM publishes, not a variant written for this workshop.
+- **The comparison is the lesson.** Keyword, vector and hybrid answer the same questions over the same index, side by side.
+- **It stops at the smallest useful system.** No object storage ingestion, no chunking, no generation step — only the retrieval layer, so the moving parts stay visible.
 
 ## Requirements
 
-- **Computer** (Mac, Windows) and internet connection
-- **IBM Bob** (already installed)
-- **Web browser** (Chrome, Firefox, Safari, Edge, etc.)
+- **Computer** (Mac, Windows) with an internet connection
+- **IBM Bob IDE 2.1.0** or **Bob shell 2.0.4** (already installed)
+- **Python 3.11 – 3.14**
+- **IBM Cloud API key** and a **watsonx.ai project ID** (for the embeddings)
+- **Web browser** (Chrome, Firefox, Safari, Edge)
 
-**Distributed by instructor**:
+**Distributed by the instructor**:
 
-- Hands-on procedure URL
-- Minimal Vector Search Builder participant package (`vector-search-builder-en.zip`)
-- Connection information (Milvus connection information)
+- The URL of these instructions
+- The participant package (`opensearch-vector-search-en.zip`)
+- OpenSearch connection information
+
+!!! tip "Working through this on your own"
+
+    You do not need an instructor. `setup/instructor/start-all.sh` starts the same OpenSearch node on your machine with Colima or Podman, and the rest of the hands-on is identical.
 
 [Next →](preparation.md){ .workshop-next }

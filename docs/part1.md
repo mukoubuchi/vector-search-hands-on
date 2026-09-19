@@ -1,434 +1,172 @@
 # Part 1: Experience Vector Search
 
-In this part, you'll experience how Vector Search works in practice.
+In this part you load a small product catalogue into OpenSearch and ask it the same questions three different ways.
 
 ## Goals of This Part
 
-- Understand what Vector Search is
-- Actually run Vector Search
-- Experience the convenience of "semantic search"
+- See what an embedding is, by generating some
+- Run keyword, vector and hybrid search over one index
+- Find the questions where each one fails
 
-## Step 1: What is Vector Search?
+## Step 1: Run the Connection Test
 
-### Problems with Traditional Search
+This hands-on talks to two services: OpenSearch, which stores the products, and watsonx.ai, which turns text into vectors. Check both before going further.
 
-#### Example: Searching for Products on an E-Commerce Site
-
-**Your search**: "red sneakers"
-
-**Traditional search results**:
-
-- "red sneakers" → Found
-- "red running shoes" → Not found
-- "red sports shoes" → Not found
-
-**Why not found?**
-
-- Traditional search only looks for "characters"
-- "red" and "red" (in different forms) are treated as different characters
-
-### How Vector Search Works
-
-Vector Search searches by understanding "meaning".
-
-<div class="vector-flow" role="group" aria-label="Vector Search flow" tabindex="0">
-  <div class="admonition vector-flow-step" style="--flow-tint: #f0f1f9">
-    <p class="admonition-title">Step 1: Text Input</p>
-    <p class="vector-flow-content"><strong>User Input</strong><br/>'red sneakers'</p>
-  </div>
-  <div class="vector-flow-edge"><span>Text</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f1">
-    <p class="admonition-title">Step 2: Vector Conversion</p>
-    <p class="vector-flow-content"><strong>Embedding Model</strong><br/>Text → Vector</p>
-  </div>
-  <div class="vector-flow-edge"><span>Convert</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f6f4f7">
-    <p class="admonition-title">Step 3: Vector Representation</p>
-    <p class="vector-flow-content"><strong>Vector (384 dimensions)</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
-  </div>
-  <div class="vector-flow-edge"><span>Search Query</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f5f9f7">
-    <p class="admonition-title">Step 4: Similarity Search</p>
-    <p class="vector-flow-content"><strong>Milvus</strong><br/>Vector DB</p>
-  </div>
-  <div class="vector-flow-edge"><span>Similar Vectors</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
-    <p class="admonition-title">Step 5: Search Results</p>
-    <p class="vector-flow-content"><strong>Similar Products List</strong><br/>• Red Sports Shoes (0.5474)<br/>• Red Running Shoes (0.4681)<br/>• Red Training Shoes (0.4517)</p>
-  </div>
-</div>
-
-!!! info "Key Point"
-    - Similar meanings result in similar vectors
-    - Computers can quickly calculate numerical similarity
-
-**Your search**: "red sneakers"
-
-**Vector Search results**:
-
-- "red sneakers" → Found
-- "red running shoes" → Found (similar meaning)
-- "red sports shoes" → Found (similar meaning)
-
-**Why found?**
-
-- Vector Search understands "meaning"
-- "red" "red" "red" (in various forms) → Understood as the same meaning
-- "sneakers" "running shoes" "sports shoes" → Understood as similar meanings
-
-### How Vector Search Operates
-
+```bash
+cd setup/participant
+python test_connection.py
 ```
-Step 1: Convert text to numbers
-"red sneakers" → [0.2, 0.8, 0.1, 0.5, ...] (vector)
-
-Step 2: Find similar numbers
-Search for similar numerical patterns from the database
-
-Step 3: Return results
-Return products with similar meanings
-```
-
-**Key points**:
-
-- "Vector" = array of numbers
-- Similar meanings result in similar numerical patterns
-- Computers can quickly calculate numerical similarity
-
-## Step 2: Run Connection Test
-
-!!! example "Practice: Let's get hands-on"
-    
-    Before running Vector Search, verify that you can connect to the required services.
-
-Enter the following in IBM Bob's chat screen:
-
-```text
-Connect to Milvus
-```
-
-IBM Bob will automatically run the script and perform the connection test.
-
-??? tip "If Running Manually"
-    Enter the following in the terminal:
-    
-    ```bash
-    cd setup/participant
-    python test_connection.py
-    ```
 
 ### Verify Results
 
-#### If Successful
-
-```
+```text
 ==================================================
-Milvus Connection Test
+OpenSearch and watsonx.ai Connection Test
 ==================================================
 
 === Environment Variable Check ===
-✓ MILVUS_HOST: 192.168.1.100
-✓ MILVUS_PORT: 19530
-✓ MILVUS_USER: root
-✓ MILVUS_PASSWORD: ********
+✓ OPENSEARCH_HOST: ...
+✓ OPENSEARCH_PASSWORD: ********
+✓ IBM_API_KEY: ********
 
-=== Milvus Connection Test ===
-Connecting to: 192.168.1.100:19530
-SSL: disabled
-Auth: user/password auth
-✓ Connected to Milvus successfully
-✓ Existing collections: 0
+=== OpenSearch Connection Test ===
+✓ Connected to OpenSearch successfully (version 3.8.0)
+✓ k-NN plugin is available (opensearch-knn)
+✓ Cluster status: green
 
-==================================================
-Test Results
-==================================================
-Milvus connection: ✓ success
-
-✓ Milvus connection test passed!
-  Next step: Create vector collection
+=== watsonx.ai Embeddings Test ===
+✓ Embedding generated: ibm/granite-embedding-278m-multilingual
+✓ Vector dimension: 768
 ```
 
-**What is this?**:
+The last line is the number that matters for the next step: the embedding model returns **768 numbers** for any text you give it, and the index has to be built for exactly that many.
 
-- **Milvus**: Vector database (where data is stored)
-- **Embedding model**: Converts text to vectors
-- **384 dimensions**: Represents meaning with 384 numbers
+??? question "Something failed"
 
-The connection test, sample data insertion script, and demo application all read the same `.env` connection settings. If this test succeeds, the next steps use the same Milvus host, port, and authentication method.
+    - **OpenSearch connection error**: check `OPENSEARCH_HOST`, `OPENSEARCH_PORT` and `OPENSEARCH_PASSWORD` in `setup/participant/.env` against what the instructor gave you.
+    - **watsonx.ai error**: check `IBM_API_KEY` and `WATSONX_PROJECT_ID`. An API key belongs to an account; a project ID belongs to a project inside it, and both have to be yours.
+    - **Placeholder still in .env**: the scripts refuse a value that still looks like `<something>`, and name the variable in the error.
 
-#### If Failed
+## Step 2: Create the Index and Load the Products
 
-```
-✗ Milvus connection error: Connection refused
-```
-
-**Solution**:
-
-1. Check the **`.env`** file
-    - Verify that the IP address distributed by the instructor is correctly entered in `MILVUS_HOST` ([:material-cog: Configuration method](preparation.md#milvus_host))
-    - Verify that `MILVUS_PASSWORD` is the password distributed by the instructor — an authentication error such as "auth check failure" means the password is wrong or still the template placeholder
-2. Check internet connection
-3. For other errors, refer to [FAQ](#faq)
-
-## Step 3: Insert Sample Data
-
-!!! example "Practice: Insert Sample Data into Milvus"
-    
-    To experience Vector Search, first insert sample product data.
-
-Enter the following in IBM Bob's chat screen:
-
-```text
-Insert sample data
+```bash
+python insert_sample_data.py
 ```
 
-IBM Bob will automatically run the script and insert sample data.
+The script asks watsonx.ai for one embedding, uses its length to create the index, embeds the twelve sample products, and bulk-loads them.
 
-??? tip "If Running Manually"
-    Enter the following in the terminal:
-    
-    ```bash
-    # If you are in the project root folder
-    cd setup/participant
-    python insert_sample_data.py
-    ```
-
-    If you are already in the `setup/participant` folder, skip `cd setup/participant`.
-
-### Verify Insertion Results
-
-If you see the following display, it's successful:
-
-```
-==================================================
-✓ Sample data insertion completed
-==================================================
-
-Collection name: products_taro  # the unique name you set in .env
-Entity count: 12
-
-You can start the demo application:
-  venv/bin/python app.py
-==================================================
-```
-
-**Inserted data**:
-
-- Number of products: 12
-- Categories: Sneakers, Cameras, Computers, Bags
-- Each product includes product name, price, description, and embedding vector
-- The collection schema and search field names are shared with the demo application, so the inserted data is ready to search immediately
-
-## Step 4: Experience Vector Search
-
-!!! example "Practice: Let's run Vector Search"
-    
-    Once sample data insertion is successful, let's experience Vector Search.
-
-### Launch Demo Application {#app-restart}
-
-Run this step in the terminal.
-
-Run this after activating the virtual environment created during preparation and installing the packages in `requirements.txt`.
-
-=== ":fontawesome-brands-apple: Mac"
-    ```bash
-    cd ~/Desktop/vector-search-builder-en/setup/participant
-    venv/bin/python app.py
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    ```cmd
-    cd %USERPROFILE%\Desktop\vector-search-builder-en\setup\participant
-    venv\Scripts\python app.py
-    ```
-
-If you are already in the `setup/participant` folder, skip the `cd ...` line.
-
-After running `venv/bin/python app.py` or `venv\Scripts\python app.py`, it may look like nothing is happening at first. Startup can take a little time, so wait until the terminal shows the command output.
-
-#### If Launch Succeeds
-
-If you see output like the following, the application is running.
-
-```text
-==================================================
-✓ Application started successfully
-==================================================
-
-Swagger UI: http://localhost:8002/docs
-==================================================
-
-INFO:     Application startup complete.
-```
-
-!!! warning "Keep the Terminal Open"
-    Closing the terminal stops the application. Please be careful.
-
-#### If Launch Fails
-
-If `ModuleNotFoundError: No module named 'fastapi'` appears, the required packages are not installed in the virtual environment. Install the required packages ([:material-package-variant-closed: installation steps](preparation.md#install-packages)), then start the demo application again ([:material-play-circle: launch steps](#app-restart)).
-
-### Verify Launch
-
-Access the following URL in your web browser and verify that Swagger UI is displayed:
-
-```text
-http://localhost:8002/docs
-```
-
-**Swagger UI** = A tool to visually test APIs
-
-!!! success "Launch Successful"
-    
-    If Swagger UI is displayed, the application has started successfully.
-
-### Try Searching
-
-#### Step 1: Open the **`/search`** endpoint
-
-1. Find **`/search`** in the Swagger UI screen
-2. Click **`/search`**
-
-#### Step 2: Click "Try it out"
-
-Click the "Try it out" button in the upper right
-
-#### Step 3: Enter Search Query
-
-Enter the following in the "Request body" field:
+### What Gets Created
 
 ```json
 {
-  "query": "red sneakers"
+  "product_name": { "type": "text" },
+  "description":  { "type": "text" },
+  "category":     { "type": "keyword" },
+  "price":        { "type": "integer" },
+  "embedding":    {
+    "type": "knn_vector",
+    "dimension": 768,
+    "space_type": "cosinesimil",
+    "method": { "name": "hnsw", "engine": "faiss",
+                "parameters": { "ef_construction": 128, "m": 24 } }
+  }
 }
 ```
 
-#### Step 4: Click "Execute"
+Two things are worth noticing:
 
-Click the blue "Execute" button
+- **The same document carries both kinds of data.** `product_name` and `description` are analysed for BM25; `embedding` holds the vector. One index answers both kinds of query, which is why hybrid search is possible at all.
+- **`dimension` must match the model.** 768 is what `ibm/granite-embedding-278m-multilingual` returns. Change `EMBEDDING_MODEL_ID` and the index has to be rebuilt.
 
-#### Step 5: Verify Results
+??? note "HNSW, briefly"
 
-Results like the following will be displayed. Scores may vary slightly depending on your environment and model version:
+    Comparing a query against every vector is exact but slow. HNSW builds a navigable graph over the vectors and walks it, trading a little recall for a lot of speed. `m` is how many neighbours each node keeps, `ef_construction` how hard the build works to find good ones. The Building Block's workflow recommends `ef_construction=128, m=24` as the balanced starting point, and that is what the kit uses.
+
+## Step 3: Start the Demo Application
+
+```bash
+python app.py
+```
+
+Open the interactive API documentation at [http://localhost:8002/docs](http://localhost:8002/docs) — you can run every query below from that page instead of the terminal, if you prefer.
+
+## Step 4: Ask the Same Question Three Ways
+
+`/search` takes a `mode`. Run each question in all three modes and watch the ranking move.
+
+```bash
+curl -s -X POST http://localhost:8002/search \
+  -H 'Content-Type: application/json' \
+  -d '{"query": "red sneakers", "mode": "keyword", "top_k": 3}'
+```
+
+Change `"mode"` to `"vector"` and then to `"hybrid"` and run it again.
+
+### The Four Questions
+
+The first two use the catalogue's own words. The last two do not.
+
+| # | Question | What it is testing |
+|:--|:---|:---|
+| 1 | `red sneakers` | Words that appear in the data |
+| 2 | `cheap running shoes` | Words that appear, plus a judgement ("cheap") |
+| 3 | `footwear for working out` | The idea of a training shoe, in none of its words |
+| 4 | `a device for keeping memories from a trip` | A camera, described the way a shopper might |
+
+Fill this in as you go:
+
+| Question | `keyword` top hit | `vector` top hit | `hybrid` top hit |
+|:---|:---|:---|:---|
+| red sneakers | | | |
+| cheap running shoes | | | |
+| footwear for working out | | | |
+| a device for keeping memories from a trip | | | |
+
+### Reading the Response
 
 ```json
 {
+  "mode": "hybrid",
   "results": [
     {
-      "product_name": "Red Sports Shoes",
-      "similarity_score": 0.5474,
-      "price": 7500,
-      "category": "Sneakers",
-      "description": "Versatile shoes for both casual and sports use. Excellent cushioning."
-    },
-    {
-      "product_name": "Red Running Shoes",
-      "similarity_score": 0.4681,
+      "product_name": "...",
+      "score": 0.87,
       "price": 8900,
       "category": "Sneakers",
-      "description": "Lightweight and breathable running shoes."
-    },
-    {
-      "product_name": "Red Training Shoes",
-      "similarity_score": 0.4517,
-      "price": 9800,
-      "category": "Sneakers",
-      "description": "Ideal for gym training. Features stability and grip."
+      "description": "...",
+      "keyword_score": 0.74,
+      "vector_score": 1.0
     }
   ]
 }
 ```
 
-**How to read results**:
+In `hybrid` mode every result shows where it came from. `keyword_score` and `vector_score` are each ranking's score rescaled to 0–1, and `score` is the blend. A result with `keyword_score: 0.0` was found only by the vector side — the words never matched.
 
-- **`product_name`**: Product name
-- **`similarity_score`**: Similarity (0.0-1.0, higher is more similar)
-- **`price`**: Price
-- **`category`**: Category
-- **`description`**: Description
+!!! info "Why the scores are rescaled"
 
-### Try Various Searches
+    BM25 scores have no upper bound and depend on the corpus; k-NN similarities sit in their own range. Adding them raw would let whichever number happens to be larger decide the ranking. Min-max normalising each list first puts both on 0–1, which is the step the Building Block's workflow calls "score normalisation".
 
-#### Example 1: Search for beginner-friendly products
+### Try the Weighting
 
-```json
-{
-  "query": "beginner camera"
-}
+`vector_weight` decides how much the vector side counts in `hybrid` mode. The default is `0.5`.
+
+```bash
+curl -s -X POST http://localhost:8002/search \
+  -H 'Content-Type: application/json' \
+  -d '{"query": "footwear for working out", "mode": "hybrid", "vector_weight": 0.9}'
 ```
 
-#### Example 2: Search for business-oriented products
+Run the same question at `0.1` and at `0.9`. At `0.1` you are close to keyword search; at `0.9` you are close to vector search.
 
-```json
-{
-  "query": "business laptop"
-}
-```
+## Step 5: What You Just Saw
 
-#### Example 3: Search for high-performance products
+- **Questions 1 and 2** are the case keyword search was built for. Vector search usually finds the same products, sometimes in a different order.
+- **Questions 3 and 4** have no words in common with the catalogue. Keyword search has nothing to match on; the vector side carries the result.
+- **Hybrid** keeps both behaviours. That is why production search engines rarely pick one.
 
-```json
-{
-  "query": "high-performance gaming PC"
-}
-```
+!!! success "Checkpoint"
 
-### Experience the Power of Vector Search
-
-As you try various searches, you should notice the following:
-
-**Observation 1: Found even with different phrasing**
-
-- "beginner" → "entry-level" "for beginners" are also found
-
-**Observation 2: Similarity scores are useful**
-
-- Higher score = more similar
-- You can see the reliability of results
-
-**Observation 3: Descriptions are also considered**
-
-- Understands not just product names but also the meaning of descriptions
-
-## Part 1 Completion Check
-
-- [ ] Understood what Vector Search is
-- [ ] Understood the difference from traditional search
-- [ ] Connection test was successful
-- [ ] Inserted sample data
-- [ ] Launched demo application
-- [ ] Opened Swagger UI
-- [ ] Executed search
-- [ ] Tried various searches
-
-## FAQ
-
-??? question "Q1: Cannot open Swagger UI"
-
-    Solution:
-    
-    1. Verify the application is running
-    2. Verify the URL is correct (**`http://localhost:8002/docs`**)
-    3. Try a different browser
-
-??? question "Q2: Search results are 0"
-
-    Solution:
-    
-    1. Verify sample data has been inserted
-    2. Try changing the search query
-
-??? question "Q3: Similarity scores are extremely low"
-
-    Solution:
-
-    1. Reinsert sample data with the latest `insert_sample_data.py`
-    2. Restart the demo application manually
-        1. Press ++ctrl+c++ in the terminal running the application (stop)
-        2. Execute **`python app.py`** ([:material-play-circle: How to start](#app-restart))
-    3. Search again in Swagger UI
-
-    If the existing collection was created with an older search metric, scores may appear very low, such as 0.06.
+    You have one index that answers lexical and semantic queries, and you can see which side produced each hit. Part 2 hands the next change to IBM Bob.
 
 [Next →](part2.md){ .workshop-next }

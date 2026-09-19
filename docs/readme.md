@@ -11,9 +11,7 @@ docs/
 ├── preparation.md            # Preparation
 ├── part1.md                  # Part 1: Experience Vector Search
 ├── part2.md                  # Part 2: Add features with IBM Bob
-├── part3.md                  # Part 3: Verification and Review
 ├── summary.md                # Summary
-├── feedback.md               # Participant feedback form
 ├── translation-sync.md       # Internal translation sync guide
 ├── ja/                       # Japanese translations
 │   ├── readme.md             # Japanese version of this file
@@ -21,9 +19,7 @@ docs/
 │   ├── preparation.md        # Preparation
 │   ├── part1.md              # Part 1: Experience Vector Search
 │   ├── part2.md              # Part 2: Add features with IBM Bob
-│   ├── part3.md              # Part 3: Verification and Review
 │   ├── summary.md            # Summary
-│   ├── feedback.md           # Participant feedback form
 │   └── translation-sync.md   # Internal translation sync guide
 ├── images/                   # Diagrams and SVG images
 ├── stylesheets/              # Custom CSS (modularized)
@@ -32,7 +28,6 @@ docs/
 │   ├── navigation.css        # Navigation styles
 │   ├── code.css              # Code block styles
 │   ├── components.css        # UI component styles
-│   ├── feedback.css          # Feedback form styles
 │   └── language-switcher.css # Language switcher styles
 └── javascripts/              # Custom JavaScript (modularized)
     ├── site-config.js        # Shared site paths and language settings
@@ -40,7 +35,6 @@ docs/
     ├── navigation.js         # Navigation functionality
     ├── toc-indicator.js      # TOC current-section reading indicator
     ├── tasks.js              # Task list functionality
-    ├── feedback.js           # Feedback form copy support
     ├── syntax-highlight.js   # Enhanced syntax highlighting
     └── language-switcher.js  # GitHub Pages language-link fixes
 ```
@@ -79,9 +73,6 @@ Main CSS file. Imports each module.
 - Admonition styles
 - Tab content styles
 
-### feedback.css
-
-- Feedback form layout and copy panel styles
 
 ### language-switcher.css
 
@@ -118,9 +109,6 @@ Provides task list functionality:
 - Saves checkbox state to localStorage
 - Restores state on page reload
 
-### feedback.js
-
-Builds a Slack-ready feedback message and copies it to the clipboard.
 
 ### syntax-highlight.js
 
@@ -166,7 +154,6 @@ extra_javascript:
   - javascripts/search.js
   - javascripts/navigation.js
   - javascripts/tasks.js
-  - javascripts/feedback.js
   - javascripts/syntax-highlight.js
   - javascripts/language-switcher.js
   - javascripts/your-new-feature.js  # new file

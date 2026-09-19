@@ -1,124 +1,74 @@
 # Summary
 
-This completes the Vector Search hands-on. Great work! 🍺
+## What You Built
 
-## What You Learned
+In about an hour you went from an empty OpenSearch node to a search API that:
 
-### Value of Building Blocks + IBM Bob
+- stores products and their **768-dimension watsonx.ai embeddings** in one k-NN index
+- answers the same question by **BM25**, by **k-NN**, or by both with normalised scores
+- was extended by **IBM Bob**, working from the Building Block IBM publishes for exactly this job
 
-- **Significant development time reduction**: Completed in approximately 90 minutes what would take days to weeks
-- **High-quality implementation**: Code generation based on best practices
-- **Natural language instructions**: Feature addition possible without programming knowledge
+## What to Remember
 
-### Implemented Features
+| Idea | Why it matters |
+|:---|:---|
+| One index, two kinds of query | Text fields and a `knn_vector` field live on the same document, which is what makes hybrid search possible |
+| The dimension is not yours to choose | It comes from the embedding model; change the model and rebuild the index |
+| Scores must be normalised before they are blended | BM25 is unbounded, k-NN similarity is not; raw addition lets the bigger scale win |
+| Neither mode is "better" | Exact wording favours keyword, described intent favours vector, production usually wants both |
 
-1. **Product image display**: Added images to search results
-2. **Price filter**: Filter by price range
-3. **Recommendation reason**: Display why a product is recommended
+## Taking This to watsonx.data
 
-### Vector Search Overview
+The hands-on cluster is a container on someone's laptop. IBM watsonx.data provides managed OpenSearch with the same k-NN plugin, and the participant scripts never assume which one they are talking to: host, port, user, password and TLS settings all come from `setup/participant/.env`, under the same variable names the upstream Building Block's ingestion asset uses.
 
-- Searches by understanding the "meaning" of words
-- Unlike traditional character search, finds similar meanings even with different phrasing
+```bash
+OPENSEARCH_HOST=your-cluster.databases.appdomain.cloud
+OPENSEARCH_PORT=30628
+OPENSEARCH_USER=ibm_cloud_user
+OPENSEARCH_PASSWORD=...
+OPENSEARCH_USE_SSL=true
+OPENSEARCH_VERIFY_CERTS=true
+```
 
-??? example "Use Cases in IBM Products"
-    - **watsonx Discovery**: Automatically extracts relevant information from large volumes of documents and presents optimal answers to user questions (product image display)
-    - **watsonx Assistant**: Understands customer inquiries and automatically generates optimal responses from similar past cases (price filter)
-    - **watsonx Orchestrate**: Understands entire business processes and automatically executes appropriate workflows according to user intent (recommendation reason)
+!!! note "Not verified here"
 
-??? example "Use Cases in Familiar Services"
-    - **Google Search**: Finds pages and answer candidates with similar meaning even when the words do not exactly match (recommendation reason)
-    - **Amazon**: Finds products by description or use case even when the product name is unknown, and recommends similar products (product image display, price filter, recommendation reason)
-    - **YouTube**: Suggests videos users may want to watch next based on viewing history and video similarity (product image display, recommendation reason)
-    - **Netflix**: Recommends titles close to watched genres, atmosphere, and viewing patterns (product image display, recommendation reason)
-    - **Spotify**: Finds music close to favorite songs or playlists and reflects it in recommendations and automatic playlists (product image display, recommendation reason)
-    - **Instagram**: Ranks posts and ads based on similarity in photos, videos, hashtags, and interests (product image display, recommendation reason)
-    - **Facebook**: Shows feeds, groups, and ads close to post content and user interests (product image display, recommendation reason)
-    - **TikTok**: Recommends short videos close to user preferences based on watching, skipping, and likes (product image display, recommendation reason)
-    - **Google Photos / Apple Photos**: Finds photos with meaning close to words such as "sea", "dog", or "sunset" (product image display)
-    - **ChatGPT / AI Chat**: Searches internal documents or knowledge close to a question and uses them as answer evidence (recommendation reason)
+    This hands-on has not been run against a live watsonx.data OpenSearch cluster. The point above is about how the code is wired — nothing in it is specific to the container — not a tested migration path. Provision a cluster and try it before promising a customer a five-minute switch.
 
-## Deployment to Production Environment
+What a real deployment adds beyond this kit: document ingestion from IBM Cloud Object Storage, chunking, an authentication layer in front of the API, index lifecycle management, and — if you are building RAG — a generation step after retrieval. The Building Block's workflow covers those stages too.
 
-### Current Configuration (For Learning)
+## How This Differs from the Existing DSCE Assets
 
-- **Hugging Face + Milvus**: Completely free, offline support, optimal for learning
+Worth repeating now that you have run it:
 
-### Migration to IBM Products
+- **A kit, not a demonstration.** One repository, one container, one set of credentials, reproducible by anyone.
+- **The Building Block is the subject.** You ran the mode and skill IBM publishes, not a rewrite of them.
+- **The comparison is the lesson.** Keyword, vector and hybrid over the same index and the same questions.
+- **Smallest useful system.** Retrieval only, so every moving part stayed visible.
 
-- **watsonx.ai**: Enterprise-grade, advanced models, commercial support
-- **watsonx.data**: Large-scale data integration, governance features, petabyte support
+Assets such as Orbital Suppliers, NexusIQ and Maximo Knowledge Hub show finished solutions to specific problems. This one shows the mechanism, and hands it over.
 
-### Selection Guide
+## Clean Up
 
-| Scale | Recommended Configuration |
-|------|---------|
-| Learning/PoC | Hugging Face + Milvus |
-| Small-scale production | Hugging Face + Milvus |
-| Medium-scale production | watsonx.ai + Milvus |
-| Large-scale production | watsonx.ai + watsonx.data |
+Delete your index (it lives on a shared cluster):
 
-## Value in Customer Systems
+```bash
+curl -sk -u "admin:$OPENSEARCH_PASSWORD" -X DELETE \
+  "https://$OPENSEARCH_HOST:$OPENSEARCH_PORT/$INDEX_NAME"
+```
 
-When integrating Vector Search into a customer's existing system, it is not enough to build only a search API. You need to connect data integration, embedding generation, vector databases, search APIs, screen display, and operations design. By using **Vector Search Builder + IBM Bob**, teams can reuse the foundation for technology selection and implementation while focusing on customer-specific requirements.
+Stop the demo application with ++ctrl+c++.
 
-**When integrating into a customer system without Vector Search Builder:**
+If you ran the cluster yourself:
 
-![Integrating into a customer system without Vector Search Builder](images/customer-system-without-building-blocks-en.svg)
+```bash
+cd setup/instructor
+./stop-all.sh
+```
 
-**When integrating into a customer system with Vector Search Builder + IBM Bob:**
+## Where to Go Next
 
-![Integrating into a customer system with Vector Search Builder + IBM Bob](images/customer-system-with-building-blocks-en.svg)
+- The Building Block sources: [ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks)
+- [OpenSearch k-NN documentation](https://docs.opensearch.org/latest/vector-search/)
+- [watsonx.ai supported embedding models](https://www.ibm.com/docs/en/watsonx/saas?topic=models-supported-embedding)
 
-This difference makes it easier to deliver the following value in projects.
-
-- **Faster startup**: Prepare the basic Vector Search configuration in a short time
-- **Focus on customer requirements**: Spend time on differentiating parts such as business data, screens, search conditions, and explanation text
-- **Easier iteration**: Quickly tune search results and UI by asking IBM Bob in natural language
-
-## Challenge
-
-??? challenge "Advanced Challenge: Comparison of Search Methods in Agentic RAG"
-
-    **Theme**: Investigate the differences in Harness Engineering between Lexical Search and Vector Search in Agentic RAG!
-
-    **Investigation Points**
-    
-    1. **Lexical Search**
-        - Traditional search like keyword matching, BM25
-        - Search accuracy through exact or partial matching
-        - Use cases in Agentic RAG
-    
-    2. **Vector Search**
-        - Search based on semantic similarity
-        - Representation learning through embedding models
-        - Use cases in Agentic RAG
-    
-    3. **Harness Engineering**
-        - How to combine both methods
-        - Hybrid search implementation patterns
-        - Scoring and re-ranking strategies
-    
-    4. **Differences in Agentic RAG**
-        - Impact on agent decision-making
-        - Relationship between search accuracy and response quality
-        - Cost and performance trade-offs
-    
-    **Recommended Approach**
-    
-    - Implement and compare both methods in actual use cases
-    - Quantitatively evaluate search accuracy, response time, and cost
-    - Utilize Building Blocks' Agent Builder mode
-    - Document and share evaluation results
-    
-    Through this challenge, you can understand important decision points in RAG system design.
-
-## Reference Materials
-
-- [Building Blocks Documentation](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
-- [Vector Search Builder Documentation](https://ibm-self-serve-assets.github.io/building-blocks-docs/data-core/retrieval/vector-search/?h=vector)
-- [IBM Bob IDE Documentation](https://bob.ibm.com/docs/ide)
-- [Hugging Face Transformers](https://huggingface.co/docs/transformers)
-- [Sentence Transformers](https://www.sbert.net/)
-
-[Next →](feedback.md){ .workshop-next }
+Thank you for taking part.

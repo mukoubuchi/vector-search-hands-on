@@ -1,424 +1,172 @@
-# Part 1: Vector Search を体験しよう
+# Part 1: ベクトル検索を体験する
 
-このパートでは、Vector Search（ベクトル検索）がどのように動作するかを実際に体験します。
+この Part では、小さな商品カタログを OpenSearch に取り込み、同じ質問を 3 通りの方法で投げます。
 
-## このパートのゴール
+## この Part の目標
 
-- Vector Search とは何かを理解する
-- 実際に Vector Search を動かしてみる
-- 「意味で検索」の便利さを体感する
+- 埋め込みベクトルを実際に生成して、それが何かを確かめる
+- 1 つのインデックスに対してキーワード・ベクトル・ハイブリッドの検索を実行する
+- それぞれが失敗する質問を見つける
 
-## ステップ 1: Vector Search とは？
+## Step 1: 接続テストを実行する
 
-### 従来の検索の問題点
+このハンズオンは 2 つのサービスと通信します。商品を保存する OpenSearch と、テキストをベクトルに変換する watsonx.ai です。先に進む前に両方を確認します。
 
-#### 例: EC サイトで商品を探す場合
-
-**あなたの検索**: 「赤いスニーカー」
-
-**従来の検索結果**:
-
-- 「赤いスニーカー」→ 見つかる
-- 「赤色のランニングシューズ」→ 見つからない
-- 「レッドのスポーツシューズ」→ 見つからない
-
-**なぜ見つからない？**
-
-- 従来の検索は「文字」を探すだけ
-- 「赤い」と「赤色」は違う文字として扱われる
-
-### Vector Search の仕組み
-
-Vector Search は「意味」を理解して検索します。以下の図は、このハンズオンで作成するデモアプリにおいて、ユーザー入力をベクトルに変換し、Milvus で類似商品を検索する流れを説明したものです。
-
-<div class="vector-flow" role="group" aria-label="Vector Search の流れ" tabindex="0">
-  <div class="admonition vector-flow-step" style="--flow-tint: #f0f1f9">
-    <p class="admonition-title">ステップ 1: テキスト入力</p>
-    <p class="vector-flow-content"><strong>ユーザー入力</strong><br/>「赤いスニーカー」</p>
-  </div>
-  <div class="vector-flow-edge"><span>テキスト</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f1">
-    <p class="admonition-title">ステップ 2: ベクトル変換</p>
-    <p class="vector-flow-content"><strong>埋め込みモデル</strong><br/>テキスト → ベクトル</p>
-  </div>
-  <div class="vector-flow-edge"><span>変換</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f6f4f7">
-    <p class="admonition-title">ステップ 3: ベクトル表現</p>
-    <p class="vector-flow-content"><strong>ベクトル (384次元)</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
-  </div>
-  <div class="vector-flow-edge"><span>検索クエリ</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f5f9f7">
-    <p class="admonition-title">ステップ 4: 類似検索</p>
-    <p class="vector-flow-content"><strong>Milvus</strong><br/>ベクトルDB</p>
-  </div>
-  <div class="vector-flow-edge"><span>類似ベクトル</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
-    <p class="admonition-title">ステップ 5: 検索結果</p>
-    <p class="vector-flow-content"><strong>類似商品リスト</strong><br/>・赤いスポーツシューズ (0.5474)<br/>・赤いランニングシューズ (0.4681)<br/>・赤いトレーニングシューズ (0.4517)</p>
-  </div>
-</div>
-
-!!! info "ポイント"
-    - 意味が似ていると、ベクトルも似る
-    - コンピュータは数値の類似度を高速計算
-
-**あなたの検索**: 「赤いスニーカー」
-
-**Vector Search の結果**:
-
-- 「赤いスニーカー」→ 見つかる
-- 「赤色のランニングシューズ」→ 見つかる（意味が似ている）
-- 「レッドのスポーツシューズ」→ 見つかる（意味が似ている）
-
-**なぜ見つかる？**
-
-- Vector Search は「意味」を理解する
-- 「赤い」「赤色」「レッド」→ 同じ意味と理解
-- 「スニーカー」「ランニングシューズ」「スポーツシューズ」→ 似た意味と理解
-
-### Vector Search の動作
-
-```
-ステップ 1: テキストを数値に変換
-「赤いスニーカー」→ [0.2, 0.8, 0.1, 0.5, ...] （ベクトル）
-
-ステップ 2: 似た数値を探す
-データベースから似た数値のパターンを検索
-
-ステップ 3: 結果を返す
-似た意味の商品を返す
+```bash
+cd setup/participant
+python test_connection.py
 ```
 
-**ポイント**:
-
-- 「ベクトル」= 数値の配列
-- 意味が似ていると、数値のパターンも似る
-- コンピュータは数値の類似度を高速に計算できる
-
-## ステップ 2: 接続テストを実行
-
-!!! example "実践: ここから手を動かします"
-    
-    実際に Vector Search を動かす前に、必要なサービスに接続できるか確認します。
-
-IBM Bob のチャット画面で以下を入力:
+### 結果を確認する
 
 ```text
-Milvus に接続して
-```
-
-IBM Bob が自動的にスクリプトを実行し、接続テストを実施します。
-
-??? tip "手動で実行する場合"
-    ターミナルに以下を入力:
-    
-    ```bash
-    cd setup/participant
-    python test_connection.py
-    ```
-
-### 結果を確認
-
-#### 成功の場合
-
-```
 ==================================================
-Milvus 接続テスト
+OpenSearch と watsonx.ai の接続テスト
 ==================================================
 
 === 環境変数チェック ===
-✓ MILVUS_HOST: 192.168.1.100
-✓ MILVUS_PORT: 19530
-✓ MILVUS_USER: root
-✓ MILVUS_PASSWORD: ********
+✓ OPENSEARCH_HOST: ...
+✓ OPENSEARCH_PASSWORD: ********
+✓ IBM_API_KEY: ********
 
-=== Milvus 接続テスト ===
-接続先: 192.168.1.100:19530
-SSL: 無効
-認証: ユーザー名/パスワード認証
-✓ Milvus に接続できました
-✓ 既存のコレクション数: 0
+=== OpenSearch 接続テスト ===
+✓ OpenSearch に接続できました (バージョン 3.8.0)
+✓ k-NN プラグインが利用できます (opensearch-knn)
+✓ クラスターの状態: green
 
-==================================================
-テスト結果
-==================================================
-Milvus 接続: ✓ 成功
-
-✓ Milvus 接続テストに成功しました
-  次のステップ: ベクトル用コレクションを作成
+=== watsonx.ai 埋め込みテスト ===
+✓ 埋め込みベクトルを生成しました: ibm/granite-embedding-278m-multilingual
+✓ ベクトルの次元数: 768
 ```
 
-接続テスト、サンプルデータ投入スクリプト、デモアプリケーションは同じ `.env` の接続設定を使用します。このテストが成功していれば、以降の手順でも同じ Milvus のホスト、ポート、認証方式が使われます。
+次の手順で効いてくるのは最後の行です。この埋め込みモデルは、どんなテキストに対しても **768 個の数値**を返します。インデックスはちょうどこの数に合わせて作る必要があります。
 
-#### 失敗の場合
+??? question "うまくいかないとき"
 
-```
-✗ Milvus 接続エラー: Connection refused
-```
+    - **OpenSearch の接続エラー**: `setup/participant/.env` の `OPENSEARCH_HOST`、`OPENSEARCH_PORT`、`OPENSEARCH_PASSWORD` が講師から共有された値と一致しているか確認してください。
+    - **watsonx.ai のエラー**: `IBM_API_KEY` と `WATSONX_PROJECT_ID` を確認してください。API キーはアカウントに、プロジェクト ID はその中のプロジェクトに属します。両方が自分のものである必要があります。
+    - **プレースホルダーが残っている**: `<...>` のままの値はスクリプトが受け付けず、どの変数かをエラーに出します。
 
-**対処法**:
+## Step 2: インデックスを作って商品を投入する
 
-1. **`.env`** ファイルを確認
-    - `MILVUS_HOST` に講師から配布された IP アドレスが正しく入力されているか確認（[:material-cog: 設定方法](preparation.md#milvus_host)）
-    - `MILVUS_PASSWORD` が講師から配布されたパスワードになっているか確認 — "auth check failure" などの認証エラーは、パスワードの誤りかテンプレートのままになっていることが原因です
-2. インターネット接続を確認
-3. その他のエラーについては、[FAQ](#faq) を参照してください
-
-## ステップ 3: サンプルデータを投入
-
-!!! example "実践: Milvus にサンプルデータを投入"
-    
-    Vector Search を体験するために、まずサンプル商品データを投入します。
-
-IBM Bob のチャット画面で以下を入力:
-
-```text
-サンプルデータを投入して
+```bash
+python insert_sample_data.py
 ```
 
-IBM Bob が自動的にスクリプトを実行し、サンプルデータを投入します。
+このスクリプトは、watsonx.ai に 1 回だけ埋め込みを求め、その長さでインデックスを作り、サンプル商品 12 件を埋め込んで一括投入します。
 
-??? tip "手動で実行する場合"
-    ターミナルに以下を入力:
-    
-    ```bash
-    # プロジェクトのルートフォルダにいる場合
-    cd setup/participant
-    python insert_sample_data.py
-    ```
-
-    既に `setup/participant` フォルダにいる場合は、`cd setup/participant` は不要です。
-
-### 投入結果を確認
-
-以下のような表示が出れば成功:
-
-```
-==================================================
-✓ サンプルデータの挿入が完了しました
-==================================================
-
-コレクション名: products_taro  # .env で設定した自分専用の名前
-エンティティ数: 12
-
-デモアプリケーションを起動できます:
-  venv/bin/python app.py
-==================================================
-```
-
-**投入されたデータ**:
-
-- 商品数: 12 件
-- カテゴリ: スニーカー、カメラ、パソコン、バッグ
-- 各商品に商品名、価格、説明、埋め込みベクトルが含まれる
-- コレクション定義と検索対象フィールドはデモアプリケーションと共通化されているため、投入後すぐに検索できます
-
-## ステップ 4: Vector Search を体験
-
-!!! example "実践: Vector Search を動かしてみよう"
-    
-    サンプルデータの投入が成功したら、実際に Vector Search を体験しましょう。
-
-### デモアプリケーションを起動 {#app-restart}
-
-この手順はターミナルで実行します。事前準備で作成した仮想環境を有効化し、`requirements.txt` のパッケージがインストールされている状態で実行してください。
-
-=== ":fontawesome-brands-apple: Mac"
-    ```bash
-    cd ~/Desktop/vector-search-builder-ja/setup/participant
-    venv/bin/python app.py
-    ```
-
-=== ":fontawesome-brands-windows: Windows"
-    ```cmd
-    cd %USERPROFILE%\Desktop\vector-search-builder-ja\setup\participant
-    venv\Scripts\python app.py
-    ```
-
-既に `setup/participant` フォルダにいる場合は、`cd ...` の行は不要です。`venv/bin/python app.py` または `venv\Scripts\python app.py` を実行しても、すぐに反応がないように見える場合があります。起動処理に少し時間がかかるため、ターミナルに実行結果が表示されるまでそのまま待ってください。
-
-#### 起動に成功した場合
-
-次のような表示が出れば、アプリケーションは起動しています。
-
-```text
-============================================================
-✓ アプリケーションを起動しました
-============================================================
-
-Swagger UI: http://localhost:8002/docs
-============================================================
-
-INFO:     Application startup complete.
-```
-
-!!! warning "注意"
-    ターミナルを閉じるとアプリケーションが停止します。注意してください。
-
-#### 起動に失敗した場合
-
-`ModuleNotFoundError: No module named 'fastapi'` が表示された場合は、仮想環境に必要なパッケージがインストールされていません。必要なパッケージをインストールしてから（[:material-package-variant-closed: インストール方法](preparation.md#install-packages)）、もう一度デモアプリケーションを起動してください（[:material-play-circle: 起動方法](#app-restart)）。
-
-### 起動を確認
-
-Web ブラウザで以下の URL にアクセスして、Swagger UI が表示されることを確認:
-
-```text
-http://localhost:8002/docs
-```
-
-**Swagger UI** = API を視覚的にテストできるツール
-
-!!! success "起動成功"
-    
-    Swagger UI が表示されれば、アプリケーションは正常に起動しています。
-
-### 検索を試してみる
-
-#### ステップ 1: **`/search`** エンドポイントを開く
-
-1. Swagger UI 画面で **`/search`** を探す
-2. **`/search`** をクリック
-
-#### ステップ 2: 「Try it out」をクリック
-
-右上の「Try it out」ボタンをクリック
-
-#### ステップ 3: 検索クエリを入力
-
-「Request body」の欄に以下を入力:
+### 作られるもの
 
 ```json
 {
-  "query": "赤いスニーカー"
+  "product_name": { "type": "text" },
+  "description":  { "type": "text" },
+  "category":     { "type": "keyword" },
+  "price":        { "type": "integer" },
+  "embedding":    {
+    "type": "knn_vector",
+    "dimension": 768,
+    "space_type": "cosinesimil",
+    "method": { "name": "hnsw", "engine": "faiss",
+                "parameters": { "ef_construction": 128, "m": 24 } }
+  }
 }
 ```
 
-#### ステップ 4: 「Execute」をクリック
+注目したい点が 2 つあります。
 
-青い「Execute」ボタンをクリック
+- **同じドキュメントが 2 種類のデータを持っています**。`product_name` と `description` は BM25 のために解析され、`embedding` はベクトルを保持します。1 つのインデックスが両方の検索に答えられることが、ハイブリッド検索が成り立つ理由です。
+- **`dimension` はモデルに合わせます**。768 は `ibm/granite-embedding-278m-multilingual` が返す数です。`EMBEDDING_MODEL_ID` を変えたらインデックスを作り直す必要があります。
 
-#### ステップ 5: 結果を確認
+??? note "HNSW について簡単に"
 
-以下のような結果が表示されます（スコアは環境やモデルのバージョンによって多少変わります）:
+    問い合わせベクトルを全件と比較すれば正確ですが遅くなります。HNSW はベクトルの上に辿りやすいグラフを作り、その上を歩いて近いものを探します。再現率を少し犠牲にして速度を大きく得る仕組みです。`m` は各ノードが保持する近傍の数、`ef_construction` は構築時にどれだけ探索するかです。Building Block のワークフローは `ef_construction=128, m=24` を釣り合いの取れた出発点として勧めており、キットもその値を使っています。
+
+## Step 3: デモアプリケーションを起動する
+
+```bash
+python app.py
+```
+
+対話的な API ドキュメントが [http://localhost:8002/docs](http://localhost:8002/docs) で開きます。以下の検索はターミナルの代わりにこの画面からも実行できます。
+
+## Step 4: 同じ質問を 3 通りで投げる
+
+`/search` は `mode` を受け取ります。各質問を 3 つのモードで実行し、順位の動きを見てください。
+
+```bash
+curl -s -X POST http://localhost:8002/search \
+  -H 'Content-Type: application/json' \
+  -d '{"query": "赤いスニーカー", "mode": "keyword", "top_k": 3}'
+```
+
+`"mode"` を `"vector"`、`"hybrid"` に変えて同じように実行します。
+
+### 4 つの質問
+
+最初の 2 つはカタログに出てくる語を使い、あとの 2 つは使いません。
+
+| # | 質問 | 何を試しているか |
+|:--|:---|:---|
+| 1 | `赤いスニーカー` | データに出てくる語 |
+| 2 | `安いランニングシューズ` | 出てくる語に加えて、判断（「安い」）を含む語 |
+| 3 | `運動するときに履くもの` | トレーニングシューズという概念。その語は 1 つも含まない |
+| 4 | `旅行の思い出を残す機器` | カメラを、買い手の言い方で説明したもの |
+
+実行しながら次の表を埋めてください。
+
+| 質問 | `keyword` の 1 位 | `vector` の 1 位 | `hybrid` の 1 位 |
+|:---|:---|:---|:---|
+| 赤いスニーカー | | | |
+| 安いランニングシューズ | | | |
+| 運動するときに履くもの | | | |
+| 旅行の思い出を残す機器 | | | |
+
+### 応答の読み方
 
 ```json
 {
+  "mode": "hybrid",
   "results": [
     {
-      "product_name": "赤いスポーツシューズ",
-      "similarity_score": 0.5474,
-      "price": 7500,
-      "category": "スニーカー",
-      "description": "普段使いにもスポーツにも使える万能シューズ。クッション性に優れています。"
-    },
-    {
-      "product_name": "赤いランニングシューズ",
-      "similarity_score": 0.4681,
+      "product_name": "...",
+      "score": 0.87,
       "price": 8900,
       "category": "スニーカー",
-      "description": "軽量で通気性のよいランニングシューズ。初心者から上級者まで幅広く使えます。"
-    },
-    {
-      "product_name": "赤いトレーニングシューズ",
-      "similarity_score": 0.4517,
-      "price": 9800,
-      "category": "スニーカー",
-      "description": "ジムでのトレーニングに最適。安定感とグリップ力が特徴です。"
+      "description": "...",
+      "keyword_score": 0.74,
+      "vector_score": 1.0
     }
   ]
 }
 ```
 
-**結果の見方**:
+`hybrid` では、各結果がどちら側から来たのかが分かります。`keyword_score` と `vector_score` は、それぞれの順位付けのスコアを 0 〜 1 に直したもので、`score` はその合成値です。`keyword_score` が `0.0` の結果は、ベクトル側だけが見つけたものです。語は一度も一致していません。
 
-- **`product_name`**: 商品名
-- **`similarity_score`**: 類似度（0.0〜1.0、高いほど似ている）
-- **`price`**: 価格
-- **`category`**: カテゴリ
-- **`description`**: 説明
+!!! info "スコアを正規化する理由"
 
-### 色々な検索を試してみる
+    BM25 のスコアには上限が無く、コーパスによって大きさが変わります。k-NN の類似度はまた別の範囲に収まります。そのまま足すと、たまたま数値が大きい側が順位を決めてしまいます。先に各リストを min-max で 0 〜 1 に直すのが、Building Block のワークフローが「スコア正規化」と呼んでいる手順です。
 
-#### 例 1: 初心者向けの商品を探す
+### 重みを変えてみる
 
-```json
-{
-  "query": "初心者向けのカメラ"
-}
+`vector_weight` は、`hybrid` でベクトル側をどれだけ重視するかです。既定は `0.5` です。
+
+```bash
+curl -s -X POST http://localhost:8002/search \
+  -H 'Content-Type: application/json' \
+  -d '{"query": "運動するときに履くもの", "mode": "hybrid", "vector_weight": 0.9}'
 ```
 
-#### 例 2: ビジネス向けの商品を探す
+同じ質問を `0.1` と `0.9` で実行してみてください。`0.1` ではキーワード検索に近づき、`0.9` ではベクトル検索に近づきます。
 
-```json
-{
-  "query": "ビジネス向けのノートパソコン"
-}
-```
+## Step 5: いま見たこと
 
-#### 例 3: 高性能な商品を探す
+- **質問 1 と 2** は、キーワード検索が得意とする場合です。ベクトル検索も同じ商品を見つけることが多く、順位だけが変わることがあります。
+- **質問 3 と 4** は、カタログと共通する語がありません。キーワード検索には照合する相手がなく、ベクトル側が結果を支えます。
+- **ハイブリッド**は両方の性質を残します。実運用の検索エンジンがどちらか一方を選ばないのは、このためです。
 
-```json
-{
-  "query": "高性能なゲーミング PC"
-}
-```
+!!! success "チェックポイント"
 
-### Vector Search の凄さを実感
-
-色々な検索を試すと、以下のことに気づくはずです:
-
-**気づき 1: 言い方が違っても見つかる**
-
-- 「初心者向け」→「入門用」「ビギナー向け」も見つかる
-
-**気づき 2: 類似度スコアが便利**
-
-- スコアが高い = より似ている
-- 結果の信頼度が分かる
-
-**気づき 3: 説明文も考慮される**
-
-- 商品名だけでなく、説明文の意味も理解
-
-## Part 1 完了チェック
-
-- [ ] Vector Search とは何かを理解した
-- [ ] 従来の検索との違いを理解した
-- [ ] 接続テストが成功した
-- [ ] サンプルデータを投入できた
-- [ ] デモアプリケーションを起動できた
-- [ ] Swagger UI を開けた
-- [ ] 検索を実行できた
-- [ ] 色々な検索を試した
-
-## FAQ
-
-??? question "Q1: Swagger UI が開けない"
-
-    対処法:
-    
-    1. アプリケーションが起動しているか確認
-    2. URL が正しいか確認（**`http://localhost:8002/docs`**）
-    3. ブラウザを変えてみる
-
-??? question "Q2: 検索結果が 0 件"
-
-    対処法:
-    
-    1. サンプルデータが投入されているか確認
-    2. 検索クエリを変えてみる
-
-??? question "Q3: 類似度スコアが極端に低い"
-
-    対処法:
-
-    1. 最新の `insert_sample_data.py` でサンプルデータを再投入
-    2. デモアプリケーションを手動で再起動
-        1. アプリケーションを起動しているターミナルで ++ctrl+c++ （停止）
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](#app-restart)）
-    3. Swagger UI で再度検索
-
-    既存データが古い検索メトリックで作成されている場合、スコアが 0.06 のように低く表示されることがあります。
+    語による検索と意味による検索の両方に答えるインデックスが 1 つでき、どちらの側がその結果を出したのかも分かるようになりました。Part 2 では、次の変更を IBM Bob に任せます。
 
 [次へ →](part2.md){ .workshop-next }

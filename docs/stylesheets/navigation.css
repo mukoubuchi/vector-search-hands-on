@@ -292,7 +292,7 @@
     background-color: var(--md-primary-fg-color) !important;
 }
 
-/* Match the former feedback action button; keep page navigation independent. */
+/* Page-to-page navigation button at the foot of each hands-on page. */
 .md-typeset .workshop-next {
     background: var(--md-primary-fg-color);
     border: 0;
