@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to stop the Milvus environment, MkDocs documentation, and FastAPI demo
+# Script to stop the OpenSearch environment, MkDocs documentation, and FastAPI demo
 
 set -e
 
@@ -79,11 +79,11 @@ fi
 
 echo ""
 
-# Stop Milvus environment, MkDocs, and FastAPI demo
-echo "Stopping Milvus environment, MkDocs documentation, and FastAPI demo..."
+# Stop OpenSearch, MkDocs, and FastAPI demo
+echo "Stopping OpenSearch, MkDocs documentation, and FastAPI demo..."
 if $COMPOSE_CMD --profile all down; then
     log_info "Docker containers stopped"
-    echo "  - etcd, minio, milvus"
+    echo "  - opensearch"
     echo "  - mkdocs (container version, port 8001)"
 else
     log_error "Failed to stop Docker containers"

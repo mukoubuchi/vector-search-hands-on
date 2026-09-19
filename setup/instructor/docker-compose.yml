@@ -1,75 +1,45 @@
 services:
-  # Milvus environment (3 services)
-  # Component versions follow the official Milvus v2.6.18 standalone compose file
-  etcd:
-    image: quay.io/coreos/etcd:v3.5.25
-    profiles: ["milvus", "all"]
+  # OpenSearch (single node, k-NN plugin bundled in the official distribution)
+  opensearch:
+    image: opensearchproject/opensearch:3.8.0
+    profiles: ["opensearch", "all"]
     environment:
-      - ETCD_AUTO_COMPACTION_MODE=revision
-      - ETCD_AUTO_COMPACTION_RETENTION=1000
-      - ETCD_QUOTA_BACKEND_BYTES=4294967296
-      - ETCD_SNAPSHOT_COUNT=50000
+      - discovery.type=single-node
+      - cluster.name=vector-search-hands-on
+      - node.name=opensearch
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
+      # Generated into setup/instructor/.env by start-all.sh on first start.
+      # The security plugin refuses to start without a compliant password.
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD:?run ./start-all.sh, which generates this}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
     volumes:
-      - etcd_data:/etcd
-    command: etcd -advertise-client-urls=http://etcd:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
-    healthcheck:
-      test: ["CMD", "etcdctl", "endpoint", "health"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-
-  minio:
-    image: minio/minio:RELEASE.2024-12-18T13-15-44Z
-    profiles: ["milvus", "all"]
-    environment:
-      # Credentials are generated into setup/instructor/.env by start-all.sh
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
-    # MinIO is only used internally by Milvus; never expose it to the network
+      - opensearch_data:/usr/share/opensearch/data
     ports:
-      - "127.0.0.1:9001:9001"
-      - "127.0.0.1:9000:9000"
-    volumes:
-      - minio_data:/minio_data
-    command: minio server /minio_data --console-address ":9001"
+      # Participants connect here over HTTPS (self-signed certificate)
+      - "9200:9200"
+      # Performance analyzer is for the instructor machine only
+      - "127.0.0.1:9600:9600"
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-
-  milvus:
-    image: milvusdb/milvus:v2.6.18
-    profiles: ["milvus", "all"]
-    command: ["milvus", "run", "standalone"]
-    security_opt:
-      - seccomp:unconfined
-    environment:
-      ETCD_ENDPOINTS: etcd:2379
-      MINIO_ADDRESS: minio:9000
-      MINIO_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
-      MQ_TYPE: woodpecker
-      # Enforce user/password authentication (without this, any credentials are accepted)
-      COMMON_SECURITY_AUTHORIZATIONENABLED: "true"
-    volumes:
-      - milvus_data:/var/lib/milvus
-    ports:
-      - "19530:19530"
-      # Metrics endpoint is for the instructor machine only
-      - "127.0.0.1:9091:9091"
-    depends_on:
-      - "etcd"
-      - "minio"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
-      interval: 30s
-      start_period: 90s
-      timeout: 20s
-      retries: 3
+      test:
+        - CMD-SHELL
+        - >-
+          curl -sk -u "admin:$${OPENSEARCH_INITIAL_ADMIN_PASSWORD}"
+          https://localhost:9200/_cluster/health
+          | grep -qE '"status":"(green|yellow)"'
+      interval: 15s
+      start_period: 60s
+      timeout: 10s
+      retries: 10
 
   # MkDocs documentation server (for sharing)
-  # Note: On macOS container VMs (Colima, Docker Desktop, etc.), automatic
+  # Note: On macOS container VMs (Colima, Podman, etc.), automatic
   # file change detection does not work
   # Use `python -m mkdocs serve` (port 8000) for development
   # This container is for sharing with participants (port 8001)
@@ -89,16 +59,14 @@ services:
     restart: unless-stopped
 
 volumes:
-  etcd_data:
-  minio_data:
-  milvus_data:
+  opensearch_data:
 
 # Profile usage examples:
 # - Start all services:    docker compose --profile all up -d
-# - Milvus only:           docker compose --profile milvus up -d
+# - OpenSearch only:       docker compose --profile opensearch up -d
 # - Documentation only:    docker compose --profile docs up -d
 # - Stop all services:     docker compose --profile all down
 #
-# Upgrading from Milvus 2.3.x: the storage format is not compatible.
-# Reset the volumes first (sample data can simply be re-inserted):
+# The index format is tied to the OpenSearch major version. When upgrading
+# across majors, reset the volume first (sample data is simply re-inserted):
 #   docker compose --profile all down -v

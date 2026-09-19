@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to start the Milvus environment and MkDocs documentation
+# Script to start the OpenSearch environment and MkDocs documentation
 
 set -e
 
@@ -13,9 +13,12 @@ source "$SCRIPT_DIR/../../lib/common.sh"
 cd "$SCRIPT_DIR"
 
 ENV_FILE="$SCRIPT_DIR/.env"
+OPENSEARCH_URL="https://localhost:9200"
 
+# The security plugin rejects a weak password, so the generated value carries
+# an upper-case letter, a lower-case letter, a digit and a symbol by construction
 generate_secret() {
-    LC_ALL=C tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 20
+    printf 'Os%s!7' "$(LC_ALL=C tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 20)"
 }
 
 # Read NAME=value from .env (strips trailing inline comments)
@@ -37,78 +40,51 @@ write_env_value() {
     fi
 }
 
-# Generate credentials on first start; never keep the documented defaults
+# Generate the admin password on first start; the containers read it from .env
 ensure_credentials() {
-    local milvus_password minio_password
+    local password
 
-    milvus_password="$(read_env_value MILVUS_PASSWORD)"
-    if [ -z "$milvus_password" ] || [ "$milvus_password" = "Milvus" ]; then
-        milvus_password="$(generate_secret)"
-        write_env_value MILVUS_PASSWORD "$milvus_password"
-        log_info "Generated Milvus root password (stored in setup/instructor/.env)"
+    password="$(read_env_value OPENSEARCH_INITIAL_ADMIN_PASSWORD)"
+    if [ -z "$password" ]; then
+        password="$(generate_secret)"
+        write_env_value OPENSEARCH_INITIAL_ADMIN_PASSWORD "$password"
+        log_info "Generated OpenSearch admin password (stored in setup/instructor/.env)"
     fi
-    export MILVUS_PASSWORD="$milvus_password"
+    export OPENSEARCH_INITIAL_ADMIN_PASSWORD="$password"
 
-    minio_password="$(read_env_value MINIO_ROOT_PASSWORD)"
-    if [ -z "$minio_password" ] || [ "$minio_password" = "minioadmin" ]; then
-        minio_password="$(generate_secret)"
-        write_env_value MINIO_ROOT_PASSWORD "$minio_password"
-        log_info "Generated MinIO root password (stored in setup/instructor/.env)"
-    fi
-    export MINIO_ROOT_PASSWORD="$minio_password"
+    # The participant-style scripts read OPENSEARCH_PASSWORD; keep both in sync
+    write_env_value OPENSEARCH_PASSWORD "$password"
 }
 
-wait_for_milvus() {
+wait_for_opensearch() {
     local retries=60
+    local health
 
-    echo "Waiting for Milvus to become healthy (this can take a minute)..."
+    echo "Waiting for OpenSearch to become healthy (this can take a minute)..."
     while [ "$retries" -gt 0 ]; do
-        if curl -sf http://localhost:9091/healthz > /dev/null 2>&1; then
-            log_info "Milvus is healthy"
+        health="$(curl -sk -u "admin:${OPENSEARCH_INITIAL_ADMIN_PASSWORD}" \
+            "$OPENSEARCH_URL/_cluster/health" 2>/dev/null || true)"
+        if echo "$health" | grep -qE '"status":"(green|yellow)"'; then
+            log_info "OpenSearch is healthy"
             return 0
         fi
         sleep 3
         retries=$((retries - 1))
     done
 
-    log_error "Milvus did not become healthy in time"
-    echo "  Check the logs with: $COMPOSE_CMD --profile all logs milvus"
+    log_error "OpenSearch did not become healthy in time"
+    echo "  Check the logs with: $COMPOSE_CMD --profile all logs opensearch"
     return 1
 }
 
-# Replace the default root password with the generated one (idempotent)
-rotate_milvus_password() {
-    if ! python3 -c "import pymilvus" 2>/dev/null; then
-        log_warn "pymilvus is not installed for python3; cannot rotate the Milvus root password automatically"
-        echo "  Install it (pip install pymilvus) and rerun ./start-all.sh."
-        return 0
+# The hands-on needs the k-NN plugin; report it instead of failing later
+report_knn_plugin() {
+    if curl -sk -u "admin:${OPENSEARCH_INITIAL_ADMIN_PASSWORD}" \
+        "$OPENSEARCH_URL/_cat/plugins?h=component" 2>/dev/null | grep -q '^opensearch-knn'; then
+        log_info "k-NN plugin is available"
+    else
+        log_warn "k-NN plugin was not found; vector search will not work"
     fi
-
-    python3 - "$MILVUS_PASSWORD" <<'PYEOF'
-import sys
-from pymilvus import connections, utility
-
-new_password = sys.argv[1]
-
-try:
-    connections.connect(alias="check", host="localhost", port="19530",
-                        user="root", password=new_password)
-    connections.disconnect("check")
-    print("✓ Milvus root password is already set")
-    sys.exit(0)
-except Exception:
-    pass
-
-try:
-    connections.connect(alias="rotate", host="localhost", port="19530",
-                        user="root", password="Milvus")
-    utility.reset_password("root", "Milvus", new_password, using="rotate")
-    connections.disconnect("rotate")
-    print("✓ Milvus root password rotated away from the default")
-except Exception as exc:
-    print(f"WARNING: could not rotate the Milvus root password automatically: {exc}")
-    print("Rotate it manually, then update MILVUS_PASSWORD in setup/instructor/.env.")
-PYEOF
 }
 
 # Print header
@@ -126,11 +102,11 @@ ensure_credentials
 
 echo ""
 
-# Start Milvus environment and MkDocs
-echo "Starting Milvus environment and MkDocs documentation..."
+# Start OpenSearch and MkDocs
+echo "Starting OpenSearch and MkDocs documentation..."
 if $COMPOSE_CMD --profile all up -d --build; then
     log_info "All services started"
-    echo "  - etcd, minio, milvus"
+    echo "  - opensearch"
     echo "  - mkdocs (documentation server)"
 else
     log_error "Failed to start services"
@@ -139,20 +115,20 @@ fi
 
 echo ""
 
-wait_for_milvus
-rotate_milvus_password
+wait_for_opensearch
+report_knn_plugin
 
 echo ""
 log_header "All services started successfully"
 LOCAL_IP="$(get_ip_address)"
 echo "Access information:"
 echo ""
-echo "  Milvus:"
+echo "  OpenSearch:"
 echo "    - Host: localhost"
-echo "    - Port: 19530"
-echo "    - User: root"
-echo "    - Password: ${MILVUS_PASSWORD}"
-echo "      (also stored as MILVUS_PASSWORD in setup/instructor/.env)"
+echo "    - Port: 9200 (HTTPS, self-signed certificate)"
+echo "    - User: admin"
+echo "    - Password: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD}"
+echo "      (also stored as OPENSEARCH_PASSWORD in setup/instructor/.env)"
 echo ""
 echo "  MkDocs:"
 echo "    - Container version (port 8001): http://localhost:8001  (running)"
@@ -166,14 +142,15 @@ echo ""
 echo "Next steps:"
 echo ""
 echo "  1. Information to share with participants (for local delivery):"
-echo "     - Milvus host: ${LOCAL_IP}:19530"
-echo "     - Milvus password: ${MILVUS_PASSWORD}"
+echo "     - OpenSearch host: ${LOCAL_IP}:9200"
+echo "     - OpenSearch password: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD}"
 echo "     - Documentation: http://${LOCAL_IP}:8001"
+echo "     - Remind them to set a unique INDEX_NAME in setup/participant/.env"
 echo ""
 echo "  2. Delivery methods for remote participants:"
 echo "     - Private network such as Tailscale/VPN (recommended): see README"
 echo "     - GitHub Pages for documentation: see setup/instructor/deploy-docs-to-cloud.md"
-echo "     - ngrok TCP (fallback; traffic is not encrypted): ngrok tcp 19530"
+echo "     - ngrok TCP (fallback): ngrok tcp 9200"
 echo ""
 echo "  3. If document editing is needed:"
 echo "     - Move to project root: cd ../.."
@@ -188,7 +165,7 @@ echo "       - Foreground execution: Ctrl+C"
 echo "       - Background execution: cd setup/instructor && ./stop-all.sh"
 echo "       - Manual stop: kill \$(lsof -ti:8000)"
 echo ""
-echo "  See: setup/instructor/deploy-docs-to-cloud.md"
+echo "     See: setup/instructor/deploy-docs-to-cloud.md"
 echo ""
 echo "=========================================="
 echo ""
