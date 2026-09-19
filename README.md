@@ -55,14 +55,9 @@ which is not valid YAML — a block scalar indicator must end its line — so Py
 
 `lib/check_upstream_building_blocks.sh` re-downloads both archives at the pinned commit, verifies their blob ids, applies that one line and diffs the result against what the repository ships. CI runs it on every build, so any upstream drift fails loudly.
 
-## IBM Bob: Two Products
+## IBM Bob
 
-The hands-on covers both, and every Bob step in the documentation is written for both:
-
-- **IBM Bob IDE** (desktop application) — version **2.1.0**
-- **Bob shell** (command line) — version **2.0.4**
-
-They are separate products on separate release lines; the version numbers are not meant to match.
+Every Bob step in the documentation is written for the **IBM Bob IDE** (desktop application), version **2.1.0**. IBM also ships **Bob shell**, a command-line product on its own release line with its own version number; this hands-on does not cover it.
 
 ## Architecture
 
@@ -139,7 +134,7 @@ Distributed packages (from the [latest release assets](https://github.com/mukoub
 Both contain the same scripts; each carries the sample data and `.env.example` for its language. Instructor files, documentation, local `.env` files and caches are excluded.
 
 1. Unzip into a working folder — this also installs the Building Block, since `.bob/` lands at the folder root.
-2. Open that folder in IBM Bob IDE, or point Bob shell at it.
+2. Open that folder in IBM Bob IDE and trust it when the Restricted Mode banner asks — Bob stays hidden until you do.
 3. Create `setup/participant/.env` from `.env.example` and fill in the OpenSearch connection details, your IBM Cloud API key and watsonx.ai project ID, and an `INDEX_NAME` unique to you — the cluster is shared.
 4. Select the **OpenSearch Vector Search Builder** mode.
 5. `pip install -r setup/participant/requirements.txt`, then `python test_connection.py`.
@@ -159,7 +154,7 @@ Japanese documentation: [docs/ja/](docs/ja/)
 
 ## Requirements
 
-- IBM Bob IDE 2.1.0 or Bob shell 2.0.4
+- IBM Bob IDE 2.1.0
 - Python 3.11 – 3.14 (`ibm-watsonx-ai` declares `>=3.11,<3.15`)
 - An IBM Cloud API key and a watsonx.ai project ID
 - A container runtime (Colima or Podman) — instructors, and anyone running the cluster themselves
@@ -167,7 +162,7 @@ Japanese documentation: [docs/ja/](docs/ja/)
 ## Tech Stack
 
 - **Building Block**: OpenSearch Vector Search Builder (IBM Bob custom mode and skill)
-- **AI development assistant**: IBM Bob IDE 2.1.0 / Bob shell 2.0.4
+- **AI development assistant**: IBM Bob IDE 2.1.0
 - **Search engine**: OpenSearch 3.8.0 with the k-NN plugin (opensearch-py 3.2)
 - **Embeddings**: IBM watsonx.ai, `ibm/granite-embedding-278m-multilingual` (768 dimensions, ibm-watsonx-ai 1.7)
 - **Web framework**: FastAPI 0.141 / Uvicorn

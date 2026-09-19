@@ -6,7 +6,7 @@ Part 1 ran the search. This part changes it — without you writing the code.
 
 - Add two features by describing them in plain language
 - Watch what the Building Block contributes to the answer
-- Learn the loop: instruct, read the proposal, approve, verify
+- Learn the loop: instruct, read what changed, verify
 
 ## How the Loop Works
 
@@ -103,6 +103,13 @@ than top_k results. Apply it inside the knn query instead.
 
 Bob keeps the context of the file it just edited, so a correction is cheaper than a rewrite. If you want to abandon a change entirely, `git diff` shows exactly what was touched.
 
+!!! tip "If it starts searching your whole machine"
+
+    Bob sometimes goes looking for tooling — in one of our runs it started a
+    `find` across the entire filesystem hunting for a test runner. That is slow and
+    buys you nothing here. Press ++esc++ to stop it; the edits it has already
+    applied stay applied.
+
 !!! tip "Ask it to explain itself"
 
     ```text
@@ -117,6 +124,6 @@ You changed a hybrid search engine twice, in plain language, and the changes wer
 
 !!! success "Checkpoint"
 
-    `/search` now filters by price and explains its matches, and you have seen the instruct-review-approve-verify loop end to end.
+    `/search` now filters by price and explains its matches, and you have run the instruct-read-verify loop end to end.
 
 [Next →](summary.md){ .workshop-next }
