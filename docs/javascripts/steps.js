@@ -10,7 +10,7 @@
  *
  * Only the step's own heading is marked (.step__title) and gets a circle;
  * non-step sub-headings inside a step keep their normal styling. Steps are
- * meant to be the smallest unit, so nesting is not expected — but if a deeper
+ * meant to be the smallest unit, so nesting is not expected, but if a deeper
  * step run appears inside a step it nests properly (smaller circles per depth,
  * see components.css) and is still numbered from its own heading.
  *

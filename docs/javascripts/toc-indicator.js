@@ -1,8 +1,8 @@
 /**
  * TOC reading-position indicator
  *
- * Highlights every section currently on screen — not just the single one
- * the theme's scroll-spy marks active — with a link-colored segment on the
+ * Highlights every section currently on screen, not just the single one
+ * the theme's scroll-spy marks active, with a link-colored segment on the
  * table-of-contents rail (see navigation.css). A section counts as on
  * screen when its own content range (from its heading down to the next
  * heading, of any level) overlaps the viewport, so a parent heading drops
@@ -11,7 +11,7 @@
  *
  * Headings nested inside an admonition (??? / !!!) are collapsible aside
  * content, not page structure, so their TOC entries are pruned and they
- * are excluded from the on-screen calculation — the enclosing real section
+ * are excluded from the on-screen calculation; the enclosing real section
  * stays highlighted while you read through the admonition.
  */
 (function() {

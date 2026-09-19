@@ -364,8 +364,8 @@
     padding-bottom: 0;
 }
 
-/* Connecting line: spans every step's full height — including the last one,
-   so the rail runs to the end of the final section — forming one continuous
+/* Connecting line: spans every step's full height, including the last one,
+   so the rail runs to the end of the final section, forming one continuous
    line. Each opaque circle is painted on top, leaving a gap at its step. */
 .md-typeset .step::before {
     content: "";
@@ -378,7 +378,7 @@
 }
 
 /* Strip the per-heading decorations (injected icon, underline, h4 box) from
-   the step's own title only — non-step sub-headings inside a step keep their
+   the step's own title only; non-step sub-headings inside a step keep their
    normal styling. */
 .md-typeset .step > .step__title::before {
     display: none;
