@@ -359,10 +359,10 @@ Python 3.10 以上がインストールされていない場合は、インス�
 
 !!! tip "Linux の方: CPU 版 torch を先にインストール"
 
-    Linux ではデフォルトの `torch` ホイールに CUDA ライブラリが含まれるため数 GB になります。`pip install -r requirements.txt` の**前に**以下を実行すると、大幅に小さく高速にインストールできます:
+    Linux ではデフォルトの `torch` ホイールに CUDA ライブラリが含まれるため数 GB になります。`pip install -r requirements.txt` の**前に**以下を実行すると、大幅に小さく高速にインストールできます。`requirements.txt` で指定した版の `torch` の CPU 版が入ります:
 
     ```bash
-    venv/bin/python -m pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
+    venv/bin/python -m pip install "torch==$(grep -E '^torch==' requirements.txt | cut -d= -f3)" --index-url https://download.pytorch.org/whl/cpu
     ```
 
 ??? note "venv 内の Python を直接指定する理由"
