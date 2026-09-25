@@ -138,7 +138,7 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
 
 ### 2. Connection Information
 
-#### Milvus (Vector Database)
+#### Milvus (Vector Database) {#milvus_host}
 
 Configure the IP address distributed by the instructor.
 
@@ -169,8 +169,6 @@ Configure the IP address distributed by the instructor.
         ```
 
 3. Open the **`.env`** file and enter the connection information distributed by the instructor
-
-    #### Milvus Connection Settings {#milvus_host}
 
     === "On-site (same network)"
 
