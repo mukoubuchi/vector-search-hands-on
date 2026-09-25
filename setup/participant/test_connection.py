@@ -5,7 +5,7 @@ Milvus connection test script
 
 import os
 import sys
-from common import get_milvus_connect_params, msg
+from common import create_milvus_client, get_milvus_connect_params, msg
 
 
 SECRET_VARS = {"MILVUS_PASSWORD"}
@@ -38,25 +38,24 @@ def test_milvus_connection():
     print(f"\n=== {msg('Milvus Connection Test', 'Milvus 接続テスト')} ===")
 
     try:
-        from pymilvus import connections, utility
-
         connect_params = get_milvus_connect_params()
 
         print(f"{msg('Connecting to', '接続先')}: {connect_params['host']}:{connect_params['port']}")
         print(f"{msg('Auth', '認証')}: {msg('user/password auth', 'ユーザー名/パスワード認証')}")
 
         # Connect
-        connections.connect(**connect_params)
+        client = create_milvus_client(connect_params)
 
         # Verify connection
         print(msg("✓ Connected to Milvus successfully", "✓ Milvus に接続できました"))
 
         # List collections
-        collections = utility.list_collections()
+        collections = client.list_collections()
         print(f"✓ {msg('Existing collections', '既存のコレクション数')}: {len(collections)}")
         if collections:
             print(f"  {msg('Collections', 'コレクション')}: {', '.join(collections)}")
 
+        client.close()
         return True
 
     except ImportError:

@@ -9,7 +9,7 @@
       <description>Standard Milvus connection with error handling</description>
       <code>
         <![CDATA[
-from pymilvus import connections, utility
+from pymilvus import MilvusClient
 import os
 import logging
 
@@ -18,24 +18,21 @@ logger = logging.getLogger(__name__)
 def connect_to_milvus():
     """Connect to Milvus with retry logic"""
     try:
-        connections.connect(
-            alias="default",
-            host=os.getenv("MILVUS_HOST"),
-            port=os.getenv("MILVUS_PORT", "19530"),
+        client = MilvusClient(
+            uri=f"https://{os.getenv('MILVUS_HOST')}:{os.getenv('MILVUS_PORT', '19530')}",
             user=os.getenv("MILVUS_USER"),
-            password=os.getenv("MILVUS_PASSWORD"),
-            secure=True
+            password=os.getenv("MILVUS_PASSWORD")
         )
         logger.info("Connected to Milvus successfully")
-        return True
+        return client
     except Exception as e:
         logger.error(f"Failed to connect to Milvus: {e}")
-        return False
+        return None
 
-def verify_connection():
+def verify_connection(client: MilvusClient):
     """Verify Milvus connection is active"""
     try:
-        collections = utility.list_collections()
+        collections = client.list_collections()
         logger.info(f"Active collections: {collections}")
         return True
     except Exception as e:
@@ -89,72 +86,68 @@ def connect_to_opensearch():
       <description>Create Milvus collection with standard schema</description>
       <code>
         <![CDATA[
-from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
+from pymilvus import DataType, MilvusClient
 
 def create_collection(
+    client: MilvusClient,
     collection_name: str,
     dimension: int = 768,
     description: str = "Vector search collection"
 ):
     """Create Milvus collection with standard schema"""
     
-    # Define fields
-    fields = [
-        FieldSchema(
-            name="id",
-            dtype=DataType.INT64,
-            is_primary=True,
-            auto_id=True
-        ),
-        FieldSchema(
-            name="embedding",
-            dtype=DataType.FLOAT_VECTOR,
-            dim=dimension
-        ),
-        FieldSchema(
-            name="text",
-            dtype=DataType.VARCHAR,
-            max_length=65535
-        ),
-        FieldSchema(
-            name="source",
-            dtype=DataType.VARCHAR,
-            max_length=512
-        ),
-        FieldSchema(
-            name="metadata",
-            dtype=DataType.JSON
-        )
-    ]
-    
     # Create schema
-    schema = CollectionSchema(
-        fields=fields,
-        description=description
+    schema = MilvusClient.create_schema(description=description)
+    
+    # Define fields
+    schema.add_field(
+        field_name="id",
+        datatype=DataType.INT64,
+        is_primary=True,
+        auto_id=True
+    )
+    schema.add_field(
+        field_name="embedding",
+        datatype=DataType.FLOAT_VECTOR,
+        dim=dimension
+    )
+    schema.add_field(
+        field_name="text",
+        datatype=DataType.VARCHAR,
+        max_length=65535
+    )
+    schema.add_field(
+        field_name="source",
+        datatype=DataType.VARCHAR,
+        max_length=512
+    )
+    schema.add_field(
+        field_name="metadata",
+        datatype=DataType.JSON
     )
     
     # Create collection
-    collection = Collection(
-        name=collection_name,
+    client.create_collection(
+        collection_name=collection_name,
         schema=schema
     )
     
     # Create HNSW index
-    index_params = {
-        "metric_type": "COSINE",
-        "index_type": "HNSW",
-        "params": {
+    index_params = MilvusClient.prepare_index_params()
+    index_params.add_index(
+        field_name="embedding",
+        index_type="HNSW",
+        metric_type="COSINE",
+        params={
             "M": 16,
             "efConstruction": 256
         }
-    }
-    
-    collection.create_index(
-        field_name="embedding",
-        index_params=index_params
     )
     
-    return collection
+    client.create_index(
+        collection_name=collection_name,
+        index_params=index_params
+    )
         ]]>
       </code>
     </pattern>
@@ -234,7 +227,8 @@ from typing import List, Dict
 from tqdm import tqdm
 
 def batch_ingest_milvus(
-    collection: Collection,
+    client: MilvusClient,
+    collection_name: str,
     documents: List[Dict],
     embeddings_client,
     batch_size: int = 100
@@ -266,7 +260,7 @@ def batch_ingest_milvus(
                 ]
                 
                 # Insert
-                collection.insert(data)
+                client.insert(collection_name=collection_name, data=data)
                 total_inserted += len(batch)
                 pbar.update(len(batch))
                 
@@ -275,7 +269,7 @@ def batch_ingest_milvus(
                 pbar.update(len(batch))
     
     # Flush to persist
-    collection.flush()
+    client.flush(collection_name=collection_name)
     logger.info(f"Ingested {total_inserted} documents")
     
     return total_inserted
@@ -341,7 +335,8 @@ def batch_ingest_opensearch(
       <code>
         <![CDATA[
 def search_milvus(
-    collection: Collection,
+    client: MilvusClient,
+    collection_name: str,
     embeddings_client,
     query: str,
     top_k: int = 5,
@@ -371,12 +366,13 @@ def search_milvus(
     }
     
     # Execute search
-    results = collection.search(
+    results = client.search(
+        collection_name=collection_name,
         data=[query_vector],
         anns_field="embedding",
-        param=search_params,
+        search_params=search_params,
         limit=top_k,
-        expr=filter_expr,
+        filter=filter_expr,
         output_fields=["text", "source", "metadata"]
     )
     
@@ -385,11 +381,11 @@ def search_milvus(
     for hits in results:
         for hit in hits:
             formatted.append({
-                "id": hit.id,
-                "text": hit.entity.get("text"),
-                "source": hit.entity.get("source"),
-                "metadata": hit.entity.get("metadata"),
-                "score": hit.score
+                "id": hit["id"],
+                "text": hit["entity"].get("text"),
+                "source": hit["entity"].get("source"),
+                "metadata": hit["entity"].get("metadata"),
+                "score": hit["distance"]
             })
     
     return formatted
@@ -529,7 +525,7 @@ class VectorSearchConfig:
       <description>Validation and testing utilities</description>
       <code>
         <![CDATA[
-def validate_setup(collection, embeddings_client):
+def validate_setup(client, collection_name, embeddings_client):
     """Validate vector search setup"""
     
     print("=== Validation Report ===\n")
@@ -546,8 +542,8 @@ def validate_setup(collection, embeddings_client):
     # 2. Test collection access
     print("\n2. Testing collection access...")
     try:
-        collection.load()
-        num_entities = collection.num_entities
+        client.load_collection(collection_name=collection_name)
+        num_entities = client.get_collection_stats(collection_name=collection_name)["row_count"]
         print(f"✓ Collection loaded with {num_entities} entities")
     except Exception as e:
         print(f"✗ Collection access failed: {e}")
@@ -557,7 +553,8 @@ def validate_setup(collection, embeddings_client):
     print("\n3. Testing search...")
     try:
         results = search_milvus(
-            collection,
+            client,
+            collection_name,
             embeddings_client,
             "test query",
             top_k=3
@@ -573,7 +570,7 @@ def validate_setup(collection, embeddings_client):
     latencies = []
     for _ in range(10):
         start = time.time()
-        search_milvus(collection, embeddings_client, "test", top_k=5)
+        search_milvus(client, collection_name, embeddings_client, "test", top_k=5)
         latencies.append(time.time() - start)
     
     avg_latency = sum(latencies) / len(latencies)
@@ -592,7 +589,7 @@ def validate_setup(collection, embeddings_client):
       <![CDATA[
 # main.py - Complete vector search application
 
-from pymilvus import connections, Collection
+from pymilvus import MilvusClient
 from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import Embeddings
 from ibm_watsonx_ai.foundation_models.utils.enums import EmbeddingTypes
@@ -611,25 +608,23 @@ class VectorSearchApp:
     """Complete vector search application"""
     
     def __init__(self):
-        self.collection = None
+        self.client = None
+        self.collection_name = None
         self.embeddings = None
         
     def initialize(self):
         """Initialize connections"""
         
         # Connect to Milvus
-        connections.connect(
-            alias="default",
-            host=os.getenv("MILVUS_HOST"),
-            port=os.getenv("MILVUS_PORT"),
+        self.client = MilvusClient(
+            uri=f"https://{os.getenv('MILVUS_HOST')}:{os.getenv('MILVUS_PORT')}",
             user=os.getenv("MILVUS_USER"),
-            password=os.getenv("MILVUS_PASSWORD"),
-            secure=True
+            password=os.getenv("MILVUS_PASSWORD")
         )
         
         # Load collection
-        self.collection = Collection(os.getenv("COLLECTION_NAME"))
-        self.collection.load()
+        self.collection_name = os.getenv("COLLECTION_NAME")
+        self.client.load_collection(collection_name=self.collection_name)
         
         # Initialize embeddings
         credentials = Credentials(
@@ -652,10 +647,11 @@ class VectorSearchApp:
         query_vector = self.embeddings.embed_query(query)
         
         # Search
-        results = self.collection.search(
+        results = self.client.search(
+            collection_name=self.collection_name,
             data=[query_vector],
             anns_field="embedding",
-            param={"metric_type": "COSINE", "params": {"ef": 100}},
+            search_params={"metric_type": "COSINE", "params": {"ef": 100}},
             limit=top_k,
             output_fields=["text", "source", "metadata"]
         )
@@ -665,9 +661,9 @@ class VectorSearchApp:
         for hits in results:
             for hit in hits:
                 formatted.append({
-                    "text": hit.entity.get("text"),
-                    "source": hit.entity.get("source"),
-                    "score": hit.score
+                    "text": hit["entity"].get("text"),
+                    "source": hit["entity"].get("source"),
+                    "score": hit["distance"]
                 })
         
         return formatted

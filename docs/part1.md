@@ -134,7 +134,6 @@ Milvus Connection Test
 
 === Milvus Connection Test ===
 Connecting to: 192.168.1.100:19530
-SSL: disabled
 Auth: user/password auth
 ✓ Connected to Milvus successfully
 ✓ Existing collections: 0

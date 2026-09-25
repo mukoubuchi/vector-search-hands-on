@@ -1,6 +1,7 @@
 """Milvus collection schema shared by the demo app and data loader."""
 
-from pymilvus import CollectionSchema, DataType, FieldSchema
+from pymilvus import CollectionSchema, DataType, MilvusClient
+from pymilvus.milvus_client import IndexParams
 
 from common import DEFAULT_COLLECTION_NAME, get_env, msg, reject_placeholder
 
@@ -28,16 +29,26 @@ def get_collection_name() -> str:
 
 def build_collection_schema(embedding_dimension: int) -> CollectionSchema:
     """Build the product collection schema for the given embedding dimension."""
-    fields = [
-        FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
-        FieldSchema(name="product_name", dtype=DataType.VARCHAR, max_length=200),
-        FieldSchema(name="price", dtype=DataType.INT64),
-        FieldSchema(name="category", dtype=DataType.VARCHAR, max_length=100),
-        FieldSchema(name="description", dtype=DataType.VARCHAR, max_length=500),
-        FieldSchema(name=VECTOR_FIELD, dtype=DataType.FLOAT_VECTOR, dim=embedding_dimension),
-    ]
+    schema = MilvusClient.create_schema(description=msg("Product database", "商品データベース"))
+    schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True, auto_id=True)
+    schema.add_field(field_name="product_name", datatype=DataType.VARCHAR, max_length=200)
+    schema.add_field(field_name="price", datatype=DataType.INT64)
+    schema.add_field(field_name="category", datatype=DataType.VARCHAR, max_length=100)
+    schema.add_field(field_name="description", datatype=DataType.VARCHAR, max_length=500)
+    schema.add_field(field_name=VECTOR_FIELD, datatype=DataType.FLOAT_VECTOR, dim=embedding_dimension)
+    return schema
 
-    return CollectionSchema(fields=fields, description=msg("Product database", "商品データベース"))
+
+def build_index_params() -> IndexParams:
+    """Build the vector index settings from INDEX_PARAMS."""
+    index_params = MilvusClient.prepare_index_params()
+    index_params.add_index(
+        field_name=VECTOR_FIELD,
+        index_type=INDEX_PARAMS["index_type"],
+        metric_type=INDEX_PARAMS["metric_type"],
+        params=INDEX_PARAMS["params"],
+    )
+    return index_params
 
 
 def product_text(product: dict) -> str:

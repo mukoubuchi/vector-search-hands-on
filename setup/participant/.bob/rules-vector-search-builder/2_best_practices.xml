@@ -214,7 +214,7 @@ def ingest_with_progress(documents: List[dict], batch_size: int = 100):
                 ]
                 
                 # Insert into database
-                collection.insert(data)
+                client.insert(collection_name="knowledge_base", data=data)
                 pbar.update(len(batch))
                 
             except Exception as e:
@@ -232,7 +232,7 @@ def ingest_with_progress(documents: List[dict], batch_size: int = 100):
             except Exception as e:
                 logging.error(f"Retry failed for batch {batch_idx}: {e}")
     
-    collection.flush()
+    client.flush(collection_name="knowledge_base")
           ]]>
         </component>
       </components>
@@ -336,12 +336,13 @@ def search_with_filters(
     
     filter_expr = " AND ".join(filter_conditions)
     
-    results = collection.search(
+    results = client.search(
+        collection_name="knowledge_base",
         data=[query_vector],
         anns_field="embedding",
-        param={"metric_type": "COSINE", "params": {"ef": 100}},
+        search_params={"metric_type": "COSINE", "params": {"ef": 100}},
         limit=top_k,
-        expr=filter_expr,
+        filter=filter_expr,
         output_fields=["text", "source", "metadata"]
     )
     

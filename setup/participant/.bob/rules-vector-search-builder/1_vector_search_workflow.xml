@@ -47,41 +47,38 @@
       <milvus_configuration>
         <collection_schema>
           <![CDATA[
-from pymilvus import Collection, CollectionSchema, FieldSchema, DataType, connections
+from pymilvus import DataType, MilvusClient
 
 # Connect to Milvus
-connections.connect(
-    alias="default",
-    host=os.getenv("MILVUS_HOST"),
-    port=os.getenv("MILVUS_PORT"),
+client = MilvusClient(
+    uri=f"https://{os.getenv('MILVUS_HOST')}:{os.getenv('MILVUS_PORT')}",
     user=os.getenv("MILVUS_USER"),
-    password=os.getenv("MILVUS_PASSWORD"),
-    secure=True
+    password=os.getenv("MILVUS_PASSWORD")
 )
 
 # Define collection schema
-fields = [
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
-    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=768),
-    FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=65535),
-    FieldSchema(name="source", dtype=DataType.VARCHAR, max_length=512),
-    FieldSchema(name="metadata", dtype=DataType.JSON)
-]
+schema = MilvusClient.create_schema(description="Vector search collection")
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True, auto_id=True)
+schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=768)
+schema.add_field(field_name="text", datatype=DataType.VARCHAR, max_length=65535)
+schema.add_field(field_name="source", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="metadata", datatype=DataType.JSON)
 
-schema = CollectionSchema(fields, description="Vector search collection")
-collection = Collection(name="knowledge_base", schema=schema)
+client.create_collection(collection_name="knowledge_base", schema=schema)
 
 # Create HNSW index for optimal performance
-index_params = {
-    "metric_type": "COSINE",
-    "index_type": "HNSW",
-    "params": {
+index_params = MilvusClient.prepare_index_params()
+index_params.add_index(
+    field_name="embedding",
+    index_type="HNSW",
+    metric_type="COSINE",
+    params={
         "M": 16,              # Number of connections per layer
         "efConstruction": 256  # Size of dynamic candidate list
     }
-}
-collection.create_index(field_name="embedding", index_params=index_params)
-collection.load()
+)
+client.create_index(collection_name="knowledge_base", index_params=index_params)
+client.load_collection(collection_name="knowledge_base")
           ]]>
         </collection_schema>
       </milvus_configuration>
@@ -242,11 +239,11 @@ def ingest_documents(source_path: str, collection_name: str):
         ]
         
         # Insert into Milvus
-        collection.insert(data)
+        client.insert(collection_name=collection_name, data=data)
         logger.info(f"Inserted batch {i//batch_size + 1}/{(len(chunks)-1)//batch_size + 1}")
     
     # Flush to ensure data is persisted
-    collection.flush()
+    client.flush(collection_name=collection_name)
     logger.info("Ingestion complete")
         ]]>
       </ingestion_example>
@@ -283,12 +280,13 @@ def search_milvus(query: str, top_k: int = 5, filters: dict = None):
         "params": {"ef": 100}  # Search quality parameter
     }
     
-    results = collection.search(
+    results = client.search(
+        collection_name="knowledge_base",
         data=[query_vector],
         anns_field="embedding",
-        param=search_params,
+        search_params=search_params,
         limit=top_k,
-        expr=filter_expr,
+        filter=filter_expr,
         output_fields=["text", "source", "metadata"]
     )
     
@@ -297,10 +295,10 @@ def search_milvus(query: str, top_k: int = 5, filters: dict = None):
     for hits in results:
         for hit in hits:
             formatted_results.append({
-                "text": hit.entity.get("text"),
-                "source": hit.entity.get("source"),
-                "metadata": hit.entity.get("metadata"),
-                "score": hit.score
+                "text": hit["entity"].get("text"),
+                "source": hit["entity"].get("source"),
+                "metadata": hit["entity"].get("metadata"),
+                "score": hit["distance"]
             })
     
     return formatted_results
@@ -387,7 +385,7 @@ def validate_vector_search_setup():
     # 1. Test database connection
     print("1. Testing database connection...")
     try:
-        collection.load()
+        client.load_collection(collection_name="knowledge_base")
         print("✓ Database connection successful")
     except Exception as e:
         print(f"✗ Database connection failed: {e}")
@@ -395,9 +393,9 @@ def validate_vector_search_setup():
     
     # 2. Verify collection schema
     print("\n2. Verifying collection schema...")
-    schema = collection.schema
-    print(f"✓ Collection: {collection.name}")
-    print(f"✓ Fields: {[field.name for field in schema.fields]}")
+    collection_info = client.describe_collection(collection_name="knowledge_base")
+    print(f"✓ Collection: {collection_info['collection_name']}")
+    print(f"✓ Fields: {[field['name'] for field in collection_info['fields']]}")
     
     # 3. Test embedding generation
     print("\n3. Testing embedding generation...")

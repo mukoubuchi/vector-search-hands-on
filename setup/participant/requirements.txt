@@ -3,7 +3,7 @@
 
 # === Core Packages ===
 
-# Milvus client (3.0.x matches the Milvus v3.0 server)
+# Milvus client (major version 3 matches the Milvus v3 server)
 pymilvus==3.0.2
 
 # Embedding model (Sentence Transformers)

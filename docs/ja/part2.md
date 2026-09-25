@@ -45,7 +45,7 @@
     - `insert_sample_data.py`: サンプル商品データを Milvus に投入します
     - `sample_products.py`: 使用するサンプル商品データを `PARTICIPANT_LANGUAGE` に応じて選択します
     - `sample_products_ja.py`: 日本語の商品名、説明、価格などのサンプルデータを定義します
-    - `static/`: 検索画面（HTML、JavaScript、CSS）と商品画像（`static/images/product-01.svg`〜`product-12.svg`）です。このパートでは変更しません
+    - `static/`: 検索画面（HTML、JavaScript、CSS）と商品画像（`static/images/product-01.svg`〜`product-12.svg`）です。このパートで変更する必要はありません
 
 ## 機能 1: 商品画像の表示 {#feature-1-product-image-display}
 
@@ -247,6 +247,8 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
         1. アプリケーションを起動しているターミナルで ++ctrl+c++ （停止）
         2. **`python app.py`** を実行（[:material-play-circle: 起動方法](part1.md#app-restart)）
     3. ブラウザで検索画面を再読み込み
+    
+    `Address already in use` と出る場合は、IBM Bob が確認用に起動したアプリが動いています。画面を再読み込みすれば使えます。
 
 ??? question "エラーが表示される"
 
