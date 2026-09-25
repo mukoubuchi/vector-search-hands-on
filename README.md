@@ -14,7 +14,7 @@ Next-generation vector search in practice using **Building Blocks** and **IBM Bo
 
 ### Value of Building Blocks + IBM Bob
 
-This hands-on demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 90 minutes**.
+This hands-on demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 60 minutes**.
 
 | Development Method | Time Required | Required Skills | Code Quality |
 |---------|---------|------------|-----------|
@@ -226,13 +226,13 @@ Details: [docs/preparation.md](docs/preparation.md)
 
 | Part | Content | Time | Learning |
 |-------|------|---------|---------|
-| [Preparation](docs/preparation.md) | Building Block setup | 15 min | Vector Search Builder installation |
-| [Part 1](docs/part1.md) | Experience Vector Search | 20 min | How semantic search works and its value |
-| [Part 2](docs/part2.md) | Add features with IBM Bob | 30 min | Development experience via natural language |
-| [Part 3](docs/part3.md) | Verification and cleanup | 10 min | Checking the added features on the search screen |
-| [Summary](docs/summary.md) | Review and Q&A | 10 min | Value recap and next steps |
+| [Preparation](docs/preparation.md) | Building Block setup | 10 min | Vector Search Builder installation |
+| [Part 1](docs/part1.md) | Experience Vector Search | 15 min | How semantic search works and its value |
+| [Part 2](docs/part2.md) | Add features with IBM Bob | 25 min | Development experience via natural language |
+| [Part 3](docs/part3.md) | Verification and cleanup | 5 min | Checking the added features on the search screen |
+| [Summary](docs/summary.md) | Review and Q&A | 5 min | Value recap and next steps |
 
-**Total**: approximately 90 minutes
+**Total**: approximately 60 minutes
 
 ## What You'll Learn
 

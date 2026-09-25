@@ -6,7 +6,7 @@
 
 ### Building Blocks + IBM Bob の価値
 
-- **開発時間の大幅短縮**: 数日〜数週間かかる開発を約 90 分で完了
+- **開発時間の大幅短縮**: 数日〜数週間かかる開発を約 60 分で完了
 - **高品質な実装**: ベストプラクティスに基づいたコード生成
 - **自然言語での指示**: プログラミング知識がなくても機能追加が可能
 
@@ -36,8 +36,7 @@
 
 | 規模 | 推奨構成 |
 |------|---------|
-| 学習・PoC | Hugging Face + Milvus |
-| 小規模本番 | Hugging Face + Milvus |
+| 学習・PoC・小規模本番 | Hugging Face + Milvus |
 | 中規模本番 | watsonx.ai + Milvus |
 | 大規模本番 | watsonx.ai + watsonx.data |
 

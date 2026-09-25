@@ -6,7 +6,7 @@ This completes the Vector Search hands-on. Great work! 🍺
 
 ### Value of Building Blocks + IBM Bob
 
-- **Significant development time reduction**: Completed in approximately 90 minutes what would take days to weeks
+- **Significant development time reduction**: Completed in approximately 60 minutes what would take days to weeks
 - **High-quality implementation**: Code generation based on best practices
 - **Natural language instructions**: Feature addition possible without programming knowledge
 
@@ -36,8 +36,7 @@ This completes the Vector Search hands-on. Great work! 🍺
 
 | Scale | Recommended Configuration |
 |------|---------|
-| Learning/PoC | Hugging Face + Milvus |
-| Small-scale production | Hugging Face + Milvus |
+| Learning, PoC, and small-scale production | Hugging Face + Milvus |
 | Medium-scale production | watsonx.ai + Milvus |
 | Large-scale production | watsonx.ai + watsonx.data |
 

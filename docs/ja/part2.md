@@ -40,11 +40,8 @@
 
 ??? note "アプリケーションのファイル構成"
     - `app.py`: FastAPI の API を定義し、検索画面を配信します
-    - `common.py`: `.env`、言語切替、Milvus 接続、埋め込みモデル読み込みを扱います
     - `schema.py`: Milvus のコレクション定義、インデックス・検索設定、検索結果として返すフィールドを定義します
     - `insert_sample_data.py`: サンプル商品データを Milvus に投入します
-    - `sample_products.py`: 使用するサンプル商品データを `PARTICIPANT_LANGUAGE` に応じて選択します
-    - `sample_products_ja.py`: 日本語の商品名、説明、価格などのサンプルデータを定義します
     - `static/`: 検索画面（HTML、JavaScript、CSS）と商品画像（`static/images/product-01.svg`〜`product-12.svg`）です。このパートで変更する必要はありません
 
 ## 機能 1: 商品画像の表示 {#feature-1-product-image-display}
@@ -232,15 +229,11 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
 
 ??? question "IBM Bob が応答しない"
 
-    対処法:
-    
     1. インターネット接続を確認
     2. IBM Bob を再起動
 
 ??? question "変更が反映されない"
 
-    対処法:
-    
     1. ファイルが保存されているか確認
     2. アプリケーションを手動で再起動
     
@@ -252,8 +245,6 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
 
 ??? question "エラーが表示される"
 
-    対処法:
-    
     1. エラーメッセージをコピー
     2. IBM Bob のチャット画面で以下を入力:
         
