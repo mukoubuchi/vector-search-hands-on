@@ -6,7 +6,7 @@
 [![Release](https://img.shields.io/github/v/release/mukoubuchi/vector-search-hands-on)](https://github.com/mukoubuchi/vector-search-hands-on/releases/latest)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Milvus](https://img.shields.io/badge/Milvus-2.6.18-00A1EA)
+![Milvus](https://img.shields.io/badge/Milvus-3.0.2-00A1EA)
 
 Next-generation vector search in practice using **Building Blocks** and **IBM Bob**
 
@@ -374,8 +374,8 @@ Details: [Building Blocks Documentation](https://ibm-self-serve-assets.github.io
 
 - **Building Block**: Vector Search Builder (Milvus-based)
 - **AI Development Assistant**: IBM Bob
-- **Vector Database**: Milvus 2.6.18 (pymilvus 2.6.15)
-- **Embedding Model**: Hugging Face Transformers (`paraphrase-multilingual-MiniLM-L12-v2`, sentence-transformers 5.5)
+- **Vector Database**: Milvus 3.0.2 (pymilvus 3.0.2)
+- **Embedding Model**: Hugging Face Transformers (`paraphrase-multilingual-MiniLM-L12-v2`, sentence-transformers 6.1)
 - **Web Framework**: FastAPI 0.136 / Uvicorn
 - **Programming Language**: Python 3.11
 - **Documentation**: MkDocs Material (with i18n plugin — English / 日本語)

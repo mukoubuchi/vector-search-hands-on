@@ -20,6 +20,25 @@ On first start the script also **generates a random Milvus password** (replacing
 grep '^MILVUS_PASSWORD=' setup/instructor/.env
 ```
 
+#### Upgrading from Milvus 2.6
+
+The Milvus 3.0.2 image runs as a non-root user (uid 999), so it cannot start on the data volume that Milvus 2.6 created. Start from a new volume; participants insert their sample data again, and the password in `setup/instructor/.env` stays the same:
+
+```bash
+cd setup/instructor
+./stop-all.sh
+docker compose --profile all down -v
+./start-all.sh
+```
+
+If your Docker has no `compose` plugin, run `docker-compose` instead; both work with these files.
+
+To keep the existing data instead, hand the volume to that user once before `./start-all.sh`:
+
+```bash
+docker run --rm -u 0 -v instructor_milvus_data:/var/lib/milvus --entrypoint chown milvusdb/milvus:v3.0.2 -R 999:999 /var/lib/milvus
+```
+
 > [!NOTE]
 > **Why use port 8001**
 >
@@ -441,7 +460,7 @@ python -m mkdocs serve
 - Collection name: each participant sets their own unique `COLLECTION_NAME`
 - Participant language: set by zip package (`en` / `ja`)
 - Python: `3.10` or higher (`3.11` recommended)
-- Milvus: `2.6.18` / pymilvus: `2.6.15` / sentence-transformers: `5.5.1`
+- Milvus: `3.0.2` / pymilvus: `3.0.2` / sentence-transformers: `6.1.0`
 
 ### Environment-dependent (Verify each time)
 

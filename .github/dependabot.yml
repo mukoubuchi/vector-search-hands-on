@@ -7,10 +7,12 @@ updates:
       interval: monthly
     open-pull-requests-limit: 5
     ignore:
-      # The pymilvus major version must match the Milvus server (2.6.x);
-      # bump it together with the docker-compose Milvus image instead
+      # The pymilvus version must match the Milvus server (3.0.x); bump it
+      # together with the docker-compose Milvus image instead. PyMilvus 3.1
+      # removes the ORM-style API that the participant scripts and the Bob
+      # mode rules use, so stay on 3.0.x until they move to MilvusClient
       - dependency-name: pymilvus
-        update-types: ["version-update:semver-major"]
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
       # These decide the embeddings, so the search results in the docs change
       # with them; major bumps are done deliberately with the docs re-measured
       - dependency-name: sentence-transformers
