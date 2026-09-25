@@ -54,7 +54,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
   </text>
   <text x="550" y="148" class="boxtext">
     <tspan x="550" dy="0">IBM Bob で</tspan>
-    <tspan x="550" dy="18">データ・API・UI拡張</tspan>
+    <tspan x="550" dy="18">データ・API・UI 拡張</tspan>
   </text>
   <text x="775" y="148" class="boxtext">
     <tspan x="775" dy="0">システム・業務</tspan>

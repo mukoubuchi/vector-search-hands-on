@@ -34,7 +34,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
               <g>
                 <text x="23.0" y="70.9" font-size="14.0" fill="#4051b5" text-anchor="start">
                   <tspan x="23.0" dy="0">
-                    <tspan font-weight="700">所要時間: 数時間〜1日</tspan>
+                    <tspan font-weight="700">所要時間: 数時間〜1 日</tspan>
                   </tspan>
                 </text>
               </g>
