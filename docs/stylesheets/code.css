@@ -75,7 +75,10 @@
     font-weight: 700 !important;
 }
 
+/* Values look the same whether they are strings or numbers (the numbers get
+   .mi from syntax-highlight.js): the plain code color at regular weight */
 .md-typeset .language-properties.highlight .s {
+    color: var(--md-code-fg-color) !important;
     font-weight: 400 !important;
 }
 
@@ -83,7 +86,7 @@
 .md-typeset .language-properties.highlight .mi,
 .md-typeset .language-properties.highlight .mf {
     color: inherit !important;
-    font-weight: 700 !important;
+    font-weight: 400 !important;
 }
 
 .md-typeset .language-properties.highlight .c,
