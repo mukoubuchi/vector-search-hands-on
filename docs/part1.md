@@ -104,10 +104,10 @@ Return products with similar meanings
 Enter the following in IBM Bob's chat screen:
 
 ```text
-Connect to Milvus
+Run setup/participant/test_connection.py with the Python in setup/participant/venv
 ```
 
-IBM Bob will automatically run the script and perform the connection test.
+IBM Bob runs the connection test script. If IBM Bob asks for approval to run a command, approve it.
 
 ??? tip "If Running Manually"
     Enter the following in the terminal:
@@ -179,10 +179,10 @@ The connection test, sample data insertion script, and demo application all read
 Enter the following in IBM Bob's chat screen:
 
 ```text
-Insert sample data
+Run setup/participant/insert_sample_data.py
 ```
 
-IBM Bob will automatically run the script and insert sample data.
+IBM Bob runs the script and inserts the sample data.
 
 ??? tip "If Running Manually"
     Enter the following in the terminal:

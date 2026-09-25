@@ -143,11 +143,11 @@
     === ":fontawesome-brands-windows: Windows"
         **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder-ja` フォルダを選択、または <kbd>Ctrl</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
 
-3. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認し、選択
+3. IBM Bob のパネルで、チャット入力欄の下にあるモードの選択を開き、**Vector Search Builder** を選択
 
 !!! success "Vector Search Builder モード"
     
-    「Mode」セレクターで Vector Search Builder モードを選択すると、Building Blocks 専用 Custom モードが有効になります。
+    モードの選択で Vector Search Builder モードを選択すると、Building Blocks 専用 Custom モードが有効になります。
 
     このモードにより、IBM Bob は以下を理解します:
 

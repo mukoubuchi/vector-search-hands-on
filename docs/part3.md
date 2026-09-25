@@ -107,6 +107,8 @@ Enter the following in IBM Bob's chat input field:
 Deactivate the Python virtual environment and delete the vector-search-builder-en folder from the desktop.
 ```
 
+If IBM Bob asks you to confirm the deletion, choose to delete the folder. If IBM Bob shows the commands instead of running them, run them yourself as in "If cleaning up manually" below.
+
 !!! info "How cleanup works"
     
     `deactivate` only exits the virtual environment in the current terminal. Installed packages remain inside the `venv` folder.
