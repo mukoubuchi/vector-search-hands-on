@@ -31,6 +31,8 @@ docker compose --profile all down -v
 ./start-all.sh
 ```
 
+If your Docker has no `compose` plugin, run `docker-compose` instead; both work with these files.
+
 To keep the existing data instead, hand the volume to that user once before `./start-all.sh`:
 
 ```bash
