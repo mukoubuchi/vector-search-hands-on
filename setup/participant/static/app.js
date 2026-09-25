@@ -14,6 +14,14 @@ const SHOP_NAME = {
   ja: "商品検索デモ",
 };
 
+// Similarity bands that colour the bar (highest first). The docs describe
+// the same thresholds, so change them together.
+const SIMILARITY_BANDS = [
+  { min: 0.7, level: "high" },
+  { min: 0.4, level: "mid" },
+  { min: 0, level: "low" },
+];
+
 const TEXT = {
   en: {
     queryLabel: "Search products",
@@ -38,6 +46,8 @@ const TEXT = {
     notReadyTitle: "Search is not ready.",
     errorTitle: (status) => `The search API returned an error (HTTP ${status}).`,
     similarity: "Similarity",
+    legendTitle: "Similarity:",
+    bandLabel: (min, upper) => (upper === null ? `${min} and above` : min === 0 ? `below ${upper}` : `${min}–${upper}`),
     reason: "Why this product",
     imageMissing: "No image",
     formatPrice: (price) => `¥${price.toLocaleString("en-US")}`,
@@ -65,6 +75,8 @@ const TEXT = {
     notReadyTitle: "検索の準備ができていません。",
     errorTitle: (status) => `検索 API がエラーを返しました（HTTP ${status}）。`,
     similarity: "類似度",
+    legendTitle: "類似度:",
+    bandLabel: (min, upper) => (upper === null ? `${min} 以上` : min === 0 ? `${upper} 未満` : `${min}〜${upper}`),
     reason: "おすすめ理由",
     imageMissing: "画像なし",
     formatPrice: (price) => `${price.toLocaleString("ja-JP")} 円`,
@@ -83,6 +95,7 @@ const priceNote = document.getElementById("price-note");
 const minPriceInput = document.getElementById("min-price");
 const maxPriceInput = document.getElementById("max-price");
 const statusBox = document.getElementById("status");
+const legend = document.getElementById("legend");
 const resultList = document.getElementById("results");
 
 let priceFilterSupported = false;
@@ -116,7 +129,23 @@ function applyText() {
   });
 }
 
+function similarityLevel(score) {
+  return SIMILARITY_BANDS.find((band) => score >= band.min).level;
+}
+
+// Legend for the bar colours, built from SIMILARITY_BANDS
+function renderLegend() {
+  legend.replaceChildren(el("span", "legend-title", t.legendTitle));
+  SIMILARITY_BANDS.forEach((band, index) => {
+    const upper = index > 0 ? SIMILARITY_BANDS[index - 1].min : null;
+    const item = el("span", "legend-item");
+    item.append(el("span", `legend-swatch band--${band.level}`), el("span", "", t.bandLabel(band.min, upper)));
+    legend.append(item);
+  });
+}
+
 function showStatus(message, kind = "info", detail = "") {
+  legend.hidden = true;
   statusBox.replaceChildren();
   statusBox.className = `status status--${kind}`;
   statusBox.append(el("p", "status-title", message));
@@ -204,7 +233,7 @@ function renderCard(item, rank) {
     const label = el("div", "similarity-label");
     label.append(el("span", "", t.similarity), el("span", "similarity-value", item.similarity_score.toFixed(4)));
     const bar = el("div", "similarity-bar");
-    const fill = el("div", "similarity-fill");
+    const fill = el("div", `similarity-fill band--${similarityLevel(score)}`);
     fill.style.width = `${(score * 100).toFixed(1)}%`;
     bar.append(fill);
     similarity.append(label, bar);
@@ -298,6 +327,7 @@ async function runSearch() {
       showStatus(t.noResults, "empty");
     } else {
       showStatus(t.resultCount(results.length, query), "done");
+      legend.hidden = false;
     }
   }
 
@@ -312,6 +342,7 @@ form.addEventListener("submit", (event) => {
 
 async function start() {
   applyText();
+  renderLegend();
   showStatus(t.idle);
   await detectPriceFilter();
 
