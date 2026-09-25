@@ -405,7 +405,7 @@ As you try various searches, you should notice the following:
 
 ## FAQ
 
-??? question "Q1: Cannot open the search screen"
+??? question "Cannot open the search screen"
 
     Solution:
     
@@ -413,14 +413,14 @@ As you try various searches, you should notice the following:
     2. Verify the URL is correct (**`http://localhost:8002`**)
     3. Try a different browser
 
-??? question "Q2: Search results are 0"
+??? question "Search results are 0"
 
     Solution:
     
     1. Verify sample data has been inserted
     2. Try changing the search query
 
-??? question "Q3: Similarity scores are extremely low"
+??? question "Similarity scores are extremely low"
 
     Solution:
 

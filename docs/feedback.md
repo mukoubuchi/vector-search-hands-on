@@ -100,7 +100,7 @@ Thank you for joining the Vector Search hands-on. Please share what worked well 
   </section>
 
   <div class="feedback-actions">
-<button type="submit">Create Slack message</button>
+<button type="submit">Create feedback message</button>
 <p data-feedback-status aria-live="polite"></p>
   </div>
 

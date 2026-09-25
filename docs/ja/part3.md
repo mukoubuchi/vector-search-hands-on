@@ -78,7 +78,7 @@
 
 ## FAQ
 
-??? question "Q1: テストが失敗する"
+??? question "テストが失敗する"
 
     対処法:
     
@@ -147,7 +147,7 @@ Python の仮想環境を無効化して、デスクトップの vector-search-b
         rmdir /s /q venv
         ```
 
-??? question "Q: venv を残しておきたい場合は？"
+??? question "venv を残しておきたい場合は？"
     
     このハンズオンで学んだ技術を今後も使用する予定がある場合は、`venv` フォルダを削除する必要はありません。`deactivate` だけ実行して、次回のプロジェクトで再利用できます。
 

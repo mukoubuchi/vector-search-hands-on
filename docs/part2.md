@@ -230,14 +230,14 @@ If IBM Bob asks for approval to run a command, approve it.
 
 ## FAQ
 
-??? question "Q1: IBM Bob is not responding"
+??? question "IBM Bob is not responding"
 
     Solution:
     
     1. Check internet connection
     2. Restart IBM Bob
 
-??? question "Q2: Changes are not reflected"
+??? question "Changes are not reflected"
 
     Solution:
     
@@ -248,7 +248,7 @@ If IBM Bob asks for approval to run a command, approve it.
         2. Execute **`python app.py`** ([:material-play-circle: How to start](part1.md#app-restart))
     3. Reload the search screen in the browser
 
-??? question "Q3: Error is displayed"
+??? question "Error is displayed"
 
     Solution:
     

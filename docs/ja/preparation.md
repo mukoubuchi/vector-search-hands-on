@@ -40,9 +40,9 @@
 
 ### 1. Vector Search Builder モード
 
-**Vector Search Builder** は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob の Custom モードです。
+**Vector Search Builder** は、Building Blocks の一部として提供される、ベクトル検索機能を簡単に構築できる IBM Bob のカスタムモードです。
 
-**Custom モード** = 特定の技術や用途に合わせてカスタマイズされた専用モード
+**カスタムモード** = 特定の技術や用途に合わせてカスタマイズされた専用モード
 
 #### Vector Search Builder の概要
 
@@ -147,7 +147,7 @@
 
 !!! success "Vector Search Builder モード"
     
-    モードの選択で Vector Search Builder モードを選択すると、Building Blocks 専用 Custom モードが有効になります。
+    モードの選択で Vector Search Builder モードを選択すると、Building Blocks 専用のカスタムモードが有効になります。
 
     このモードにより、IBM Bob は以下を理解します:
 
@@ -423,7 +423,7 @@ Python 3.10 以上がインストールされていない場合は、インス�
 
 ## FAQ
 
-??? question "Q1: Vector Search Builder モードが表示されない"
+??? question "Vector Search Builder モードが表示されない"
 
     対処法:
     
@@ -431,7 +431,7 @@ Python 3.10 以上がインストールされていない場合は、インス�
     2. IBM Bob をリロード（:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」）
     3. プロジェクトフォルダを開き直す
 
-??? question "Q2: 接続情報をどこに入力すればいいか分からない"
+??? question "接続情報をどこに入力すればいいか分からない"
 
     対処法:
     

@@ -20,7 +20,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 
 - ベクトルデータベースの選定・学習
 - 埋め込みモデルの選定・統合
-- APIの設計・実装
+- API の設計・実装
 - エラーハンドリング
 - パフォーマンスチューニング
 
@@ -32,7 +32,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 
 - **Building Blocks**:
     - 技術選定（Milvus、埋め込みモデル）
-    - 環境構築支援（Bob モード、API サンプル）
+    - 環境構築支援（Vector Search Builder モード、API サンプル）
 - **IBM Bob**:
     - 要件定義
     - コーディング
@@ -40,7 +40,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
     - デバッグ
 
 ??? note "IBM Bob の対応範囲について"
-    IBM Bob は AI SDLC（Software Development Lifecycle）パートナーとして、要件定義からデバッグまでのソフトウェア開発ライフサイクル全体をサポートできます。このハンズオンでは、Building Blocks が技術選定（Milvus、埋め込みモデル）と環境構築の支援（Milvus セットアップ、Bob モード）を提供し、講師が Docker Compose で Milvus 環境を事前準備するため、IBM Bob は主にコーディング・テスト・デバッグに焦点を当てていますが、Plan モードを使用すれば要件定義や設計段階でも活用できます。
+    IBM Bob は AI SDLC（Software Development Lifecycle）パートナーとして、要件定義からデバッグまでのソフトウェア開発ライフサイクル全体をサポートできます。このハンズオンでは、Building Blocks が技術選定（Milvus、埋め込みモデル）と環境構築の支援（Milvus セットアップ、Vector Search Builder モード）を提供し、講師が Docker Compose で Milvus 環境を事前準備するため、IBM Bob は主にコーディング・テスト・デバッグに焦点を当てていますが、Plan モードを使用すれば要件定義や設計段階でも活用できます。
 
 ## Building Blocks とは？
 
@@ -88,7 +88,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 
     - **受講者用パッケージ**: `vector-search-builder-ja.zip`
     - **内容**:
-        - IBM Bob の Custom モード設定
+        - IBM Bob のカスタムモード設定
         - Vector Search Builder 用ルールファイル 3 個
         - Vector Search に特化した AI アシスタント機能
         - Milvus 操作のベストプラクティス
@@ -177,7 +177,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 - **自然言語で指示**: やりたいことを言葉で伝えられる
 - **コードを自動生成**: 高品質なコードを自動的に書いてくれる
 - **コードレビュー**: コードの問題点を指摘してくれる
-- **Building Blocks との連携**: Custom モードで、技術に特化した支援を提供
+- **Building Blocks との連携**: カスタムモードで、技術に特化した支援を提供
 
 ### Building Blocks との相乗効果
 
@@ -246,7 +246,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
     
     **1. 手動作業の複雑さと長大さ**
     
-    - **前半の作業**: 単純なコマンド実行（`pip install -r requirements.txt`、`python test_connection.py`）で、手動でも1行で完結
+    - **前半の作業**: 単純なコマンド実行（`pip install -r requirements.txt`、`python test_connection.py`）で、手動でも 1 行で完結
     - **後半の作業**: `app.py`、`schema.py`、データ投入スクリプト、サンプル商品データなど複数ファイルの編集、データモデル・レスポンス構造・エラーハンドリングの変更など、数十行〜数百行のコード変更が必要。手動で記載すると非常に長く複雑になり、ドキュメントが膨大になる
     
     **2. 教育的な意図**
@@ -262,8 +262,8 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
         **Building Blocks の効果**:
         
         - **Vector Search の知識**: IBM Bob が Vector Search Builder モードにより、Milvus、埋め込みモデル、ベクトル検索のベストプラクティスを理解している
-        - **既存の基盤**: サンプルデータ、API構造、共通スキーマ定義、データモデルが既に整備されており、IBM Bob はそれを活用して機能追加できる
-        - **技術選定不要**: Milvus、埋め込みモデル、API設計などの技術選定が完了しており、IBM Bob は実装に集中できる
+        - **既存の基盤**: サンプルデータ、API 構造、共通スキーマ定義、データモデルが既に整備されており、IBM Bob はそれを活用して機能追加できる
+        - **技術選定不要**: Milvus、埋め込みモデル、API 設計などの技術選定が完了しており、IBM Bob は実装に集中できる
         
         **IBM Bob の効果**:
         

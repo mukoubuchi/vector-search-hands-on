@@ -425,7 +425,7 @@ Directly specify the Python executable inside `venv` to install Python packages.
 
 ## FAQ
 
-??? question "Q1: Vector Search Builder mode is not displayed"
+??? question "Vector Search Builder mode is not displayed"
 
     Solution:
     
@@ -433,7 +433,7 @@ Directly specify the Python executable inside `venv` to install Python packages.
     2. Reload IBM Bob (:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> → "Reload Window")
     3. Reopen the project folder
 
-??? question "Q2: Don't know where to enter connection information"
+??? question "Don't know where to enter connection information"
 
     Solution:
     

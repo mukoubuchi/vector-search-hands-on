@@ -44,17 +44,17 @@ Vector Search は「意味」を理解して検索します。以下の図は、
   <div class="vector-flow-edge"><span>変換</span><span aria-hidden="true">⟶</span></div>
   <div class="admonition vector-flow-step" style="--flow-tint: #f6f4f7">
     <p class="admonition-title">ステップ 3: ベクトル表現</p>
-    <p class="vector-flow-content"><strong>ベクトル (384次元)</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
+    <p class="vector-flow-content"><strong>ベクトル（384 次元）</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
   </div>
   <div class="vector-flow-edge"><span>検索クエリ</span><span aria-hidden="true">⟶</span></div>
   <div class="admonition vector-flow-step" style="--flow-tint: #f5f9f7">
     <p class="admonition-title">ステップ 4: 類似検索</p>
-    <p class="vector-flow-content"><strong>Milvus</strong><br/>ベクトルDB</p>
+    <p class="vector-flow-content"><strong>Milvus</strong><br/>ベクトル DB</p>
   </div>
   <div class="vector-flow-edge"><span>類似ベクトル</span><span aria-hidden="true">⟶</span></div>
   <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
     <p class="admonition-title">ステップ 5: 検索結果</p>
-    <p class="vector-flow-content"><strong>類似商品リスト</strong><br/>・赤いランニングシューズ (0.5621)<br/>・赤いスポーツシューズ (0.5474)<br/>・赤いトレーニングシューズ (0.4517)</p>
+    <p class="vector-flow-content"><strong>類似商品リスト</strong><br/>・赤いランニングシューズ（0.5621）<br/>・赤いスポーツシューズ（0.5474）<br/>・赤いトレーニングシューズ（0.4517）</p>
   </div>
 </div>
 
@@ -395,7 +395,7 @@ http://localhost:8002
 
 ## FAQ
 
-??? question "Q1: 検索画面が開けない"
+??? question "検索画面が開けない"
 
     対処法:
     
@@ -403,14 +403,14 @@ http://localhost:8002
     2. URL が正しいか確認（**`http://localhost:8002`**）
     3. ブラウザを変えてみる
 
-??? question "Q2: 検索結果が 0 件"
+??? question "検索結果が 0 件"
 
     対処法:
     
     1. サンプルデータが投入されているか確認
     2. 検索クエリを変えてみる
 
-??? question "Q3: 類似度スコアが極端に低い"
+??? question "類似度スコアが極端に低い"
 
     対処法:
 

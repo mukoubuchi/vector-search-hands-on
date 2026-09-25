@@ -230,14 +230,14 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
 
 ## FAQ
 
-??? question "Q1: IBM Bob が応答しない"
+??? question "IBM Bob が応答しない"
 
     対処法:
     
     1. インターネット接続を確認
     2. IBM Bob を再起動
 
-??? question "Q2: 変更が反映されない"
+??? question "変更が反映されない"
 
     対処法:
     
@@ -248,7 +248,7 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
         2. **`python app.py`** を実行（[:material-play-circle: 起動方法](part1.md#app-restart)）
     3. ブラウザで検索画面を再読み込み
 
-??? question "Q3: エラーが表示される"
+??? question "エラーが表示される"
 
     対処法:
     
