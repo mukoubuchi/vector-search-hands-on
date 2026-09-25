@@ -3,7 +3,7 @@ services:
   # local storage on the milvus_data volume, as in the official Milvus
   # standalone_embed.sh script (no separate etcd or object storage service)
   milvus:
-    image: milvusdb/milvus:v2.6.18
+    image: milvusdb/milvus:v3.0.2
     profiles: ["milvus", "all"]
     command: ["milvus", "run", "standalone"]
     security_opt:
