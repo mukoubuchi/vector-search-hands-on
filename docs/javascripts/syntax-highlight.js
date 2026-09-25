@@ -48,6 +48,46 @@
             && firstElement.className;
     }
 
+    function isShellEscape(node) {
+        return node.nodeType === Node.ELEMENT_NODE
+            && node.tagName === 'SPAN'
+            && node.classList.contains('se');
+    }
+
+    // Pygments splits a Windows path such as venv\Scripts\activate into text
+    // and escape tokens (.se for \S and \a). When the first word runs straight
+    // into an escape, keep reading up to the next whitespace so that the whole
+    // path becomes one command name. Returns the text taken from the siblings.
+    function takeEscapedTail(firstTextNode) {
+        const parent = firstTextNode.parentNode;
+        const consumed = [];
+        let tail = '';
+        let node = firstTextNode.nextSibling;
+
+        while (node && isShellEscape(node)) {
+            tail += node.textContent;
+            consumed.push(node);
+            node = node.nextSibling;
+
+            if (node && node.nodeType === Node.TEXT_NODE) {
+                const head = node.textContent.match(/^\S*/)[0];
+                tail += head;
+                if (head.length < node.textContent.length) {
+                    // Whitespace ends the word; leave the rest of this node in place.
+                    node.textContent = node.textContent.substring(head.length);
+                    break;
+                }
+                consumed.push(node);
+                node = node.nextSibling;
+            }
+        }
+
+        consumed.forEach(function(consumedNode) {
+            parent.removeChild(consumedNode);
+        });
+        return tail;
+    }
+
     function highlightShellCommand(lineSpan) {
         if (hasExistingHighlight(lineSpan)) {
             return;
@@ -67,12 +107,17 @@
             return;
         }
 
-        const firstWord = match[1];
+        let firstWord = match[1];
         const parent = firstTextNode.parentNode;
+        const rest = trimmedText.substring(firstWord.length);
+
+        if (rest === '') {
+            firstWord += takeEscapedTail(firstTextNode);
+        }
 
         parent.insertBefore(document.createTextNode(text.substring(0, leadingSpaces)), firstTextNode);
         parent.insertBefore(createHighlightedSpan('nb', firstWord), firstTextNode);
-        parent.insertBefore(document.createTextNode(trimmedText.substring(firstWord.length)), firstTextNode);
+        parent.insertBefore(document.createTextNode(rest), firstTextNode);
         parent.removeChild(firstTextNode);
     }
 
