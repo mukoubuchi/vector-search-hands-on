@@ -116,7 +116,7 @@ Vector Search を顧客の既存システムに組み込む場合、単に検索
 ## 参考資料
 
 - [Building Blocks ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
-- [Vector Search Builder ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/data-core/retrieval/vector-search/?h=vector)
+- [Building Blocks の Vector Search ドキュメント](https://ibm-self-serve-assets.github.io/building-blocks-docs/ai-core/data/vector-search/)
 - [IBM Bob IDE ドキュメント](https://bob.ibm.com/docs/ide)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [Sentence Transformers](https://www.sbert.net/)
