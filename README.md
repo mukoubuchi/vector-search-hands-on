@@ -376,7 +376,7 @@ Details: [Building Blocks Documentation](https://ibm-self-serve-assets.github.io
 - **AI Development Assistant**: IBM Bob
 - **Vector Database**: Milvus 3.0.2 (pymilvus 3.0.2)
 - **Embedding Model**: Hugging Face Transformers (`paraphrase-multilingual-MiniLM-L12-v2`, sentence-transformers 6.1)
-- **Web Framework**: FastAPI 0.136 / Uvicorn
+- **Web Framework**: FastAPI 0.141 / Uvicorn
 - **Programming Language**: Python 3.11
 - **Documentation**: MkDocs Material (with i18n plugin — English / 日本語)
 - **CI/CD**: GitHub Actions (auto-deploy to GitHub Pages, translation sync check, lint, zip packaging, E2E smoke test)
