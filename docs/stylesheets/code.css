@@ -91,9 +91,9 @@
 
 .md-typeset .language-properties.highlight .c,
 .md-typeset .language-properties.highlight .c1 {
-    color: inherit !important;
-    font-weight: 700 !important;
-    font-style: normal !important;
+    color: var(--md-primary-fg-color) !important;
+    font-weight: 400 !important;
+    font-style: italic !important;
 }
 
 /* Copy button styling */
@@ -192,49 +192,50 @@
     font-weight: 700 !important;
 }
 
-.md-typeset .language-bash .highlight .c,
-.md-typeset .language-bash .highlight .c1,
-.md-typeset .language-bash .highlight .s,
-.md-typeset .language-bash .highlight .s1,
-.md-typeset .language-bash .highlight .s2,
-.md-typeset .language-sh .highlight .c,
-.md-typeset .language-sh .highlight .c1,
-.md-typeset .language-sh .highlight .s,
-.md-typeset .language-sh .highlight .s1,
-.md-typeset .language-sh .highlight .s2 {
+.md-typeset .language-bash.highlight .c,
+.md-typeset .language-bash.highlight .c1,
+.md-typeset .language-bash.highlight .s,
+.md-typeset .language-bash.highlight .s1,
+.md-typeset .language-bash.highlight .s2,
+.md-typeset .language-sh.highlight .c,
+.md-typeset .language-sh.highlight .c1,
+.md-typeset .language-sh.highlight .s,
+.md-typeset .language-sh.highlight .s1,
+.md-typeset .language-sh.highlight .s2 {
     color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)) !important;
     font-weight: normal !important;
 }
 
-.md-typeset .language-bash .highlight .nv,
-.md-typeset .language-sh .highlight .nv,
-.md-typeset .language-shell .highlight .nv {
+.md-typeset .language-bash.highlight .nv,
+.md-typeset .language-sh.highlight .nv,
+.md-typeset .language-shell.highlight .nv {
     color: var(--md-accent-fg-color) !important;
     font-weight: normal !important;
 }
 
-.md-typeset .language-bash .highlight .s,
-.md-typeset .language-bash .highlight .s1,
-.md-typeset .language-bash .highlight .s2,
-.md-typeset .language-sh .highlight .s,
-.md-typeset .language-sh .highlight .s1,
-.md-typeset .language-sh .highlight .s2,
-.md-typeset .language-shell .highlight .s,
-.md-typeset .language-shell .highlight .s1,
-.md-typeset .language-shell .highlight .s2 {
+.md-typeset .language-bash.highlight .s,
+.md-typeset .language-bash.highlight .s1,
+.md-typeset .language-bash.highlight .s2,
+.md-typeset .language-sh.highlight .s,
+.md-typeset .language-sh.highlight .s1,
+.md-typeset .language-sh.highlight .s2,
+.md-typeset .language-shell.highlight .s,
+.md-typeset .language-shell.highlight .s1,
+.md-typeset .language-shell.highlight .s2 {
     color: color-mix(in srgb, var(--md-primary-fg-color) 70%, var(--md-code-fg-color)) !important;
     font-weight: normal !important;
 }
 
-.md-typeset .language-bash .highlight .c,
-.md-typeset .language-bash .highlight .c1,
-.md-typeset .language-sh .highlight .c,
-.md-typeset .language-sh .highlight .c1,
-.md-typeset .language-shell .highlight .c,
-.md-typeset .language-shell .highlight .c1 {
-    color: color-mix(in srgb, var(--md-default-fg-color) 55%, var(--md-code-bg-color)) !important;
+/* Comments in shell blocks use the heading color, like the .env comments */
+.md-typeset .language-bash.highlight .c,
+.md-typeset .language-bash.highlight .c1,
+.md-typeset .language-sh.highlight .c,
+.md-typeset .language-sh.highlight .c1,
+.md-typeset .language-shell.highlight .c,
+.md-typeset .language-shell.highlight .c1 {
+    color: var(--md-primary-fg-color) !important;
     font-style: italic !important;
-    font-weight: normal !important;
+    font-weight: 400 !important;
 }
 
 /* Mobile-specific code block improvements */
