@@ -116,7 +116,7 @@ This difference makes it easier to deliver the following value in projects.
 ## Reference Materials
 
 - [Building Blocks Documentation](https://ibm-self-serve-assets.github.io/building-blocks-docs/)
-- [Vector Search Builder Documentation](https://ibm-self-serve-assets.github.io/building-blocks-docs/data-core/retrieval/vector-search/?h=vector)
+- [Building Blocks Vector Search documentation](https://ibm-self-serve-assets.github.io/building-blocks-docs/ai-core/data/vector-search/)
 - [IBM Bob IDE Documentation](https://bob.ibm.com/docs/ide)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [Sentence Transformers](https://www.sbert.net/)
