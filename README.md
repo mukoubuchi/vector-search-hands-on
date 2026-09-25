@@ -229,7 +229,7 @@ Details: [docs/preparation.md](docs/preparation.md)
 | [Preparation](docs/preparation.md) | Building Block setup | 15 min | Vector Search Builder installation |
 | [Part 1](docs/part1.md) | Experience Vector Search | 20 min | How semantic search works and its value |
 | [Part 2](docs/part2.md) | Add features with IBM Bob | 30 min | Development experience via natural language |
-| [Part 3](docs/part3.md) | Verification and review | 15 min | Code quality verification |
+| [Part 3](docs/part3.md) | Verification and cleanup | 10 min | Checking the added features on the search screen |
 | [Summary](docs/summary.md) | Review and Q&A | 10 min | Value recap and next steps |
 
 **Total**: approximately 90 minutes
@@ -278,7 +278,7 @@ Details: [docs/preparation.md](docs/preparation.md)
 - **Preparation**: [docs/preparation.md](docs/preparation.md)
 - **Part 1 - Experience Vector Search**: [docs/part1.md](docs/part1.md)
 - **Part 2 - Add features with IBM Bob**: [docs/part2.md](docs/part2.md)
-- **Part 3 - Verification and review**: [docs/part3.md](docs/part3.md)
+- **Part 3 - Verification and cleanup**: [docs/part3.md](docs/part3.md)
 - **Summary**: [docs/summary.md](docs/summary.md)
 - **Feedback**: [docs/feedback.md](docs/feedback.md)
 
@@ -349,7 +349,7 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 
 - **Part 1**: Experience Vector Search (understanding)
 - **Part 2**: Add features with IBM Bob (practice)
-- **Part 3**: Code review and improvement (application)
+- **Part 3**: Verify the added features and clean up (application)
 - **Result**: Even beginners can progress from understanding → practice → application
 
 ## Other Building Blocks Features
@@ -399,7 +399,7 @@ vector-search-hands-on/
 │   ├── preparation.md                     # Preparation
 │   ├── part1.md                           # Part 1: Experience Vector Search
 │   ├── part2.md                           # Part 2: Add features with IBM Bob
-│   ├── part3.md                           # Part 3: Verification and Review
+│   ├── part3.md                           # Part 3: Verification and Cleanup
 │   ├── summary.md                         # Summary
 │   ├── feedback.md                        # Participant feedback form
 │   ├── translation-sync.md                # Internal translation sync guide (excluded from MkDocs nav)
@@ -410,7 +410,7 @@ vector-search-hands-on/
 │   │   ├── preparation.md                 # Preparation
 │   │   ├── part1.md                       # Part 1: Experience Vector Search
 │   │   ├── part2.md                       # Part 2: Add features with IBM Bob
-│   │   ├── part3.md                       # Part 3: Verification and Review
+│   │   ├── part3.md                       # Part 3: Verification and Cleanup
 │   │   ├── summary.md                     # Summary
 │   │   ├── feedback.md                    # Participant feedback form
 │   │   └── translation-sync.md            # Internal translation sync guide (excluded from MkDocs nav)
