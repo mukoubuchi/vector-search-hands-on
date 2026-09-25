@@ -247,6 +247,8 @@ If IBM Bob asks for approval to run a command, approve it.
         1. Press ++ctrl+c++ in the terminal running the application (stop)
         2. Execute **`python app.py`** ([:material-play-circle: How to start](part1.md#app-restart))
     3. Reload the search screen in the browser
+    
+    If you see `Address already in use`, the app that IBM Bob started for its own check is still running; reload the screen and continue.
 
 ??? question "Error is displayed"
 
