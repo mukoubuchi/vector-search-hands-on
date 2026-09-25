@@ -4,21 +4,35 @@ Vector Search Demo Application
 This application provides a vector search demo using Milvus.
 """
 
+import mimetypes
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any, List, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from pymilvus import connections, Collection, utility
 from sentence_transformers import SentenceTransformer
 import uvicorn
 
-from common import connect_to_milvus, load_embedding_model, msg
+from common import IS_JA, connect_to_milvus, load_embedding_model, msg
 from schema import PRODUCT_OUTPUT_FIELDS, SEARCH_PARAMS, VECTOR_FIELD, get_collection_name
 
 
 COLLECTION_NAME = get_collection_name()
+
+# Search screen (HTML, JavaScript, CSS, and product images) served at / and /static
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+SCREEN_LANGUAGE = "ja" if IS_JA else "en"
+
+# Some Windows registries map these extensions to other media types, and
+# browsers refuse a stylesheet or an SVG image served with the wrong type
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("text/javascript", ".js")
+mimetypes.add_type("image/svg+xml", ".svg")
 
 # Global variables
 embedding_model: Optional[SentenceTransformer] = None
@@ -116,7 +130,7 @@ async def lifespan(app: FastAPI):
     print("\n" + "=" * 50)
     print(msg("✓ Application started successfully", "✓ アプリケーションを起動しました"))
     print("=" * 50)
-    print("\nSwagger UI: http://localhost:8002/docs")
+    print(f"\n{msg('Search screen', '検索画面')}: http://localhost:8002")
     print("=" * 50 + "\n")
 
     yield
@@ -145,6 +159,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 class SearchRequest(BaseModel):
@@ -189,14 +205,12 @@ def format_search_results(results: Any) -> List[SearchResult]:
     return search_results
 
 
-@app.get("/")
-async def root():
-    """Root endpoint"""
-    return {
-        "message": msg("Vector Search Demo API", "ベクトル検索デモ API"),
-        "docs": "/docs",
-        "health": "/health"
-    }
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+def search_screen():
+    """Serve the product search screen in the participant language."""
+    page = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    # The screen picks its text from the <html lang> attribute
+    return page.replace('<html lang="en">', f'<html lang="{SCREEN_LANGUAGE}">', 1)
 
 
 @app.get("/health")
