@@ -131,8 +131,7 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
 
 !!! info "IBM Bob Version Used"
     
-    This hands-on uses **IBM Bob 1.0.3**.
-    If you use a different version, some screens or command behavior may differ.
+    This hands-on was verified with **IBM Bob 2.2.0** (September 2026). Other versions may show different modes, approval prompts, or proposals.
 
 1. Launch IBM Bob
 

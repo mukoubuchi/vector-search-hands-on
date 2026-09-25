@@ -5,7 +5,7 @@ In this hands-on workshop, you will combine **Building Blocks** and **IBM Bob** 
 !!! info "Prerequisites"
     
     IBM Bob is already installed and available for use.
-    This hands-on uses **IBM Bob 1.0.3**.
+    This hands-on was verified with **IBM Bob 2.2.0** (September 2026). Other versions may show different modes, approval prompts, or proposals.
 
 ## What You'll Experience in This Hands-on
 

@@ -296,7 +296,7 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 
 **Instructors**: a container runtime — Colima or Podman recommended (Docker Desktop also works where your organization licenses it) — and Python 3 with `pymilvus` (used by `start-all.sh` to rotate the Milvus root password)
 
-**Participants**: IBM Bob 1.0.3 (IDE with Building Blocks support)
+**Participants**: IBM Bob 2.2.0 (IDE with Building Blocks support). The hands-on was verified with this version in September 2026; other versions may show different modes, approval prompts, or proposals.
 
 ## Unique Innovations in This Hands-on
 
