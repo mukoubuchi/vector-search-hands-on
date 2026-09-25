@@ -39,7 +39,7 @@ write_env_value() {
 
 # Generate credentials on first start; never keep the documented defaults
 ensure_credentials() {
-    local milvus_password minio_password
+    local milvus_password
 
     milvus_password="$(read_env_value MILVUS_PASSWORD)"
     if [ -z "$milvus_password" ] || [ "$milvus_password" = "Milvus" ]; then
@@ -48,14 +48,6 @@ ensure_credentials() {
         log_info "Generated Milvus root password (stored in setup/instructor/.env)"
     fi
     export MILVUS_PASSWORD="$milvus_password"
-
-    minio_password="$(read_env_value MINIO_ROOT_PASSWORD)"
-    if [ -z "$minio_password" ] || [ "$minio_password" = "minioadmin" ]; then
-        minio_password="$(generate_secret)"
-        write_env_value MINIO_ROOT_PASSWORD "$minio_password"
-        log_info "Generated MinIO root password (stored in setup/instructor/.env)"
-    fi
-    export MINIO_ROOT_PASSWORD="$minio_password"
 }
 
 wait_for_milvus() {
@@ -121,7 +113,7 @@ fi
 
 echo ""
 
-# Generate credentials before the containers read them
+# Generate the Milvus root password (rotated in once Milvus is healthy)
 ensure_credentials
 
 echo ""
@@ -130,7 +122,7 @@ echo ""
 echo "Starting Milvus environment and MkDocs documentation..."
 if $COMPOSE_CMD --profile all up -d --build; then
     log_info "All services started"
-    echo "  - etcd, minio, milvus"
+    echo "  - milvus"
     echo "  - mkdocs (documentation server)"
 else
     log_error "Failed to start services"

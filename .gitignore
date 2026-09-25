@@ -7,8 +7,6 @@
 
 # Docker volumes
 milvus-data/
-etcd-data/
-minio-data/
 
 # OS files
 .DS_Store

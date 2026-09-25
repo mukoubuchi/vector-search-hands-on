@@ -1,43 +1,7 @@
 services:
-  # Milvus environment (3 services)
-  # Component versions follow the official Milvus v2.6.18 standalone compose file
-  etcd:
-    image: quay.io/coreos/etcd:v3.5.25
-    profiles: ["milvus", "all"]
-    environment:
-      - ETCD_AUTO_COMPACTION_MODE=revision
-      - ETCD_AUTO_COMPACTION_RETENTION=1000
-      - ETCD_QUOTA_BACKEND_BYTES=4294967296
-      - ETCD_SNAPSHOT_COUNT=50000
-    volumes:
-      - etcd_data:/etcd
-    command: etcd -advertise-client-urls=http://etcd:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
-    healthcheck:
-      test: ["CMD", "etcdctl", "endpoint", "health"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-
-  minio:
-    image: minio/minio:RELEASE.2024-12-18T13-15-44Z
-    profiles: ["milvus", "all"]
-    environment:
-      # Credentials are generated into setup/instructor/.env by start-all.sh
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
-    # MinIO is only used internally by Milvus; never expose it to the network
-    ports:
-      - "127.0.0.1:9001:9001"
-      - "127.0.0.1:9000:9000"
-    volumes:
-      - minio_data:/minio_data
-    command: minio server /minio_data --console-address ":9001"
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-
+  # Milvus standalone in a single container: embedded etcd for metadata and
+  # local storage on the milvus_data volume, as in the official Milvus
+  # standalone_embed.sh script (no separate etcd or object storage service)
   milvus:
     image: milvusdb/milvus:v2.6.18
     profiles: ["milvus", "all"]
@@ -45,22 +9,24 @@ services:
     security_opt:
       - seccomp:unconfined
     environment:
-      ETCD_ENDPOINTS: etcd:2379
-      MINIO_ADDRESS: minio:9000
-      MINIO_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      ETCD_USE_EMBED: "true"
+      ETCD_DATA_DIR: /var/lib/milvus/etcd
+      ETCD_CONFIG_PATH: /milvus/configs/embedEtcd.yaml
+      COMMON_STORAGETYPE: local
+      DEPLOY_MODE: STANDALONE
       MQ_TYPE: woodpecker
+      # Woodpecker writes its log to object storage by default; keep it on
+      # the local volume as well
+      WOODPECKER_STORAGE_TYPE: local
       # Enforce user/password authentication (without this, any credentials are accepted)
       COMMON_SECURITY_AUTHORIZATIONENABLED: "true"
     volumes:
       - milvus_data:/var/lib/milvus
+      - ./embedEtcd.yaml:/milvus/configs/embedEtcd.yaml:ro
     ports:
       - "19530:19530"
       # Metrics endpoint is for the instructor machine only
       - "127.0.0.1:9091:9091"
-    depends_on:
-      - "etcd"
-      - "minio"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
       interval: 30s
@@ -89,8 +55,6 @@ services:
     restart: unless-stopped
 
 volumes:
-  etcd_data:
-  minio_data:
   milvus_data:
 
 # Profile usage examples:
@@ -99,6 +63,8 @@ volumes:
 # - Documentation only:    docker compose --profile docs up -d
 # - Stop all services:     docker compose --profile all down
 #
-# Upgrading from Milvus 2.3.x: the storage format is not compatible.
-# Reset the volumes first (sample data can simply be re-inserted):
+# Upgrading from the etcd + MinIO layout (v1.11.0 and earlier) or from
+# Milvus 2.3.x: existing data is not carried over. Remove the old volumes
+# first (sample data can simply be re-inserted):
 #   docker compose --profile all down -v
+#   docker volume rm instructor_etcd_data instructor_minio_data

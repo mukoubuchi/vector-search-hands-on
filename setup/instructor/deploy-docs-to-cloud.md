@@ -217,7 +217,7 @@ Lessons learned from the previous deployment, relevant when you build images **l
 Running Milvus itself on Code Engine has significant caveats:
 
 - Code Engine apps expose HTTPS/gRPC on port 443 only; participants would connect with a pymilvus `uri` (TLS) instead of the plain `host:port 19530` used in this hands-on, so the participant scripts and docs would need adjustments.
-- Apps are single-container: the 3-container compose stack does not map directly. Milvus standalone must be configured with embedded etcd and local storage.
+- Apps are single-container: the instructor compose stack already runs Milvus standalone as one container, so carry its image, environment variables, and mounted configuration over to the app definition.
 - Storage is ephemeral: a restart or scale-down wipes collections. Set min instances to 1 and treat all data as throwaway.
 
 For a cloud-hosted Milvus, an IBM Cloud VPC VM running the same `docker-compose` stack as the instructor setup is the lower-risk path; use Code Engine for the documentation and keep Milvus on a VM or private network.

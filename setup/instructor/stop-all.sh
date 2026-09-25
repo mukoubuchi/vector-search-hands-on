@@ -84,7 +84,7 @@ echo ""
 echo "Stopping Milvus environment, MkDocs documentation, and FastAPI demo..."
 if $COMPOSE_CMD --profile all down; then
     log_info "Docker containers stopped"
-    echo "  - etcd, minio, milvus"
+    echo "  - milvus"
     echo "  - mkdocs (container version, port 8001)"
 else
     log_error "Failed to stop Docker containers"
