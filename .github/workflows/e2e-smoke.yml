@@ -119,6 +119,12 @@ jobs:
           assert data["results"], "search returned no results"
           print("search OK:", data["results"][0]["product_name"])
           PYEOF
+          echo "--- / (search screen) ---"
+          curl -sf http://localhost:8002/ -o page.html
+          grep -q 'id="search-form"' page.html
+          curl -sf -o /dev/null http://localhost:8002/static/app.js
+          curl -sf -o /dev/null http://localhost:8002/static/images/product-01.svg
+          echo "search screen OK"
 
       - name: Show logs on failure
         if: failure()
