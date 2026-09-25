@@ -74,8 +74,8 @@ Thank you for joining the Vector Search hands-on. Please share what worked well 
       <option value="All were useful">All were useful</option>
 </select></span>
 
-<label for="review">Were the verification, code review, and cleanup steps in Part 3 useful? <span class="feedback-required">Required</span></label>
-<span class="feedback-select"><select id="review" name="Verification review cleanup usefulness" required>
+<label for="review">Were the verification and cleanup steps in Part 3 useful? <span class="feedback-required">Required</span></label>
+<span class="feedback-select"><select id="review" name="Verification and cleanup usefulness" required>
       <option value="">Select one</option>
       <option value="5 - Very useful">5 - Very useful</option>
       <option value="4 - Useful">4 - Useful</option>
@@ -90,7 +90,7 @@ Thank you for joining the Vector Search hands-on. Please share what worked well 
 ## Comments { #feedback-comments }
 
 <label for="confusing">Which part was confusing or hard to follow? <span class="feedback-required">Required</span></label>
-<textarea id="confusing" name="Confusing or hard part" rows="4" placeholder="Example: Milvus connection setup, search API execution, IBM Bob code review..." required></textarea>
+<textarea id="confusing" name="Confusing or hard part" rows="4" placeholder="Example: Milvus connection setup, the search screen, IBM Bob instructions..." required></textarea>
 
 <label for="improvement">What should be improved for the next session? <span class="feedback-required">Required</span></label>
 <textarea id="improvement" name="Improvement ideas" rows="4" required></textarea>

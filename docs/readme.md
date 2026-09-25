@@ -11,7 +11,7 @@ docs/
 ├── preparation.md            # Preparation
 ├── part1.md                  # Part 1: Experience Vector Search
 ├── part2.md                  # Part 2: Add features with IBM Bob
-├── part3.md                  # Part 3: Verification and Review
+├── part3.md                  # Part 3: Verification and Cleanup
 ├── summary.md                # Summary
 ├── feedback.md               # Participant feedback form
 ├── translation-sync.md       # Internal translation sync guide
@@ -21,11 +21,11 @@ docs/
 │   ├── preparation.md        # Preparation
 │   ├── part1.md              # Part 1: Experience Vector Search
 │   ├── part2.md              # Part 2: Add features with IBM Bob
-│   ├── part3.md              # Part 3: Verification and Review
+│   ├── part3.md              # Part 3: Verification and Cleanup
 │   ├── summary.md            # Summary
 │   ├── feedback.md           # Participant feedback form
 │   └── translation-sync.md   # Internal translation sync guide
-├── images/                   # Diagrams and SVG images
+├── images/                   # Diagrams, SVG images, and screenshots
 ├── stylesheets/              # Custom CSS (modularized)
 │   ├── extra.css             # Main CSS file (imports each module)
 │   ├── typography.css        # Typography styles

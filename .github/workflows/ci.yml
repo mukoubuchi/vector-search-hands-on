@@ -62,8 +62,12 @@ jobs:
         run: |
           tmp="$(mktemp -d)"
           bash setup/instructor/build-participant-zips.sh "$tmp"
-          unzip -l "$tmp/vector-search-builder-en.zip" > /dev/null
-          unzip -l "$tmp/vector-search-builder-ja.zip" > /dev/null
+          for lang in en ja; do
+            listing="$(unzip -l "$tmp/vector-search-builder-$lang.zip")"
+            # The search screen served by app.py must ship with the app
+            grep -q 'setup/participant/static/index.html' <<< "$listing"
+            grep -q 'setup/participant/static/images/product-12.svg' <<< "$listing"
+          done
 
       - name: Build MkDocs site
         run: mkdocs build --strict

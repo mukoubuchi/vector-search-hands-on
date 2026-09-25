@@ -74,8 +74,8 @@ Vector Search ハンズオンにご参加いただき、ありがとうござい
       <option value="すべて役立った">すべて役立った</option>
 </select></span>
 
-<label for="review-ja">Part 3 の動作確認、コードレビュー、クリーンアップの流れは役に立ちましたか？ <span class="feedback-required">必須</span></label>
-<span class="feedback-select"><select id="review-ja" name="動作確認・レビュー・クリーンアップの有用性" required>
+<label for="review-ja">Part 3 の動作確認と後始末の流れは役に立ちましたか？ <span class="feedback-required">必須</span></label>
+<span class="feedback-select"><select id="review-ja" name="動作確認・後始末の有用性" required>
       <option value="">選択してください</option>
       <option value="5 - とても役立った">5 - とても役立った</option>
       <option value="4 - 役立った">4 - 役立った</option>
@@ -90,7 +90,7 @@ Vector Search ハンズオンにご参加いただき、ありがとうござい
 ## 自由記述 { #feedback-comments }
 
 <label for="confusing-ja">分かりにくかった点、つまずいた点があれば教えてください。 <span class="feedback-required">必須</span></label>
-<textarea id="confusing-ja" name="分かりにくかった点" rows="4" placeholder="例: Milvus の接続設定、検索 API の実行、IBM Bob のコードレビューなど" required></textarea>
+<textarea id="confusing-ja" name="分かりにくかった点" rows="4" placeholder="例: Milvus の接続設定、検索画面、IBM Bob への指示など" required></textarea>
 
 <label for="improvement-ja">次回に向けて改善してほしい点を教えてください。 <span class="feedback-required">必須</span></label>
 <textarea id="improvement-ja" name="改善してほしい点" rows="4" required></textarea>

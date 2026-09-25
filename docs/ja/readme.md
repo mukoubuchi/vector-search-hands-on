@@ -11,7 +11,7 @@ docs/
 ├── preparation.md            # 準備
 ├── part1.md                  # Part 1: ベクトル検索を体験する
 ├── part2.md                  # Part 2: IBM Bob で機能を追加する
-├── part3.md                  # Part 3: 動作確認とレビュー
+├── part3.md                  # Part 3: 動作確認と後始末
 ├── summary.md                # まとめ
 ├── feedback.md               # 受講者フィードバックフォーム
 ├── translation-sync.md       # 内部向け翻訳同期ガイド
@@ -21,11 +21,11 @@ docs/
 │   ├── preparation.md        # 準備
 │   ├── part1.md              # Part 1: ベクトル検索を体験する
 │   ├── part2.md              # Part 2: IBM Bob で機能を追加する
-│   ├── part3.md              # Part 3: 動作確認とレビュー
+│   ├── part3.md              # Part 3: 動作確認と後始末
 │   ├── summary.md            # まとめ
 │   ├── feedback.md           # 受講者フィードバックフォーム
 │   └── translation-sync.md   # 内部向け翻訳同期ガイド
-├── images/                   # 図解と SVG 画像
+├── images/                   # 図解、SVG 画像、スクリーンショット
 ├── stylesheets/              # カスタム CSS（モジュール化）
 │   ├── extra.css             # メイン CSS ファイル（各モジュールをインポート）
 │   ├── typography.css        # タイポグラフィスタイル

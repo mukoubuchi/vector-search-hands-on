@@ -32,16 +32,20 @@ In this part, you'll add the following 3 features:
 2. **Price filter**
 3. **Recommendation reason display**
 
+!!! info "The search screen shows the new fields automatically"
+    The search screen displays whatever the **`/search`** API returns. Once the API returns **`image_url`** or **`recommendation_reason`**, or accepts **`min_price`** and **`max_price`**, the screen shows product images or recommendation reasons, or enables its price filter. In this part, you ask IBM Bob to change only the API and the data.
+
 ??? note "About hot reload"
     The application has a hot reload feature, but in this hands-on, stop it once before changing code and start it again after the change to ensure the updates are applied.
 
 ??? note "Application file structure"
-    - `app.py`: Defines the FastAPI API and screen
+    - `app.py`: Defines the FastAPI API and serves the search screen
     - `common.py`: Handles `.env`, language selection, Milvus connection, and embedding model loading
     - `schema.py`: Defines the Milvus collection schema, index/search settings, and fields returned in search results
     - `insert_sample_data.py`: Inserts sample product data into Milvus
     - `sample_products.py`: Selects the sample product data based on `PARTICIPANT_LANGUAGE`
     - `sample_products_en.py`: Defines English sample data such as product names, descriptions, and prices
+    - `static/`: The search screen (HTML, JavaScript, and CSS) and the product images (`static/images/product-01.svg` to `product-12.svg`). You do not need to change it in this part
 
 ## Feature 1: Product Image Display {#feature-1-product-image-display}
 
@@ -51,38 +55,26 @@ In this part, you'll add the following 3 features:
 
 ### Step 1: Open IBM Bob
 
-Click the chat input field at the bottom of the IBM Bob screen
+Click the chat input field at the bottom of the IBM Bob screen. Keep **Vector Search Builder** selected as the mode.
 
-### Step 2: Switch to Code Mode
-
-1. Click the "Mode" selector at the bottom right of the screen
-2. Select "Code"
-
-**Code mode** = Dedicated mode for writing code
-
-??? note "Practice switching to Code mode"
-    You can run this task while staying in **Vector Search Builder mode**.
-    
-    In this step, switch to **Code mode** intentionally to practice the basic mode-switching flow.
-
-### Step 3: Stop the Application
+### Step 2: Stop the Application
 
 Press ++ctrl+c++ in the terminal running the application to stop it.
 
-### Step 4: Give Instructions to IBM Bob
+### Step 3: Give Instructions to IBM Bob
 
 Enter the following in the chat input field and press Enter:
 
 ```
-Add an image_url field to the /search API JSON response.
-Make it verifiable in Swagger UI.
+Add an image_url field to the /search API JSON response so the search screen can display it.
+The product images are static/images/product-01.svg to product-12.svg, in the same order as SAMPLE_PRODUCTS.
 ```
 
 **Key point**:
 
 - Clearly communicate what you want to do
 
-### Step 5: Wait for IBM Bob's Response
+### Step 4: Wait for IBM Bob's Response
 
 IBM Bob will automatically:
 
@@ -91,28 +83,17 @@ IBM Bob will automatically:
 3. Generate code
 4. Display explanation
 
-### Step 6: Review IBM Bob's Proposal
+### Step 5: Review IBM Bob's Changes
 
-IBM Bob will make a proposal like the following.
+When IBM Bob finishes, the **`/search`** response includes **`image_url`** for each product, such as `/static/images/product-01.svg`. The files IBM Bob edits may vary.
 
-Changes:
+### Step 6: Approve Changes
 
-- **`sample_products_en.py`**: Add **`image_url`** to product data
-- **`schema.py`**: Add **`image_url`** to the collection schema and search output fields
-- **`insert_sample_data.py`**: Insert the new product field into Milvus
-- **`app.py`**: Add **`image_url`** to the API response model and search result JSON
+If IBM Bob asks for approval to run a command, approve it.
 
-The exact proposal may vary, but for stored product fields, both the API response and the Milvus data schema need to stay aligned.
+### Step 7: Verify Operation
 
-### Step 7: Approve Changes
-
-1. Read IBM Bob's proposal
-2. Click the "Approve" button
-3. Changes are applied to the relevant files
-
-### Step 8: Verify Operation
-
-1. Reinsert sample data because the Milvus collection schema changed:
+1. If IBM Bob changed `schema.py`, reinsert the sample data because the Milvus collection schema changed:
 
     ```bash
     python insert_sample_data.py
@@ -122,39 +103,26 @@ The exact proposal may vary, but for stored product fields, both the API respons
         Because your collection already exists from Part 1, the script asks **`Drop and recreate this collection? [y/N]`**. Answer **`y`** (it only affects your own collection — the unique `COLLECTION_NAME` you set in `.env`).
 
 2. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
-3. Open Swagger UI (**`http://localhost:8002/docs`**)
-4. Execute search:
+3. Open the search screen (**`http://localhost:8002`**). If it is already open, reload the page
+4. Search for:
 
-    ```json
-    {
-      "query": "red sneakers"
-    }
+    ```text
+    red sneakers
     ```
 
-5. Verify results:
+5. Verify results: each product card now shows a product image
 
-    ```json
-    {
-      "results": [
-        {
-          "product_name": "Red Sports Shoes",
-          "image_url": "https://example.com/images/red-shoes.jpg",
-          "similarity_score": 0.5474,
-          "price": 7500
-        }
-      ]
-    }
-    ```
+    ![Product cards with images on the search screen](images/search-screen-images-en.png)
 
-**Verification point**: **`image_url`** field has been added
+**Verification point**: Product images are displayed. The API returns **`image_url`** values such as `/static/images/product-01.svg`, and the screen shows the image at that path
 
 ### Feature 1 Completion Check
 
 - [ ] Gave instructions to IBM Bob
 - [ ] IBM Bob generated code
 - [ ] Approved changes
-- [ ] Reinserted sample data after the schema change
-- [ ] **`image_url`** is displayed in search results
+- [ ] Reinserted sample data if the schema changed
+- [ ] Product images are displayed in the search results
 
 ## Feature 2: Price Filter
 
@@ -175,35 +143,29 @@ Allow min_price and max_price to be specified in the /search API JSON request.
 Return only search results within the specified price range.
 ```
 
-### Step 3: Review IBM Bob's Proposal
+### Step 3: Review IBM Bob's Changes
 
-IBM Bob will make a proposal like the following.
-
-Changes:
-
-- **`app.py`**: Add **`min_price`** and **`max_price`** parameters to the search request
-- Filter search results by price range
+When IBM Bob finishes, the **`/search`** request accepts **`min_price`** and **`max_price`**, and only products in that price range are returned.
 
 Price is already stored in the existing Milvus collection, so this feature usually does not require changing `schema.py` or reinserting sample data.
 
 ### Step 4: Approve Changes
 
-Click the "Approve" button
+If IBM Bob asks for approval to run a command, approve it.
 
 ### Step 5: Verify Operation
 
 1. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
-2. Execute search:
+2. Reload the search screen. The price filter is now available
+3. Enter **5000** as the minimum price and **10000** as the maximum price, then search for:
 
-    ```json
-    {
-      "query": "sneakers",
-      "min_price": 5000,
-      "max_price": 10000
-    }
+    ```text
+    sneakers
     ```
 
-3. Verify results: Only products between 5000 and 10000 yen are displayed
+4. Verify results: Only products between 5000 and 10000 yen are displayed
+
+    ![Search results narrowed to 5000-10000 yen with the price filter](images/search-screen-price-filter-en.png)
 
 ### Feature 2 Completion Check
 
@@ -230,45 +192,28 @@ Add a recommendation_reason field to the /search API JSON response.
 Generate the reason text based on similarity scores.
 ```
 
-### Step 3: Review IBM Bob's Proposal
+### Step 3: Review IBM Bob's Changes
 
-IBM Bob will make a proposal like the following.
-
-Changes:
-
-- **`app.py`**: Add **`recommendation_reason`** to the API response model and search result JSON
-- Generate reasons based on similarity scores
+When IBM Bob finishes, the **`/search`** response includes **`recommendation_reason`** for each product, generated from its similarity score.
 
 The recommendation reason is generated from the search score, so this feature usually does not require changing stored product data.
 
 ### Step 4: Approve Changes
 
-Click the "Approve" button
+If IBM Bob asks for approval to run a command, approve it.
 
 ### Step 5: Verify Operation
 
 1. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
-2. Execute search:
+2. Reload the search screen and search for:
 
-    ```json
-    {
-      "query": "beginner camera"
-    }
+    ```text
+    beginner camera
     ```
 
-3. Verify results:
+3. Verify results: each product card shows a recommendation reason under **Why this product**. The wording depends on the code IBM Bob generated
 
-    ```json
-    {
-      "results": [
-        {
-          "product_name": "Entry-level Digital Camera",
-          "similarity_score": 0.6123,
-          "recommendation_reason": "Related to the search content (similarity: 0.6123)"
-        }
-      ]
-    }
-    ```
+    ![Product cards with recommendation reasons on the search screen](images/search-screen-reasons-en.png)
 
 ### Feature 3 Completion Check
 
@@ -301,7 +246,7 @@ Click the "Approve" button
     
         1. Press ++ctrl+c++ in the terminal running the application (stop)
         2. Execute **`python app.py`** ([:material-play-circle: How to start](part1.md#app-restart))
-    3. Reload browser
+    3. Reload the search screen in the browser
 
 ??? question "Q3: Error is displayed"
 

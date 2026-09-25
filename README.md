@@ -56,14 +56,14 @@ This hands-on uses the following ports:
 |---------|--------|-----|------|
 | **MkDocs (development)** | 8000 | <http://localhost:8000> | Document editing (with auto-reload) |
 | **MkDocs (container)** | 8001 | <http://localhost:8001> | Participant sharing (stable delivery) |
-| **FastAPI (Swagger UI)** | 8002 | <http://localhost:8002/docs> | Vector Search API (for participants) |
+| **FastAPI (search screen)** | 8002 | <http://localhost:8002> | Product search screen and Vector Search API (for participants) |
 | **Milvus** | 19530 | localhost:19530 | Vector database |
 
 **Important**:
 
 - Port 8000 is dedicated to MkDocs development (for instructor document editing)
-- Port 8002 is the FastAPI app (participants access Swagger UI)
-- Direct participants to `http://localhost:8002/docs`
+- Port 8002 is the FastAPI app (participants open its search screen)
+- Direct participants to `http://localhost:8002`
 
 #### Remote Delivery Setup
 
@@ -229,7 +229,7 @@ Details: [docs/preparation.md](docs/preparation.md)
 | [Preparation](docs/preparation.md) | Building Block setup | 15 min | Vector Search Builder installation |
 | [Part 1](docs/part1.md) | Experience Vector Search | 20 min | How semantic search works and its value |
 | [Part 2](docs/part2.md) | Add features with IBM Bob | 30 min | Development experience via natural language |
-| [Part 3](docs/part3.md) | Verification and review | 15 min | Code quality verification |
+| [Part 3](docs/part3.md) | Verification and cleanup | 10 min | Checking the added features on the search screen |
 | [Summary](docs/summary.md) | Review and Q&A | 10 min | Value recap and next steps |
 
 **Total**: approximately 90 minutes
@@ -278,7 +278,7 @@ Details: [docs/preparation.md](docs/preparation.md)
 - **Preparation**: [docs/preparation.md](docs/preparation.md)
 - **Part 1 - Experience Vector Search**: [docs/part1.md](docs/part1.md)
 - **Part 2 - Add features with IBM Bob**: [docs/part2.md](docs/part2.md)
-- **Part 3 - Verification and review**: [docs/part3.md](docs/part3.md)
+- **Part 3 - Verification and cleanup**: [docs/part3.md](docs/part3.md)
 - **Summary**: [docs/summary.md](docs/summary.md)
 - **Feedback**: [docs/feedback.md](docs/feedback.md)
 
@@ -296,7 +296,7 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 
 **Instructors**: a container runtime — Colima or Podman recommended (Docker Desktop also works where your organization licenses it) — and Python 3 with `pymilvus` (used by `start-all.sh` to rotate the Milvus root password)
 
-**Participants**: IBM Bob 1.0.3 (IDE with Building Blocks support)
+**Participants**: IBM Bob 2.2.0 (IDE with Building Blocks support). The hands-on was verified with this version in September 2026; other versions may show different modes, approval prompts, or proposals.
 
 ## Unique Innovations in This Hands-on
 
@@ -349,7 +349,7 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 
 - **Part 1**: Experience Vector Search (understanding)
 - **Part 2**: Add features with IBM Bob (practice)
-- **Part 3**: Code review and improvement (application)
+- **Part 3**: Verify the added features and clean up (application)
 - **Result**: Even beginners can progress from understanding → practice → application
 
 ## Other Building Blocks Features
@@ -399,7 +399,7 @@ vector-search-hands-on/
 │   ├── preparation.md                     # Preparation
 │   ├── part1.md                           # Part 1: Experience Vector Search
 │   ├── part2.md                           # Part 2: Add features with IBM Bob
-│   ├── part3.md                           # Part 3: Verification and Review
+│   ├── part3.md                           # Part 3: Verification and Cleanup
 │   ├── summary.md                         # Summary
 │   ├── feedback.md                        # Participant feedback form
 │   ├── translation-sync.md                # Internal translation sync guide (excluded from MkDocs nav)
@@ -410,11 +410,11 @@ vector-search-hands-on/
 │   │   ├── preparation.md                 # Preparation
 │   │   ├── part1.md                       # Part 1: Experience Vector Search
 │   │   ├── part2.md                       # Part 2: Add features with IBM Bob
-│   │   ├── part3.md                       # Part 3: Verification and Review
+│   │   ├── part3.md                       # Part 3: Verification and Cleanup
 │   │   ├── summary.md                     # Summary
 │   │   ├── feedback.md                    # Participant feedback form
 │   │   └── translation-sync.md            # Internal translation sync guide (excluded from MkDocs nav)
-│   ├── images/                            # Diagrams and SVG images (EN/JA where needed)
+│   ├── images/                            # Diagrams, SVG images, and screenshots (EN/JA where needed)
 │   ├── javascripts/                       # Custom JavaScript
 │   └── stylesheets/                       # Custom CSS
 ├── setup/
@@ -439,7 +439,8 @@ vector-search-hands-on/
 │       ├── requirements.txt               # Python dependencies
 │       ├── common.py                      # Shared environment, language, connection, and model helpers
 │       ├── schema.py                      # Shared Milvus schema, index, and search settings
-│       ├── app.py                         # FastAPI vector search application
+│       ├── app.py                         # FastAPI vector search application and search screen server
+│       ├── static/                        # Search screen (HTML, JavaScript, CSS) and product images
 │       ├── insert_sample_data.py          # Sample data insertion script
 │       ├── sample_products.py             # Language-aware sample data selector
 │       ├── sample_products_en.py          # English sample product data
@@ -484,6 +485,21 @@ setup/participant/insert_sample_data.py
 setup/participant/requirements.txt
 setup/participant/sample_products.py
 setup/participant/schema.py
+setup/participant/static/app.js
+setup/participant/static/images/product-01.svg
+setup/participant/static/images/product-02.svg
+setup/participant/static/images/product-03.svg
+setup/participant/static/images/product-04.svg
+setup/participant/static/images/product-05.svg
+setup/participant/static/images/product-06.svg
+setup/participant/static/images/product-07.svg
+setup/participant/static/images/product-08.svg
+setup/participant/static/images/product-09.svg
+setup/participant/static/images/product-10.svg
+setup/participant/static/images/product-11.svg
+setup/participant/static/images/product-12.svg
+setup/participant/static/index.html
+setup/participant/static/style.css
 setup/participant/test_connection.py
 setup/participant/test_embeddings_hf.py
 ```
@@ -535,7 +551,8 @@ Do not include `docs/`, `setup/instructor/`, local `.env` files, `__pycache__/`,
 
 **FastAPI application and connection tests**
 
-- `app.py` — FastAPI vector search application (Swagger UI at port 8002)
+- `app.py` — FastAPI vector search application; serves the product search screen at port 8002
+- `static/` — Search screen (HTML, JavaScript, and CSS, no external requests) and the product illustrations it shows
 - `insert_sample_data.py` — Sample product data insertion script
 - `common.py` — Shared language selection, `.env` loading, Milvus authentication, and embedding model loading
 - `schema.py` — Shared collection schema, index parameters, search parameters, and product text mapping

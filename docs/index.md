@@ -5,7 +5,7 @@ In this hands-on workshop, you will combine **Building Blocks** and **IBM Bob** 
 !!! info "Prerequisites"
     
     IBM Bob is already installed and available for use.
-    This hands-on uses **IBM Bob 1.0.3**.
+    This hands-on was verified with **IBM Bob 2.2.0** (September 2026). Other versions may show different modes, approval prompts, or proposals.
 
 ## What You'll Experience in This Hands-on
 
@@ -151,7 +151,7 @@ Responsibilities for each process:
 
     - **Part 1**: Experience Vector Search (understanding)
     - **Part 2**: Add features with IBM Bob (practice)
-    - **Part 3**: Code review and improvement (application)
+    - **Part 3**: Verify the added features and clean up (application)
     
     ### Summary of Role Division
     
@@ -235,7 +235,7 @@ Responsibilities for each process:
 | [Preparation](preparation.md) | Vector Search Builder setup | 15 minutes |
 | [Part 1](part1.md) | Experience Vector Search | 20 minutes |
 | [Part 2](part2.md) | Add features with IBM Bob | 30 minutes |
-| [Part 3](part3.md) | Verification | 15 minutes |
+| [Part 3](part3.md) | Verification and cleanup | 10 minutes |
 | [Summary](summary.md) | Review and Q&A | 10 minutes |
 
 ??? info "About This Hands-on's Documentation Design"

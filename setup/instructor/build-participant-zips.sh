@@ -48,6 +48,9 @@ build_zip() {
         cp "$REPO_ROOT/setup/participant/$file" "$staging/setup/participant/"
     done
 
+    # Search screen served by app.py (HTML, JavaScript, CSS, and product images)
+    cp -R "$REPO_ROOT/setup/participant/static" "$staging/setup/participant/"
+
     # Language-specific sample data and .env template
     cp "$REPO_ROOT/setup/participant/sample_products_$lang.py" "$staging/setup/participant/"
     cp "$REPO_ROOT/setup/participant/.env.example.$lang" "$staging/setup/participant/.env.example"

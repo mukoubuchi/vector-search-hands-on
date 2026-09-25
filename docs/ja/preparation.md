@@ -131,7 +131,7 @@
 
 !!! info "使用する IBM Bob のバージョン"
     
-    このハンズオンでは **IBM Bob 1.0.3** を使用します。バージョンが異なる場合、画面表示やコマンドの挙動が一部異なることがあります。
+    このハンズオンは **IBM Bob 2.2.0**（2026 年 9 月）で動作を確認しています。バージョンが異なると、モードの一覧、承認の表示、IBM Bob の提案内容が変わることがあります。
 
 1. IBM Bob を起動
 
@@ -143,11 +143,11 @@
     === ":fontawesome-brands-windows: Windows"
         **GUI**: <kbd>ファイル</kbd> → <kbd>開く...</kbd> で `vector-search-builder-ja` フォルダを選択、または <kbd>Ctrl</kbd> + <kbd>O</kbd> でフォルダ選択ダイアログを開く。
 
-3. 画面右下の「Mode」セレクターに「Vector Search Builder」が表示されることを確認し、選択
+3. IBM Bob のパネルで、チャット入力欄の下にあるモードの選択を開き、**Vector Search Builder** を選択
 
 !!! success "Vector Search Builder モード"
     
-    「Mode」セレクターで Vector Search Builder モードを選択すると、Building Blocks 専用 Custom モードが有効になります。
+    モードの選択で Vector Search Builder モードを選択すると、Building Blocks 専用 Custom モードが有効になります。
 
     このモードにより、IBM Bob は以下を理解します:
 

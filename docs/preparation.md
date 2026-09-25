@@ -131,8 +131,7 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
 
 !!! info "IBM Bob Version Used"
     
-    This hands-on uses **IBM Bob 1.0.3**.
-    If you use a different version, some screens or command behavior may differ.
+    This hands-on was verified with **IBM Bob 2.2.0** (September 2026). Other versions may show different modes, approval prompts, or proposals.
 
 1. Launch IBM Bob
 
@@ -144,11 +143,11 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
     === ":fontawesome-brands-windows: Windows"
         **GUI**: <kbd>File</kbd> → <kbd>Open...</kbd> and select the `vector-search-builder-en` folder, or press <kbd>Ctrl</kbd> + <kbd>O</kbd> to open the folder selection dialog.
 
-3. Confirm that "Vector Search Builder" appears in the "Mode" selector at the bottom right of the screen and select it
+3. In the IBM Bob panel, open the mode selector below the chat input and select **Vector Search Builder**
 
 !!! success "Vector Search Builder Mode"
     
-    When you select Vector Search Builder mode from the "Mode" selector, the Building Blocks dedicated custom mode becomes active.
+    When you select Vector Search Builder mode from the mode selector, the Building Blocks dedicated custom mode becomes active.
 
     This mode enables IBM Bob to understand:
 

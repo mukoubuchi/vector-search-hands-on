@@ -1,0 +1,470 @@
+/* Product search screen: the hands-on site's colours and system fonts only
+   (works offline) */
+
+:root {
+  /* Values copied from docs/stylesheets/palette.css */
+  --accent: #4051b5;          /* --workshop-accent */
+  --accent-tint: #4051b514;   /* --md-accent-fg-color--transparent */
+  --gray: #8a8b8c;            /* --workshop-gray */
+  --gray-light: #c2c0bf;      /* --workshop-gray-light */
+  --black: #000000;           /* --workshop-black */
+  --heading: #5e5f5f;         /* color-mix(in srgb, #8a8b8c 68%, black) */
+  --surface: #f0f0f0;         /* color-mix(in srgb, #c2c0bf 24%, white) */
+  --support: #85b09a;         /* --workshop-support */
+  --support-focus: #f5f9f7;   /* color-mix(in srgb, #85b09a 8%, white) */
+  /* Errors use the diagrams' red (docs/images/without-building-blocks-*.svg) */
+  --error: #b34a4a;
+  --error-tint: #f9f1f1;      /* color-mix(in srgb, #b34a4a 8%, white) */
+  --radius: 6px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--black);
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Header: the site's header colours */
+
+.site-header {
+  background: var(--heading);
+  color: #ffffff;
+}
+
+.site-title {
+  margin: 0;
+  padding: 16px 0;
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Search form */
+
+.search-panel {
+  margin: 24px 0 16px;
+  padding: 20px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.search-row {
+  display: flex;
+  gap: 8px;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+#query {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--gray);
+  border-radius: var(--radius);
+  background: #ffffff;
+  font-size: 1.0625rem;
+}
+
+/* Same look as the site's filled button (.workshop-next) */
+.search-button {
+  flex: 0 0 auto;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--heading);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: none;
+}
+
+.search-button:hover,
+.search-button:focus {
+  background: var(--accent);
+}
+
+.search-button:disabled {
+  background: var(--gray-light);
+  cursor: progress;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--heading);
+  font-size: 0.875rem;
+}
+
+.example-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.example {
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--heading);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.example:hover {
+  background: var(--accent-tint);
+  color: var(--accent);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px 32px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-light);
+  font-size: 0.9375rem;
+}
+
+.option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.option select {
+  padding: 6px 10px;
+  border: 1px solid var(--gray);
+  border-radius: var(--radius);
+  background: #ffffff;
+}
+
+.price-filter {
+  flex: 1 1 360px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.price-filter legend {
+  float: left;
+  margin-right: 8px;
+  padding: 0;
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price-inputs input {
+  width: 8.5em;
+  padding: 6px 10px;
+  border: 1px solid var(--gray);
+  border-radius: var(--radius);
+  background: #ffffff;
+}
+
+.price-filter:disabled legend,
+.price-filter:disabled .price-inputs {
+  color: var(--gray);
+}
+
+.price-filter:disabled input {
+  background: var(--surface);
+  border-color: var(--gray-light);
+}
+
+.price-note {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--heading);
+  font-size: 0.8125rem;
+}
+
+/* Status line and similarity legend */
+
+.results-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  margin: 0 0 16px;
+}
+
+.status {
+  flex: 1 1 auto;
+  color: var(--heading);
+}
+
+.status p {
+  margin: 0;
+}
+
+.status-title {
+  font-weight: 700;
+}
+
+.status--info .status-title,
+.status--busy .status-title,
+.status--done .status-title {
+  font-weight: 400;
+}
+
+.status--empty {
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--black);
+}
+
+.status--error {
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: var(--error-tint);
+  color: var(--error);
+}
+
+.status-detail {
+  margin-top: 4px;
+  color: var(--black);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin: 0;
+  color: var(--heading);
+  font-size: 0.8125rem;
+}
+
+.legend[hidden] {
+  display: none;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* Similarity bands (thresholds in SIMILARITY_BANDS in app.js) */
+.band--high {
+  background: var(--support);
+}
+
+.band--mid {
+  background: var(--accent);
+}
+
+.band--low {
+  background: var(--gray);
+}
+
+/* Results */
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 0 0 48px;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius);
+}
+
+.card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: #f2f2ef;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-image--missing {
+  color: var(--heading);
+  font-size: 0.875rem;
+}
+
+.card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+}
+
+.card-rank {
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.card-category {
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--heading);
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+}
+
+.card-price {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-description {
+  margin: 0;
+  color: var(--heading);
+  font-size: 0.9375rem;
+}
+
+.similarity {
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.similarity-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  color: var(--heading);
+  font-size: 0.8125rem;
+}
+
+.similarity-value {
+  color: var(--black);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.similarity-bar {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.similarity-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* Reasons are recommendations: the site's support colour marks them */
+.card-reason {
+  padding: 10px 12px;
+  border-left: 3px solid var(--support);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--support-focus);
+  font-size: 0.875rem;
+}
+
+.card-reason p {
+  margin: 0;
+}
+
+.card-reason-label {
+  color: var(--heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .search-panel {
+    padding: 16px;
+  }
+
+  .search-button {
+    padding: 10px 16px;
+  }
+}
