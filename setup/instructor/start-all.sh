@@ -78,24 +78,24 @@ rotate_milvus_password() {
 
     python3 - "$MILVUS_PASSWORD" <<'PYEOF'
 import sys
-from pymilvus import connections, utility
+from pymilvus import MilvusClient
 
 new_password = sys.argv[1]
+uri = "http://localhost:19530"
 
+# Connecting with a wrong password fails, so this checks whether the
+# generated password is already in place
 try:
-    connections.connect(alias="check", host="localhost", port="19530",
-                        user="root", password=new_password)
-    connections.disconnect("check")
+    MilvusClient(uri=uri, user="root", password=new_password).close()
     print("✓ Milvus root password is already set")
     sys.exit(0)
 except Exception:
     pass
 
 try:
-    connections.connect(alias="rotate", host="localhost", port="19530",
-                        user="root", password="Milvus")
-    utility.reset_password("root", "Milvus", new_password, using="rotate")
-    connections.disconnect("rotate")
+    client = MilvusClient(uri=uri, user="root", password="Milvus")
+    client.update_password("root", "Milvus", new_password)
+    client.close()
     print("✓ Milvus root password rotated away from the default")
 except Exception as exc:
     print(f"WARNING: could not rotate the Milvus root password automatically: {exc}")
