@@ -40,11 +40,8 @@ In this part, you'll add the following 3 features:
 
 ??? note "Application file structure"
     - `app.py`: Defines the FastAPI API and serves the search screen
-    - `common.py`: Handles `.env`, language selection, Milvus connection, and embedding model loading
     - `schema.py`: Defines the Milvus collection schema, index/search settings, and fields returned in search results
     - `insert_sample_data.py`: Inserts sample product data into Milvus
-    - `sample_products.py`: Selects the sample product data based on `PARTICIPANT_LANGUAGE`
-    - `sample_products_en.py`: Defines English sample data such as product names, descriptions, and prices
     - `static/`: The search screen (HTML, JavaScript, and CSS) and the product images (`static/images/product-01.svg` to `product-12.svg`). You do not need to change it in this part
 
 ## Feature 1: Product Image Display {#feature-1-product-image-display}
@@ -232,15 +229,11 @@ If IBM Bob asks for approval to run a command, approve it.
 
 ??? question "IBM Bob is not responding"
 
-    Solution:
-    
     1. Check internet connection
     2. Restart IBM Bob
 
 ??? question "Changes are not reflected"
 
-    Solution:
-    
     1. Verify file is saved
     2. Restart the application manually
     
@@ -252,8 +245,6 @@ If IBM Bob asks for approval to run a command, approve it.
 
 ??? question "Error is displayed"
 
-    Solution:
-    
     1. Copy error message
     2. Enter the following in IBM Bob's chat screen:
         

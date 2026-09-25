@@ -80,8 +80,6 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
 
 ??? question "Test fails"
 
-    Solution:
-    
     1. Verify application is running
     2. Verify changes are saved
     3. Restart the application manually
@@ -110,12 +108,7 @@ Deactivate the Python virtual environment and delete the vector-search-builder-e
 If IBM Bob asks you to confirm the deletion, choose to delete the folder. If IBM Bob shows the commands instead of running them, run them yourself as in "If cleaning up manually" below.
 
 !!! info "How cleanup works"
-    
-    `deactivate` only exits the virtual environment in the current terminal. Installed packages remain inside the `venv` folder.
-
-    `deactivate` is not included in folder deletion. It resets the current terminal before you delete files.
-
-    Run `deactivate` first, then delete the `vector-search-builder-en` folder created on your desktop. This also removes the project-local `venv` and configuration files.
+    `deactivate` only exits the virtual environment in the current terminal. Deleting the `vector-search-builder-en` folder afterwards also removes the project-local `venv` and configuration files.
 
 ??? tip "If cleaning up manually"
     Execute the following in the terminal:

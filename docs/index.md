@@ -11,7 +11,7 @@ In this hands-on workshop, you will combine **Building Blocks** and **IBM Bob** 
 
 ### Value of Building Blocks + IBM Bob
 
-This hands-on workshop demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 90 minutes**.
+This hands-on workshop demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 60 minutes**.
 
 **Without Building Blocks (Time required: days to weeks):**
 
@@ -25,7 +25,7 @@ Without Building Blocks, the following work is required:
 - Error handling
 - Performance tuning
 
-**With Building Blocks + IBM Bob (This hands-on, Time required: approximately 90 minutes):**
+**With Building Blocks + IBM Bob (This hands-on, Time required: approximately 60 minutes):**
 
 ![Development flow with Building Blocks + IBM Bob](images/with-building-blocks-en.svg)
 
@@ -41,7 +41,7 @@ Responsibilities for each process:
     - Debugging
 
 ??? note "About IBM Bob's Coverage"
-    IBM Bob can support the entire Software Development Lifecycle (SDLC) as an AI SDLC partner, from requirements definition to debugging. In this hands-on, Building Blocks provides technology selection (Milvus, embedding models) and environment setup support (Milvus setup, Vector Search Builder mode), and the instructor prepares the Milvus environment in advance with Docker Compose, so IBM Bob focuses mainly on coding, testing, and debugging. However, if you use Plan mode, you can also utilize it in the requirements definition and design stages.
+    IBM Bob can support the whole software development lifecycle, from requirements definition to debugging. In this hands-on, Building Blocks and the instructor's Milvus environment take care of technology selection and setup, so IBM Bob focuses on coding, testing, and debugging.
 
 ## What are Building Blocks?
 
@@ -77,96 +77,17 @@ Responsibilities for each process:
     **With Building Blocks**: Install Vector Search Builder and instruct IBM Bob (minutes)
 
 ??? info "Unique Innovations in This Hands-on"
-    File and directory paths in this section are relative to the following GitHub repository.
+    Paths are relative to the [mukoubuchi/vector-search-hands-on](https://github.com/mukoubuchi/vector-search-hands-on) repository.
 
-    - **Repository**: [mukoubuchi/vector-search-hands-on](https://github.com/mukoubuchi/vector-search-hands-on)
+    - **Shared Milvus**: The instructor runs Milvus for everyone (`setup/instructor/docker-compose.yml`), so participants need only IBM Bob, the participant zip, and the connection information
+    - **On-site or remote**: The documentation is shared on the local network (`http://instructor IP:8001`) or through GitHub Pages or ngrok
+    - **No API key**: Hugging Face Transformers creates the embeddings locally
+    - **Step by step**: Part 1 tries Vector Search, Part 2 adds features with IBM Bob, and Part 3 checks them and cleans up
 
-    ### What Building Blocks Provide
-    
-    Building Blocks provide the following technical components:
-    
-    - **Vector Search Builder Mode**
-        - **Participant package**: `vector-search-builder-en.zip`
-        - **Contents**:
-            - IBM Bob custom mode configuration
-            - 3 Vector Search Builder rule files
-            - AI assistant functionality specialized for Vector Search
-            - Milvus operation best practices
-            - Participant scripts and connection configuration template
-        - **Excluded**:
-            - Instructor files
-            - Documentation files
-            - Local `.env` files and generated caches
-    ### What This Hands-on Adds
-    
-    In addition to the Building Blocks foundation, the following have been added for educational purposes:
-    
-    - **`setup/instructor/`**: Instructor Milvus environment (Docker Compose)
-    - **`setup/participant/`**: Participant connection test scripts
-    - **`docs/`**: Hands-on documentation (MkDocs)
-    
-    ### 1. Instructor-Participant Separation Architecture
-    
-    Building Blocks alone:
-    
-    - Each person builds their own Milvus environment (Docker/Podman/Colima)
-    - Individually download embedding models (approximately 460 MB)
-    - Environment setup takes about 30 minutes
-    
-    This hands-on's innovation:
-
-    - **Instructor**: Centrally manages Milvus environment (`setup/instructor/docker-compose.yml`)
-    - **Participants**: Participate with IBM Bob, `.bob/custom_modes.yaml`, `.bob/rules-vector-search-builder/`, participant scripts, and connection information only
-    
-    **2. Hybrid Delivery Support**
-    
-    Building Blocks alone:
-    
-    - Assumes local environment execution
-    
-    This hands-on's innovation:
-
-    - **On-site**: Local network sharing (`http://instructor IP:8001`)
-    - **Remote**: Document delivery via GitHub Pages or ngrok
-    
-    **3. API Key-Free Design**
-    
-    Building Blocks alone:
-    
-    - Cloud-based embedding options often require API keys
-    - Participants configure credentials individually
-    
-    This hands-on's innovation:
-
-    - **Hugging Face Transformers** used (no API key required)
-    - **Local execution**: Works with internet connection only
-    
-    **4. Progressive Learning Path**
-    
-    Building Blocks alone:
-    
-    - Focuses on technical implementation
-    
-    This hands-on's innovation:
-
-    - **Part 1**: Experience Vector Search (understanding)
-    - **Part 2**: Add features with IBM Bob (practice)
-    - **Part 3**: Verify the added features and clean up (application)
-    
-    ### Summary of Role Division
-    
     | Provider | What's Provided | Purpose |
     |:---|:---|:---|
     | **Building Blocks** | Vector Search Builder mode<br/>FastAPI sample<br/>Milvus setup guide | Technology foundation provision<br/>Development acceleration |
     | **This Hands-on** | Instructor environment (Docker Compose)<br/>Participant scripts<br/>Educational documentation | Educational design<br/>Learning experience optimization |
-    
-    !!! success "Benefits of This Hands-on"
-        **Building Blocks (technology foundation)** + **Hands-on unique innovations (educational design)** = **High learning effectiveness in a short time**
-        
-        - **Setup time reduction**: 30 minutes → 5 minutes (instructor centrally manages environment)
-        - **No API key required**: Using Hugging Face reduces participant preparation burden
-        - **Flexible delivery format**: Supports on-site/remote/hybrid delivery
-        - **Progressive learning**: Even beginners can progress from understanding → practice → application
 
 ## What is IBM Bob?
 
@@ -181,19 +102,7 @@ Responsibilities for each process:
 
 ### Synergy with Building Blocks
 
-**Building Blocks alone**:
-
-- Basic functionality is provided, but customization requires technical knowledge
-
-**IBM Bob alone**:
-
-- Code generation is possible, but building from scratch takes time
-
-**Building Blocks + IBM Bob**:
-
-- Building Blocks instantly builds the foundation
-- IBM Bob customizes with natural language instructions only
-- **Result**: Achieve production-level quality in the shortest time
+Building Blocks provides the foundation right away and IBM Bob customizes it from natural language instructions, so you reach production-level quality in the shortest time.
 
 ### Comparison of Development Methods
 
@@ -228,76 +137,15 @@ Responsibilities for each process:
 
 ## Hands-on Flow
 
-**Total**: Approximately 90 minutes
+**Total**: Approximately 60 minutes
 
 | Part | Content | Time Required |
 |:---|:---|---:|
-| [Preparation](preparation.md) | Vector Search Builder setup | 15 minutes |
-| [Part 1](part1.md) | Experience Vector Search | 20 minutes |
-| [Part 2](part2.md) | Add features with IBM Bob | 30 minutes |
-| [Part 3](part3.md) | Verification and cleanup | 10 minutes |
-| [Summary](summary.md) | Review and Q&A | 10 minutes |
-
-??? info "About This Hands-on's Documentation Design"
-    
-    ### Why Manual Methods Differ Between First and Second Half
-    
-    In this hands-on, **the first half (preparation, Part 1) describes both IBM Bob delegation and manual execution methods**, but **the second half (Part 2-3) describes only IBM Bob delegation methods**. This is for the following reasons:
-    
-    **1. Complexity and Length of Manual Work**
-    
-    - **First half work**: Simple command execution (`pip install -r requirements.txt`, `python test_connection.py`), can be completed in one line manually
-    - **Second half work**: Editing multiple files such as `app.py`, `schema.py`, data insertion scripts, and sample product data; changing data models, response structures, error handling, etc.; requiring dozens to hundreds of lines of code changes. Manual description would be very long and complex, making the documentation enormous
-    
-    **2. Educational Intent**
-    
-    - **First half**: Show **options** that "can be done with IBM Bob or manually"
-    - **Second half**: Let users **experience the value** that "what's difficult manually is easy with IBM Bob"
-    
-    ??? example "Experience the Value of Building Blocks + IBM Bob"
-        In particular, the experience of [**completing complex code changes with a short instruction to add an `image_url` field to the `/search` API JSON response**](part2.md#feature-1-product-image-display) is designed to **most effectively convey the value of Building Blocks + IBM Bob**.
-        
-        **Why This Instruction is Most Effective**:
-        
-        **Building Blocks Effect**:
-        
-        - **Vector Search knowledge**: IBM Bob understands Milvus, embedding models, and vector search best practices through Vector Search Builder mode
-        - **Existing foundation**: Sample data, API structure, shared schema definitions, and data models are already prepared, and IBM Bob can add features using them
-        - **No technology selection needed**: Technology selection for Milvus, embedding models, API design, etc. is complete, and IBM Bob can focus on implementation
-        
-        **IBM Bob Effect**:
-        
-        - **Natural language instructions**: Just one line in natural language, without any technical details
-        - **Automatic code generation**: Automatically executes editing of multiple files, schema/data model changes, response structure changes
-        - **Immediate results**: Can verify operation immediately after instruction, getting the feeling that "it really worked"
-        
-        **Synergy of IBM Bob and Building Blocks**:
-        
-        - **First experience in Part 2**: The moment participants "add a feature themselves" for the first time, making it memorable
-        - **Contrast with other instructions**: Price filters and recommendation reasons are similarly easy, but this first experience is most impactful
-        - **Gap with complexity**: Work that would take days without Building Blocks is completed with one IBM Bob instruction
-    
-    **3. Building Blocks Value Proposition**
-    
-    - Let users experience the time reduction effect of "days to weeks → approximately 90 minutes"
-    - Emphasize this effect by omitting manual methods in the second half
-    
-    **4. Consideration for Time Constraints**
-    
-    - Designed for approximately 90 minutes total
-    - Just reading detailed manual methods would run out of time
-    - Focusing on IBM Bob delegation **secures time for actual hands-on work**
-    
-    **5. Complexity of Error Handling**
-    
-    When manually changing code, troubleshooting for syntax errors, indentation errors, type errors, logic errors, etc. is necessary. Describing all of these would make the documentation several times longer
-    
-    **6. Progressive Learning Design**
-    
-    - **First half**: Get familiar with using IBM Bob through simple tasks
-    - **Second half**: Experience IBM Bob's true value through complex tasks
-    
-    This design allows participants to naturally understand IBM Bob's value and acquire practical skills.
+| [Preparation](preparation.md) | Vector Search Builder setup | 10 minutes |
+| [Part 1](part1.md) | Experience Vector Search | 15 minutes |
+| [Part 2](part2.md) | Add features with IBM Bob | 25 minutes |
+| [Part 3](part3.md) | Verification and cleanup | 5 minutes |
+| [Summary](summary.md) | Review and Q&A | 5 minutes |
 
 ## Requirements
 

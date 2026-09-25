@@ -66,12 +66,7 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
 - Implementation support based on best practices
 
 !!! info "Benefits of Building Blocks"
-    
-    **Normal development**: Read Milvus documentation, learn SDK, write code from scratch (days)
-
-    **Using Building Blocks**: Install Vector Search Builder and instruct IBM Bob in natural language (minutes)
-
-    **Innovation in this hands-on**: Instructor provides Milvus environment, participants join with only IBM Bob (no environment setup required)
+    Instead of reading the Milvus documentation, learning the SDK, and writing code from scratch (days), you install Vector Search Builder and instruct IBM Bob in natural language (minutes).
 
 #### Step 1: Install Vector Search Builder
 
@@ -108,19 +103,9 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
     The `.bob` folder must be placed directly under the project folder (in this hands-on, `vector-search-builder-en`).
 
 ??? info "Contents of vector-search-builder-en.zip"
-    **`vector-search-builder-en.zip`** contains:
-
-    **Building Blocks**:
-
-    - **`.bob/`**: Vector Search Builder mode definition
-
-    **Participant setup files**:
-
-    - **`setup/participant/`**: Participant scripts, FastAPI demo app, and language-specific sample data
+    - **`.bob/`**: Vector Search Builder mode definition (Building Blocks)
+    - **`setup/participant/`**: Participant scripts, the FastAPI demo app with its search screen, and English sample product data (`PARTICIPANT_LANGUAGE=en`)
     - **`setup/participant/.env.example`**: Connection information configuration template
-    - **`setup/participant/sample_products.py`**: Selects the sample product data to use
-    - **`setup/participant/sample_products_en.py`**: English sample product data
-    - **`PARTICIPANT_LANGUAGE=en`**: English sample product data and runtime messages are used
 
 ??? tip "Building Blocks Installation Methods"
     Normally, Building Blocks are installed using the following methods:
@@ -149,19 +134,11 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
 3. In the IBM Bob panel, open the mode selector below the chat input and select **Vector Search Builder**
 
 !!! success "Vector Search Builder Mode"
-    
-    When you select Vector Search Builder mode from the mode selector, the Building Blocks dedicated custom mode becomes active.
-
-    This mode enables IBM Bob to understand:
-
-    - How to operate Milvus database
-    - Vector search best practices
-    - Embedding model integration methods
-    - Building Blocks features and constraints
+    Selecting Vector Search Builder mode activates the Building Blocks custom mode, so IBM Bob follows its rules for Milvus operations, vector search best practices, and embedding model integration.
 
 ### 2. Connection Information
 
-#### Milvus (Vector Database)
+#### Milvus (Vector Database) {#milvus_host}
 
 Configure the IP address distributed by the instructor.
 
@@ -192,8 +169,6 @@ Configure the IP address distributed by the instructor.
         ```
 
 3. Open the **`.env`** file and enter the connection information distributed by the instructor
-
-    #### Milvus Connection Settings {#milvus_host}
 
     === "On-site (same network)"
 
@@ -334,11 +309,7 @@ Create a virtual environment and install packages within it.
     When the virtual environment is activated, `(venv)` may appear at the beginning of the prompt depending on your environment. It may not appear depending on your terminal or shell settings.
 
 !!! success "Benefits of Virtual Environment"
-    
-    - **Isolation**: Environment dedicated to this project
-    - **Safety**: Does not break the global environment
-    - **Cleanup**: Can be completely removed by just deleting the `venv` folder
-    - **Reproducibility**: Can reproduce the same configuration in other environments
+    The packages stay in this project's `venv` folder, so other projects are not affected and deleting the folder removes them.
 
 #### Step 3: Install Required Packages {#install-packages}
 
@@ -375,44 +346,14 @@ Directly specify the Python executable inside `venv` to install Python packages.
     Even if you activated the virtual environment in your terminal, another terminal or AI tool may not inherit that state. Specifying `venv/bin/python` or `venv\Scripts\python` directly ensures the packages are installed into `venv`.
 
 ??? info "Packages to be Installed"
-    The following packages will be installed:
-    
-    **Main packages**:
-
-    - **pymilvus**: Milvus database client
-    - **sentence-transformers**: Embedding models
-    - **torch**: Machine learning framework
-    - **fastapi**: Web framework
-    - **uvicorn**: ASGI server
-    - **python-dotenv**: Environment variable management
-    
-    **Dependencies (auto-installed)**:
-
-    - transformers, huggingface-hub
-    - pydantic, starlette
-    - scikit-learn
-    - And others
+    The main packages are **pymilvus** (Milvus client), **sentence-transformers** and **torch** (embeddings), **fastapi** and **uvicorn** (web app), and **python-dotenv** (`.env` loading). Dependencies such as transformers, huggingface-hub, pydantic, and scikit-learn are installed automatically.
 
 ??? warning "Deactivating Virtual Environment"
-    When finished working, you can deactivate the virtual environment:
-    
+    When you finish, run the following. To work again later, activate it in `setup/participant` with `source venv/bin/activate` (Mac) or `venv\Scripts\activate` (Windows).
+
     ```bash
     deactivate
     ```
-    
-    Next time you work, activate it again:
-    
-    === ":fontawesome-brands-apple: Mac"
-        ```bash
-        cd ~/Desktop/vector-search-builder-en/setup/participant
-        source venv/bin/activate
-        ```
-    
-    === ":fontawesome-brands-windows: Windows"
-        ```bash
-        cd %USERPROFILE%\Desktop\vector-search-builder-en\setup\participant
-        venv\Scripts\activate
-        ```
 
 ## Preparation Completion Checklist
 
@@ -430,16 +371,12 @@ Directly specify the Python executable inside `venv` to install Python packages.
 
 ??? question "Vector Search Builder mode is not displayed"
 
-    Solution:
-    
     1. Verify **`.bob`** folder exists
     2. Reload IBM Bob (:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> → "Reload Window")
     3. Reopen the project folder
 
 ??? question "Don't know where to enter connection information"
 
-    Solution:
-    
     1. Open the **`setup/participant`** folder in the project folder
     2. Look for the **`.env`** file (if not found, copy **`.env.example`**)
 

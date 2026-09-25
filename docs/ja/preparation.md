@@ -66,12 +66,7 @@
 - ベストプラクティスに基づいた実装支援
 
 !!! info "Building Blocks の利点"
-    
-    **通常の開発**: Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）
-
-    **Building Blocks 使用**: Vector Search Builder をインストールし、IBM Bob に自然言語で指示（数分）
-
-    **このハンズオンでの工夫**: 講師が Milvus 環境を提供、受講者は IBM Bob のみで参加（環境構築不要）
+    Milvus のドキュメントを読み、SDK を学習し、コードを一から書く（数日）代わりに、Vector Search Builder をインストールして IBM Bob に自然言語で指示します（数分）。
 
 #### ステップ 1: Vector Search Builder をインストール
 
@@ -108,19 +103,9 @@
     `.bob` フォルダはプロジェクトフォルダ（このハンズオンでは `vector-search-builder-ja`）の直下に配置する必要があります。
 
 ??? info "vector-search-builder-ja.zip の内容"
-    **`vector-search-builder-ja.zip`** には、以下が含まれています:
-
-    **Building Blocks**:
-
-    - **`.bob/`**: Vector Search Builder モード定義
-
-    **受講者用セットアップファイル**:
-
-    - **`setup/participant/`**: 受講者用スクリプト、FastAPI デモアプリ、言語別サンプルデータ
+    - **`.bob/`**: Vector Search Builder モード定義（Building Blocks）
+    - **`setup/participant/`**: 受講者用スクリプト、検索画面つきの FastAPI デモアプリ、日本語のサンプル商品データ（`PARTICIPANT_LANGUAGE=ja`）
     - **`setup/participant/.env.example`**: 接続情報設定テンプレート
-    - **`setup/participant/sample_products.py`**: 使用するサンプル商品データの選択
-    - **`setup/participant/sample_products_ja.py`**: 日本語のサンプル商品データ
-    - **`PARTICIPANT_LANGUAGE=ja`**: 日本語の商品データと実行時メッセージが使用されます
 
 ??? tip "Building Blocks のインストール方法"
     通常、Building Blocks は以下の方法でインストールします:
@@ -149,19 +134,11 @@
 3. IBM Bob のパネルで、チャット入力欄の下にあるモードの選択を開き、**Vector Search Builder** を選択
 
 !!! success "Vector Search Builder モード"
-    
-    モードの選択で Vector Search Builder モードを選択すると、Building Blocks 専用のカスタムモードが有効になります。
-
-    このモードにより、IBM Bob は以下を理解します:
-
-    - Milvus データベースの操作方法
-    - ベクトル検索のベストプラクティス
-    - 埋め込みモデルの統合方法
-    - Building Blocks の機能と制約
+    Vector Search Builder モードを選択すると Building Blocks 専用のカスタムモードが有効になり、IBM Bob は Milvus の操作、ベクトル検索のベストプラクティス、埋め込みモデルの統合に関するルールに沿って作業します。
 
 ### 2. 接続情報
 
-#### Milvus（ベクトルデータベース）
+#### Milvus（ベクトルデータベース） {#milvus_host}
 
 講師から配布された IP アドレスを設定します。
 
@@ -193,8 +170,6 @@
 
 3. **`.env`** ファイルを開き、講師から配布された接続情報を入力
    
-    #### Milvus 接続情報の設定 {#milvus_host}
-
     === "同一ネットワーク（会場内）"
 
         ```properties
@@ -332,11 +307,7 @@ Python 3.10 以上がインストールされていない場合は、インス�
     仮想環境を有効化すると、環境によってはプロンプトの先頭に `(venv)` が表示されることがあります。ただし、ターミナルやシェルの設定によって表示されない場合もあります。
 
 !!! success "仮想環境の利点"
-    
-    - **隔離**: このプロジェクト専用の環境
-    - **安全**: グローバル環境を破壊しない
-    - **クリーンアップ**: `venv` フォルダを削除するだけで完全に削除可能
-    - **再現性**: 他の環境でも同じ構成を再現可能
+    パッケージはこのプロジェクトの `venv` フォルダに入るため、ほかのプロジェクトに影響せず、フォルダを削除すればまとめて消せます。
 
 #### ステップ 3: 必要なパッケージのインストール {#install-packages}
 
@@ -373,44 +344,14 @@ Python 3.10 以上がインストールされていない場合は、インス�
     仮想環境を有効化していても、別のターミナルや AI ツールが実行するコマンドにはその状態が引き継がれない場合があります。`venv/bin/python` または `venv\Scripts\python` を直接指定すると、確実に `venv` にインストールできます。
 
 ??? info "インストールされるパッケージ"
-    以下のパッケージがインストールされます:
-    
-    **主要パッケージ**:
-
-    - **pymilvus**: Milvus データベースクライアント
-    - **sentence-transformers**: 埋め込みモデル
-    - **torch**: 機械学習フレームワーク
-    - **fastapi**: Web フレームワーク
-    - **uvicorn**: ASGI サーバー
-    - **python-dotenv**: 環境変数管理
-    
-    **依存パッケージ（自動インストール）**:
-
-    - transformers, huggingface-hub
-    - pydantic, starlette
-    - scikit-learn
-    - その他
+    主要パッケージは **pymilvus**（Milvus クライアント）、**sentence-transformers** と **torch**（埋め込み）、**fastapi** と **uvicorn**（Web アプリ）、**python-dotenv**（`.env` の読み込み）です。transformers、huggingface-hub、pydantic、scikit-learn などの依存パッケージは自動でインストールされます。
 
 ??? warning "仮想環境の無効化"
-    作業が終わったら、仮想環境を無効化できます:
-    
+    作業が終わったら以下を実行します。次回は `setup/participant` で `source venv/bin/activate`（Mac）または `venv\Scripts\activate`（Windows）を実行して再度有効化します。
+
     ```bash
     deactivate
     ```
-    
-    次回作業時は、再度有効化してください:
-    
-    === ":fontawesome-brands-apple: Mac"
-        ```bash
-        cd ~/Desktop/vector-search-builder-ja/setup/participant
-        source venv/bin/activate
-        ```
-    
-    === ":fontawesome-brands-windows: Windows"
-        ```bash
-        cd %USERPROFILE%\Desktop\vector-search-builder-ja\setup\participant
-        venv\Scripts\activate
-        ```
 
 ## 準備完了チェックリスト
 
@@ -428,16 +369,12 @@ Python 3.10 以上がインストールされていない場合は、インス�
 
 ??? question "Vector Search Builder モードが表示されない"
 
-    対処法:
-    
     1. **`.bob`** フォルダが存在するか確認
     2. IBM Bob をリロード（:fontawesome-brands-apple: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / :fontawesome-brands-windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> →「Reload Window」）
     3. プロジェクトフォルダを開き直す
 
 ??? question "接続情報をどこに入力すればいいか分からない"
 
-    対処法:
-    
     1. プロジェクトフォルダ内の **`setup/participant`** フォルダを開く
     2. **`.env`** ファイルを探す（見つからない場合は **`.env.example`** をコピー）
 

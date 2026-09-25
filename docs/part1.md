@@ -312,16 +312,16 @@ Products are displayed as cards, most similar first. The top three are the three
 **Results** (`top_k`) sets how many products are returned (default: 5). The price filter stays unavailable until you add it in Part 2.
 
 ??? note "Optional: See the raw API response"
-    The search screen sends your query to the **`/search`** API of the demo application and displays the JSON it returns. To see the raw JSON, open Swagger UI, the API page that FastAPI generates, at **`http://localhost:8002/docs`**. Open **`/search`**, click "Try it out", enter the request body below, and click "Execute". Swagger UI loads its files from the internet, while the search screen works offline.
+    To see the JSON that the search screen displays, open Swagger UI at **`http://localhost:8002/docs`**, open **`/search`**, click "Try it out", enter the request body below, and click "Execute". Swagger UI loads its files from the internet, while the search screen works offline.
 
     ```json
     {
       "query": "red sneakers",
-      "top_k": 3
+      "top_k": 1
     }
     ```
 
-    Response (scores may vary slightly):
+    Response (the score may vary slightly):
 
     ```json
     {
@@ -332,20 +332,6 @@ Products are displayed as cards, most similar first. The top three are the three
           "price": 8900,
           "category": "Sneakers",
           "description": "Lightweight and breathable running shoes."
-        },
-        {
-          "product_name": "Red Sports Shoes",
-          "similarity_score": 0.8122,
-          "price": 7500,
-          "category": "Sneakers",
-          "description": "Versatile shoes for both casual and sports use. Excellent cushioning."
-        },
-        {
-          "product_name": "Red Training Shoes",
-          "similarity_score": 0.7203,
-          "price": 9800,
-          "category": "Sneakers",
-          "description": "Ideal for gym training. Features stability and grip."
         }
       ]
     }
@@ -406,22 +392,16 @@ As you try various searches, you should notice the following:
 
 ??? question "Cannot open the search screen"
 
-    Solution:
-    
     1. Verify the application is running
     2. Verify the URL is correct (**`http://localhost:8002`**)
     3. Try a different browser
 
 ??? question "Search results are 0"
 
-    Solution:
-    
     1. Verify sample data has been inserted
     2. Try changing the search query
 
 ??? question "Similarity scores are extremely low"
-
-    Solution:
 
     1. Reinsert sample data with the latest `insert_sample_data.py`
     2. Restart the demo application manually
