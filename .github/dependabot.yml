@@ -11,6 +11,14 @@ updates:
       # bump it together with the docker-compose Milvus image instead
       - dependency-name: pymilvus
         update-types: ["version-update:semver-major"]
+      # These decide the embeddings, so the search results in the docs change
+      # with them; major bumps are done deliberately with the docs re-measured
+      - dependency-name: sentence-transformers
+        update-types: ["version-update:semver-major"]
+      - dependency-name: transformers
+        update-types: ["version-update:semver-major"]
+      - dependency-name: torch
+        update-types: ["version-update:semver-major"]
 
   # GitHub Actions versions in workflows
   - package-ecosystem: github-actions
@@ -23,6 +31,11 @@ updates:
     directory: /setup/instructor
     schedule:
       interval: monthly
+    ignore:
+      # A Milvus major upgrade changes the server the hands-on is written for;
+      # it is done deliberately together with pymilvus and the docs
+      - dependency-name: milvusdb/milvus
+        update-types: ["version-update:semver-major"]
 
   # Base image in mkdocs.Dockerfile (the compose service builds a local tag,
   # so the docker-compose ecosystem cannot see this image)
