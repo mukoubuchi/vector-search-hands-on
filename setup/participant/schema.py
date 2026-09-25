@@ -1,7 +1,7 @@
 """Milvus collection schema shared by the demo app and data loader."""
 
 from pymilvus import CollectionSchema, DataType, MilvusClient
-from pymilvus.milvus_client.index import IndexParams
+from pymilvus.milvus_client import IndexParams
 
 from common import DEFAULT_COLLECTION_NAME, get_env, msg, reject_placeholder
 
