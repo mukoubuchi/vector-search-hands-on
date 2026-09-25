@@ -361,10 +361,10 @@ Directly specify the Python executable inside `venv` to install Python packages.
 
 !!! tip "Linux users: install the CPU-only torch first"
 
-    On Linux, the default `torch` wheel bundles CUDA libraries (several GB). Run the following **before** `pip install -r requirements.txt` for a much smaller, faster install:
+    On Linux, the default `torch` wheel bundles CUDA libraries (several GB). Run the following **before** `pip install -r requirements.txt` for a much smaller, faster install. It installs the CPU-only build of the `torch` version pinned in `requirements.txt`:
 
     ```bash
-    venv/bin/python -m pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu
+    venv/bin/python -m pip install "torch==$(grep -E '^torch==' requirements.txt | cut -d= -f3)" --index-url https://download.pytorch.org/whl/cpu
     ```
 
 ??? note "Why directly specify Python inside venv"
