@@ -185,7 +185,7 @@
 .md-typeset .language-bash .highlight .nn,
 .md-typeset .language-sh .highlight .nn,
 .md-typeset .language-shell .highlight .nn {
-    color: var(--md-primary-fg-color) !important;
+    color: var(--md-accent-fg-color) !important;
     font-weight: 700 !important;
 }
 
