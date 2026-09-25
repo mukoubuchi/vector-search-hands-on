@@ -69,46 +69,6 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
               </g>
             </g>
           </g>
-          <g data-cell-id="etcd">
-            <g stroke="none" stroke-width="0">
-              <rect x="41" y="264" width="130" height="62" rx="6" ry="6" fill="#e9ecf7" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e9ecf7; stroke: #f0f1f9;" />
-            </g>
-            <g>
-              <g>
-                <text x="106.0" y="291.75" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="106.0" dy="0">
-                    <tspan font-weight="700">etcd</tspan>
-                  </tspan>
-                  <tspan x="106.0" dy="15.6">
-                    <tspan font-weight="400">metadata</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
-          <g data-cell-id="3">
-            <g transform="translate(0.5,0.5)">
-              <path d="M 311 295 L 344.63 295" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #000000;" />
-              <path d="M 349.88 295 L 342.88 298.5 L 344.63 295 L 342.88 291.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: #000000; stroke: #000000;" />
-            </g>
-          </g>
-          <g data-cell-id="minio">
-            <g stroke="none" stroke-width="0">
-              <rect x="191" y="264" width="120" height="62" rx="6" ry="6" fill="#e9ecf7" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e9ecf7; stroke: #f0f1f9;" />
-            </g>
-            <g>
-              <g>
-                <text x="251.0" y="291.75" font-size="13.0" fill="#000000" text-anchor="middle">
-                  <tspan x="251.0" dy="0">
-                    <tspan font-weight="700">MinIO</tspan>
-                  </tspan>
-                  <tspan x="251.0" dy="15.6">
-                    <tspan font-weight="400">object storage</tspan>
-                  </tspan>
-                </text>
-              </g>
-            </g>
-          </g>
           <g data-cell-id="milvus">
             <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
               <rect x="351" y="256" width="160" height="78" rx="6" ry="6" fill="#dce2f3" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #dce2f3; stroke: #f0f1f9;" />
@@ -169,34 +129,16 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
               </g>
             </g>
           </g>
-          <g data-cell-id="edge-compose-etcd">
+          <g data-cell-id="edge-compose-milvus">
             <g>
-              <path d="M 178 205 L 178 224.5 Q 178 234.5 168 234.5 L 116 234.5 Q 106 234.5 106 244.5 L 106 255.76" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 106 261.76 L 102 253.76 L 106 255.76 L 110 253.76 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-compose-minio">
-            <g>
-              <path d="M 178 205 L 178 224.5 Q 178 234.5 188 234.5 L 241 234.5 Q 251 234.5 251 244.5 L 251 255.76" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 251 261.76 L 247 253.76 L 251 255.76 L 255 253.76 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
+              <path d="M 178 205 L 178 285 Q 178 295 188 295 L 342.76 295" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
+              <path d="M 348.76 295 L 340.76 299 L 342.76 295 L 340.76 291 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
             </g>
           </g>
           <g data-cell-id="edge-compose-mkdocs">
             <g>
               <path d="M 43 174 L 31 174 Q 21 174 21 184 L 21 415 Q 21 425 31 425 L 177.76 425" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
               <path d="M 183.76 425 L 175.76 429 L 177.76 425 L 175.76 421 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-etcd-milvus">
-            <g>
-              <path d="M 106 326 L 106 350 Q 106 360 103.5 360 L 102.25 360 Q 101 360 111 360 L 421 360 Q 431 360 431 351.12 L 431 342.24" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #4051b5;" />
-              <path d="M 431 336.24 L 435 344.24 L 431 342.24 L 427 344.24 Z" fill="#4051b5" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #4051b5; stroke: #4051b5;" />
-            </g>
-          </g>
-          <g data-cell-id="edge-minio-milvus">
-            <g>
-              <path d="M 311 295 L 342.76 295" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #4051b5;" />
-              <path d="M 348.76 295 L 340.76 299 L 342.76 295 L 340.76 291 Z" fill="#4051b5" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #4051b5; stroke: #4051b5;" />
             </g>
           </g>
           <g data-cell-id="edge-mkdocs-delivery">

@@ -11,10 +11,10 @@ cd setup/instructor
 
 This starts the following:
 
-- **Milvus environment** (etcd, MinIO, Milvus)
+- **Milvus environment** (Milvus standalone in a single container)
 - **Local documentation server** (<http://localhost:8001>)
 
-On first start the script also **generates random Milvus and MinIO passwords** (replacing the `root/Milvus` default), prints the Milvus password, and stores both in `setup/instructor/.env`. Share the printed Milvus password with participants. To look it up later:
+On first start the script also **generates a random Milvus password** (replacing the `root/Milvus` default), prints it, and stores it in `setup/instructor/.env`. Share the printed password with participants. To look it up later:
 
 ```bash
 grep '^MILVUS_PASSWORD=' setup/instructor/.env
@@ -267,7 +267,7 @@ lsof -i :19530
 ```bash
 cd setup/instructor
 docker compose --profile all ps   # or: podman compose --profile all ps
-# Verify the milvus, etcd, minio, and mkdocs services are Up/Running
+# Verify the milvus and mkdocs services are Up/Running
 ```
 
 ### Lost `setup/instructor/.env` (generated passwords)

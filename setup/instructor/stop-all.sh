@@ -24,7 +24,8 @@ matching_pids_on_port() {
         if echo "$command" | grep -Eq "$pattern"; then
             echo "$pid"
         else
-            log_warn "Skipping PID $pid on port $port (unrelated process: ${command:-unknown})"
+            # Warn on stderr: stdout is captured by callers as the PID list
+            log_warn "Skipping PID $pid on port $port (unrelated process: ${command:-unknown})" >&2
         fi
     done
 }
@@ -83,7 +84,7 @@ echo ""
 echo "Stopping Milvus environment, MkDocs documentation, and FastAPI demo..."
 if $COMPOSE_CMD --profile all down; then
     log_info "Docker containers stopped"
-    echo "  - etcd, minio, milvus"
+    echo "  - milvus"
     echo "  - mkdocs (container version, port 8001)"
 else
     log_error "Failed to stop Docker containers"
