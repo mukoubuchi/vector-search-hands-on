@@ -56,14 +56,14 @@ This hands-on uses the following ports:
 |---------|--------|-----|------|
 | **MkDocs (development)** | 8000 | <http://localhost:8000> | Document editing (with auto-reload) |
 | **MkDocs (container)** | 8001 | <http://localhost:8001> | Participant sharing (stable delivery) |
-| **FastAPI (Swagger UI)** | 8002 | <http://localhost:8002/docs> | Vector Search API (for participants) |
+| **FastAPI (search screen)** | 8002 | <http://localhost:8002> | Product search screen and Vector Search API (for participants) |
 | **Milvus** | 19530 | localhost:19530 | Vector database |
 
 **Important**:
 
 - Port 8000 is dedicated to MkDocs development (for instructor document editing)
-- Port 8002 is the FastAPI app (participants access Swagger UI)
-- Direct participants to `http://localhost:8002/docs`
+- Port 8002 is the FastAPI app (participants open its search screen)
+- Direct participants to `http://localhost:8002`
 
 #### Remote Delivery Setup
 
@@ -414,7 +414,7 @@ vector-search-hands-on/
 │   │   ├── summary.md                     # Summary
 │   │   ├── feedback.md                    # Participant feedback form
 │   │   └── translation-sync.md            # Internal translation sync guide (excluded from MkDocs nav)
-│   ├── images/                            # Diagrams and SVG images (EN/JA where needed)
+│   ├── images/                            # Diagrams, SVG images, and screenshots (EN/JA where needed)
 │   ├── javascripts/                       # Custom JavaScript
 │   └── stylesheets/                       # Custom CSS
 ├── setup/
@@ -439,7 +439,8 @@ vector-search-hands-on/
 │       ├── requirements.txt               # Python dependencies
 │       ├── common.py                      # Shared environment, language, connection, and model helpers
 │       ├── schema.py                      # Shared Milvus schema, index, and search settings
-│       ├── app.py                         # FastAPI vector search application
+│       ├── app.py                         # FastAPI vector search application and search screen server
+│       ├── static/                        # Search screen (HTML, JavaScript, CSS) and product images
 │       ├── insert_sample_data.py          # Sample data insertion script
 │       ├── sample_products.py             # Language-aware sample data selector
 │       ├── sample_products_en.py          # English sample product data
@@ -484,6 +485,21 @@ setup/participant/insert_sample_data.py
 setup/participant/requirements.txt
 setup/participant/sample_products.py
 setup/participant/schema.py
+setup/participant/static/app.js
+setup/participant/static/images/product-01.svg
+setup/participant/static/images/product-02.svg
+setup/participant/static/images/product-03.svg
+setup/participant/static/images/product-04.svg
+setup/participant/static/images/product-05.svg
+setup/participant/static/images/product-06.svg
+setup/participant/static/images/product-07.svg
+setup/participant/static/images/product-08.svg
+setup/participant/static/images/product-09.svg
+setup/participant/static/images/product-10.svg
+setup/participant/static/images/product-11.svg
+setup/participant/static/images/product-12.svg
+setup/participant/static/index.html
+setup/participant/static/style.css
 setup/participant/test_connection.py
 setup/participant/test_embeddings_hf.py
 ```
@@ -535,7 +551,8 @@ Do not include `docs/`, `setup/instructor/`, local `.env` files, `__pycache__/`,
 
 **FastAPI application and connection tests**
 
-- `app.py` — FastAPI vector search application (Swagger UI at port 8002)
+- `app.py` — FastAPI vector search application; serves the product search screen at port 8002
+- `static/` — Search screen (HTML, JavaScript, and CSS, no external requests) and the product illustrations it shows
 - `insert_sample_data.py` — Sample product data insertion script
 - `common.py` — Shared language selection, `.env` loading, Milvus authentication, and embedding model loading
 - `schema.py` — Shared collection schema, index parameters, search parameters, and product text mapping
