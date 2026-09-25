@@ -17,7 +17,7 @@ if sys.version_info < (3, 10):
     )
 
 from dotenv import load_dotenv  # noqa: E402
-from pymilvus import connections  # noqa: E402
+from pymilvus import MilvusClient  # noqa: E402
 from sentence_transformers import SentenceTransformer  # noqa: E402
 
 
@@ -85,7 +85,6 @@ def get_milvus_connect_params() -> Dict[str, Any]:
         ))
 
     connect_params: Dict[str, Any] = {
-        "alias": "default",
         "host": host,
         "port": port,
         "user": reject_placeholder("MILVUS_USER", require_env("MILVUS_USER")),
@@ -95,12 +94,27 @@ def get_milvus_connect_params() -> Dict[str, Any]:
     return connect_params
 
 
-def connect_to_milvus() -> None:
-    """Connect to Milvus using the shared connection settings."""
+def create_milvus_client(connect_params: Dict[str, Any]) -> MilvusClient:
+    """Create a MilvusClient for the given connection settings."""
+    return MilvusClient(
+        uri=f"http://{connect_params['host']}:{connect_params['port']}",
+        user=connect_params["user"],
+        password=connect_params["password"],
+    )
+
+
+def get_entity_count(client: MilvusClient, collection_name: str) -> int:
+    """Return the number of entities in a collection."""
+    return client.get_collection_stats(collection_name)["row_count"]
+
+
+def connect_to_milvus() -> MilvusClient:
+    """Connect to Milvus using the shared connection settings and return the client."""
     connect_params = get_milvus_connect_params()
     print(f"\n{msg('Connecting to Milvus', 'Milvus に接続中')}: {connect_params['host']}:{connect_params['port']}")
-    connections.connect(**connect_params)
+    client = create_milvus_client(connect_params)
     print(msg("✓ Connected to Milvus successfully", "✓ Milvus に接続できました"))
+    return client
 
 
 def load_embedding_model(model_name: Optional[str] = None) -> SentenceTransformer:

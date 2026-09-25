@@ -14,11 +14,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
-from pymilvus import connections, Collection, utility
+from pymilvus import MilvusClient
 from sentence_transformers import SentenceTransformer
 import uvicorn
 
-from common import IS_JA, connect_to_milvus, load_embedding_model, msg
+from common import IS_JA, connect_to_milvus, get_entity_count, load_embedding_model, msg
 from schema import PRODUCT_OUTPUT_FIELDS, SEARCH_PARAMS, VECTOR_FIELD, get_collection_name
 
 
@@ -36,74 +36,74 @@ mimetypes.add_type("image/svg+xml", ".svg")
 
 # Global variables
 embedding_model: Optional[SentenceTransformer] = None
-collection: Optional[Collection] = None
+milvus_client: Optional[MilvusClient] = None
+# True once the collection has been loaded for search
+collection_loaded = False
 
 
-def load_collection() -> Optional[Collection]:
-    """Load Milvus collection"""
+def load_collection() -> bool:
+    """Load Milvus collection. Return False when it does not exist."""
     print(f"\n{msg('Checking collection', 'コレクションを確認中')}: {COLLECTION_NAME}")
 
-    if not utility.has_collection(COLLECTION_NAME):
+    if not milvus_client.has_collection(COLLECTION_NAME):
         print(f"⚠ {msg('Collection does not exist', 'コレクションが存在しません')}: {COLLECTION_NAME}")
         print(msg("  Please insert sample data", "  サンプルデータを投入してください"))
-        return None
+        return False
 
-    loaded_collection = Collection(COLLECTION_NAME)
-    loaded_collection.load()
+    milvus_client.load_collection(COLLECTION_NAME)
     print(f"✓ {msg('Collection loaded', 'コレクションを読み込みました')}: {COLLECTION_NAME}")
-    print(f"  {msg('Entity count', 'エンティティ数')}: {loaded_collection.num_entities}")
-    return loaded_collection
+    print(f"  {msg('Entity count', 'エンティティ数')}: {get_entity_count(milvus_client, COLLECTION_NAME)}")
+    return True
 
 
-def get_collection() -> Optional[Collection]:
-    """Return the cached collection, loading it lazily if data was inserted after startup."""
-    global collection
-    if collection is None:
-        collection = load_collection()
-    return collection
+def ensure_collection_loaded() -> bool:
+    """Return True when the collection is loaded, loading it lazily if data was inserted after startup."""
+    global collection_loaded
+    if not collection_loaded:
+        collection_loaded = load_collection()
+    return collection_loaded
 
 
-def run_search(target_collection: Collection, query_vector: list, top_k: int) -> Any:
-    """Run a vector search against the given collection."""
-    return target_collection.search(
+def run_search(query_vector: list, top_k: int) -> Any:
+    """Run a vector search against the collection."""
+    return milvus_client.search(
+        collection_name=COLLECTION_NAME,
         data=[query_vector],
         anns_field=VECTOR_FIELD,
-        param=SEARCH_PARAMS,
+        search_params=SEARCH_PARAMS,
         limit=top_k,
         output_fields=PRODUCT_OUTPUT_FIELDS
     )
 
 
 def search_with_refresh(query_vector: list, top_k: int) -> Optional[Any]:
-    """Search, refreshing the cached collection once if the handle went stale.
+    """Search, loading the collection again once if the first search fails.
 
     Returns None when the collection does not exist (yet).
     """
-    global collection
+    global collection_loaded
 
-    current_collection = get_collection()
-    if current_collection is None:
+    if not ensure_collection_loaded():
         return None
 
     try:
-        return run_search(current_collection, query_vector, top_k)
+        return run_search(query_vector, top_k)
     except Exception:
         # The collection may have been dropped (report it as missing) or
-        # recreated (refresh the cached handle and retry once); other errors
-        # propagate from the retry
-        collection = None
-        if not utility.has_collection(COLLECTION_NAME):
+        # recreated (load it again and retry once); other errors propagate
+        # from the retry
+        collection_loaded = False
+        if not milvus_client.has_collection(COLLECTION_NAME):
             return None
-        current_collection = get_collection()
-        if current_collection is None:
+        if not ensure_collection_loaded():
             return None
-        return run_search(current_collection, query_vector, top_k)
+        return run_search(query_vector, top_k)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application startup and shutdown handler"""
-    global embedding_model, collection
+    global embedding_model, milvus_client, collection_loaded
 
     print("=" * 50)
     print(msg("Starting Vector Search Demo Application...", "ベクトル検索デモアプリケーションを起動中..."))
@@ -116,13 +116,13 @@ async def lifespan(app: FastAPI):
         raise
 
     try:
-        connect_to_milvus()
+        milvus_client = connect_to_milvus()
     except Exception as e:
         print(f"✗ {msg('Failed to connect to Milvus', 'Milvus への接続に失敗しました')}: {e}")
         raise
 
     try:
-        collection = load_collection()
+        collection_loaded = load_collection()
     except Exception as e:
         print(f"✗ {msg('Failed to load collection', 'コレクションの読み込みに失敗しました')}: {e}")
         raise
@@ -137,7 +137,7 @@ async def lifespan(app: FastAPI):
 
     print(f"\n{msg('Shutting down application...', 'アプリケーションを停止中...')}")
     try:
-        connections.disconnect("default")
+        milvus_client.close()
         print(msg("✓ Disconnected from Milvus", "✓ Milvus から切断しました"))
     except Exception as e:
         print(f"⚠ {msg('Error during disconnect', '切断中にエラーが発生しました')}: {e}")
@@ -192,14 +192,16 @@ def format_search_results(results: Any) -> List[SearchResult]:
     """Format Milvus search results for API response"""
     search_results = []
 
+    # Each hit is a dict: {"id": ..., "distance": ..., "entity": {field: value}}
     for hits in results:
         for hit in hits:
+            entity = hit["entity"]
             search_results.append(SearchResult(
-                product_name=hit.entity.get("product_name"),
-                similarity_score=to_similarity_score(hit.distance),
-                price=hit.entity.get("price"),
-                category=hit.entity.get("category"),
-                description=hit.entity.get("description")
+                product_name=entity["product_name"],
+                similarity_score=to_similarity_score(hit["distance"]),
+                price=entity["price"],
+                category=entity["category"],
+                description=entity["description"]
             ))
 
     return search_results
@@ -217,12 +219,9 @@ def search_screen():
 def health_check():
     """Health check"""
     try:
-        # Verify Milvus connection
-        connections.get_connection_addr("default")
-
-        # Verify collection
-        current_collection = get_collection()
-        if current_collection is None:
+        # The collection is checked and loaded once; get_entity_count below asks
+        # the server every time, so a lost connection ends in the 503 response
+        if not ensure_collection_loaded():
             return {
                 "status": "warning",
                 "message": msg("Collection does not exist", "コレクションが存在しません"),
@@ -234,7 +233,7 @@ def health_check():
             "status": "healthy",
             "milvus": "connected",
             "collection": COLLECTION_NAME,
-            "entities": current_collection.num_entities
+            "entities": get_entity_count(milvus_client, COLLECTION_NAME)
         }
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"{msg('Service unavailable', 'サービスを利用できません')}: {str(e)}")
