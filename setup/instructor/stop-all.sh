@@ -24,7 +24,8 @@ matching_pids_on_port() {
         if echo "$command" | grep -Eq "$pattern"; then
             echo "$pid"
         else
-            log_warn "Skipping PID $pid on port $port (unrelated process: ${command:-unknown})"
+            # Warn on stderr: stdout is captured by callers as the PID list
+            log_warn "Skipping PID $pid on port $port (unrelated process: ${command:-unknown})" >&2
         fi
     done
 }
