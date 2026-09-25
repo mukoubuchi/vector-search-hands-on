@@ -7,7 +7,7 @@ updates:
       interval: monthly
     open-pull-requests-limit: 5
     ignore:
-      # The pymilvus major version must match the Milvus server (2.6.x);
+      # The pymilvus major version must match the Milvus server (3.0.x);
       # bump it together with the docker-compose Milvus image instead
       - dependency-name: pymilvus
         update-types: ["version-update:semver-major"]
