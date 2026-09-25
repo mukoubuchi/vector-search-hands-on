@@ -20,96 +20,56 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
 
 !!! note "Test viewpoints"
     
-    In Swagger UI, one search response can show all added response fields. Therefore, this section separates testing into **response field verification** and **price filter behavior verification**.
+    On the search screen, one search shows all added fields on each product card. Therefore, this section separates testing into **response field verification** and **price filter behavior verification**.
 
 ### Test 1: Overall Response Field Verification
 
 #### Procedure
 
-1. Open Swagger UI (**`http://localhost:8002/docs`**)
-2. Open the **`/search`** endpoint
-3. Click "Try it out"
-4. Enter the following:
+1. Open the search screen (**`http://localhost:8002`**)
+2. Search for:
 
-    ```json
-    {
-      "query": "red sneakers"
-    }
+    ```text
+    red sneakers
     ```
 
-5. Click "Execute"
-6. Verify results:
-
-    ```json
-    {
-      "results": [
-        {
-          "product_name": "Red Sports Shoes",
-          "image_url": "https://example.com/images/red-shoes.jpg",
-          "similarity_score": 0.5474,
-          "price": 7500,
-          "category": "Sneakers",
-          "description": "Versatile shoes for both casual and sports use. Excellent cushioning.",
-          "recommendation_reason": "Related to the search content (similarity: 0.5474)"
-        }
-      ]
-    }
-    ```
+3. Verify the product cards
 
 #### Verification Points
 
-- **`image_url`** field exists
-- URL is in correct format (starts with **`https://`**)
-- **`recommendation_reason`** field exists
-- Recommendation reason is displayed in clear language
-- Existing **`product_name`**, **`price`**, **`category`**, and **`description`** fields are still displayed
+- A product image is displayed on each card (**`image_url`**)
+- A recommendation reason is displayed in clear language (**`recommendation_reason`**)
+- The existing product name, price, category, description, and similarity are still displayed
 
 ### Test 2: Price Filter Behavior Verification
 
 #### Procedure
 
-1. Open **`/search`** in Swagger UI
-2. Click "Try it out"
-3. Enter the following:
+1. On the search screen, enter **5000** as the minimum price and **10000** as the maximum price
+2. Search for:
 
-    ```json
-    {
-      "query": "sneakers",
-      "min_price": 5000,
-      "max_price": 10000
-    }
+    ```text
+    sneakers
     ```
 
-4. Click "Execute"
-5. Verify results: All product prices are within the 5000-10000 yen range
+3. Verify results: All product prices are within the 5000-10000 yen range
 
 #### Verification Points
 
 - Only products within the specified price range are displayed
 - Products outside the range are not displayed
-- **`image_url`** and **`recommendation_reason`** are still displayed
+- Product images and recommendation reasons are still displayed
 
 #### Optional: Try Various Price Ranges
 
-```json
-// High price range
-{
-  "query": "camera",
-  "min_price": 50000,
-  "max_price": 100000
-}
-
-// Low price range
-{
-  "query": "camera",
-  "min_price": 0,
-  "max_price": 20000
-}
-```
+| Search query | Minimum price | Maximum price |
+|--------------|---------------|---------------|
+| camera | 50000 | 100000 |
+| camera | 0 | 20000 |
 
 ### Test Completion Check
 
-- [ ] Verified **`image_url`** and **`recommendation_reason`** in one search response
+- [ ] Verified product images and recommendation reasons in one search
 - [ ] Verified that the price filter excludes products outside the range
 - [ ] Verified that the added features work correctly together
 

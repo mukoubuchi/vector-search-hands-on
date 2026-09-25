@@ -54,7 +54,7 @@ Vector Search searches by understanding "meaning".
   <div class="vector-flow-edge"><span>Similar Vectors</span><span aria-hidden="true">⟶</span></div>
   <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
     <p class="admonition-title">Step 5: Search Results</p>
-    <p class="vector-flow-content"><strong>Similar Products List</strong><br/>• Red Sports Shoes (0.5474)<br/>• Red Running Shoes (0.4681)<br/>• Red Training Shoes (0.4517)</p>
+    <p class="vector-flow-content"><strong>Similar Products List</strong><br/>• Red Running Shoes (0.8268)<br/>• Red Sports Shoes (0.8122)<br/>• Red Training Shoes (0.7203)</p>
   </div>
 </div>
 
@@ -256,7 +256,7 @@ If you see output like the following, the application is running.
 ✓ Application started successfully
 ==================================================
 
-Swagger UI: http://localhost:8002/docs
+Search screen: http://localhost:8002
 ==================================================
 
 INFO:     Application startup complete.
@@ -271,107 +271,107 @@ If `ModuleNotFoundError: No module named 'fastapi'` appears, the required packag
 
 ### Verify Launch
 
-Access the following URL in your web browser and verify that Swagger UI is displayed:
+Open the following URL in your web browser and verify that the search screen (**Product Search Demo**) is displayed:
 
 ```text
-http://localhost:8002/docs
+http://localhost:8002
 ```
-
-**Swagger UI** = A tool to visually test APIs
 
 !!! success "Launch Successful"
     
-    If Swagger UI is displayed, the application has started successfully.
+    If the search screen is displayed, the application has started successfully.
 
 ### Try Searching
 
-#### Step 1: Open the **`/search`** endpoint
+#### Step 1: Enter a Search Query
 
-1. Find **`/search`** in the Swagger UI screen
-2. Click **`/search`**
+Type the following in the search box at the top of the screen:
 
-#### Step 2: Click "Try it out"
-
-Click the "Try it out" button in the upper right
-
-#### Step 3: Enter Search Query
-
-Enter the following in the "Request body" field:
-
-```json
-{
-  "query": "red sneakers"
-}
+```text
+red sneakers
 ```
 
-#### Step 4: Click "Execute"
+#### Step 2: Click "Search"
 
-Click the blue "Execute" button
+Click the **Search** button (or press ++enter++)
 
-#### Step 5: Verify Results
+#### Step 3: Verify Results
 
-Results like the following will be displayed. Scores may vary slightly depending on your environment and model version:
+Products are displayed as cards, most similar first. The top three are the three red shoes: Red Running Shoes (0.8268), Red Sports Shoes (0.8122), and Red Training Shoes (0.7203), followed by Blue Casual Sneakers. Scores may vary slightly depending on your environment and model version.
 
-```json
-{
-  "results": [
-    {
-      "product_name": "Red Sports Shoes",
-      "similarity_score": 0.5474,
-      "price": 7500,
-      "category": "Sneakers",
-      "description": "Versatile shoes for both casual and sports use. Excellent cushioning."
-    },
-    {
-      "product_name": "Red Running Shoes",
-      "similarity_score": 0.4681,
-      "price": 8900,
-      "category": "Sneakers",
-      "description": "Lightweight and breathable running shoes."
-    },
-    {
-      "product_name": "Red Training Shoes",
-      "similarity_score": 0.4517,
-      "price": 9800,
-      "category": "Sneakers",
-      "description": "Ideal for gym training. Features stability and grip."
-    }
-  ]
-}
-```
+![Search results for "red sneakers" on the search screen](images/search-screen-results-en.png)
 
 **How to read results**:
 
-- **`product_name`**: Product name
-- **`similarity_score`**: Similarity (0.0-1.0, higher is more similar)
-- **`price`**: Price
-- **`category`**: Category
-- **`description`**: Description
+- **Rank** (`#1`, `#2`, ...): Order of similarity, most similar first
+- **Category** (`category`): Product category
+- **Product name** (`product_name`): Product name
+- **Price** (`price`): Price in yen
+- **Description** (`description`): Description
+- **Similarity** (`similarity_score`): Similarity (0.0-1.0, higher is more similar). The bar is green at 0.7 and above, blue from 0.4 to 0.7, and gray below 0.4
+
+**Results** (`top_k`) sets how many products are returned (default: 5). The price filter stays unavailable until you add it in Part 2.
+
+??? note "Optional: See the raw API response"
+    The search screen sends your query to the **`/search`** API of the demo application and displays the JSON it returns. To see the raw JSON, open Swagger UI, the API page that FastAPI generates, at **`http://localhost:8002/docs`**. Open **`/search`**, click "Try it out", enter the request body below, and click "Execute". Swagger UI loads its files from the internet, while the search screen works offline.
+
+    ```json
+    {
+      "query": "red sneakers",
+      "top_k": 3
+    }
+    ```
+
+    Response (scores may vary slightly):
+
+    ```json
+    {
+      "results": [
+        {
+          "product_name": "Red Running Shoes",
+          "similarity_score": 0.8268,
+          "price": 8900,
+          "category": "Sneakers",
+          "description": "Lightweight and breathable running shoes."
+        },
+        {
+          "product_name": "Red Sports Shoes",
+          "similarity_score": 0.8122,
+          "price": 7500,
+          "category": "Sneakers",
+          "description": "Versatile shoes for both casual and sports use. Excellent cushioning."
+        },
+        {
+          "product_name": "Red Training Shoes",
+          "similarity_score": 0.7203,
+          "price": 9800,
+          "category": "Sneakers",
+          "description": "Ideal for gym training. Features stability and grip."
+        }
+      ]
+    }
+    ```
 
 ### Try Various Searches
 
+Try the following searches as well. You can type them, or click the matching example under the search box.
+
 #### Example 1: Search for beginner-friendly products
 
-```json
-{
-  "query": "beginner camera"
-}
+```text
+beginner camera
 ```
 
 #### Example 2: Search for business-oriented products
 
-```json
-{
-  "query": "business laptop"
-}
+```text
+business laptop
 ```
 
 #### Example 3: Search for high-performance products
 
-```json
-{
-  "query": "high-performance gaming PC"
-}
+```text
+high-performance gaming PC
 ```
 
 ### Experience the Power of Vector Search
@@ -390,6 +390,7 @@ As you try various searches, you should notice the following:
 **Observation 3: Descriptions are also considered**
 
 - Understands not just product names but also the meaning of descriptions
+- "business laptop" also finds the Lightweight Business Bag, whose description says it fits a laptop
 
 ## Part 1 Completion Check
 
@@ -398,18 +399,18 @@ As you try various searches, you should notice the following:
 - [ ] Connection test was successful
 - [ ] Inserted sample data
 - [ ] Launched demo application
-- [ ] Opened Swagger UI
+- [ ] Opened the search screen
 - [ ] Executed search
 - [ ] Tried various searches
 
 ## FAQ
 
-??? question "Q1: Cannot open Swagger UI"
+??? question "Q1: Cannot open the search screen"
 
     Solution:
     
     1. Verify the application is running
-    2. Verify the URL is correct (**`http://localhost:8002/docs`**)
+    2. Verify the URL is correct (**`http://localhost:8002`**)
     3. Try a different browser
 
 ??? question "Q2: Search results are 0"
@@ -427,7 +428,7 @@ As you try various searches, you should notice the following:
     2. Restart the demo application manually
         1. Press ++ctrl+c++ in the terminal running the application (stop)
         2. Execute **`python app.py`** ([:material-play-circle: How to start](#app-restart))
-    3. Search again in Swagger UI
+    3. Search again on the search screen
 
     If the existing collection was created with an older search metric, scores may appear very low, such as 0.06.
 

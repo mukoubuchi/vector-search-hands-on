@@ -25,7 +25,7 @@ docs/
 │   ├── summary.md            # まとめ
 │   ├── feedback.md           # 受講者フィードバックフォーム
 │   └── translation-sync.md   # 内部向け翻訳同期ガイド
-├── images/                   # 図解と SVG 画像
+├── images/                   # 図解、SVG 画像、スクリーンショット
 ├── stylesheets/              # カスタム CSS（モジュール化）
 │   ├── extra.css             # メイン CSS ファイル（各モジュールをインポート）
 │   ├── typography.css        # タイポグラフィスタイル

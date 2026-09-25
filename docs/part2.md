@@ -32,16 +32,20 @@ In this part, you'll add the following 3 features:
 2. **Price filter**
 3. **Recommendation reason display**
 
+!!! info "The search screen shows the new fields automatically"
+    The search screen displays whatever the **`/search`** API returns. Once the API returns **`image_url`** or **`recommendation_reason`**, or accepts **`min_price`** and **`max_price`**, the screen shows product images or recommendation reasons, or enables its price filter. In this part, you ask IBM Bob to change only the API and the data.
+
 ??? note "About hot reload"
     The application has a hot reload feature, but in this hands-on, stop it once before changing code and start it again after the change to ensure the updates are applied.
 
 ??? note "Application file structure"
-    - `app.py`: Defines the FastAPI API and screen
+    - `app.py`: Defines the FastAPI API and serves the search screen
     - `common.py`: Handles `.env`, language selection, Milvus connection, and embedding model loading
     - `schema.py`: Defines the Milvus collection schema, index/search settings, and fields returned in search results
     - `insert_sample_data.py`: Inserts sample product data into Milvus
     - `sample_products.py`: Selects the sample product data based on `PARTICIPANT_LANGUAGE`
     - `sample_products_en.py`: Defines English sample data such as product names, descriptions, and prices
+    - `static/`: The search screen (HTML, JavaScript, and CSS) and the product images (`static/images/product-01.svg` to `product-12.svg`). You do not need to change it in this part
 
 ## Feature 1: Product Image Display {#feature-1-product-image-display}
 
@@ -74,8 +78,8 @@ Press ++ctrl+c++ in the terminal running the application to stop it.
 Enter the following in the chat input field and press Enter:
 
 ```
-Add an image_url field to the /search API JSON response.
-Make it verifiable in Swagger UI.
+Add an image_url field to the /search API JSON response so the search screen can display it.
+The product images are static/images/product-01.svg to product-12.svg, in the same order as SAMPLE_PRODUCTS.
 ```
 
 **Key point**:
@@ -97,7 +101,7 @@ IBM Bob will make a proposal like the following.
 
 Changes:
 
-- **`sample_products_en.py`**: Add **`image_url`** to product data
+- **`sample_products_en.py`**: Add **`image_url`** to product data (for example, `/static/images/product-01.svg` for the first product)
 - **`schema.py`**: Add **`image_url`** to the collection schema and search output fields
 - **`insert_sample_data.py`**: Insert the new product field into Milvus
 - **`app.py`**: Add **`image_url`** to the API response model and search result JSON
@@ -122,31 +126,18 @@ The exact proposal may vary, but for stored product fields, both the API respons
         Because your collection already exists from Part 1, the script asks **`Drop and recreate this collection? [y/N]`**. Answer **`y`** (it only affects your own collection — the unique `COLLECTION_NAME` you set in `.env`).
 
 2. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
-3. Open Swagger UI (**`http://localhost:8002/docs`**)
-4. Execute search:
+3. Open the search screen (**`http://localhost:8002`**). If it is already open, reload the page
+4. Search for:
 
-    ```json
-    {
-      "query": "red sneakers"
-    }
+    ```text
+    red sneakers
     ```
 
-5. Verify results:
+5. Verify results: each product card now shows a product image
 
-    ```json
-    {
-      "results": [
-        {
-          "product_name": "Red Sports Shoes",
-          "image_url": "https://example.com/images/red-shoes.jpg",
-          "similarity_score": 0.5474,
-          "price": 7500
-        }
-      ]
-    }
-    ```
+    ![Product cards with images on the search screen](images/search-screen-images-en.png)
 
-**Verification point**: **`image_url`** field has been added
+**Verification point**: Product images are displayed. The API returns **`image_url`** values such as `/static/images/product-01.svg`, and the screen shows the image at that path
 
 ### Feature 1 Completion Check
 
@@ -154,7 +145,7 @@ The exact proposal may vary, but for stored product fields, both the API respons
 - [ ] IBM Bob generated code
 - [ ] Approved changes
 - [ ] Reinserted sample data after the schema change
-- [ ] **`image_url`** is displayed in search results
+- [ ] Product images are displayed in the search results
 
 ## Feature 2: Price Filter
 
@@ -193,17 +184,16 @@ Click the "Approve" button
 ### Step 5: Verify Operation
 
 1. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
-2. Execute search:
+2. Reload the search screen. The price filter is now available
+3. Enter **5000** as the minimum price and **10000** as the maximum price, then search for:
 
-    ```json
-    {
-      "query": "sneakers",
-      "min_price": 5000,
-      "max_price": 10000
-    }
+    ```text
+    sneakers
     ```
 
-3. Verify results: Only products between 5000 and 10000 yen are displayed
+4. Verify results: Only products between 5000 and 10000 yen are displayed
+
+    ![Search results narrowed to 5000-10000 yen with the price filter](images/search-screen-price-filter-en.png)
 
 ### Feature 2 Completion Check
 
@@ -248,27 +238,15 @@ Click the "Approve" button
 ### Step 5: Verify Operation
 
 1. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
-2. Execute search:
+2. Reload the search screen and search for:
 
-    ```json
-    {
-      "query": "beginner camera"
-    }
+    ```text
+    beginner camera
     ```
 
-3. Verify results:
+3. Verify results: each product card shows a recommendation reason under **Why this product**, such as "Closely matches your search (similarity: 0.7944)". The wording depends on the code IBM Bob generated
 
-    ```json
-    {
-      "results": [
-        {
-          "product_name": "Entry-level Digital Camera",
-          "similarity_score": 0.6123,
-          "recommendation_reason": "Related to the search content (similarity: 0.6123)"
-        }
-      ]
-    }
-    ```
+    ![Product cards with recommendation reasons on the search screen](images/search-screen-reasons-en.png)
 
 ### Feature 3 Completion Check
 
@@ -301,7 +279,7 @@ Click the "Approve" button
     
         1. Press ++ctrl+c++ in the terminal running the application (stop)
         2. Execute **`python app.py`** ([:material-play-circle: How to start](part1.md#app-restart))
-    3. Reload browser
+    3. Reload the search screen in the browser
 
 ??? question "Q3: Error is displayed"
 

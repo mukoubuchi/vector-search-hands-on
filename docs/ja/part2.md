@@ -32,16 +32,20 @@
 2. **価格フィルター**
 3. **レコメンド理由の表示**
 
+!!! info "追加した項目は検索画面に自動で表示されます"
+    検索画面は、**`/search`** API が返した内容をそのまま表示します。API が **`image_url`** や **`recommendation_reason`** を返すようになったり、**`min_price`** と **`max_price`** を受け付けるようになったりすると、画面に商品画像やレコメンド理由が表示され、価格フィルターが使えるようになります。このパートで IBM Bob に変更を依頼するのは、API とデータだけです。
+
 ??? note "ホットリロードについて"
     アプリケーションにはホットリロード機能がありますが、このハンズオンでは変更内容を確実に反映するため、コード変更前に一度停止し、変更後に起動し直します。
 
 ??? note "アプリケーションのファイル構成"
-    - `app.py`: FastAPI の API と画面を定義します
+    - `app.py`: FastAPI の API を定義し、検索画面を配信します
     - `common.py`: `.env`、言語切替、Milvus 接続、埋め込みモデル読み込みを扱います
     - `schema.py`: Milvus のコレクション定義、インデックス・検索設定、検索結果として返すフィールドを定義します
     - `insert_sample_data.py`: サンプル商品データを Milvus に投入します
     - `sample_products.py`: 使用するサンプル商品データを `PARTICIPANT_LANGUAGE` に応じて選択します
     - `sample_products_ja.py`: 日本語の商品名、説明、価格などのサンプルデータを定義します
+    - `static/`: 検索画面（HTML、JavaScript、CSS）と商品画像（`static/images/product-01.svg`〜`product-12.svg`）です。このパートでは変更しません
 
 ## 機能 1: 商品画像の表示 {#feature-1-product-image-display}
 
@@ -72,8 +76,8 @@ IBM Bob の画面下部のチャット入力欄をクリック
 チャット入力欄に以下を入力して Enter:
 
 ```
-/search API の JSON レスポンスに image_url フィールドを追加して。
-Swagger UI で確認できる形にして。
+検索 API（/search）の JSON レスポンスに image_url フィールドを追加して、検索画面で表示できるようにして。
+商品画像は static/images/product-01.svg〜product-12.svg にあり、SAMPLE_PRODUCTS と同じ順です。
 ```
 
 **ポイント**:
@@ -95,7 +99,7 @@ IBM Bob が以下のような提案をします。
 
 変更内容:
 
-- **`sample_products_ja.py`**: 商品データに **`image_url`** を追加
+- **`sample_products_ja.py`**: 商品データに **`image_url`** を追加（例: 1 件目の商品は `/static/images/product-01.svg`）
 - **`schema.py`**: コレクション定義と検索結果フィールドに **`image_url`** を追加
 - **`insert_sample_data.py`**: 新しい商品フィールドを Milvus に投入
 - **`app.py`**: API レスポンスモデルと検索結果 JSON に **`image_url`** を追加
@@ -120,31 +124,18 @@ IBM Bob が以下のような提案をします。
         Part 1 で作成したコレクションが既に存在するため、スクリプトが **`このコレクションを削除して作り直しますか？ [y/N]`** と確認してきます。**`y`** と答えてください（`.env` で設定した自分専用のコレクションのため、他の参加者には影響しません）。
 
 2. アプリケーションを起動（**`python app.py`** を実行。[:material-play-circle: 起動方法](part1.md#app-restart)）
-3. Swagger UI を開く（**`http://localhost:8002/docs`**）
-4. 検索を実行:
+3. 検索画面を開く（**`http://localhost:8002`**）。既に開いている場合はページを再読み込み
+4. 以下を検索:
 
-    ```json
-    {
-      "query": "赤いスニーカー"
-    }
+    ```text
+    赤いスニーカー
     ```
 
-5. 結果を確認:
+5. 結果を確認: 各商品のカードに商品画像が表示される
 
-    ```json
-    {
-      "results": [
-        {
-          "product_name": "赤いスポーツシューズ",
-          "image_url": "https://example.com/images/red-shoes.jpg",
-          "similarity_score": 0.5474,
-          "price": 7500
-        }
-      ]
-    }
-    ```
+    ![検索画面で商品画像付きのカードが表示された様子](images/search-screen-images-ja.png)
 
-**確認ポイント**: **`image_url`** フィールドが追加されている
+**確認ポイント**: 商品画像が表示されている。API は `/static/images/product-01.svg` のような **`image_url`** を返し、画面はそのパスの画像を表示します
 
 ### 機能 1 完了チェック
 
@@ -152,7 +143,7 @@ IBM Bob が以下のような提案をします。
 - [ ] IBM Bob がコードを生成した
 - [ ] 変更を承認した
 - [ ] コレクション定義の変更後にサンプルデータを再投入した
-- [ ] 検索結果に **`image_url`** が表示される
+- [ ] 検索結果に商品画像が表示される
 
 ## 機能 2: 価格フィルター
 
@@ -169,7 +160,7 @@ IBM Bob が以下のような提案をします。
 チャット入力欄に以下を入力して Enter:
 
 ```text
-/search API の JSON リクエストで min_price と max_price を指定できるようにして。
+検索 API（/search）の JSON リクエストで min_price と max_price を指定できるようにして。
 指定された価格帯に入る検索結果だけを返すようにして。
 ```
 
@@ -191,17 +182,16 @@ IBM Bob が以下のような提案をします。
 ### ステップ 5: 動作確認
 
 1. アプリケーションを起動（**`python app.py`** を実行。[:material-play-circle: 起動方法](part1.md#app-restart)）
-2. 検索を実行:
+2. 検索画面を再読み込み。価格フィルターが使えるようになっている
+3. 価格の下限に **5000**、上限に **10000** を入力して、以下を検索:
 
-    ```json
-    {
-      "query": "スニーカー",
-      "min_price": 5000,
-      "max_price": 10000
-    }
+    ```text
+    スニーカー
     ```
 
-3. 結果を確認: 5000 円〜10000 円の商品のみ表示される
+4. 結果を確認: 5000 円〜10000 円の商品のみ表示される
+
+    ![価格フィルターで 5000 円〜10000 円に絞り込んだ検索結果](images/search-screen-price-filter-ja.png)
 
 ### 機能 2 完了チェック
 
@@ -224,7 +214,7 @@ IBM Bob が以下のような提案をします。
 チャット入力欄に以下を入力して Enter:
 
 ```text
-/search API の JSON レスポンスに recommendation_reason フィールドを追加して。
+検索 API（/search）の JSON レスポンスに recommendation_reason フィールドを追加して。
 類似度スコアに基づいて理由のテキストを生成して。
 ```
 
@@ -246,27 +236,15 @@ IBM Bob が以下のような提案をします。
 ### ステップ 5: 動作確認
 
 1. アプリケーションを起動（**`python app.py`** を実行。[:material-play-circle: 起動方法](part1.md#app-restart)）
-2. 検索を実行:
+2. 検索画面を再読み込みして、以下を検索:
 
-    ```json
-    {
-      "query": "初心者向けのカメラ"
-    }
+    ```text
+    初心者向けのカメラ
     ```
 
-3. 結果を確認:
+3. 結果を確認: 各商品のカードの **おすすめ理由**に、「検索内容とよく一致しています（類似度: 0.8720）」のような理由が表示される。文言は IBM Bob が生成したコードによって変わります
 
-    ```json
-    {
-      "results": [
-        {
-          "product_name": "入門用デジタルカメラ",
-          "similarity_score": 0.6123,
-          "recommendation_reason": "検索内容と関連しています（類似度: 0.6123）"
-        }
-      ]
-    }
-    ```
+    ![検索画面でおすすめ理由付きのカードが表示された様子](images/search-screen-reasons-ja.png)
 
 ### 機能 3 完了チェック
 
@@ -299,7 +277,7 @@ IBM Bob が以下のような提案をします。
     
         1. アプリケーションを起動しているターミナルで ++ctrl+c++ （停止）
         2. **`python app.py`** を実行（[:material-play-circle: 起動方法](part1.md#app-restart)）
-    3. ブラウザをリロード
+    3. ブラウザで検索画面を再読み込み
 
 ??? question "Q3: エラーが表示される"
 

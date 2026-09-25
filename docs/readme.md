@@ -25,7 +25,7 @@ docs/
 │   ├── summary.md            # Summary
 │   ├── feedback.md           # Participant feedback form
 │   └── translation-sync.md   # Internal translation sync guide
-├── images/                   # Diagrams and SVG images
+├── images/                   # Diagrams, SVG images, and screenshots
 ├── stylesheets/              # Custom CSS (modularized)
 │   ├── extra.css             # Main CSS file (imports each module)
 │   ├── typography.css        # Typography styles
