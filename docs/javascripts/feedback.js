@@ -4,7 +4,7 @@
       header: 'Vector Search ハンズオン フィードバック',
       divider: '━━━━━━━━━━━━━━━━━━━━',
       noAnswer: '未回答',
-      status: 'Slack に貼り付ける内容を作成しました。',
+      status: 'フィードバック内容を作成しました。',
       copySuccess: 'コピーしました。Slack に貼り付けて送信してください。',
       copyFailure: 'コピーできませんでした。内容を選択して手動でコピーしてください。'
     },
@@ -12,7 +12,7 @@
       header: 'Vector Search Hands-on Feedback',
       divider: '━━━━━━━━━━━━━━━━━━━━',
       noAnswer: 'No answer',
-      status: 'Created the message to paste into Slack.',
+      status: 'Created the feedback message.',
       copySuccess: 'Copied. Paste it into Slack and send it.',
       copyFailure: 'Copy failed. Please select the content and copy it manually.'
     }

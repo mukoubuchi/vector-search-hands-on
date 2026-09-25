@@ -100,7 +100,7 @@ Vector Search ハンズオンにご参加いただき、ありがとうござい
   </section>
 
   <div class="feedback-actions">
-<button type="submit">Slack に貼り付ける内容を作成</button>
+<button type="submit">フィードバック内容の作成</button>
 <p data-feedback-status aria-live="polite"></p>
   </div>
 

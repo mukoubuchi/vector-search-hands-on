@@ -78,7 +78,7 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
 
 ## FAQ
 
-??? question "Q1: Test fails"
+??? question "Test fails"
 
     Solution:
     
@@ -151,7 +151,7 @@ If IBM Bob asks you to confirm the deletion, choose to delete the folder. If IBM
         rmdir /s /q venv
         ```
 
-??? question "Q: What if I want to keep the venv?"
+??? question "What if I want to keep the venv?"
     
     If you plan to use the technologies learned in this hands-on in the future, you don't need to delete the `venv` folder. Just run `deactivate` and reuse it later.
 

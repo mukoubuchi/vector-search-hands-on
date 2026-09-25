@@ -354,7 +354,7 @@ All documentation is available in Japanese under [`docs/ja/`](docs/ja/).
 
 ## Other Building Blocks Features
 
-In addition to Vector Search Builder, there are many Building Blocks with dedicated Bob Modes:
+In addition to Vector Search Builder, there are many Building Blocks with dedicated IBM Bob custom modes:
 
 - **Agent Builder**: Build autonomous AI agents and voice-enabled agents
 - **Multi-Agent Orchestration**: Coordinated control of multiple agents

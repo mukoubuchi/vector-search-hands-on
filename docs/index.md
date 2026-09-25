@@ -33,7 +33,7 @@ Responsibilities for each process:
 
 - **Building Blocks**:
     - Technology selection (Milvus, embedding models)
-    - Environment setup support (Bob mode, API samples)
+    - Environment setup support (Vector Search Builder mode, API samples)
 - **IBM Bob**:
     - Requirements definition
     - Coding
@@ -41,7 +41,7 @@ Responsibilities for each process:
     - Debugging
 
 ??? note "About IBM Bob's Coverage"
-    IBM Bob can support the entire Software Development Lifecycle (SDLC) as an AI SDLC partner, from requirements definition to debugging. In this hands-on, Building Blocks provides technology selection (Milvus, embedding models) and environment setup support (Milvus setup, Bob mode), and the instructor prepares the Milvus environment in advance with Docker Compose, so IBM Bob focuses mainly on coding, testing, and debugging. However, if you use Plan mode, you can also utilize it in the requirements definition and design stages.
+    IBM Bob can support the entire Software Development Lifecycle (SDLC) as an AI SDLC partner, from requirements definition to debugging. In this hands-on, Building Blocks provides technology selection (Milvus, embedding models) and environment setup support (Milvus setup, Vector Search Builder mode), and the instructor prepares the Milvus environment in advance with Docker Compose, so IBM Bob focuses mainly on coding, testing, and debugging. However, if you use Plan mode, you can also utilize it in the requirements definition and design stages.
 
 ## What are Building Blocks?
 
