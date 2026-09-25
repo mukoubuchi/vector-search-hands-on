@@ -28,7 +28,7 @@ numpy==2.4.6
 pydantic==2.13.5
 
 # scikit-learn (used in test_embeddings_hf.py)
-scikit-learn==1.9.0
+scikit-learn==1.9.1
 
 # Note for Linux users: the default torch wheel bundles CUDA libraries (several GB).
 # For a much smaller CPU-only install, run this BEFORE `pip install -r requirements.txt`:
