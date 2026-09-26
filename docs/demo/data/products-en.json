@@ -1,84 +1,84 @@
 [
   {
     "product_name": "Red Running Shoes",
-    "price": 8900,
+    "price": 89,
     "category": "Sneakers",
     "description": "Lightweight and breathable running shoes.",
     "image_url": "images/product-01.svg"
   },
   {
     "product_name": "Red Sports Shoes",
-    "price": 7500,
+    "price": 75,
     "category": "Sneakers",
     "description": "Versatile shoes for both casual and sports use. Excellent cushioning.",
     "image_url": "images/product-02.svg"
   },
   {
     "product_name": "Red Training Shoes",
-    "price": 9800,
+    "price": 98,
     "category": "Sneakers",
     "description": "Ideal for gym training. Features stability and grip.",
     "image_url": "images/product-03.svg"
   },
   {
     "product_name": "Entry-level Digital Camera",
-    "price": 45000,
+    "price": 450,
     "category": "Camera",
     "description": "High-quality photos with simple operation. The ideal beginner model.",
     "image_url": "images/product-04.svg"
   },
   {
     "product_name": "Beginner Mirrorless Camera",
-    "price": 52000,
+    "price": 520,
     "category": "Camera",
     "description": "Lightweight and compact for easy carrying. Recommended mirrorless for beginners.",
     "image_url": "images/product-05.svg"
   },
   {
     "product_name": "Business Laptop",
-    "price": 98000,
+    "price": 980,
     "category": "Computer",
     "description": "Lightweight with long battery life. The ideal laptop for business use.",
     "image_url": "images/product-06.svg"
   },
   {
     "product_name": "Office Notebook PC",
-    "price": 85000,
+    "price": 850,
     "category": "Computer",
     "description": "Sufficient performance for document creation and web conferencing. Excellent value.",
     "image_url": "images/product-07.svg"
   },
   {
     "product_name": "High-performance Gaming PC",
-    "price": 198000,
+    "price": 1980,
     "category": "Computer",
     "description": "Can play the latest games comfortably. Equipped with a high-performance graphics card.",
     "image_url": "images/product-08.svg"
   },
   {
     "product_name": "Pro Gaming Desktop",
-    "price": 250000,
+    "price": 2500,
     "category": "Computer",
     "description": "Top performance model for esports players. Smooth even at 4K resolution.",
     "image_url": "images/product-09.svg"
   },
   {
     "product_name": "Blue Casual Sneakers",
-    "price": 6800,
+    "price": 68,
     "category": "Sneakers",
     "description": "Perfect casual shoes for daily use. Exceptionally comfortable.",
     "image_url": "images/product-10.svg"
   },
   {
     "product_name": "Pro DSLR Camera",
-    "price": 180000,
+    "price": 1800,
     "category": "Camera",
     "description": "High-performance DSLR for professionals. Handles any scene.",
     "image_url": "images/product-11.svg"
   },
   {
     "product_name": "Lightweight Business Bag",
-    "price": 12000,
+    "price": 120,
     "category": "Bag",
     "description": "Lightweight business bag that fits a laptop. Water-resistant finish.",
     "image_url": "images/product-12.svg"

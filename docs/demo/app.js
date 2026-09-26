@@ -30,7 +30,7 @@ const TEXT = {
     examplesLabel: "Try:",
     examples: ["red sneakers", "beginner camera", "business laptop", "high-performance gaming PC"],
     topKLabel: "Results (top_k)",
-    priceLabel: "Price (yen)",
+    priceLabel: "Price (USD)",
     priceMin: "Minimum price",
     priceMax: "Maximum price",
     priceMinPlaceholder: "Min",
@@ -50,7 +50,8 @@ const TEXT = {
     bandLabel: (min, upper) => (upper === null ? `${min} and above` : min === 0 ? `below ${upper}` : `${min}–${upper}`),
     reason: "Why this product",
     imageMissing: "No image",
-    formatPrice: (price) => `¥${price.toLocaleString("en-US")}`,
+    formatPrice: (price) => `$${price.toLocaleString("en-US")}`,
+    priceStep: 10,
   },
   ja: {
     queryLabel: "商品を検索",
@@ -80,6 +81,7 @@ const TEXT = {
     reason: "おすすめ理由",
     imageMissing: "画像なし",
     formatPrice: (price) => `${price.toLocaleString("ja-JP")} 円`,
+    priceStep: 1000,
   },
 };
 
@@ -116,6 +118,9 @@ function applyText() {
   queryInput.placeholder = t.queryPlaceholder;
   minPriceInput.placeholder = t.priceMinPlaceholder;
   maxPriceInput.placeholder = t.priceMaxPlaceholder;
+  // The sample prices are in US dollars in English and in yen in Japanese
+  minPriceInput.step = String(t.priceStep);
+  maxPriceInput.step = String(t.priceStep);
 
   const examples = document.getElementById("examples");
   t.examples.forEach((example) => {
