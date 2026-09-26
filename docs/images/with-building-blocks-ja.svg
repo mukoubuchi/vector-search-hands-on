@@ -13,13 +13,13 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
       <g data-cell-id="1">
         <g data-cell-id="bb-container">
           <g>
-            <path d="M 1 41 V 5 Q 1 1 5 1 H 1087 Q 1091 1 1091 5 V 41" fill="#f0f1f9" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #f0f1f9; stroke: #f0f1f9;" />
-            <path d="M 1 41 V 197 Q 1 201 5 201 H 1087 Q 1091 201 1091 197 V 41" fill="#ffffff" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #f0f1f9;" />
+            <path d="M 1 41 V 5 Q 1 1 5 1 H 1087 Q 1091 1 1091 5 V 41" fill="#ecf2ff" stroke="#ecf2ff" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #ecf2ff; stroke: #ecf2ff;" />
+            <path d="M 1 41 V 197 Q 1 201 5 201 H 1087 Q 1091 201 1091 197 V 41" fill="#ffffff" stroke="#ecf2ff" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #ecf2ff;" />
             <path d="M 1 41 L 1091 41" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" style="stroke: none;" />
           </g>
           <g>
             <g>
-              <text x="546.0" y="26.6" font-size="16.0" fill="#000000" text-anchor="middle">
+              <text x="546.0" y="26.6" font-size="16.0" fill="#161616" text-anchor="middle">
                 <tspan x="546.0" dy="0">
                   <tspan font-weight="700">Building Blocks + IBM Bob の場合</tspan>
                 </tspan>
@@ -32,7 +32,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
             </g>
             <g>
               <g>
-                <text x="23.0" y="70.9" font-size="14.0" fill="#4051b5" text-anchor="start">
+                <text x="23.0" y="70.9" font-size="14.0" fill="#0f62fe" text-anchor="start">
                   <tspan x="23.0" dy="0">
                     <tspan font-weight="700">所要時間: 数時間〜1 日</tspan>
                   </tspan>
@@ -42,11 +42,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="bb-1">
             <g stroke="none" stroke-width="0">
-              <rect x="41" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="all" style="fill: #f5dddd; stroke: #f9f1f1;" />
+              <rect x="41" y="101" width="140" height="60" rx="6" ry="6" fill="#f9dcdd" stroke="#fcedee" stroke-width="1.25" pointer-events="all" style="fill: #f9dcdd; stroke: #fcedee;" />
             </g>
             <g>
               <g>
-                <text x="111.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="111.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="111.0" dy="0">
                     <tspan font-weight="700">要件定義</tspan>
                   </tspan>
@@ -56,11 +56,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="bb-2">
             <g stroke="none" stroke-width="0">
-              <rect x="201" y="101" width="140" height="60" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
+              <rect x="201" y="101" width="140" height="60" rx="6" ry="6" fill="#dde9ff" stroke="#ecf2ff" stroke-width="1.25" pointer-events="all" style="fill: #dde9ff; stroke: #ecf2ff;" />
             </g>
             <g>
               <g>
-                <text x="271.0" y="127.75" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="271.0" y="127.75" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="271.0" dy="0">
                     <tspan font-weight="700">Building Blocks</tspan>
                   </tspan>
@@ -73,11 +73,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="bb-3">
             <g stroke="none" stroke-width="0">
-              <rect x="361" y="101" width="140" height="60" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
+              <rect x="361" y="101" width="140" height="60" rx="6" ry="6" fill="#dde9ff" stroke="#ecf2ff" stroke-width="1.25" pointer-events="all" style="fill: #dde9ff; stroke: #ecf2ff;" />
             </g>
             <g>
               <g>
-                <text x="431.0" y="127.75" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="431.0" y="127.75" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="431.0" dy="0">
                     <tspan font-weight="700">IBM Bob で</tspan>
                   </tspan>
@@ -90,11 +90,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="bb-4">
             <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
-              <rect x="521" y="101" width="60" height="60" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #f5f9f7;" />
+              <rect x="521" y="101" width="60" height="60" rx="6" ry="6" fill="#ddf0e3" stroke="#edf7f0" stroke-width="1.25" pointer-events="all" style="fill: #ddf0e3; stroke: #edf7f0;" />
             </g>
             <g>
               <g>
-                <text x="551.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="551.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="551.0" dy="0">
                     <tspan font-weight="700">完成</tspan>
                   </tspan>
@@ -104,20 +104,20 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="bb-arrow1">
             <g>
-              <path d="M 181 131.06 L 190.97 131.06 Q 200.94 131.06 190.94 131.06 L 185.94 131.06 Q 180.94 131.06 186.85 131.06 L 192.76 131.06" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8a8b8c;" />
-              <path d="M 198.76 131.06 L 190.76 135.06 L 192.76 131.06 L 190.76 127.06 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8a8b8c; stroke: #8a8b8c;" />
+              <path d="M 181 131.06 L 190.97 131.06 Q 200.94 131.06 190.94 131.06 L 185.94 131.06 Q 180.94 131.06 186.85 131.06 L 192.76 131.06" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8d8d8d;" />
+              <path d="M 198.76 131.06 L 190.76 135.06 L 192.76 131.06 L 190.76 127.06 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8d8d8d; stroke: #8d8d8d;" />
             </g>
           </g>
           <g data-cell-id="bb-arrow2">
             <g>
-              <path d="M 341 131.06 L 350.97 131.06 Q 360.94 131.06 350.94 131.06 L 345.94 131.06 Q 340.94 131.06 346.85 131.06 L 352.76 131.06" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8a8b8c;" />
-              <path d="M 358.76 131.06 L 350.76 135.06 L 352.76 131.06 L 350.76 127.06 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8a8b8c; stroke: #8a8b8c;" />
+              <path d="M 341 131.06 L 350.97 131.06 Q 360.94 131.06 350.94 131.06 L 345.94 131.06 Q 340.94 131.06 346.85 131.06 L 352.76 131.06" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8d8d8d;" />
+              <path d="M 358.76 131.06 L 350.76 135.06 L 352.76 131.06 L 350.76 127.06 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8d8d8d; stroke: #8d8d8d;" />
             </g>
           </g>
           <g data-cell-id="bb-arrow3">
             <g>
-              <path d="M 501 131.06 L 510.97 131.06 Q 520.94 131.06 510.94 131.06 L 505.94 131.06 Q 500.94 131.06 506.85 131.06 L 512.76 131.06" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8a8b8c;" />
-              <path d="M 518.76 131.06 L 510.76 135.06 L 512.76 131.06 L 510.76 127.06 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8a8b8c; stroke: #8a8b8c;" />
+              <path d="M 501 131.06 L 510.97 131.06 Q 520.94 131.06 510.94 131.06 L 505.94 131.06 Q 500.94 131.06 506.85 131.06 L 512.76 131.06" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8d8d8d;" />
+              <path d="M 518.76 131.06 L 510.76 135.06 L 512.76 131.06 L 510.76 127.06 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8d8d8d; stroke: #8d8d8d;" />
             </g>
           </g>
         </g>

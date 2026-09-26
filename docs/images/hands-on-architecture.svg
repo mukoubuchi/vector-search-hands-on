@@ -15,7 +15,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g>
             <g>
-              <text x="621.0" y="28.799999999999997" font-size="28.0" fill="#5e5f5f" text-anchor="middle">
+              <text x="621.0" y="28.799999999999997" font-size="28.0" fill="#161616" text-anchor="middle">
                 <tspan x="621.0" dy="0">
                   <tspan font-weight="700">Vector Search Hands-on Architecture</tspan>
                 </tspan>
@@ -29,7 +29,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g>
             <g>
-              <text x="621.0" y="57.9" font-size="14.0" fill="#5e5f5f" text-anchor="middle">
+              <text x="621.0" y="57.9" font-size="14.0" fill="#525252" text-anchor="middle">
                 <tspan x="621.0" dy="0">
                   <tspan font-weight="400">Instructor hosts the shared Milvus stack. Participants use IBM Bob and packaged scripts to build, load, and test vector search.</tspan>
                 </tspan>
@@ -39,13 +39,13 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="instructor">
           <g>
-            <path d="M 1 116 V 84 Q 1 80 5 80 H 557 Q 561 80 561 84 V 116" fill="#f0f1f9" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #f0f1f9; stroke: #f0f1f9;" />
-            <path d="M 1 116 V 486 Q 1 490 5 490 H 557 Q 561 490 561 486 V 116" fill="#ffffff" stroke="#f0f1f9" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #f0f1f9;" />
+            <path d="M 1 116 V 84 Q 1 80 5 80 H 557 Q 561 80 561 84 V 116" fill="#ecf2ff" stroke="#ecf2ff" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #ecf2ff; stroke: #ecf2ff;" />
+            <path d="M 1 116 V 486 Q 1 490 5 490 H 557 Q 561 490 561 486 V 116" fill="#ffffff" stroke="#ecf2ff" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #ecf2ff;" />
             <path d="M 1 116 L 561 116" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" style="stroke: none;" />
           </g>
           <g>
             <g>
-              <text x="281.0" y="103.6" font-size="16.0" fill="#000000" text-anchor="middle">
+              <text x="281.0" y="103.6" font-size="16.0" fill="#161616" text-anchor="middle">
                 <tspan x="281.0" dy="0">
                   <tspan font-weight="700">Instructor / Shared Services</tspan>
                 </tspan>
@@ -54,11 +54,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="compose">
             <g stroke="none" stroke-width="0">
-              <rect x="43" y="143" width="270" height="62" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
+              <rect x="43" y="143" width="270" height="62" rx="6" ry="6" fill="#dde9ff" stroke="#ecf2ff" stroke-width="1.25" pointer-events="all" style="fill: #dde9ff; stroke: #ecf2ff;" />
             </g>
             <g>
               <g>
-                <text x="178.0" y="170.75" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="178.0" y="170.75" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="178.0" dy="0">
                     <tspan font-weight="700">Docker Compose</tspan>
                   </tspan>
@@ -71,11 +71,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="milvus">
             <g transform="translate(0.5,0.5)" stroke="none" stroke-width="0">
-              <rect x="351" y="256" width="160" height="78" rx="6" ry="6" fill="#dce2f3" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #dce2f3; stroke: #f0f1f9;" />
+              <rect x="351" y="256" width="160" height="78" rx="6" ry="6" fill="#d4e3ff" stroke="#ecf2ff" stroke-width="1.25" pointer-events="all" style="fill: #d4e3ff; stroke: #ecf2ff;" />
             </g>
             <g>
               <g>
-                <text x="431.0" y="283.95" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="431.0" y="283.95" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="431.0" dy="0">
                     <tspan font-weight="700">Milvus Standalone</tspan>
                   </tspan>
@@ -91,11 +91,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="mkdocs">
             <g stroke="none" stroke-width="0">
-              <rect x="186" y="390" width="190" height="70" rx="6" ry="6" fill="#ececf5" stroke="#f4f5f8" stroke-width="1.25" pointer-events="all" style="fill: #ececf5; stroke: #f4f5f8;" />
+              <rect x="186" y="390" width="190" height="70" rx="6" ry="6" fill="#eceded" stroke="#f3f4f4" stroke-width="1.25" pointer-events="all" style="fill: #eceded; stroke: #f3f4f4;" />
             </g>
             <g>
               <g>
-                <text x="281.0" y="413.95" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="281.0" y="413.95" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="281.0" dy="0">
                     <tspan font-weight="700">MkDocs</tspan>
                   </tspan>
@@ -111,11 +111,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="delivery">
             <g stroke="none" stroke-width="0">
-              <rect x="351" y="143" width="160" height="62" rx="6" ry="6" fill="#f5edf1" stroke="#f8f5f6" stroke-width="1.25" pointer-events="all" style="fill: #f5edf1; stroke: #f8f5f6;" />
+              <rect x="351" y="143" width="160" height="62" rx="6" ry="6" fill="#fbebf2" stroke="#fbeef4" stroke-width="1.25" pointer-events="all" style="fill: #fbebf2; stroke: #fbeef4;" />
             </g>
             <g>
               <g>
-                <text x="431.0" y="162.95000000000002" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="431.0" y="162.95000000000002" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="431.0" dy="0">
                     <tspan font-weight="700">Delivery options</tspan>
                   </tspan>
@@ -131,24 +131,24 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="edge-compose-milvus">
             <g>
-              <path d="M 178 205 L 178 285 Q 178 295 188 295 L 342.76 295" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 348.76 295 L 340.76 299 L 342.76 295 L 340.76 291 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
+              <path d="M 178 205 L 178 285 Q 178 295 188 295 L 342.76 295" fill="none" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8f8b8b;" />
+              <path d="M 348.76 295 L 340.76 299 L 342.76 295 L 340.76 291 Z" fill="#8f8b8b" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8f8b8b; stroke: #8f8b8b;" />
             </g>
           </g>
           <g data-cell-id="edge-compose-mkdocs">
             <g>
-              <path d="M 43 174 L 31 174 Q 21 174 21 184 L 21 415 Q 21 425 31 425 L 177.76 425" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 183.76 425 L 175.76 429 L 177.76 425 L 175.76 421 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
+              <path d="M 43 174 L 31 174 Q 21 174 21 184 L 21 415 Q 21 425 31 425 L 177.76 425" fill="none" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8f8b8b;" />
+              <path d="M 183.76 425 L 175.76 429 L 177.76 425 L 175.76 421 Z" fill="#8f8b8b" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8f8b8b; stroke: #8f8b8b;" />
             </g>
           </g>
           <g data-cell-id="edge-mkdocs-delivery">
             <g>
-              <path d="M 376 425 L 531 425 Q 541 425 541 415 L 541 235 Q 541 225 531 225 L 441 225 Q 431 225 431 219.12 L 431 213.24" fill="none" stroke="#797da9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #797da9;" />
-              <path d="M 431 207.24 L 435 215.24 L 431 213.24 L 427 215.24 Z" fill="#797da9" stroke="#797da9" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #797da9; stroke: #797da9;" />
+              <path d="M 376 425 L 531 425 Q 541 425 541 415 L 541 235 Q 541 225 531 225 L 441 225 Q 431 225 431 219.12 L 431 213.24" fill="none" stroke="#697077" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #697077;" />
+              <path d="M 431 207.24 L 435 215.24 L 431 213.24 L 427 215.24 Z" fill="#697077" stroke="#697077" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #697077; stroke: #697077;" />
             </g>
             <g>
               <g>
-                <text x="541.0" y="345.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
+                <text x="541.0" y="345.85" font-size="11.0" fill="#161616" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
                   <tspan x="541.0" dy="0">
                     <tspan font-weight="400">docs</tspan>
                   </tspan>
@@ -159,13 +159,13 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="participant">
           <g>
-            <path d="M 681 116 V 84 Q 681 80 685 80 H 1237 Q 1241 80 1241 84 V 116" fill="#f5f9f7" stroke="#f5f9f7" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #f5f9f7; stroke: #f5f9f7;" />
-            <path d="M 681 116 V 486 Q 681 490 685 490 H 1237 Q 1241 490 1241 486 V 116" fill="#ffffff" stroke="#f5f9f7" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #f5f9f7;" />
+            <path d="M 681 116 V 84 Q 681 80 685 80 H 1237 Q 1241 80 1241 84 V 116" fill="#edf7f0" stroke="#edf7f0" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" style="fill: #edf7f0; stroke: #edf7f0;" />
+            <path d="M 681 116 V 486 Q 681 490 685 490 H 1237 Q 1241 490 1241 486 V 116" fill="#ffffff" stroke="#edf7f0" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" style="stroke: #edf7f0;" />
             <path d="M 681 116 L 1241 116" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" style="stroke: none;" />
           </g>
           <g>
             <g>
-              <text x="961.0" y="103.6" font-size="16.0" fill="#000000" text-anchor="middle">
+              <text x="961.0" y="103.6" font-size="16.0" fill="#161616" text-anchor="middle">
                 <tspan x="961.0" dy="0">
                   <tspan font-weight="700">Participant / Local Workspace</tspan>
                 </tspan>
@@ -174,11 +174,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="bob">
             <g stroke="none" stroke-width="0">
-              <rect x="1041" y="138" width="180" height="72" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #f5f9f7;" />
+              <rect x="1041" y="138" width="180" height="72" rx="6" ry="6" fill="#ddf0e3" stroke="#edf7f0" stroke-width="1.25" pointer-events="all" style="fill: #ddf0e3; stroke: #edf7f0;" />
             </g>
             <g>
               <g>
-                <text x="1131.0" y="170.75" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="1131.0" y="170.75" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="1131.0" dy="0">
                     <tspan font-weight="700">IBM Bob IDE</tspan>
                   </tspan>
@@ -191,11 +191,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="zip">
             <g stroke="none" stroke-width="0">
-              <rect x="707" y="138" width="184" height="72" rx="6" ry="6" fill="#f1f7f4" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #f1f7f4; stroke: #f5f9f7;" />
+              <rect x="707" y="138" width="184" height="72" rx="6" ry="6" fill="#eff8f1" stroke="#edf7f0" stroke-width="1.25" pointer-events="all" style="fill: #eff8f1; stroke: #edf7f0;" />
             </g>
             <g>
               <g>
-                <text x="799.0" y="162.95000000000002" font-size="13.0" fill="#000000" text-anchor="middle">
+                <text x="799.0" y="162.95000000000002" font-size="13.0" fill="#161616" text-anchor="middle">
                   <tspan x="799.0" dy="0">
                     <tspan font-weight="700">Participant zip</tspan>
                   </tspan>
@@ -211,11 +211,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="env">
             <g stroke="none" stroke-width="0">
-              <rect x="707" y="260" width="150" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
+              <rect x="707" y="260" width="150" height="66" rx="6" ry="6" fill="#e4f4e9" stroke="#edf7f0" stroke-width="1.25" pointer-events="all" style="fill: #e4f4e9; stroke: #edf7f0;" />
             </g>
             <g>
               <g>
-                <text x="782.0" y="282.8" font-size="12.0" fill="#000000" text-anchor="middle">
+                <text x="782.0" y="282.8" font-size="12.0" fill="#161616" text-anchor="middle">
                   <tspan x="782.0" dy="0">
                     <tspan font-weight="700">.env</tspan>
                   </tspan>
@@ -231,11 +231,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="loader">
             <g stroke="none" stroke-width="0">
-              <rect x="886" y="260" width="155" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
+              <rect x="886" y="260" width="155" height="66" rx="6" ry="6" fill="#e4f4e9" stroke="#edf7f0" stroke-width="1.25" pointer-events="all" style="fill: #e4f4e9; stroke: #edf7f0;" />
             </g>
             <g>
               <g>
-                <text x="963.5" y="282.8" font-size="12.0" fill="#000000" text-anchor="middle">
+                <text x="963.5" y="282.8" font-size="12.0" fill="#161616" text-anchor="middle">
                   <tspan x="963.5" dy="0">
                     <tspan font-weight="700">insert_sample_data.py</tspan>
                   </tspan>
@@ -251,11 +251,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="api">
             <g stroke="none" stroke-width="0">
-              <rect x="1071" y="260" width="150" height="66" rx="6" ry="6" fill="#e9f2ed" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e9f2ed; stroke: #f5f9f7;" />
+              <rect x="1071" y="260" width="150" height="66" rx="6" ry="6" fill="#e4f4e9" stroke="#edf7f0" stroke-width="1.25" pointer-events="all" style="fill: #e4f4e9; stroke: #edf7f0;" />
             </g>
             <g>
               <g>
-                <text x="1146.0" y="282.8" font-size="12.0" fill="#000000" text-anchor="middle">
+                <text x="1146.0" y="282.8" font-size="12.0" fill="#161616" text-anchor="middle">
                   <tspan x="1146.0" dy="0">
                     <tspan font-weight="700">app.py</tspan>
                   </tspan>
@@ -271,11 +271,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="embedding">
             <g stroke="none" stroke-width="0">
-              <rect x="886" y="386" width="155" height="70" rx="6" ry="6" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #f8f5f1;" />
+              <rect x="886" y="386" width="155" height="70" rx="6" ry="6" fill="#f3edd8" stroke="#f9f5eb" stroke-width="1.25" pointer-events="all" style="fill: #f3edd8; stroke: #f9f5eb;" />
             </g>
             <g>
               <g>
-                <text x="963.5" y="410.8" font-size="12.0" fill="#000000" text-anchor="middle">
+                <text x="963.5" y="410.8" font-size="12.0" fill="#161616" text-anchor="middle">
                   <tspan x="963.5" dy="0">
                     <tspan font-weight="700">Hugging Face</tspan>
                   </tspan>
@@ -291,11 +291,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="browser">
             <g stroke="none" stroke-width="0">
-              <rect x="1071" y="386" width="150" height="70" rx="6" ry="6" fill="#eee8f3" stroke="#f6f4f7" stroke-width="1.25" pointer-events="all" style="fill: #eee8f3; stroke: #f6f4f7;" />
+              <rect x="1071" y="386" width="150" height="70" rx="6" ry="6" fill="#f0e6ff" stroke="#f6f0ff" stroke-width="1.25" pointer-events="all" style="fill: #f0e6ff; stroke: #f6f0ff;" />
             </g>
             <g>
               <g>
-                <text x="1146.0" y="418.0" font-size="12.0" fill="#000000" text-anchor="middle">
+                <text x="1146.0" y="418.0" font-size="12.0" fill="#161616" text-anchor="middle">
                   <tspan x="1146.0" dy="0">
                     <tspan font-weight="700">Browser</tspan>
                   </tspan>
@@ -308,12 +308,12 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="edge-zip-bob">
             <g>
-              <path d="M 891 174 L 1032.76 174" fill="none" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #85b09a;" />
-              <path d="M 1038.76 174 L 1030.76 178 L 1032.76 174 L 1030.76 170 Z" fill="#85b09a" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #85b09a; stroke: #85b09a;" />
+              <path d="M 891 174 L 1032.76 174" fill="none" stroke="#24a148" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #24a148;" />
+              <path d="M 1038.76 174 L 1030.76 178 L 1032.76 174 L 1030.76 170 Z" fill="#24a148" stroke="#24a148" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #24a148; stroke: #24a148;" />
             </g>
             <g>
               <g>
-                <text x="966.0" y="177.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
+                <text x="966.0" y="177.85" font-size="11.0" fill="#161616" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
                   <tspan x="966.0" dy="0">
                     <tspan font-weight="400">custom mode</tspan>
                   </tspan>
@@ -323,12 +323,12 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="edge-bob-loader">
             <g>
-              <path d="M 1131 210 L 1131 225 Q 1131 235 1121 235 L 973.5 235 Q 963.5 235 963.5 243.38 L 963.5 251.76" fill="none" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #85b09a;" />
-              <path d="M 963.5 257.76 L 959.5 249.76 L 963.5 251.76 L 967.5 249.76 Z" fill="#85b09a" stroke="#85b09a" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #85b09a; stroke: #85b09a;" />
+              <path d="M 1131 210 L 1131 225 Q 1131 235 1121 235 L 973.5 235 Q 963.5 235 963.5 243.38 L 963.5 251.76" fill="none" stroke="#24a148" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #24a148;" />
+              <path d="M 963.5 257.76 L 959.5 249.76 L 963.5 251.76 L 967.5 249.76 Z" fill="#24a148" stroke="#24a148" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #24a148; stroke: #24a148;" />
             </g>
             <g>
               <g>
-                <text x="1047.0" y="238.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
+                <text x="1047.0" y="238.85" font-size="11.0" fill="#161616" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
                   <tspan x="1047.0" dy="0">
                     <tspan font-weight="400">guides implementation</tspan>
                   </tspan>
@@ -338,18 +338,18 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="edge-env-loader">
             <g>
-              <path d="M 857 293 L 867 293 Q 877 293 871.5 293 L 868.75 293 Q 866 293 871.88 293 L 877.76 293" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-              <path d="M 883.76 293 L 875.76 297 L 877.76 293 L 875.76 289 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
+              <path d="M 857 293 L 867 293 Q 877 293 871.5 293 L 868.75 293 Q 866 293 871.88 293 L 877.76 293" fill="none" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8f8b8b;" />
+              <path d="M 883.76 293 L 875.76 297 L 877.76 293 L 875.76 289 Z" fill="#8f8b8b" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8f8b8b; stroke: #8f8b8b;" />
             </g>
           </g>
           <g data-cell-id="edge-loader-embedding">
             <g>
-              <path d="M 961 330 L 961 327 Q 961 324 961 334 L 961 375.76" fill="none" stroke="#a48655" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #a48655;" />
-              <path d="M 961 381.76 L 957 373.76 L 961 375.76 L 965 373.76 Z" fill="#a48655" stroke="#a48655" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #a48655; stroke: #a48655;" />
+              <path d="M 961 330 L 961 327 Q 961 324 961 334 L 961 375.76" fill="none" stroke="#b28600" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #b28600;" />
+              <path d="M 961 381.76 L 957 373.76 L 961 375.76 L 965 373.76 Z" fill="#b28600" stroke="#b28600" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #b28600; stroke: #b28600;" />
             </g>
             <g>
               <g>
-                <text x="961.0" y="350.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
+                <text x="961.0" y="350.85" font-size="11.0" fill="#161616" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
                   <tspan x="961.0" dy="0">
                     <tspan font-weight="400">load model</tspan>
                   </tspan>
@@ -359,12 +359,12 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g data-cell-id="edge-browser-api">
             <g>
-              <path d="M 1146 386 L 1146 334.24" fill="none" stroke="#8c789f" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8c789f;" />
-              <path d="M 1146 328.24 L 1150 336.24 L 1146 334.24 L 1142 336.24 Z" fill="#8c789f" stroke="#8c789f" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8c789f; stroke: #8c789f;" />
+              <path d="M 1146 386 L 1146 334.24" fill="none" stroke="#8a3ffc" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8a3ffc;" />
+              <path d="M 1146 328.24 L 1150 336.24 L 1146 334.24 L 1142 336.24 Z" fill="#8a3ffc" stroke="#8a3ffc" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8a3ffc; stroke: #8a3ffc;" />
             </g>
             <g>
               <g>
-                <text x="1146.0" y="359.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
+                <text x="1146.0" y="359.85" font-size="11.0" fill="#161616" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
                   <tspan x="1146.0" dy="0">
                     <tspan font-weight="400">HTTP :8002</tspan>
                   </tspan>
@@ -375,11 +375,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="milvus-connection">
           <g stroke="none" stroke-width="0">
-            <rect x="581" y="268" width="80" height="54" rx="6" ry="6" fill="#edf0f8" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #edf0f8; stroke: #f0f1f9;" />
+            <rect x="581" y="268" width="80" height="54" rx="6" ry="6" fill="#e9f0ff" stroke="#ecf2ff" stroke-width="1.25" pointer-events="all" style="fill: #e9f0ff; stroke: #ecf2ff;" />
           </g>
           <g>
             <g>
-              <text x="621.0" y="291.75" font-size="13.0" fill="#000000" text-anchor="middle">
+              <text x="621.0" y="291.75" font-size="13.0" fill="#161616" text-anchor="middle">
                 <tspan x="621.0" dy="0">
                   <tspan font-weight="700">TCP</tspan>
                 </tspan>
@@ -392,11 +392,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="flow1">
           <g stroke="none" stroke-width="0">
-            <rect x="154" y="538" width="220" height="52" rx="6" ry="6" fill="#f0efee" stroke="#f6f5f4" stroke-width="1.25" pointer-events="all" style="fill: #f0efee; stroke: #f6f5f4;" />
+            <rect x="154" y="538" width="220" height="52" rx="6" ry="6" fill="#f0efef" stroke="#f6f6f6" stroke-width="1.25" pointer-events="all" style="fill: #f0efef; stroke: #f6f6f6;" />
           </g>
           <g>
             <g>
-              <text x="264.0" y="568.2" font-size="12.0" fill="#000000" text-anchor="middle">
+              <text x="264.0" y="568.2" font-size="12.0" fill="#161616" text-anchor="middle">
                 <tspan x="264.0" dy="0">
                   <tspan font-weight="400">Sample products / search query</tspan>
                 </tspan>
@@ -406,11 +406,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="flow2">
           <g stroke="none" stroke-width="0">
-            <rect x="419" y="538" width="170" height="52" rx="6" ry="6" fill="#f3ecdf" stroke="#f8f5f1" stroke-width="1.25" pointer-events="all" style="fill: #f3ecdf; stroke: #f8f5f1;" />
+            <rect x="419" y="538" width="170" height="52" rx="6" ry="6" fill="#f3edd8" stroke="#f9f5eb" stroke-width="1.25" pointer-events="all" style="fill: #f3edd8; stroke: #f9f5eb;" />
           </g>
           <g>
             <g>
-              <text x="504.0" y="568.2" font-size="12.0" fill="#000000" text-anchor="middle">
+              <text x="504.0" y="568.2" font-size="12.0" fill="#161616" text-anchor="middle">
                 <tspan x="504.0" dy="0">
                   <tspan font-weight="400">Embedding vector</tspan>
                 </tspan>
@@ -420,11 +420,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="flow3">
           <g stroke="none" stroke-width="0">
-            <rect x="634" y="538" width="220" height="52" rx="6" ry="6" fill="#e4e8f5" stroke="#f0f1f9" stroke-width="1.25" pointer-events="all" style="fill: #e4e8f5; stroke: #f0f1f9;" />
+            <rect x="634" y="538" width="220" height="52" rx="6" ry="6" fill="#dde9ff" stroke="#ecf2ff" stroke-width="1.25" pointer-events="all" style="fill: #dde9ff; stroke: #ecf2ff;" />
           </g>
           <g>
             <g>
-              <text x="744.0" y="561.0" font-size="12.0" fill="#000000" text-anchor="middle">
+              <text x="744.0" y="561.0" font-size="12.0" fill="#161616" text-anchor="middle">
                 <tspan x="744.0" dy="0">
                   <tspan font-weight="700">Milvus collection</tspan>
                 </tspan>
@@ -437,11 +437,11 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="flow4">
           <g stroke="none" stroke-width="0">
-            <rect x="899" y="538" width="190" height="52" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="all" style="fill: #e3eee8; stroke: #f5f9f7;" />
+            <rect x="899" y="538" width="190" height="52" rx="6" ry="6" fill="#ddf0e3" stroke="#edf7f0" stroke-width="1.25" pointer-events="all" style="fill: #ddf0e3; stroke: #edf7f0;" />
           </g>
           <g>
             <g>
-              <text x="994.0" y="568.2" font-size="12.0" fill="#000000" text-anchor="middle">
+              <text x="994.0" y="568.2" font-size="12.0" fill="#161616" text-anchor="middle">
                 <tspan x="994.0" dy="0">
                   <tspan font-weight="400">Ranked API results</tspan>
                 </tspan>
@@ -455,7 +455,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
           </g>
           <g>
             <g>
-              <text x="621.0" y="629.2" font-size="12.0" fill="#5e5f5f" text-anchor="middle">
+              <text x="621.0" y="629.2" font-size="12.0" fill="#525252" text-anchor="middle">
                 <tspan x="621.0" dy="0">
                   <tspan font-weight="400">Participants do not need an individual watsonx.ai API key in this hands-on: embeddings are generated locally with Hugging Face Transformers.</tspan>
                 </tspan>
@@ -465,12 +465,12 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="edge-delivery-zip">
           <g>
-            <path d="M 501 174 L 698.76 174" fill="none" stroke="#ad8193" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #ad8193;" />
-            <path d="M 704.76 174 L 696.76 178 L 698.76 174 L 696.76 170 Z" fill="#ad8193" stroke="#ad8193" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #ad8193; stroke: #ad8193;" />
+            <path d="M 501 174 L 698.76 174" fill="none" stroke="#d02670" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #d02670;" />
+            <path d="M 704.76 174 L 696.76 178 L 698.76 174 L 696.76 170 Z" fill="#d02670" stroke="#d02670" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #d02670; stroke: #d02670;" />
           </g>
           <g>
             <g>
-              <text x="621.0" y="177.85" font-size="11.0" fill="#000000" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
+              <text x="621.0" y="177.85" font-size="11.0" fill="#161616" text-anchor="middle" style="paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round;">
                 <tspan x="621.0" dy="0">
                   <tspan font-weight="400">docs + config</tspan>
                 </tspan>
@@ -480,26 +480,26 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </g>
         <g data-cell-id="edge-connection-milvus">
           <g transform="translate(0.5,0.5)">
-            <path d="M 581 295 L 521.1 295" fill="none" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #4051b5;" />
-            <path d="M 514.35 295 L 523.35 290.5 L 521.1 295 L 523.35 299.5 Z" fill="#4051b5" stroke="#4051b5" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #4051b5; stroke: #4051b5;" />
+            <path d="M 581 295 L 521.1 295" fill="none" stroke="#0f62fe" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #0f62fe;" />
+            <path d="M 514.35 295 L 523.35 290.5 L 521.1 295 L 523.35 299.5 Z" fill="#0f62fe" stroke="#0f62fe" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #0f62fe; stroke: #0f62fe;" />
           </g>
         </g>
         <g data-cell-id="edge-flow1-flow2">
           <g>
-            <path d="M 374 564 L 410.76 564" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-            <path d="M 416.76 564 L 408.76 568 L 410.76 564 L 408.76 560 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
+            <path d="M 374 564 L 410.76 564" fill="none" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8f8b8b;" />
+            <path d="M 416.76 564 L 408.76 568 L 410.76 564 L 408.76 560 Z" fill="#8f8b8b" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8f8b8b; stroke: #8f8b8b;" />
           </g>
         </g>
         <g data-cell-id="edge-flow2-flow3">
           <g>
-            <path d="M 589 564 L 625.76 564" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-            <path d="M 631.76 564 L 623.76 568 L 625.76 564 L 623.76 560 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
+            <path d="M 589 564 L 625.76 564" fill="none" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8f8b8b;" />
+            <path d="M 631.76 564 L 623.76 568 L 625.76 564 L 623.76 560 Z" fill="#8f8b8b" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8f8b8b; stroke: #8f8b8b;" />
           </g>
         </g>
         <g data-cell-id="edge-flow3-flow4">
           <g>
-            <path d="M 854 564 L 890.76 564" fill="none" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #93857b;" />
-            <path d="M 896.76 564 L 888.76 568 L 890.76 564 L 888.76 560 Z" fill="#93857b" stroke="#93857b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #93857b; stroke: #93857b;" />
+            <path d="M 854 564 L 890.76 564" fill="none" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke" style="stroke: #8f8b8b;" />
+            <path d="M 896.76 564 L 888.76 568 L 890.76 564 L 888.76 560 Z" fill="#8f8b8b" stroke="#8f8b8b" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all" style="fill: #8f8b8b; stroke: #8f8b8b;" />
           </g>
         </g>
       </g>
