@@ -32,27 +32,27 @@
 Vector Search は「意味」を理解して検索します。以下の図は、このハンズオンで作成するデモアプリにおいて、ユーザー入力をベクトルに変換し、Milvus で類似商品を検索する流れを説明したものです。
 
 <div class="vector-flow" role="group" aria-label="Vector Search の流れ" tabindex="0">
-  <div class="admonition vector-flow-step" style="--flow-tint: #f0f1f9">
+  <div class="admonition vector-flow-step" style="--flow-tint: #ecf2ff">
     <p class="admonition-title">ステップ 1: テキスト入力</p>
     <p class="vector-flow-content"><strong>ユーザー入力</strong><br/>「赤いスニーカー」</p>
   </div>
   <div class="vector-flow-edge"><span>テキスト</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f1">
+  <div class="admonition vector-flow-step" style="--flow-tint: #f9f5eb">
     <p class="admonition-title">ステップ 2: ベクトル変換</p>
     <p class="vector-flow-content"><strong>埋め込みモデル</strong><br/>テキスト → ベクトル</p>
   </div>
   <div class="vector-flow-edge"><span>変換</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f6f4f7">
+  <div class="admonition vector-flow-step" style="--flow-tint: #f6f0ff">
     <p class="admonition-title">ステップ 3: ベクトル表現</p>
     <p class="vector-flow-content"><strong>ベクトル（384 次元）</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
   </div>
   <div class="vector-flow-edge"><span>検索クエリ</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f5f9f7">
+  <div class="admonition vector-flow-step" style="--flow-tint: #edf7f0">
     <p class="admonition-title">ステップ 4: 類似検索</p>
     <p class="vector-flow-content"><strong>Milvus</strong><br/>ベクトル DB</p>
   </div>
   <div class="vector-flow-edge"><span>類似ベクトル</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
+  <div class="admonition vector-flow-step" style="--flow-tint: #fbeef4">
     <p class="admonition-title">ステップ 5: 検索結果</p>
     <p class="vector-flow-content"><strong>類似商品リスト</strong><br/>・赤いランニングシューズ（0.5621）<br/>・赤いスポーツシューズ（0.5474）<br/>・赤いトレーニングシューズ（0.4517）</p>
   </div>

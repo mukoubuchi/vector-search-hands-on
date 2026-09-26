@@ -7,42 +7,42 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
 </style>
   </defs>
   <g>
-    <path d="M 1 41 V 5 Q 1 1 5 1 H 1087 Q 1091 1 1091 5 V 41" fill="#f9f1f1" stroke="#f9f1f1" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" />
-    <path d="M 1 41 V 197 Q 1 201 5 201 H 1087 Q 1091 201 1091 197 V 41" fill="#ffffff" stroke="#f9f1f1" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 1 41 V 5 Q 1 1 5 1 H 1087 Q 1091 1 1091 5 V 41" fill="#fcedee" stroke="#fcedee" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all" />
+    <path d="M 1 41 V 197 Q 1 201 5 201 H 1087 Q 1091 201 1091 197 V 41" fill="#ffffff" stroke="#fcedee" stroke-width="1.5" stroke-miterlimit="10" pointer-events="none" />
     <path d="M 1 41 L 1091 41" fill="none" stroke="none" stroke-width="0" stroke-miterlimit="10" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="546.0" y="26.6" font-size="16.0" fill="#000000" text-anchor="middle">
+      <text x="546.0" y="26.6" font-size="16.0" fill="#161616" text-anchor="middle">
         <tspan x="546.0" dy="0">
           <tspan font-weight="700">Without Building Blocks</tspan>
         </tspan>
       </text>
     </g>
     <g transform="translate(-0.5 -0.5)">
-      <text x="23.0" y="70.9" font-size="14.0" fill="#b34a4a" text-anchor="start">
+      <text x="23.0" y="70.9" font-size="14.0" fill="#da1e28" text-anchor="start">
         <tspan x="23.0" dy="0">
           <tspan font-weight="700">Time Required: Days to Weeks</tspan>
         </tspan>
       </text>
     </g>
-    <rect x="41" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="none" />
+    <rect x="41" y="101" width="140" height="60" rx="6" ry="6" fill="#f9dcdd" stroke="#fcedee" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="111.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+      <text x="111.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
         <tspan x="111.0" dy="0">
           <tspan font-weight="700">Requirements</tspan>
         </tspan>
       </text>
     </g>
-    <rect x="201" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="none" />
+    <rect x="201" y="101" width="140" height="60" rx="6" ry="6" fill="#f9dcdd" stroke="#fcedee" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="271.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+      <text x="271.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
         <tspan x="271.0" dy="0">
           <tspan font-weight="700">Tech Selection</tspan>
         </tspan>
       </text>
     </g>
-    <rect x="361" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="none" />
+    <rect x="361" y="101" width="140" height="60" rx="6" ry="6" fill="#f9dcdd" stroke="#fcedee" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="431.0" y="127.75" font-size="13.0" fill="#000000" text-anchor="middle">
+      <text x="431.0" y="127.75" font-size="13.0" fill="#161616" text-anchor="middle">
         <tspan x="431.0" dy="0">
           <tspan font-weight="700">Environment</tspan>
         </tspan>
@@ -51,50 +51,50 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
         </tspan>
       </text>
     </g>
-    <rect x="521" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="none" />
+    <rect x="521" y="101" width="140" height="60" rx="6" ry="6" fill="#f9dcdd" stroke="#fcedee" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="591.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+      <text x="591.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
         <tspan x="591.0" dy="0">
           <tspan font-weight="700">Coding</tspan>
         </tspan>
       </text>
     </g>
-    <rect x="681" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="none" />
+    <rect x="681" y="101" width="140" height="60" rx="6" ry="6" fill="#f9dcdd" stroke="#fcedee" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="751.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+      <text x="751.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
         <tspan x="751.0" dy="0">
           <tspan font-weight="700">Testing</tspan>
         </tspan>
       </text>
     </g>
-    <rect x="841" y="101" width="140" height="60" rx="6" ry="6" fill="#f5dddd" stroke="#f9f1f1" stroke-width="1.25" pointer-events="none" />
+    <rect x="841" y="101" width="140" height="60" rx="6" ry="6" fill="#f9dcdd" stroke="#fcedee" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="911.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+      <text x="911.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
         <tspan x="911.0" dy="0">
           <tspan font-weight="700">Debugging</tspan>
         </tspan>
       </text>
     </g>
-    <rect x="1001" y="101" width="60" height="60" rx="6" ry="6" fill="#e3eee8" stroke="#f5f9f7" stroke-width="1.25" pointer-events="none" />
+    <rect x="1001" y="101" width="60" height="60" rx="6" ry="6" fill="#ddf0e3" stroke="#edf7f0" stroke-width="1.25" pointer-events="none" />
     <g transform="translate(-0.5 -0.5)">
-      <text x="1031.0" y="135.55" font-size="13.0" fill="#000000" text-anchor="middle">
+      <text x="1031.0" y="135.55" font-size="13.0" fill="#161616" text-anchor="middle">
         <tspan x="1031.0" dy="0">
           <tspan font-weight="700">Done</tspan>
         </tspan>
       </text>
     </g>
-    <path d="M 181 131 L 191 131 Q 201 131 191 131 L 186 131 Q 181 131 186.88 131 L 192.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 198.76 131 L 190.76 135 L 192.76 131 L 190.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 341 131 L 351 131 Q 361 131 351 131 L 346 131 Q 341 131 346.88 131 L 352.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 358.76 131 L 350.76 135 L 352.76 131 L 350.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 501 131 L 511 131 Q 521 131 511 131 L 506 131 Q 501 131 506.88 131 L 512.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 518.76 131 L 510.76 135 L 512.76 131 L 510.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 661 131 L 671 131 Q 681 131 671 131 L 666 131 Q 661 131 666.88 131 L 672.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 678.76 131 L 670.76 135 L 672.76 131 L 670.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 821 131 L 831 131 Q 841 131 831 131 L 826 131 Q 821 131 826.88 131 L 832.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 838.76 131 L 830.76 135 L 832.76 131 L 830.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 981 131 L 991 131 Q 1001 131 991 131 L 986 131 Q 981 131 986.88 131 L 992.76 131" fill="none" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
-    <path d="M 998.76 131 L 990.76 135 L 992.76 131 L 990.76 127 Z" fill="#8a8b8c" stroke="#8a8b8c" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 181 131 L 191 131 Q 201 131 191 131 L 186 131 Q 181 131 186.88 131 L 192.76 131" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 198.76 131 L 190.76 135 L 192.76 131 L 190.76 127 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 341 131 L 351 131 Q 361 131 351 131 L 346 131 Q 341 131 346.88 131 L 352.76 131" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 358.76 131 L 350.76 135 L 352.76 131 L 350.76 127 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 501 131 L 511 131 Q 521 131 511 131 L 506 131 Q 501 131 506.88 131 L 512.76 131" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 518.76 131 L 510.76 135 L 512.76 131 L 510.76 127 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 661 131 L 671 131 Q 681 131 671 131 L 666 131 Q 661 131 666.88 131 L 672.76 131" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 678.76 131 L 670.76 135 L 672.76 131 L 670.76 127 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 821 131 L 831 131 Q 841 131 831 131 L 826 131 Q 821 131 826.88 131 L 832.76 131" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 838.76 131 L 830.76 135 L 832.76 131 L 830.76 127 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 981 131 L 991 131 Q 1001 131 991 131 L 986 131 Q 981 131 986.88 131 L 992.76 131" fill="none" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
+    <path d="M 998.76 131 L 990.76 135 L 992.76 131 L 990.76 127 Z" fill="#8d8d8d" stroke="#8d8d8d" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none" />
   </g>
   <metadata>Embedded font subsets derived from IBM Plex.
 Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"

@@ -32,27 +32,27 @@ In this part, you'll experience how Vector Search works in practice.
 Vector Search searches by understanding "meaning".
 
 <div class="vector-flow" role="group" aria-label="Vector Search flow" tabindex="0">
-  <div class="admonition vector-flow-step" style="--flow-tint: #f0f1f9">
+  <div class="admonition vector-flow-step" style="--flow-tint: #ecf2ff">
     <p class="admonition-title">Step 1: Text Input</p>
     <p class="vector-flow-content"><strong>User Input</strong><br/>'red sneakers'</p>
   </div>
   <div class="vector-flow-edge"><span>Text</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f1">
+  <div class="admonition vector-flow-step" style="--flow-tint: #f9f5eb">
     <p class="admonition-title">Step 2: Vector Conversion</p>
     <p class="vector-flow-content"><strong>Embedding Model</strong><br/>Text → Vector</p>
   </div>
   <div class="vector-flow-edge"><span>Convert</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f6f4f7">
+  <div class="admonition vector-flow-step" style="--flow-tint: #f6f0ff">
     <p class="admonition-title">Step 3: Vector Representation</p>
     <p class="vector-flow-content"><strong>Vector (384 dimensions)</strong><br/>[0.2, 0.8, 0.1, 0.5, ...]</p>
   </div>
   <div class="vector-flow-edge"><span>Search Query</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f5f9f7">
+  <div class="admonition vector-flow-step" style="--flow-tint: #edf7f0">
     <p class="admonition-title">Step 4: Similarity Search</p>
     <p class="vector-flow-content"><strong>Milvus</strong><br/>Vector DB</p>
   </div>
   <div class="vector-flow-edge"><span>Similar Vectors</span><span aria-hidden="true">⟶</span></div>
-  <div class="admonition vector-flow-step" style="--flow-tint: #f8f5f6">
+  <div class="admonition vector-flow-step" style="--flow-tint: #fbeef4">
     <p class="admonition-title">Step 5: Search Results</p>
     <p class="vector-flow-content"><strong>Similar Products List</strong><br/>• Red Running Shoes (0.8268)<br/>• Red Sports Shoes (0.8122)<br/>• Red Training Shoes (0.7203)</p>
   </div>
