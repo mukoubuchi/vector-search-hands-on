@@ -44,14 +44,14 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
 
 #### Procedure
 
-1. On the search screen, enter **5000** as the minimum price and **10000** as the maximum price
+1. On the search screen, enter **50** as the minimum price and **100** as the maximum price
 2. Search for:
 
     ```text
     sneakers
     ```
 
-3. Verify results: All product prices are within the 5000-10000 yen range
+3. Verify results: All product prices are within the 50-100 dollar range
 
 #### Verification Points
 
@@ -63,8 +63,8 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
 
 | Search query | Minimum price | Maximum price |
 |--------------|---------------|---------------|
-| camera | 50000 | 100000 |
-| camera | 0 | 20000 |
+| camera | 500 | 1000 |
+| camera | 0 | 200 |
 
 ### Test Completion Check
 
