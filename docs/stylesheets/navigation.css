@@ -289,12 +289,12 @@
 }
 
 .md-top:hover {
-    background-color: var(--workshop-accent-strong) !important;
+    background-color: var(--md-primary-fg-color) !important;
 }
 
 /* Match the former feedback action button; keep page navigation independent. */
 .md-typeset .workshop-next {
-    background: var(--md-accent-fg-color);
+    background: var(--md-primary-fg-color);
     border: 0;
     border-radius: 6px;
     color: var(--md-primary-bg-color) !important;
@@ -310,7 +310,7 @@
 
 .md-typeset .workshop-next:hover,
 .md-typeset .workshop-next:focus {
-    background: var(--workshop-accent-strong);
+    background: var(--md-accent-fg-color);
     text-decoration: none;
 }
 
