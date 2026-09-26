@@ -10,6 +10,8 @@
 
 Next-generation vector search in practice using **Building Blocks** and **IBM Bob**
 
+Try the search screen in your browser: [browser demo](https://mukoubuchi.github.io/vector-search-hands-on/demo/) (the first visit downloads the embedding model, about 140 MB).
+
 ## Features of This Hands-on
 
 ### Value of Building Blocks + IBM Bob

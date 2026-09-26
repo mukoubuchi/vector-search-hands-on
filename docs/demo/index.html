@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Generic fallback: app.js replaces the title with SHOP_NAME -->
+  <title>Product search</title>
+  <!-- An empty icon keeps the browser from requesting /favicon.ico -->
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo.css">
+  <!-- Browser demo: demo-api.js answers the API requests of app.js (the
+       participant search screen, unchanged); demo-model.js runs the search -->
+  <script src="demo-api.js"></script>
+  <script type="module" src="demo-model.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <h1 class="site-title" data-text="shopName"></h1>
+      <nav class="language-switch" aria-label="Language">
+        <a href="?lang=en" hreflang="en" lang="en">English</a>
+        <a href="?lang=ja" hreflang="ja" lang="ja">日本語</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="model-status" class="model-status" role="status" aria-live="polite">
+      <p id="model-status-text"></p>
+      <progress id="model-progress" max="100" value="0" hidden></progress>
+    </div>
+
+    <form id="search-form" class="search-panel" role="search">
+      <div class="search-row">
+        <label for="query" class="visually-hidden" data-text="queryLabel"></label>
+        <input id="query" name="q" type="search" autocomplete="off" required>
+        <button type="submit" id="search-button" class="search-button" data-text="searchButton"></button>
+      </div>
+
+      <div class="examples">
+        <span class="examples-label" data-text="examplesLabel"></span>
+        <div id="examples" class="example-list"></div>
+      </div>
+
+      <div class="options">
+        <div class="option">
+          <label for="top-k" data-text="topKLabel"></label>
+          <select id="top-k" name="top_k">
+            <option value="3">3</option>
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+
+        <!-- Enabled only when the /search API accepts min_price and max_price -->
+        <fieldset id="price-filter" class="option price-filter" disabled>
+          <legend data-text="priceLabel"></legend>
+          <div class="price-inputs">
+            <label for="min-price" class="visually-hidden" data-text="priceMin"></label>
+            <input id="min-price" name="min_price" type="number" min="0" inputmode="numeric">
+            <span aria-hidden="true">–</span>
+            <label for="max-price" class="visually-hidden" data-text="priceMax"></label>
+            <input id="max-price" name="max_price" type="number" min="0" inputmode="numeric">
+          </div>
+          <p id="price-note" class="price-note" data-text="priceNote"></p>
+        </fieldset>
+      </div>
+    </form>
+
+    <div class="results-header">
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <p id="legend" class="legend" hidden></p>
+    </div>
+    <ol id="results" class="results"></ol>
+  </main>
+
+  <footer class="container demo-footer">
+    <p lang="en" class="demo-note">This browser demo runs the same embedding model in your browser with quantized weights, so the similarity scores differ slightly from the hands-on; the hands-on searches the vectors in Milvus.</p>
+    <p lang="ja" class="demo-note">このデモは、ハンズオンと同じ埋め込みモデルを量子化した重みでブラウザで動かしているため、類似度はハンズオンの値と少し異なります。ハンズオンではベクトルを Milvus で検索します。</p>
+    <p lang="en" class="demo-credits">Model: <a href="https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2">sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2</a> (Apache-2.0), with the ONNX weights of <a href="https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2">Xenova/paraphrase-multilingual-MiniLM-L12-v2</a> from the Hugging Face Hub. Library: <a href="https://github.com/huggingface/transformers.js">Transformers.js</a> 4.3.0 (Apache-2.0) from jsDelivr. <a href="../">Back to the hands-on</a></p>
+    <p lang="ja" class="demo-credits">モデル: <a href="https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2">sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2</a>（Apache-2.0）。ONNX の重みは Hugging Face Hub の <a href="https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2">Xenova/paraphrase-multilingual-MiniLM-L12-v2</a> から読み込みます。ライブラリ: <a href="https://github.com/huggingface/transformers.js">Transformers.js</a> 4.3.0（Apache-2.0、jsDelivr から読み込み）。<a href="../ja/">ハンズオンに戻る</a></p>
+  </footer>
+</body>
+</html>
