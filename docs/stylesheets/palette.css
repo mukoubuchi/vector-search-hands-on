@@ -1,33 +1,44 @@
-/* MIT legacy grays with the original Material blue link accent. */
+/* Build with IBM colors (Carbon): Gray 100 text and a Blue 60 accent. */
 body[data-md-color-scheme="default"] {
-    --workshop-accent: #4051b5;
-    --workshop-gray: #8a8b8c;
-    --workshop-gray-light: #c2c0bf;
-    --workshop-black: #000000;
-    /* Darken silver gray for readable text on white. */
-    --workshop-heading: color-mix(in srgb, var(--workshop-gray) 68%, black);
-    --workshop-surface: color-mix(in srgb, var(--workshop-gray-light) 24%, white);
+    --workshop-accent: #0f62fe;         /* Blue 60 */
+    --workshop-accent-strong: #0043ce;  /* Blue 70: hover, pressed, heading rules */
+    --workshop-gray: #8d8d8d;           /* Gray 50 */
+    --workshop-gray-light: #c6c6c6;     /* Gray 30 */
+    --workshop-rule: #e0e0e0;           /* Gray 20 */
+    --workshop-black: #161616;          /* Gray 100 */
+    --workshop-secondary: #525252;      /* Gray 70: secondary text, code comments */
+    /* Headings share the body color and stand out by weight. */
+    --workshop-heading: var(--workshop-black);
+    --workshop-surface: #f4f4f4;        /* Gray 10: code, table heads, footer */
+    --workshop-emphasis: #edf5ff;       /* Blue 10: light emphasis */
     --md-primary-fg-color: var(--workshop-heading);
     --md-primary-fg-color--light: var(--workshop-gray);
     --md-primary-fg-color--dark: var(--workshop-black);
     --md-primary-bg-color: #ffffff;
     --md-primary-bg-color--light: #ffffff;
     --md-accent-fg-color: var(--workshop-accent);
-    --md-accent-fg-color--transparent: #4051b514;
+    --md-accent-fg-color--transparent: #0f62fe14;
     --md-accent-bg-color: #ffffff;
     --md-default-fg-color: var(--workshop-black);
-    --md-default-fg-color--light: var(--workshop-heading);
+    --md-default-fg-color--light: var(--workshop-secondary);
     --md-default-fg-color--lighter: var(--workshop-gray);
-    --md-default-fg-color--lightest: var(--workshop-surface);
+    --md-default-fg-color--lightest: var(--workshop-rule);
     --md-typeset-a-color: var(--workshop-heading);
     --md-code-fg-color: var(--workshop-black);
     --md-code-bg-color: var(--workshop-surface);
+    --md-footer-bg-color: var(--workshop-surface);
+    --md-footer-bg-color--dark: var(--workshop-surface);
+    --md-footer-fg-color: var(--workshop-black);
+    --md-footer-fg-color--light: var(--workshop-secondary);
+    --md-footer-fg-color--lighter: var(--workshop-secondary);
 }
 
-.md-typeset h1 { border-color: var(--workshop-gray-light); }
-.md-typeset h2, .md-typeset h3 { border-color: var(--workshop-gray-light); }
-.md-typeset a:not(.workshop-next):hover, .md-nav__link--active,
-.md-nav__link:hover { color: var(--workshop-accent) !important; }
+.md-typeset h1 { border-color: var(--workshop-accent-strong); }
+.md-typeset h2, .md-typeset h3 { border-color: var(--workshop-accent-strong); }
+.md-typeset h4 { border-left-color: var(--workshop-accent-strong); }
+.md-typeset a:not(.workshop-next):hover,
+.md-nav__link--active { color: var(--workshop-accent) !important; }
+.md-nav__link:hover { color: var(--workshop-accent-strong) !important; }
 .md-tabs__link { opacity: 1; }
 .md-tabs__link--active { border-bottom: 2px solid var(--workshop-gray); }
 
@@ -51,18 +62,18 @@ body[data-md-color-scheme="default"] {
     --step-circle-fg: var(--workshop-heading);
 }
 .md-typeset table:not([class]) th { background: var(--workshop-surface); }
-.md-typeset mark { background: #4051b514; color: var(--workshop-black); }
+.md-typeset mark { background: var(--workshop-emphasis); color: var(--workshop-black); }
 .md-typeset .tabbed-labels > label:hover,
 .md-typeset .tabbed-labels > label.tabbed-label--active {
     color: var(--workshop-accent);
 }
 
 /* Page scrolling stays gray; nested navigation uses blue. */
-html { scrollbar-color: #5e5f5f #f1f2f3; }
+html { scrollbar-color: #525252 #f4f4f4; }
 body, .md-typeset pre > code {
-    scrollbar-color: var(--workshop-heading) var(--workshop-surface);
+    scrollbar-color: var(--workshop-secondary) var(--workshop-surface);
 }
-::-webkit-scrollbar-thumb { background-color: #5e5f5f !important; }
+::-webkit-scrollbar-thumb { background-color: #525252 !important; }
 .md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-toc-indicator {
     background-color: var(--workshop-accent);
 }
@@ -119,7 +130,7 @@ body, .md-typeset pre > code {
     border-collapse: collapse;
 }
 .md-typeset table:not([class]) tbody td + td {
-    border-left: 1px solid var(--workshop-gray-light);
+    border-left: 1px solid var(--workshop-rule);
 }
 .md-typeset table:not([class]) thead th {
     border-left: 0;
@@ -129,6 +140,9 @@ body, .md-typeset pre > code {
 /* Color article links without changing navigation or filled buttons. */
 .md-typeset a:not(.workshop-next):not(.md-button) {
     color: var(--workshop-accent) !important;
+}
+.md-typeset a:not(.workshop-next):not(.md-button):hover {
+    color: var(--workshop-accent-strong) !important;
 }
 
 /* Disable theme and custom motion on headings, links, and their underlines. */
@@ -145,9 +159,9 @@ body, .md-typeset pre > code {
     animation: none !important;
 }
 
-/* Heritage Cambridge Blue for supporting callouts and completion controls. */
+/* Carbon Green 50 for supporting callouts and completion controls. */
 body[data-md-color-scheme="default"] {
-    --workshop-support: #85b09a;
+    --workshop-support: #24a148;
     --workshop-support-focus: color-mix(in srgb, var(--workshop-support) 8%, white);
 }
 .md-typeset .admonition > .admonition-title,
@@ -195,11 +209,11 @@ body[data-md-color-scheme="default"] {
     border-radius: 6px 6px 0 0;
 }
 .md-tabs__link:hover {
-    background-color: color-mix(in srgb, white 8%, transparent);
+    background-color: color-mix(in srgb, var(--md-primary-bg-color) 8%, transparent);
 }
 .md-tabs__link--active,
 .md-tabs__item--active .md-tabs__link {
-    background-color: color-mix(in srgb, white 14%, transparent);
+    background-color: color-mix(in srgb, var(--md-primary-bg-color) 14%, transparent);
 }
 
 /* Keep each tab within the header so its bottom underline is not clipped. */
@@ -236,30 +250,31 @@ body[data-md-color-scheme="default"] {
     background-color: var(--workshop-accent) !important;
 }
 
-/* Unselected OS labels stay gray, including their generated anchors. */
+/* Unselected OS labels stay gray, including their generated anchors. The
+   selected label uses Blue 70, which keeps 4.5:1 on its shaded background. */
 .md-typeset .tabbed-labels > label,
 .md-typeset .tabbed-set .tabbed-labels > label a {
-    color: var(--workshop-heading) !important;
+    color: var(--workshop-secondary) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1),
 .md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1) a {
-    color: var(--workshop-accent) !important;
+    color: var(--workshop-accent-strong) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2),
 .md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2) a {
-    color: var(--workshop-accent) !important;
+    color: var(--workshop-accent-strong) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3),
 .md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3) a {
-    color: var(--workshop-accent) !important;
+    color: var(--workshop-accent-strong) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4),
 .md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4) a {
-    color: var(--workshop-accent) !important;
+    color: var(--workshop-accent-strong) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5),
 .md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5) a {
-    color: var(--workshop-accent) !important;
+    color: var(--workshop-accent-strong) !important;
 }
 
 /* Match the TOC indicator's 0.15rem thickness without native faded thumbs. */
@@ -307,7 +322,7 @@ body[data-md-color-scheme="default"] {
     pointer-events: none;
     z-index: 2;
 }
-.md-tabs__list > .selector-indicator { background: var(--md-primary-bg-color); }
+.md-tabs__list > .selector-indicator { background: var(--workshop-accent); }
 /* A selection must not change tab widths during the slide. */
 .md-tabs__link { font-weight: 600; }
 .md-tabs__link::after,
@@ -317,4 +332,18 @@ body[data-md-color-scheme="default"] {
 .md-typeset .tabbed-set > input:checked ~ .tabbed-labels.has-selector-indicator > label,
 .md-tabs__link--active {
     border-bottom-color: transparent !important;
+}
+
+/* Build with IBM header: a white bar with Gray 100 text over a Gray 20 rule.
+   Material paints the header and the drawer title with the primary colors,
+   so the two swap here and everything inside follows. */
+.md-header,
+.md-nav--primary .md-nav__title[for="__drawer"] {
+    --md-primary-fg-color: #ffffff;
+    --md-primary-bg-color: var(--workshop-black);
+    --md-primary-bg-color--light: var(--workshop-secondary);
+}
+.md-header,
+.md-header--shadow {
+    box-shadow: 0 1px 0 var(--workshop-rule);
 }

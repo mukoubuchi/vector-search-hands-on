@@ -132,7 +132,7 @@
 }
 
 .feedback-actions button {
-  background: var(--md-primary-fg-color);
+  background: var(--md-accent-fg-color);
   border: 0;
   border-radius: 6px;
   color: var(--md-primary-bg-color);
@@ -144,7 +144,7 @@
 
 .feedback-actions button:hover,
 .feedback-actions button:focus {
-  background: var(--md-accent-fg-color);
+  background: var(--workshop-accent-strong);
 }
 
 .feedback-actions p {

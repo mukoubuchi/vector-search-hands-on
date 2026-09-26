@@ -11,7 +11,7 @@
     display: inline-block;
     height: 1em;
     vertical-align: -0.125em;
-    background-color: var(--md-primary-fg-color);
+    background-color: var(--md-accent-fg-color);
     -webkit-mask: var(--heading-icon) no-repeat center / contain;
     mask: var(--heading-icon) no-repeat center / contain;
 }
@@ -149,8 +149,8 @@
     background-color: currentColor;
 }
 
-/* Links keep their color on hover (the base rule above is !important);
-   the underline below is the hover feedback */
+/* The underline below is the hover feedback; palette.css also darkens
+   article links on hover */
 .md-typeset a:hover::before {
     width: 100%;
 }
