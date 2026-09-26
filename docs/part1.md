@@ -305,7 +305,7 @@ Products are displayed as cards, most similar first. The top three are the three
 - **Rank** (`#1`, `#2`, ...): Order of similarity, most similar first
 - **Category** (`category`): Product category
 - **Product name** (`product_name`): Product name
-- **Price** (`price`): Price in yen
+- **Price** (`price`): Price in US dollars
 - **Description** (`description`): Description
 - **Similarity** (`similarity_score`): Similarity (0.0-1.0, higher is more similar). The bar is green at 0.7 and above, blue from 0.4 to 0.7, and gray below 0.4
 
@@ -329,7 +329,7 @@ Products are displayed as cards, most similar first. The top three are the three
         {
           "product_name": "Red Running Shoes",
           "similarity_score": 0.8268,
-          "price": 8900,
+          "price": 89,
           "category": "Sneakers",
           "description": "Lightweight and breathable running shoes."
         }

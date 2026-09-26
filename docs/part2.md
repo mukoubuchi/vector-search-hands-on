@@ -154,15 +154,15 @@ If IBM Bob asks for approval to run a command, approve it.
 
 1. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
 2. Reload the search screen. The price filter is now available
-3. Enter **5000** as the minimum price and **10000** as the maximum price, then search for:
+3. Enter **50** as the minimum price and **100** as the maximum price, then search for:
 
     ```text
     sneakers
     ```
 
-4. Verify results: Only products between 5000 and 10000 yen are displayed
+4. Verify results: Only products between 50 and 100 dollars are displayed
 
-    ![Search results narrowed to 5000-10000 yen with the price filter](images/search-screen-price-filter-en.png)
+    ![Search results narrowed to 50-100 dollars with the price filter](images/search-screen-price-filter-en.png)
 
 ### Feature 2 Completion Check
 
