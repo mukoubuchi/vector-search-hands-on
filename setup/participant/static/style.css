@@ -3,18 +3,21 @@
 
 :root {
   /* Values copied from docs/stylesheets/palette.css */
-  --accent: #4051b5;          /* --workshop-accent */
-  --accent-tint: #4051b514;   /* --md-accent-fg-color--transparent */
-  --gray: #8a8b8c;            /* --workshop-gray */
-  --gray-light: #c2c0bf;      /* --workshop-gray-light */
-  --black: #000000;           /* --workshop-black */
-  --heading: #5e5f5f;         /* color-mix(in srgb, #8a8b8c 68%, black) */
-  --surface: #f0f0f0;         /* color-mix(in srgb, #c2c0bf 24%, white) */
-  --support: #85b09a;         /* --workshop-support */
-  --support-focus: #f5f9f7;   /* color-mix(in srgb, #85b09a 8%, white) */
-  /* Errors use the diagrams' red (docs/images/without-building-blocks-*.svg) */
-  --error: #b34a4a;
-  --error-tint: #f9f1f1;      /* color-mix(in srgb, #b34a4a 8%, white) */
+  --accent: #0f62fe;          /* --workshop-accent */
+  --accent-strong: #0043ce;   /* --workshop-accent-strong */
+  --accent-tint: #0f62fe14;   /* --md-accent-fg-color--transparent */
+  --gray: #8d8d8d;            /* --workshop-gray */
+  --gray-light: #c6c6c6;      /* --workshop-gray-light */
+  --rule: #e0e0e0;            /* --workshop-rule */
+  --black: #161616;           /* --workshop-black */
+  --secondary: #525252;       /* --workshop-secondary */
+  --surface: #f4f4f4;         /* --workshop-surface */
+  --support: #24a148;         /* --workshop-support */
+  --support-focus: #edf7f0;   /* color-mix(in srgb, #24a148 8%, white) */
+  /* Errors use the red band of the diagrams (docs/images/without-building-blocks-*.svg)
+     with the next darker red for the text, which keeps 4.5:1 on the band */
+  --error: #a2191f;           /* Red 70 */
+  --error-tint: #fcedee;      /* color-mix(in srgb, #da1e28 8%, white) */
   --radius: 6px;
 }
 
@@ -59,8 +62,9 @@ body {
 /* Header: the site's header colours */
 
 .site-header {
-  background: var(--heading);
-  color: #ffffff;
+  background: #ffffff;
+  color: var(--black);
+  box-shadow: 0 1px 0 var(--rule);
 }
 
 .site-title {
@@ -108,7 +112,7 @@ button {
   padding: 10px 22px;
   border: 0;
   border-radius: var(--radius);
-  background: var(--heading);
+  background: var(--accent);
   color: #ffffff;
   font-weight: 700;
   cursor: pointer;
@@ -117,7 +121,7 @@ button {
 
 .search-button:hover,
 .search-button:focus {
-  background: var(--accent);
+  background: var(--accent-strong);
 }
 
 .search-button:disabled {
@@ -138,7 +142,7 @@ button:focus-visible {
   align-items: center;
   gap: 8px;
   margin-top: 12px;
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.875rem;
 }
 
@@ -153,14 +157,14 @@ button:focus-visible {
   border: 0;
   border-radius: 999px;
   background: #ffffff;
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.875rem;
   cursor: pointer;
 }
 
 .example:hover {
   background: var(--accent-tint);
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .options {
@@ -170,7 +174,7 @@ button:focus-visible {
   gap: 16px 32px;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid var(--gray-light);
+  border-top: 1px solid var(--rule);
   font-size: 0.9375rem;
 }
 
@@ -229,7 +233,7 @@ button:focus-visible {
 .price-note {
   flex-basis: 100%;
   margin: 0;
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.8125rem;
 }
 
@@ -246,7 +250,7 @@ button:focus-visible {
 
 .status {
   flex: 1 1 auto;
-  color: var(--heading);
+  color: var(--secondary);
 }
 
 .status p {
@@ -288,7 +292,7 @@ button:focus-visible {
   align-items: center;
   gap: 4px 12px;
   margin: 0;
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.8125rem;
 }
 
@@ -359,7 +363,7 @@ button:focus-visible {
 }
 
 .card-image--missing {
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.875rem;
 }
 
@@ -379,7 +383,7 @@ button:focus-visible {
 }
 
 .card-rank {
-  color: var(--heading);
+  color: var(--secondary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -387,7 +391,7 @@ button:focus-visible {
   padding: 1px 10px;
   border-radius: 999px;
   background: var(--surface);
-  color: var(--heading);
+  color: var(--secondary);
 }
 
 .card-title {
@@ -405,7 +409,7 @@ button:focus-visible {
 
 .card-description {
   margin: 0;
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.9375rem;
 }
 
@@ -418,7 +422,7 @@ button:focus-visible {
   display: flex;
   justify-content: space-between;
   margin-bottom: 4px;
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.8125rem;
 }
 
@@ -454,7 +458,7 @@ button:focus-visible {
 }
 
 .card-reason-label {
-  color: var(--heading);
+  color: var(--secondary);
   font-size: 0.75rem;
   font-weight: 700;
 }
