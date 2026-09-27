@@ -19,21 +19,20 @@ html[lang="ja"] .demo-footer [lang="en"] {
   font-size: 0.9375rem;
 }
 
+/* The header is dark, so both languages are white, as the header text is */
 .language-switch a {
-  color: var(--accent);
+  color: #ffffff;
   text-decoration: none;
 }
 
 .language-switch a:hover,
 .language-switch a:focus {
-  color: var(--accent-strong);
   text-decoration: underline;
 }
 
-/* The current language is plain text in the header color */
+/* The current language is plain bold text */
 html[lang="en"] .language-switch a[lang="en"],
 html[lang="ja"] .language-switch a[lang="ja"] {
-  color: var(--black);
   font-weight: 700;
   pointer-events: none;
 }
@@ -43,7 +42,7 @@ html[lang="ja"] .language-switch a[lang="ja"] {
   margin: 24px 0 0;
   padding: 12px 16px;
   border-radius: var(--radius);
-  background: #edf5ff;   /* Blue 10, the site's light emphasis */
+  background: var(--accent-tint);   /* the site's light emphasis */
   color: var(--black);
   font-size: 0.9375rem;
 }
@@ -68,7 +67,7 @@ html[lang="ja"] .language-switch a[lang="ja"] {
 .model-status[data-state="ready"] {
   padding: 0;
   background: transparent;
-  color: var(--secondary);
+  color: var(--heading);
 }
 
 .model-status[data-state="failed"] {
@@ -79,7 +78,7 @@ html[lang="ja"] .language-switch a[lang="ja"] {
 .demo-footer {
   margin-top: 24px;
   padding-bottom: 32px;
-  color: var(--secondary);
+  color: var(--heading);
   font-size: 0.8125rem;
 }
 
@@ -88,7 +87,7 @@ html[lang="ja"] .language-switch a[lang="ja"] {
   content: "";
   display: block;
   margin-bottom: 16px;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--gray-light);
 }
 
 .demo-footer p {
@@ -106,5 +105,5 @@ html[lang="ja"] .language-switch a[lang="ja"] {
 
 .demo-footer a:hover,
 .demo-footer a:focus {
-  color: var(--accent-strong);
+  color: var(--accent);
 }
