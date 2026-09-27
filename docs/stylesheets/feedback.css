@@ -76,7 +76,8 @@
 
 .feedback-select::after {
   background-color: currentcolor;
-  color: var(--workshop-support);
+  /* Form controls stay gray, like the text field's placeholder. */
+  color: var(--md-default-fg-color--light);
   content: "";
   height: 1rem;
   -webkit-mask-image: var(--md-details-icon);

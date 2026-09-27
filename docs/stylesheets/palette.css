@@ -145,54 +145,75 @@ body, .md-typeset pre > code {
     animation: none !important;
 }
 
-/* Heritage Cambridge Blue for supporting callouts and completion controls. */
+/* Heritage Cambridge Blue for supporting callouts.
+   Each callout type has its own color: tip is Heritage Cambridge Blue itself,
+   and the others keep its OKLCH lightness and chroma with the theme's hue for
+   that type. Success and question move to stay 25 degrees from their
+   neighbors, and warm hues gain a little chroma (danger a little depth too)
+   so they read as orange and red. Bands are 8% tints of the type color, and
+   the focus marks of a block take its type color too. */
 body[data-md-color-scheme="default"] {
     --workshop-support: #85b09a;
-    --workshop-support-focus: color-mix(in srgb, var(--workshop-support) 8%, white);
 }
+.md-typeset .admonition,
+.md-typeset details {
+    --workshop-callout: var(--workshop-support);
+    --workshop-callout-band: color-mix(in srgb, var(--workshop-callout) 8%, white);
+}
+.md-typeset :is(.admonition, details).note { --workshop-callout: #90a6c8; }
+.md-typeset :is(.admonition, details):is(.abstract, .summary, .tldr) { --workshop-callout: #84aac4; }
+.md-typeset :is(.admonition, details):is(.info, .todo) { --workshop-callout: #7baeba; }
+.md-typeset :is(.admonition, details):is(.tip, .hint, .important) { --workshop-callout: var(--workshop-support); }
+.md-typeset :is(.admonition, details):is(.success, .check, .done) { --workshop-callout: #96ad8a; }
+.md-typeset :is(.admonition, details):is(.question, .help, .faq) { --workshop-callout: #aba86f; }
+.md-typeset :is(.admonition, details):is(.warning, .caution, .attention) { --workshop-callout: #c89a73; }
+.md-typeset :is(.admonition, details):is(.failure, .fail, .missing) { --workshop-callout: #d0928d; }
+.md-typeset :is(.admonition, details):is(.danger, .error) { --workshop-callout: #c08281; }
+.md-typeset :is(.admonition, details).bug { --workshop-callout: #d09196; }
+.md-typeset :is(.admonition, details).example { --workshop-callout: #a29fc6; }
+.md-typeset :is(.admonition, details):is(.quote, .cite) { --workshop-callout: #a4a4a4; }
 .md-typeset .admonition > .admonition-title,
 .md-typeset details > summary {
-    background-color: var(--workshop-support-focus) !important;
+    background-color: var(--workshop-callout-band) !important;
 }
 .md-typeset .admonition > .admonition-title::before,
 .md-typeset details > summary::before {
-    background-color: var(--workshop-support) !important;
+    background-color: var(--workshop-callout) !important;
 }
-.md-typeset details > summary::after { color: var(--workshop-support) !important; }
+.md-typeset details > summary::after { color: var(--workshop-callout) !important; }
 .md-typeset details:focus-within {
-    box-shadow: 0 0 0 2px var(--workshop-support-focus);
+    box-shadow: 0 0 0 2px var(--workshop-callout-band);
 }
-/* An opened block shows two blue marks from the theme: a soft halo around the
-   whole block, and, when it was opened from the keyboard, a ring around the
-   title band. Material scores both above a plain details:focus-within, so the
-   rule above never reaches a block carrying a type class, which every block
-   here does. Match that weight and keep the theme's shape, changing only the
-   colour to the one the title icon and chevron already use. Closed blocks keep
-   what they had. The two selectors below are separate rules so a browser that
-   cannot parse one still applies the other. */
-.md-typeset details[open]:focus-within {
-    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--workshop-support) 10%, transparent);
+/* A focused block shows two marks from the theme: a soft halo around the whole
+   block, and, when it was reached from the keyboard, a ring around the title
+   band. Material colours both by the theme's type colours with rules that
+   score above a plain details:focus-within, so the rule above never reaches a
+   block carrying a type class, which every block here does. Match that weight
+   (the [class] test only adds it) and keep the theme's shape, changing only
+   the colour to the block's own type colour. A closed block without keyboard
+   focus still shows no halo. The two ring selectors are separate rules so a
+   browser that cannot parse one still applies the other. */
+.md-typeset details[class]:focus-within,
+.md-typeset .admonition[class]:focus-within {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--workshop-callout) 10%, transparent);
 }
-.md-typeset details[open] > summary:focus-visible {
-    outline-color: var(--workshop-support);
+.md-typeset details > summary:focus-visible {
+    outline-color: var(--workshop-callout);
 }
-.md-typeset details[open] > summary.focus-visible {
-    outline-color: var(--workshop-support);
+.md-typeset details > summary.focus-visible {
+    outline-color: var(--workshop-callout);
 }
+/* Completed tasks and checkboxes take the accent, like the scrollbars and the
+   Next button's hover. */
 .md-typeset .task-list-control input:checked + .task-list-indicator::before {
-    background-color: var(--workshop-support);
+    background-color: var(--workshop-accent);
 }
-.md-typeset input[type="checkbox"] { accent-color: var(--workshop-support); }
+.md-typeset input[type="checkbox"] { accent-color: var(--workshop-accent); }
 
 /* The theme draws unchecked task marks in its lightest gray, which here
    equals the code surface; the MIT gray keeps them at 3:1 on white. */
 .md-typeset .task-list-indicator::before {
     background-color: var(--md-default-fg-color--lighter);
-}
-
-.md-typeset .admonition,
-.md-typeset details {
-    border-color: var(--workshop-support-focus) !important;
 }
 
 /* Highlight top navigation like the OS selector. */
