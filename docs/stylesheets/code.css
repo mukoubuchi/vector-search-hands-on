@@ -238,11 +238,14 @@
     font-weight: 400 !important;
 }
 
-/* Mobile-specific code block improvements */
+/* Mobile-specific code block improvements. A block keeps the width of its
+   .highlight wrapper, which scrolls and would clip a negative margin, cutting
+   off the start of every line; the theme itself widens top-level wrappers on
+   phones. */
 @media screen and (max-width: 76.1875em) {
     .md-typeset pre {
         padding: 12px !important;
-        margin: 1em -0.8rem !important;
+        margin: 1em 0 !important;
         border-radius: 0 !important;
         border-left: none !important;
         border-right: none !important;
@@ -271,7 +274,7 @@
 @media screen and (max-width: 480px) {
     .md-typeset pre {
         padding: 10px !important;
-        margin: 0.8em -0.8rem !important;
+        margin: 0.8em 0 !important;
     }
     
     .md-typeset pre code {
