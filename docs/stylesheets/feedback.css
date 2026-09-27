@@ -53,6 +53,12 @@
   width: 100%;
 }
 
+/* The browser's default placeholder gray is under 4.5:1 on the field. */
+.feedback-form textarea::placeholder {
+  color: var(--md-default-fg-color--light);
+  opacity: 1;
+}
+
 /* Drop the platform arrow and keep the text clear of the chevron below. */
 .feedback-form select {
   -webkit-appearance: none;
@@ -70,7 +76,8 @@
 
 .feedback-select::after {
   background-color: currentcolor;
-  color: var(--workshop-support);
+  /* Form controls stay gray, like the text field's placeholder. */
+  color: var(--md-default-fg-color--light);
   content: "";
   height: 1rem;
   -webkit-mask-image: var(--md-details-icon);
@@ -132,7 +139,7 @@
 }
 
 .feedback-actions button {
-  background: var(--md-accent-fg-color);
+  background: var(--md-primary-fg-color);
   border: 0;
   border-radius: 6px;
   color: var(--md-primary-bg-color);
@@ -144,7 +151,7 @@
 
 .feedback-actions button:hover,
 .feedback-actions button:focus {
-  background: var(--workshop-accent-strong);
+  background: var(--md-accent-fg-color);
 }
 
 .feedback-actions p {

@@ -1,44 +1,33 @@
-/* Build with IBM colors (Carbon): Gray 100 text and a Blue 60 accent. */
+/* MIT legacy grays with the original Material blue link accent. */
 body[data-md-color-scheme="default"] {
-    --workshop-accent: #0f62fe;         /* Blue 60 */
-    --workshop-accent-strong: #0043ce;  /* Blue 70: hover, pressed, heading rules */
-    --workshop-gray: #8d8d8d;           /* Gray 50 */
-    --workshop-gray-light: #c6c6c6;     /* Gray 30 */
-    --workshop-rule: #e0e0e0;           /* Gray 20 */
-    --workshop-black: #161616;          /* Gray 100 */
-    --workshop-secondary: #525252;      /* Gray 70: secondary text, code comments */
-    /* Headings share the body color and stand out by weight. */
-    --workshop-heading: var(--workshop-black);
-    --workshop-surface: #f4f4f4;        /* Gray 10: code, table heads, footer */
-    --workshop-emphasis: #edf5ff;       /* Blue 10: light emphasis */
+    --workshop-accent: #4051b5;
+    --workshop-gray: #8a8b8c;
+    --workshop-gray-light: #c2c0bf;
+    --workshop-black: #000000;
+    /* Darken silver gray for readable text on white. */
+    --workshop-heading: color-mix(in srgb, var(--workshop-gray) 68%, black);
+    --workshop-surface: color-mix(in srgb, var(--workshop-gray-light) 24%, white);
     --md-primary-fg-color: var(--workshop-heading);
     --md-primary-fg-color--light: var(--workshop-gray);
     --md-primary-fg-color--dark: var(--workshop-black);
     --md-primary-bg-color: #ffffff;
     --md-primary-bg-color--light: #ffffff;
     --md-accent-fg-color: var(--workshop-accent);
-    --md-accent-fg-color--transparent: #0f62fe14;
+    --md-accent-fg-color--transparent: #4051b514;
     --md-accent-bg-color: #ffffff;
     --md-default-fg-color: var(--workshop-black);
-    --md-default-fg-color--light: var(--workshop-secondary);
+    --md-default-fg-color--light: var(--workshop-heading);
     --md-default-fg-color--lighter: var(--workshop-gray);
-    --md-default-fg-color--lightest: var(--workshop-rule);
+    --md-default-fg-color--lightest: var(--workshop-surface);
     --md-typeset-a-color: var(--workshop-heading);
     --md-code-fg-color: var(--workshop-black);
     --md-code-bg-color: var(--workshop-surface);
-    --md-footer-bg-color: var(--workshop-surface);
-    --md-footer-bg-color--dark: var(--workshop-surface);
-    --md-footer-fg-color: var(--workshop-black);
-    --md-footer-fg-color--light: var(--workshop-secondary);
-    --md-footer-fg-color--lighter: var(--workshop-secondary);
 }
 
-.md-typeset h1 { border-color: var(--workshop-accent-strong); }
-.md-typeset h2, .md-typeset h3 { border-color: var(--workshop-accent-strong); }
-.md-typeset h4 { border-left-color: var(--workshop-accent-strong); }
-.md-typeset a:not(.workshop-next):hover,
-.md-nav__link--active { color: var(--workshop-accent) !important; }
-.md-nav__link:hover { color: var(--workshop-accent-strong) !important; }
+.md-typeset h1 { border-color: var(--workshop-gray-light); }
+.md-typeset h2, .md-typeset h3 { border-color: var(--workshop-gray-light); }
+.md-typeset a:not(.workshop-next):hover, .md-nav__link--active,
+.md-nav__link:hover { color: var(--workshop-accent) !important; }
 .md-tabs__link { opacity: 1; }
 .md-tabs__link--active { border-bottom: 2px solid var(--workshop-gray); }
 
@@ -62,18 +51,18 @@ body[data-md-color-scheme="default"] {
     --step-circle-fg: var(--workshop-heading);
 }
 .md-typeset table:not([class]) th { background: var(--workshop-surface); }
-.md-typeset mark { background: var(--workshop-emphasis); color: var(--workshop-black); }
+.md-typeset mark { background: #4051b514; color: var(--workshop-black); }
 .md-typeset .tabbed-labels > label:hover,
 .md-typeset .tabbed-labels > label.tabbed-label--active {
     color: var(--workshop-accent);
 }
 
 /* Page scrolling stays gray; nested navigation uses blue. */
-html { scrollbar-color: #525252 #f4f4f4; }
+html { scrollbar-color: #5e5f5f #f1f2f3; }
 body, .md-typeset pre > code {
-    scrollbar-color: var(--workshop-secondary) var(--workshop-surface);
+    scrollbar-color: var(--workshop-heading) var(--workshop-surface);
 }
-::-webkit-scrollbar-thumb { background-color: #525252 !important; }
+::-webkit-scrollbar-thumb { background-color: #5e5f5f !important; }
 .md-sidebar--secondary .md-nav--secondary > .md-nav__list > .md-toc-indicator {
     background-color: var(--workshop-accent);
 }
@@ -130,7 +119,7 @@ body, .md-typeset pre > code {
     border-collapse: collapse;
 }
 .md-typeset table:not([class]) tbody td + td {
-    border-left: 1px solid var(--workshop-rule);
+    border-left: 1px solid var(--workshop-gray-light);
 }
 .md-typeset table:not([class]) thead th {
     border-left: 0;
@@ -140,9 +129,6 @@ body, .md-typeset pre > code {
 /* Color article links without changing navigation or filled buttons. */
 .md-typeset a:not(.workshop-next):not(.md-button) {
     color: var(--workshop-accent) !important;
-}
-.md-typeset a:not(.workshop-next):not(.md-button):hover {
-    color: var(--workshop-accent-strong) !important;
 }
 
 /* Disable theme and custom motion on headings, links, and their underlines. */
@@ -159,48 +145,75 @@ body, .md-typeset pre > code {
     animation: none !important;
 }
 
-/* Carbon Green 50 for supporting callouts and completion controls. */
+/* Heritage Cambridge Blue for supporting callouts.
+   Each callout type has its own color: tip is Heritage Cambridge Blue itself,
+   and the others keep its OKLCH lightness and chroma with the theme's hue for
+   that type. Success and question move to stay 25 degrees from their
+   neighbors, and warm hues gain a little chroma (danger a little depth too)
+   so they read as orange and red. Bands are 8% tints of the type color, and
+   the focus marks of a block take its type color too. */
 body[data-md-color-scheme="default"] {
-    --workshop-support: #24a148;
-    --workshop-support-focus: color-mix(in srgb, var(--workshop-support) 8%, white);
+    --workshop-support: #85b09a;
 }
+.md-typeset .admonition,
+.md-typeset details {
+    --workshop-callout: var(--workshop-support);
+    --workshop-callout-band: color-mix(in srgb, var(--workshop-callout) 8%, white);
+}
+.md-typeset :is(.admonition, details).note { --workshop-callout: #90a6c8; }
+.md-typeset :is(.admonition, details):is(.abstract, .summary, .tldr) { --workshop-callout: #84aac4; }
+.md-typeset :is(.admonition, details):is(.info, .todo) { --workshop-callout: #7baeba; }
+.md-typeset :is(.admonition, details):is(.tip, .hint, .important) { --workshop-callout: var(--workshop-support); }
+.md-typeset :is(.admonition, details):is(.success, .check, .done) { --workshop-callout: #96ad8a; }
+.md-typeset :is(.admonition, details):is(.question, .help, .faq) { --workshop-callout: #aba86f; }
+.md-typeset :is(.admonition, details):is(.warning, .caution, .attention) { --workshop-callout: #c89a73; }
+.md-typeset :is(.admonition, details):is(.failure, .fail, .missing) { --workshop-callout: #d0928d; }
+.md-typeset :is(.admonition, details):is(.danger, .error) { --workshop-callout: #c08281; }
+.md-typeset :is(.admonition, details).bug { --workshop-callout: #d09196; }
+.md-typeset :is(.admonition, details).example { --workshop-callout: #a29fc6; }
+.md-typeset :is(.admonition, details):is(.quote, .cite) { --workshop-callout: #a4a4a4; }
 .md-typeset .admonition > .admonition-title,
 .md-typeset details > summary {
-    background-color: var(--workshop-support-focus) !important;
+    background-color: var(--workshop-callout-band) !important;
 }
 .md-typeset .admonition > .admonition-title::before,
 .md-typeset details > summary::before {
-    background-color: var(--workshop-support) !important;
+    background-color: var(--workshop-callout) !important;
 }
-.md-typeset details > summary::after { color: var(--workshop-support) !important; }
+.md-typeset details > summary::after { color: var(--workshop-callout) !important; }
 .md-typeset details:focus-within {
-    box-shadow: 0 0 0 2px var(--workshop-support-focus);
+    box-shadow: 0 0 0 2px var(--workshop-callout-band);
 }
-/* An opened block shows two blue marks from the theme: a soft halo around the
-   whole block, and, when it was opened from the keyboard, a ring around the
-   title band. Material scores both above a plain details:focus-within, so the
-   rule above never reaches a block carrying a type class, which every block
-   here does. Match that weight and keep the theme's shape, changing only the
-   colour to the one the title icon and chevron already use. Closed blocks keep
-   what they had. The two selectors below are separate rules so a browser that
-   cannot parse one still applies the other. */
-.md-typeset details[open]:focus-within {
-    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--workshop-support) 10%, transparent);
+/* A focused block shows two marks from the theme: a soft halo around the whole
+   block, and, when it was reached from the keyboard, a ring around the title
+   band. Material colours both by the theme's type colours with rules that
+   score above a plain details:focus-within, so the rule above never reaches a
+   block carrying a type class, which every block here does. Match that weight
+   (the [class] test only adds it) and keep the theme's shape, changing only
+   the colour to the block's own type colour. A closed block without keyboard
+   focus still shows no halo. The two ring selectors are separate rules so a
+   browser that cannot parse one still applies the other. */
+.md-typeset details[class]:focus-within,
+.md-typeset .admonition[class]:focus-within {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--workshop-callout) 10%, transparent);
 }
-.md-typeset details[open] > summary:focus-visible {
-    outline-color: var(--workshop-support);
+.md-typeset details > summary:focus-visible {
+    outline-color: var(--workshop-callout);
 }
-.md-typeset details[open] > summary.focus-visible {
-    outline-color: var(--workshop-support);
+.md-typeset details > summary.focus-visible {
+    outline-color: var(--workshop-callout);
 }
+/* Completed tasks and checkboxes take the accent, like the scrollbars and the
+   Next button's hover. */
 .md-typeset .task-list-control input:checked + .task-list-indicator::before {
-    background-color: var(--workshop-support);
+    background-color: var(--workshop-accent);
 }
-.md-typeset input[type="checkbox"] { accent-color: var(--workshop-support); }
+.md-typeset input[type="checkbox"] { accent-color: var(--workshop-accent); }
 
-.md-typeset .admonition,
-.md-typeset details {
-    border-color: var(--workshop-support-focus) !important;
+/* The theme draws unchecked task marks in its lightest gray, which here
+   equals the code surface; the MIT gray keeps them at 3:1 on white. */
+.md-typeset .task-list-indicator::before {
+    background-color: var(--md-default-fg-color--lighter);
 }
 
 /* Highlight top navigation like the OS selector. */
@@ -209,11 +222,11 @@ body[data-md-color-scheme="default"] {
     border-radius: 6px 6px 0 0;
 }
 .md-tabs__link:hover {
-    background-color: color-mix(in srgb, var(--md-primary-bg-color) 8%, transparent);
+    background-color: color-mix(in srgb, white 8%, transparent);
 }
 .md-tabs__link--active,
 .md-tabs__item--active .md-tabs__link {
-    background-color: color-mix(in srgb, var(--md-primary-bg-color) 14%, transparent);
+    background-color: color-mix(in srgb, white 14%, transparent);
 }
 
 /* Keep each tab within the header so its bottom underline is not clipped. */
@@ -250,31 +263,34 @@ body[data-md-color-scheme="default"] {
     background-color: var(--workshop-accent) !important;
 }
 
-/* Unselected OS labels stay gray, including their generated anchors. The
-   selected label uses Blue 70, which keeps 4.5:1 on its shaded background. */
+/* The resting code copy button uses the MIT gray too, at 3:1 on the code
+   surface; the theme's own rules still darken it on hover. */
+.md-code__button { color: var(--md-default-fg-color--lighter); }
+
+/* Unselected OS labels stay gray, including their generated anchors. */
 .md-typeset .tabbed-labels > label,
 .md-typeset .tabbed-set .tabbed-labels > label a {
-    color: var(--workshop-secondary) !important;
+    color: var(--workshop-heading) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1),
 .md-typeset .tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1) a {
-    color: var(--workshop-accent-strong) !important;
+    color: var(--workshop-accent) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2),
 .md-typeset .tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2) a {
-    color: var(--workshop-accent-strong) !important;
+    color: var(--workshop-accent) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3),
 .md-typeset .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3) a {
-    color: var(--workshop-accent-strong) !important;
+    color: var(--workshop-accent) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4),
 .md-typeset .tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4) a {
-    color: var(--workshop-accent-strong) !important;
+    color: var(--workshop-accent) !important;
 }
 .md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5),
 .md-typeset .tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5) a {
-    color: var(--workshop-accent-strong) !important;
+    color: var(--workshop-accent) !important;
 }
 
 /* Match the TOC indicator's 0.15rem thickness without native faded thumbs. */
@@ -322,7 +338,7 @@ body[data-md-color-scheme="default"] {
     pointer-events: none;
     z-index: 2;
 }
-.md-tabs__list > .selector-indicator { background: var(--workshop-accent); }
+.md-tabs__list > .selector-indicator { background: var(--md-primary-bg-color); }
 /* A selection must not change tab widths during the slide. */
 .md-tabs__link { font-weight: 600; }
 .md-tabs__link::after,
@@ -332,18 +348,4 @@ body[data-md-color-scheme="default"] {
 .md-typeset .tabbed-set > input:checked ~ .tabbed-labels.has-selector-indicator > label,
 .md-tabs__link--active {
     border-bottom-color: transparent !important;
-}
-
-/* Build with IBM header: a white bar with Gray 100 text over a Gray 20 rule.
-   Material paints the header and the drawer title with the primary colors,
-   so the two swap here and everything inside follows. */
-.md-header,
-.md-nav--primary .md-nav__title[for="__drawer"] {
-    --md-primary-fg-color: #ffffff;
-    --md-primary-bg-color: var(--workshop-black);
-    --md-primary-bg-color--light: var(--workshop-secondary);
-}
-.md-header,
-.md-header--shadow {
-    box-shadow: 0 1px 0 var(--workshop-rule);
 }
