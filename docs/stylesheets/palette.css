@@ -184,6 +184,12 @@ body[data-md-color-scheme="default"] {
 }
 .md-typeset input[type="checkbox"] { accent-color: var(--workshop-support); }
 
+/* The theme draws unchecked task marks in its lightest gray, which here
+   equals the code surface; the MIT gray keeps them at 3:1 on white. */
+.md-typeset .task-list-indicator::before {
+    background-color: var(--md-default-fg-color--lighter);
+}
+
 .md-typeset .admonition,
 .md-typeset details {
     border-color: var(--workshop-support-focus) !important;
@@ -235,6 +241,10 @@ body[data-md-color-scheme="default"] {
 .md-typeset :is(pre, pre > code, .highlight)::-webkit-scrollbar-thumb {
     background-color: var(--workshop-accent) !important;
 }
+
+/* The resting code copy button uses the MIT gray too, at 3:1 on the code
+   surface; the theme's own rules still darken it on hover. */
+.md-code__button { color: var(--md-default-fg-color--lighter); }
 
 /* Unselected OS labels stay gray, including their generated anchors. */
 .md-typeset .tabbed-labels > label,

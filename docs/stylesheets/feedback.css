@@ -53,6 +53,12 @@
   width: 100%;
 }
 
+/* The browser's default placeholder gray is under 4.5:1 on the field. */
+.feedback-form textarea::placeholder {
+  color: var(--md-default-fg-color--light);
+  opacity: 1;
+}
+
 /* Drop the platform arrow and keep the text clear of the chevron below. */
 .feedback-form select {
   -webkit-appearance: none;
