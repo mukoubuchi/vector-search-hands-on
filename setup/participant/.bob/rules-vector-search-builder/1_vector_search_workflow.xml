@@ -452,7 +452,7 @@ def validate_vector_search_setup():
     <optimization name="batch_processing">
       <description>Process embeddings in batches for efficiency</description>
       <best_practices>
-        <practice>Use batch size of 100-500 for embedding generation</practice>
+        <practice>Encode documents in batches rather than one at a time</practice>
         <practice>Insert data in batches to reduce network overhead</practice>
         <practice>Implement parallel processing for large datasets</practice>
       </best_practices>

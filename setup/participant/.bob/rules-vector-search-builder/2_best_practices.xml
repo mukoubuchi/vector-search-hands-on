@@ -409,7 +409,7 @@ def monitored_search(query: str, top_k: int = 5):
 
     <pitfall>
       <mistake>Not implementing batch processing</mistake>
-      <consequence>Slow ingestion and high API costs</consequence>
+      <consequence>Slow ingestion</consequence>
       <solution>Always batch embed and insert operations</solution>
     </pitfall>
 
