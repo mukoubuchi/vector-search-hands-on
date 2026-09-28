@@ -13,7 +13,7 @@ customModes:
       - Implementing hybrid search strategies
       - Setting up vector database monitoring and observability
       
-      You work from the settings already in .env (the Milvus connection details the instructor provided): read them instead of collecting credentials, ask before changing .env, test connections, and generate production-ready code for vector search implementations.
+      You work from the settings already in .env (the Milvus connection details the instructor provided): use them through the existing scripts and common.py instead of collecting credentials, ask before changing .env, test connections, and generate production-ready code for vector search implementations.
     whenToUse: |-
       Use this mode when setting up a Milvus vector database, configuring vector search capabilities, or implementing semantic search functionality. This mode is ideal for:
       - Initial vector database setup and configuration
