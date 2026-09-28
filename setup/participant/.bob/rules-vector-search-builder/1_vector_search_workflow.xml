@@ -11,6 +11,7 @@
     - setup/participant/schema.py: the product collection schema and its index (IVF_FLAT, COSINE, nlist 128); the vector dimension comes from the embedding model.
     - Embeddings are computed locally with model.encode(texts, normalize_embeddings=True). Where the examples below call embeddings.embed_query or embeddings.embed_documents, use that call instead.
     - To check the API, use FastAPI's TestClient instead of starting app.py; the user starts app.py in their own terminal.
+    - Run the participant scripts with the Python in setup/participant/venv, where requirements.txt is installed.
   </workspace>
 
   <initialization>
@@ -28,7 +29,7 @@
     <step number="2">
       <title>Read Connection Information</title>
       <tools>
-        <tool>read_file - Read the connection settings from .env</tool>
+        <tool>execute_command - Check the settings by running setup/participant/test_connection.py, which reads .env through common.py without printing the password</tool>
         <tool>ask_followup_question - Ask only for settings that are missing from .env</tool>
       </tools>
       <required_information>
@@ -451,7 +452,7 @@ def validate_vector_search_setup():
     <optimization name="batch_processing">
       <description>Process embeddings in batches for efficiency</description>
       <best_practices>
-        <practice>Use batch size of 100-500 for embedding generation</practice>
+        <practice>Encode documents in batches rather than one at a time</practice>
         <practice>Insert data in batches to reduce network overhead</practice>
         <practice>Implement parallel processing for large datasets</practice>
       </best_practices>
