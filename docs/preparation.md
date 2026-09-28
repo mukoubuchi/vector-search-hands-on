@@ -45,7 +45,7 @@ A black screen (terminal/command prompt) will appear at the bottom of the screen
 **Vector Search Builder** is a custom mode for IBM Bob that was provided as part of Building Blocks, making it easy to build vector search functionality.
 
 !!! note "About the distribution of this mode"
-    Building Blocks last distributed this mode on 30 April 2026 ([ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks), b64ca4c). This hands-on ships that version, updated for the MilvusClient API, and maintains it here.
+    Building Blocks last distributed this mode on 30 April 2026 ([ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks), b64ca4c). This hands-on ships that version, updated for the MilvusClient API and the hands-on workspace, and maintains it here.
 
 #### Vector Search Builder Overview
 

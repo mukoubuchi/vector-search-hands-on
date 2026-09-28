@@ -1,8 +1,17 @@
 <vector_search_builder_workflow>
   <overview>
     This workflow guides you through setting up and configuring vector databases (Milvus or OpenSearch)
-    for semantic search and RAG applications using IBM Watsonx embeddings.
+    for semantic search and RAG applications using local Hugging Face (sentence-transformers) embeddings.
   </overview>
+
+  <workspace>
+    This workspace already contains working code for this hands-on. Read it before generating new code, and follow it where it differs from the generic examples below.
+    - setup/participant/.env holds the Milvus connection settings the instructor provided (MILVUS_HOST, MILVUS_PORT, MILVUS_USER, MILVUS_PASSWORD), EMBEDDING_MODEL, and COLLECTION_NAME.
+    - setup/participant/common.py: connect_to_milvus() builds a MilvusClient from .env over http:// (the instructor's Milvus does not use TLS), and load_embedding_model() loads the sentence-transformers model named by EMBEDDING_MODEL.
+    - setup/participant/schema.py: the product collection schema and its index (IVF_FLAT, COSINE, nlist 128); the vector dimension comes from the embedding model.
+    - Embeddings are computed locally with model.encode(texts, normalize_embeddings=True). Where the examples below call embeddings.embed_query or embeddings.embed_documents, use that call instead.
+    - To check the API, use FastAPI's TestClient instead of starting app.py; the user starts app.py in their own terminal.
+  </workspace>
 
   <initialization>
     <step number="1">
@@ -17,18 +26,17 @@
     </step>
 
     <step number="2">
-      <title>Gather Connection Information</title>
+      <title>Read Connection Information</title>
       <tools>
-        <tool>ask_followup_question - Collect database credentials</tool>
-        <tool>read_file - Review existing configuration files</tool>
+        <tool>read_file - Read the connection settings from .env</tool>
+        <tool>ask_followup_question - Ask only for settings that are missing from .env</tool>
       </tools>
       <required_information>
-        <item>Database host/endpoint</item>
-        <item>Authentication credentials (API key, username/password)</item>
-        <item>SSL/TLS certificate if required</item>
-        <item>IBM Watsonx API credentials</item>
-        <item>IBM Cloud Object Storage credentials (if applicable)</item>
+        <item>MILVUS_HOST and MILVUS_PORT</item>
+        <item>MILVUS_USER and MILVUS_PASSWORD</item>
+        <item>EMBEDDING_MODEL and COLLECTION_NAME</item>
       </required_information>
+      <note>The instructor provided these values in .env. Ask the user before changing .env, because overwriting it loses them.</note>
     </step>
   </initialization>
 
@@ -51,7 +59,7 @@ from pymilvus import DataType, MilvusClient
 
 # Connect to Milvus
 client = MilvusClient(
-    uri=f"https://{os.getenv('MILVUS_HOST')}:{os.getenv('MILVUS_PORT')}",
+    uri=f"http://{os.getenv('MILVUS_HOST')}:{os.getenv('MILVUS_PORT')}",
     user=os.getenv("MILVUS_USER"),
     password=os.getenv("MILVUS_PASSWORD")
 )
@@ -133,49 +141,38 @@ client.indices.create(index="knowledge_base", body=index_body)
     <phase name="embedding_configuration">
       <title>Configure Embedding Generation</title>
       <steps>
-        <step>Set up IBM Watsonx embeddings client</step>
+        <step>Load the embedding model with load_embedding_model() from common.py</step>
         <step>Select appropriate embedding model</step>
         <step>Configure batch processing for efficiency</step>
         <step>Implement error handling and retries</step>
         <step>Test embedding generation</step>
       </steps>
       
-      <watsonx_embeddings_setup>
+      <embedding_setup>
         <![CDATA[
-from ibm_watsonx_ai import Credentials
-from ibm_watsonx_ai.foundation_models import Embeddings
-from ibm_watsonx_ai.foundation_models.utils.enums import EmbeddingTypes
+from common import load_embedding_model
 
-# Configure IBM Watsonx credentials
-credentials = Credentials(
-    url=os.getenv("WATSONX_URL"),
-    api_key=os.getenv("WATSONX_API_KEY")
-)
-
-# Initialize embeddings model
-embeddings = Embeddings(
-    model_id=EmbeddingTypes.IBM_SLATE_125M_ENG,  # 768 dimensions
-    credentials=credentials,
-    project_id=os.getenv("WATSONX_PROJECT_ID")
-)
+# Load the sentence-transformers model named by EMBEDDING_MODEL in .env
+model = load_embedding_model()
 
 # Test embedding generation
-test_text = "This is a test document for embedding generation"
-test_vector = embeddings.embed_query(test_text)
+test_vector = model.encode(["This is a test document for embedding generation"], normalize_embeddings=True)[0]
 print(f"Embedding dimension: {len(test_vector)}")
         ]]>
-      </watsonx_embeddings_setup>
+      </embedding_setup>
 
       <embedding_models>
-        <model name="ibm/slate-125m-english-rtrvr">
-          <dimensions>768</dimensions>
-          <use_case>General English text retrieval</use_case>
-          <performance>Balanced performance and accuracy</performance>
-        </model>
-        <model name="ibm/slate-30m-english-rtrvr">
+        <model name="paraphrase-multilingual-MiniLM-L12-v2">
           <dimensions>384</dimensions>
-          <use_case>Lightweight retrieval tasks</use_case>
-          <performance>Faster, lower cost</performance>
+          <use_case>Multilingual, recommended (the default)</use_case>
+        </model>
+        <model name="all-MiniLM-L6-v2">
+          <dimensions>384</dimensions>
+          <use_case>English only, faster</use_case>
+        </model>
+        <model name="intfloat/multilingual-e5-base">
+          <dimensions>768</dimensions>
+          <use_case>Multilingual, higher quality</use_case>
         </model>
       </embedding_models>
     </phase>
@@ -426,7 +423,7 @@ def validate_vector_search_setup():
     <phase name="code_generation">
       <title>Generate Production Code</title>
       <steps>
-        <step>Create configuration file with credentials</step>
+        <step>Read configuration from the existing .env; ask before adding keys to it</step>
         <step>Generate connection utility module</step>
         <step>Create ingestion script</step>
         <step>Generate search API endpoints</step>
@@ -464,7 +461,7 @@ def validate_vector_search_setup():
   <completion_criteria>
     <criterion>Vector database is connected and accessible</criterion>
     <criterion>Collection/index is created with correct schema</criterion>
-    <criterion>Embedding generation is working with IBM Watsonx</criterion>
+    <criterion>Embedding generation is working with the model in EMBEDDING_MODEL</criterion>
     <criterion>Data ingestion pipeline is functional</criterion>
     <criterion>Search returns relevant results</criterion>
     <criterion>Performance meets latency requirements</criterion>
