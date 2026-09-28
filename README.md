@@ -524,7 +524,7 @@ Do not include `docs/`, `setup/instructor/`, local `.env` files, `__pycache__/`,
 
 #### `setup/participant/.bob/` - Building Block
 
-**Vector Search Builder mode definition**: the last version that Building Blocks distributed (2026-04-30), updated for the MilvusClient API, maintained here, and packaged into the participant zips at their root as `.bob/`.
+**Vector Search Builder mode definition**: the last version that Building Blocks distributed (2026-04-30), updated for the MilvusClient API and the hands-on workspace, maintained here, and packaged into the participant zips at their root as `.bob/`.
 
 - `custom_modes.yaml` — IBM Bob custom mode registration
 - `rules-vector-search-builder/` — Vector Search-specialized rules (workflow, best practices, common patterns)
