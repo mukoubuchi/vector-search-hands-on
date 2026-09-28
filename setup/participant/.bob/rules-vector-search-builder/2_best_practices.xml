@@ -370,7 +370,7 @@ results = search_with_filters(
       <metrics_to_track>
         <metric name="search_latency">
           <description>Time to return search results</description>
-          <target>p95 < 100ms for production</target>
+          <target>p95 &lt; 100ms for production</target>
         </metric>
         <metric name="recall">
           <description>Proportion of relevant results retrieved</description>
