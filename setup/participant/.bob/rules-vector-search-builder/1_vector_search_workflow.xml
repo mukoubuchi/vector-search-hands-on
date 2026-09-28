@@ -10,6 +10,7 @@
     - setup/participant/common.py: connect_to_milvus() builds a MilvusClient from .env over http:// (the instructor's Milvus does not use TLS), and load_embedding_model() loads the sentence-transformers model named by EMBEDDING_MODEL.
     - setup/participant/schema.py: the product collection schema and its index (IVF_FLAT, COSINE, nlist 128); the vector dimension comes from the embedding model.
     - Embeddings are computed locally with model.encode(texts, normalize_embeddings=True). Where the examples below call embeddings.embed_query or embeddings.embed_documents, use that call instead.
+    - To check the API, use FastAPI's TestClient instead of starting app.py; the user starts app.py in their own terminal.
   </workspace>
 
   <initialization>

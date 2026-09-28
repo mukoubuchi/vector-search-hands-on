@@ -18,7 +18,7 @@ customModes:
       Use this mode when setting up a Milvus vector database, configuring vector search capabilities, or implementing semantic search functionality. This mode is ideal for:
       - Initial vector database setup and configuration
       - Creating vector collections or indexes
-      - Configuring embedding models (watsonx, HuggingFace, local)
+      - Configuring embedding models (HuggingFace, local)
       - Setting up data ingestion pipelines for vectors
       - Generating vector search code examples
       - Integrating vector search with RAG systems
