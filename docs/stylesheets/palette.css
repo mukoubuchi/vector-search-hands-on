@@ -159,6 +159,11 @@ body, .md-typeset pre > code {
     border-left: 0;
     border-right: 0;
 }
+/* Every heading cell is centred. A column's alignment in the Markdown (---:) is written onto
+   each of its cells as an inline style, so the heading row overrides it; body cells keep it. */
+.md-typeset table:not([class]) th {
+    text-align: center !important;
+}
 
 /* Color article links without changing navigation or filled buttons. */
 .md-typeset a:not(.workshop-next):not(.md-button) {
