@@ -16,6 +16,9 @@
   --error: #b34a4a;
   --error-tint: #f9f1f1;      /* color-mix(in srgb, #b34a4a 8%, white) */
   --radius: 6px;
+  /* The docs site's callout shadow (--md-shadow-z1): the search panel and the result
+     cards cast it, as the callouts, tables, and diagrams on the site do */
+  --shadow: 0 4px 10px #0000000d, 0 0 1px #0000001a;
 }
 
 *,
@@ -78,6 +81,7 @@ body {
   padding: 20px;
   background: var(--surface);
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .search-row {
@@ -378,6 +382,7 @@ select:focus {
   background: #ffffff;
   border: 1px solid var(--gray-light);
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .card-image {
