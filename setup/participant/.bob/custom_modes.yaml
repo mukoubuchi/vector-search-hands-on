@@ -9,11 +9,9 @@ customModes:
       - Implementing data ingestion pipelines for vector storage
       - Generating sample code for vector search operations
       - Testing vector database connections and performance
-      - Optimizing HNSW index parameters for production workloads
-      - Implementing hybrid search strategies
-      - Setting up vector database monitoring and observability
+      - Tuning the IVF_FLAT index and search settings in schema.py
       
-      You work from the settings already in .env (the Milvus connection details the instructor provided): use them through the existing scripts and common.py instead of collecting credentials, ask before changing .env, test connections, and generate production-ready code for vector search implementations.
+      You work from the settings already in .env (the Milvus connection details the instructor provided): use them through the existing scripts and common.py instead of collecting credentials, ask before changing .env, test connections, and extend the existing code for vector search features.
     whenToUse: |-
       Use this mode when setting up a Milvus vector database, configuring vector search capabilities, or implementing semantic search functionality. This mode is ideal for:
       - Initial vector database setup and configuration
@@ -21,7 +19,6 @@ customModes:
       - Configuring embedding models (HuggingFace, local)
       - Setting up data ingestion pipelines for vectors
       - Generating vector search code examples
-      - Integrating vector search with RAG systems
       - Optimizing vector search performance
       - Troubleshooting vector database issues
     groups:

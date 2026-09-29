@@ -1,43 +1,8 @@
 <vector_search_best_practices>
   <overview>
-    Best practices for setting up and optimizing vector search systems using Milvus,
-    OpenSearch, and local Hugging Face (sentence-transformers) embeddings.
+    Best practices for setting up and optimizing vector search systems using Milvus
+    and local Hugging Face (sentence-transformers) embeddings.
   </overview>
-
-  <database_selection_practices>
-    <principle priority="high">
-      <name>Choose the Right Vector Database</name>
-      <description>Select vector database based on use case requirements</description>
-      <decision_matrix>
-        <option name="milvus">
-          <pros>
-            <pro>Purpose-built for vector search</pro>
-            <pro>Excellent performance at scale</pro>
-            <pro>Rich feature set (partitions, dynamic schema)</pro>
-            <pro>Strong consistency guarantees</pro>
-          </pros>
-          <cons>
-            <con>Requires separate deployment</con>
-            <con>More complex setup</con>
-          </cons>
-          <best_for>Large-scale production systems, high-performance requirements</best_for>
-        </option>
-        <option name="opensearch">
-          <pros>
-            <pro>Hybrid search (BM25 + k-NN)</pro>
-            <pro>Mature ecosystem and tooling</pro>
-            <pro>Built-in analytics and visualization</pro>
-            <pro>Strong text search capabilities</pro>
-          </pros>
-          <cons>
-            <con>Vector search is secondary feature</con>
-            <con>May have higher latency for pure vector search</con>
-          </cons>
-          <best_for>Systems needing both keyword and semantic search</best_for>
-        </option>
-      </decision_matrix>
-    </principle>
-  </database_selection_practices>
 
   <embedding_practices>
     <principle priority="high">
@@ -75,58 +40,37 @@ def batch_embed(model, texts: List[str], batch_size: int = 64) -> List[List[floa
 
   <index_configuration_practices>
     <principle priority="high">
-      <name>Optimize HNSW Index Parameters</name>
-      <description>Tune HNSW parameters for your specific workload</description>
+      <name>Tune the IVF_FLAT Index</name>
+      <description>The index and search settings are in schema.py (INDEX_PARAMS and SEARCH_PARAMS)</description>
       <parameter_guide>
-        <parameter name="M">
-          <description>Number of bi-directional links per node</description>
-          <range>4-64</range>
-          <default>16</default>
+        <parameter name="nlist">
+          <description>Number of clusters the vectors are divided into when the index is built</description>
+          <default>128</default>
           <tuning>
-            <guideline>Increase for better recall (more memory)</guideline>
-            <guideline>Decrease for lower memory usage (lower recall)</guideline>
-            <guideline>Typical values: 8 (fast), 16 (balanced), 32 (accurate)</guideline>
+            <guideline>A new value takes effect when the index is rebuilt</guideline>
           </tuning>
         </parameter>
-        <parameter name="efConstruction">
-          <description>Size of dynamic candidate list during index build</description>
-          <range>64-512</range>
-          <default>256</default>
-          <tuning>
-            <guideline>Higher = better index quality, slower build</guideline>
-            <guideline>Should be at least 2*M</guideline>
-            <guideline>Typical values: 128 (fast), 256 (balanced), 512 (best quality)</guideline>
-          </tuning>
-        </parameter>
-        <parameter name="ef">
-          <description>Size of dynamic candidate list during search</description>
-          <range>top_k to 512</range>
-          <default>100</default>
+        <parameter name="nprobe">
+          <description>Number of clusters searched per query (up to nlist)</description>
+          <default>10</default>
           <tuning>
             <guideline>Higher = better recall, slower search</guideline>
-            <guideline>Should be at least top_k</guideline>
-            <guideline>Start with 100, increase if recall is insufficient</guideline>
+            <guideline>Start with the value in SEARCH_PARAMS, increase if recall is insufficient</guideline>
           </tuning>
         </parameter>
       </parameter_guide>
       <example>
         <![CDATA[
-# Production-optimized HNSW configuration
-index_params = {
+# schema.py
+INDEX_PARAMS = {
     "metric_type": "COSINE",
-    "index_type": "HNSW",
-    "params": {
-        "M": 32,              # Higher for better recall
-        "efConstruction": 512  # Higher for better index quality
-    }
+    "index_type": "IVF_FLAT",
+    "params": {"nlist": 128},
 }
 
-# Search with optimized ef
-search_params = {
+SEARCH_PARAMS = {
     "metric_type": "COSINE",
-    "params": {
-        "ef": 200  # Higher for better recall
-    }
+    "params": {"nprobe": 10},
 }
         ]]>
       </example>
@@ -159,147 +103,30 @@ search_params = {
     <principle priority="high">
       <name>Implement Robust Ingestion Pipeline</name>
       <description>Build reliable data ingestion with error handling</description>
-      <components>
-        <component name="progress_tracking">
-          <![CDATA[
-from tqdm import tqdm
-import logging
-
-def ingest_with_progress(documents: List[dict], batch_size: int = 100):
-    """Ingest with progress tracking and error handling"""
-    
-    total_batches = (len(documents) - 1) // batch_size + 1
-    failed_batches = []
-    
-    with tqdm(total=len(documents), desc="Ingesting") as pbar:
-        for i in range(0, len(documents), batch_size):
-            batch = documents[i:i+batch_size]
-            
-            try:
-                # Generate embeddings
-                texts = [doc["text"] for doc in batch]
-                vectors = embeddings.embed_documents(texts)
-                
-                # Prepare data
-                data = [
-                    {
-                        "embedding": vector,
-                        "text": doc["text"],
-                        "source": doc.get("source", ""),
-                        "metadata": doc.get("metadata", {})
-                    }
-                    for doc, vector in zip(batch, vectors)
-                ]
-                
-                # Insert into database
-                client.insert(collection_name="knowledge_base", data=data)
-                pbar.update(len(batch))
-                
-            except Exception as e:
-                logging.error(f"Batch {i//batch_size} failed: {e}")
-                failed_batches.append((i, batch))
-                pbar.update(len(batch))
-    
-    # Retry failed batches
-    if failed_batches:
-        logging.info(f"Retrying {len(failed_batches)} failed batches")
-        for batch_idx, batch in failed_batches:
-            try:
-                # Retry logic here
-                pass
-            except Exception as e:
-                logging.error(f"Retry failed for batch {batch_idx}: {e}")
-    
-    client.flush(collection_name="knowledge_base")
-          ]]>
-        </component>
-      </components>
-    </principle>
-
-    <principle priority="medium">
-      <name>Optimize Chunking Strategy</name>
-      <description>Choose appropriate chunking for your documents</description>
-      <strategies>
-        <strategy name="fixed_size">
-          <chunk_size>400 characters (~300 tokens)</chunk_size>
-          <overlap>50 characters (12.5%)</overlap>
-          <best_for>General purpose, uniform documents</best_for>
-        </strategy>
-        <strategy name="semantic">
-          <description>Split on semantic boundaries</description>
-          <best_for>High-quality retrieval, structured documents</best_for>
-        </strategy>
-      </strategies>
+      <best_practices>
+        <practice>Check the connection and the schema before inserting</practice>
+        <practice>Insert one row per product with the fields in schema.py, then flush</practice>
+        <practice>Build the index and load the collection after the insert, as insert_sample_data.py does</practice>
+      </best_practices>
     </principle>
   </ingestion_practices>
 
   <search_optimization_practices>
-    <principle priority="high">
-      <name>Implement Hybrid Search</name>
-      <description>Combine vector and keyword search for better results</description>
-      <opensearch_example>
-        <![CDATA[
-def hybrid_search_opensearch(
-    query: str,
-    top_k: int = 10,
-    vector_weight: float = 0.7,
-    keyword_weight: float = 0.3
-):
-    """Hybrid search with configurable weights"""
-    
-    query_vector = embeddings.embed_query(query)
-    
-    search_body = {
-        "size": top_k,
-        "query": {
-            "bool": {
-                "should": [
-                    {
-                        "script_score": {
-                            "query": {"match_all": {}},
-                            "script": {
-                                "source": "knn_score",
-                                "lang": "knn",
-                                "params": {
-                                    "field": "embedding",
-                                    "query_value": query_vector,
-                                    "space_type": "cosinesimil"
-                                }
-                            },
-                            "boost": vector_weight
-                        }
-                    },
-                    {
-                        "match": {
-                            "text": {
-                                "query": query,
-                                "boost": keyword_weight
-                            }
-                        }
-                    }
-                ]
-            }
-        }
-    }
-    
-    return client.search(index="knowledge_base", body=search_body)
-        ]]>
-      </opensearch_example>
-    </principle>
-
     <principle priority="medium">
-      <name>Use Metadata Filtering</name>
-      <description>Narrow search scope with metadata filters</description>
+      <name>Filter on Scalar Fields</name>
+      <description>Narrow the search with a filter expression on the fields in schema.py</description>
       <example>
         <![CDATA[
+from schema import PRODUCT_OUTPUT_FIELDS, SEARCH_PARAMS, VECTOR_FIELD
+
 def search_with_filters(
     query: str,
     filters: dict,
     top_k: int = 10
 ):
-    """Search with metadata filtering"""
+    """Search with filters on the product fields"""
     
-    query_vector = embeddings.embed_query(query)
+    query_vector = model.encode([query], normalize_embeddings=True)[0].tolist()
     
     # Build filter expression for Milvus
     filter_conditions = []
@@ -315,84 +142,27 @@ def search_with_filters(
     filter_expr = " AND ".join(filter_conditions)
     
     results = client.search(
-        collection_name="knowledge_base",
+        collection_name=collection_name,
         data=[query_vector],
-        anns_field="embedding",
-        search_params={"metric_type": "COSINE", "params": {"ef": 100}},
+        anns_field=VECTOR_FIELD,
+        search_params=SEARCH_PARAMS,
         limit=top_k,
         filter=filter_expr,
-        output_fields=["text", "source", "metadata"]
+        output_fields=PRODUCT_OUTPUT_FIELDS
     )
     
     return results
 
-# Example usage
+# Example usage (the category values are in sample_products_en.py and sample_products_ja.py)
 results = search_with_filters(
-    query="machine learning algorithms",
-    filters={
-        "source": "technical_docs",
-        "language": "en",
-        "year": [2023, 2024]
-    },
+    query="lightweight laptop",
+    filters={"category": ["Computer", "Camera"]},
     top_k=5
 )
         ]]>
       </example>
     </principle>
   </search_optimization_practices>
-
-  <monitoring_practices>
-    <principle priority="medium">
-      <name>Monitor Vector Search Performance</name>
-      <description>Track key metrics for production systems</description>
-      <metrics_to_track>
-        <metric name="search_latency">
-          <description>Time to return search results</description>
-          <target>p95 &lt; 100ms for production</target>
-        </metric>
-        <metric name="recall">
-          <description>Proportion of relevant results retrieved</description>
-          <target>> 90% for most applications</target>
-        </metric>
-        <metric name="throughput">
-          <description>Queries per second</description>
-          <target>Depends on workload</target>
-        </metric>
-        <metric name="index_size">
-          <description>Memory usage of vector index</description>
-          <target>Monitor for capacity planning</target>
-        </metric>
-      </metrics_to_track>
-      <monitoring_example>
-        <![CDATA[
-import time
-from prometheus_client import Counter, Histogram
-
-# Define metrics
-search_latency = Histogram(
-    'vector_search_latency_seconds',
-    'Vector search latency'
-)
-search_counter = Counter(
-    'vector_search_total',
-    'Total vector searches'
-)
-
-def monitored_search(query: str, top_k: int = 5):
-    """Search with monitoring"""
-    start_time = time.time()
-    
-    try:
-        results = search_milvus(query, top_k)
-        search_counter.inc()
-        return results
-    finally:
-        latency = time.time() - start_time
-        search_latency.observe(latency)
-        ]]>
-      </monitoring_example>
-    </principle>
-  </monitoring_practices>
 
   <common_pitfalls>
     <pitfall>
@@ -402,27 +172,15 @@ def monitored_search(query: str, top_k: int = 5):
     </pitfall>
 
     <pitfall>
-      <mistake>Using default HNSW parameters for all workloads</mistake>
-      <consequence>Suboptimal performance or accuracy</consequence>
-      <solution>Tune parameters based on your recall/latency requirements</solution>
-    </pitfall>
-
-    <pitfall>
       <mistake>Not implementing batch processing</mistake>
       <consequence>Slow ingestion</consequence>
       <solution>Always batch embed and insert operations</solution>
     </pitfall>
 
     <pitfall>
-      <mistake>Ignoring metadata filtering capabilities</mistake>
+      <mistake>Ignoring filtering on scalar fields</mistake>
       <consequence>Irrelevant results, poor user experience</consequence>
-      <solution>Design schema with rich metadata for filtering</solution>
-    </pitfall>
-
-    <pitfall>
-      <mistake>Not monitoring production performance</mistake>
-      <consequence>Undetected degradation or failures</consequence>
-      <solution>Implement comprehensive monitoring and alerting</solution>
+      <solution>Filter on the scalar fields in schema.py</solution>
     </pitfall>
   </common_pitfalls>
 
