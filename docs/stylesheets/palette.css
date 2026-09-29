@@ -86,10 +86,12 @@ body, .md-typeset pre > code {
 }
 .md-top:hover { color: white !important; }
 
-/* Hide only the enclosing border, preserving spacing and focus behavior. */
+/* The enclosing border takes the title band's colour, as in the diagrams (a white body, a
+   tinted band, and a border of the band's colour), so no white seam shows between the band
+   and the edge. The band colour is defined per callout type below. */
 .md-typeset .admonition,
 .md-typeset details {
-    border-color: transparent !important;
+    border-color: var(--workshop-callout-band) !important;
 }
 
 /* A closed disclosure keeps a focus indicator only for keyboard navigation. */
@@ -107,11 +109,42 @@ body, .md-typeset pre > code {
     border: 0 !important;
     box-shadow: none !important;
 }
-.md-typeset table:not([class]),
 .md-search__form,
 .md-search__output,
 .md-top {
     border: 0 !important;
+}
+
+/* A table follows the admonitions and the diagrams: its shaded heading row is the band, the
+   border takes that colour so no seam shows between them, and it casts the admonitions'
+   shadow. The theme wraps each table in a horizontal scroll box that clips anything outside
+   it, so the box gets room above and below for the shadow. */
+.md-typeset table:not([class]) {
+    border: .075rem solid var(--workshop-surface) !important;
+    border-radius: .2rem;
+    box-shadow: var(--md-shadow-z1);
+    /* The table clips its rows at the rounded corners; a white table behind the heading row
+       would show as a light arc there, so the table takes the band colour and only the body
+       rows are white (row hover still paints above the body). */
+    background-color: var(--workshop-surface);
+}
+.md-typeset table:not([class]) tbody {
+    background-color: var(--md-default-bg-color);
+}
+.md-typeset__table {
+    padding-top: .35rem;
+    padding-bottom: .75rem;
+    margin-bottom: 0;
+}
+
+/* Diagrams (SVG files in images/) take the admonitions' shadow, the two layers of
+   --md-shadow-z1. drop-shadow follows the drawn frame, so the transparent margin that some
+   diagrams keep around their frame casts no shadow. In Chrome and WebKit a drop-shadow blur
+   spreads about twice as far as the same box-shadow blur, so each blur is halved to draw the
+   same shadow; the thin ring comes first because each drop-shadow also shadows the ones
+   before it. */
+.md-typeset img[src*="images/"][src$=".svg"] {
+    filter: drop-shadow(0 0 .025rem #0000001a) drop-shadow(0 .2rem .25rem #0000000d);
 }
 
 /* Grid the table body while keeping the shaded heading row uninterrupted. */
@@ -202,6 +235,18 @@ body[data-md-color-scheme="default"] {
 }
 .md-typeset details > summary.focus-visible {
     outline-color: var(--workshop-callout);
+}
+/* An open block shows neither mark, whether it was opened with the mouse or the keyboard: the
+   halo gives way to the block's usual shadow, and the title has no ring. A closed block keeps
+   both marks for keyboard focus, as above. The two ring selectors are again separate rules. */
+.md-typeset details[open][class]:focus-within {
+    box-shadow: var(--md-shadow-z1);
+}
+.md-typeset details[open] > summary:focus-visible {
+    outline: none;
+}
+.md-typeset details[open] > summary.focus-visible {
+    outline: none;
 }
 /* Completed tasks and checkboxes take the accent, like the scrollbars and the
    Next button's hover. */
