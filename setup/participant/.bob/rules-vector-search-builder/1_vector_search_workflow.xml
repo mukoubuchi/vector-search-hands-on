@@ -1,28 +1,27 @@
 <vector_search_builder_workflow>
   <overview>
-    This workflow guides you through setting up and configuring vector databases (Milvus or OpenSearch)
-    for semantic search and RAG applications using local Hugging Face (sentence-transformers) embeddings.
+    This workflow guides you through setting up and configuring the Milvus vector database
+    for semantic search using local Hugging Face (sentence-transformers) embeddings.
   </overview>
 
   <workspace>
-    This workspace already contains working code for this hands-on. Read it before generating new code, and follow it where it differs from the generic examples below.
+    This workspace already contains working code for this hands-on. Read it before generating new code, and follow it where it differs from the examples below.
     - setup/participant/.env holds the Milvus connection settings the instructor provided (MILVUS_HOST, MILVUS_PORT, MILVUS_USER, MILVUS_PASSWORD), EMBEDDING_MODEL, and COLLECTION_NAME.
     - setup/participant/common.py: connect_to_milvus() builds a MilvusClient from .env over http:// (the instructor's Milvus does not use TLS), and load_embedding_model() loads the sentence-transformers model named by EMBEDDING_MODEL.
-    - setup/participant/schema.py: the product collection schema and its index (IVF_FLAT, COSINE, nlist 128); the vector dimension comes from the embedding model.
-    - Embeddings are computed locally with model.encode(texts, normalize_embeddings=True). Where the examples below call embeddings.embed_query or embeddings.embed_documents, use that call instead.
+    - setup/participant/schema.py: the product collection schema (product_name, price, category, description, and the vector field), its index (IVF_FLAT, COSINE, nlist 128), and the search settings (nprobe 10); the vector dimension comes from the embedding model.
+    - setup/participant/insert_sample_data.py creates the collection and inserts the products from sample_products.py; setup/participant/app.py serves the /search API and the search screen.
+    - Embeddings are computed locally with model.encode(texts, normalize_embeddings=True).
     - To check the API, use FastAPI's TestClient instead of starting app.py; the user starts app.py in their own terminal.
     - Run the participant scripts with the Python in setup/participant/venv, where requirements.txt is installed.
   </workspace>
 
   <initialization>
     <step number="1">
-      <title>Understand Vector Search Requirements</title>
+      <title>Understand the Workspace</title>
       <actions>
-        <action>Identify the vector database technology (Milvus or OpenSearch)</action>
-        <action>Determine embedding model and dimensions</action>
-        <action>Assess scale requirements (document count, query volume)</action>
-        <action>Understand data sources and ingestion patterns</action>
-        <action>Define performance and latency targets</action>
+        <action>Read schema.py for the collection fields, the index, and the search settings</action>
+        <action>Read common.py for how the scripts connect to Milvus and load the embedding model named in .env</action>
+        <action>Read the existing script you are asked to change before editing it</action>
       </actions>
     </step>
 
@@ -46,97 +45,36 @@
       <title>Set Up Vector Database</title>
       <steps>
         <step>Test database connection</step>
-        <step>Create collection/index with appropriate schema</step>
-        <step>Configure vector dimensions to match embedding model</step>
-        <step>Select distance metric (cosine, L2, dot product)</step>
-        <step>Configure indexing algorithm (HNSW, IVF_FLAT, etc.)</step>
-        <step>Set up metadata fields for filtering</step>
+        <step>Create the collection with the schema and index in schema.py</step>
+        <step>Take the vector dimension from the embedding model</step>
+        <step>Use the COSINE metric with normalized embeddings</step>
+        <step>Configure the index in schema.py (IVF_FLAT, nlist 128)</step>
+        <step>Use the scalar fields in schema.py for filtering</step>
       </steps>
       
       <milvus_configuration>
         <collection_schema>
           <![CDATA[
-from pymilvus import DataType, MilvusClient
+from common import connect_to_milvus, load_embedding_model
+from schema import build_collection_schema, build_index_params, get_collection_name
 
-# Connect to Milvus
-client = MilvusClient(
-    uri=f"http://{os.getenv('MILVUS_HOST')}:{os.getenv('MILVUS_PORT')}",
-    user=os.getenv("MILVUS_USER"),
-    password=os.getenv("MILVUS_PASSWORD")
+client = connect_to_milvus()
+model = load_embedding_model()
+collection_name = get_collection_name()
+
+# The schema and the IVF_FLAT index (COSINE, nlist 128) come from schema.py;
+# the vector dimension comes from the embedding model
+client.create_collection(
+    collection_name=collection_name,
+    schema=build_collection_schema(model.get_embedding_dimension())
 )
 
-# Define collection schema
-schema = MilvusClient.create_schema(description="Vector search collection")
-schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True, auto_id=True)
-schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=768)
-schema.add_field(field_name="text", datatype=DataType.VARCHAR, max_length=65535)
-schema.add_field(field_name="source", datatype=DataType.VARCHAR, max_length=512)
-schema.add_field(field_name="metadata", datatype=DataType.JSON)
-
-client.create_collection(collection_name="knowledge_base", schema=schema)
-
-# Create HNSW index for optimal performance
-index_params = MilvusClient.prepare_index_params()
-index_params.add_index(
-    field_name="embedding",
-    index_type="HNSW",
-    metric_type="COSINE",
-    params={
-        "M": 16,              # Number of connections per layer
-        "efConstruction": 256  # Size of dynamic candidate list
-    }
-)
-client.create_index(collection_name="knowledge_base", index_params=index_params)
-client.load_collection(collection_name="knowledge_base")
+# insert_sample_data.py inserts the products before it builds the index and loads the collection
+client.create_index(collection_name=collection_name, index_params=build_index_params())
+client.load_collection(collection_name=collection_name)
           ]]>
         </collection_schema>
       </milvus_configuration>
-
-      <opensearch_configuration>
-        <![CDATA[
-from opensearchpy import OpenSearch
-
-# Connect to OpenSearch
-client = OpenSearch(
-    hosts=[{'host': os.getenv("OPENSEARCH_HOST"), 'port': 443}],
-    http_auth=(os.getenv("OPENSEARCH_USER"), os.getenv("OPENSEARCH_PASSWORD")),
-    use_ssl=True,
-    verify_certs=True
-)
-
-# Create index with k-NN configuration
-index_body = {
-    "settings": {
-        "index": {
-            "knn": True,
-            "knn.algo_param.ef_search": 100
-        }
-    },
-    "mappings": {
-        "properties": {
-            "embedding": {
-                "type": "knn_vector",
-                "dimension": 768,
-                "method": {
-                    "name": "hnsw",
-                    "space_type": "cosinesimil",
-                    "engine": "nmslib",
-                    "parameters": {
-                        "ef_construction": 128,
-                        "m": 16
-                    }
-                }
-            },
-            "text": {"type": "text"},
-            "source": {"type": "keyword"},
-            "metadata": {"type": "object"}
-        }
-    }
-}
-
-client.indices.create(index="knowledge_base", body=index_body)
-        ]]>
-      </opensearch_configuration>
     </phase>
 
     <phase name="embedding_configuration">
@@ -181,68 +119,40 @@ print(f"Embedding dimension: {len(test_vector)}")
     <phase name="ingestion_pipeline">
       <title>Implement Data Ingestion Pipeline</title>
       <steps>
-        <step>Set up document loaders for source formats</step>
-        <step>Implement text chunking strategy</step>
+        <step>Take the products from get_sample_products() in sample_products.py</step>
+        <step>Build the text to embed with product_text() in schema.py</step>
         <step>Generate embeddings in batches</step>
-        <step>Store vectors with metadata in database</step>
+        <step>Store vectors with the product fields in schema.py</step>
         <step>Implement error handling and logging</step>
         <step>Add progress tracking for large datasets</step>
       </steps>
       
       <ingestion_example>
         <![CDATA[
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import DirectoryLoader
-import logging
+from common import PARTICIPANT_LANGUAGE, connect_to_milvus, load_embedding_model
+from sample_products import get_sample_products
+from schema import VECTOR_FIELD, get_collection_name, product_text
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+client = connect_to_milvus()
+model = load_embedding_model()
+collection_name = get_collection_name()
+products = get_sample_products(PARTICIPANT_LANGUAGE)
 
-def ingest_documents(source_path: str, collection_name: str):
-    """Ingest documents into vector database"""
-    
-    # Load documents
-    logger.info(f"Loading documents from {source_path}")
-    loader = DirectoryLoader(source_path, glob="**/*.txt")
-    documents = loader.load()
-    logger.info(f"Loaded {len(documents)} documents")
-    
-    # Chunk documents
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=400,
-        chunk_overlap=50,
-        separators=["\n\n", "\n", ". ", " ", ""]
-    )
-    chunks = splitter.split_documents(documents)
-    logger.info(f"Created {len(chunks)} chunks")
-    
-    # Generate embeddings in batches
-    batch_size = 100
-    for i in range(0, len(chunks), batch_size):
-        batch = chunks[i:i+batch_size]
-        texts = [chunk.page_content for chunk in batch]
-        
-        # Generate embeddings
-        vectors = embeddings.embed_documents(texts)
-        
-        # Prepare data for insertion
-        data = [
-            {
-                "embedding": vector,
-                "text": chunk.page_content,
-                "source": chunk.metadata.get("source", ""),
-                "metadata": chunk.metadata
-            }
-            for chunk, vector in zip(batch, vectors)
-        ]
-        
-        # Insert into Milvus
-        client.insert(collection_name=collection_name, data=data)
-        logger.info(f"Inserted batch {i//batch_size + 1}/{(len(chunks)-1)//batch_size + 1}")
-    
-    # Flush to ensure data is persisted
-    client.flush(collection_name=collection_name)
-    logger.info("Ingestion complete")
+# One row per product: the fields in schema.py and the embedding of product_text()
+vectors = model.encode([product_text(p) for p in products], normalize_embeddings=True)
+rows = [
+    {
+        "product_name": p["product_name"],
+        "price": p["price"],
+        "category": p["category"],
+        "description": p["description"],
+        VECTOR_FIELD: vector,
+    }
+    for p, vector in zip(products, vectors.tolist())
+]
+
+client.insert(collection_name=collection_name, data=rows)
+client.flush(collection_name=collection_name)
         ]]>
       </ingestion_example>
     </phase>
@@ -251,201 +161,89 @@ def ingest_documents(source_path: str, collection_name: str):
       <title>Implement Vector Search</title>
       <steps>
         <step>Implement semantic search function</step>
-        <step>Add metadata filtering capabilities</step>
-        <step>Configure search parameters (top_k, threshold)</step>
-        <step>Implement hybrid search if using OpenSearch</step>
+        <step>Add filtering on the scalar fields in schema.py</step>
+        <step>Search with SEARCH_PARAMS from schema.py and choose top_k</step>
         <step>Add result formatting and ranking</step>
       </steps>
       
       <milvus_search>
         <![CDATA[
-def search_milvus(query: str, top_k: int = 5, filters: dict = None):
-    """Search Milvus vector database"""
-    
-    # Generate query embedding
-    query_vector = embeddings.embed_query(query)
-    
-    # Build filter expression
-    filter_expr = None
-    if filters:
-        filter_expr = " AND ".join([
-            f'{key} == "{value}"' for key, value in filters.items()
-        ])
-    
-    # Search
-    search_params = {
-        "metric_type": "COSINE",
-        "params": {"ef": 100}  # Search quality parameter
-    }
-    
+from schema import PRODUCT_OUTPUT_FIELDS, SEARCH_PARAMS, VECTOR_FIELD
+
+def search_products(query: str, top_k: int = 5, filter_expr: str = ""):
+    """Search the products, optionally narrowed by a filter expression"""
+
+    # Encode the query the same way as the products
+    query_vector = model.encode([query], normalize_embeddings=True)[0].tolist()
+
     results = client.search(
-        collection_name="knowledge_base",
+        collection_name=collection_name,
         data=[query_vector],
-        anns_field="embedding",
-        search_params=search_params,
+        anns_field=VECTOR_FIELD,
+        search_params=SEARCH_PARAMS,  # COSINE, nprobe 10
         limit=top_k,
-        filter=filter_expr,
-        output_fields=["text", "source", "metadata"]
+        filter=filter_expr,  # e.g. 'category == "Camera"'
+        output_fields=PRODUCT_OUTPUT_FIELDS
     )
     
-    # Format results
-    formatted_results = []
-    for hits in results:
-        for hit in hits:
-            formatted_results.append({
-                "text": hit["entity"].get("text"),
-                "source": hit["entity"].get("source"),
-                "metadata": hit["entity"].get("metadata"),
-                "score": hit["distance"]
-            })
-    
-    return formatted_results
+    # Each hit is {"id": ..., "distance": <COSINE score>, "entity": {field: value}}
+    return [
+        {**hit["entity"], "score": hit["distance"]}
+        for hit in results[0]
+    ]
         ]]>
       </milvus_search>
-
-      <opensearch_hybrid_search>
-        <![CDATA[
-def search_opensearch_hybrid(query: str, top_k: int = 5, filters: dict = None):
-    """Hybrid search combining vector and keyword search"""
-    
-    # Generate query embedding
-    query_vector = embeddings.embed_query(query)
-    
-    # Build hybrid query
-    search_body = {
-        "size": top_k,
-        "query": {
-            "bool": {
-                "should": [
-                    {
-                        "knn": {
-                            "embedding": {
-                                "vector": query_vector,
-                                "k": top_k
-                            }
-                        }
-                    },
-                    {
-                        "match": {
-                            "text": {
-                                "query": query,
-                                "boost": 0.3  # Weight keyword search lower
-                            }
-                        }
-                    }
-                ]
-            }
-        }
-    }
-    
-    # Add filters if provided
-    if filters:
-        search_body["query"]["bool"]["filter"] = [
-            {"term": {key: value}} for key, value in filters.items()
-        ]
-    
-    # Execute search
-    response = client.search(index="knowledge_base", body=search_body)
-    
-    # Format results
-    results = []
-    for hit in response["hits"]["hits"]:
-        results.append({
-            "text": hit["_source"]["text"],
-            "source": hit["_source"]["source"],
-            "metadata": hit["_source"]["metadata"],
-            "score": hit["_score"]
-        })
-    
-    return results
-        ]]>
-      </opensearch_hybrid_search>
     </phase>
 
     <phase name="testing_validation">
       <title>Test and Validate Setup</title>
       <steps>
         <step>Test database connection</step>
-        <step>Verify collection/index creation</step>
+        <step>Verify the collection, its row count, and its index</step>
         <step>Test embedding generation</step>
-        <step>Validate data ingestion</step>
-        <step>Test search functionality</step>
-        <step>Measure search latency and accuracy</step>
+        <step>Test the /search API with FastAPI's TestClient</step>
       </steps>
       
       <validation_script>
         <![CDATA[
-def validate_vector_search_setup():
-    """Comprehensive validation of vector search setup"""
-    
-    print("=== Vector Search Setup Validation ===\n")
-    
-    # 1. Test database connection
-    print("1. Testing database connection...")
-    try:
-        client.load_collection(collection_name="knowledge_base")
-        print("✓ Database connection successful")
-    except Exception as e:
-        print(f"✗ Database connection failed: {e}")
-        return False
-    
-    # 2. Verify collection schema
-    print("\n2. Verifying collection schema...")
-    collection_info = client.describe_collection(collection_name="knowledge_base")
-    print(f"✓ Collection: {collection_info['collection_name']}")
-    print(f"✓ Fields: {[field['name'] for field in collection_info['fields']]}")
-    
-    # 3. Test embedding generation
-    print("\n3. Testing embedding generation...")
-    test_text = "This is a test query"
-    test_vector = embeddings.embed_query(test_text)
-    print(f"✓ Generated embedding with {len(test_vector)} dimensions")
-    
-    # 4. Test search
-    print("\n4. Testing search functionality...")
-    results = search_milvus(test_text, top_k=3)
-    print(f"✓ Search returned {len(results)} results")
-    
-    # 5. Measure latency
-    print("\n5. Measuring search latency...")
-    import time
-    start = time.time()
-    for _ in range(10):
-        search_milvus(test_text, top_k=5)
-    avg_latency = (time.time() - start) / 10
-    print(f"✓ Average search latency: {avg_latency*1000:.2f}ms")
-    
-    print("\n=== Validation Complete ===")
-    return True
+from fastapi.testclient import TestClient
+
+from app import app
+
+# Entering the client runs the app's startup (model loading and the Milvus connection)
+# without starting a server; the user starts app.py in their own terminal
+with TestClient(app) as api:
+    print(api.get("/health").json())
+
+    response = api.post("/search", json={"query": "red sneakers", "top_k": 3})
+    response.raise_for_status()
+    for item in response.json()["results"]:
+        print(item["product_name"], item["similarity_score"])
         ]]>
       </validation_script>
     </phase>
 
     <phase name="code_generation">
-      <title>Generate Production Code</title>
+      <title>Extend the Existing Code</title>
       <steps>
-        <step>Read configuration from the existing .env; ask before adding keys to it</step>
-        <step>Generate connection utility module</step>
-        <step>Create ingestion script</step>
-        <step>Generate search API endpoints</step>
-        <step>Add error handling and logging</step>
-        <step>Create README with usage instructions</step>
+        <step>Keep configuration in .env and read it through common.py; ask before adding keys to .env</step>
+        <step>Change the existing scripts (common.py, schema.py, insert_sample_data.py, app.py) rather than adding new ones</step>
+        <step>Follow the error handling and messages of the existing code</step>
+        <step>Check the API with FastAPI's TestClient</step>
       </steps>
     </phase>
   </main_workflow>
 
   <performance_optimization>
     <optimization name="index_tuning">
-      <description>Optimize HNSW index parameters for your workload</description>
+      <description>Tune the IVF_FLAT index and search settings in schema.py (INDEX_PARAMS and SEARCH_PARAMS)</description>
       <parameters>
-        <param name="M">Number of connections per layer (8-64, default 16)</param>
-        <param name="efConstruction">Build quality (64-512, default 256)</param>
-        <param name="ef">Search quality (top_k to 512, default 100)</param>
+        <param name="nlist">Number of clusters built with the index (128 in INDEX_PARAMS)</param>
+        <param name="nprobe">Number of clusters searched per query (10 in SEARCH_PARAMS, up to nlist)</param>
       </parameters>
       <guidelines>
-        <guideline>Higher M = better recall, more memory</guideline>
-        <guideline>Higher efConstruction = better index quality, slower build</guideline>
-        <guideline>Higher ef = better recall, slower search</guideline>
+        <guideline>Higher nprobe = better recall, slower search</guideline>
+        <guideline>A new nlist takes effect when the index is rebuilt, for example when insert_sample_data.py recreates the collection</guideline>
       </guidelines>
     </optimization>
 
@@ -461,12 +259,11 @@ def validate_vector_search_setup():
 
   <completion_criteria>
     <criterion>Vector database is connected and accessible</criterion>
-    <criterion>Collection/index is created with correct schema</criterion>
+    <criterion>The collection matches the schema and index in schema.py</criterion>
     <criterion>Embedding generation is working with the model in EMBEDDING_MODEL</criterion>
-    <criterion>Data ingestion pipeline is functional</criterion>
+    <criterion>Data ingestion with insert_sample_data.py works</criterion>
     <criterion>Search returns relevant results</criterion>
-    <criterion>Performance meets latency requirements</criterion>
-    <criterion>All code is documented and tested</criterion>
+    <criterion>Each change is checked (the API with FastAPI's TestClient)</criterion>
   </completion_criteria>
 </vector_search_builder_workflow>
 

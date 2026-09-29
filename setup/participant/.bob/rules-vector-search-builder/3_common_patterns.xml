@@ -1,81 +1,31 @@
 <vector_search_common_patterns>
   <overview>
     Common code patterns and templates for vector search implementations
-    using Milvus, OpenSearch, and local Hugging Face (sentence-transformers) embeddings.
+    using Milvus and local Hugging Face (sentence-transformers) embeddings,
+    built on the helpers in common.py and schema.py.
   </overview>
 
   <connection_patterns>
     <pattern name="milvus_connection">
-      <description>Standard Milvus connection with error handling</description>
+      <description>Connect with the settings in .env through common.py</description>
       <code>
         <![CDATA[
 from pymilvus import MilvusClient
-import os
-import logging
 
-logger = logging.getLogger(__name__)
+from common import connect_to_milvus
 
-def connect_to_milvus():
-    """Connect to Milvus with retry logic"""
-    try:
-        client = MilvusClient(
-            uri=f"http://{os.getenv('MILVUS_HOST')}:{os.getenv('MILVUS_PORT', '19530')}",
-            user=os.getenv("MILVUS_USER"),
-            password=os.getenv("MILVUS_PASSWORD")
-        )
-        logger.info("Connected to Milvus successfully")
-        return client
-    except Exception as e:
-        logger.error(f"Failed to connect to Milvus: {e}")
-        return None
+# connect_to_milvus() reads MILVUS_HOST, MILVUS_PORT, MILVUS_USER, and MILVUS_PASSWORD
+# from .env and returns a MilvusClient connected over http://
+client = connect_to_milvus()
 
-def verify_connection(client: MilvusClient):
+def verify_connection(client: MilvusClient) -> bool:
     """Verify Milvus connection is active"""
     try:
-        collections = client.list_collections()
-        logger.info(f"Active collections: {collections}")
+        print(f"Collections: {client.list_collections()}")
         return True
     except Exception as e:
-        logger.error(f"Connection verification failed: {e}")
+        print(f"Connection verification failed: {e}")
         return False
-        ]]>
-      </code>
-    </pattern>
-
-    <pattern name="opensearch_connection">
-      <description>Standard OpenSearch connection with SSL</description>
-      <code>
-        <![CDATA[
-from opensearchpy import OpenSearch
-import os
-import logging
-
-logger = logging.getLogger(__name__)
-
-def connect_to_opensearch():
-    """Connect to OpenSearch with SSL"""
-    try:
-        client = OpenSearch(
-            hosts=[{
-                'host': os.getenv("OPENSEARCH_HOST"),
-                'port': int(os.getenv("OPENSEARCH_PORT", "443"))
-            }],
-            http_auth=(
-                os.getenv("OPENSEARCH_USER"),
-                os.getenv("OPENSEARCH_PASSWORD")
-            ),
-            use_ssl=True,
-            verify_certs=True,
-            ssl_show_warn=False
-        )
-        
-        # Verify connection
-        info = client.info()
-        logger.info(f"Connected to OpenSearch: {info['version']['number']}")
-        return client
-    except Exception as e:
-        logger.error(f"Failed to connect to OpenSearch: {e}")
-        return None
         ]]>
       </code>
     </pattern>
@@ -83,136 +33,27 @@ def connect_to_opensearch():
 
   <collection_management_patterns>
     <pattern name="create_milvus_collection">
-      <description>Create Milvus collection with standard schema</description>
+      <description>Create the product collection with the schema and index in schema.py</description>
       <code>
         <![CDATA[
-from pymilvus import DataType, MilvusClient
+from pymilvus import MilvusClient
 
-def create_collection(
-    client: MilvusClient,
-    collection_name: str,
-    dimension: int = 768,
-    description: str = "Vector search collection"
-):
-    """Create Milvus collection with standard schema"""
-    
-    # Create schema
-    schema = MilvusClient.create_schema(description=description)
-    
-    # Define fields
-    schema.add_field(
-        field_name="id",
-        datatype=DataType.INT64,
-        is_primary=True,
-        auto_id=True
-    )
-    schema.add_field(
-        field_name="embedding",
-        datatype=DataType.FLOAT_VECTOR,
-        dim=dimension
-    )
-    schema.add_field(
-        field_name="text",
-        datatype=DataType.VARCHAR,
-        max_length=65535
-    )
-    schema.add_field(
-        field_name="source",
-        datatype=DataType.VARCHAR,
-        max_length=512
-    )
-    schema.add_field(
-        field_name="metadata",
-        datatype=DataType.JSON
-    )
-    
-    # Create collection
+from schema import build_collection_schema, build_index_params
+
+def create_collection(client: MilvusClient, collection_name: str, dimension: int):
+    """Create the product collection; the vector dimension comes from the embedding model"""
     client.create_collection(
         collection_name=collection_name,
-        schema=schema
+        schema=build_collection_schema(dimension)
     )
     
-    # Create HNSW index
-    index_params = MilvusClient.prepare_index_params()
-    index_params.add_index(
-        field_name="embedding",
-        index_type="HNSW",
-        metric_type="COSINE",
-        params={
-            "M": 16,
-            "efConstruction": 256
-        }
-    )
-    
+def build_index_and_load(client: MilvusClient, collection_name: str):
+    """Build the IVF_FLAT index (COSINE, nlist 128) after the insert and load the collection"""
     client.create_index(
         collection_name=collection_name,
-        index_params=index_params
+        index_params=build_index_params()
     )
-        ]]>
-      </code>
-    </pattern>
-
-    <pattern name="create_opensearch_index">
-      <description>Create OpenSearch index with k-NN configuration</description>
-      <code>
-        <![CDATA[
-def create_opensearch_index(
-    client,
-    index_name: str,
-    dimension: int = 768
-):
-    """Create OpenSearch index with k-NN"""
-    
-    index_body = {
-        "settings": {
-            "index": {
-                "knn": True,
-                "knn.algo_param.ef_search": 100,
-                "number_of_shards": 2,
-                "number_of_replicas": 1
-            }
-        },
-        "mappings": {
-            "properties": {
-                "embedding": {
-                    "type": "knn_vector",
-                    "dimension": dimension,
-                    "method": {
-                        "name": "hnsw",
-                        "space_type": "cosinesimil",
-                        "engine": "nmslib",
-                        "parameters": {
-                            "ef_construction": 128,
-                            "m": 16
-                        }
-                    }
-                },
-                "text": {
-                    "type": "text",
-                    "analyzer": "standard"
-                },
-                "source": {
-                    "type": "keyword"
-                },
-                "metadata": {
-                    "type": "object",
-                    "enabled": True
-                },
-                "timestamp": {
-                    "type": "date"
-                }
-            }
-        }
-    }
-    
-    if not client.indices.exists(index=index_name):
-        client.indices.create(
-            index=index_name,
-            body=index_body
-        )
-        logger.info(f"Created index: {index_name}")
-    else:
-        logger.info(f"Index already exists: {index_name}")
+    client.load_collection(collection_name=collection_name)
         ]]>
       </code>
     </pattern>
@@ -220,110 +61,31 @@ def create_opensearch_index(
 
   <ingestion_patterns>
     <pattern name="batch_ingestion_milvus">
-      <description>Efficient batch ingestion for Milvus</description>
+      <description>Insert the products with their embeddings in one batch</description>
       <code>
         <![CDATA[
-from typing import List, Dict
-from tqdm import tqdm
+from typing import Dict, List
 
-def batch_ingest_milvus(
-    client: MilvusClient,
-    collection_name: str,
-    documents: List[Dict],
-    embeddings_client,
-    batch_size: int = 100
-):
-    """Batch ingest documents into Milvus"""
-    
-    total_inserted = 0
-    
-    with tqdm(total=len(documents), desc="Ingesting") as pbar:
-        for i in range(0, len(documents), batch_size):
-            batch = documents[i:i+batch_size]
-            
-            try:
-                # Extract texts
-                texts = [doc["text"] for doc in batch]
-                
-                # Generate embeddings
-                vectors = embeddings_client.embed_documents(texts)
-                
-                # Prepare data
-                data = [
-                    {
-                        "embedding": vector,
-                        "text": doc["text"],
-                        "source": doc.get("source", ""),
-                        "metadata": doc.get("metadata", {})
-                    }
-                    for doc, vector in zip(batch, vectors)
-                ]
-                
-                # Insert
-                client.insert(collection_name=collection_name, data=data)
-                total_inserted += len(batch)
-                pbar.update(len(batch))
-                
-            except Exception as e:
-                logger.error(f"Batch {i//batch_size} failed: {e}")
-                pbar.update(len(batch))
-    
-    # Flush to persist
+from pymilvus import MilvusClient
+
+from schema import VECTOR_FIELD, product_text
+
+def ingest_products(client: MilvusClient, collection_name: str, products: List[Dict], model) -> int:
+    """Embed product_text() for each product and insert one row per product"""
+    vectors = model.encode([product_text(p) for p in products], normalize_embeddings=True)
+    rows = [
+        {
+            "product_name": p["product_name"],
+            "price": p["price"],
+            "category": p["category"],
+            "description": p["description"],
+            VECTOR_FIELD: vector,
+        }
+        for p, vector in zip(products, vectors.tolist())
+    ]
+    client.insert(collection_name=collection_name, data=rows)
     client.flush(collection_name=collection_name)
-    logger.info(f"Ingested {total_inserted} documents")
-    
-    return total_inserted
-        ]]>
-      </code>
-    </pattern>
-
-    <pattern name="batch_ingestion_opensearch">
-      <description>Efficient batch ingestion for OpenSearch</description>
-      <code>
-        <![CDATA[
-from opensearchpy import helpers
-from datetime import datetime
-
-def batch_ingest_opensearch(
-    client,
-    index_name: str,
-    documents: List[Dict],
-    embeddings_client,
-    batch_size: int = 100
-):
-    """Batch ingest documents into OpenSearch"""
-    
-    def generate_actions():
-        """Generate bulk actions"""
-        for i in range(0, len(documents), batch_size):
-            batch = documents[i:i+batch_size]
-            texts = [doc["text"] for doc in batch]
-            
-            # Generate embeddings
-            vectors = embeddings_client.embed_documents(texts)
-            
-            for doc, vector in zip(batch, vectors):
-                yield {
-                    "_index": index_name,
-                    "_source": {
-                        "embedding": vector,
-                        "text": doc["text"],
-                        "source": doc.get("source", ""),
-                        "metadata": doc.get("metadata", {}),
-                        "timestamp": datetime.utcnow().isoformat()
-                    }
-                }
-    
-    # Bulk insert
-    success, failed = helpers.bulk(
-        client,
-        generate_actions(),
-        chunk_size=batch_size,
-        raise_on_error=False
-    )
-    
-    logger.info(f"Ingested {success} documents, {failed} failed")
-    return success
+    return len(rows)
         ]]>
       </code>
     </pattern>
@@ -331,24 +93,30 @@ def batch_ingest_opensearch(
 
   <search_patterns>
     <pattern name="semantic_search_milvus">
-      <description>Standard semantic search with Milvus</description>
+      <description>Semantic search over the products, with optional filters on the scalar fields</description>
       <code>
         <![CDATA[
-def search_milvus(
+from typing import Dict, List, Optional
+
+from pymilvus import MilvusClient
+
+from schema import PRODUCT_OUTPUT_FIELDS, SEARCH_PARAMS, VECTOR_FIELD
+
+def search_products(
     client: MilvusClient,
     collection_name: str,
-    embeddings_client,
+    model,
     query: str,
     top_k: int = 5,
-    filters: Dict = None
-):
+    filters: Optional[Dict] = None
+) -> List[Dict]:
     """Semantic search in Milvus"""
     
-    # Generate query embedding
-    query_vector = embeddings_client.embed_query(query)
+    # Encode the query the same way as the products
+    query_vector = model.encode([query], normalize_embeddings=True)[0].tolist()
     
     # Build filter expression
-    filter_expr = None
+    filter_expr = ""
     if filters:
         conditions = []
         for key, value in filters.items():
@@ -359,111 +127,22 @@ def search_milvus(
                 conditions.append(f'{key} in [{values_str}]')
         filter_expr = " AND ".join(conditions)
     
-    # Search parameters
-    search_params = {
-        "metric_type": "COSINE",
-        "params": {"ef": 100}
-    }
-    
-    # Execute search
+    # Execute search with the settings in schema.py (COSINE, nprobe 10)
     results = client.search(
         collection_name=collection_name,
         data=[query_vector],
-        anns_field="embedding",
-        search_params=search_params,
+        anns_field=VECTOR_FIELD,
+        search_params=SEARCH_PARAMS,
         limit=top_k,
         filter=filter_expr,
-        output_fields=["text", "source", "metadata"]
+        output_fields=PRODUCT_OUTPUT_FIELDS
     )
-    
-    # Format results
-    formatted = []
-    for hits in results:
-        for hit in hits:
-            formatted.append({
-                "id": hit["id"],
-                "text": hit["entity"].get("text"),
-                "source": hit["entity"].get("source"),
-                "metadata": hit["entity"].get("metadata"),
-                "score": hit["distance"]
-            })
-    
-    return formatted
-        ]]>
-      </code>
-    </pattern>
 
-    <pattern name="hybrid_search_opensearch">
-      <description>Hybrid search combining vector and keyword</description>
-      <code>
-        <![CDATA[
-def hybrid_search_opensearch(
-    client,
-    index_name: str,
-    embeddings_client,
-    query: str,
-    top_k: int = 5,
-    vector_weight: float = 0.7,
-    keyword_weight: float = 0.3,
-    filters: Dict = None
-):
-    """Hybrid search in OpenSearch"""
-    
-    # Generate query embedding
-    query_vector = embeddings_client.embed_query(query)
-    
-    # Build search query
-    search_body = {
-        "size": top_k,
-        "query": {
-            "bool": {
-                "should": [
-                    {
-                        "knn": {
-                            "embedding": {
-                                "vector": query_vector,
-                                "k": top_k
-                            }
-                        }
-                    },
-                    {
-                        "match": {
-                            "text": {
-                                "query": query,
-                                "boost": keyword_weight / vector_weight
-                            }
-                        }
-                    }
-                ]
-            }
-        }
-    }
-    
-    # Add filters
-    if filters:
-        search_body["query"]["bool"]["filter"] = [
-            {"term": {key: value}}
-            for key, value in filters.items()
-        ]
-    
-    # Execute search
-    response = client.search(
-        index=index_name,
-        body=search_body
-    )
-    
-    # Format results
-    results = []
-    for hit in response["hits"]["hits"]:
-        results.append({
-            "id": hit["_id"],
-            "text": hit["_source"]["text"],
-            "source": hit["_source"]["source"],
-            "metadata": hit["_source"]["metadata"],
-            "score": hit["_score"]
-        })
-    
-    return results
+    # Each hit is {"id": ..., "distance": <COSINE score>, "entity": {field: value}}
+    return [
+        {"id": hit["id"], **hit["entity"], "score": hit["distance"]}
+        for hit in results[0]
+    ]
         ]]>
       </code>
     </pattern>
@@ -471,60 +150,36 @@ def hybrid_search_opensearch(
 
   <utility_patterns>
     <pattern name="validation_utilities">
-      <description>Validation and testing utilities</description>
+      <description>Check the collection and the /search API without starting app.py</description>
       <code>
         <![CDATA[
-def validate_setup(client, collection_name, embeddings_client):
+from fastapi.testclient import TestClient
+
+from app import app
+from common import connect_to_milvus, get_entity_count
+from schema import get_collection_name
+
+def validate_setup() -> bool:
     """Validate vector search setup"""
     
     print("=== Validation Report ===\n")
     
-    # 1. Test embedding generation
-    print("1. Testing embedding generation...")
-    try:
-        test_vector = embeddings_client.embed_query("test")
-        print(f"✓ Generated {len(test_vector)}-dimensional embedding")
-    except Exception as e:
-        print(f"✗ Embedding generation failed: {e}")
+    # 1. Check the collection
+    client = connect_to_milvus()
+    collection_name = get_collection_name()
+    if not client.has_collection(collection_name):
+        print(f"✗ Collection not found: {collection_name}")
         return False
-    
-    # 2. Test collection access
-    print("\n2. Testing collection access...")
-    try:
-        client.load_collection(collection_name=collection_name)
-        num_entities = client.get_collection_stats(collection_name=collection_name)["row_count"]
-        print(f"✓ Collection loaded with {num_entities} entities")
-    except Exception as e:
-        print(f"✗ Collection access failed: {e}")
-        return False
-    
-    # 3. Test search
-    print("\n3. Testing search...")
-    try:
-        results = search_milvus(
-            client,
-            collection_name,
-            embeddings_client,
-            "test query",
-            top_k=3
-        )
-        print(f"✓ Search returned {len(results)} results")
-    except Exception as e:
-        print(f"✗ Search failed: {e}")
-        return False
-    
-    # 4. Measure latency
-    print("\n4. Measuring search latency...")
-    import time
-    latencies = []
-    for _ in range(10):
-        start = time.time()
-        search_milvus(client, collection_name, embeddings_client, "test", top_k=5)
-        latencies.append(time.time() - start)
-    
-    avg_latency = sum(latencies) / len(latencies)
-    print(f"✓ Average latency: {avg_latency*1000:.2f}ms")
-    
+    print(f"✓ {collection_name}: {get_entity_count(client, collection_name)} entities")
+
+    # 2. Check the API; entering the client runs the app's startup without starting a server
+    with TestClient(app) as api:
+        response = api.post("/search", json={"query": "test", "top_k": 3})
+        if response.status_code != 200:
+            print(f"✗ /search returned {response.status_code}: {response.text}")
+            return False
+        print(f"✓ /search returned {len(response.json()['results'])} results")
+
     print("\n=== Validation Complete ===")
     return True
         ]]>
