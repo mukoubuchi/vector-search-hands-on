@@ -94,9 +94,10 @@ body, .md-typeset pre > code {
     border-color: var(--workshop-callout-band) !important;
 }
 
-/* A closed disclosure keeps a focus indicator only for keyboard navigation. */
+/* A closed disclosure keeps a focus indicator only for keyboard navigation; otherwise it
+   casts the same shadow as the other callouts. */
 .md-typeset details:not([open]):not(:has(> summary:focus-visible)) {
-    box-shadow: none !important;
+    box-shadow: var(--md-shadow-z1) !important;
 }
 .md-typeset details:not([open]) > summary:focus:not(:focus-visible) {
     outline: none;
@@ -236,17 +237,10 @@ body[data-md-color-scheme="default"] {
 .md-typeset details > summary.focus-visible {
     outline-color: var(--workshop-callout);
 }
-/* An open block shows neither mark, whether it was opened with the mouse or the keyboard: the
-   halo gives way to the block's usual shadow, and the title has no ring. A closed block keeps
-   both marks for keyboard focus, as above. The two ring selectors are again separate rules. */
+/* An open block never shows the halo: it keeps its usual shadow. Its title shows the ring only
+   when it was reached from the keyboard (the focus-visible rules above), not after a click. */
 .md-typeset details[open][class]:focus-within {
     box-shadow: var(--md-shadow-z1);
-}
-.md-typeset details[open] > summary:focus-visible {
-    outline: none;
-}
-.md-typeset details[open] > summary.focus-visible {
-    outline: none;
 }
 /* Completed tasks and checkboxes take the accent, like the scrollbars and the
    Next button's hover. */
