@@ -104,7 +104,7 @@ Return products with similar meanings
 Enter the following in IBM Bob's chat screen:
 
 ```text
-Run setup/participant/test_connection.py with the Python in setup/participant/venv
+Test the Milvus connection.
 ```
 
 IBM Bob runs the connection test script. If IBM Bob asks for approval to run a command, approve it.
@@ -178,7 +178,7 @@ The connection test, sample data insertion script, and demo application all read
 Enter the following in IBM Bob's chat screen:
 
 ```text
-Run setup/participant/insert_sample_data.py
+Insert the sample data into Milvus with the provided script.
 ```
 
 IBM Bob runs the script and inserts the sample data.
