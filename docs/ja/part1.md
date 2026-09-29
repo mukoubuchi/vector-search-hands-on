@@ -104,7 +104,7 @@ Vector Search は「意味」を理解して検索します。以下の図は、
 IBM Bob のチャット画面で以下を入力:
 
 ```text
-setup/participant/venv の Python で setup/participant/test_connection.py を実行して
+Milvus への接続を確かめて。
 ```
 
 IBM Bob が接続テストのスクリプトを実行します。コマンドの実行の承認を求められたら、承認します。
@@ -172,7 +172,7 @@ Milvus 接続: ✓ 成功
 IBM Bob のチャット画面で以下を入力:
 
 ```text
-setup/participant/insert_sample_data.py を実行して
+用意されたスクリプトでサンプルデータを Milvus に投入して。
 ```
 
 IBM Bob がスクリプトを実行し、サンプルデータを投入します。

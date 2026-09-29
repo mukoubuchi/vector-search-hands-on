@@ -62,9 +62,8 @@ Press ++ctrl+c++ in the terminal running the application to stop it.
 
 Enter the following in the chat input field and press Enter:
 
-```
-Add an image_url field to the /search API JSON response so the search screen can display it.
-The product images are static/images/product-01.svg to product-12.svg, in the same order as SAMPLE_PRODUCTS.
+```text
+Show product images in the search results.
 ```
 
 **Key point**:
@@ -136,8 +135,7 @@ Press ++ctrl+c++ in the terminal running the application to stop it.
 Enter the following in the chat input field and press Enter:
 
 ```text
-Allow min_price and max_price to be specified in the /search API JSON request.
-Return only search results within the specified price range.
+Add a price range filter to the search.
 ```
 
 ### Step 3: Review IBM Bob's Changes
@@ -185,8 +183,7 @@ Press ++ctrl+c++ in the terminal running the application to stop it.
 Enter the following in the chat input field and press Enter:
 
 ```text
-Add a recommendation_reason field to the /search API JSON response.
-Generate the reason text based on similarity scores.
+Add a recommendation reason to each search result.
 ```
 
 ### Step 3: Review IBM Bob's Changes
