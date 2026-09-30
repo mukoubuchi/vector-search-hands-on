@@ -1,6 +1,6 @@
 /**
  * Search functionality
- * Handles search box interactions, closing behavior, and language filtering
+ * Handles search box interactions, closing behavior, language filtering, and the result count
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -86,6 +86,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // A result is shown when its page is in this page's language and is a top-tab page
+    function isShownResult(absolutePath) {
+        const sitePath = normalizeSitePath(absolutePath);
+        const itemIsJa = /\/ja(\/|$)/.test(sitePath);
+        return isJaLocale === itemIsJa && isAllowedPath(sitePath);
+    }
+
     function filterByLanguage() {
         document.querySelectorAll('.md-search-result__item').forEach(function(item) {
             const link = item.querySelector('a.md-search-result__link');
@@ -94,12 +101,50 @@ document.addEventListener('DOMContentLoaded', function() {
             const href = link.getAttribute('href');
             if (!href) return;
 
-            const absolutePath = new URL(href, window.location.href).pathname;
-            const sitePath = normalizeSitePath(absolutePath);
-            const itemIsJa = /\/ja(\/|$)/.test(sitePath);
-            const itemIsAllowed = isAllowedPath(sitePath);
+            item.style.display = isShownResult(new URL(href, window.location.href).pathname) ? '' : 'none';
+        });
+    }
 
-            item.style.display = (isJaLocale === itemIsJa && itemIsAllowed) ? '' : 'none';
+    // The search index holds both languages, and filterByLanguage only hides results, so
+    // Material's "N matching documents" line also counts the hidden ones. Rewrite it with the
+    // number of results the filter shows. Count from the full result list rather than the page:
+    // Material renders the first ten results and adds the rest as the list scrolls.
+    // window.component$ is Material's undocumented component stream, on which the search result
+    // component emits { ref, items } right after it writes its own count line. Recheck this
+    // when Material is upgraded (pinned to 9.7.6 in .github/workflows/ci.yml,
+    // .github/workflows/deploy-docs.yml, and setup/instructor/mkdocs.Dockerfile).
+    const configElement = document.getElementById('__config');
+    const materialConfig = configElement ? JSON.parse(configElement.textContent) : null;
+    // Result locations are relative to the site root. config.base is relative to the page the
+    // site was loaded on, so resolve it now; instant navigation keeps the language, and a
+    // language change reloads the page (see language-switcher.js).
+    const siteRoot = materialConfig ? new URL(materialConfig.base, window.location.href) : null;
+
+    function updateResultCount(result) {
+        const meta = result.ref.querySelector('.md-search-result__meta');
+        // An empty query keeps Material's own prompt
+        if (!meta || !searchInput || !searchInput.value) return;
+
+        const translations = materialConfig.translations;
+        const count = result.items.filter(function(item) {
+            return isShownResult(new URL(item[0].location, siteRoot).pathname);
+        }).length;
+
+        if (count === 0) {
+            meta.textContent = translations['search.result.none'];
+        } else if (count === 1) {
+            meta.textContent = translations['search.result.one'];
+        } else {
+            meta.textContent = translations['search.result.other'].replace('#', String(count));
+        }
+    }
+
+    if (materialConfig && window.component$) {
+        window.component$.subscribe(function(component) {
+            if (component && Array.isArray(component.items) && component.ref instanceof Element &&
+                component.ref.matches('[data-md-component="search-result"]')) {
+                updateResultCount(component);
+            }
         });
     }
 
