@@ -107,16 +107,21 @@ plugins:
             Summary: まとめ
             Feedback: フィードバック
 
+# Copy the sitemap into ja/, where Material looks for the Japanese one
+hooks: [lib/ja_sitemap_hook.py]
+
 # Extra settings
 extra:
   generator: false
-  # language-switcher.js rewrites these roots to the current page on each view.
+  # Relative, so they resolve under the site root wherever the site is served (GitHub
+  # Pages serves it under /<repository>/). language-switcher.js rewrites the language
+  # selector links to the current page on each view.
   alternate:
     - name: English
-      link: /
+      link: ./
       lang: en
     - name: 日本語
-      link: /ja/
+      link: ja/
       lang: ja
 
 # Custom CSS (modularized)
