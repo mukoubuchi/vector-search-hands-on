@@ -206,4 +206,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         bodyObserver.observe(document.body, { childList: true, subtree: true });
     }
+
+    // Search highlighting marks the words of the h parameter in the page URL each time the
+    // location changes, and never removes the marks already there. Within a page, instant
+    // navigation keeps the content, so a table-of-contents entry or the tab of the current page
+    // marked the same words again on top of the old marks. Once Material has taken the query for
+    // a page, drop h from the address bar (the path and the fragment stay) and from the links to
+    // this page, so later moves within the page carry no query and the words are marked once.
+    // A reload or a copied URL then shows no highlights.
+    // This relies on Material internals (9.7.6): the highlighting reads the page URL when it is
+    // set up for a page, which Material does before this document$ subscriber runs, and instant
+    // navigation resolves the links of a page against the URL the page was loaded with, so a
+    // fragment-only link such as a table-of-contents entry carries h.
+    function withoutHighlightQuery(href) {
+        const url = new URL(href, window.location.href);
+        if (!url.searchParams.has('h')) return null;
+        url.searchParams.delete('h');
+        return url;
+    }
+
+    function dropHighlightQuery() {
+        const current = withoutHighlightQuery(window.location.href);
+        if (current) history.replaceState(history.state, '', current.href);
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            // Search results carry the query on purpose
+            if (searchContainer && searchContainer.contains(link)) return;
+            const url = withoutHighlightQuery(link.href);
+            if (url && url.pathname === window.location.pathname) link.href = url.href;
+        });
+    }
+
+    if (window.document$) window.document$.subscribe(dropHighlightQuery);
 });
