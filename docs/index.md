@@ -107,7 +107,7 @@ Building Blocks provides the foundation right away and IBM Bob customizes it fro
 ### Comparison of Development Methods
 
 | Development Method | Time Required | Required Skills | Code Quality |
-|:---|---:|:---|:---|
+|:---|:---|:---|:---|
 | **Without Building Blocks** | Days to weeks | Programming, DB design, API design | Depends on developer skills |
 | **IBM Bob only** | Hours to days | Basic technical understanding | High quality but time-consuming to build |
 | **Building Blocks + IBM Bob** | Minutes to hours | Just need to instruct in natural language | Production-level high quality |
