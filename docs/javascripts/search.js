@@ -237,4 +237,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (window.document$) window.document$.subscribe(dropHighlightQuery);
+
+    // Escape takes the search highlights off the page when the search is closed and no input
+    // has the focus. keyboard$ is Material's documented hook for custom keys (Setting up
+    // navigation > Keyboard shortcuts); in its global mode Material leaves Escape unused and
+    // skips keys typed into inputs, and Escape in the open search still closes it. The
+    // highlights are Material's <mark data-md-highlight> elements (an internal detail of
+    // 9.7.6; marks written in Markdown have no such attribute): put their text back in place
+    // and join the split text again. Escape is claimed only when there was something to remove.
+    if (window.keyboard$) {
+        window.keyboard$.subscribe(function(key) {
+            if (key.mode !== 'global' || key.type !== 'Escape') return;
+            const marks = document.querySelectorAll(
+                '[data-md-component="content"] mark[data-md-highlight]'
+            );
+            if (!marks.length) return;
+            const parents = new Set();
+            // Document order: an outer mark is unwrapped before the marks nested in it
+            marks.forEach(function(mark) {
+                const parent = mark.parentNode;
+                if (!parent) return;
+                while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+                parent.removeChild(mark);
+                parents.add(parent);
+            });
+            parents.forEach(function(parent) {
+                if (parent.isConnected) parent.normalize();
+            });
+            key.claim();
+        });
+    }
 });
