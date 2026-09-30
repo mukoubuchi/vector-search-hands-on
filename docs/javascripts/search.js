@@ -50,6 +50,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeSearch();
             }
         });
+
+        // Load a result on the current page as a full page. Material's instant navigation
+        // replaces the page content only when the path changes, and its search highlighting
+        // adds <mark> elements without removing the ones from an earlier search, so following
+        // a result on the same page stacked the new highlights on the old ones; Material's
+        // history handling also put the earlier query back in the address bar. Results on
+        // other pages keep instant navigation, and clicks with a modifier key (a new tab or
+        // window) are left to the browser. Material's Enter clicks the best result, so it
+        // comes through here too.
+        searchContainer.addEventListener('click', function(event) {
+            if (event.defaultPrevented || event.button !== 0) return;
+            if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+            const link = event.target instanceof Element
+                ? event.target.closest('a.md-search-result__link')
+                : null;
+            if (!link || link.target) return;
+            const url = new URL(link.href, window.location.href);
+            if (url.pathname !== window.location.pathname) return;
+            // Keep the click from Material's instant navigation, which listens on the body.
+            event.preventDefault();
+            event.stopPropagation();
+            // A URL that differs only in its fragment scrolls within the page without loading
+            // it, so reload it after the move.
+            const fragmentOnly = url.search === window.location.search && url.hash !== '';
+            window.location.href = url.href;
+            if (fragmentOnly) window.location.reload();
+        });
     }
 
     // Filter search results to the current language only and to top-tab pages only
