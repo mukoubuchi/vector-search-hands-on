@@ -56,12 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // adds <mark> elements without removing the ones from an earlier search, so following
         // a result on the same page stacked the new highlights on the old ones; Material's
         // history handling also put the earlier query back in the address bar. Results on
-        // other pages keep instant navigation, and clicks with a modifier key (a new tab or
-        // window) are left to the browser. Material's Enter clicks the best result, so it
-        // comes through here too.
+        // other pages keep instant navigation. The clicks that Material's instant navigation
+        // leaves to the browser (a button other than the left one, Cmd or Ctrl, a link with a
+        // target) are left alone here too; Shift and Alt clicks, which Material takes over in
+        // the current tab, load the page as well. Material's Enter clicks the best result, so
+        // it comes through here too.
         searchContainer.addEventListener('click', function(event) {
             if (event.defaultPrevented || event.button !== 0) return;
-            if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+            if (event.ctrlKey || event.metaKey) return;
             const link = event.target instanceof Element
                 ? event.target.closest('a.md-search-result__link')
                 : null;
