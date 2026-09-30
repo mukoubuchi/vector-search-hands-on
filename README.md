@@ -227,7 +227,7 @@ Details: [docs/preparation.md](docs/preparation.md)
 ## Hands-on Flow
 
 | Part | Content | Time | Learning |
-|-------|------|---------|---------|
+|-------|------|--------:|---------|
 | [Preparation](docs/preparation.md) | Building Block setup | 10 min | Vector Search Builder installation |
 | [Part 1](docs/part1.md) | Experience Vector Search | 15 min | How semantic search works and its value |
 | [Part 2](docs/part2.md) | Add features with IBM Bob | 25 min | Development experience via natural language |
