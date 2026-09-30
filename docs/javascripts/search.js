@@ -93,6 +93,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return isJaLocale === itemIsJa && isAllowedPath(sitePath);
     }
 
+    // Take the results that are not shown out of the list rather than hiding them: Material's
+    // Enter opens the best-scored link in the list and its arrow keys step through every link,
+    // hidden or not, so a hidden result could be opened in the other language (Enter) or stop
+    // the arrow keys (a hidden link cannot take focus).
     function filterByLanguage() {
         document.querySelectorAll('.md-search-result__item').forEach(function(item) {
             const link = item.querySelector('a.md-search-result__link');
@@ -101,13 +105,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const href = link.getAttribute('href');
             if (!href) return;
 
-            item.style.display = isShownResult(new URL(href, window.location.href).pathname) ? '' : 'none';
+            if (!isShownResult(new URL(href, window.location.href).pathname)) item.remove();
         });
     }
 
-    // The search index holds both languages, and filterByLanguage only hides results, so
-    // Material's "N matching documents" line also counts the hidden ones. Rewrite it with the
-    // number of results the filter shows. Count from the full result list rather than the page:
+    // The search index holds both languages, and filterByLanguage takes the other results out
+    // of the list, so Material's "N matching documents" line also counts them. Rewrite it with
+    // the number of results the filter keeps. Count from the full result list rather than the page:
     // Material renders the first ten results and adds the rest as the list scrolls.
     // window.component$ is Material's undocumented component stream, on which the search result
     // component emits { ref, items } right after it writes its own count line. Recheck this
