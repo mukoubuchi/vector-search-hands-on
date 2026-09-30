@@ -29,7 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (searchToggle && searchContainer) {
         searchToggle.addEventListener('change', function() {
-            if (!searchToggle.checked) clearSearch();
+            if (searchToggle.checked) return;
+            clearSearch();
+            // Material opens the search only when the search field's focus changes to true;
+            // typing into the field does not open it. Material blurs the field on Escape and
+            // Tab, but not when Enter follows a result: after an instant navigation to a page
+            // without a fragment, the field keeps the focus, and neither clicking it nor typing
+            // in it opens the search again. Blur it whenever the search closes, as Material
+            // does on Escape and Tab.
+            if (searchInput && document.activeElement === searchInput) searchInput.blur();
         });
 
         document.addEventListener('pointerdown', function(event) {
