@@ -116,8 +116,6 @@
     .md-search__input {
         background-color: transparent;
         color: color-mix(in srgb, var(--md-primary-bg-color) 90%, transparent);
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
     }
     
     .md-search__input::placeholder {
