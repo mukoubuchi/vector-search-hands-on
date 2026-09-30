@@ -5,7 +5,7 @@ Unmodified WOFF2 files from [IBM/plex](https://github.com/IBM/plex/tree/bf260093
 Sans and Sans JP use Regular (400), SemiBold (600), and Bold (700); Mono uses Regular (400). Japanese fonts include their complete character coverage. Fonts load from this site without a third-party font service.
 
 | File | Bytes | SHA-256 |
-| --- | --- | --- |
+| --- | ---: | --- |
 | `IBMPlexSans-Regular.woff2` | 63020 | `ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a` |
 | `IBMPlexSans-SemiBold.woff2` | 67060 | `f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205` |
 | `IBMPlexSansJP-Regular.woff2` | 2282284 | `ec27e9b75cd90a6f7abe96ede49d00b151eb5b1c2c886bfe9b4fc845f40be1ff` |

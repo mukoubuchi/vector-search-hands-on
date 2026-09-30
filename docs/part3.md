@@ -62,7 +62,7 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
 #### Optional: Try Various Price Ranges
 
 | Search query | Minimum price | Maximum price |
-|--------------|---------------|---------------|
+|--------------|--------------:|--------------:|
 | camera | 500 | 1000 |
 | camera | 0 | 200 |
 
