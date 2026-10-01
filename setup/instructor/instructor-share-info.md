@@ -87,7 +87,7 @@ docker run --rm -u 0 -v instructor_milvus_data:/var/lib/milvus --entrypoint chow
 >
 >    - Access at: `http://localhost:8001` or `http://instructor-IP:8001`
 >    - All participants on the network can access
->    - After file changes, **manually reload browser** is required
+>    - After file changes, **reloading the browser manually** is required
 
 ### 2. Check Instructor IP Address
 

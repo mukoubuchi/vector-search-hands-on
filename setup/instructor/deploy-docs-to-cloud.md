@@ -285,7 +285,7 @@ Each accesses <http://localhost:8000> on their own machine.
 
 | Method | Benefits | Drawbacks | Recommended For |
 |------|---------|-----------|-----------|
-| **GitHub Pages** | Free, stable, HTTPS | Public repository required | When remote participants present |
+| **GitHub Pages** | Free, stable, HTTPS | Public repository required | When remote participants are present |
 | **ngrok** | Instantly public, easy | URL changes (free plan) | Temporary public access |
 | **Local delivery** | Secure, low latency | Same network required | On-site only |
 | **Static HTML distribution** | Works offline | Distribution effort | No internet available |

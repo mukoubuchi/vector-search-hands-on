@@ -13,7 +13,7 @@ In this hands-on workshop, you will combine **Building Blocks** and **IBM Bob** 
 
 This hands-on workshop demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 60 minutes**.
 
-**Without Building Blocks (Time required: days to weeks):**
+**Without Building Blocks:**
 
 ![Development flow without Building Blocks](images/without-building-blocks-en.svg)
 
@@ -154,7 +154,7 @@ Building Blocks provides the foundation right away and IBM Bob customizes it fro
 **Distributed by instructor**:
 
 - Hands-on procedure URL
-- Minimal Vector Search Builder participant package (`vector-search-builder-en.zip`)
+- Vector Search Builder participant package (`vector-search-builder-en.zip`)
 - Connection information (Milvus connection information)
 
 [Next →](preparation.md){ .workshop-next }
