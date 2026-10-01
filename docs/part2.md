@@ -98,7 +98,7 @@ If IBM Bob asks for approval to run a command, approve it.
     !!! note "Confirmation prompt"
         Because your collection already exists from Part 1, the script asks **`Drop and recreate this collection? [y/N]`**. Answer **`y`** (it only affects your own collection — the unique `COLLECTION_NAME` you set in `.env`).
 
-2. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
+2. Start the application ([:material-play-circle: How to start](part1.md#app-restart))
 3. Open the search screen (**`http://localhost:8002`**). If it is already open, reload the page
 4. Search for:
 
@@ -150,7 +150,7 @@ If IBM Bob asks for approval to run a command, approve it.
 
 ### Step 5: Verify Operation
 
-1. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
+1. Start the application ([:material-play-circle: How to start](part1.md#app-restart))
 2. Reload the search screen. The price filter is now available
 3. Enter **50** as the minimum price and **100** as the maximum price, then search for:
 
@@ -198,7 +198,7 @@ If IBM Bob asks for approval to run a command, approve it.
 
 ### Step 5: Verify Operation
 
-1. Start the application (execute **`python app.py`**. [:material-play-circle: How to start](part1.md#app-restart))
+1. Start the application ([:material-play-circle: How to start](part1.md#app-restart))
 2. Reload the search screen and search for:
 
     ```text
@@ -235,7 +235,7 @@ If IBM Bob asks for approval to run a command, approve it.
     2. Restart the application manually
     
         1. Press ++ctrl+c++ in the terminal running the application (stop)
-        2. Execute **`python app.py`** ([:material-play-circle: How to start](part1.md#app-restart))
+        2. Start the application ([:material-play-circle: How to start](part1.md#app-restart))
     3. Reload the search screen in the browser
     
     If you see `Address already in use`, the app that IBM Bob started for its own check is still running; reload the screen and continue.

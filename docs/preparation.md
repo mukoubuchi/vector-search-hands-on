@@ -14,7 +14,7 @@ You can open it using one of the following methods:
 
 - From the menu bar: <kbd>Terminal</kbd> → <kbd>New Terminal</kbd>
 - <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick)
-- Click the icon in the upper right, or <kbd>Cmd</kbd> + <kbd>J</kbd> (toggle panel)
+- Click the icon in the upper right (toggle panel)
 
 A black screen (terminal/command prompt) will appear at the bottom of the screen.
 

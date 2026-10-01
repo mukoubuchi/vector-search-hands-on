@@ -85,7 +85,7 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
     3. Restart the application manually
     
         1. Press ++ctrl+c++ in the terminal running the application (stop)
-        2. Execute **`python app.py`** ([:material-play-circle: How to start](part1.md#app-restart))
+        2. Start the application ([:material-play-circle: How to start](part1.md#app-restart))
 
 ## Step 2: Environment Cleanup
 

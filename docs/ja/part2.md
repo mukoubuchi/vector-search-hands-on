@@ -98,7 +98,7 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
     !!! note "確認プロンプトについて"
         Part 1 で作成したコレクションが既に存在するため、スクリプトが **`このコレクションを削除して作り直しますか？ [y/N]`** と確認してきます。**`y`** と答えてください（`.env` で設定した自分専用のコレクションのため、他の参加者には影響しません）。
 
-2. アプリケーションを起動（**`python app.py`** を実行。[:material-play-circle: 起動方法](part1.md#app-restart)）
+2. アプリケーションを起動（[:material-play-circle: 起動方法](part1.md#app-restart)）
 3. 検索画面を開く（**`http://localhost:8002`**）。既に開いている場合はページを再読み込み
 4. 以下を検索:
 
@@ -150,7 +150,7 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
 
 ### ステップ 5: 動作確認
 
-1. アプリケーションを起動（**`python app.py`** を実行。[:material-play-circle: 起動方法](part1.md#app-restart)）
+1. アプリケーションを起動（[:material-play-circle: 起動方法](part1.md#app-restart)）
 2. 検索画面を再読み込み。価格フィルターが使えるようになっている
 3. 価格の下限に **5000**、上限に **10000** を入力して、以下を検索:
 
@@ -198,7 +198,7 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
 
 ### ステップ 5: 動作確認
 
-1. アプリケーションを起動（**`python app.py`** を実行。[:material-play-circle: 起動方法](part1.md#app-restart)）
+1. アプリケーションを起動（[:material-play-circle: 起動方法](part1.md#app-restart)）
 2. 検索画面を再読み込みして、以下を検索:
 
     ```text
@@ -235,7 +235,7 @@ IBM Bob がコマンドの実行の承認を求めたら、承認します。
     2. アプリケーションを手動で再起動
     
         1. アプリケーションを起動しているターミナルで ++ctrl+c++（停止）
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](part1.md#app-restart)）
+        2. アプリケーションを起動（[:material-play-circle: 起動方法](part1.md#app-restart)）
     3. ブラウザで検索画面を再読み込み
     
     `Address already in use` と出る場合は、IBM Bob が確認用に起動したアプリが動いています。画面を再読み込みすれば使えます。

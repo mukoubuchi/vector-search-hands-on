@@ -85,7 +85,7 @@
     3. アプリケーションを手動で再起動
     
         1. アプリケーションを起動しているターミナルで ++ctrl+c++（停止）
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](part1.md#app-restart)）
+        2. アプリケーションを起動（[:material-play-circle: 起動方法](part1.md#app-restart)）
 
 ## ステップ 2: 環境のクリーンアップ
 

@@ -396,7 +396,7 @@ http://localhost:8002
     1. 最新の `insert_sample_data.py` でサンプルデータを再投入
     2. デモアプリケーションを手動で再起動
         1. アプリケーションを起動しているターミナルで ++ctrl+c++（停止）
-        2. **`python app.py`** を実行（[:material-play-circle: 起動方法](#app-restart)）
+        2. アプリケーションを起動（[:material-play-circle: 起動方法](#app-restart)）
     3. 検索画面で再度検索
 
     既存データが古い検索メトリックで作成されている場合、スコアが 0.06 のように低く表示されることがあります。

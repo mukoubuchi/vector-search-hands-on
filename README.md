@@ -185,7 +185,7 @@ Each zip contains only:
 
 - `.bob/custom_modes.yaml`
 - `.bob/rules-vector-search-builder/` (3 XML rule files)
-- `setup/participant/` (`.env.example`, Python scripts, and `requirements.txt`)
+- `setup/participant/` (`.env.example`, Python scripts, `requirements.txt`, and the search screen in `static/`)
 
 Instructor files, documentation files, local `.env` files, Python caches, and system files are intentionally excluded.
 

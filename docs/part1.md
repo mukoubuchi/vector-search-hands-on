@@ -398,7 +398,7 @@ As you try various searches, you should notice the following:
     1. Reinsert sample data with the latest `insert_sample_data.py`
     2. Restart the demo application manually
         1. Press ++ctrl+c++ in the terminal running the application (stop)
-        2. Execute **`python app.py`** ([:material-play-circle: How to start](#app-restart))
+        2. Start the application ([:material-play-circle: How to start](#app-restart))
     3. Search again on the search screen
 
     If the existing collection was created with an older search metric, scores may appear very low, such as 0.06.
