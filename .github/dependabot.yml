@@ -21,6 +21,10 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: torch
         update-types: ["version-update:semver-major"]
+      # sentence-transformers 6.1 requires huggingface-hub < 2.0, so a major
+      # bump of huggingface-hub waits for a sentence-transformers that accepts it
+      - dependency-name: huggingface-hub
+        update-types: ["version-update:semver-major"]
 
   # GitHub Actions versions in workflows
   - package-ecosystem: github-actions
