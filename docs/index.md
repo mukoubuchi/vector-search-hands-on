@@ -77,7 +77,7 @@ Responsibilities for each process:
     **With Building Blocks**: Install Vector Search Builder and instruct IBM Bob (minutes)
 
 ??? info "Unique Innovations in This Hands-on"
-    - **Shared Milvus**: The instructor runs Milvus for everyone ([`setup/instructor/docker-compose.yml`](https://github.com/mukoubuchi/vector-search-hands-on/blob/main/setup/instructor/docker-compose.yml)), so participants need only IBM Bob, the participant zip, and the connection information
+    - **Shared Milvus**: The instructor runs Milvus for everyone ([setup/instructor/docker-compose.yml](https://github.com/mukoubuchi/vector-search-hands-on/blob/main/setup/instructor/docker-compose.yml)), so participants need only IBM Bob, the participant zip, and the connection information
     - **On-site or remote**: The documentation is shared on the local network (`http://instructor IP:8001`) or through GitHub Pages or ngrok
     - **No API key**: Hugging Face Transformers creates the embeddings locally
     - **Step by step**: Part 1 tries Vector Search, Part 2 adds features with IBM Bob, and Part 3 checks them and cleans up
