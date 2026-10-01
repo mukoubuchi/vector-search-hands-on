@@ -25,7 +25,6 @@ In this part, you'll experience how Vector Search works in practice.
 **Why not found?**
 
 - Traditional search only looks for "characters"
-- "red" and "red" (in different forms) are treated as different characters
 
 ### How Vector Search Works
 
@@ -73,7 +72,6 @@ Vector Search searches by understanding "meaning".
 **Why found?**
 
 - Vector Search understands "meaning"
-- "red" "red" "red" (in various forms) → Understood as the same meaning
 - "sneakers" "running shoes" "sports shoes" → Understood as similar meanings
 
 ### How Vector Search Operates
@@ -146,12 +144,6 @@ Milvus connection: ✓ success
 ✓ Milvus connection test passed!
   Next step: Create vector collection
 ```
-
-**What is this?**:
-
-- **Milvus**: Vector database (where data is stored)
-- **Embedding model**: Converts text to vectors
-- **384 dimensions**: Represents meaning with 384 numbers
 
 The connection test, sample data insertion script, and demo application all read the same `.env` connection settings. If this test succeeds, the next steps use the same Milvus host, port, and authentication method.
 
@@ -406,7 +398,7 @@ As you try various searches, you should notice the following:
     1. Reinsert sample data with the latest `insert_sample_data.py`
     2. Restart the demo application manually
         1. Press ++ctrl+c++ in the terminal running the application (stop)
-        2. Execute **`python app.py`** ([:material-play-circle: How to start](#app-restart))
+        2. Start the application ([:material-play-circle: How to start](#app-restart))
     3. Search again on the search screen
 
     If the existing collection was created with an older search metric, scores may appear very low, such as 0.06.

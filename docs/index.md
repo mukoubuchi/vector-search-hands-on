@@ -13,7 +13,7 @@ In this hands-on workshop, you will combine **Building Blocks** and **IBM Bob** 
 
 This hands-on workshop demonstrates how combining **Building Blocks** (pre-built technical components) with **IBM Bob** (an AI development assistant) can complete development that would typically take days to weeks in **approximately 60 minutes**.
 
-**Without Building Blocks (Time required: days to weeks):**
+**Without Building Blocks:**
 
 ![Development flow without Building Blocks](images/without-building-blocks-en.svg)
 
@@ -77,9 +77,7 @@ Responsibilities for each process:
     **With Building Blocks**: Install Vector Search Builder and instruct IBM Bob (minutes)
 
 ??? info "Unique Innovations in This Hands-on"
-    Paths are relative to the [mukoubuchi/vector-search-hands-on](https://github.com/mukoubuchi/vector-search-hands-on) repository.
-
-    - **Shared Milvus**: The instructor runs Milvus for everyone (`setup/instructor/docker-compose.yml`), so participants need only IBM Bob, the participant zip, and the connection information
+    - **Shared Milvus**: The instructor runs Milvus for everyone ([setup/instructor/docker-compose.yml](https://github.com/mukoubuchi/vector-search-hands-on/blob/main/setup/instructor/docker-compose.yml)), so participants need only IBM Bob, the participant zip, and the connection information
     - **On-site or remote**: The documentation is shared on the local network (`http://instructor IP:8001`) or through GitHub Pages or ngrok
     - **No API key**: Hugging Face Transformers creates the embeddings locally
     - **Step by step**: Part 1 tries Vector Search, Part 2 adds features with IBM Bob, and Part 3 checks them and cleans up
@@ -156,7 +154,7 @@ Building Blocks provides the foundation right away and IBM Bob customizes it fro
 **Distributed by instructor**:
 
 - Hands-on procedure URL
-- Minimal Vector Search Builder participant package (`vector-search-builder-en.zip`)
+- Vector Search Builder participant package (`vector-search-builder-en.zip`)
 - Connection information (Milvus connection information)
 
 [Next →](preparation.md){ .workshop-next }

@@ -44,7 +44,6 @@ docker run --rm -u 0 -v instructor_milvus_data:/var/lib/milvus --entrypoint chow
 >
 > - Due to docker-compose port mapping (`8001:8000`), the instructor accesses on port 8001
 > - **All participants on the same network can access documentation at `instructor IP:8001`**
-> - Port 8000 may conflict with participants' FastAPI apps, so port 8001 is used
 > - This eliminates the need for each participant to start their own documentation server
 >
 > [!IMPORTANT]
@@ -87,7 +86,7 @@ docker run --rm -u 0 -v instructor_milvus_data:/var/lib/milvus --entrypoint chow
 >
 >    - Access at: `http://localhost:8001` or `http://instructor-IP:8001`
 >    - All participants on the network can access
->    - After file changes, **manually reload browser** is required
+>    - After file changes, **reloading the browser manually** is required
 
 ### 2. Check Instructor IP Address
 
@@ -254,7 +253,7 @@ MILVUS_PASSWORD=<printed by start-all.sh>
 
 - [ ] Downloaded the participant zips from the [latest release assets](https://github.com/mukoubuchi/vector-search-hands-on/releases/latest) (or built them with `./build-participant-zips.sh`)
 - [ ] Distributed the minimal participant zip for each language (`vector-search-builder-en.zip` or `vector-search-builder-ja.zip`)
-- [ ] Shared connection information (IP address + documentation URL)
+- [ ] Shared connection information (IP address + Milvus password + documentation URL)
 - [ ] Confirmed participants completed connection test
 
 ### Troubleshooting Preparation

@@ -14,7 +14,7 @@ You can open it using one of the following methods:
 
 - From the menu bar: <kbd>Terminal</kbd> → <kbd>New Terminal</kbd>
 - <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick)
-- Click the icon in the upper right, or <kbd>Cmd</kbd> + <kbd>J</kbd> (toggle panel)
+- Click the icon in the upper right (toggle panel)
 
 A black screen (terminal/command prompt) will appear at the bottom of the screen.
 
@@ -364,7 +364,7 @@ Directly specify the Python executable inside `venv` to install Python packages.
 - [ ] Opened `vector-search-builder-en` folder in IBM Bob
 - [ ] "Vector Search Builder" mode is displayed
 - [ ] Entered connection information in **`setup/participant/.env`** file
-- [ ] **Created and activated virtual environment** (`(venv)` is displayed in prompt)
+- [ ] **Created and activated virtual environment** (the `venv` folder is created)
 - [ ] Installed Python packages in virtual environment
 
 ## FAQ

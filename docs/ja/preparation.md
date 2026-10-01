@@ -12,7 +12,7 @@
 
 - メニューバーから <kbd>ターミナル</kbd> → <kbd>新しいターミナル</kbd>
 - <kbd>Ctrl</kbd> + <kbd>`</kbd>（バッククォート）
-- 右上のアイコンをクリック、または <kbd>Cmd</kbd> + <kbd>J</kbd>（パネルの切り替え）
+- 右上のアイコンをクリック（パネルの切り替え）
 
 画面下部に黒い画面（ターミナル / コマンドプロンプト）が表示されます。
 
@@ -44,8 +44,6 @@
 
 !!! note "このモードの配布について"
     Building Blocks は 2026 年 4 月 30 日版を最後にこのモードの配布を終えました（[ibm-self-serve-assets/building-blocks](https://github.com/ibm-self-serve-assets/building-blocks)、b64ca4c）。このハンズオンでは最終版を MilvusClient API と作業環境に合わせて更新し、同梱・保守しています。
-
-**カスタムモード** = 特定の技術や用途に合わせてカスタマイズされた専用モード
 
 #### Vector Search Builder の概要
 
@@ -276,7 +274,7 @@ Python 3.10 以上がインストールされていない場合は、インス�
     **公式サイト**: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
     !!! warning "インストール時の注意"
-        インストーラー最初の画面で **Add python.exe to PATH** にチェックを入れてから、**Install Now** をクリックしてください。チェックを入れないと、コマンドプロンプトから `python` や `pip` を実行できない場合があります。
+        インストーラーの最初の画面で **Add python.exe to PATH** にチェックを入れてから、**Install Now** をクリックしてください。チェックを入れないと、コマンドプロンプトから `python` や `pip` を実行できない場合があります。
 
 #### ステップ 2: 仮想環境の作成（重要）
 

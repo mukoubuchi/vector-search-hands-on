@@ -179,13 +179,13 @@ Details: [setup/instructor/deploy-docs-to-cloud.md](setup/instructor/deploy-docs
 
 The two packages use the same participant scripts. Each package includes only the sample data file for its language, and its packaged `.env.example` is generated from the matching source template (`.env.example.en` / `.env.example.ja`) so sample product data and runtime messages match the hands-on language.
 
-The participant scripts read Milvus credentials from `setup/participant/.env`; credentials are not hardcoded in the Python code. Production-oriented review suggestions such as validation, logging, CORS restrictions, caching, and tests are treated as Part 3 code review discussion points.
+The participant scripts read Milvus credentials from `setup/participant/.env`; credentials are not hardcoded in the Python code.
 
 Each zip contains only:
 
 - `.bob/custom_modes.yaml`
 - `.bob/rules-vector-search-builder/` (3 XML rule files)
-- `setup/participant/` (`.env.example`, Python scripts, and `requirements.txt`)
+- `setup/participant/` (`.env.example`, Python scripts, `requirements.txt`, and the search screen in `static/`)
 
 Instructor files, documentation files, local `.env` files, Python caches, and system files are intentionally excluded.
 
