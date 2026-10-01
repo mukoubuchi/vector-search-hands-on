@@ -21,7 +21,7 @@ python-dotenv==1.2.3
 # Sentence Transformers dependencies
 transformers==5.17.0
 torch==2.14.0
-huggingface_hub==1.32.0
+huggingface_hub==2.0.0
 numpy==2.4.6
 
 # FastAPI dependencies
