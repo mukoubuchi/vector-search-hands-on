@@ -76,9 +76,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
     **Vector Search Builder モード使用あり**: Vector Search Builder をインストールし、IBM Bob に指示（数分）
 
 ??? info "このハンズオンの独自の工夫"
-    パスは [mukoubuchi/vector-search-hands-on](https://github.com/mukoubuchi/vector-search-hands-on) リポジトリを基準にしています。
-
-    - **Milvus は講師が用意**: 講師が全員分の Milvus を動かす（`setup/instructor/docker-compose.yml`）ため、受講者は IBM Bob、受講者用 zip、接続情報だけで参加できます
+    - **Milvus は講師が用意**: 講師が全員分の Milvus を動かす（[`setup/instructor/docker-compose.yml`](https://github.com/mukoubuchi/vector-search-hands-on/blob/main/setup/instructor/docker-compose.yml)）ため、受講者は IBM Bob、受講者用 zip、接続情報だけで参加できます
     - **オンサイトとリモートに対応**: ドキュメントはローカルネットワーク（`http://講師 IP:8001`）、または GitHub Pages や ngrok で共有します
     - **API キー不要**: 埋め込みは Hugging Face Transformers がローカルで作ります
     - **段階的な構成**: Part 1 で Vector Search を体験し、Part 2 で IBM Bob と機能を追加し、Part 3 で動作確認と後始末をします

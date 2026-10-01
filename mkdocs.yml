@@ -34,7 +34,7 @@ theme:
   # Load bundled IBM Plex fonts through local CSS; do not request Google Fonts.
   font: false
 
-# Repository info (kept out of the header; the source URL is listed in the home page)
+# Repository info (kept out of the header; the home page links to the instructor compose file in it)
 # repo_name: vector-search-hands-on
 # repo_url: https://github.com/mukoubuchi/vector-search-hands-on
 
