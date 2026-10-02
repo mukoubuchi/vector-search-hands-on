@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-SKIP_LABEL="translation-sync-skip"
-SKIP_MARKER="[skip translation-sync]"
 # Commit trailer that declares one file as an intentional one-language change,
 # for example "Translation-Sync-Skip: docs/ja/part2.md" (one file per trailer)
 SKIP_TRAILER="Translation-Sync-Skip"
@@ -63,12 +61,6 @@ write_multiline_output() {
     else
         printf '%s:\n%s\n' "$name" "$value"
     fi
-}
-
-skip_with_success() {
-    echo "$1"
-    write_output "needs_sync" "false"
-    exit 0
 }
 
 # Print the paths declared with SKIP_TRAILER in the given commits, one per line.
@@ -158,16 +150,6 @@ append_missing_file() {
         printf -- '- %s' "$line"
     fi
 }
-
-if [ "${GITHUB_EVENT_NAME:-}" = "pull_request" ] \
-    && printf '%s' "${PR_LABELS:-}" | grep -q "\"$SKIP_LABEL\""; then
-    skip_with_success "Skipping translation sync check because $SKIP_LABEL label is present"
-fi
-
-if [ "${GITHUB_EVENT_NAME:-}" = "push" ] \
-    && printf '%s' "${COMMIT_MESSAGE:-}" | grep -Fqi "$SKIP_MARKER"; then
-    skip_with_success "Skipping translation sync check because commit message contains $SKIP_MARKER"
-fi
 
 declared_paths=""
 changed_files_for_event
