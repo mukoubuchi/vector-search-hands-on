@@ -26,6 +26,8 @@ docs/
 │   ├── feedback.md           # Participant feedback form
 │   └── translation-sync.md   # Internal translation sync guide
 ├── images/                   # Diagrams, SVG images, and screenshots
+├── assets/                   # Bundled IBM Plex fonts
+├── demo/                     # Browser demo of the search screen
 ├── stylesheets/              # Custom CSS (modularized)
 │   ├── extra.css             # Main CSS file (imports each module)
 │   ├── typography.css        # Typography styles
@@ -33,12 +35,16 @@ docs/
 │   ├── code.css              # Code block styles
 │   ├── components.css        # UI component styles
 │   ├── feedback.css          # Feedback form styles
-│   └── language-switcher.css # Language switcher styles
+│   ├── language-switcher.css # Language switcher styles
+│   ├── palette.css           # Color palette
+│   └── fonts.css             # Bundled IBM Plex font faces
 └── javascripts/              # Custom JavaScript (modularized)
     ├── site-config.js        # Shared site paths and language settings
     ├── search.js             # Search functionality
     ├── navigation.js         # Navigation functionality
+    ├── selector-indicator.js # Tab selection underline
     ├── toc-indicator.js      # TOC current-section reading indicator
+    ├── steps.js              # Numbered step rail
     ├── tasks.js              # Task list functionality
     ├── feedback.js           # Feedback form copy support
     ├── syntax-highlight.js   # Enhanced syntax highlighting

@@ -198,7 +198,7 @@ Configure the IP address distributed by the instructor.
         # Collection name (Milvus is shared by all participants)
         COLLECTION_NAME=products_taro  # ← Change to a name unique to you
         
-        # No need to change below
+        # No changes needed below
         MILVUS_USER=root
         EMBEDDING_MODEL=paraphrase-multilingual-MiniLM-L12-v2
         PARTICIPANT_LANGUAGE=en
