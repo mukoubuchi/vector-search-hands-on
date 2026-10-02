@@ -26,6 +26,8 @@ docs/
 │   ├── feedback.md           # 受講者フィードバックフォーム
 │   └── translation-sync.md   # 内部向け翻訳同期ガイド
 ├── images/                   # 図解、SVG 画像、スクリーンショット
+├── assets/                   # 同梱の IBM Plex フォント
+├── demo/                     # 検索画面のブラウザ版デモ
 ├── stylesheets/              # カスタム CSS（モジュール化）
 │   ├── extra.css             # メイン CSS ファイル（各モジュールをインポート）
 │   ├── typography.css        # タイポグラフィスタイル
@@ -33,12 +35,16 @@ docs/
 │   ├── code.css              # コードブロックスタイル
 │   ├── components.css        # UI コンポーネントスタイル
 │   ├── feedback.css          # フィードバックフォームスタイル
-│   └── language-switcher.css # 言語切り替えスタイル
+│   ├── language-switcher.css # 言語切り替えスタイル
+│   ├── palette.css           # 配色
+│   └── fonts.css             # 同梱の IBM Plex の書体の定義
 └── javascripts/              # カスタム JavaScript（モジュール化）
     ├── site-config.js        # 共通のページパス・言語設定
     ├── search.js             # 検索機能
     ├── navigation.js         # ナビゲーション機能
+    ├── selector-indicator.js # タブの選択の下線
     ├── toc-indicator.js      # 目次の現在セクション表示
+    ├── steps.js              # 番号付きのステップのレール
     ├── tasks.js              # タスクリスト機能
     ├── feedback.js           # フィードバックのコピー支援
     ├── syntax-highlight.js   # シンタックスハイライト強化

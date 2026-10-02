@@ -389,6 +389,7 @@ Details: [Building Blocks Documentation](https://ibm-self-serve-assets.github.io
 vector-search-hands-on/
 ├── .github/                               # GitHub Actions and Dependabot configuration
 │   ├── dependabot.yml                     # Automated dependency updates
+│   ├── release-assets/                    # Images shown in the release notes
 │   └── workflows/
 │       ├── ci.yml                         # CI checks (lint, build, zip verification)
 │       ├── deploy-docs.yml                # GitHub Pages auto-deploy
@@ -417,11 +418,15 @@ vector-search-hands-on/
 │   │   ├── feedback.md                    # Participant feedback form
 │   │   └── translation-sync.md            # Internal translation sync guide (excluded from MkDocs nav)
 │   ├── images/                            # Diagrams, SVG images, and screenshots (EN/JA where needed)
+│   ├── assets/                            # Bundled IBM Plex fonts
+│   ├── demo/                              # Browser demo of the search screen
 │   ├── javascripts/                       # Custom JavaScript
 │   └── stylesheets/                       # Custom CSS
+├── overrides/                             # Material theme override for the navigation tabs
 ├── setup/
 │   ├── instructor/                        # Instructor setup
 │   │   ├── docker-compose.yml             # Milvus environment definition
+│   │   ├── embedEtcd.yaml                 # Embedded etcd settings for Milvus standalone
 │   │   ├── mkdocs.Dockerfile              # Docs container image (pinned plugins)
 │   │   ├── .env.example                   # Environment variables template
 │   │   ├── start-all.sh                   # Start services, generate credentials
@@ -451,7 +456,10 @@ vector-search-hands-on/
 │       └── test_embeddings_hf.py          # Embedding model test
 ├── lib/                                   # Common libraries
 │   ├── common.sh                          # Common shell functions
-│   └── check_translation_sync.sh          # Shared translation sync checker
+│   ├── check_translation_sync.sh          # Shared translation sync checker
+│   ├── ja_sitemap_hook.py                 # MkDocs hook that copies the sitemap into ja/
+│   └── sync_browser_demo.py               # Copies the search screen into the browser demo
+├── .gitignore                             # Git ignore rules
 ├── LICENSE                                # Apache-2.0 license
 ├── mkdocs.yml                             # MkDocs configuration
 └── README.md                              # This file
