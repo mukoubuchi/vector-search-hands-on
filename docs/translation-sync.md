@@ -82,10 +82,16 @@ When creating a Pull Request, please check:
 
 ### 4. Intentional One-language Updates
 
-If a one-language-only update is intentional:
+If a one-language-only update is intentional, declare each such file with a trailer in a commit message:
 
-- Add the `translation-sync-skip` label to the Pull Request
-- Include `[skip translation-sync]` in the merge commit message so the push-to-main backstop does not create an issue
+```bash
+git commit -m "docs: fix a typo in the Japanese Part 2" \
+  --trailer "Translation-Sync-Skip: docs/ja/part2.md"
+```
+
+- Write the path of the file you changed, one trailer per file, in the last paragraph of the message. A failed check lists the trailers to add
+- The check skips only the declared files and still fails on a missing counterpart of any other file
+- The `translation-sync-skip` label and `[skip translation-sync]` in the merge commit message still skip the whole check, including real omissions
 
 ## Workflow Files
 
@@ -99,7 +105,7 @@ Checks JA → EN sync by calling `lib/check_translation_sync.sh` with `SOURCE_LO
 
 ### `lib/check_translation_sync.sh`
 
-Contains the common changed-file detection, skip-label handling, counterpart mapping, and GitHub Actions output writing used by both sync workflows.
+Contains the common changed-file detection, skip handling (trailers, label, and merge commit marker), counterpart mapping, and GitHub Actions output writing used by both sync workflows.
 
 ## Issue Labels
 
@@ -136,7 +142,7 @@ When a sync issue is created:
 
 ### Q1: What if I intentionally want to update only one language?
 
-A: Add the `translation-sync-skip` label to the Pull Request. When merging, include `[skip translation-sync]` in the merge commit message.
+A: Declare each file with a `Translation-Sync-Skip` trailer in a commit message. See "4. Intentional One-language Updates" above.
 
 ### Q2: How to check sync status of existing files?
 
