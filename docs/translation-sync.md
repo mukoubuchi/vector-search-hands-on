@@ -91,7 +91,6 @@ git commit -m "docs: fix a typo in the Japanese Part 2" \
 
 - Write the path of the file you changed, one trailer per file, in the last paragraph of the message. A failed check lists the trailers to add
 - The check skips only the declared files and still fails on a missing counterpart of any other file
-- The `translation-sync-skip` label and `[skip translation-sync]` in the merge commit message still skip the whole check, including real omissions
 
 ## Workflow Files
 
@@ -105,7 +104,7 @@ Checks JA → EN sync by calling `lib/check_translation_sync.sh` with `SOURCE_LO
 
 ### `lib/check_translation_sync.sh`
 
-Contains the common changed-file detection, skip handling (trailers, label, and merge commit marker), counterpart mapping, and GitHub Actions output writing used by both sync workflows.
+Contains the common changed-file detection, trailer handling, counterpart mapping, and GitHub Actions output writing used by both sync workflows.
 
 ## Issue Labels
 

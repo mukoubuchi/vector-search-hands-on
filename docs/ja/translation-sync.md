@@ -86,7 +86,6 @@ git commit -m "docs: fix a typo in the Japanese Part 2" \
 
 - 変更したファイルのパスを、メッセージの最後の段落に、1 ファイルにつき 1 つのトレーラーで書く。チェックが失敗したときは、付けるトレーラーが表示される
 - チェックは宣言したファイルだけを省き、ほかのファイルの翻訳漏れはこれまでどおり失敗にする
-- `translation-sync-skip` ラベルと、マージコミットメッセージの `[skip translation-sync]` は引き続き使えるが、本当の翻訳漏れも含めてチェック全体を省く
 
 ## ワークフローファイル
 
@@ -100,7 +99,7 @@ git commit -m "docs: fix a typo in the Japanese Part 2" \
 
 ### `lib/check_translation_sync.sh`
 
-両方の同期ワークフローで使う、変更ファイルの検出、スキップの処理（トレーラー、ラベル、マージコミットの印）、対応ファイルの判定、GitHub Actions 出力の書き込みをまとめた共通スクリプトです。
+両方の同期ワークフローで使う、変更ファイルの検出、トレーラーの処理、対応ファイルの判定、GitHub Actions 出力の書き込みをまとめた共通スクリプトです。
 
 ## Issue ラベル
 
