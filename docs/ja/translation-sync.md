@@ -2,11 +2,11 @@
 
 ## 概要
 
-このプロジェクトでは、受講者向けの英語版ドキュメントと日本語版ドキュメントを並行管理しています。
+このプロジェクトでは、参加者向けの英語版ドキュメントと日本語版ドキュメントを並行管理しています。
 
 ## 自動同期チェック
 
-GitHub Actions が Pull Request と `main` への push 後に自動的にチェックを実行します。2 つのワークフローファイルは、共通チェックスクリプト `lib/check_translation_sync.sh` を使用します。チェック対象は、以下の受講者向け Markdown ファイルです。
+GitHub Actions が Pull Request と `main` への push 後に自動的にチェックを実行します。2 つのワークフローファイルは、共通チェックスクリプト `lib/check_translation_sync.sh` を使用します。チェック対象は、以下の参加者向け Markdown ファイルです。
 
 - `index.md`
 - `preparation.md`
@@ -20,14 +20,14 @@ GitHub Actions が Pull Request と `main` への push 後に自動的にチェ�
 
 ### EN → JA 同期チェック
 
-- **トリガー**: 英語版の受講者向け Markdown ファイル、または `docs/images/*-en.svg` が更新された時
+- **トリガー**: 英語版の参加者向け Markdown ファイル、または `docs/images/*-en.svg` が更新された時
 - **チェック内容**: 対応する日本語版ファイルが同じ PR または push で更新されているか
 - **PR でのアクション**: 同期されていない場合、チェックを失敗させる
 - **`main` push 後のアクション**: 同期されていない場合、Issue を自動作成
 
 ### JA → EN 同期チェック
 
-- **トリガー**: 日本語版の受講者向け Markdown ファイル、または `docs/images/*-ja.svg` が更新された時
+- **トリガー**: 日本語版の参加者向け Markdown ファイル、または `docs/images/*-ja.svg` が更新された時
 - **チェック内容**: 対応する英語版ファイルが同じ PR または push で更新されているか
 - **PR でのアクション**: 同期されていない場合、チェックを失敗させる
 - **`main` push 後のアクション**: 同期されていない場合、Issue を自動作成
@@ -138,7 +138,7 @@ A: Pull Request に `translation-sync-skip` ラベルを付けてください。
 A: 以下のスクリプトで確認できます。
 
 ```bash
-# 受講者向け英語版ファイルを一覧表示
+# 参加者向け英語版ファイルを一覧表示
 printf '%s\n' docs/index.md docs/preparation.md docs/part1.md docs/part2.md docs/part3.md docs/summary.md docs/feedback.md
 
 # 対応する日本語版が存在するか確認

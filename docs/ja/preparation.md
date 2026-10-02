@@ -102,7 +102,7 @@
 
 ??? info "vector-search-builder-ja.zip の内容"
     - **`.bob/`**: Vector Search Builder モード定義（Building Blocks）
-    - **`setup/participant/`**: 受講者用スクリプト、検索画面つきの FastAPI デモアプリ、日本語のサンプル商品データ（`PARTICIPANT_LANGUAGE=ja`）
+    - **`setup/participant/`**: 参加者用スクリプト、検索画面つきの FastAPI デモアプリ、日本語のサンプル商品データ（`PARTICIPANT_LANGUAGE=ja`）
     - **`setup/participant/.env.example`**: 接続情報設定テンプレート
 
 ??? tip "Building Blocks のインストール方法"
