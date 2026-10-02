@@ -62,9 +62,11 @@ jobs:
       - name: Create Issue for Translation Sync
         if: github.event_name == 'push' && steps.check.outputs.needs_sync == 'true'
         uses: actions/github-script@v9
+        env:
+          MISSING_FILES: ${{ steps.check.outputs.missing_files }}
         with:
           script: |
-            const missingFiles = `${{ steps.check.outputs.missing_files }}`;
+            const missingFiles = process.env.MISSING_FILES;
             
             const issueBody = [
               '## Translation Sync Required',
@@ -113,6 +115,8 @@ jobs:
 
       - name: Post summary
         if: steps.check.outputs.needs_sync == 'true'
+        env:
+          MISSING_FILES: ${{ steps.check.outputs.missing_files }}
         run: |
           {
             echo "## ⚠️ Translation Sync Required"
@@ -121,5 +125,5 @@ jobs:
             echo ""
             echo "Files that need updating:"
             echo ""
-            echo "${{ steps.check.outputs.missing_files }}"
+            echo "$MISSING_FILES"
           } >> "$GITHUB_STEP_SUMMARY"
