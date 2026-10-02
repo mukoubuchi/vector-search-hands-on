@@ -44,12 +44,17 @@ jobs:
 
       - name: Fail pull request if translation is not synced
         if: github.event_name == 'pull_request' && steps.check.outputs.needs_sync == 'true'
+        env:
+          MISSING_FILES: ${{ steps.check.outputs.missing_files }}
+          SKIP_TRAILERS: ${{ steps.check.outputs.skip_trailers }}
         run: |
           echo "Translation sync is required before merging this pull request."
           echo ""
-          echo "${{ steps.check.outputs.missing_files }}"
+          echo "$MISSING_FILES"
           echo ""
-          echo "If this is intentional, add the translation-sync-skip label and include [skip translation-sync] in the merge commit message."
+          echo "If this is intentional, add these trailers to a commit message in this pull request:"
+          echo ""
+          echo "$SKIP_TRAILERS"
           exit 1
 
       - name: Create Issue for Translation Sync
@@ -76,7 +81,7 @@ jobs:
               '### Related Commit:',
               '${{ github.sha }}',
               '',
-              'If this mismatch is intentional, add the `translation-sync-skip` label on the related PR and include `[skip translation-sync]` in the merge commit message.',
+              'If a one-language change is intentional, declare each file with a `Translation-Sync-Skip: <path>` trailer in a commit message before pushing.',
             ].join('\n');
 
             const issues = await github.rest.issues.listForRepo({
