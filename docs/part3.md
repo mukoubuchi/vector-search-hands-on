@@ -72,21 +72,6 @@ In this part, you'll verify that the features added in Part 2 work correctly tog
 - [ ] Verified that the price filter excludes products outside the range
 - [ ] Verified that the added features work correctly together
 
-## Part 3 Completion Check
-
-- [ ] Tested the features added in Part 2 using non-overlapping verification points
-
-## FAQ
-
-??? question "Test fails"
-
-    1. Verify application is running
-    2. Verify changes are saved
-    3. Restart the application manually
-    
-        1. Press ++ctrl+c++ in the terminal running the application (stop)
-        2. Start the application ([:material-play-circle: How to start](part1.md#app-restart))
-
 ## Step 2: Environment Cleanup
 
 !!! example "Practice: Clean up the virtual environment"
@@ -152,5 +137,20 @@ If IBM Bob asks you to confirm the deletion, choose to delete the folder. If IBM
 
 - [ ] Deactivated the virtual environment
 - [ ] Deleted the `vector-search-builder-en` folder
+
+## Part 3 Completion Check
+
+- [ ] Tested the features added in Part 2 using non-overlapping verification points
+
+## FAQ
+
+??? question "Test fails"
+
+    1. Verify application is running
+    2. Verify changes are saved
+    3. Restart the application manually
+    
+        1. Press ++ctrl+c++ in the terminal running the application (stop)
+        2. Start the application ([:material-play-circle: How to start](part1.md#app-restart))
 
 [Next →](summary.md){ .workshop-next }
