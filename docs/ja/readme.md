@@ -13,7 +13,7 @@ docs/
 ├── part2.md                  # Part 2: IBM Bob で機能を追加する
 ├── part3.md                  # Part 3: 動作確認と後始末
 ├── summary.md                # まとめ
-├── feedback.md               # 受講者フィードバックフォーム
+├── feedback.md               # 参加者フィードバックフォーム
 ├── translation-sync.md       # 内部向け翻訳同期ガイド
 ├── ja/                       # 日本語翻訳
 │   ├── readme.md             # このファイル
@@ -23,7 +23,7 @@ docs/
 │   ├── part2.md              # Part 2: IBM Bob で機能を追加する
 │   ├── part3.md              # Part 3: 動作確認と後始末
 │   ├── summary.md            # まとめ
-│   ├── feedback.md           # 受講者フィードバックフォーム
+│   ├── feedback.md           # 参加者フィードバックフォーム
 │   └── translation-sync.md   # 内部向け翻訳同期ガイド
 ├── images/                   # 図解、SVG 画像、スクリーンショット
 ├── assets/                   # 同梱の IBM Plex フォント

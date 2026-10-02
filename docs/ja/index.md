@@ -76,7 +76,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
     **Building Blocks あり**: Vector Search Builder をインストールし、IBM Bob に指示（数分）
 
 ??? info "このハンズオンの独自の工夫"
-    - **Milvus は講師が用意**: 講師が全員分の Milvus を動かす（[setup/instructor/docker-compose.yml](https://github.com/mukoubuchi/vector-search-hands-on/blob/main/setup/instructor/docker-compose.yml)）ため、受講者は IBM Bob、受講者用 zip、接続情報だけで参加できます
+    - **Milvus は講師が用意**: 講師が全員分の Milvus を動かす（[setup/instructor/docker-compose.yml](https://github.com/mukoubuchi/vector-search-hands-on/blob/main/setup/instructor/docker-compose.yml)）ため、参加者は IBM Bob、参加者用 zip、接続情報だけで始められます
     - **オンサイトとリモートに対応**: ドキュメントはローカルネットワーク（`http://講師 IP:8001`）、または GitHub Pages や ngrok で共有します
     - **API キー不要**: 埋め込みは Hugging Face Transformers がローカルで作ります
     - **段階的な構成**: Part 1 で Vector Search を体験し、Part 2 で IBM Bob と機能を追加し、Part 3 で動作確認と後始末をします
@@ -84,7 +84,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
     | 提供元 | 提供内容 | 目的 |
     |:---|:---|:---|
     | **Building Blocks** | Vector Search Builder モード<br/>FastAPI サンプル<br/>Milvus セットアップガイド | 技術基盤の提供<br/>開発の加速 |
-    | **このハンズオン** | 講師用環境（Docker Compose）<br/>受講者用スクリプト<br/>教育用ドキュメント | 教育設計<br/>学習体験の最適化 |
+    | **このハンズオン** | 講師用環境（Docker Compose）<br/>参加者用スクリプト<br/>教育用ドキュメント | 教育設計<br/>学習体験の最適化 |
 
 ## IBM Bob とは？
 
@@ -153,7 +153,7 @@ Building Blocks が基盤をすぐに用意し、IBM Bob が自然言語の指�
 **講師から配布**:
 
 - ハンズオン手順書の URL
-- Vector Search Builder の受講者用パッケージ（`vector-search-builder-ja.zip`）
+- Vector Search Builder の参加者用パッケージ（`vector-search-builder-ja.zip`）
 - 接続情報（Milvus 接続情報）
 
 [次へ →](preparation.md){ .workshop-next }
