@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Material renders the first ten results and adds the rest as the list scrolls.
     // window.component$ is Material's undocumented component stream, on which the search result
     // component emits { ref, items } right after it writes its own count line. Recheck this
-    // when Material is upgraded (pinned to 9.7.6 in .github/workflows/ci.yml,
+    // when Material is upgraded (pinned to 9.7.7 in .github/workflows/ci.yml,
     // .github/workflows/deploy-docs.yml, and setup/instructor/mkdocs.Dockerfile).
     const configElement = document.getElementById('__config');
     const materialConfig = configElement ? JSON.parse(configElement.textContent) : null;
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // a page, drop h from the address bar (the path and the fragment stay) and from the links to
     // this page, so later moves within the page carry no query and the words are marked once.
     // A reload or a copied URL then shows no highlights.
-    // This relies on Material internals (9.7.6): the highlighting reads the page URL when it is
+    // This relies on Material internals (9.7.7): the highlighting reads the page URL when it is
     // set up for a page, which Material does before this document$ subscriber runs, and instant
     // navigation resolves the links of a page against the URL the page was loaded with, so a
     // fragment-only link such as a table-of-contents entry carries h.
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // navigation > Keyboard shortcuts); in its global mode Material leaves Escape unused and
     // skips keys typed into inputs, and Escape in the open search still closes it. The
     // highlights are Material's <mark data-md-highlight> elements (an internal detail of
-    // 9.7.6; marks written in Markdown have no such attribute): put their text back in place
+    // 9.7.7; marks written in Markdown have no such attribute): put their text back in place
     // and join the split text again. Escape is claimed only when there was something to remove.
     if (window.keyboard$) {
         window.keyboard$.subscribe(function(key) {
