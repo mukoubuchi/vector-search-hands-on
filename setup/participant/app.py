@@ -278,7 +278,8 @@ def search(request: SearchRequest):
 if __name__ == "__main__":
     uvicorn.run(
         "app:app",
-        host="0.0.0.0",
+        # Accept connections from this machine only (uvicorn's default host)
+        host="127.0.0.1",
         port=8002,
         reload=True,
         log_level="info"
