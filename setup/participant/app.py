@@ -10,7 +10,6 @@ from pathlib import Path
 from typing import Any, List, Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
@@ -151,14 +150,8 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS settings
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# No CORS middleware: the search screen and Swagger UI are served by this
+# app itself (same origin), so other origins need no access
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
@@ -285,7 +278,8 @@ def search(request: SearchRequest):
 if __name__ == "__main__":
     uvicorn.run(
         "app:app",
-        host="0.0.0.0",
+        # Accept connections from this machine only (uvicorn's default host)
+        host="127.0.0.1",
         port=8002,
         reload=True,
         log_level="info"
