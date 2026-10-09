@@ -155,6 +155,32 @@
     width: 100%;
 }
 
+/* Text links can wrap. As an inline-block, a wrapped link is one box, and the
+   underline above would run under its last line only, across the full width.
+   Keep text links inline and draw the same 2px hover underline as a background
+   cloned on each line, so every line is underlined under its own text. Buttons,
+   heading anchors, and the generated anchors in tab labels keep the rules above. */
+.md-typeset a:not(.workshop-next):not(.md-button):not(.headerlink):not(.tabbed-labels a) {
+    display: inline;
+    /* Lowers the line bottom to where the inline-block box ended (measured
+       0.224em in body text), so the underline keeps its former position. */
+    padding-bottom: 0.225em;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 2px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+.md-typeset a:not(.workshop-next):not(.md-button):not(.headerlink):not(.tabbed-labels a)::before {
+    content: none;
+}
+
+.md-typeset a:not(.workshop-next):not(.md-button):not(.headerlink):not(.tabbed-labels a):hover {
+    background-size: 100% 2px;
+}
+
 /* Keyboard key styling */
 .md-typeset kbd {
     display: inline-block;
