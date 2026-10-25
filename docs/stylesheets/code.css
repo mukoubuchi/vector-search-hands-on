@@ -70,6 +70,12 @@
     font-weight: 400 !important;
 }
 
+/* Expected output in console blocks: Pygments marks each output line .go (generic), which the palette mutes.
+   Show it in the code text color, like the prompts in text blocks. */
+.md-typeset .language-console.highlight .go {
+    color: var(--md-code-fg-color) !important;
+}
+
 /* Properties/env files styling */
 .md-typeset .language-properties.highlight .na {
     font-weight: 700 !important;
