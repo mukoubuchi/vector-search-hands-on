@@ -1,64 +1,16 @@
-# Environment variables
+# Environment files: copied from .env.example by participants, written by setup/instructor/start-all.sh
 .env
-*.env
-!.env.example
-!.env.example.en
-!.env.example.ja
 
-# Docker volumes
-milvus-data/
-
-# OS files
+# macOS Finder files
 .DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Local Bob rules
-.bob/rules/
-
-# Logs
-*.log
-logs/
-
-# Temporary files
-*.tmp
-*.temp
-changed_files.txt
 
 # Participant distribution zips (built by setup/instructor/build-participant-zips.sh;
 # attached to GitHub releases by the release workflow — not committed)
 vector-search-builder-*.zip
 
-# Test outputs
-tests/*.log
-tests/coverage/
-.coverage
-htmlcov/
-
-# Config overrides
-config/*.local.conf
-
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
 venv/
-env/
-ENV/
 
 # MkDocs
 site/
-docs/.cache/
-
-# Diagram source files
-*.drawio
-
-# Backup files
-docs/images/.backup/
