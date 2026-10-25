@@ -119,7 +119,7 @@ IBM Bob runs the connection test script. If IBM Bob asks for approval to run a c
 
 #### If Successful
 
-```
+```console
 ==================================================
 Milvus Connection Test
 ==================================================
@@ -149,7 +149,7 @@ The connection test, sample data insertion script, and demo application all read
 
 #### If Failed
 
-```
+```console
 ✗ Milvus connection error: Connection refused
 ```
 
@@ -190,7 +190,7 @@ IBM Bob runs the script and inserts the sample data.
 
 If you see the following display, it's successful:
 
-```
+```console
 ==================================================
 ✓ Sample data insertion completed
 ==================================================
@@ -242,7 +242,7 @@ After running `venv/bin/python app.py` or `venv\Scripts\python app.py`, it may l
 
 If you see output like the following, the application is running.
 
-```text
+```console
 ==================================================
 ✓ Application started successfully
 ==================================================
@@ -264,7 +264,7 @@ If `ModuleNotFoundError: No module named 'fastapi'` appears, the required packag
 
 Open the following URL in your web browser and verify that the search screen (**Product Search Demo**) is displayed:
 
-```text
+```console
 http://localhost:8002
 ```
 

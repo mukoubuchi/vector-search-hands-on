@@ -255,7 +255,7 @@ First, verify that Python is installed.
 
 **Expected output**:
 
-```
+```console
 Python 3.10.x or higher (3.11 recommended)
 ```
 

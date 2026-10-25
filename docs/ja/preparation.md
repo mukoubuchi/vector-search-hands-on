@@ -251,7 +251,7 @@ Hugging Face Transformers を使用します（API キー不要、無料）。
 
 **期待される出力**:
 
-```
+```console
 Python 3.10.x 以上（3.11 推奨）
 ```
 
