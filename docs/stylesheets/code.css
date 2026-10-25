@@ -319,3 +319,8 @@
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;
 }
+
+/* Wrapped prompt lines stop short of the copy button (0.5em inset + 1.5em button + 0.5em gap). */
+.md-typeset .language-text.highlight pre {
+    padding-right: 2.5em !important;
+}
