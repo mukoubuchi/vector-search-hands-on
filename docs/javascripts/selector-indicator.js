@@ -23,15 +23,23 @@
             // Do not cancel or restart an animation already heading there.
             if (destination && Math.abs(next.x - destination.x) < 0.1 &&
                 Math.abs(next.width - destination.width) < 0.1) return;
-            const from = getComputedStyle(indicator).transform;
+            // Where the bar is now, including a slide still in progress.
+            const box = indicator.getBoundingClientRect();
+            const from = { x: box.left - parent.left + strip.scrollLeft, width: box.width };
             const initialized = Boolean(destination);
             destination = next;
             if (animation) animation.cancel();
-            const to = `translateX(${next.x}px) scaleX(${next.width})`;
+            // At rest the bar has its real width and is only translated. A 1px bar
+            // stretched by scaleX can stay rastered at a small scale after the slide,
+            // which blurs its right end.
+            const to = `translateX(${next.x}px)`;
+            indicator.style.width = `${next.width}px`;
             indicator.style.transform = to;
-            if (animate && initialized && !reducedMotion.matches) {
-                // Animate only the transform so layout work cannot interrupt it.
-                animation = indicator.animate([{ transform: from }, { transform: to }], {
+            if (animate && initialized && from.width && !reducedMotion.matches) {
+                // Animate only the transform so layout work cannot interrupt it; the
+                // slide starts from the old box and ends unscaled.
+                const start = `translateX(${from.x}px) scaleX(${from.width / next.width})`;
+                animation = indicator.animate([{ transform: start }, { transform: to }], {
                     duration: 300,
                     easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
                 });
