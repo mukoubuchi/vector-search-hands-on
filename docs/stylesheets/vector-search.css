@@ -1,0 +1,79 @@
+/* Styles that only the Vector Search hands-on uses. The stylesheets that the hands-on sites
+   share come first (extra.css); mkdocs.yml lists this file after them. */
+
+/* The Feedback page */
+@import url('feedback.css');
+
+/* Python code blocks */
+.md-typeset .language-python.highlight pre,
+.md-typeset .language-python.highlight code {
+    color: var(--md-primary-fg-color) !important;
+    font-weight: 700 !important;
+}
+
+/* Expected output in console blocks: Pygments marks each output line .go (generic), which the palette mutes.
+   Show it in the code text color, like the prompts in text blocks. */
+.md-typeset .language-console.highlight .go {
+    color: var(--md-code-fg-color) !important;
+}
+
+/* Flow stages use the same title/body structure as the site's Blocks. */
+.md-typeset .vector-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 1.5em 0;
+    padding: 0.25rem 0.1rem;
+    overflow-x: auto;
+}
+
+.md-typeset .vector-flow .vector-flow-step {
+    flex: 0 0 auto;
+    margin: 0;
+    background-color: #ffffff;
+    border-color: var(--flow-tint) !important;
+}
+
+.md-typeset .vector-flow .vector-flow-step > .admonition-title {
+    padding-inline: 0.6rem;
+    background-color: var(--flow-tint) !important;
+    white-space: nowrap;
+}
+
+.md-typeset .vector-flow .vector-flow-step > .admonition-title::before {
+    display: none;
+}
+
+.md-typeset .vector-flow-content {
+    padding: 0.5rem 0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.md-typeset .vector-flow-edge {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 4.5rem;
+    padding: 0 0.5rem;
+    font-size: 0.64rem;
+    white-space: nowrap;
+}
+
+.md-typeset .vector-flow-edge > span:last-child {
+    color: var(--workshop-gray);
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+/* Diagrams (SVG files in images/) take the admonitions' shadow, the two layers of
+   --md-shadow-z1. drop-shadow follows the drawn frame, so the transparent margin that some
+   diagrams keep around their frame casts no shadow. In Chrome and WebKit a drop-shadow blur
+   spreads about twice as far as the same box-shadow blur, so each blur is halved to draw the
+   same shadow; the thin ring comes first because each drop-shadow also shadows the ones
+   before it. */
+.md-typeset img[src*="images/"][src$=".svg"] {
+    filter: drop-shadow(0 0 .025rem #0000001a) drop-shadow(0 .2rem .25rem #0000000d);
+}

@@ -58,22 +58,10 @@
     font-weight: 400 !important;
 }
 
-.md-typeset .language-python.highlight pre,
-.md-typeset .language-python.highlight code {
-    color: var(--md-primary-fg-color) !important;
-    font-weight: 700 !important;
-}
-
 .md-typeset .language-text.highlight pre,
 .md-typeset .language-text.highlight code {
     color: var(--md-code-fg-color) !important;
     font-weight: 400 !important;
-}
-
-/* Expected output in console blocks: Pygments marks each output line .go (generic), which the palette mutes.
-   Show it in the code text color, like the prompts in text blocks. */
-.md-typeset .language-console.highlight .go {
-    color: var(--md-code-fg-color) !important;
 }
 
 /* Properties/env files styling */
@@ -256,19 +244,19 @@
         border-left: none !important;
         border-right: none !important;
     }
-    
+
     .md-typeset pre code {
         font-size: 0.8125em !important;
         line-height: 1.5 !important;
     }
-    
+
     /* Improve copy button on mobile */
     .md-clipboard {
         top: 0.5rem !important;
         right: 0.5rem !important;
         padding: 0.4rem !important;
     }
-    
+
     /* Ensure horizontal scrolling works */
     .highlight {
         overflow-x: auto !important;
@@ -282,11 +270,11 @@
         padding: 10px !important;
         margin: 0.8em 0 !important;
     }
-    
+
     .md-typeset pre code {
         font-size: 0.75em !important;
     }
-    
+
     .md-typeset code {
         font-size: 0.85em !important;
         padding: 0.15em 0.35em !important;
@@ -298,17 +286,17 @@
     .md-typeset pre::-webkit-scrollbar {
         height: 6px !important;
     }
-    
+
     .md-typeset pre::-webkit-scrollbar-track {
         background: color-mix(in srgb, var(--md-default-fg-color) 5%, transparent) !important;
         border-radius: 3px !important;
     }
-    
+
     .md-typeset pre::-webkit-scrollbar-thumb {
         background: color-mix(in srgb, var(--md-default-fg-color) 20%, transparent) !important;
         border-radius: 3px !important;
     }
-    
+
     .md-typeset pre::-webkit-scrollbar-thumb:hover {
         background: color-mix(in srgb, var(--md-default-fg-color) 30%, transparent) !important;
     }

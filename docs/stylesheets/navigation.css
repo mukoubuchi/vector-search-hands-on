@@ -5,7 +5,7 @@
     .md-sidebar--primary {
         display: none;
     }
-    
+
     /* Adjust main content to use full width */
     .md-content {
         margin-left: 0;
@@ -82,11 +82,11 @@
         -webkit-overflow-scrolling: touch !important;
         scrollbar-width: none !important;
     }
-    
+
     .md-tabs::-webkit-scrollbar {
         display: none !important;
     }
-    
+
     .md-tabs__list {
         display: flex !important;
         align-items: center !important;
@@ -100,7 +100,7 @@
         flex-wrap: nowrap !important;
         min-width: min-content !important;
     }
-    
+
     .md-tabs__item {
         display: inline-flex !important;
         align-items: center !important;
@@ -109,7 +109,7 @@
         flex-shrink: 0 !important;
         white-space: nowrap !important;
     }
-    
+
     .md-tabs__link {
         padding: 0 1rem 0.5rem 1rem !important;
         height: 2.4rem !important;
@@ -122,20 +122,20 @@
         white-space: nowrap !important;
         -webkit-tap-highlight-color: transparent !important;
     }
-    
+
     .md-tabs__link:hover {
         color: var(--md-primary-bg-color) !important;
     }
-    
+
     .md-tabs__item--active .md-tabs__link {
         color: var(--md-primary-bg-color) !important;
     }
-    
+
     /* Adjust header to accommodate tabs */
     .md-header {
         height: 2.4rem !important;
     }
-    
+
     .md-header__inner {
         height: 2.4rem !important;
     }
@@ -147,23 +147,23 @@
     .md-tabs {
         padding: 0 0.8rem !important;
     }
-    
+
     .md-tabs__list {
         padding: 0 !important;
         justify-content: flex-start !important;
     }
-    
+
     .md-tabs__link {
         padding: 0 0.8rem 0.5rem 0.8rem !important;
         font-size: 0.9rem !important;
         min-width: auto !important;
     }
-    
+
     /* Improve touch targets on mobile */
     .md-tabs__item {
         min-width: auto !important;
     }
-    
+
     /* Hide hamburger menu button if not needed */
     .md-header__button.md-icon {
         -webkit-tap-highlight-color: transparent !important;

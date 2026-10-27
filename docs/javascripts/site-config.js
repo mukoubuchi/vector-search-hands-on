@@ -1,5 +1,7 @@
+// The settings of this site. The scripts shared by the hands-on sites read them from
+// window.HandsOn.site, so this is the only script that differs between the sites.
 (function() {
-    window.VectorSearchHandsOn = window.VectorSearchHandsOn || {};
+    window.HandsOn = window.HandsOn || {};
 
     // Derive the GitHub Pages project base ("/<repository-name>") from this
     // script's own URL, so the site keeps working if the repository is
@@ -20,7 +22,7 @@
         return '';
     }
 
-    window.VectorSearchHandsOn.site = {
+    window.HandsOn.site = {
         projectBase: detectProjectBase(),
         navPaths: [
             '/',
