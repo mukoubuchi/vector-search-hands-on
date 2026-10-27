@@ -127,6 +127,7 @@ extra:
 # Custom CSS (modularized)
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/vector-search.css
 
 # Custom JavaScript (modularized)
 extra_javascript:

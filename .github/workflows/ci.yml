@@ -72,6 +72,9 @@ jobs:
       - name: Check the browser demo copy of the search screen
         run: python lib/sync_browser_demo.py --check
 
+      - name: Check the shared UI files
+        run: python lib/shared_ui.py
+
       - name: Build MkDocs site
         run: mkdocs build --strict
         env:

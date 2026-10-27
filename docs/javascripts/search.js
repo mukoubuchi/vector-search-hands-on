@@ -4,8 +4,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    const siteConfig = window.VectorSearchHandsOn && window.VectorSearchHandsOn.site;
-    const navPaths = siteConfig ? siteConfig.navPaths : ['/', '/preparation/', '/part1/', '/part2/', '/part3/', '/summary/', '/feedback/'];
+    const siteConfig = window.HandsOn && window.HandsOn.site;
+    const navPaths = siteConfig ? siteConfig.navPaths : ['/'];
     const languages = siteConfig ? siteConfig.languages : ['en', 'ja'];
 
     const searchToggle = document.querySelector('[data-md-toggle="search"]');
@@ -152,8 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Material renders the first ten results and adds the rest as the list scrolls.
     // window.component$ is Material's undocumented component stream, on which the search result
     // component emits { ref, items } right after it writes its own count line. Recheck this
-    // when Material is upgraded (pinned to 9.7.7 in .github/workflows/ci.yml,
-    // .github/workflows/deploy-docs.yml, and setup/instructor/mkdocs.Dockerfile).
+    // when Material is upgraded (each site pins 9.7.7 in its build setup).
     const configElement = document.getElementById('__config');
     const materialConfig = configElement ? JSON.parse(configElement.textContent) : null;
     // Result locations are relative to the site root. config.base is relative to the page the

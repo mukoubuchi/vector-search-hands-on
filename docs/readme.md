@@ -37,9 +37,10 @@ docs/
 │   ├── feedback.css          # Feedback form styles
 │   ├── language-switcher.css # Language switcher styles
 │   ├── palette.css           # Color palette
-│   └── fonts.css             # Bundled IBM Plex font faces
+│   ├── fonts.css             # Bundled IBM Plex font faces
+│   └── vector-search.css     # Styles only this site uses
 └── javascripts/              # Custom JavaScript (modularized)
-    ├── site-config.js        # Shared site paths and language settings
+    ├── site-config.js        # This site's page paths and languages
     ├── search.js             # Search functionality
     ├── navigation.js         # Navigation functionality
     ├── selector-indicator.js # Tab selection underline
@@ -50,6 +51,12 @@ docs/
     ├── syntax-highlight.js   # Enhanced syntax highlighting
     └── language-switcher.js  # GitHub Pages language-link fixes
 ```
+
+## Shared Files
+
+The CSS and JavaScript files listed in `lib/shared_ui.py` are the same in the hands-on sites `building-blocks-explorer-hands-on`, `text2sql-hands-on`, `vault-secret-migrator-hands-on`, and this one, and the reference copies live in `building-blocks-explorer-hands-on`. `lib/shared-ui.sha256` holds their SHA-256, and CI fails when a copy here differs. To change one, change it in the reference first, then copy it here with `lib/shared_ui.py` (see its docstring).
+
+Two files belong to this site only: `javascripts/site-config.js`, which sets `window.HandsOn.site` for the shared scripts, and `stylesheets/vector-search.css`, which `mkdocs.yml` lists after `extra.css`.
 
 ## Stylesheet Structure
 
@@ -76,7 +83,7 @@ Main CSS file. Imports each module.
 - Code block styles
 - Inline code styles
 - Syntax highlight color settings
-- Language-specific code styles (Bash, Python, Properties, etc.)
+- Language-specific code styles (Bash, Properties, etc.)
 
 ### components.css
 
@@ -87,17 +94,26 @@ Main CSS file. Imports each module.
 
 ### feedback.css
 
-- Feedback form layout and copy panel styles
+- Feedback form layout and copy panel styles (imported by `vector-search.css`)
 
 ### language-switcher.css
 
 - Language selector display adjustments
 
+### vector-search.css
+
+Styles that only this site uses, listed after `extra.css` in `mkdocs.yml`:
+
+- The flow diagram on Part 1
+- The shadow of the SVG diagrams
+- Python code blocks and the expected output in console blocks
+- The feedback form (imports `feedback.css`)
+
 ## JavaScript Structure
 
 ### site-config.js
 
-Defines shared top-level page paths and supported languages.
+Defines this site's top-level page paths and supported languages in `window.HandsOn.site`, which the shared scripts read. It is the only JavaScript file that differs from the other hands-on sites.
 
 ### search.js
 
@@ -157,6 +173,8 @@ To change specific styles, edit the corresponding CSS module:
 - Code blocks → `code.css`
 - UI components → `components.css`
 
+These modules are shared with the other hands-on sites (see Shared Files); styles that only this site uses go in `vector-search.css`.
+
 ### Adding Features
 
 To add new JavaScript functionality:
@@ -178,7 +196,7 @@ extra_javascript:
   - javascripts/your-new-feature.js  # new file
 ```
 
-When adding or removing top-level pages or languages, update `javascripts/site-config.js`. The search filter and language switcher both read this shared site configuration.
+When adding or removing top-level pages or languages, update `javascripts/site-config.js`. The search filter and language switcher both read this site configuration.
 
 ## Development Guidelines
 

@@ -86,9 +86,9 @@ body, .md-typeset pre > code {
 }
 .md-top:hover { color: white !important; }
 
-/* The enclosing border takes the title band's colour, as in the diagrams (a white body, a
-   tinted band, and a border of the band's colour), so no white seam shows between the band
-   and the edge. The band colour is defined per callout type below. */
+/* The enclosing border takes the title band's colour (a white body, a tinted band, and a
+   border of the band's colour), so no white seam shows between the band and the edge. The
+   band colour is defined per callout type below. */
 .md-typeset .admonition,
 .md-typeset details {
     border-color: var(--workshop-callout-band) !important;
@@ -116,10 +116,10 @@ body, .md-typeset pre > code {
     border: 0 !important;
 }
 
-/* A table follows the admonitions and the diagrams: its shaded heading row is the band, the
-   border takes that colour so no seam shows between them, and it casts the admonitions'
-   shadow. The theme wraps each table in a horizontal scroll box that clips anything outside
-   it, so the box gets room above and below for the shadow. */
+/* A table follows the admonitions: its shaded heading row is the band, the border takes
+   that colour so no seam shows between them, and it casts the admonitions' shadow. The
+   theme wraps each table in a horizontal scroll box that clips anything outside it, so the
+   box gets room above and below for the shadow. */
 .md-typeset table:not([class]) {
     border: .075rem solid var(--workshop-surface) !important;
     border-radius: .2rem;
@@ -136,16 +136,6 @@ body, .md-typeset pre > code {
     padding-top: .35rem;
     padding-bottom: .75rem;
     margin-bottom: 0;
-}
-
-/* Diagrams (SVG files in images/) take the admonitions' shadow, the two layers of
-   --md-shadow-z1. drop-shadow follows the drawn frame, so the transparent margin that some
-   diagrams keep around their frame casts no shadow. In Chrome and WebKit a drop-shadow blur
-   spreads about twice as far as the same box-shadow blur, so each blur is halved to draw the
-   same shadow; the thin ring comes first because each drop-shadow also shadows the ones
-   before it. */
-.md-typeset img[src*="images/"][src$=".svg"] {
-    filter: drop-shadow(0 0 .025rem #0000001a) drop-shadow(0 .2rem .25rem #0000000d);
 }
 
 /* Grid the table body while keeping the shaded heading row uninterrupted. */
