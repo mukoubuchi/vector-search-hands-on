@@ -299,7 +299,7 @@ Products are displayed as cards, most similar first. The top three are the three
 - **Product name** (`product_name`): Product name
 - **Price** (`price`): Price in US dollars
 - **Description** (`description`): Description
-- **Similarity** (`similarity_score`): Similarity (0.0-1.0, higher is more similar). The bar is green at 0.7 and above, blue from 0.4 to 0.7, and gray below 0.4
+- **Similarity** (`similarity_score`): Similarity (0.0-1.0, higher is more similar), shown by a bar that is green at 0.7 and above, blue from 0.4 to 0.7, and gray below 0.4
 
 **Results** (`top_k`) sets how many products are returned (default: 5). The price filter stays unavailable until you add it in Part 2.
 

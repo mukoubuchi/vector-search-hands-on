@@ -42,7 +42,7 @@ In this part, you'll add the following 3 features:
     - `app.py`: Defines the FastAPI API and serves the search screen
     - `schema.py`: Defines the Milvus collection schema, index/search settings, and fields returned in search results
     - `insert_sample_data.py`: Inserts sample product data into Milvus
-    - `static/`: The search screen (HTML, JavaScript, and CSS) and the product images (`static/images/product-01.svg` to `product-12.svg`). You do not need to change it in this part
+    - `static/`: The search screen (HTML, JavaScript, and CSS) and the product images (`static/images/product-01.svg` to `product-12.svg`), which you do not need to change in this part
 
 ## Feature 1: Product Image Display {#feature-1-product-image-display}
 

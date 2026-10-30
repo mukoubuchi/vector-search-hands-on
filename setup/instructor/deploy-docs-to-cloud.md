@@ -176,7 +176,7 @@ Choose one of these instead:
 - VPN or Tailscale: Participants connect to the instructor machine's private IP, such as `10.0.1.5:19530`.
 - Public cloud VM: Run Milvus on the VM, or forward TCP `19530` from the VM to the instructor machine.
 - Managed Milvus service: Use a managed endpoint with authentication and share its host/port.
-- IBM Cloud Code Engine: A good fit for hosting the documentation; experimental for Milvus (see the [IBM Cloud Code Engine](#ibm-cloud-code-engine) section).
+- IBM Cloud Code Engine: It is a good fit for hosting the documentation, but experimental for Milvus (see the [IBM Cloud Code Engine](#ibm-cloud-code-engine) section).
 
 ### Security Notes
 
