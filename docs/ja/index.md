@@ -105,9 +105,9 @@ Building Blocks が基盤をすぐに用意し、IBM Bob が自然言語の指�
 
 | 開発方法 | 所要時間 | 必要なスキル | コード品質 |
 |:---|:---|:---|:---|
-| **Building Blocks なし** | 数日〜数週間 | プログラミング、DB 設計、API 設計 | 開発者のスキルに依存 |
-| **IBM Bob のみ** | 数時間〜数日 | 基本的な技術理解 | 高品質だが構築に時間 |
-| **Building Blocks + IBM Bob** | 数分〜数時間 | 自然言語で指示できれば OK | 本番レベルの高品質 |
+| **Building Blocks なし** | 数日〜数週間 | プログラミング、DB 設計、API 設計。 | 開発者のスキルに依存。 |
+| **IBM Bob のみ** | 数時間〜数日 | 基本的な技術理解。 | 高品質だが構築に時間。 |
+| **Building Blocks + IBM Bob** | 数分〜数時間 | 自然言語で指示できれば OK。 | 本番レベルの高品質。 |
 
 ## Vector Search とは？
 
@@ -142,7 +142,7 @@ Building Blocks が基盤をすぐに用意し、IBM Bob が自然言語の指�
 | [Part 1](part1.md) | Vector Search を体験 | 15 分 |
 | [Part 2](part2.md) | IBM Bob で機能を追加 | 25 分 |
 | [Part 3](part3.md) | 動作確認と後始末 | 5 分 |
-| [まとめ](summary.md) | 振り返り・質疑 | 5 分 |
+| [まとめ](summary.md) | 振り返りと質疑 | 5 分 |
 
 ## 必要なもの
 
