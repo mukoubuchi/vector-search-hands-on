@@ -24,7 +24,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
   <path fill="#f9f1f1" stroke="none" stroke-width="0" d="M 10 52 V 14 Q 10 10 14 10 H 1266 Q 1270 10 1270 14 V 52 Z" />
   <text x="640" y="37" class="label" text-anchor="middle">Vector Search Builder なしで顧客システムに組み込む場合</text>
   <text x="35" y="82" class="time">所要時間: 数日〜数週間</text>
-  <text x="1240" y="82" class="small" text-anchor="end">各工程を個別に設計・実装・調整</text>
+  <text x="1240" y="82" class="small" text-anchor="end">各工程を個別に設計、実装、調整</text>
   <g fill="#f5dddd" stroke="none" stroke-width="0">
     <rect x="35" y="122" width="120" height="64" rx="6" ry="6" stroke="#f9f1f1" stroke-width="1.25" />
     <rect x="177" y="122" width="120" height="64" rx="6" ry="6" stroke="#f9f1f1" stroke-width="1.25" />
@@ -60,7 +60,7 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
   </text>
   <text x="237" y="148" class="boxtext">
     <tspan x="237" dy="0">技術選定</tspan>
-    <tspan x="237" dy="18">基盤設計・構築</tspan>
+    <tspan x="237" dy="18">基盤設計と構築</tspan>
   </text>
   <text x="379" y="148" class="boxtext">
     <tspan x="379" dy="0">データ連携</tspan>
@@ -71,12 +71,12 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
     <tspan x="521" dy="18">実装</tspan>
   </text>
   <text x="663" y="148" class="boxtext">
-    <tspan x="663" dy="0">システム・業務</tspan>
+    <tspan x="663" dy="0">システムと業務</tspan>
     <tspan x="663" dy="18">連携</tspan>
   </text>
   <text x="805" y="148" class="boxtext">
-    <tspan x="805" dy="0">テスト・性能</tspan>
-    <tspan x="805" dy="18">調整・レビュー</tspan>
+    <tspan x="805" dy="0">テストと性能</tspan>
+    <tspan x="805" dy="18">調整とレビュー</tspan>
   </text>
   <text x="947" y="148" class="boxtext">
     <tspan x="947" dy="0">運用設計</tspan>

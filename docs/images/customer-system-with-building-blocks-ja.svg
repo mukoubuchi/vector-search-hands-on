@@ -54,18 +54,18 @@ text, div { font-family: 'Workshop Diagram Sans', 'Workshop Diagram Sans JP', sa
   </text>
   <text x="550" y="148" class="boxtext">
     <tspan x="550" dy="0">IBM Bob で</tspan>
-    <tspan x="550" dy="18">データ・API・UI 拡張</tspan>
+    <tspan x="550" dy="18">データ、API、UI 拡張</tspan>
   </text>
   <text x="775" y="148" class="boxtext">
-    <tspan x="775" dy="0">システム・業務</tspan>
+    <tspan x="775" dy="0">システムと業務</tspan>
     <tspan x="775" dy="18">連携</tspan>
   </text>
   <text x="1000" y="148" class="boxtext">
-    <tspan x="1000" dy="0">テスト・レビュー</tspan>
+    <tspan x="1000" dy="0">テストとレビュー</tspan>
     <tspan x="1000" dy="18">運用改善</tspan>
   </text>
   <text x="1175" y="159" class="boxtext">完成</text>
-  <text x="640" y="220" class="small" text-anchor="middle">②〜④の基盤作りを Vector Search Builder が、③〜⑧の拡張・改善を IBM Bob が支援</text>
+  <text x="640" y="220" class="small" text-anchor="middle">②〜④の基盤作りを Vector Search Builder が、③〜⑧の拡張と改善を IBM Bob が支援</text>
   <metadata>Embedded font subsets derived from IBM Plex.
 Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
 

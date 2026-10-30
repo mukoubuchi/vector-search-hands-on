@@ -18,9 +18,9 @@
 
 Building Blocks なしの場合、以下のような作業が必要になります:
 
-- ベクトルデータベースの選定・学習
-- 埋め込みモデルの選定・統合
-- API の設計・実装
+- ベクトルデータベースの選定と学習
+- 埋め込みモデルの選定と統合
+- API の設計と実装
 - エラーハンドリング
 - パフォーマンスチューニング
 
@@ -40,7 +40,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
     - デバッグ
 
 ??? note "IBM Bob の対応範囲について"
-    IBM Bob は、要件定義からデバッグまでのソフトウェア開発ライフサイクル全体を支援できます。このハンズオンでは技術選定と環境構築を Building Blocks と講師の Milvus 環境が担うため、IBM Bob は主にコーディング・テスト・デバッグを担当します。
+    IBM Bob は、要件定義からデバッグまでのソフトウェア開発ライフサイクル全体を支援できます。このハンズオンでは技術選定と環境構築を Building Blocks と講師の Milvus 環境が担うため、IBM Bob は主にコーディング、テスト、デバッグを担当します。
 
 ## Building Blocks とは？
 
@@ -57,7 +57,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 
 **Vector Search Builder**（Milvus ベース）
 
-**提供内容**: ベクトルデータベース（Milvus）の構築・管理機能
+**提供内容**: ベクトルデータベース（Milvus）の構築と管理の機能
 
 **含まれる機能**:
 
@@ -71,7 +71,7 @@ Building Blocks なしの場合、以下のような作業が必要になりま�
 
 !!! example "Building Blocks の価値"
     
-    **Building Blocks なし**: Milvus のドキュメントを読み、Python SDK を学習し、埋め込みモデルを選定・統合（数日）
+    **Building Blocks なし**: Milvus のドキュメントを読み、Python SDK を学習し、埋め込みモデルを選定して統合（数日）
 
     **Building Blocks あり**: Vector Search Builder をインストールし、IBM Bob に指示（数分）
 
