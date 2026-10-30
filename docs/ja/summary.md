@@ -36,7 +36,7 @@
 
 | 規模 | 推奨構成 |
 |------|---------|
-| 学習・PoC・小規模本番 | Hugging Face + Milvus |
+| 学習、PoC、小規模本番 | Hugging Face + Milvus |
 | 中規模本番 | watsonx.ai + Milvus |
 | 大規模本番 | watsonx.ai + watsonx.data |
 

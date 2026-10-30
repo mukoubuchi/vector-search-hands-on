@@ -154,6 +154,13 @@ body, .md-typeset pre > code {
 .md-typeset table:not([class]) th {
     text-align: center !important;
 }
+/* A path, command, or hyphenated name never breaks inside a cell: the line breaks before
+   it, and on a narrow screen the table scrolls sideways instead. Inline code is covered
+   as it is; a plain-text name takes class="nowrap". */
+.md-typeset table:not([class]) td code,
+.md-typeset table:not([class]) td .nowrap {
+    white-space: nowrap;
+}
 
 /* Color article links without changing navigation or filled buttons. */
 .md-typeset a:not(.workshop-next):not(.md-button) {
