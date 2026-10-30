@@ -75,7 +75,7 @@ Vector Search ハンズオンにご参加いただき、ありがとうござい
 </select></span>
 
 <label for="review-ja">Part 3 の動作確認と後始末の流れは役に立ちましたか？ <span class="feedback-required">必須</span></label>
-<span class="feedback-select"><select id="review-ja" name="動作確認・後始末の有用性" required>
+<span class="feedback-select"><select id="review-ja" name="動作確認と後始末の有用性" required>
       <option value="">選択してください</option>
       <option value="5 - とても役立った">5 - とても役立った</option>
       <option value="4 - 役立った">4 - 役立った</option>

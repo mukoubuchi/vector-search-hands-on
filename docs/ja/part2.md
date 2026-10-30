@@ -40,7 +40,7 @@
 
 ??? note "アプリケーションのファイル構成"
     - `app.py`: FastAPI の API を定義し、検索画面を配信します
-    - `schema.py`: Milvus のコレクション定義、インデックス・検索設定、検索結果として返すフィールドを定義します
+    - `schema.py`: Milvus のコレクション定義、インデックスと検索の設定、検索結果として返すフィールドを定義します
     - `insert_sample_data.py`: サンプル商品データを Milvus に投入します
     - `static/`: 検索画面（HTML、JavaScript、CSS）と商品画像（`static/images/product-01.svg`〜`product-12.svg`）です。このパートで変更する必要はありません
 
