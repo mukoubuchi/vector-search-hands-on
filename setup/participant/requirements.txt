@@ -14,7 +14,7 @@ fastapi==0.141.1
 uvicorn[standard]==0.54.0
 
 # Environment variable management
-python-dotenv==1.2.3
+python-dotenv==1.2.4
 
 # === Pinned dependencies (auto-installed; pinned so every participant gets the same versions) ===
 
