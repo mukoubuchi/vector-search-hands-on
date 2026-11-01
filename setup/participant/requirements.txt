@@ -20,7 +20,7 @@ python-dotenv==1.2.3
 
 # Sentence Transformers dependencies
 transformers==5.17.0
-torch==2.14.0
+torch==2.15.0
 huggingface_hub==1.33.0
 numpy==2.4.6
 
@@ -32,4 +32,4 @@ scikit-learn==1.9.1
 
 # Note for Linux users: the default torch wheel bundles CUDA libraries (several GB).
 # For a much smaller CPU-only install, run this BEFORE `pip install -r requirements.txt`:
-#   pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
